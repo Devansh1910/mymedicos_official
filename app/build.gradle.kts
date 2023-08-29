@@ -34,6 +34,7 @@ android {
 
 dependencies {
 
+
     implementation("androidx.appcompat:appcompat:1.6.1")
     implementation("com.google.android.material:material:1.9.0")
     implementation("androidx.constraintlayout:constraintlayout:2.1.4")
@@ -51,5 +52,11 @@ dependencies {
     implementation ("com.google.firebase:firebase-database:20.0.0")
     implementation ("com.firebaseui:firebase-ui-database:7.1.1")
     implementation ("androidx.recyclerview:recyclerview:1.2.1")
+    
+    implementation(platform("com.google.firebase:firebase-bom:32.2.3"))
+
+    // Declare the dependency for the Cloud Firestore library
+    // When using the BoM, you don't specify versions in Firebase library dependencies
+    implementation("com.google.firebase:firebase-firestore-ktx:24.7.1")
 
 }

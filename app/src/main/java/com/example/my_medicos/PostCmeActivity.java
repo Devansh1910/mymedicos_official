@@ -1,8 +1,5 @@
 package com.example.my_medicos;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
@@ -12,14 +9,20 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.HashMap;
-
+import java.time.LocalDateTime;
 public class PostCmeActivity extends AppCompatActivity {
+
+
+
 
 
     TextView cmetitle,cmeorg,cmepresenter,cmevenu,virtuallink,cme_place;
@@ -94,6 +97,11 @@ public class PostCmeActivity extends AppCompatActivity {
         usermap.put("Virtual Link", link);
         usermap.put("CME Place", place);
 
+
+
+
+
+
         cmeref.push().setValue(usermap).addOnCompleteListener(new OnCompleteListener<Void>() {
             @Override
             public void onComplete(@NonNull Task<Void> task) {
@@ -104,5 +112,8 @@ public class PostCmeActivity extends AppCompatActivity {
                 }
             }
         });
+
+
+
     }
 }

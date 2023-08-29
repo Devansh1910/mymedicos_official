@@ -12,9 +12,28 @@ import android.view.ViewGroup;
 
 import java.util.ArrayList;
 import java.util.List;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+
 
 
 public class ProfileFragment extends Fragment {
+    FirebaseAuth auth = FirebaseAuth.getInstance();
+    FirebaseUser user = auth.getCurrentUser();
+
+    FirebaseAuth.AuthStateListener authStateListener = firebaseAuth -> {
+        FirebaseUser currentUser = firebaseAuth.getCurrentUser();
+        if (currentUser != null) {
+            System.out.println(currentUser);
+
+
+            // User is signed in
+        } else {
+            // User is signed out
+        }
+    };
+
+
 
 
     RecyclerView recyclerView;

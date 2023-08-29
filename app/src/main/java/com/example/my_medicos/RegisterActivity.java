@@ -21,11 +21,18 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.FirebaseFirestore;
+
 import java.security.spec.ECFieldF2m;
 import java.util.HashMap;
 
 
+
 public class RegisterActivity extends AppCompatActivity {
+    FirebaseFirestore da=FirebaseFirestore.getInstance();
+
+
 
     TextView loginreg;
 
@@ -132,6 +139,13 @@ public class RegisterActivity extends AppCompatActivity {
 
                                         Toast.makeText(getApplicationContext(), "Registration Successfull,please verify your Email ID", Toast.LENGTH_SHORT).show();
                                         mdialog.dismiss();
+                                        HashMap<String, Object> users=new HashMap<>();
+                                        users.put("Email ID",mail);
+                                        users.put("Name",name);
+                                        users.put("Phone No",phoneno);
+                                        
+
+                                        da.collection("users").add(users);
                                     } else {
                                         Toast.makeText(getApplicationContext(), "Registration Failed", Toast.LENGTH_SHORT).show();
                                         mdialog.dismiss();
