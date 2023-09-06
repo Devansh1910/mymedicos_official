@@ -34,6 +34,9 @@
             android:name=".PublicationsActivity"
             android:exported="false" />
         <activity
+            android:name=".PdfListActivity"
+            android:exported="false" />
+        <activity
             android:name=".CmeActivity"
             android:exported="false" />
         <activity

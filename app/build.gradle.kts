@@ -10,7 +10,8 @@ android {
     defaultConfig {
         applicationId = "com.example.my_medicos"
         minSdk = 24
-        targetSdk = 33
+        //noinspection ExpiredTargetSdkVersion
+        targetSdk = 28
         versionCode = 1
         versionName = "1.0"
 
@@ -26,6 +27,10 @@ android {
             )
         }
     }
+    buildFeatures{
+
+        viewBinding
+    }
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_1_8
         targetCompatibility = JavaVersion.VERSION_1_8
@@ -34,10 +39,19 @@ android {
 
 dependencies {
 
+    implementation(platform("com.google.firebase:firebase-bom:32.2.3"))
+    implementation ("com.google.firebase:firebase-storage:20.1.0")
+    implementation ("com.google.firebase:firebase-core:21.1.1")
+    implementation ("com.github.barteksc:android-pdf-viewer:3.2.0-beta.1")
+    implementation("com.github.barteksc:android-pdf-viewer:2.8.2")
+    implementation ("com.google.firebase:firebase-firestore:23.0.4")
+
+
 
     implementation("androidx.appcompat:appcompat:1.6.1")
     implementation("com.google.android.material:material:1.9.0")
     implementation("androidx.constraintlayout:constraintlayout:2.1.4")
+    implementation("com.google.firebase:firebase-storage-ktx:20.2.1")
     testImplementation("junit:junit:4.13.2")
     androidTestImplementation("androidx.test.ext:junit:1.1.5")
     androidTestImplementation("androidx.test.espresso:espresso-core:3.5.1")
@@ -49,9 +63,9 @@ dependencies {
     implementation("com.google.firebase:firebase-database")
     implementation("com.google.firebase:firebase-auth:22.1.1")
     implementation("com.google.firebase:firebase-database:20.2.2")
-    implementation ("com.google.firebase:firebase-database:20.0.0")
+
     implementation ("com.firebaseui:firebase-ui-database:7.1.1")
-    implementation ("androidx.recyclerview:recyclerview:1.2.1")
+    implementation ("androidx.recyclerview:recyclerview:1.3.1")
     
     implementation(platform("com.google.firebase:firebase-bom:32.2.3"))
 

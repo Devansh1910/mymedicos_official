@@ -1,16 +1,5 @@
 package com.example.my_medicos;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
-import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentActivity;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-import androidx.viewpager2.adapter.FragmentStateAdapter;
-import androidx.viewpager2.widget.ViewPager2;
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
@@ -18,16 +7,31 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ArrayAdapter;
+import android.widget.ProgressBar;
 import android.widget.Spinner;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+import androidx.viewpager2.adapter.FragmentStateAdapter;
+import androidx.viewpager2.widget.ViewPager2;
+
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.tabs.TabLayout;
 import com.google.android.material.tabs.TabLayoutMediator;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
 import java.util.List;
-
 public class CmeActivity extends AppCompatActivity {
 
 
@@ -41,6 +45,11 @@ public class CmeActivity extends AppCompatActivity {
     private TabLayout tabLayout;
 
     Toolbar toolbar;
+    private FirebaseFirestore db;
+    private RecyclerView courseRV;
+    private ArrayList<Object> coursesArrayList;
+
+    ProgressBar loadingPB;
 
 
     @Override
@@ -50,6 +59,7 @@ public class CmeActivity extends AppCompatActivity {
 
         toolbar = findViewById(R.id.cmetoolbar);
         setSupportActionBar(toolbar);
+        db = FirebaseFirestore.getInstance();
 
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -63,11 +73,58 @@ public class CmeActivity extends AppCompatActivity {
                 startActivity(i);
             }
         });
+        coursesArrayList = new ArrayList<>();
+        courseRV.setHasFixedSize(true);
+        courseRV.setLayoutManager(new LinearLayoutManager(this));
 
         recyclerView = findViewById(R.id.cme_recyclerview1);
+        db.collection("CME").get()
+                .addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+                    @Override
+                    public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
+                        // after getting the data we are calling on success method
+                        // and inside this method we are checking if the received
+                        // query snapshot is empty or not.
+                        if (!queryDocumentSnapshots.isEmpty()) {
+                            // if the snapshot is not empty we are
+                            // hiding our progress bar and adding
+                            // our data in a list.
+                            loadingPB.setVisibility(View.GONE);
+                            List<DocumentSnapshot> list = queryDocumentSnapshots.getDocuments();
+                            for (DocumentSnapshot d : list) {
+                                // after getting this list we are passing
+                                // that list to our object class.
+                                coursesArrayList.add(d);
+
+
+                                // and we will pass this object class
+                                // inside our arraylist which we have
+                                // created for recycler view.
+
+                            }
+                            // after adding the data to recycler view.
+                            // we are calling recycler view notifyDataSetChanged
+                            // method to notify that data has been changed in recycler view.
+
+                        } else {
+                            // if the snapshot is empty we are displaying a toast message.
+                            Toast.makeText(CmeActivity.this, "No data found in Database", Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                }).addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        // if we do not get any data or any error we are displaying
+                        // a toast message that we do not get any data
+                        Toast.makeText(CmeActivity.this, "Fail to get the data.", Toast.LENGTH_SHORT).show();
+                    }
+                });
+
 
 
         List<cmeitem1> items = new ArrayList<>();
+
+
 
         items.add(new cmeitem1("John wick", "Dentist", R.drawable.img_2));
         items.add(new cmeitem1("Robert j", "Pediatrics", R.drawable.img_3));
