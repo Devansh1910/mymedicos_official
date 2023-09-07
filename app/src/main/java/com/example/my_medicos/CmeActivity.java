@@ -1,7 +1,10 @@
 package com.example.my_medicos;
 
+import static android.content.ContentValues.TAG;
+
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -21,13 +24,13 @@ import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager2.adapter.FragmentStateAdapter;
 import androidx.viewpager2.widget.ViewPager2;
 
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.tabs.TabLayout;
 import com.google.android.material.tabs.TabLayoutMediator;
-import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
@@ -73,52 +76,16 @@ public class CmeActivity extends AppCompatActivity {
                 startActivity(i);
             }
         });
-        coursesArrayList = new ArrayList<>();
-        courseRV.setHasFixedSize(true);
-        courseRV.setLayoutManager(new LinearLayoutManager(this));
+
+
 
         recyclerView = findViewById(R.id.cme_recyclerview1);
-        db.collection("CME").get()
-                .addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
-                    @Override
-                    public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
-                        // after getting the data we are calling on success method
-                        // and inside this method we are checking if the received
-                        // query snapshot is empty or not.
-                        if (!queryDocumentSnapshots.isEmpty()) {
-                            // if the snapshot is not empty we are
-                            // hiding our progress bar and adding
-                            // our data in a list.
-                            loadingPB.setVisibility(View.GONE);
-                            List<DocumentSnapshot> list = queryDocumentSnapshots.getDocuments();
-                            for (DocumentSnapshot d : list) {
-                                // after getting this list we are passing
-                                // that list to our object class.
-                                coursesArrayList.add(d);
+        fetch();
 
 
-                                // and we will pass this object class
-                                // inside our arraylist which we have
-                                // created for recycler view.
 
-                            }
-                            // after adding the data to recycler view.
-                            // we are calling recycler view notifyDataSetChanged
-                            // method to notify that data has been changed in recycler view.
 
-                        } else {
-                            // if the snapshot is empty we are displaying a toast message.
-                            Toast.makeText(CmeActivity.this, "No data found in Database", Toast.LENGTH_SHORT).show();
-                        }
-                    }
-                }).addOnFailureListener(new OnFailureListener() {
-                    @Override
-                    public void onFailure(@NonNull Exception e) {
-                        // if we do not get any data or any error we are displaying
-                        // a toast message that we do not get any data
-                        Toast.makeText(CmeActivity.this, "Fail to get the data.", Toast.LENGTH_SHORT).show();
-                    }
-                });
+
 
 
 
@@ -252,4 +219,22 @@ public class CmeActivity extends AppCompatActivity {
         }
 
 
+    public void fetch() {
+        db.collection("CME")
+                .get()
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        if (task.isSuccessful()) {
+                            for (QueryDocumentSnapshot document : task.getResult()) {
+                                Log.d(TAG, document.getId() + " => " + document.getData());
+
+                            }
+                        } else {
+                            Log.d(TAG, "Error getting documents: ", task.getException());
+                        }
+                    }
+                });
+
     }
+}
