@@ -3,65 +3,100 @@
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
 
+    <string name="OpenDrawer">Open Navigation Drawer</string>
+    <string name="CloseDrawer">close Navigation Drawer</string>
 
+    <!-- Specialities -->
     <string-array name="speciality">
         <item>-Select your speciality-</item>
-        <item>
-Anesthesia and Critical Care</item>
-        <item>Allergic Medicine</item>
-        <item>
-Bariatrics Surgery</item>
-        <item>CTVS Surgery</item>
-        <item>
-Cardiology</item>
-        <item>Cosmetic Surgery</item>
-        <item>Critical Care Medicine</item>
-        <item>Dermatology</item>
-        <item>Diabetology</item>
-        <item>Dental</item>
-        <item>Emergency Medicine </item>
-        <item>ENT</item>
-        <item>Endocrinology</item>
-        <item>Family Medicine</item>
-        <item>
-Fetal Medicine</item>
-        <item>Geriatrics</item>
-        <item>General Medicine</item>
-        <item>General Surgery</item>
-        <item>GI Surgery</item>
-        <item>Gynec Oncology</item>
-        <item>Hematology</item>
-        <item>Infectious Disease</item>
-        <item>Infertility</item>
-        <item>Intervention Radiology</item>
-        <item>Microbiology</item>
-        <item>Medical Oncology</item>
-        <item>Medical GI</item>
-        <item>Neonatology</item>
-        <item>Nephrology</item>
-        <item>Neurology</item>
-        <item>Neurosurgery</item>
-        <item>OBJ</item>
-        <item>Opthalmologist</item>
-        <item>Orthopedics</item>
+        <item>Internal Medicine</item>
         <item>Pediatrics</item>
-        <item>Pediatric Cardiologist</item>
-        <item>Plastic Surgery</item>
+        <item>Surgery</item>
+        <item>Obstetrics and Gynecology</item>
+        <item>Anesthesiology</item>
         <item>Psychiatry</item>
+        <item>Radiology</item>
+        <item>Emergency Medicine</item>
+        <item>Dermatology</item>
+        <item>Family Medicine</item>
+        <item>Ophthalmology</item>
+        <item>Pathology</item>
+        <item>Physical Medicine and Rehabilitation</item>
+        <item>Infectious Disease</item>
+        <item>Allergy and Immunology</item>
         <item>Pulmonology</item>
-        <item>Radiodiagnosis</item>
-        <item>Reproductive Medicine</item>
-        <item>Surgical GI</item>
-        <item>Surgical Oncology </item>
-        <item>Transplant Surgery</item>
-        <item>Trauma and Sports</item>
-        <item>Urology</item>
-        <item>Vascular Surgery</item>
-
-
+        <item>Nuclear Medicine</item>
+        <item>Otolaryngology (ENT)</item>
+        <item>Preventive Medicine</item>
+        <item>Microbiology</item>
+        <item>Pharmacology</item>
+        <item>Forensic Medicine</item>
+        <item>Physiology</item>
+        <item>Anatomy</item>
+        <item>Biochemistry</item>
+        <!-- Add other specialities here -->
     </string-array>
 
-    <string-array name="mode">
+    <!-- Subspecialities -->
+    <string-array name="subspeciality">
+        <item>-Select your subspeciality-</item>
+        <item>Cardiology</item>
+        <item>Gastroenterology (M)</item>
+        <item>Nephrology</item>
+        <item>Pulmonology</item>
+        <item>Rheumatology</item>
+        <item>Endocrinology</item>
+        <item>Hematology</item>
+        <item>Sleep Medicine</item>
+        //......
+        <item>Neurology</item>
+        <item>Hepatology</item>
+        <item>Neonatology</item>
+        <item>Pediatric Cardiology</item>
+        <item>Pediatric Gastroenterology</item>
+        <item>Pediatric Nephrology</item>
+        <item>Pediatric Pulmonology</item>
+        <item>Pediatric Rheumatology</item>
+        <item>Pediatric Endocrinology</item>
+        <item>Pediatric Hemato-Oncology</item>
+        //......
+        <item>Cardiothoracic Surgery</item>
+        <item>Neurosurgery</item>
+        <item>Transplant Surgery</item>
+        <item>Pediatric Surgery</item>
+        <item>Plastic Surgery</item>
+        <item>Urology</item>
+        <item>Vascular Surgery</item>
+        <item>Gastroenterology (S)</item>
+        <item>Oncosurgery</item>
+        <item>Maternal-Fetal Medicine</item>
+        <item>Gynecologic Oncology</item>
+        <item>Reproductive Endocrinology and Infertility</item>
+        <item>Pain Medicine</item>
+        <item>Critical Care Medicine</item>
+        <item>Child and Adolescent Psychiatry</item>
+        <item>Geriatric Psychiatry</item>
+        <item>Neuro Radiology</item>
+        <item>Interventional Radiology</item>
+        <item>Sports Medicine</item>
+        <item>Hand Surgery</item>
+        <item>Clinical Hematology</item>
+        <item>Histopathology</item>
+        <item>Forensic Pathology</item>
+        <item>Transfusion Medicine</item>
+        <item>Clinical Pharmacology</item>
+        <!-- Add other subspecialities here -->
+    </string-array>
+
+    <!-- Speciality-Subspeciality mapping -->
+    <array name="speciality_subs">
+        <item name="Pediatrics">Cardiology</item>
+        <item name="Pediatrics">Gastroenterology (M)</item>
+        <item name="Pediatrics">Nephrology</item>
+        <!-- Add mappings for other specialities and subspecialities here -->
+    </array>
+
+<string-array name="mode">
         <item>-Select mode-</item>
         <item>Online</item>
         <item>Offline</item>
@@ -69,61 +104,60 @@ Fetal Medicine</item>
     </string-array>
 
 
-        <string-array name="indian_cities">
-                <item>-Select city-</item>
-                <item>New Delhi</item>
-                <item>Mumbai</item>
-                <item>Bangalore</item>
-                <item>Chennai</item>
-                <item>Kolkata</item>
-                <item>Hyderabad</item>
-                <item>Jaipur</item>
-                <item>Pune</item>
-                <item>Ahmedabad</item>
-                <item>Chandigarh</item>
-                <item>Varanasi</item>
-        </string-array>
+    <string-array name="indian_cities">
+        <item>-Select city-</item>
+        <item>New Delhi</item>
+        <item>Mumbai</item>
+        <item>Bangalore</item>
+        <item>Chennai</item>
+        <item>Kolkata</item>
+        <item>Hyderabad</item>
+        <item>Jaipur</item>
+        <item>Pune</item>
+        <item>Ahmedabad</item>
+        <item>Chandigarh</item>
+        <item>Varanasi</item>
+    </string-array>
 
 
-        <string-array name="indian_medical_universities">
-                <item>-Select university-</item>
-                <item>All India Institute of Medical Sciences (AIIMS)</item>
-                <item>Armed Forces Medical College (AFMC)</item>
-                <item>Christian Medical College (CMC), Vellore</item>
-                <item>Post Graduate Institute of Medical Education and Research (PGIMER)</item>
-                <item>Jawaharlal Institute of Postgraduate Medical Education and Research (JIPMER)</item>
-                <item>King George\'s Medical University (KGMU)</item>
-                <item>Banaras Hindu University (BHU) - Institute of Medical Sciences</item>
-                <item>Madras Medical College (MMC)</item>
-                <item>Grant Medical College and Sir JJ Group of Hospitals</item>
-                <item>Seth GS Medical College (GSMC)</item>
-                <item>Kasturba Medical College (KMC)</item>
-                <item>AIIMS Delhi (All India Institute of Medical Sciences)</item>
-        </string-array>
+    <string-array name="indian_medical_universities">
+        <item>-Select university-</item>
+        <item>All India Institute of Medical Sciences (AIIMS)</item>
+        <item>Armed Forces Medical College (AFMC)</item>
+        <item>Christian Medical College (CMC), Vellore</item>
+        <item>Post Graduate Institute of Medical Education and Research (PGIMER)</item>
+        <item>Jawaharlal Institute of Postgraduate Medical Education and Research (JIPMER)</item>
+        <item>King George\'s Medical University (KGMU)</item>
+        <item>Banaras Hindu University (BHU) - Institute of Medical Sciences</item>
+        <item>Madras Medical College (MMC)</item>
+        <item>Grant Medical College and Sir JJ Group of Hospitals</item>
+        <item>Seth GS Medical College (GSMC)</item>
+        <item>Kasturba Medical College (KMC)</item>
+        <item>AIIMS Delhi (All India Institute of Medical Sciences)</item>
+    </string-array>
 
-        <string-array name="medical_subjects">
-                <item>-Select Subject-</item>
-                <item>Anatomy</item>
-                <item>Physiology</item>
-                <item>Biochemistry</item>
-                <item>Pathology</item>
-                <item>Microbiology</item>
-                <item>Pharmacology</item>
-                <item>Forensic Medicine</item>
-                <item>PSM (Preventive and Social Medicine)</item>
-                <item>Ophthalmology</item>
-                <item>ENT (Ear, Nose, and Throat)</item>
-                <item>Medicine</item>
-                <item>Surgery</item>
-                <item>Pediatrics</item>
-                <item>Orthopedics</item>
-                <item>PG (Postgraduate)</item>
-                <item>Ever (Evergreen)</item>
-                <item>Psychiatry</item>
-                <item>Radiology</item>
-                <item>Dermatology</item>
-                <item>Statistics</item>
-        </string-array>
+    <string-array name="medical_subjects">
+        <item>Anatomy</item>
+        <item>Biochemistry</item>
+        <item>Dermatology</item>
+        <item>ENT (Ear, Nose, and Throat)</item>
+        <item>Ever (Evergreen)</item>
+        <item>Forensic Medicine</item>
+        <item>Medicine</item>
+        <item>Microbiology</item>
+        <item>Orthopedics</item>
+        <item>Ophthalmology</item>
+        <item>Pathology</item>
+        <item>Pediatrics</item>
+        <item>Pharmacology</item>
+        <item>Physiology</item>
+        <item>PG (Postgraduate)</item>
+        <item>PSM (Preventive and Social Medicine)</item>
+        <item>Psychiatry</item>
+        <item>Radiology</item>
+        <item>Select Subject</item>
+        <item>Statistics</item>
+    </string-array>
 
 
 </resources>
