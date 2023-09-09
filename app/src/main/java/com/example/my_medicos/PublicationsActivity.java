@@ -6,9 +6,7 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.widget.ArrayAdapter;
-import android.widget.ImageView;
 import android.widget.Spinner;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -21,7 +19,6 @@ import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager2.adapter.FragmentStateAdapter;
 import androidx.viewpager2.widget.ViewPager2;
 
-import com.github.barteksc.pdfviewer.PDFView;
 import com.google.android.material.tabs.TabLayout;
 import com.google.android.material.tabs.TabLayoutMediator;
 
@@ -29,14 +26,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class PublicationsActivity extends AppCompatActivity {
-    private ImageView imageView;
-
-    private PDFView pdfView;
-    private TextView textView;
-
-    String dataType = "image";
-
-
 
 
     RecyclerView recyclerView4;

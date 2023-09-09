@@ -9,8 +9,8 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.ProgressBar;
 import android.widget.Spinner;
 import android.widget.Toast;
 
@@ -30,7 +30,6 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.tabs.TabLayout;
 import com.google.android.material.tabs.TabLayoutMediator;
 import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
@@ -40,27 +39,28 @@ import java.util.List;
 import java.util.Map;
 
 public class CmeActivity extends AppCompatActivity {
+
     String field1;
     String  field2;
-
-
     FloatingActionButton floatingActionButton;
     RecyclerView recyclerView;
     RecyclerView recyclerView3;
-
     RecyclerView recyclerView2;
 
     private ViewPager2 pager;
     private TabLayout tabLayout;
+    private Spinner specialitySpinner;
 
+    private FirebaseFirestore db;
+
+    private Spinner subspecialitySpinner;
+    private ArrayAdapter<CharSequence> specialityAdapter;
+    private ArrayAdapter<CharSequence> subspecialityAdapter;
 
     Toolbar toolbar;
-    private FirebaseFirestore db;
-    private RecyclerView courseRV;
-    private ArrayList<Object> coursesArrayList;
 
-    ProgressBar loadingPB;
-
+    // Define subspecialities for each speciality
+    private final String[][] subspecialities = subSpecialitiesData.subspecialities;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -71,11 +71,8 @@ public class CmeActivity extends AppCompatActivity {
         recyclerView = findViewById(R.id.cme_recyclerview1);
         setSupportActionBar(toolbar);
 
-
-
         DatabaseReference mbase;
         db = FirebaseFirestore.getInstance();
-
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
@@ -88,57 +85,19 @@ public class CmeActivity extends AppCompatActivity {
                 startActivity(i);
             }
         });
-        mbase
-                = FirebaseDatabase.getInstance().getReference();
 
+        recyclerView = findViewById(R.id.cme_recyclerview1);
         List<cmeitem1> items = new ArrayList<>();
-        db.collection("CME")
-                .get()
-                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                    @Override
-                    public void onComplete(@NonNull Task<QuerySnapshot> task ) {
+        items.add(new cmeitem1("John wick", "Dentist", R.drawable.img_2,"5"));
+        items.add(new cmeitem1("Robert j", "Pediatrics", R.drawable.img_3,"5"));
+        // Add more items here
 
-
-                        if (task.isSuccessful()) {
-                            for (QueryDocumentSnapshot document : task.getResult()) {
-                                Log.d(TAG, document.getId() + " => " + document.getData());
-                                Map<String, Object> dataMap = document.getData();
-                                field1 = (String) dataMap.get("CME Organiser");
-                                field2 = ((String) dataMap.get("CME Place"));
-                                Log.d(TAG,(String) dataMap.get("CME Organiser"));
-
-                                cmeitem1 c = new cmeitem1(field1, field2, 5,"123");
-                                Log.d("vivek",field1);
-                                Log.d("vivek","hello");
-                                items.add(c);
-
-
-                                recyclerView.setLayoutManager(new LinearLayoutManager(getApplication(), LinearLayoutManager.HORIZONTAL, false));
-
-                                recyclerView.setAdapter(new MyAdapter2(getApplication(), items));
-
-                            }
-                        } else {
-                            Log.d(TAG, "Error getting documents: ", task.getException());
-                        }
-                    }
-                });
-
-
-
-
-
-
-
-
-
-
-
-
+        recyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
+        recyclerView.setAdapter(new MyAdapter2(this, items));
 
         recyclerView3 = findViewById(R.id.recyclerview3);
-
         List<cmeitem3> item = new ArrayList<>();
+        //.....
         db.collection("CME")
                 .get()
                 .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
@@ -169,17 +128,17 @@ public class CmeActivity extends AppCompatActivity {
                         }
                     }
                 });
+        //.....
+        item.add(new cmeitem3("25th AUG", "1:30pm", "abcdefgh", "John wick"));
+        item.add(new cmeitem3("26th AUG", "12:30pm", "anscncdc", "Robert k"));
+        // Add more items here
 
-
-
-
-
+        recyclerView3.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
+        recyclerView3.setAdapter(new MyAdapter3(this, item));
 
         recyclerView2 = findViewById(R.id.recyclerview2);
-
         List<cmeitem2> myitem = new ArrayList<cmeitem2>();
-
-
+        //......
         db.collection("CME")
                 .get()
                 .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
@@ -210,29 +169,62 @@ public class CmeActivity extends AppCompatActivity {
                         }
                     }
                 });
+        //......
+        myitem.add(new cmeitem2("John wick", "ESI Hospital", "Peitiric"));
+        myitem.add(new cmeitem2("Robert j", "Shushrta Hospital", "Peitiric"));
+        // Add more items here
 
-
+        recyclerView2.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
+        recyclerView2.setAdapter(new MyAdapter4(this, myitem));
 
         pager = findViewById(R.id.view_pager);
         tabLayout = findViewById(R.id.tabLayout);
+        specialitySpinner = findViewById(R.id.speciality);
+        subspecialitySpinner = findViewById(R.id.subspeciality);
 
-        Spinner spinner = (Spinner) findViewById(R.id.speciality);
-// Create an ArrayAdapter using the string array and a default spinner layout
-        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
+        specialityAdapter = ArrayAdapter.createFromResource(this,
                 R.array.speciality, android.R.layout.simple_spinner_item);
-// Specify the layout to use when the list of choices appears
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-// Apply the adapter to the spinner
-        spinner.setAdapter(adapter);
+        specialityAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        specialitySpinner.setAdapter(specialityAdapter);
 
-        Spinner spinner2 = (Spinner) findViewById(R.id.mode);
-// Create an ArrayAdapter using the string array and a default spinner layout
-        ArrayAdapter<CharSequence> myadapter = ArrayAdapter.createFromResource(this,
+        subspecialityAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item);
+        subspecialityAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        subspecialitySpinner.setAdapter(subspecialityAdapter);
+
+        // Initially, hide the subspeciality spinner
+        subspecialitySpinner.setVisibility(View.GONE);
+
+        specialitySpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int position, long l) {
+                // Check if the selected speciality has subspecialities
+                int specialityIndex = specialitySpinner.getSelectedItemPosition();
+                if (specialityIndex >= 0 && specialityIndex < subspecialities.length && subspecialities[specialityIndex].length > 0) {
+                    String[] subspecialityArray = subspecialities[specialityIndex];
+                    subspecialityAdapter.clear();
+                    subspecialityAdapter.add("Select Subspeciality");
+                    for (String subspeciality : subspecialityArray) {
+                        subspecialityAdapter.add(subspeciality);
+                    }
+                    // Show the subspeciality spinner
+                    subspecialitySpinner.setVisibility(View.VISIBLE);
+                } else {
+                    // Hide the subspeciality spinner
+                    subspecialitySpinner.setVisibility(View.GONE);
+                }
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+                // Do nothing
+            }
+        });
+
+        Spinner modeSpinner = findViewById(R.id.mode);
+        ArrayAdapter<CharSequence> modeAdapter = ArrayAdapter.createFromResource(this,
                 R.array.mode, android.R.layout.simple_spinner_item);
-// Specify the layout to use when the list of choices appears
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-// Apply the adapter to the spinner
-        spinner2.setAdapter(myadapter);
+        modeAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        modeSpinner.setAdapter(modeAdapter);
 
         pager.setAdapter(new ViewPagerAdapter(this));
 
@@ -260,7 +252,6 @@ public class CmeActivity extends AppCompatActivity {
             super(fragmentActivity);
         }
 
-
         @NonNull
         @Override
         public Fragment createFragment(int position) {
@@ -281,7 +272,6 @@ public class CmeActivity extends AppCompatActivity {
         }
     }
 
-    @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         new MenuInflater(this).inflate(R.menu.home_menu, menu);
         return super.onCreateOptionsMenu(menu);
@@ -292,19 +282,14 @@ public class CmeActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         int itemId = item.getItemId();
 
-        if (itemId == R.id.chat) {
+        if (itemId == R.id.home) {
             Toast.makeText(this, "Chat clicked", Toast.LENGTH_SHORT).show();
         }
         else{
-                Intent i = new Intent(CmeActivity.this, HomeActivity.class);
-                startActivity(i);
-            }
-
-            return super.onOptionsItemSelected(item);
+            Intent i = new Intent(CmeActivity.this, HomeActivity.class);
+            startActivity(i);
         }
 
-
-
-
+        return super.onOptionsItemSelected(item);
     }
-
+}

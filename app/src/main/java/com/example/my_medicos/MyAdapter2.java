@@ -12,12 +12,6 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.List;
 
-
-
-
-
-
-
 public class MyAdapter2  extends RecyclerView.Adapter<MyAdapter2.MyViewHolder2>{
 
     Context context;

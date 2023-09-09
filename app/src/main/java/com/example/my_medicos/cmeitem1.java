@@ -1,9 +1,9 @@
 package com.example.my_medicos;
 
-    public class cmeitem1 {
+public class cmeitem1 {
 
-        String docname,docpos,rate;
-        int image;
+    String docname,docpos,rate;
+    int image;
 
     public cmeitem1() {
     }
@@ -39,6 +39,6 @@ package com.example.my_medicos;
         this.image = image;
     }
     public String getrate() {
-            return rate;
-        }
+        return rate;
+    }
 }

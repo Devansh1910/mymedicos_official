@@ -88,6 +88,14 @@
                            android:inputType="text|textPersonName" />
                    </com.google.android.material.textfield.TextInputLayout>
 
+                   <com.hbb20.CountryCodePicker
+                       android:id="@+id/countryCodePicker"
+                       android:layout_marginTop="@dimen/_10sdp"
+                       android:layout_marginStart="@dimen/_32sdp"
+                       android:background="@drawable/country_back"
+                       android:layout_width="match_parent"
+                       android:layout_marginEnd="@dimen/_32sdp"
+                       android:layout_height="wrap_content" />
 
                    <com.google.android.material.textfield.TextInputLayout
                        android:id="@+id/phonein"
@@ -113,11 +121,12 @@
                        android:layout_width="match_parent"
                        android:layout_height="match_parent"
                        android:layout_marginStart="@dimen/_32sdp"
-                       android:layout_marginTop="@dimen/_10sdp"
+                       android:layout_marginTop="@dimen/_8sdp"
                        android:layout_marginEnd="@dimen/_32sdp"
                        app:boxStrokeErrorColor="#6BC1F2"
                        app:passwordToggleEnabled="true"
-                       app:passwordToggleTint="#6BC1F2">
+                       app:passwordToggleTint="#6BC1F2"
+                       app:helperText="Password requirements: at least 6 characters, one uppercase letter, one special character, one number">
 
                        <com.google.android.material.textfield.TextInputEditText
                            android:id="@+id/passedit"
