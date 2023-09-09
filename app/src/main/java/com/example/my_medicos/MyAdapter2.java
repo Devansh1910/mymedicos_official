@@ -6,11 +6,17 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-
 import java.util.List;
+
+
+
+
+
+
 
 public class MyAdapter2  extends RecyclerView.Adapter<MyAdapter2.MyViewHolder2>{
 
@@ -30,15 +36,17 @@ public class MyAdapter2  extends RecyclerView.Adapter<MyAdapter2.MyViewHolder2>{
     }
 
     @Override
-    public void onBindViewHolder(@NonNull MyViewHolder2 holder, int position) {
+    public void onBindViewHolder(@NonNull MyViewHolder2 holder,  int position) {
 
         holder.name.setText(item.get(position).getDocname());
         holder.position.setText(item.get(position).getDocpos());
         holder.imageview.setImageResource(item.get(position).getImage());
+        holder.rate.setText(item.get(position).getrate());
     }
 
     @Override
     public int getItemCount() {
+
         return item.size();
     }
 

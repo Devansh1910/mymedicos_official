@@ -34,9 +34,6 @@
             android:name=".PublicationsActivity"
             android:exported="false" />
         <activity
-            android:name=".PdfListActivity"
-            android:exported="false" />
-        <activity
             android:name=".CmeActivity"
             android:exported="false" />
         <activity
@@ -51,13 +48,13 @@
             android:exported="false"
             android:parentActivityName=".HomeActivity" />
         <activity
-            android:name=".HomeActivity"
+            android:name=".GetstartedActivity"
             android:exported="false" />
         <activity
             android:name=".ChooseActivity"
             android:exported="false" />
         <activity
-            android:name=".GetstartedActivity"
+            android:name=".HomeActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

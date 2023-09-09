@@ -29,13 +29,19 @@ import com.google.android.gms.tasks.Task;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.tabs.TabLayout;
 import com.google.android.material.tabs.TabLayoutMediator;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
+
 public class CmeActivity extends AppCompatActivity {
+    String field1;
+    String  field2;
 
 
     FloatingActionButton floatingActionButton;
@@ -46,6 +52,7 @@ public class CmeActivity extends AppCompatActivity {
 
     private ViewPager2 pager;
     private TabLayout tabLayout;
+
 
     Toolbar toolbar;
     private FirebaseFirestore db;
@@ -61,7 +68,12 @@ public class CmeActivity extends AppCompatActivity {
         setContentView(R.layout.activity_cme);
 
         toolbar = findViewById(R.id.cmetoolbar);
+        recyclerView = findViewById(R.id.cme_recyclerview1);
         setSupportActionBar(toolbar);
+
+
+
+        DatabaseReference mbase;
         db = FirebaseFirestore.getInstance();
 
 
@@ -76,56 +88,129 @@ public class CmeActivity extends AppCompatActivity {
                 startActivity(i);
             }
         });
-
-
-
-        recyclerView = findViewById(R.id.cme_recyclerview1);
-        fetch();
-
-
-
-
-
-
-
+        mbase
+                = FirebaseDatabase.getInstance().getReference();
 
         List<cmeitem1> items = new ArrayList<>();
+        db.collection("CME")
+                .get()
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task ) {
+
+
+                        if (task.isSuccessful()) {
+                            for (QueryDocumentSnapshot document : task.getResult()) {
+                                Log.d(TAG, document.getId() + " => " + document.getData());
+                                Map<String, Object> dataMap = document.getData();
+                                field1 = (String) dataMap.get("CME Organiser");
+                                field2 = ((String) dataMap.get("CME Place"));
+                                Log.d(TAG,(String) dataMap.get("CME Organiser"));
+
+                                cmeitem1 c = new cmeitem1(field1, field2, 5,"123");
+                                Log.d("vivek",field1);
+                                Log.d("vivek","hello");
+                                items.add(c);
+
+
+                                recyclerView.setLayoutManager(new LinearLayoutManager(getApplication(), LinearLayoutManager.HORIZONTAL, false));
+
+                                recyclerView.setAdapter(new MyAdapter2(getApplication(), items));
+
+                            }
+                        } else {
+                            Log.d(TAG, "Error getting documents: ", task.getException());
+                        }
+                    }
+                });
 
 
 
-        items.add(new cmeitem1("John wick", "Dentist", R.drawable.img_2));
-        items.add(new cmeitem1("Robert j", "Pediatrics", R.drawable.img_3));
-        items.add(new cmeitem1("James Gunn", "Cardiologist", R.drawable.img_4));
-        items.add(new cmeitem1("Ricky tales", "Surgeon", R.drawable.img_5));
 
-        recyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
-        recyclerView.setAdapter(new MyAdapter2(this, items));
+
+
+
+
+
+
+
 
 
         recyclerView3 = findViewById(R.id.recyclerview3);
 
         List<cmeitem3> item = new ArrayList<>();
+        db.collection("CME")
+                .get()
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task ) {
 
-        item.add(new cmeitem3("25th AUG", "1:30pm", "abcdefgh", "John wick"));
-        item.add(new cmeitem3("26th AUG", "12:30pm", "anscncdc", "Robert k"));
-        item.add(new cmeitem3("27th AUG", "10:30pm", "cncncnc", "James Gunn"));
-        item.add(new cmeitem3("28th AUG", "10:30pm", "mccncnsocn", "Ricky tales"));
 
-        recyclerView3.setLayoutManager(new LinearLayoutManager(this));
-        recyclerView3.setAdapter(new MyAdapter3(this, item));
+                        if (task.isSuccessful()) {
+                            for (QueryDocumentSnapshot document : task.getResult()) {
+                                Log.d(TAG, document.getId() + " => " + document.getData());
+                                Map<String, Object> dataMap = document.getData();
+                                field1 = (String) dataMap.get("CME Organiser");
+                                field2 = ((String) dataMap.get("CME Place"));
+                                Log.d(TAG,(String) dataMap.get("CME Organiser"));
+
+                                cmeitem3 c = new cmeitem3("abc", "field", field2,field1);
+                                Log.d("vivek",field1);
+                                Log.d("vivek","hello");
+                                item.add(c);
+
+
+                                recyclerView3.setLayoutManager(new LinearLayoutManager(getApplication()));
+                                recyclerView3.setAdapter(new MyAdapter3(getApplication(), item));
+
+                            }
+                        } else {
+                            Log.d(TAG, "Error getting documents: ", task.getException());
+                        }
+                    }
+                });
+
+
+
+
 
 
         recyclerView2 = findViewById(R.id.recyclerview2);
 
         List<cmeitem2> myitem = new ArrayList<cmeitem2>();
 
-        myitem.add(new cmeitem2("John wick", "ESI Hospital", "Peitiric"));
-        myitem.add(new cmeitem2("Robert j", "Shushrta Hospital", "Peitiric"));
-        myitem.add(new cmeitem2("James Gunn", "KMC", "Peitiric"));
-        myitem.add(new cmeitem2("Ricky tales", "Manipal Hospital", "Peitiric"));
 
-        recyclerView2.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
-        recyclerView2.setAdapter(new MyAdapter4(this, myitem));
+        db.collection("CME")
+                .get()
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task ) {
+
+
+                        if (task.isSuccessful()) {
+                            for (QueryDocumentSnapshot document : task.getResult()) {
+                                Log.d(TAG, document.getId() + " => " + document.getData());
+                                Map<String, Object> dataMap = document.getData();
+                                field1 = (String) dataMap.get("CME Organiser");
+                                field2 = ((String) dataMap.get("CME Place"));
+                                Log.d(TAG,(String) dataMap.get("CME Organiser"));
+
+                                cmeitem2 c = new cmeitem2("abc", "field", field2);
+                                Log.d("vivek",field1);
+                                Log.d("vivek","hello");
+                                myitem.add(c);
+
+
+                                recyclerView2.setLayoutManager(new LinearLayoutManager(getApplication(), LinearLayoutManager.HORIZONTAL, false));
+                                recyclerView2.setAdapter(new MyAdapter4(getApplication(), myitem));
+
+                            }
+                        } else {
+                            Log.d(TAG, "Error getting documents: ", task.getException());
+                        }
+                    }
+                });
+
 
 
         pager = findViewById(R.id.view_pager);
@@ -219,22 +304,7 @@ public class CmeActivity extends AppCompatActivity {
         }
 
 
-    public void fetch() {
-        db.collection("CME")
-                .get()
-                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                    @Override
-                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                        if (task.isSuccessful()) {
-                            for (QueryDocumentSnapshot document : task.getResult()) {
-                                Log.d(TAG, document.getId() + " => " + document.getData());
 
-                            }
-                        } else {
-                            Log.d(TAG, "Error getting documents: ", task.getException());
-                        }
-                    }
-                });
 
     }
-}
+
