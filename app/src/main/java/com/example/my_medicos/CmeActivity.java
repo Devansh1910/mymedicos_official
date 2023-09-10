@@ -9,6 +9,7 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ProgressBar;
 import android.widget.Spinner;
@@ -29,8 +30,6 @@ import com.google.android.gms.tasks.Task;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.tabs.TabLayout;
 import com.google.android.material.tabs.TabLayoutMediator;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
@@ -42,6 +41,7 @@ import java.util.Map;
 public class CmeActivity extends AppCompatActivity {
     String field1;
     String  field2;
+    String subspeciality,speciality;
 
 
     FloatingActionButton floatingActionButton;
@@ -73,7 +73,6 @@ public class CmeActivity extends AppCompatActivity {
 
 
 
-        DatabaseReference mbase;
         db = FirebaseFirestore.getInstance();
 
 
@@ -88,8 +87,7 @@ public class CmeActivity extends AppCompatActivity {
                 startActivity(i);
             }
         });
-        mbase
-                = FirebaseDatabase.getInstance().getReference();
+
 
         List<cmeitem1> items = new ArrayList<>();
         db.collection("CME")
@@ -224,6 +222,21 @@ public class CmeActivity extends AppCompatActivity {
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 // Apply the adapter to the spinner
         spinner.setAdapter(adapter);
+        spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parentView, View selectedItemView, int position, long id) {
+                // Get the selected item (value) from the Spinner
+                speciality = parentView.getItemAtPosition(position).toString();
+
+                // Now, 'selectedValue' holds the selected value in a variable
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parentView) {
+                // Handle the case where nothing is selected (if needed)
+            }
+        });
+
 
         Spinner spinner2 = (Spinner) findViewById(R.id.mode);
 // Create an ArrayAdapter using the string array and a default spinner layout
@@ -233,6 +246,20 @@ public class CmeActivity extends AppCompatActivity {
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 // Apply the adapter to the spinner
         spinner2.setAdapter(myadapter);
+        spinner2.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parentView, View selectedItemView, int position, long id) {
+                // Get the selected item (value) from the Spinner
+                subspeciality = parentView.getItemAtPosition(position).toString();
+
+                // Now, 'selectedValue' holds the selected value in a variable
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parentView) {
+                // Handle the case where nothing is selected (if needed)
+            }
+        });
 
         pager.setAdapter(new ViewPagerAdapter(this));
 
