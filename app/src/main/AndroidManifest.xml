@@ -2,6 +2,15 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
 
+    <uses-feature
+        android:name="android.hardware.telephony"
+        android:required="false" />
+
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
+    <uses-permission android:name="android.permission.RECEIVE_SMS" />
+    <uses-permission android:name="android.permission.READ_SMS" />
+
     <application
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
@@ -12,6 +21,21 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.My_medicos"
         tools:targetApi="31">
+        <activity
+            android:name=".EnterOtp"
+            android:exported="false" />
+        <activity
+            android:name=".EnterMobile"
+            android:exported="false" />
+        <activity
+            android:name=".Contactinfo"
+            android:exported="false" />
+        <activity
+            android:name=".Personalinfo"
+            android:exported="false" />
+        <activity
+            android:name=".EducationInfo"
+            android:exported="false" />
         <activity
             android:name=".UgexamsActivity"
             android:exported="false" />
@@ -36,6 +60,7 @@
         <activity
             android:name=".CmeActivity"
             android:exported="false" />
+
         <activity
             android:name=".EmployeeHomeActivity"
             android:exported="false" />
@@ -48,13 +73,13 @@
             android:exported="false"
             android:parentActivityName=".HomeActivity" />
         <activity
-            android:name=".GetstartedActivity"
+            android:name=".HomeActivity"
             android:exported="false" />
         <activity
             android:name=".ChooseActivity"
             android:exported="false" />
         <activity
-            android:name=".HomeActivity"
+            android:name=".GetstartedActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

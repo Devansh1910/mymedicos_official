@@ -34,7 +34,11 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -42,6 +46,7 @@ public class CmeActivity extends AppCompatActivity {
 
     String field1;
     String  field2;
+    String field3;
     FloatingActionButton floatingActionButton;
     RecyclerView recyclerView;
     RecyclerView recyclerView3;
@@ -90,6 +95,36 @@ public class CmeActivity extends AppCompatActivity {
         List<cmeitem1> items = new ArrayList<>();
         items.add(new cmeitem1("John wick", "Dentist", R.drawable.img_2,"5"));
         items.add(new cmeitem1("Robert j", "Pediatrics", R.drawable.img_3,"5"));
+        db.collection("CME")
+                .get()
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task ) {
+
+
+                        if (task.isSuccessful()) {
+                            for (QueryDocumentSnapshot document : task.getResult()) {
+                                Log.d(TAG, document.getId() + " => " + document.getData());
+                                Map<String, Object> dataMap = document.getData();
+                                field1 = (String) dataMap.get("CME Presenter");
+                                field2 = ((String) dataMap.get("Speciality"));
+
+
+                                cmeitem1 c = new cmeitem1(field1, field2, 5,"123");
+
+                                items.add(c);
+
+
+                                recyclerView.setLayoutManager(new LinearLayoutManager(getApplication(), LinearLayoutManager.HORIZONTAL, false));
+
+                                recyclerView.setAdapter(new MyAdapter2(getApplication(), items));
+
+                            }
+                        } else {
+                            Log.d(TAG, "Error getting documents: ", task.getException());
+                        }
+                    }
+                });
         // Add more items here
 
         recyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
@@ -109,13 +144,56 @@ public class CmeActivity extends AppCompatActivity {
                             for (QueryDocumentSnapshot document : task.getResult()) {
                                 Log.d(TAG, document.getId() + " => " + document.getData());
                                 Map<String, Object> dataMap = document.getData();
-                                field1 = (String) dataMap.get("CME Organiser");
-                                field2 = ((String) dataMap.get("CME Place"));
-                                Log.d(TAG,(String) dataMap.get("CME Organiser"));
+                                field1 = (String) dataMap.get("CME Presenter");
+                                field2 = ((String) dataMap.get("CME Title"));
+                                Log.d(TAG, (String) dataMap.get("Speciality"));
+                                String combinedDateTime = document.getString("Date");
+                                String[] dateTimeParts = combinedDateTime.split(" ");
+                                String datePart = dateTimeParts[0];
+                                String timePart = dateTimeParts[1];
+                                Log.d("vivek", datePart);
+                                String formattedDate = null;
+                                try {
+                                    // Parse the original date string
+                                    SimpleDateFormat inputDateFormat = new SimpleDateFormat("yyyy-MM-dd");
+                                    Date date = inputDateFormat.parse(datePart);
 
-                                cmeitem3 c = new cmeitem3("abc", "field", field2,field1);
-                                Log.d("vivek",field1);
-                                Log.d("vivek","hello");
+                                    // Define the desired date format pattern
+                                    SimpleDateFormat outputDateFormat = new SimpleDateFormat("d'th' MMM");
+
+                                    // Format the date
+                                    formattedDate = outputDateFormat.format(date);
+
+                                    // Print the formatted date
+
+                                } catch (ParseException e) {
+                                    e.printStackTrace();
+                                }
+                                String formattedTime = null;
+                                try {
+                                    // Parse the original time string
+                                    SimpleDateFormat inputTimeFormat = new SimpleDateFormat("HH:mm:ss");
+                                    Date time = inputTimeFormat.parse(timePart);
+
+                                    // Define the desired time format pattern
+                                    SimpleDateFormat outputTimeFormat = new SimpleDateFormat("hh:mm a");
+
+                                    // Format the time
+                                    formattedTime = outputTimeFormat.format(time);
+
+                                    // Print the formatted time
+
+                                } catch (ParseException e) {
+                                    e.printStackTrace();
+                                }
+
+
+                                // Extract date and time components
+
+
+                                cmeitem3 c = new cmeitem3(formattedDate, formattedTime, field2, field1);
+
+                                Log.d("vivek", "hello");
                                 item.add(c);
 
 
@@ -150,13 +228,12 @@ public class CmeActivity extends AppCompatActivity {
                             for (QueryDocumentSnapshot document : task.getResult()) {
                                 Log.d(TAG, document.getId() + " => " + document.getData());
                                 Map<String, Object> dataMap = document.getData();
-                                field1 = (String) dataMap.get("CME Organiser");
+                                field1 = (String) dataMap.get("CME Presenter");
                                 field2 = ((String) dataMap.get("CME Place"));
+                                field3=((String) dataMap.get("Speciality"));
                                 Log.d(TAG,(String) dataMap.get("CME Organiser"));
 
-                                cmeitem2 c = new cmeitem2("abc", "field", field2);
-                                Log.d("vivek",field1);
-                                Log.d("vivek","hello");
+                                cmeitem2 c = new cmeitem2(field1, field2, field3);
                                 myitem.add(c);
 
 
