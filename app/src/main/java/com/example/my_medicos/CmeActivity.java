@@ -47,6 +47,8 @@ public class CmeActivity extends AppCompatActivity {
     String field1;
     String  field2;
     String field3;
+
+    String field4;
     FloatingActionButton floatingActionButton;
     RecyclerView recyclerView;
     RecyclerView recyclerView3;
@@ -75,7 +77,6 @@ public class CmeActivity extends AppCompatActivity {
         toolbar = findViewById(R.id.cmetoolbar);
         recyclerView = findViewById(R.id.cme_recyclerview1);
         setSupportActionBar(toolbar);
-
         DatabaseReference mbase;
         db = FirebaseFirestore.getInstance();
 
@@ -93,32 +94,24 @@ public class CmeActivity extends AppCompatActivity {
 
         recyclerView = findViewById(R.id.cme_recyclerview1);
         List<cmeitem1> items = new ArrayList<>();
-        items.add(new cmeitem1("John wick", "Dentist", R.drawable.img_2,"5"));
-        items.add(new cmeitem1("Robert j", "Pediatrics", R.drawable.img_3,"5"));
         db.collection("CME")
                 .get()
                 .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                     @Override
                     public void onComplete(@NonNull Task<QuerySnapshot> task ) {
 
-
                         if (task.isSuccessful()) {
                             for (QueryDocumentSnapshot document : task.getResult()) {
                                 Log.d(TAG, document.getId() + " => " + document.getData());
                                 Map<String, Object> dataMap = document.getData();
+                                field3 = ((String) dataMap.get("CME Title"));
+                                field4 = ((String) dataMap.get("Mode"));
                                 field1 = (String) dataMap.get("CME Presenter");
                                 field2 = ((String) dataMap.get("Speciality"));
-
-
-                                cmeitem1 c = new cmeitem1(field1, field2, 5,"123");
-
+                                cmeitem1 c = new cmeitem1(field1, field2,  5,field3,field4);
                                 items.add(c);
-
-
                                 recyclerView.setLayoutManager(new LinearLayoutManager(getApplication(), LinearLayoutManager.HORIZONTAL, false));
-
                                 recyclerView.setAdapter(new MyAdapter2(getApplication(), items));
-
                             }
                         } else {
                             Log.d(TAG, "Error getting documents: ", task.getException());
@@ -138,7 +131,6 @@ public class CmeActivity extends AppCompatActivity {
                 .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                     @Override
                     public void onComplete(@NonNull Task<QuerySnapshot> task ) {
-
 
                         if (task.isSuccessful()) {
                             for (QueryDocumentSnapshot document : task.getResult()) {
@@ -186,9 +178,6 @@ public class CmeActivity extends AppCompatActivity {
                                 } catch (ParseException e) {
                                     e.printStackTrace();
                                 }
-
-
-                                // Extract date and time components
 
 
                                 cmeitem3 c = new cmeitem3(formattedDate, formattedTime, field2, field1);
