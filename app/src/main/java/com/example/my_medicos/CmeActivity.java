@@ -41,7 +41,7 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
-
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 public class CmeActivity extends AppCompatActivity {
 
     String field1;
@@ -63,6 +63,7 @@ public class CmeActivity extends AppCompatActivity {
     private Spinner subspecialitySpinner;
     private ArrayAdapter<CharSequence> specialityAdapter;
     private ArrayAdapter<CharSequence> subspecialityAdapter;
+    private SwipeRefreshLayout swipeRefreshLayout;
 
     Toolbar toolbar;
 
@@ -73,11 +74,99 @@ public class CmeActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_cme);
+        swipeRefreshLayout = findViewById(R.id.swipe_refresh_layout);
+        swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                // Implement your refresh logic here, e.g., fetching new data
+                fetchData();
+
+                // After fetching data, update the UI
+               
+
+                // Complete the refresh animation
+                swipeRefreshLayout.setRefreshing(false);
+            }
+        });
+
+
 
         toolbar = findViewById(R.id.cmetoolbar);
+
+
+
+        pager = findViewById(R.id.view_pager);
+        tabLayout = findViewById(R.id.tabLayout);
+        specialitySpinner = findViewById(R.id.speciality);
+        subspecialitySpinner = findViewById(R.id.subspeciality);
+
+        specialityAdapter = ArrayAdapter.createFromResource(this,
+                R.array.speciality, android.R.layout.simple_spinner_item);
+        specialityAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        specialitySpinner.setAdapter(specialityAdapter);
+
+        subspecialityAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item);
+        subspecialityAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        subspecialitySpinner.setAdapter(subspecialityAdapter);
+
+        // Initially, hide the subspeciality spinner
+        subspecialitySpinner.setVisibility(View.GONE);
+
+        specialitySpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int position, long l) {
+                // Check if the selected speciality has subspecialities
+                int specialityIndex = specialitySpinner.getSelectedItemPosition();
+                if (specialityIndex >= 0 && specialityIndex < subspecialities.length && subspecialities[specialityIndex].length > 0) {
+                    String[] subspecialityArray = subspecialities[specialityIndex];
+                    subspecialityAdapter.clear();
+                    subspecialityAdapter.add("Select Subspeciality");
+                    for (String subspeciality : subspecialityArray) {
+                        subspecialityAdapter.add(subspeciality);
+                    }
+                    // Show the subspeciality spinner
+                    subspecialitySpinner.setVisibility(View.VISIBLE);
+                } else {
+                    // Hide the subspeciality spinner
+                    subspecialitySpinner.setVisibility(View.GONE);
+                }
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+                // Do nothing
+            }
+        });
+
+        Spinner modeSpinner = findViewById(R.id.mode);
+        ArrayAdapter<CharSequence> modeAdapter = ArrayAdapter.createFromResource(this,
+                R.array.mode, android.R.layout.simple_spinner_item);
+        modeAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        modeSpinner.setAdapter(modeAdapter);
+
+        pager.setAdapter(new ViewPagerAdapter(this));
+
+        new TabLayoutMediator(tabLayout, pager, new TabLayoutMediator.TabConfigurationStrategy() {
+            @Override
+            public void onConfigureTab(@NonNull TabLayout.Tab tab, int position) {
+                switch (position) {
+                    case 0:
+                        tab.setText("Todays");
+                        break;
+                    case 1:
+                        tab.setText("Upcoming");
+                        break;
+                    case 2:
+                        tab.setText("Past");
+                        break;
+                }
+            }
+        }).attach();
+    }
+
+    private void fetchData() {
         recyclerView = findViewById(R.id.cme_recyclerview1);
         setSupportActionBar(toolbar);
-        DatabaseReference mbase;
         db = FirebaseFirestore.getInstance();
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -243,74 +332,9 @@ public class CmeActivity extends AppCompatActivity {
         recyclerView2.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
         recyclerView2.setAdapter(new MyAdapter4(this, myitem));
 
-        pager = findViewById(R.id.view_pager);
-        tabLayout = findViewById(R.id.tabLayout);
-        specialitySpinner = findViewById(R.id.speciality);
-        subspecialitySpinner = findViewById(R.id.subspeciality);
 
-        specialityAdapter = ArrayAdapter.createFromResource(this,
-                R.array.speciality, android.R.layout.simple_spinner_item);
-        specialityAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        specialitySpinner.setAdapter(specialityAdapter);
-
-        subspecialityAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item);
-        subspecialityAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        subspecialitySpinner.setAdapter(subspecialityAdapter);
-
-        // Initially, hide the subspeciality spinner
-        subspecialitySpinner.setVisibility(View.GONE);
-
-        specialitySpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> adapterView, View view, int position, long l) {
-                // Check if the selected speciality has subspecialities
-                int specialityIndex = specialitySpinner.getSelectedItemPosition();
-                if (specialityIndex >= 0 && specialityIndex < subspecialities.length && subspecialities[specialityIndex].length > 0) {
-                    String[] subspecialityArray = subspecialities[specialityIndex];
-                    subspecialityAdapter.clear();
-                    subspecialityAdapter.add("Select Subspeciality");
-                    for (String subspeciality : subspecialityArray) {
-                        subspecialityAdapter.add(subspeciality);
-                    }
-                    // Show the subspeciality spinner
-                    subspecialitySpinner.setVisibility(View.VISIBLE);
-                } else {
-                    // Hide the subspeciality spinner
-                    subspecialitySpinner.setVisibility(View.GONE);
-                }
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> adapterView) {
-                // Do nothing
-            }
-        });
-
-        Spinner modeSpinner = findViewById(R.id.mode);
-        ArrayAdapter<CharSequence> modeAdapter = ArrayAdapter.createFromResource(this,
-                R.array.mode, android.R.layout.simple_spinner_item);
-        modeAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        modeSpinner.setAdapter(modeAdapter);
-
-        pager.setAdapter(new ViewPagerAdapter(this));
-
-        new TabLayoutMediator(tabLayout, pager, new TabLayoutMediator.TabConfigurationStrategy() {
-            @Override
-            public void onConfigureTab(@NonNull TabLayout.Tab tab, int position) {
-                switch (position) {
-                    case 0:
-                        tab.setText("Todays");
-                        break;
-                    case 1:
-                        tab.setText("Upcoming");
-                        break;
-                    case 2:
-                        tab.setText("Past");
-                        break;
-                }
-            }
-        }).attach();
     }
+
 
     class ViewPagerAdapter extends FragmentStateAdapter {
 
