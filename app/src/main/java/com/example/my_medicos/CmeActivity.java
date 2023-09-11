@@ -209,8 +209,6 @@ public class CmeActivity extends AppCompatActivity {
                 });
         // Add more items here
 
-        recyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
-        recyclerView.setAdapter(new MyAdapter2(this, items));
 
         recyclerView3 = findViewById(R.id.recyclerview3);
         List<cmeitem3> item = new ArrayList<>();
@@ -229,49 +227,33 @@ public class CmeActivity extends AppCompatActivity {
                                 field2 = ((String) dataMap.get("CME Title"));
                                 Log.d(TAG, (String) dataMap.get("Speciality"));
                                 String combinedDateTime = document.getString("Date");
-                                String[] dateTimeParts = combinedDateTime.split(" ");
-                                String datePart = dateTimeParts[0];
-                                String timePart = dateTimeParts[1];
-                                Log.d("vivek", datePart);
+                                SimpleDateFormat inputFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+                                SimpleDateFormat dateFormat = new SimpleDateFormat("dd MMM");
+                                SimpleDateFormat timeFormat = new SimpleDateFormat("hh:mmaa");
+                                Log.d("vivek", combinedDateTime);
                                 String formattedDate = null;
+                                String formattedTime = null;
                                 try {
                                     // Parse the original date string
-                                    SimpleDateFormat inputDateFormat = new SimpleDateFormat("yyyy-MM-dd");
-                                    Date date = inputDateFormat.parse(datePart);
+                                    Date date = inputFormat.parse(combinedDateTime);
 
-                                    // Define the desired date format pattern
-                                    SimpleDateFormat outputDateFormat = new SimpleDateFormat("d'th' MMM");
-
-                                    // Format the date
-                                    formattedDate = outputDateFormat.format(date);
+                                    // Format the date and time
+                                    formattedDate = dateFormat.format(date);
+                                    formattedTime = timeFormat.format(date);
 
                                     // Print the formatted date
 
                                 } catch (ParseException e) {
                                     e.printStackTrace();
+                                    Log.d("vivek", "hello");
                                 }
-                                String formattedTime = null;
-                                try {
-                                    // Parse the original time string
-                                    SimpleDateFormat inputTimeFormat = new SimpleDateFormat("HH:mm:ss");
-                                    Date time = inputTimeFormat.parse(timePart);
 
-                                    // Define the desired time format pattern
-                                    SimpleDateFormat outputTimeFormat = new SimpleDateFormat("hh:mm a");
 
-                                    // Format the time
-                                    formattedTime = outputTimeFormat.format(time);
-
-                                    // Print the formatted time
-
-                                } catch (ParseException e) {
-                                    e.printStackTrace();
-                                }
 
 
                                 cmeitem3 c = new cmeitem3(formattedDate, formattedTime, field2, field1);
 
-                                Log.d("vivek", "hello");
+
                                 item.add(c);
 
 
@@ -285,12 +267,7 @@ public class CmeActivity extends AppCompatActivity {
                     }
                 });
         //.....
-        item.add(new cmeitem3("25th AUG", "1:30pm", "abcdefgh", "John wick"));
-        item.add(new cmeitem3("26th AUG", "12:30pm", "anscncdc", "Robert k"));
-        // Add more items here
 
-        recyclerView3.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
-        recyclerView3.setAdapter(new MyAdapter3(this, item));
 
         recyclerView2 = findViewById(R.id.recyclerview2);
         List<cmeitem2> myitem = new ArrayList<cmeitem2>();
@@ -325,12 +302,7 @@ public class CmeActivity extends AppCompatActivity {
                     }
                 });
         //......
-        myitem.add(new cmeitem2("John wick", "ESI Hospital", "Peitiric"));
-        myitem.add(new cmeitem2("Robert j", "Shushrta Hospital", "Peitiric"));
-        // Add more items here
 
-        recyclerView2.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
-        recyclerView2.setAdapter(new MyAdapter4(this, myitem));
 
 
     }

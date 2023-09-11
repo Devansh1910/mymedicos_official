@@ -69,7 +69,7 @@ public class ProfileFragment extends Fragment {
     private void fetchUserData() {
         FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
         if (currentUser != null) {
-            String userId = currentUser.getUid();
+
             FirebaseFirestore db = FirebaseFirestore.getInstance();
             db.collection("users")
                     .get()
