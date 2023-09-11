@@ -85,8 +85,8 @@ public class ProfileFragment extends Fragment {
                                     field1 = (String) dataMap.get("Email ID");
                                     int a=field1.compareTo(currentUser.getEmail());
                                     if (a==0) {
-                                        String userName = (String) dataMap.get("Email ID");
-                                        String userEmail = (String) dataMap.get("Name");
+                                        String userName = (String) dataMap.get("Name");
+                                        String userEmail = (String) dataMap.get("Email ID");
                                         String userPhone = (String) dataMap.get("Phone Number");
                                         Log.d(TAG, (String) userEmail +"hell0");
 
