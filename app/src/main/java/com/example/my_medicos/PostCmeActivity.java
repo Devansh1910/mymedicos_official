@@ -19,6 +19,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.my_medicos.R;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
@@ -180,8 +181,10 @@ public class PostCmeActivity extends AppCompatActivity {
 
         // Get current date and time
         LocalDateTime currentDateTime = LocalDateTime.now();
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
-        String formattedDateTime = currentDateTime.format(formatter);
+        DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+        DateTimeFormatter timeFormatter = DateTimeFormatter.ofPattern("HH:mm:ss");
+        String formattedDate = currentDateTime.format(dateFormatter);
+        String formattedTime = currentDateTime.format(timeFormatter);
 
         HashMap<String, Object> usermap = new HashMap<>();
         usermap.put("CME Title", title);
@@ -191,7 +194,8 @@ public class PostCmeActivity extends AppCompatActivity {
         usermap.put("Virtual Link", link);
         usermap.put("CME Place", place);
         usermap.put("User", current);
-        usermap.put("Date", formattedDateTime);
+        usermap.put("Date", formattedDate);
+        usermap.put("Time", formattedTime); // Store EventTime as "Time"
         usermap.put("Mode", mode);
         usermap.put("Speciality", speciality);
 
@@ -213,3 +217,4 @@ public class PostCmeActivity extends AppCompatActivity {
         });
     }
 }
+
