@@ -55,7 +55,7 @@ public class MyAdapter3 extends RecyclerView.Adapter<MyAdapter3.MyViewHolder3>{
             time=itemView.findViewById(R.id.cme_timings);
             title=itemView.findViewById(R.id.cme_title);
             nameofdr=itemView.findViewById(R.id.cme_dr);
-            imageview=itemView.findViewById(R.id.cme_img3);
+            imageview=itemView.findViewById(R.id.cme3);
         }
     }
 

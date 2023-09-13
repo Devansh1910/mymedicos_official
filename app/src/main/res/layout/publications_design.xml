@@ -6,11 +6,12 @@
 
     <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
-        android:layout_height="@dimen/_220sdp"
+        android:layout_height="@dimen/_240sdp"
         android:layout_marginStart="@dimen/_10sdp"
         android:layout_marginTop="16dp"
         android:layout_marginEnd="@dimen/_10sdp"
         app:cardCornerRadius="@dimen/_10sdp"
+        android:outlineSpotShadowColor="@color/white"
         app:cardElevation="@dimen/_10sdp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="1.0"
@@ -39,7 +40,7 @@
                 <TextView
                     android:id="@+id/date_publication"
                     android:layout_width="@dimen/_50sdp"
-                    android:layout_height="wrap_content"
+                    android:layout_height="@dimen/_20sdp"
                     android:text="Date"
                     android:textSize="@dimen/_14ssp"
                     android:textAlignment="center"
@@ -50,7 +51,7 @@
                 <TextView
                     android:id="@+id/time_publication"
                     android:layout_width="@dimen/_70sdp"
-                    android:layout_height="wrap_content"
+                    android:layout_height="@dimen/_20sdp"
                     android:text="Timings"
                     android:textSize="@dimen/_14ssp"
                     android:textAlignment="center"
@@ -59,46 +60,12 @@
                     android:background="@drawable/tv_bg"/>
 
 
-                <ImageView
-                    android:layout_width="@dimen/_20sdp"
-                    android:layout_height="@dimen/_20sdp"
-                    android:layout_gravity="center"
-                    android:layout_marginTop="@dimen/_5sdp"
-                    android:layout_marginStart="@dimen/_40sdp"
-                    android:src="@drawable/grp"/>
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="00"
-                    android:textSize="@dimen/_14ssp"
-                    android:textAlignment="center"
-                    android:fontFamily="@font/montserrat_medium"
-                    android:layout_marginTop="@dimen/_10sdp"
-                    android:layout_marginStart="@dimen/_5sdp" />
-
-                <ImageView
-                    android:layout_width="@dimen/_20sdp"
-                    android:layout_height="@dimen/_20sdp"
-                    android:layout_gravity="center"
-                    android:layout_marginTop="@dimen/_5sdp"
-                    android:src="@drawable/comments"
-                    android:layout_marginStart="@dimen/_5sdp"/>
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="00"
-                    android:textSize="@dimen/_14ssp"
-                    android:textAlignment="center"
-                    android:fontFamily="@font/montserrat_medium"
-                    android:layout_marginTop="@dimen/_10sdp"
-                    android:layout_marginStart="@dimen/_5sdp" />
             </LinearLayout>
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
                 android:orientation="horizontal">
 
                 <TextView
@@ -114,11 +81,13 @@
                     />
 
                 <Button
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_width="@dimen/_108sdp"
+                    android:layout_height="@dimen/_38sdp"
+                    android:paddingEnd="@dimen/_10sdp"
                     android:text="Read"
+                    android:layout_marginEnd="@dimen/_10sdp"
                     android:backgroundTint="#24A0ED"
-                    android:layout_marginStart="@dimen/_140sdp"/>
+                    android:layout_marginStart="@dimen/_80sdp"/>
             </LinearLayout>
 
         </LinearLayout>

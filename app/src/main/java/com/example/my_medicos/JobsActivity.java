@@ -1,10 +1,7 @@
 package com.example.my_medicos;
 
-import static android.content.ContentValues.TAG;
-
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -22,21 +19,15 @@ import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager2.adapter.FragmentStateAdapter;
 import androidx.viewpager2.widget.ViewPager2;
 
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.tabs.TabLayout;
 import com.google.android.material.tabs.TabLayoutMediator;
-import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.QueryDocumentSnapshot;
-import com.google.firebase.firestore.QuerySnapshot;
 
 
 public class JobsActivity extends AppCompatActivity {
 
 
     RecyclerView recyclerView;
-
 
     FloatingActionButton floatingActionButton;
 
@@ -49,7 +40,6 @@ public class JobsActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_jobs);
-
 
         toolbar = findViewById(R.id.jobstoolbar);
         setSupportActionBar(toolbar);
@@ -65,7 +55,6 @@ public class JobsActivity extends AppCompatActivity {
                 startActivity(i);
             }
         });
-        fetch();
         pager = findViewById(R.id.jobViewpager);
         tabLayout = findViewById(R.id.jobtablayout);
 
@@ -101,25 +90,6 @@ public class JobsActivity extends AppCompatActivity {
             }
         }).attach();
     }
-    public void fetch(){
-        FirebaseFirestore  db = FirebaseFirestore.getInstance();
-        db.collection("JOB")
-                .get()
-                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                    @Override
-                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                        if (task.isSuccessful()) {
-                            for (QueryDocumentSnapshot document : task.getResult()) {
-                                Log.d(TAG, document.getId() + " => " + document.getData());
-
-                            }
-                        } else {
-                            Log.d(TAG, "Error getting documents: ", task.getException());
-                        }
-                    }
-                });
-    }
-
 
     class ViewPagerAdapter extends FragmentStateAdapter {
 

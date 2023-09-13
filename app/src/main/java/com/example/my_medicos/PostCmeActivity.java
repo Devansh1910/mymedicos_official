@@ -1,18 +1,25 @@
 package com.example.my_medicos;
 
+import android.app.ProgressDialog;
+import android.graphics.Color;
+import android.os.Build;
 import android.os.Bundle;
+import android.text.Editable;
 import android.text.TextUtils;
+import android.text.TextWatcher;
 import android.view.View;
-import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.my_medicos.R;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
@@ -21,78 +28,108 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.firestore.FirebaseFirestore;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.util.HashMap;
+
 public class PostCmeActivity extends AppCompatActivity {
+
     FirebaseAuth auth = FirebaseAuth.getInstance();
     FirebaseUser user = auth.getCurrentUser();
-    String current=user.getEmail();
-    String post;
+    String current = user.getEmail();
 
-
-
-
-
-    TextView cmetitle,cmeorg,cmepresenter,cmevenu,virtuallink,cme_place;
+    EditText cmetitle, cmeorg, cmepresenter, cmevenu, virtuallink, cme_place;
 
     Button postcme;
 
-    public FirebaseDatabase db= FirebaseDatabase.getInstance();
-     FirebaseFirestore dc=FirebaseFirestore.getInstance();
+    public FirebaseDatabase db = FirebaseDatabase.getInstance();
 
-    public DatabaseReference cmeref=db.getReference().child("CME's");
+    FirebaseFirestore dc = FirebaseFirestore.getInstance();
+
+    public DatabaseReference cmeref = db.getReference().child("CME's");
+
+    private ProgressDialog progressDialog;
+
+    private static final int MAX_CHARACTERS = 1000;
 
     @Override
-
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_post_cme);
 
-        Spinner  spinner2= (Spinner) findViewById(R.id.cmemode);
-// Create an ArrayAdapter using the string array and a default spinner layout
+        progressDialog = new ProgressDialog(this);
+
+        Spinner spinner2 = findViewById(R.id.cmemode);
         ArrayAdapter<CharSequence> myadapter = ArrayAdapter.createFromResource(this,
                 R.array.mode, android.R.layout.simple_spinner_item);
-// Specify the layout to use when the list of choices appears
         myadapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-
-// Apply the adapter to the spinner
         spinner2.setAdapter(myadapter);
-        spinner2.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> parentView, View selectedItemView, int position, long id) {
-                // Get the selected item (value) from the Spinner
-                post = parentView.getItemAtPosition(position).toString();
 
-                // Now, 'selectedValue' holds the selected value in a variable
+        Spinner spinner = findViewById(R.id.cmespeciality);
+        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
+                R.array.speciality, android.R.layout.simple_spinner_item);
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinner.setAdapter(adapter);
+
+        cmetitle = findViewById(R.id.cme_title);
+        cmeorg = findViewById(R.id.cme_organiser);
+        cmeorg.setText(current);
+        cmeorg.setEnabled(false);
+        cmeorg.setTextColor(Color.parseColor("#80000000"));
+        cmeorg.setBackgroundResource(R.drawable.rounded_edittext_background);
+        cmepresenter = findViewById(R.id.cme_presenter);
+        cmevenu = findViewById(R.id.cme_venu);
+        virtuallink = findViewById(R.id.cme_virtuallink);
+        cme_place = findViewById(R.id.cme_place);
+
+        postcme = findViewById(R.id.post_btn);
+
+        // Initialize the charCount TextView
+        TextView charCount = findViewById(R.id.char_counter);
+
+        // Add a TextWatcher to the cmevenu EditText for character counting and button enabling/disabling
+        cmevenu.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
             }
 
             @Override
-            public void onNothingSelected(AdapterView<?> parentView) {
-                // Handle the case where nothing is selected (if needed)
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                int currentCount = charSequence.length();
+                charCount.setText(currentCount + "/" + MAX_CHARACTERS);
+
+                // You can change the color of the charCount TextView based on the character count
+                if (currentCount > MAX_CHARACTERS) {
+                    charCount.setTextColor(Color.RED);
+                    postcme.setEnabled(false); // Disable the "Post" button
+                    // Add a Toast message to notify the user
+                    Toast.makeText(PostCmeActivity.this, "Character limit exceeded (1000 characters max)", Toast.LENGTH_SHORT).show();
+                } else {
+                    charCount.setTextColor(Color.DKGRAY);
+                    postcme.setEnabled(true); // Enable the "Post" button
+                }
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
             }
         });
 
-
-        cmetitle=findViewById(R.id.cme_title);
-        cmeorg=findViewById(R.id.cme_organiser);
-        cmepresenter=findViewById(R.id.cme_presenter);
-        cmevenu=findViewById(R.id.cme_venu);
-        virtuallink=findViewById(R.id.cme_virtuallink);
-        cme_place=findViewById(R.id.cme_place);
-
-
-        postcme=findViewById(R.id.post_btn);
+        // Disable the "Post" button initially
+        postcme.setEnabled(false);
 
         postcme.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                postCme();
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                    postCme();
+                }
             }
         });
     }
+
+    @RequiresApi(api = Build.VERSION_CODES.O)
     public void postCme() {
         String title = cmetitle.getText().toString().trim();
         String organiser = cmeorg.getText().toString().trim();
@@ -101,14 +138,16 @@ public class PostCmeActivity extends AppCompatActivity {
         String link = virtuallink.getText().toString().trim();
         String place = cme_place.getText().toString().trim();
 
-
+        if (!link.startsWith("https://")) {
+            virtuallink.setError("Not a Valid Link");
+            virtuallink.setTextColor(Color.RED);
+            return;
+        } else {
+            virtuallink.setTextColor(Color.DKGRAY);
+        }
 
         if (TextUtils.isEmpty(title)) {
             cmetitle.setError("Title Required");
-            return;
-        }
-        if (TextUtils.isEmpty(post)) {
-            cmetitle.setError("Mode Required");
             return;
         }
         if (TextUtils.isEmpty(organiser)) {
@@ -121,60 +160,61 @@ public class PostCmeActivity extends AppCompatActivity {
         }
         if (TextUtils.isEmpty(venu)) {
             cmevenu.setError("Email Required");
-        }
-        LocalDate currentDate = null;
-        LocalTime currentTime=null;
-        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
-            currentDate = LocalDate.now();
-            currentTime = LocalTime.now();
-
-        }
-        String formattedDateTime = null;
-                LocalDateTime currentDateTime = null;
-        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
-            currentDateTime = LocalDateTime.now();
-            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
-             formattedDateTime = currentDateTime.format(formatter);
-
+            return;
         }
 
+        if (venu.length() > MAX_CHARACTERS) {
+            // Display an error message if the content exceeds the limit
+            cmevenu.setError("Character limit exceeded");
+            return;
+        } else {
+            cmevenu.setError(null); // Clear any previous error
+        }
+
+        // Get the selected mode from the spinner
+        Spinner cmemodeSpinner = findViewById(R.id.cmemode);
+        String mode = cmemodeSpinner.getSelectedItem().toString();
+
+        // Get the selected speciality from the spinner
+        Spinner cmespecialitySpinner = findViewById(R.id.cmespeciality);
+        String speciality = cmespecialitySpinner.getSelectedItem().toString();
+
+        // Get current date and time
+        LocalDateTime currentDateTime = LocalDateTime.now();
+        DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+        DateTimeFormatter timeFormatter = DateTimeFormatter.ofPattern("HH:mm:ss");
+        String formattedDate = currentDateTime.format(dateFormatter);
+        String formattedTime = currentDateTime.format(timeFormatter);
 
         HashMap<String, Object> usermap = new HashMap<>();
-
-
-        usermap.put("CME Organiser", organiser);
-
-
-        usermap.put("CME Place", place);
-        usermap.put("CME Presenter", venu);
         usermap.put("CME Title", title);
-
+        usermap.put("CME Organiser", organiser);
+        usermap.put("CME Presenter", presenter);
+        usermap.put("CME Venue", venu);
         usermap.put("Virtual Link", link);
-
+        usermap.put("CME Place", place);
         usermap.put("User", current);
-        usermap.put("date",formattedDateTime);
-        usermap.put("MODE",post);
+        usermap.put("Date", formattedDate);
+        usermap.put("Time", formattedTime); // Store EventTime as "Time"
+        usermap.put("Mode", mode);
+        usermap.put("Speciality", speciality);
 
-        System.out.println(usermap);
-
-
-
-
-
+        progressDialog.setMessage("Posting...");
+        progressDialog.show();
 
         cmeref.push().setValue(usermap).addOnCompleteListener(new OnCompleteListener<Void>() {
             @Override
             public void onComplete(@NonNull Task<Void> task) {
+                progressDialog.dismiss();
+
                 if (task.isSuccessful()) {
                     dc.collection("CME").add(usermap);
-
                     Toast.makeText(PostCmeActivity.this, "Posted Successfully", Toast.LENGTH_SHORT).show();
                 } else {
                     Toast.makeText(PostCmeActivity.this, "Task Failed", Toast.LENGTH_SHORT).show();
                 }
             }
         });
-
-
     }
 }
+

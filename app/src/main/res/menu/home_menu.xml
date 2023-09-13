@@ -4,11 +4,8 @@
 
     <item
         android:id="@+id/chat"
-        android:title="Messege"
-        android:icon="@drawable/baseline_message_24"
+        android:title="Profile"
+        android:icon="@drawable/person"
         app:showAsAction="always"/>
-
-
-
 
 </menu>

@@ -1,30 +1,40 @@
 package com.example.my_medicos;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.View;
-import android.widget.Button;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
+import android.widget.ImageView;
+
+import androidx.appcompat.app.AppCompatActivity;
 
 public class GetstartedActivity extends AppCompatActivity {
 
-    Button gsbtn1;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_getstarted);
 
-        gsbtn1=findViewById(R.id.gsbtn2);
+        ImageView logo = findViewById(R.id.logo);
 
-        gsbtn1.setOnClickListener(new View.OnClickListener() {
+        // Load animation
+        Animation animation = AnimationUtils.loadAnimation(this, R.anim.fade_in);
+        logo.startAnimation(animation);
+
+        animation.setAnimationListener(new Animation.AnimationListener() {
             @Override
-            public void onClick(View view) {
+            public void onAnimationStart(Animation animation) { }
 
-                Intent i=new Intent(GetstartedActivity.this, ChooseActivity.class);
-                startActivity(i);
+            @Override
+            public void onAnimationEnd(Animation animation) {
+                // Start your main activity
+                startActivity(new Intent(GetstartedActivity.this, MainActivity.class));
                 finish();
             }
+
+            @Override
+            public void onAnimationRepeat(Animation animation) { }
         });
+
     }
 }

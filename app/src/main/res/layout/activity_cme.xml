@@ -30,18 +30,19 @@
                 android:background="@color/white">
 
             </androidx.appcompat.widget.Toolbar>
+
         </com.google.android.material.appbar.AppBarLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_marginTop="@dimen/_5sdp"
             android:layout_height="wrap_content"
-            android:orientation="horizontal">
+            android:orientation="vertical">
 
             <Spinner
                 android:id="@+id/mode"
                 android:background="@drawable/spinner_back"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_marginStart="@dimen/_10sdp"
                 android:layout_marginEnd="@dimen/_10sdp"
                 android:layout_weight="1"
@@ -50,7 +51,18 @@
             <Spinner
                 android:background="@drawable/spinner_back"
                 android:id="@+id/speciality"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
+                android:layout_marginTop="@dimen/_10sdp"
+                android:layout_marginStart="@dimen/_10sdp"
+                android:layout_marginEnd="@dimen/_10sdp"
+                android:layout_weight="1"
+                android:layout_height="@dimen/_40sdp"/>
+
+            <Spinner
+                android:background="@drawable/spinner_back"
+                android:id="@+id/subspeciality"
+                android:layout_width="match_parent"
+                android:layout_marginTop="@dimen/_10sdp"
                 android:layout_marginStart="@dimen/_10sdp"
                 android:layout_marginEnd="@dimen/_10sdp"
                 android:layout_weight="1"
@@ -65,7 +77,9 @@
             android:layout_height="wrap_content"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"/>
+            app:layout_constraintTop_toTopOf="parent">
+
+        </com.google.android.material.tabs.TabLayout>
 
         <androidx.viewpager2.widget.ViewPager2
             android:id="@+id/view_pager"
@@ -75,6 +89,15 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/tabLayout" />
+
+
+        <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+            xmlns:android="http://schemas.android.com/apk/res/android"
+            xmlns:app="http://schemas.android.com/apk/res-auto"
+            xmlns:tools="http://schemas.android.com/tools"
+            android:id="@+id/swipe_refresh_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
 
 
 
@@ -177,7 +200,7 @@
                         android:textColor="@color/blue"
                         android:fontFamily="@font/montserrat_medium"
                         android:layout_marginTop="@dimen/_10sdp"
-                        android:layout_marginStart="@dimen/_195sdp"/>
+                        android:layout_marginStart="@dimen/_175sdp"/>
                 </LinearLayout>
 
                 <androidx.recyclerview.widget.RecyclerView
@@ -191,6 +214,7 @@
                 </androidx.recyclerview.widget.RecyclerView>
             </LinearLayout>
         </ScrollView>
+        </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
     </LinearLayout>
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
@@ -201,6 +225,7 @@
         android:layout_marginEnd="32dp"
         android:layout_marginBottom="32dp"
         android:clickable="true"
+        android:contentDescription="Add CME"
         android:src="@android:drawable/ic_input_add"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />

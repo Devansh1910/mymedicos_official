@@ -6,10 +6,8 @@
     android:layout_height="match_parent"
     tools:context=".PostCmeActivity">
 
-
     <ScrollView
         android:layout_width="match_parent"
-
         android:layout_height="wrap_content"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -27,16 +25,15 @@
 
             <TextView
                 android:layout_width="wrap_content"
-                android:layout_marginBottom="@dimen/_20sdp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/_20sdp"
                 android:layout_marginTop="16dp"
+                android:layout_marginBottom="@dimen/_20sdp"
                 android:fontFamily="@font/montserrat_medium"
                 android:text="Fill the following details and post your CME..."
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
-
 
             <EditText
                 android:id="@+id/cme_title"
@@ -44,7 +41,9 @@
                 android:layout_height="@dimen/_40sdp"
                 android:layout_marginStart="@dimen/_20sdp"
                 android:layout_marginEnd="@dimen/_20sdp"
-                android:hint="Title of the CME" />
+                android:background="@drawable/spinner_back"
+                android:hint="Title of the CME"
+                android:paddingStart="@dimen/_10sdp" />
 
             <EditText
                 android:id="@+id/cme_organiser"
@@ -53,7 +52,9 @@
                 android:layout_marginStart="@dimen/_20sdp"
                 android:layout_marginTop="@dimen/_10sdp"
                 android:layout_marginEnd="@dimen/_20sdp"
-                android:hint="Organiser" />
+                android:background="@drawable/spinner_back"
+                android:hint="Organiser"
+                android:paddingStart="@dimen/_10sdp" />
 
             <EditText
                 android:id="@+id/cme_presenter"
@@ -62,16 +63,40 @@
                 android:layout_marginStart="@dimen/_20sdp"
                 android:layout_marginTop="@dimen/_10sdp"
                 android:layout_marginEnd="@dimen/_20sdp"
-                android:hint="Presenter" />
+                android:background="@drawable/spinner_back"
+                android:hint="Presenter"
+                android:paddingStart="@dimen/_10sdp" />
 
-            <EditText
-                android:id="@+id/cme_venu"
+
+            <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="@dimen/_40sdp"
-                android:layout_marginStart="@dimen/_20sdp"
-                android:layout_marginTop="@dimen/_10sdp"
-                android:layout_marginEnd="@dimen/_20sdp"
-                android:hint="Venue" />
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <EditText
+                    android:id="@+id/cme_venu"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:minHeight="@dimen/_40sdp"
+                    android:layout_marginStart="@dimen/_20sdp"
+                    android:layout_marginTop="@dimen/_10sdp"
+                    android:layout_marginEnd="@dimen/_20sdp"
+                    android:background="@drawable/spinner_back"
+                    android:hint="Description"
+                    android:paddingStart="@dimen/_10sdp"
+                    android:maxLength="2000"
+                android:inputType="textMultiLine"/>
+
+                <TextView
+                    android:id="@+id/char_counter"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="end"
+                    android:text="0/1000"
+                    android:textColor="@android:color/darker_gray"
+                    android:paddingEnd="@dimen/_20sdp"/>
+            </LinearLayout>
+
 
             <Spinner
                 android:id="@+id/cmemode"
@@ -80,8 +105,16 @@
                 android:layout_marginStart="@dimen/_20sdp"
                 android:layout_marginTop="@dimen/_10sdp"
                 android:layout_marginEnd="@dimen/_20sdp"
-                android:layout_weight="1" />
+                android:background="@drawable/spinner_back" />
 
+            <Spinner
+                android:id="@+id/cmespeciality"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/_40sdp"
+                android:layout_marginTop="@dimen/_10sdp"
+                android:layout_marginStart="@dimen/_20sdp"
+                android:layout_marginEnd="@dimen/_20sdp"
+                android:background="@drawable/spinner_back" />
 
             <EditText
                 android:id="@+id/cme_virtuallink"
@@ -90,7 +123,9 @@
                 android:layout_marginStart="@dimen/_20sdp"
                 android:layout_marginTop="@dimen/_10sdp"
                 android:layout_marginEnd="@dimen/_20sdp"
-                android:hint="Virtual Meeting Link(if online)" />
+                android:background="@drawable/spinner_back"
+                android:hint="Virtual Meeting Link(if online)"
+                android:paddingStart="@dimen/_10sdp" />
 
             <EditText
                 android:id="@+id/cme_place"
@@ -99,18 +134,33 @@
                 android:layout_marginStart="@dimen/_20sdp"
                 android:layout_marginTop="@dimen/_10sdp"
                 android:layout_marginEnd="@dimen/_20sdp"
-                android:hint="Place(if offline)" />
+                android:background="@drawable/spinner_back"
+                android:hint="Place(if offline)"
+                android:paddingStart="@dimen/_10sdp"
+                android:visibility="gone" />
 
+            <androidx.cardview.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center">
+
+<!--                <ImageView-->
+<!--                    android:layout_width="wrap_content"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:src=""/>-->
+
+            </androidx.cardview.widget.CardView>
 
             <Button
                 android:id="@+id/post_btn"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Post"
-                android:fontFamily="@font/montserrat_medium"
                 android:layout_marginStart="@dimen/_32sdp"
+                android:layout_marginTop="@dimen/_30sdp"
                 android:layout_marginEnd="@dimen/_32sdp"
-                android:layout_marginTop="@dimen/_30sdp"/>
+                android:fontFamily="@font/montserrat_medium"
+                android:text="Post" />
+
         </LinearLayout>
     </ScrollView>
 

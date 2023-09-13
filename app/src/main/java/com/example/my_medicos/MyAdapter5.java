@@ -5,8 +5,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
+
 import java.util.List;
 
 public class MyAdapter5 extends RecyclerView.Adapter<MyAdapter5.MyViewHolder5>{
@@ -23,7 +25,7 @@ public class MyAdapter5 extends RecyclerView.Adapter<MyAdapter5.MyViewHolder5>{
     @Override
     public MyViewHolder5 onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View v= LayoutInflater.from(context).inflate(R.layout.publications_design,parent,false);
-        return new MyAdapter5.MyViewHolder5(v);
+        return new MyViewHolder5(v);
     }
 
     @Override
