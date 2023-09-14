@@ -176,7 +176,11 @@
 <!--                    android:src=""/>-->
 
             </androidx.cardview.widget.CardView>
-
+            <Button
+                android:id="@+id/btnAccessStorage"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Access Storage" />
 
             <Button
                 android:id="@+id/post_btn"
