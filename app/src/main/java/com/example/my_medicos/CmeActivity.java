@@ -210,7 +210,7 @@ public class CmeActivity extends AppCompatActivity {
                                 field1 = (String) dataMap.get("CME Presenter");
                                 field2 = ((String) dataMap.get("CME Title"));
                                 Log.d(TAG, (String) dataMap.get("Speciality"));
-                                String combinedDateTime = document.getString("CME Date");
+                                String combinedDateTime = document.getString("Date");
                                 SimpleDateFormat inputFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
                                 SimpleDateFormat dateFormat = new SimpleDateFormat("dd MMM");
                                 SimpleDateFormat timeFormat = new SimpleDateFormat("hh:mmaa");
