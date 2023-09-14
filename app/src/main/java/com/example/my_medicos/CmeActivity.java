@@ -53,18 +53,23 @@ public class CmeActivity extends AppCompatActivity {
     RecyclerView recyclerView;
     RecyclerView recyclerView3;
     RecyclerView recyclerView2;
+
     private ViewPager2 pager;
     private TabLayout tabLayout;
     private Spinner specialitySpinner;
+
     private FirebaseFirestore db;
+
     private Spinner subspecialitySpinner;
     private ArrayAdapter<CharSequence> specialityAdapter;
     private ArrayAdapter<CharSequence> subspecialityAdapter;
     private SwipeRefreshLayout swipeRefreshLayout;
+
     Toolbar toolbar;
 
     // Define subspecialities for each speciality
     private final String[][] subspecialities = subSpecialitiesData.subspecialities;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -77,13 +82,18 @@ public class CmeActivity extends AppCompatActivity {
                 fetchData();
 
                 // After fetching data, update the UI
+               
 
                 // Complete the refresh animation
                 swipeRefreshLayout.setRefreshing(false);
             }
         });
 
+
+
         toolbar = findViewById(R.id.cmetoolbar);
+
+
 
         pager = findViewById(R.id.view_pager);
         tabLayout = findViewById(R.id.tabLayout);
@@ -98,8 +108,10 @@ public class CmeActivity extends AppCompatActivity {
         subspecialityAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item);
         subspecialityAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         subspecialitySpinner.setAdapter(subspecialityAdapter);
+
         // Initially, hide the subspeciality spinner
         subspecialitySpinner.setVisibility(View.GONE);
+
         specialitySpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int position, long l) {
@@ -119,11 +131,13 @@ public class CmeActivity extends AppCompatActivity {
                     subspecialitySpinner.setVisibility(View.GONE);
                 }
             }
+
             @Override
             public void onNothingSelected(AdapterView<?> adapterView) {
                 // Do nothing
             }
         });
+
         Spinner modeSpinner = findViewById(R.id.mode);
         ArrayAdapter<CharSequence> modeAdapter = ArrayAdapter.createFromResource(this,
                 R.array.mode, android.R.layout.simple_spinner_item);
@@ -149,6 +163,7 @@ public class CmeActivity extends AppCompatActivity {
             }
         }).attach();
     }
+
     private void fetchData() {
         recyclerView = findViewById(R.id.cme_recyclerview1);
         setSupportActionBar(toolbar);
@@ -165,6 +180,7 @@ public class CmeActivity extends AppCompatActivity {
                 startActivity(i);
             }
         });
+
         recyclerView = findViewById(R.id.cme_recyclerview1);
         List<cmeitem1> items = new ArrayList<>();
         db.collection("CME")

@@ -37,14 +37,15 @@ public class MyAdapter2  extends RecyclerView.Adapter<MyAdapter2.MyViewHolder2>{
         holder.title.setText(item.get(position).getDoctitle());
         holder.presenters.setText(item.get(position).getDocpresenter());
 
-//        int imageResource = item.get(position).getImage();
-//        Log.d("Image Debug", "Image Resource: " + imageResource);
-//
-//        if (imageResource != 0) {
-//            holder.imageview.setImageResource(imageResource);
-//        } else {
-//            holder.imageview.setImageResource(R.drawable.default_banner);
-//        }
+        int imageResource = item.get(position).getImage();
+        Log.d("Image Debug", "Image Resource: " + imageResource);
+
+        if (imageResource != 0) {
+            holder.imageview.setImageResource(imageResource);
+        } else {
+            Log.d("Image Debug", "Default Image Set");
+            holder.imageview.setImageResource(R.drawable.default_banner);
+        }
     }
 
     @Override
@@ -58,7 +59,7 @@ public class MyAdapter2  extends RecyclerView.Adapter<MyAdapter2.MyViewHolder2>{
         public MyViewHolder2(@NonNull View itemView) {
             super(itemView);
 
-//            imageview = itemView.findViewById(R.id.cme_img);
+            imageview = itemView.findViewById(R.id.cme_img);
             name=itemView.findViewById(R.id.dr_name);
             position=itemView.findViewById(R.id.dr_pos);
             title=itemView.findViewById(R.id.dr_title);

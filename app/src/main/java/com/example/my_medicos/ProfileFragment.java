@@ -13,7 +13,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
-import androidx.cardview.widget.CardView;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
@@ -31,7 +30,7 @@ import java.util.Map;
 
 public class ProfileFragment extends Fragment {
 
-    CardView personalinfo, contactinfo;
+    ImageView personalinfo, contactinfo;
     TextView user_name_dr, user_email_dr, user_phone_dr;
 
     @Override
@@ -71,7 +70,7 @@ public class ProfileFragment extends Fragment {
     private void fetchUserData() {
         FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
         if (currentUser != null) {
-            String userId = currentUser.getUid();
+
             FirebaseFirestore db = FirebaseFirestore.getInstance();
             db.collection("users")
                     .get()

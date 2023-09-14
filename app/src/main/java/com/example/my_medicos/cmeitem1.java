@@ -11,7 +11,7 @@ public class cmeitem1 {
     public cmeitem1(String docname, String docpos, int imageview,String doctitle,String docpresenter) {
         this.docname = docname;
         this.docpos = docpos;
-//        this.imageview = imageview;
+        this.imageview = imageview;
         this.doctitle=doctitle;
         this.docpresenter=docpresenter;
     }

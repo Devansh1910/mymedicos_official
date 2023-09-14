@@ -90,7 +90,7 @@
                             android:layout_marginStart="@dimen/_2ssp"
                             android:textColor="@color/black"
                             android:fontFamily="@font/montserrat_medium"
-                            android:text="Updating..."
+                            android:text="Devansh Saxena"
                             android:textSize="@dimen/_14ssp" />
 
                     </LinearLayout>
@@ -109,8 +109,7 @@
                             android:background="@drawable/smaller_block"
                             android:layout_marginVertical="@dimen/_4ssp"
                             android:fontFamily="@font/montserrat_medium"
-                            android:text="speciality "
-                            android:drawableEnd="@drawable/add_normal"
+                            android:text="Diabetology"
                             android:textSize="@dimen/_9ssp" />
 
                         <TextView
@@ -123,8 +122,7 @@
                             android:background="@drawable/smaller_block"
                             android:layout_marginVertical="@dimen/_4ssp"
                             android:fontFamily="@font/montserrat_medium"
-                            android:text="category "
-                            android:drawableEnd="@drawable/add_normal"
+                            android:text="Cardiology"
                             android:textSize="@dimen/_9ssp" />
 
                     </LinearLayout>
@@ -145,7 +143,7 @@
                             android:layout_marginHorizontal="@dimen/_4ssp"
                             android:layout_marginVertical="@dimen/_2ssp"
                             android:fontFamily="@font/montserrat_medium"
-                            android:text="Updating..."
+                            android:text="devanshsaxena@gmail.com"
                             android:textSize="@dimen/_10ssp" />
 
                         <ImageView
@@ -185,7 +183,7 @@
                             android:textStyle="bold"
                             android:layout_marginHorizontal="@dimen/_2ssp"
                             android:fontFamily="@font/montserrat_medium"
-                            android:text="Updating..."
+                            android:text="9305506538"
                             android:textSize="@dimen/_10ssp" />
 
                         <ImageView
