@@ -28,7 +28,6 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.tabs.TabLayout;
-import com.google.android.material.tabs.TabLayoutMediator;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -107,7 +106,7 @@ public class CmeActivity extends AppCompatActivity {
                                 field2 = ((String) dataMap.get("CME Place"));
                                 Log.d(TAG,(String) dataMap.get("CME Organiser"));
 
-                                cmeitem1 c = new cmeitem1(field1, field2, 5,"123");
+                                cmeitem1 c = new cmeitem1(field1, field2, 5,"123",field1);
                                 Log.d("vivek",field1);
                                 Log.d("vivek","hello");
                                 items.add(c);
@@ -214,7 +213,7 @@ public class CmeActivity extends AppCompatActivity {
 
 
         pager = findViewById(R.id.view_pager);
-        tabLayout = findViewById(R.id.tabLayout);
+
 
         Spinner spinner = (Spinner) findViewById(R.id.speciality);
 // Create an ArrayAdapter using the string array and a default spinner layout
@@ -236,22 +235,22 @@ public class CmeActivity extends AppCompatActivity {
 
         pager.setAdapter(new ViewPagerAdapter(this));
 
-        new TabLayoutMediator(tabLayout, pager, new TabLayoutMediator.TabConfigurationStrategy() {
-            @Override
-            public void onConfigureTab(@NonNull TabLayout.Tab tab, int position) {
-                switch (position) {
-                    case 0:
-                        tab.setText("Todays");
-                        break;
-                    case 1:
-                        tab.setText("Upcoming");
-                        break;
-                    case 2:
-                        tab.setText("Past");
-                        break;
-                }
-            }
-        }).attach();
+//        new TabLayoutMediator(tabLayout, pager, new TabLayoutMediator.TabConfigurationStrategy() {
+//            @Override
+//            public void onConfigureTab(@NonNull TabLayout.Tab tab, int position) {
+//                switch (position) {
+//                    case 0:
+//                        tab.setText("Todays");
+//                        break;
+//                    case 1:
+//                        tab.setText("Upcoming");
+//                        break;
+//                    case 2:
+//                        tab.setText("Past");
+//                        break;
+//                }
+//            }
+//        }).attach();
     }
 
     class ViewPagerAdapter extends FragmentStateAdapter {
