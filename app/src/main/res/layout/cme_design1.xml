@@ -1,21 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.cardview.widget.CardView
+<androidx.constraintlayout.widget.ConstraintLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="wrap_content"
     android:layout_marginStart="@dimen/_10sdp"
-    app:cardCornerRadius="@dimen/_10sdp"
     android:layout_marginEnd="@dimen/_10sdp"
+    android:background="@color/white"
     android:layout_marginTop="@dimen/_5sdp"
     android:layout_marginBottom="@dimen/_5sdp"
-    android:layout_height="wrap_content">
+    android:layout_height="match_parent">
 
     <androidx.cardview.widget.CardView
-        android:layout_width="@dimen/_190sdp"
-        android:backgroundTint="#E8E8E8"
-        android:layout_height="@dimen/_140sdp"
-        app:cardCornerRadius="@dimen/_10sdp"
-        app:cardElevation="@dimen/_10sdp"
+
+        android:layout_width="@dimen/_250sdp"
+        android:backgroundTint="@color/white"
+        android:layout_height="@dimen/_160sdp"
+        app:cardCornerRadius="@dimen/_15sdp"
+        android:outlineSpotShadowColor="@color/white"
+        app:cardElevation="@dimen/_50sdp"
         android:orientation="vertical"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -27,73 +29,141 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:background="@drawable/cme_background"
             android:orientation="vertical">
 
-            <ImageView
-                android:id="@+id/cme_img_default"
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/_90sdp"
-                android:scaleType="centerCrop"
-                android:src="@drawable/default_banner"/>
-
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_marginHorizontal="@dimen/_10ssp"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal">
 
-                <TextView
-                    android:id="@+id/dr_title"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="2"
-                    android:text="Oscar"
-                    android:maxLines="1"
-                    android:fontFamily="@font/montserrat_medium"
-                    android:textSize="@dimen/_18sdp"/>
+                <de.hdodenhof.circleimageview.CircleImageView
+                    android:id="@+id/circularImageView"
+                    android:layout_marginStart="@dimen/_10sdp"
+                    android:layout_marginTop="@dimen/_10sdp"
+                    android:layout_width="70dp"
+                    android:layout_height="60dp"
+                    android:layout_gravity="center"
+                    android:src="@drawable/img_10" />
 
-                <TextView
-                    android:id="@+id/dr_presenters"
-                    android:background="@drawable/rounded_edittext_background"
-                    android:layout_width="0dp"
+                <LinearLayout
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:gravity="center"
-                    android:text="Presenters"
-                    android:fontFamily="@font/montserrat_medium"
-                    android:textColor="#888787"/>
+                    android:layout_marginStart="@dimen/_10sdp"
+
+                    android:orientation="vertical">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/_10sdp"
+
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:id="@+id/dr_name"
+                            android:layout_width="wrap_content"
+                            android:layout_marginTop="@dimen/_10sdp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="@dimen/_10sdp"
+                            android:text="Dr. ABC "
+                            android:textColor="@color/white"
+                            android:fontFamily="@font/montserrat_medium"
+                            android:textSize="@dimen/_16sdp"/>
+
+                        <ImageView
+                            android:layout_width="@dimen/_25sdp"
+                            android:layout_height="@dimen/_25sdp"
+                            android:layout_gravity="end"
+                            android:layout_marginStart="@dimen/_60sdp"
+                            android:src="@drawable/sharp_more_horiz_24">
+                        </ImageView>
+
+
+
+
+                    </LinearLayout>
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:id="@+id/Speciality"
+
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Speciality"
+                            android:textSize="@dimen/_12ssp"
+                            android:layout_marginEnd="@dimen/_10sdp"
+                            android:layout_marginTop="@dimen/_5sdp"
+                            android:layout_marginStart="@dimen/_10sdp"
+                            android:fontFamily="@font/montserrat_medium"
+                            android:textColor="@color/white"/>
+
+
+
+                    </LinearLayout>
+                </LinearLayout>
+
             </LinearLayout>
+
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_marginHorizontal="@dimen/_10ssp"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_20sdp"
                 android:orientation="horizontal">
 
-                <TextView
-                    android:id="@+id/dr_name"
-                    android:layout_width="0dp"
+                <LinearLayout
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_weight="2"
-                    android:text="Dr. ABC "
-                    android:fontFamily="@font/montserrat_medium"
-                    android:textSize="@dimen/_10ssp"/>
+                    android:layout_gravity="center"
 
-                <TextView
-                    android:id="@+id/dr_pos"
-                    android:layout_width="0dp"
-                    android:background="@drawable/rounded_edittext_background"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:gravity="center"
-                    android:paddingHorizontal="@dimen/_2ssp"
-                    android:paddingVertical="@dimen/_2ssp"
-                    android:text="Surgeon"
-                    android:maxLines="1"
-                    android:fontFamily="@font/montserrat_medium"
-                    android:textColor="#888787"/>
+                    android:layout_marginStart="@dimen/_20sdp"
+                    android:orientation="vertical">
+
+
+
+                    <TextView
+                        android:id="@+id/date"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/_5sdp"
+                        android:fontFamily="@font/montserrat_medium"
+                        android:text="Date"
+                        android:textColor="@color/white" />
+
+                    <TextView
+                        android:id="@+id/time"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/_5sdp"
+                        android:layout_marginTop="@dimen/_5sdp"
+                        android:fontFamily="@font/montserrat_medium"
+                        android:text="Time"
+                        android:textColor="@color/white" />
+
+                </LinearLayout>
+
+
+                <de.hdodenhof.circleimageview.CircleImageView
+                    android:layout_width="@dimen/_50sdp"
+                    android:layout_height="@dimen/_50sdp"
+                    android:src="@drawable/img_24"
+                    android:layout_marginStart="@dimen/_120sdp"
+                    android:layout_gravity="center"
+                    />
+
             </LinearLayout>
+
+
+
+
+
+
+
 
         </LinearLayout>
     </androidx.cardview.widget.CardView>
-</androidx.cardview.widget.CardView>
+</androidx.constraintlayout.widget.ConstraintLayout>
