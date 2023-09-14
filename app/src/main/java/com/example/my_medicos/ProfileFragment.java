@@ -42,7 +42,7 @@ public class ProfileFragment extends Fragment {
         contactinfo.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent i = new Intent(getActivity(), Contactinfo.class);
+                Intent i = new Intent(getActivity(), Personalinfo.class);
                 startActivity(i);
             }
         });
@@ -50,8 +50,9 @@ public class ProfileFragment extends Fragment {
         personalinfo = rootView.findViewById(R.id.personal_info);
         personalinfo.setOnClickListener(new View.OnClickListener() {
             @Override
+
             public void onClick(View view) {
-                Intent i = new Intent(getActivity(), Personalinfo.class);
+                Intent i = new Intent(getActivity(), Contactinfo.class);
                 startActivity(i);
             }
         });
@@ -102,10 +103,8 @@ public class ProfileFragment extends Fragment {
                                 Log.d(TAG, "Error getting documents: ", task.getException());
                             }
                         }
-                    });
-
-
-
+                    }
+                    );
         }
     }
 }
