@@ -29,7 +29,6 @@ import com.google.android.gms.tasks.Task;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.tabs.TabLayout;
 import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
@@ -87,8 +86,7 @@ public class CmeActivity extends AppCompatActivity {
                 startActivity(i);
             }
         });
-        mbase
-                = FirebaseDatabase.getInstance().getReference();
+
 
         List<cmeitem1> items = new ArrayList<>();
         db.collection("CME")
