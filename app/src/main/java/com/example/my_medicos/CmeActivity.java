@@ -2,6 +2,7 @@ package com.example.my_medicos;
 
 import static android.content.ContentValues.TAG;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -21,6 +22,7 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 import androidx.viewpager2.adapter.FragmentStateAdapter;
 import androidx.viewpager2.widget.ViewPager2;
 
@@ -28,8 +30,6 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.tabs.TabLayout;
-import com.google.android.material.tabs.TabLayoutMediator;
-import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
@@ -37,11 +37,9 @@ import com.google.firebase.firestore.QuerySnapshot;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
-import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 public class CmeActivity extends AppCompatActivity {
 
     String field1;
@@ -53,23 +51,19 @@ public class CmeActivity extends AppCompatActivity {
     RecyclerView recyclerView;
     RecyclerView recyclerView3;
     RecyclerView recyclerView2;
-
     private ViewPager2 pager;
     private TabLayout tabLayout;
     private Spinner specialitySpinner;
-
     private FirebaseFirestore db;
-
     private Spinner subspecialitySpinner;
     private ArrayAdapter<CharSequence> specialityAdapter;
     private ArrayAdapter<CharSequence> subspecialityAdapter;
     private SwipeRefreshLayout swipeRefreshLayout;
-
     Toolbar toolbar;
 
     // Define subspecialities for each speciality
     private final String[][] subspecialities = subSpecialitiesData.subspecialities;
-
+    @SuppressLint("MissingInflatedId")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -82,21 +76,16 @@ public class CmeActivity extends AppCompatActivity {
                 fetchData();
 
                 // After fetching data, update the UI
-               
 
                 // Complete the refresh animation
                 swipeRefreshLayout.setRefreshing(false);
             }
         });
 
-
-
         toolbar = findViewById(R.id.cmetoolbar);
 
-
-
         pager = findViewById(R.id.view_pager);
-        tabLayout = findViewById(R.id.tabLayout);
+//        tabLayout = findViewById(R.id.tabLayout);
         specialitySpinner = findViewById(R.id.speciality);
         subspecialitySpinner = findViewById(R.id.subspeciality);
 
@@ -108,10 +97,8 @@ public class CmeActivity extends AppCompatActivity {
         subspecialityAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item);
         subspecialityAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         subspecialitySpinner.setAdapter(subspecialityAdapter);
-
         // Initially, hide the subspeciality spinner
         subspecialitySpinner.setVisibility(View.GONE);
-
         specialitySpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int position, long l) {
@@ -131,13 +118,11 @@ public class CmeActivity extends AppCompatActivity {
                     subspecialitySpinner.setVisibility(View.GONE);
                 }
             }
-
             @Override
             public void onNothingSelected(AdapterView<?> adapterView) {
                 // Do nothing
             }
         });
-
         Spinner modeSpinner = findViewById(R.id.mode);
         ArrayAdapter<CharSequence> modeAdapter = ArrayAdapter.createFromResource(this,
                 R.array.mode, android.R.layout.simple_spinner_item);
@@ -146,24 +131,8 @@ public class CmeActivity extends AppCompatActivity {
 
         pager.setAdapter(new ViewPagerAdapter(this));
 
-        new TabLayoutMediator(tabLayout, pager, new TabLayoutMediator.TabConfigurationStrategy() {
-            @Override
-            public void onConfigureTab(@NonNull TabLayout.Tab tab, int position) {
-                switch (position) {
-                    case 0:
-                        tab.setText("Todays");
-                        break;
-                    case 1:
-                        tab.setText("Upcoming");
-                        break;
-                    case 2:
-                        tab.setText("Past");
-                        break;
-                }
-            }
-        }).attach();
-    }
 
+    }
     private void fetchData() {
         recyclerView = findViewById(R.id.cme_recyclerview1);
         setSupportActionBar(toolbar);
@@ -180,7 +149,6 @@ public class CmeActivity extends AppCompatActivity {
                 startActivity(i);
             }
         });
-
         recyclerView = findViewById(R.id.cme_recyclerview1);
         List<cmeitem1> items = new ArrayList<>();
         db.collection("CME")
