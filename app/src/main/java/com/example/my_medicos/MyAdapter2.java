@@ -60,9 +60,7 @@ public class MyAdapter2  extends RecyclerView.Adapter<MyAdapter2.MyViewHolder2>{
 
 //            imageview = itemView.findViewById(R.id.cme_img);
             name=itemView.findViewById(R.id.dr_name);
-            position=itemView.findViewById(R.id.dr_pos);
-            title=itemView.findViewById(R.id.dr_title);
-            presenters=itemView.findViewById(R.id.dr_presenters);
+
 
         }
     }

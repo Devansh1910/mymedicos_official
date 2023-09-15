@@ -68,6 +68,16 @@
                 android:layout_weight="1"
                 android:layout_height="@dimen/_40sdp"/>
 
+            <com.denzcoskun.imageslider.ImageSlider
+                android:id="@+id/image_slider"
+                android:layout_width="wrap_content"
+                android:layout_height="220dp"
+                android:layout_margin="8dp"
+                app:iss_auto_cycle="true"
+                app:iss_delay="1000"
+                app:iss_period="1000"
+                app:iss_text_align="CENTER" />
+
         </LinearLayout>
 
 
@@ -84,13 +94,10 @@
 
 
         <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
-            xmlns:android="http://schemas.android.com/apk/res/android"
-            xmlns:app="http://schemas.android.com/apk/res-auto"
-            xmlns:tools="http://schemas.android.com/tools"
             android:id="@+id/swipe_refresh_layout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
-            
+
 
 
 
@@ -102,6 +109,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical">
+
 
                 <LinearLayout
                     android:layout_width="match_parent"
