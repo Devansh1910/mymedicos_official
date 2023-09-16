@@ -11,10 +11,9 @@
     android:layout_height="wrap_content">
 
     <androidx.cardview.widget.CardView
-
         android:layout_width="@dimen/_250sdp"
-        android:backgroundTint="@color/white"
-        android:layout_height="@dimen/_160sdp"
+        android:backgroundTint="#FFFFFF"
+        android:layout_height="@dimen/_225sdp"
         app:cardCornerRadius="@dimen/_15sdp"
         android:outlineSpotShadowColor="@color/white"
         app:cardElevation="@dimen/_50sdp"
@@ -29,91 +28,17 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="@drawable/cme_background"
             android:orientation="vertical">
 
-            <LinearLayout
+            <ImageView
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal">
-
-                <de.hdodenhof.circleimageview.CircleImageView
-                    android:id="@+id/circularImageView"
-                    android:layout_marginStart="@dimen/_10sdp"
-                    android:layout_marginTop="@dimen/_10sdp"
-                    android:layout_width="70dp"
-                    android:layout_height="60dp"
-                    android:layout_gravity="center"
-                    android:src="@drawable/img_10" />
-
-                <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="@dimen/_10sdp"
-
-                    android:orientation="vertical">
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="@dimen/_10sdp"
-
-                        android:orientation="horizontal">
-
-                        <TextView
-                            android:id="@+id/dr_name"
-                            android:layout_width="wrap_content"
-                            android:layout_marginTop="@dimen/_10sdp"
-                            android:layout_height="wrap_content"
-                            android:layout_marginStart="@dimen/_10sdp"
-                            android:text="Dr. ABC "
-                            android:textColor="@color/white"
-                            android:fontFamily="@font/montserrat_medium"
-                            android:textSize="@dimen/_16sdp"/>
-
-                        <ImageView
-                            android:layout_width="@dimen/_25sdp"
-                            android:layout_height="@dimen/_25sdp"
-                            android:layout_gravity="end"
-                            android:layout_marginStart="@dimen/_60sdp"
-                            android:src="@drawable/sharp_more_horiz_24">
-                        </ImageView>
-
-
-
-
-                    </LinearLayout>
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:orientation="horizontal">
-
-                        <TextView
-                            android:id="@+id/Speciality"
-
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-
-                            android:text="Speciality"
-                            android:textSize="@dimen/_12ssp"
-                            android:layout_marginEnd="@dimen/_10sdp"
-                            android:layout_marginTop="@dimen/_5sdp"
-                            android:layout_marginStart="@dimen/_10sdp"
-                            android:fontFamily="@font/montserrat_medium"
-                            android:textColor="@color/white"/>
-
-
-
-                    </LinearLayout>
-                </LinearLayout>
-
-            </LinearLayout>
-
+                android:layout_height="@dimen/_140sdp"
+                android:layout_margin="@dimen/_5sdp"
+                android:src="@drawable/img_5"/>
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/_20sdp"
                 android:orientation="horizontal">
 
                 <LinearLayout
@@ -121,9 +46,8 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
 
-                    android:layout_marginStart="@dimen/_20sdp"
-                    android:orientation="vertical">
-
+                    android:layout_marginStart="@dimen/_15sdp"
+                    android:orientation="horizontal">
 
 
                     <TextView
@@ -133,32 +57,76 @@
                         android:layout_marginStart="@dimen/_5sdp"
                         android:fontFamily="@font/montserrat_medium"
                         android:text="Date"
-                        android:textColor="@color/white" />
+                        android:textColor="#7C7979" />
 
                     <TextView
                         android:id="@+id/time"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="@dimen/_5sdp"
-                        android:layout_marginTop="@dimen/_5sdp"
+
                         android:fontFamily="@font/montserrat_medium"
                         android:text="Time"
-                        android:textColor="@color/white" />
+                        android:textColor="#7C7979" />
 
                 </LinearLayout>
 
 
-                <de.hdodenhof.circleimageview.CircleImageView
-                    android:layout_width="@dimen/_50sdp"
-                    android:layout_height="@dimen/_50sdp"
-                    android:background="@drawable/circular_bg"
-                    android:src="@drawable/img_24"
-                    android:layout_marginStart="@dimen/_120sdp"
-                    android:layout_gravity="center"
-                    />
-
             </LinearLayout>
 
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/_10sdp"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/Speciality"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="Speciality"
+                    android:textSize="@dimen/_14ssp"
+                    android:layout_marginEnd="@dimen/_10sdp"
+                    android:layout_marginTop="@dimen/_5sdp"
+                    android:layout_marginStart="@dimen/_10sdp"
+                    android:fontFamily="@font/montserrat_medium"
+                    android:textColor="@color/black"/>
+
+                <Spinner
+                    android:layout_width="@dimen/_80sdp"
+                    android:layout_height="@dimen/_25sdp"
+                    android:layout_marginEnd="@dimen/_10sdp"
+                    android:background="@drawable/rounded_edittext_background"/>
+            </LinearLayout>
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_3sdp"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/dr_name"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:layout_marginTop="@dimen/_5sdp"
+                    android:layout_marginStart="@dimen/_20sdp"
+                    android:text="Dr. ABC "
+                    android:textColor="#7C7979"
+                    android:fontFamily="@font/montserrat_medium"
+                    android:textSize="@dimen/_12sdp"/>
+
+                <Spinner
+                    android:layout_width="@dimen/_80sdp"
+                    android:layout_marginEnd="@dimen/_10sdp"
+                    android:layout_height="@dimen/_25sdp"
+                    android:layout_marginStart="@dimen/_65sdp"
+                    android:layout_gravity="left"
+                    android:background="@drawable/rounded_edittext_background"/>
+            </LinearLayout>
         </LinearLayout>
     </androidx.cardview.widget.CardView>
 </androidx.constraintlayout.widget.ConstraintLayout>

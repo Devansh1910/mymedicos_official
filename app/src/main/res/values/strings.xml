@@ -6,6 +6,7 @@
     <string name="OpenDrawer">Open Navigation Drawer</string>
     <string name="CloseDrawer">close Navigation Drawer</string>
 
+
     <!-- Specialities -->
     <string-array name="speciality">
         <item>-Select your speciality-</item>
