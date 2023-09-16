@@ -1,7 +1,7 @@
 package com.example.my_medicos;
 
 import android.content.Context;
-import android.util.Log;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -33,19 +33,32 @@ public class MyAdapter2  extends RecyclerView.Adapter<MyAdapter2.MyViewHolder2>{
     @Override
     public void onBindViewHolder(@NonNull MyViewHolder2 holder, int position) {
         holder.name.setText(item.get(position).getDocname());
-        holder.position.setText(item.get(position).getDocpos());
-        holder.title.setText(item.get(position).getDoctitle());
-        holder.presenters.setText(item.get(position).getDocpresenter());
 
-        int imageResource = item.get(position).getImage();
-        Log.d("Image Debug", "Image Resource: " + imageResource);
 
-        if (imageResource != 0) {
-            holder.imageview.setImageResource(imageResource);
-        } else {
-            Log.d("Image Debug", "Default Image Set");
-            holder.imageview.setImageResource(R.drawable.default_banner);
-        }
+//        int imageResource = item.get(position).getImage();
+//        Log.d("Image Debug", "Image Resource: " + imageResource);
+//
+//        if (imageResource != 0) {
+//            holder.imageview.setImageResource(imageResource);
+//        } else {
+//            holder.imageview.setImageResource(R.drawable.default_banner);
+//        }
+
+
+        /*holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // Handle item click here, e.g., open the new activity
+                Context context = v.getContext();
+                Intent intent = new Intent(context, CmeDetailsActivity.class);
+
+                // Pass any necessary data to the new activity if needed
+
+                context.startActivity(intent);
+            }
+        });*/
+
+
     }
 
     @Override
@@ -59,11 +72,9 @@ public class MyAdapter2  extends RecyclerView.Adapter<MyAdapter2.MyViewHolder2>{
         public MyViewHolder2(@NonNull View itemView) {
             super(itemView);
 
-            imageview = itemView.findViewById(R.id.cme_img);
+//          imageview = itemView.findViewById(R.id.cme_img);
             name=itemView.findViewById(R.id.dr_name);
-            position=itemView.findViewById(R.id.dr_pos);
-            title=itemView.findViewById(R.id.dr_title);
-            presenters=itemView.findViewById(R.id.dr_presenters);
+
 
         }
     }

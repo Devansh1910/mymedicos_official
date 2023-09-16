@@ -96,7 +96,7 @@
         <!-- Add mappings for other specialities and subspecialities here -->
     </array>
 
-<string-array name="mode">
+    <string-array name="mode">
         <item>-Select mode-</item>
         <item>Online</item>
         <item>Offline</item>

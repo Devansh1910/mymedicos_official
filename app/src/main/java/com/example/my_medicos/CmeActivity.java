@@ -26,6 +26,9 @@ import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 import androidx.viewpager2.adapter.FragmentStateAdapter;
 import androidx.viewpager2.widget.ViewPager2;
 
+import com.denzcoskun.imageslider.ImageSlider;
+import com.denzcoskun.imageslider.constants.ScaleTypes;
+import com.denzcoskun.imageslider.models.SlideModel;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -68,6 +71,17 @@ public class CmeActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_cme);
+        List<SlideModel> imageList = new ArrayList<>();
+        imageList.add(new SlideModel(R.drawable.slide1, "X-Rays Were Used Immediately When Discovered. And William Roentgen Did Not Patent the X-Rays", ScaleTypes.CENTER_CROP));
+        imageList.add(new SlideModel(R.drawable.slide2, "Adults with Diabetes Are Twice as Likely to Die from Heart Disease or Stroke.", ScaleTypes.CENTER_CROP));
+        imageList.add(new SlideModel(R.drawable.slide3, "In the 1960s, neuroscience research showed that one side of the brain tends to be more dominant in each person.", ScaleTypes.CENTER_CROP));
+
+
+
+        ImageSlider imageSlider = findViewById(R.id.image_slider);
+        imageSlider.setImageList(imageList);
+
+
         swipeRefreshLayout = findViewById(R.id.swipe_refresh_layout);
         swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
