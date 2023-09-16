@@ -230,8 +230,6 @@ public class CmeActivity extends AppCompatActivity {
                                 }
 
 
-
-
                                 cmeitem3 c = new cmeitem3(formattedDate, formattedTime, field2, field1);
 
 
@@ -283,11 +281,7 @@ public class CmeActivity extends AppCompatActivity {
                     }
                 });
         //......
-
-
-
     }
-
 
     class ViewPagerAdapter extends FragmentStateAdapter {
 
