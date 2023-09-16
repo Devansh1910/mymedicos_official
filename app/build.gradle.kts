@@ -60,7 +60,7 @@ dependencies {
     implementation("com.google.firebase:firebase-database:20.0.0")
     implementation("com.firebaseui:firebase-ui-database:7.1.1")
     implementation("androidx.recyclerview:recyclerview:1.2.1")
-    implementation("com.github.denzcoskun:ImageSlideshow:0.1.2")
+    implementation ("com.github.denzcoskun:ImageSlideshow:0.1.2")
     // Additional dependencies from the first code block
     implementation("com.google.firebase:firebase-storage:20.1.0")
     implementation("com.google.firebase:firebase-core:21.1.1")
