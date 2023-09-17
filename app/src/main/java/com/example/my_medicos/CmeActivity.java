@@ -25,21 +25,20 @@ import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 import androidx.viewpager2.adapter.FragmentStateAdapter;
 import androidx.viewpager2.widget.ViewPager2;
-import com.denzcoskun.imageslider.ImageSlider;
-import com.denzcoskun.imageslider.constants.ScaleTypes;
-import com.denzcoskun.imageslider.models.SlideModel;
+
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.tabs.TabLayout;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 import java.util.Map;
 public class CmeActivity extends AppCompatActivity {
@@ -70,20 +69,10 @@ public class CmeActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_cme);
-        List<SlideModel> imageList = new ArrayList<>();
-        imageList.add(new SlideModel(R.drawable.slide1, "X-Rays Were Used Immediately When Discovered. And William Roentgen Did Not Patent the X-Rays", ScaleTypes.CENTER_CROP));
-        imageList.add(new SlideModel(R.drawable.slide2, "Adults with Diabetes Are Twice as Likely to Die from Heart Disease or Stroke.", ScaleTypes.CENTER_CROP));
-        imageList.add(new SlideModel(R.drawable.slide3, "In the 1960s, neuroscience research showed that one side of the brain tends to be more dominant in each person.", ScaleTypes.CENTER_CROP));
-
-
-
-        ImageSlider imageSlider = findViewById(R.id.image_slider);
-        imageSlider.setImageList(imageList);
-
-
         swipeRefreshLayout = findViewById(R.id.swipe_refresh_layout);
         swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
+
             public void onRefresh() {
                 // Implement your refresh logic here, e.g., fetching new data
                 fetchData();
@@ -146,7 +135,7 @@ public class CmeActivity extends AppCompatActivity {
 
 
     }
-    private void fetchData() {
+    public void fetchData() {
         recyclerView = findViewById(R.id.cme_recyclerview1);
         setSupportActionBar(toolbar);
         db = FirebaseFirestore.getInstance();
@@ -164,87 +153,152 @@ public class CmeActivity extends AppCompatActivity {
         });
         recyclerView = findViewById(R.id.cme_recyclerview1);
         List<cmeitem1> items = new ArrayList<>();
-        db.collection("CME")
-                .get()
-                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                    @Override
-                    public void onComplete(@NonNull Task<QuerySnapshot> task ) {
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
+            Query query=db.collection("CME").orderBy("Time", Query.Direction.DESCENDING);
 
-                        if (task.isSuccessful()) {
-                            for (QueryDocumentSnapshot document : task.getResult()) {
-                                Log.d(TAG, document.getId() + " => " + document.getData());
-                                Map<String, Object> dataMap = document.getData();
-                                field3 = ((String) dataMap.get("CME Title"));
-                                field4 = ((String) dataMap.get("Mode"));
-                                field1 = (String) dataMap.get("CME Presenter");
-                                field2 = ((String) dataMap.get("Speciality"));
-                                cmeitem1 c = new cmeitem1(field1, field2,  5,field3,field4);
-                                items.add(c);
-                                recyclerView.setLayoutManager(new LinearLayoutManager(getApplication(), LinearLayoutManager.HORIZONTAL, false));
-                                recyclerView.setAdapter(new MyAdapter2(getApplication(), items));
+            query.get()
+                    .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                        @Override
+                        public void onComplete(@NonNull Task<QuerySnapshot> task ) {
+
+                            if (task.isSuccessful()) {
+                                for (QueryDocumentSnapshot document : task.getResult()) {
+                                    Log.d(TAG, document.getId() + " => " + document.getData());
+                                    Map<String, Object> dataMap = document.getData();
+                                    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HH:mm");
+                                    String Time = document.getString("CME Time");
+                                    Log.d("vivek",Time);
+                                    //
+                                    LocalTime parsedTime = null;
+                                    try {
+                                        // Parse the time string into a LocalTime object
+                                        parsedTime = null;
+                                        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
+                                            parsedTime = LocalTime.parse(Time, formatter);
+                                            Log.d("vivek","0");
+                                        }
+
+                                        // Display the parsed time
+                                        System.out.println("Parsed Time: " + parsedTime);
+                                    } catch (java.time.format.DateTimeParseException e) {
+                                        // Handle parsing error, e.g., if the input string is in the wrong format
+                                        System.err.println("Error parsing time: " + e.getMessage());
+                                        Log.d("vivek","Time");
+                                    }
+                                    LocalTime currentTime = null;
+                                    if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
+                                        currentTime = LocalTime.now();
+                                        LocalDate currentDate = LocalDate.now();
+                                    }
+
+
+                                    int r = parsedTime.compareTo(currentTime);
+
+                                    Log.d("vivek", String.valueOf(r));
+                                    if (r<=0) {
+                                        field3 = ((String) dataMap.get("CME Title"));
+                                        field4 = ((String) dataMap.get("Mode"));
+                                        field1 = (String) dataMap.get("CME Presenter");
+                                        field2 = ((String) dataMap.get("Speciality"));
+                                        cmeitem1 c = new cmeitem1(field1, field2,  5,field3,field4);
+                                        items.add(c);
+                                        recyclerView.setLayoutManager(new LinearLayoutManager(getApplication(), LinearLayoutManager.HORIZONTAL, false));
+                                        recyclerView.setAdapter(new MyAdapter2(getApplication(), items));
+
+
+                                    } else {
+
+                                    }
+
+
+
+                                }
+                            } else {
+                                Log.d(TAG, "Error getting documents: ", task.getException());
                             }
-                        } else {
-                            Log.d(TAG, "Error getting documents: ", task.getException());
                         }
-                    }
-                });
+                    });
+        }
         // Add more items here
 
 
         recyclerView3 = findViewById(R.id.recyclerview3);
         List<cmeitem3> item = new ArrayList<>();
+
         //.....
-        db.collection("CME")
-                .get()
-                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                    @Override
-                    public void onComplete(@NonNull Task<QuerySnapshot> task ) {
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
+            Query query=db.collection("CME").orderBy("Time", Query.Direction.DESCENDING);
+            query
+                    .get()
+                    .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                        @Override
+                        public void onComplete(@NonNull Task<QuerySnapshot> task ) {
 
-                        if (task.isSuccessful()) {
-                            for (QueryDocumentSnapshot document : task.getResult()) {
-                                Log.d(TAG, document.getId() + " => " + document.getData());
-                                Map<String, Object> dataMap = document.getData();
-                                field1 = (String) dataMap.get("CME Presenter");
-                                field2 = ((String) dataMap.get("CME Title"));
-                                Log.d(TAG, (String) dataMap.get("Speciality"));
-                                String combinedDateTime = document.getString("Date");
-                                SimpleDateFormat inputFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-                                SimpleDateFormat dateFormat = new SimpleDateFormat("dd MMM");
-                                SimpleDateFormat timeFormat = new SimpleDateFormat("hh:mmaa");
-                                Log.d("vivek", combinedDateTime);
-                                String formattedDate = null;
-                                String formattedTime = null;
-                                try {
-                                    // Parse the original date string
-                                    Date date = inputFormat.parse(combinedDateTime);
+                            if (task.isSuccessful()) {
+                                for (QueryDocumentSnapshot document : task.getResult()) {
+                                    Log.d(TAG, document.getId() + " => " + document.getData());
 
-                                    // Format the date and time
-                                    formattedDate = dateFormat.format(date);
-                                    formattedTime = timeFormat.format(date);
+                                    Map<String, Object> dataMap = document.getData();
+                                    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HH:mm");
+                                    String Time = document.getString("CME Time");
+                                    Log.d("vivek",Time);
+//
+                                    LocalTime parsedTime = null;
+                                    try {
+                                        // Parse the time string into a LocalTime object
+                                        parsedTime = null;
+                                        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
+                                            parsedTime = LocalTime.parse(Time, formatter);
+                                            Log.d("vivek","0");
+                                        }
 
-                                    // Print the formatted date
+                                        // Display the parsed time
+                                        System.out.println("Parsed Time: " + parsedTime);
+                                    } catch (java.time.format.DateTimeParseException e) {
+                                        // Handle parsing error, e.g., if the input string is in the wrong format
+                                        System.err.println("Error parsing time: " + e.getMessage());
+                                        Log.d("vivek","Time");
+                                    }
+                                    LocalTime currentTime = null;
+                                    if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
+                                        currentTime = LocalTime.now();
+                                    }
 
-                                } catch (ParseException e) {
-                                    e.printStackTrace();
-                                    Log.d("vivek", "hello");
+
+                                    int r = parsedTime.compareTo(currentTime);
+                                    Log.d("vivek", String.valueOf(r));
+                                    if (r>0) {
+                                        field1 = (String) dataMap.get("CME Presenter");
+                                        field2 = ((String) dataMap.get("CME Title"));
+                                        Log.d(TAG, (String) dataMap.get("Speciality"));
+                                        String combinedDateTime = document.getString("CME Date");
+
+//                                        Log.d("vivek", combinedDateTime);
+
+                                        String cmetime =document.getString("CME Time");
+
+                                        cmeitem3 c = new cmeitem3(combinedDateTime, cmetime, field2, field1);
+
+
+                                        item.add(c);
+
+
+                                        recyclerView3.setLayoutManager(new LinearLayoutManager(getApplication()));
+                                        recyclerView3.setAdapter(new MyAdapter3(getApplication(), item));
+                                    } else {
+
+                                    }
+
+
+
+
                                 }
-
-
-                                cmeitem3 c = new cmeitem3(formattedDate, formattedTime, field2, field1);
-
-
-                                item.add(c);
-
-
-                                recyclerView3.setLayoutManager(new LinearLayoutManager(getApplication()));
-                                recyclerView3.setAdapter(new MyAdapter3(getApplication(), item));
-
+                            } else {
+                                Log.d(TAG, "Error getting documents: ", task.getException());
                             }
-                        } else {
-                            Log.d(TAG, "Error getting documents: ", task.getException());
                         }
-                    }
-                });
+                    });
+        }
         //.....
 
 
@@ -281,7 +335,11 @@ public class CmeActivity extends AppCompatActivity {
                     }
                 });
         //......
+
+
+
     }
+
 
     class ViewPagerAdapter extends FragmentStateAdapter {
 
