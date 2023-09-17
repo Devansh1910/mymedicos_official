@@ -373,9 +373,12 @@ public class PostCmeActivity extends AppCompatActivity {
         String speciality = cmespecialitySpinner.getSelectedItem().toString();
 
         // Get current date and time
+
         LocalDateTime currentDateTime = LocalDateTime.now();
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
-        String formattedDateTime = currentDateTime.format(formatter);
+        DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+        DateTimeFormatter timeFormatter = DateTimeFormatter.ofPattern("HH:mm:ss");
+        String formattedDate = currentDateTime.format(dateFormatter);
+        String formattedTime = currentDateTime.format(timeFormatter);
 
         // Get the selected date and time
         String selectedDate = tvDate.getText().toString();
@@ -389,7 +392,8 @@ public class PostCmeActivity extends AppCompatActivity {
         usermap.put("Virtual Link", link);
         usermap.put("CME Place", place);
         usermap.put("User", current);
-        usermap.put("Date", formattedDateTime);
+        usermap.put("Date", formattedDate);
+        usermap.put("Time",formattedTime);
         usermap.put("Mode", mode);
         usermap.put("Speciality", speciality);
         usermap.put("Selected Date", selectedDate); // Add selected date

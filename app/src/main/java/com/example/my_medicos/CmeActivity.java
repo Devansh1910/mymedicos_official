@@ -46,11 +46,13 @@ public class CmeActivity extends AppCompatActivity {
     String field1;
     String  field2;
     String field3;
+
     String field4;
     FloatingActionButton floatingActionButton;
     RecyclerView recyclerView;
     RecyclerView recyclerView3;
     RecyclerView recyclerView2;
+    RecyclerView recyclerView4;
     private ViewPager2 pager;
     private TabLayout tabLayout;
     private Spinner specialitySpinner;
@@ -68,7 +70,9 @@ public class CmeActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_cme);
+
         swipeRefreshLayout = findViewById(R.id.swipe_refresh_layout);
+
         swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
 
@@ -81,7 +85,9 @@ public class CmeActivity extends AppCompatActivity {
                 // Complete the refresh animation
                 swipeRefreshLayout.setRefreshing(false);
             }
+
         });
+
 
         toolbar = findViewById(R.id.cmetoolbar);
 
@@ -131,6 +137,7 @@ public class CmeActivity extends AppCompatActivity {
         modeSpinner.setAdapter(modeAdapter);
 
         pager.setAdapter(new ViewPagerAdapter(this));
+        fetchData();
 
 
     }
@@ -165,7 +172,7 @@ public class CmeActivity extends AppCompatActivity {
                                     Log.d(TAG, document.getId() + " => " + document.getData());
                                     Map<String, Object> dataMap = document.getData();
                                     DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HH:mm");
-                                    String Time = document.getString("CME Time");
+                                    String Time = document.getString("Selected Time");
                                     Log.d("vivek",Time);
                                     //
                                     LocalTime parsedTime = null;
@@ -204,9 +211,13 @@ public class CmeActivity extends AppCompatActivity {
                                         recyclerView.setLayoutManager(new LinearLayoutManager(getApplication(), LinearLayoutManager.HORIZONTAL, false));
                                         recyclerView.setAdapter(new MyAdapter2(getApplication(), items));
 
+
                                     } else {
 
                                     }
+
+
+
                                 }
                             } else {
                                 Log.d(TAG, "Error getting documents: ", task.getException());
@@ -214,9 +225,80 @@ public class CmeActivity extends AppCompatActivity {
                         }
                     });
         }
+        recyclerView4 = findViewById(R.id.cme_recyclerview4);
+        List<cmeitem4> items1 = new ArrayList<>();
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
+            Query query=db.collection("CME").orderBy("Time", Query.Direction.DESCENDING);
+
+            query.get()
+                    .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                        @Override
+                        public void onComplete(@NonNull Task<QuerySnapshot> task ) {
+
+                            if (task.isSuccessful()) {
+                                for (QueryDocumentSnapshot document : task.getResult()) {
+                                    Log.d(TAG, document.getId() + " => " + document.getData());
+                                    Map<String, Object> dataMap = document.getData();
+                                    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HH:mm");
+                                    String Time = document.getString("Selected Time");
+                                    Log.d("vivek",Time);
+                                    //
+                                    LocalTime parsedTime = null;
+                                    try {
+                                        // Parse the time string into a LocalTime object
+                                        parsedTime = null;
+                                        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
+                                            parsedTime = LocalTime.parse(Time, formatter);
+                                            Log.d("vivek","0");
+                                        }
+
+                                        // Display the parsed time
+                                        System.out.println("Parsed Time: " + parsedTime);
+                                    } catch (java.time.format.DateTimeParseException e) {
+                                        // Handle parsing error, e.g., if the input string is in the wrong format
+                                        System.err.println("Error parsing time: " + e.getMessage());
+                                        Log.d("vivek","Time");
+                                    }
+                                    LocalTime currentTime = null;
+                                    if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
+                                        currentTime = LocalTime.now();
+                                        LocalDate currentDate = LocalDate.now();
+                                    }
+
+
+                                    int r = parsedTime.compareTo(currentTime);
+
+                                    Log.d("vivek", String.valueOf(r));
+                                    if (r<=0) {
+                                        field3 = ((String) dataMap.get("CME Title"));
+                                        field4 = ((String) dataMap.get("Mode"));
+                                        field1 = (String) dataMap.get("CME Presenter");
+                                        field2 = ((String) dataMap.get("Speciality"));
+                                        cmeitem4 c = new cmeitem4(field1, field2,  5,field3,field4);
+                                        items1.add(c);
+                                        recyclerView4.setLayoutManager(new LinearLayoutManager(getApplication(), LinearLayoutManager.HORIZONTAL, false));
+                                        recyclerView4.setAdapter(new MyAdapter1(getApplication(), items1));
+
+
+                                    } else {
+
+                                    }
+
+
+
+                                }
+                            } else {
+                                Log.d(TAG, "Error getting documents: ", task.getException());
+                            }
+                        }
+                    });
+        }
+        // Add more
         // Add more items here
+
+
         recyclerView3 = findViewById(R.id.recyclerview3);
-        List<cmeitem3> item = new ArrayList<>();
+
 
         //.....
         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
@@ -229,11 +311,12 @@ public class CmeActivity extends AppCompatActivity {
 
                             if (task.isSuccessful()) {
                                 for (QueryDocumentSnapshot document : task.getResult()) {
+                                    List<cmeitem3> item = new ArrayList<>();
                                     Log.d(TAG, document.getId() + " => " + document.getData());
 
                                     Map<String, Object> dataMap = document.getData();
                                     DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HH:mm");
-                                    String Time = document.getString("CME Time");
+                                    String Time = document.getString("Selected Time");
                                     Log.d("vivek",Time);
 //
                                     LocalTime parsedTime = null;
@@ -264,11 +347,11 @@ public class CmeActivity extends AppCompatActivity {
                                         field1 = (String) dataMap.get("CME Presenter");
                                         field2 = ((String) dataMap.get("CME Title"));
                                         Log.d(TAG, (String) dataMap.get("Speciality"));
-                                        String combinedDateTime = document.getString("CME Date");
+                                        String combinedDateTime = document.getString("Selected Date");
 
 //                                        Log.d("vivek", combinedDateTime);
 
-                                        String cmetime =document.getString("CME Time");
+                                        String cmetime =document.getString("Selected Time");
 
                                         cmeitem3 c = new cmeitem3(combinedDateTime, cmetime, field2, field1);
 
@@ -276,11 +359,19 @@ public class CmeActivity extends AppCompatActivity {
                                         item.add(c);
 
 
+
                                         recyclerView3.setLayoutManager(new LinearLayoutManager(getApplication()));
                                         recyclerView3.setAdapter(new MyAdapter3(getApplication(), item));
                                     } else {
 
+
+
+
                                     }
+
+
+
+
                                 }
                             } else {
                                 Log.d(TAG, "Error getting documents: ", task.getException());
@@ -305,13 +396,9 @@ public class CmeActivity extends AppCompatActivity {
                             for (QueryDocumentSnapshot document : task.getResult()) {
                                 Log.d(TAG, document.getId() + " => " + document.getData());
                                 Map<String, Object> dataMap = document.getData();
-                                field1 = (String) dataMap.get("CME Presenter");
-                                field2 = ((String) dataMap.get("CME Place"));
-                                field3=((String) dataMap.get("Speciality"));
-                                Log.d(TAG,(String) dataMap.get("CME Organiser"));
 
-                                cmeitem2 c = new cmeitem2(field1, field2, field3);
-                                myitem.add(c);
+
+
 
 
                                 recyclerView2.setLayoutManager(new LinearLayoutManager(getApplication(), LinearLayoutManager.HORIZONTAL, false));
