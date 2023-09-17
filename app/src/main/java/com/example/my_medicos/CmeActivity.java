@@ -89,6 +89,7 @@ public class CmeActivity extends AppCompatActivity {
         });
 
 
+
         toolbar = findViewById(R.id.cmetoolbar);
 
         pager = findViewById(R.id.view_pager);
@@ -215,9 +216,6 @@ public class CmeActivity extends AppCompatActivity {
                                     } else {
 
                                     }
-
-
-
                                 }
                             } else {
                                 Log.d(TAG, "Error getting documents: ", task.getException());
@@ -284,8 +282,6 @@ public class CmeActivity extends AppCompatActivity {
 
                                     }
 
-
-
                                 }
                             } else {
                                 Log.d(TAG, "Error getting documents: ", task.getException());
@@ -296,9 +292,7 @@ public class CmeActivity extends AppCompatActivity {
         // Add more
         // Add more items here
 
-
         recyclerView3 = findViewById(R.id.recyclerview3);
-
 
         //.....
         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
@@ -355,23 +349,13 @@ public class CmeActivity extends AppCompatActivity {
 
                                         cmeitem3 c = new cmeitem3(combinedDateTime, cmetime, field2, field1);
 
-
                                         item.add(c);
-
-
 
                                         recyclerView3.setLayoutManager(new LinearLayoutManager(getApplication()));
                                         recyclerView3.setAdapter(new MyAdapter3(getApplication(), item));
                                     } else {
 
-
-
-
                                     }
-
-
-
-
                                 }
                             } else {
                                 Log.d(TAG, "Error getting documents: ", task.getException());
@@ -380,8 +364,6 @@ public class CmeActivity extends AppCompatActivity {
                     });
         }
         //.....
-
-
         recyclerView2 = findViewById(R.id.recyclerview2);
         List<cmeitem2> myitem = new ArrayList<cmeitem2>();
         //......
@@ -411,11 +393,7 @@ public class CmeActivity extends AppCompatActivity {
                     }
                 });
         //......
-
-
-
     }
-
 
     class ViewPagerAdapter extends FragmentStateAdapter {
 

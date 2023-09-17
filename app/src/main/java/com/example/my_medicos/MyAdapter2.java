@@ -45,19 +45,15 @@ public class MyAdapter2  extends RecyclerView.Adapter<MyAdapter2.MyViewHolder2>{
 //        }
 
 
-        /*holder.itemView.setOnClickListener(new View.OnClickListener() {
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) {
-                // Handle item click here, e.g., open the new activity
-                Context context = v.getContext();
-                Intent intent = new Intent(context, CmeDetailsActivity.class);
-
-                // Pass any necessary data to the new activity if needed
-
-                context.startActivity(intent);
+            public void onClick(View a) {
+                Context context = a.getContext();
+                Intent i = new Intent(context, CmeDetailsActivity.class);
+                i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK); // Add this line
+                context.startActivity(i);
             }
-        });*/
-
+        });
 
     }
 

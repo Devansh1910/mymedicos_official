@@ -84,9 +84,9 @@
                     android:layout_marginEnd="@dimen/_20sdp"
                     android:background="@drawable/description_back"
                     android:hint="Description"
-                    android:gravity="bottom"
-                    android:paddingBottom="@dimen/_10ssp"
-                    android:paddingStart="@dimen/_10sdp"
+                    android:gravity="top"
+                    android:paddingVertical="@dimen/_10ssp"
+                    android:paddingHorizontal="@dimen/_10sdp"
                     android:maxLength="2000"
                     android:inputType="textMultiLine"/>
 
