@@ -46,7 +46,6 @@ public class CmeActivity extends AppCompatActivity {
     String field1;
     String  field2;
     String field3;
-
     String field4;
     FloatingActionButton floatingActionButton;
     RecyclerView recyclerView;
@@ -205,13 +204,9 @@ public class CmeActivity extends AppCompatActivity {
                                         recyclerView.setLayoutManager(new LinearLayoutManager(getApplication(), LinearLayoutManager.HORIZONTAL, false));
                                         recyclerView.setAdapter(new MyAdapter2(getApplication(), items));
 
-
                                     } else {
 
                                     }
-
-
-
                                 }
                             } else {
                                 Log.d(TAG, "Error getting documents: ", task.getException());
@@ -220,8 +215,6 @@ public class CmeActivity extends AppCompatActivity {
                     });
         }
         // Add more items here
-
-
         recyclerView3 = findViewById(R.id.recyclerview3);
         List<cmeitem3> item = new ArrayList<>();
 
@@ -288,10 +281,6 @@ public class CmeActivity extends AppCompatActivity {
                                     } else {
 
                                     }
-
-
-
-
                                 }
                             } else {
                                 Log.d(TAG, "Error getting documents: ", task.getException());

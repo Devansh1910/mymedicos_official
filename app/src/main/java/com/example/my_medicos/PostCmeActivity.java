@@ -1,5 +1,7 @@
 package com.example.my_medicos;
 
+import static com.example.my_medicos.subSpecialitiesData.subspecialities;
+
 import android.app.DatePickerDialog;
 import android.app.ProgressDialog;
 import android.app.TimePickerDialog;
@@ -14,6 +16,7 @@ import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.DatePicker;
@@ -26,8 +29,10 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.cardview.widget.CardView;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
+import androidx.viewpager2.widget.ViewPager2;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -45,24 +50,17 @@ import java.util.HashMap;
 import java.util.Locale;
 
 public class PostCmeActivity extends AppCompatActivity {
-
     FirebaseAuth auth = FirebaseAuth.getInstance();
-
     FirebaseUser user = auth.getCurrentUser();
     String current = user.getEmail();
-
     EditText cmetitle, cmeorg, cmepresenter, cmevenu, virtuallink, cme_place;
-
     Button postcme;
-
     public FirebaseDatabase db = FirebaseDatabase.getInstance();
-
     FirebaseFirestore dc = FirebaseFirestore.getInstance();
-
+    private Spinner subspecialitySpinner;
+    private Spinner specialitySpinner;
     public DatabaseReference cmeref = db.getReference().child("CME's");
-
     private ProgressDialog progressDialog;
-
     private static final int MAX_CHARACTERS = 1000;
     private EditText etName, etClass, etPhoneNumber;
     private Button btnDatePicker, btnTimePicker;
@@ -71,7 +69,9 @@ public class PostCmeActivity extends AppCompatActivity {
     private SimpleDateFormat dateFormat, timeFormat;
     private static final int REQUEST_STORAGE_PERMISSION = 1;
     private static final int REQUEST_STORAGE_ACCESS = 2;
-    private Button btnAccessStorage;
+    private ArrayAdapter<CharSequence> specialityAdapter;
+    private ArrayAdapter<CharSequence> subspecialityAdapter;
+    private CardView btnAccessStorage;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -95,22 +95,51 @@ public class PostCmeActivity extends AppCompatActivity {
         dateFormat = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
         timeFormat = new SimpleDateFormat("HH:mm", Locale.getDefault());
 
-
-
-
         progressDialog = new ProgressDialog(this);
 
-        Spinner spinner2 = findViewById(R.id.cmemode);
-        ArrayAdapter<CharSequence> myadapter = ArrayAdapter.createFromResource(this,
-                R.array.mode, android.R.layout.simple_spinner_item);
-        myadapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        spinner2.setAdapter(myadapter);
+        specialitySpinner = findViewById(R.id.cmespeciality);
+        subspecialitySpinner = findViewById(R.id.cmesubspeciality);
 
-        Spinner spinner = findViewById(R.id.cmespeciality);
-        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
+        specialityAdapter = ArrayAdapter.createFromResource(this,
                 R.array.speciality, android.R.layout.simple_spinner_item);
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        spinner.setAdapter(adapter);
+        specialityAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        specialitySpinner.setAdapter(specialityAdapter);
+
+        subspecialityAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item);
+        subspecialityAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        subspecialitySpinner.setAdapter(subspecialityAdapter);
+        // Initially, hide the subspeciality spinner
+        subspecialitySpinner.setVisibility(View.GONE);
+        specialitySpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int position, long l) {
+                // Check if the selected speciality has subspecialities
+                int specialityIndex = specialitySpinner.getSelectedItemPosition();
+                if (specialityIndex >= 0 && specialityIndex < subspecialities.length && subspecialities[specialityIndex].length > 0) {
+                    String[] subspecialityArray = subspecialities[specialityIndex];
+                    subspecialityAdapter.clear();
+                    subspecialityAdapter.add("Select Subspeciality");
+                    for (String subspeciality : subspecialityArray) {
+                        subspecialityAdapter.add(subspeciality);
+                    }
+                    // Show the subspeciality spinner
+                    subspecialitySpinner.setVisibility(View.VISIBLE);
+                } else {
+                    // Hide the subspeciality spinner
+                    subspecialitySpinner.setVisibility(View.GONE);
+                }
+            }
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+                // Do nothing
+            }
+        });
+
+        Spinner modeSpinner = findViewById(R.id.cmemode);
+        ArrayAdapter<CharSequence> modeAdapter = ArrayAdapter.createFromResource(this,
+                R.array.mode, android.R.layout.simple_spinner_item);
+        modeAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        modeSpinner.setAdapter(modeAdapter);
 
         cmetitle = findViewById(R.id.cme_title);
         cmeorg = findViewById(R.id.cme_organiser);
@@ -144,7 +173,7 @@ public class PostCmeActivity extends AppCompatActivity {
                     charCount.setTextColor(Color.RED);
                     postcme.setEnabled(false); // Disable the "Post" button
                     // Add a Toast message to notify the user
-                    Toast.makeText(PostCmeActivity.this, "Character limit exceeded (1000 characters max)", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(PostCmeActivity.this, "Character limit exceeded (2000 characters max)", Toast.LENGTH_SHORT).show();
                 } else {
                     charCount.setTextColor(Color.DKGRAY);
                     postcme.setEnabled(true); // Enable the "Post" button
@@ -249,7 +278,7 @@ public class PostCmeActivity extends AppCompatActivity {
                         calendar.set(Calendar.MONTH, monthOfYear);
                         calendar.set(Calendar.DAY_OF_MONTH, dayOfMonth);
                         String selectedDate = dateFormat.format(calendar.getTime());
-                        tvDate.setText("Selected Date: " + selectedDate);
+                        tvDate.setText(selectedDate);
                     }
                 },
                 calendar.get(Calendar.YEAR),
@@ -268,7 +297,7 @@ public class PostCmeActivity extends AppCompatActivity {
                         calendar.set(Calendar.HOUR_OF_DAY, hourOfDay);
                         calendar.set(Calendar.MINUTE, minute);
                         String selectedTime = timeFormat.format(calendar.getTime());
-                        tvTime.setText("Selected Time: " + selectedTime);
+                        tvTime.setText(selectedTime);
                     }
                 },
                 calendar.get(Calendar.HOUR_OF_DAY),
@@ -333,6 +362,10 @@ public class PostCmeActivity extends AppCompatActivity {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
         String formattedDateTime = currentDateTime.format(formatter);
 
+        // Get the selected date and time
+        String selectedDate = tvDate.getText().toString();
+        String selectedTime = tvTime.getText().toString();
+
         HashMap<String, Object> usermap = new HashMap<>();
         usermap.put("CME Title", title);
         usermap.put("CME Organiser", organiser);
@@ -344,6 +377,8 @@ public class PostCmeActivity extends AppCompatActivity {
         usermap.put("Date", formattedDateTime);
         usermap.put("Mode", mode);
         usermap.put("Speciality", speciality);
+        usermap.put("Selected Date", selectedDate); // Add selected date
+        usermap.put("Selected Time", selectedTime); // Add selected time
 
         progressDialog.setMessage("Posting...");
         progressDialog.show();
