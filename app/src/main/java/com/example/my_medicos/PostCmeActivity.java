@@ -178,7 +178,6 @@ public class PostCmeActivity extends AppCompatActivity {
                     charCount.setTextColor(Color.DKGRAY);
                     postcme.setEnabled(true); // Enable the "Post" button
                 }
-
             }
 
             @Override
@@ -197,6 +196,29 @@ public class PostCmeActivity extends AppCompatActivity {
                 }
             }
         });
+
+        // Set up the OnItemSelectedListener for cmemode Spinner
+        Spinner cmemodeSpinner = findViewById(R.id.cmemode);
+        cmemodeSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parentView, View selectedItemView, int position, long id) {
+                String selectedMode = cmemodeSpinner.getSelectedItem().toString();
+
+                if (selectedMode.equals("Online")) {
+                    // Show the virtual link EditText and hide the place EditText
+                    virtuallink.setVisibility(View.VISIBLE);
+                    cme_place.setVisibility(View.GONE);
+                } else if (selectedMode.equals("Offline")) {
+                    // Show the place EditText and hide the virtual link EditText
+                    virtuallink.setVisibility(View.GONE);
+                    cme_place.setVisibility(View.VISIBLE);
+                }
+            }
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+
+            }
+        });
         btnDatePicker.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -211,7 +233,6 @@ public class PostCmeActivity extends AppCompatActivity {
             }
         });
     }
-
     private void requestStoragePermission() {
         if (ContextCompat.checkSelfPermission(this, android.Manifest.permission.READ_EXTERNAL_STORAGE)
                 != PackageManager.PERMISSION_GRANTED) {
@@ -251,8 +272,6 @@ public class PostCmeActivity extends AppCompatActivity {
             if (data != null) {
                 Uri treeUri = data.getData();
                 if (treeUri != null) {
-                    // Persist the URI for later use if needed
-                    // You can use treeUri to access the selected directory
                     listFilesInDirectory(treeUri);
                 }
             }
@@ -262,10 +281,6 @@ public class PostCmeActivity extends AppCompatActivity {
     private void listFilesInDirectory(Uri treeUri) {
         String treeDocumentId = DocumentsContract.getTreeDocumentId(treeUri);
         Uri docUri = DocumentsContract.buildDocumentUriUsingTree(treeUri, treeDocumentId);
-
-        // Now, you can access and list files in the selected directory
-        // Perform file operations here
-        // You may need to use the DocumentsContract API to work with the documents
     }
 
     private void showDatePicker() {
@@ -316,13 +331,13 @@ public class PostCmeActivity extends AppCompatActivity {
         String link = virtuallink.getText().toString().trim();
         String place = cme_place.getText().toString().trim();
 
-        if (!link.startsWith("https://")) {
-            virtuallink.setError("Not a Valid Link");
-            virtuallink.setTextColor(Color.RED);
-            return;
-        } else {
-            virtuallink.setTextColor(Color.DKGRAY);
-        }
+//        if (!link.startsWith("https://")) {
+//            virtuallink.setError("Not a Valid Link");
+//            virtuallink.setTextColor(Color.RED);
+//            return;
+//        } else {
+//            virtuallink.setTextColor(Color.DKGRAY);
+//        }
 
         if (TextUtils.isEmpty(title)) {
             cmetitle.setError("Title Required");
