@@ -2,7 +2,7 @@ package com.example.my_medicos;
 
 public class cmeitem1 {
 
-    String docname,docpos,doctitle,docpresenter;
+    String docname,docpos,doctitle,docpresenter,email,date,time,venue;
     int imageview;
 
     public cmeitem1() {
@@ -14,10 +14,23 @@ public class cmeitem1 {
         this.imageview = imageview;
         this.doctitle=doctitle;
         this.docpresenter=docpresenter;
+
     }
 
     public String getDocname() {
         return docname;
+    }
+    public String getvenue() {
+        return venue;
+    }
+    public String getDate() {
+        return date;
+    }
+    public String getTime() {
+        return time;
+    }
+    public String getEmail() {
+        return email;
     }
 
     public void setDocname(String docname) {

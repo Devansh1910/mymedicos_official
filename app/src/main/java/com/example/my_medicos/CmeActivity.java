@@ -44,7 +44,7 @@ import java.util.Map;
 public class CmeActivity extends AppCompatActivity {
 
     String field1;
-    String  field2;
+    String  field2,email,Date,Time1,venue;
     String field3;
 
     String field4;
@@ -205,8 +205,10 @@ public class CmeActivity extends AppCompatActivity {
                                     if (r<=0) {
                                         field3 = ((String) dataMap.get("CME Title"));
                                         field4 = ((String) dataMap.get("Mode"));
-                                        field1 = (String) dataMap.get("CME Presenter");
+                                        field1 = (String) dataMap.get("CME Organiser");
                                         field2 = ((String) dataMap.get("Speciality"));
+
+
                                         cmeitem1 c = new cmeitem1(field1, field2,  5,field3,field4);
                                         items.add(c);
                                         recyclerView.setLayoutManager(new LinearLayoutManager(getApplication(), LinearLayoutManager.HORIZONTAL, false));
@@ -235,7 +237,7 @@ public class CmeActivity extends AppCompatActivity {
 
                             if (task.isSuccessful()) {
                                 for (QueryDocumentSnapshot document : task.getResult()) {
-                                    Log.d(TAG, document.getId() + " => " + document.getData());
+
                                     Map<String, Object> dataMap = document.getData();
                                     DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HH:mm");
                                     String Time = document.getString("Selected Time");

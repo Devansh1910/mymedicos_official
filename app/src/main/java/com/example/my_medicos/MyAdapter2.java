@@ -16,11 +16,16 @@ import java.util.List;
 public class MyAdapter2  extends RecyclerView.Adapter<MyAdapter2.MyViewHolder2>{
 
     Context context;
+
+
     List<cmeitem1> item;
 
     public MyAdapter2(Context context, List<cmeitem1> item) {
         this.context = context;
         this.item = item;
+    }
+    public List<cmeitem1> getData() {
+        return item;
     }
 
     @NonNull
@@ -30,9 +35,12 @@ public class MyAdapter2  extends RecyclerView.Adapter<MyAdapter2.MyViewHolder2>{
         return new MyViewHolder2(v);
     }
 
+
     @Override
     public void onBindViewHolder(@NonNull MyViewHolder2 holder, int position) {
         holder.name.setText(item.get(position).getDocname());
+
+
 
 
 //        int imageResource = item.get(position).getImage();
@@ -50,7 +58,8 @@ public class MyAdapter2  extends RecyclerView.Adapter<MyAdapter2.MyViewHolder2>{
             public void onClick(View a) {
                 Context context = a.getContext();
                 Intent i = new Intent(context, CmeDetailsActivity.class);
-                i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK); // Add this line
+                i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);// Add this line
+                i.putExtra("name",item.get(position).getDocname());
                 context.startActivity(i);
             }
         });
@@ -63,7 +72,7 @@ public class MyAdapter2  extends RecyclerView.Adapter<MyAdapter2.MyViewHolder2>{
     }
     public static class MyViewHolder2 extends  RecyclerView.ViewHolder {
 
-        TextView name,position,title,presenters;
+        TextView name,position,title,presenters,date,time,venue,email;
         ImageView imageview;
         public MyViewHolder2(@NonNull View itemView) {
             super(itemView);
