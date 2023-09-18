@@ -295,6 +295,7 @@ public class CmeActivity extends AppCompatActivity {
         // Add more items here
 
         recyclerView3 = findViewById(R.id.recyclerview3);
+        List<cmeitem3> item = new ArrayList<>();
 
         //.....
         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
@@ -307,21 +308,27 @@ public class CmeActivity extends AppCompatActivity {
 
                             if (task.isSuccessful()) {
                                 for (QueryDocumentSnapshot document : task.getResult()) {
-                                    List<cmeitem3> item = new ArrayList<>();
+
                                     Log.d(TAG, document.getId() + " => " + document.getData());
 
                                     Map<String, Object> dataMap = document.getData();
                                     DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HH:mm");
+                                    DateTimeFormatter formatter1 = DateTimeFormatter.ofPattern("yyyy-MM-dd");
                                     String Time = document.getString("Selected Time");
-                                    Log.d("vivek",Time);
+                                    String date =  document.getString("Selected Date");
+                                    Log.d("vivek", Time);
 //
                                     LocalTime parsedTime = null;
+                                    LocalDate parsedDate = null;
                                     try {
                                         // Parse the time string into a LocalTime object
                                         parsedTime = null;
                                         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
                                             parsedTime = LocalTime.parse(Time, formatter);
-                                            Log.d("vivek","0");
+
+
+
+                                            Log.d("vivek", "0");
                                         }
 
                                         // Display the parsed time
@@ -329,17 +336,22 @@ public class CmeActivity extends AppCompatActivity {
                                     } catch (java.time.format.DateTimeParseException e) {
                                         // Handle parsing error, e.g., if the input string is in the wrong format
                                         System.err.println("Error parsing time: " + e.getMessage());
-                                        Log.d("vivek","Time");
+                                        Log.d("vivek", "Time");
                                     }
+                                    parsedDate = LocalDate.parse(date, formatter1);
                                     LocalTime currentTime = null;
+                                    LocalDate currentDate = null;
                                     if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
                                         currentTime = LocalTime.now();
+                                        currentDate = LocalDate.now();
                                     }
 
 
                                     int r = parsedTime.compareTo(currentTime);
-                                    Log.d("vivek", String.valueOf(r));
-                                    if (r>0) {
+                                    int r1 = parsedDate.compareTo(currentDate);
+
+                                    Log.d("vivek1", String.valueOf(r1));
+                                    if ((r > 0)&&(r1<=0)) {
                                         field1 = (String) dataMap.get("CME Presenter");
                                         field2 = ((String) dataMap.get("CME Title"));
                                         Log.d(TAG, (String) dataMap.get("Speciality"));
@@ -347,7 +359,7 @@ public class CmeActivity extends AppCompatActivity {
 
 //                                        Log.d("vivek", combinedDateTime);
 
-                                        String cmetime =document.getString("Selected Time");
+                                        String cmetime = document.getString("Selected Time");
 
                                         cmeitem3 c = new cmeitem3(combinedDateTime, cmetime, field2, field1);
 
