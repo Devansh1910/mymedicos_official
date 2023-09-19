@@ -1,7 +1,9 @@
 package com.example.my_medicos;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -37,8 +39,17 @@ public class MyAdapter2  extends RecyclerView.Adapter<MyAdapter2.MyViewHolder2>{
 
 
     @Override
-    public void onBindViewHolder(@NonNull MyViewHolder2 holder, int position) {
+    public void onBindViewHolder(@NonNull MyViewHolder2 holder, @SuppressLint("RecyclerView") int position) {
         holder.name.setText(item.get(position).getDocname());
+        holder.position.setText(item.get(position).getDocpos());
+        holder.title.setText((item.get(position).getDoctitle()));
+        holder.presenters.setText(item.get(position).getDocpresenter());
+
+        Log.d(item.get(position).getEmail(),"vivek2");
+
+
+
+
 
 
 
@@ -59,7 +70,7 @@ public class MyAdapter2  extends RecyclerView.Adapter<MyAdapter2.MyViewHolder2>{
                 Context context = a.getContext();
                 Intent i = new Intent(context, CmeDetailsActivity.class);
                 i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);// Add this line
-                i.putExtra("name",item.get(position).getDocname());
+                i.putExtra("name",item.get(position).getEmail());
                 context.startActivity(i);
             }
         });
@@ -79,6 +90,12 @@ public class MyAdapter2  extends RecyclerView.Adapter<MyAdapter2.MyViewHolder2>{
 
 //          imageview = itemView.findViewById(R.id.cme_img);
             name=itemView.findViewById(R.id.dr_name);
+            title=itemView.findViewById(R.id.dr_title);
+            presenters=itemView.findViewById((R.id.dr_presenters));
+            position=itemView.findViewById(R.id.dr_pos);
+
+
+
 
 
         }

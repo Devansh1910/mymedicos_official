@@ -86,11 +86,6 @@ public class CmeDetailsActivity extends AppCompatActivity {
                         field3 = ((String) dataMap.get("Email ID"));
                         boolean areEqualIgnoreCase = field1.equalsIgnoreCase(field3);
                         Log.d("vivek", String.valueOf(areEqualIgnoreCase));
-
-
-
-
-
                         int r=field1.compareTo(field3);
                         if (r==0){
                             field4 = ((String) dataMap.get("Name"));

@@ -15,6 +15,7 @@ import android.provider.DocumentsContract;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -41,6 +42,9 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.Query;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
 
 import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
@@ -48,11 +52,13 @@ import java.time.format.DateTimeFormatter;
 import java.util.Calendar;
 import java.util.HashMap;
 import java.util.Locale;
+import java.util.Map;
 
 public class PostCmeActivity extends AppCompatActivity {
     FirebaseAuth auth = FirebaseAuth.getInstance();
     FirebaseUser user = auth.getCurrentUser();
     String current = user.getEmail();
+    String field3,field4;
     EditText cmetitle, cmeorg, cmepresenter, cmevenu, virtuallink, cme_place;
     Button postcme;
     public FirebaseDatabase db = FirebaseDatabase.getInstance();
@@ -67,6 +73,7 @@ public class PostCmeActivity extends AppCompatActivity {
     private TextView tvDate, tvTime;
     private Calendar calendar;
     private SimpleDateFormat dateFormat, timeFormat;
+
     private static final int REQUEST_STORAGE_PERMISSION = 1;
     private static final int REQUEST_STORAGE_ACCESS = 2;
     private ArrayAdapter<CharSequence> specialityAdapter;
@@ -134,6 +141,33 @@ public class PostCmeActivity extends AppCompatActivity {
                 // Do nothing
             }
         });
+        dc.collection("users").get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+            @Override
+            public void onComplete(Task<QuerySnapshot> task) {
+                if (task.isSuccessful()) {
+                    for (QueryDocumentSnapshot document : task.getResult()) {
+                        Map<String, Object> dataMap = document.getData();
+                        field3 = ((String) dataMap.get("Email ID"));
+                        boolean areEqualIgnoreCase = current.equalsIgnoreCase(field3);
+                        Log.d("vivek", String.valueOf(areEqualIgnoreCase));
+                        int r=current.compareTo(field3);
+                        if (r==0){
+                            field4 = ((String) dataMap.get("Name"));
+                            Log.d("veefe",field4);
+                            cmeorg.setText(field4);
+                        }
+
+
+                        // Handle the retrieved data here
+
+                        // You can access data using document.getData() and perform necessary actions
+                    }
+                } else {
+                    // Handle the error
+                    Toast.makeText(PostCmeActivity.this, "Error fetching data from Firebase Firestore", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
 
         Spinner modeSpinner = findViewById(R.id.cmemode);
         ArrayAdapter<CharSequence> modeAdapter = ArrayAdapter.createFromResource(this,
@@ -143,7 +177,7 @@ public class PostCmeActivity extends AppCompatActivity {
 
         cmetitle = findViewById(R.id.cme_title);
         cmeorg = findViewById(R.id.cme_organiser);
-        cmeorg.setText(current);
+
         cmeorg.setEnabled(false);
         cmeorg.setTextColor(Color.parseColor("#80000000"));
         cmeorg.setBackgroundResource(R.drawable.rounded_edittext_background);
@@ -153,6 +187,7 @@ public class PostCmeActivity extends AppCompatActivity {
         cme_place = findViewById(R.id.cme_place);
 
         postcme = findViewById(R.id.post_btn);
+
 
         // Initialize the charCount TextView
         TextView charCount = findViewById(R.id.char_counter);
@@ -232,7 +267,13 @@ public class PostCmeActivity extends AppCompatActivity {
                 showTimePicker();
             }
         });
+
+
+
+
     }
+
+
     private void requestStoragePermission() {
         if (ContextCompat.checkSelfPermission(this, android.Manifest.permission.READ_EXTERNAL_STORAGE)
                 != PackageManager.PERMISSION_GRANTED) {
@@ -386,7 +427,7 @@ public class PostCmeActivity extends AppCompatActivity {
 
         HashMap<String, Object> usermap = new HashMap<>();
         usermap.put("CME Title", title);
-        usermap.put("CME Organiser", organiser);
+        usermap.put("CME Organiser", field4);
         usermap.put("CME Presenter", presenter);
         usermap.put("CME Venue", venu);
         usermap.put("Virtual Link", link);

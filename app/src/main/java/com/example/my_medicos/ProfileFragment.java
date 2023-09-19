@@ -13,6 +13,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.cardview.widget.CardView;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
@@ -30,7 +31,7 @@ import java.util.Map;
 
 public class ProfileFragment extends Fragment {
 
-    ImageView personalinfo, contactinfo;
+    CardView personalinfo, contactinfo;
     TextView user_name_dr, user_email_dr, user_phone_dr;
 
     @Override
@@ -70,39 +71,39 @@ public class ProfileFragment extends Fragment {
     private void fetchUserData() {
         FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
         if (currentUser != null) {
-
+            String userId = currentUser.getUid();
             FirebaseFirestore db = FirebaseFirestore.getInstance();
             db.collection("users")
                     .get()
                     .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                        @Override
-                        public void onComplete(@NonNull Task<QuerySnapshot> task ) {
+                                               @Override
+                                               public void onComplete(@NonNull Task<QuerySnapshot> task ) {
 
 
-                            if (task.isSuccessful()) {
-                                for (QueryDocumentSnapshot document : task.getResult()) {
-                                    Log.d(TAG, document.getId() + " => " + document.getData());
-                                    Map<String, Object> dataMap = document.getData();
-                                    field1 = (String) dataMap.get("Email ID");
-                                    int a=field1.compareTo(currentUser.getEmail());
-                                    if (a==0) {
-                                        String userName = (String) dataMap.get("Name");
-                                        String userEmail = (String) dataMap.get("Email ID");
-                                        String userPhone = (String) dataMap.get("Phone Number");
-                                        Log.d(TAG, (String) userEmail +"hell0");
+                                                   if (task.isSuccessful()) {
+                                                       for (QueryDocumentSnapshot document : task.getResult()) {
+                                                           Log.d(TAG, document.getId() + " => " + document.getData());
+                                                           Map<String, Object> dataMap = document.getData();
+                                                           field1 = (String) dataMap.get("Email ID");
+                                                           int a=field1.compareTo(currentUser.getEmail());
+                                                           if (a==0) {
+                                                               String userName = (String) dataMap.get("Name");
+                                                               String userEmail = (String) dataMap.get("Email ID");
+                                                               String userPhone = (String) dataMap.get("Phone Number");
+                                                               Log.d(TAG, (String) userEmail +"hell0");
 
-                                        // Set the data to the TextViews
-                                        user_name_dr.setText(userName);
-                                        user_email_dr.setText(userEmail);
-                                        user_phone_dr.setText(userPhone);
-                                    }
+                                                               // Set the data to the TextViews
+                                                               user_name_dr.setText(userName);
+                                                               user_email_dr.setText(userEmail);
+                                                               user_phone_dr.setText(userPhone);
+                                                           }
 
-                                }
-                            } else {
-                                Log.d(TAG, "Error getting documents: ", task.getException());
-                            }
-                        }
-                    }
+                                                       }
+                                                   } else {
+                                                       Log.d(TAG, "Error getting documents: ", task.getException());
+                                                   }
+                                               }
+                                           }
                     );
         }
     }

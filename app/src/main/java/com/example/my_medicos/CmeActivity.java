@@ -204,12 +204,13 @@ public class CmeActivity extends AppCompatActivity {
                                     Log.d("vivek", String.valueOf(r));
                                     if (r<=0) {
                                         field3 = ((String) dataMap.get("CME Title"));
-                                        field4 = ((String) dataMap.get("Mode"));
-                                        field1 = (String) dataMap.get("CME Organiser");
+                                        field4 = ((String) dataMap.get("CME Presenter"));
+                                        field1 = (String) dataMap.get("User");
                                         field2 = ((String) dataMap.get("Speciality"));
+                                        String field5=((String) dataMap.get("CME Organiser"));
 
 
-                                        cmeitem1 c = new cmeitem1(field1, field2,  5,field3,field4);
+                                        cmeitem1 c = new cmeitem1(field1, field2,  5,field3,field4,field5);
                                         items.add(c);
                                         recyclerView.setLayoutManager(new LinearLayoutManager(getApplication(), LinearLayoutManager.HORIZONTAL, false));
                                         recyclerView.setAdapter(new MyAdapter2(getApplication(), items));
@@ -271,8 +272,8 @@ public class CmeActivity extends AppCompatActivity {
                                     Log.d("vivek", String.valueOf(r));
                                     if (r<=0) {
                                         field3 = ((String) dataMap.get("CME Title"));
-                                        field4 = ((String) dataMap.get("Mode"));
-                                        field1 = (String) dataMap.get("CME Presenter");
+                                        field4 = ((String) dataMap.get("CME Presenter"));
+                                        field1 = (String) dataMap.get("CME Organiser");
                                         field2 = ((String) dataMap.get("Speciality"));
                                         cmeitem4 c = new cmeitem4(field1, field2,  5,field3,field4);
                                         items1.add(c);
