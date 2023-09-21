@@ -48,12 +48,6 @@ public class MyAdapter2  extends RecyclerView.Adapter<MyAdapter2.MyViewHolder2>{
         Log.d(item.get(position).getEmail(),"vivek2");
 
 
-
-
-
-
-
-
 //        int imageResource = item.get(position).getImage();
 //        Log.d("Image Debug", "Image Resource: " + imageResource);
 //

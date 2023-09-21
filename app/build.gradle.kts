@@ -65,5 +65,7 @@ dependencies {
     implementation("com.google.firebase:firebase-storage:20.1.0")
     implementation("com.google.firebase:firebase-core:21.1.1")
     implementation("com.google.firebase:firebase-firestore:23.0.4")
+    implementation ("com.squareup.picasso:picasso:2.71828")
+
 
 }

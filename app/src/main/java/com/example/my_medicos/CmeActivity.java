@@ -215,7 +215,6 @@ public class CmeActivity extends AppCompatActivity {
                                         recyclerView.setLayoutManager(new LinearLayoutManager(getApplication(), LinearLayoutManager.HORIZONTAL, false));
                                         recyclerView.setAdapter(new MyAdapter2(getApplication(), items));
 
-
                                     } else {
 
                                     }
