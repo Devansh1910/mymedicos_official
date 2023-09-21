@@ -8,14 +8,12 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.cardview.widget.CardView;
 import androidx.fragment.app.Fragment;
 
-import com.example.my_medicos.Contactinfo;
-import com.example.my_medicos.Personalinfo;
-import com.example.my_medicos.R;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
@@ -26,7 +24,9 @@ import com.google.firebase.firestore.QuerySnapshot;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.squareup.picasso.Picasso;
+
 import java.util.Map;
+import java.util.prefs.Preferences;
 
 public class ProfileFragment extends Fragment {
 
@@ -77,7 +77,9 @@ public class ProfileFragment extends Fragment {
 
         // Check if data has already been loaded, if not, fetch user data and profile image
         if (!dataLoaded) {
+            fetchdata();
             fetchUserData();
+
         }
 
         return rootView;
@@ -87,6 +89,21 @@ public class ProfileFragment extends Fragment {
     public void onSaveInstanceState(@NonNull Bundle outState) {
         super.onSaveInstanceState(outState);
         outState.putBoolean(DATA_LOADED_KEY, dataLoaded);
+    }
+    private void fetchdata() {
+        Preferences preferences = Preferences.userRoot();
+        if (preferences.get("username", null) != null) {
+            System.out.println("Key '" + "username" + "' exists in preferences.");
+            String username=preferences.get("username", null);
+            Log.d("usernaem",username);
+        }
+        String username = preferences.get("username", "");
+        String email = preferences.get("email", "");
+        String phone=preferences.get("userphone","");
+        user_name_dr.setText(username);
+        user_email_dr.setText(email);
+        user_phone_dr.setText(phone);
+
     }
 
     private void fetchUserData() {
@@ -111,11 +128,21 @@ public class ProfileFragment extends Fragment {
                                         String userName = (String) dataMap.get("Name");
                                         String userEmail = (String) dataMap.get("Email ID");
                                         String userPhone = (String) dataMap.get("Phone Number");
-
-                                        // Set the data to the TextViews
+                                        Preferences preferences = Preferences.userRoot(); // User preferences
+                                        // Store data
+                                        preferences.put("username", userName);
+                                        preferences.put("email", userEmail);
+                                        preferences.put("userphone",userPhone);
                                         user_name_dr.setText(userName);
                                         user_email_dr.setText(userEmail);
                                         user_phone_dr.setText(userPhone);
+                                        fetchdata();
+
+                                        // Retrieve data
+
+
+                                        // Set the data to the TextViews
+
                                         fetchUserProfileImage(userId);
                                     }
                                 }
