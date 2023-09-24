@@ -65,6 +65,7 @@ public class PostCmeActivity extends AppCompatActivity {
     FirebaseFirestore dc = FirebaseFirestore.getInstance();
     private Spinner subspecialitySpinner;
     private Spinner specialitySpinner;
+    String subspecialities1;
     public DatabaseReference cmeref = db.getReference().child("CME's");
     private ProgressDialog progressDialog;
     private static final int MAX_CHARACTERS = 1000;
@@ -131,6 +132,17 @@ public class PostCmeActivity extends AppCompatActivity {
                     }
                     // Show the subspeciality spinner
                     subspecialitySpinner.setVisibility(View.VISIBLE);
+                    subspecialitySpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                        @Override
+                        public void onItemSelected(AdapterView<?> parentView, View selectedItemView, int position, long id) {
+                            subspecialities1 = subspecialitySpinner.getSelectedItem().toString();
+
+                        }
+                        @Override
+                        public void onNothingSelected(AdapterView<?> adapterView) {
+
+                        }
+                    });
                 } else {
                     // Hide the subspeciality spinner
                     subspecialitySpinner.setVisibility(View.GONE);
@@ -437,6 +449,7 @@ public class PostCmeActivity extends AppCompatActivity {
         usermap.put("Time",formattedTime);
         usermap.put("Mode", mode);
         usermap.put("Speciality", speciality);
+        usermap.put("SubSpeciality",subspecialities1);
         usermap.put("Selected Date", selectedDate); // Add selected date
         usermap.put("Selected Time", selectedTime); // Add selected time
 
