@@ -77,6 +77,13 @@
                     android:layout_weight="1"
                     android:layout_marginHorizontal="@dimen/_5ssp"
                     android:layout_height="@dimen/_40sdp"/>
+                <Button
+                    android:layout_width="match_parent"
+                    android:layout_height="52.00dp"
+                    android:id="@+id/ok"
+                    android:text="OK"
+                    android:clickable="true"/>
+
             </LinearLayout>
 
         </HorizontalScrollView>

@@ -3,6 +3,7 @@ package com.example.my_medicos;
 import static android.content.ContentValues.TAG;
 
 import android.annotation.SuppressLint;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -12,6 +13,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.Spinner;
 import android.widget.Toast;
 
@@ -49,6 +51,7 @@ public class CmeActivity extends AppCompatActivity {
 
     String field4;
     FloatingActionButton floatingActionButton;
+    Button OK;
     RecyclerView recyclerView;
     RecyclerView recyclerView3;
     RecyclerView recyclerView2;
@@ -56,6 +59,7 @@ public class CmeActivity extends AppCompatActivity {
     private ViewPager2 pager;
     private TabLayout tabLayout;
     private Spinner specialitySpinner;
+    String selectedMode1,selectedMode2,selectedMode;
     private FirebaseFirestore db;
     private Spinner subspecialitySpinner;
     private ArrayAdapter<CharSequence> specialityAdapter;
@@ -90,6 +94,7 @@ public class CmeActivity extends AppCompatActivity {
 
 
 
+
         toolbar = findViewById(R.id.cmetoolbar);
 
         pager = findViewById(R.id.view_pager);
@@ -102,16 +107,51 @@ public class CmeActivity extends AppCompatActivity {
         specialityAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         specialitySpinner.setAdapter(specialityAdapter);
 
+
         subspecialityAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item);
         subspecialityAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         subspecialitySpinner.setAdapter(subspecialityAdapter);
         // Initially, hide the subspeciality spinner
         subspecialitySpinner.setVisibility(View.GONE);
+
+        Spinner modeSpinner = findViewById(R.id.mode);
+        ArrayAdapter<CharSequence> modeAdapter = ArrayAdapter.createFromResource(this,
+                R.array.mode, android.R.layout.simple_spinner_item);
+        modeAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        modeSpinner.setAdapter(modeAdapter);
+        modeSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parentView, View selectedItemView, int position, long id) {
+                selectedMode = modeSpinner.getSelectedItem().toString();
+
+
+
+            }
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+
+            }
+        });
+        specialitySpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parentView, View selectedItemView, int position, long id) {
+                selectedMode1 = specialitySpinner.getSelectedItem().toString();
+
+
+
+            }
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+
+            }
+        });
+
         specialitySpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int position, long l) {
                 // Check if the selected speciality has subspecialities
                 int specialityIndex = specialitySpinner.getSelectedItemPosition();
+
                 if (specialityIndex >= 0 && specialityIndex < subspecialities.length && subspecialities[specialityIndex].length > 0) {
                     String[] subspecialityArray = subspecialities[specialityIndex];
                     subspecialityAdapter.clear();
@@ -121,21 +161,58 @@ public class CmeActivity extends AppCompatActivity {
                     }
                     // Show the subspeciality spinner
                     subspecialitySpinner.setVisibility(View.VISIBLE);
+
+                    subspecialitySpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                        @Override
+                        public void onItemSelected(AdapterView<?> parentView, View selectedItemView, int position, long id) {
+                            selectedMode2 = subspecialitySpinner.getSelectedItem().toString();
+
+
+
+
+                        }
+                        @Override
+                        public void onNothingSelected(AdapterView<?> adapterView) {
+
+                        }
+                    });
                 } else {
                     // Hide the subspeciality spinner
                     subspecialitySpinner.setVisibility(View.GONE);
                 }
+
             }
             @Override
             public void onNothingSelected(AdapterView<?> adapterView) {
                 // Do nothing
             }
         });
-        Spinner modeSpinner = findViewById(R.id.mode);
-        ArrayAdapter<CharSequence> modeAdapter = ArrayAdapter.createFromResource(this,
-                R.array.mode, android.R.layout.simple_spinner_item);
-        modeAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        modeSpinner.setAdapter(modeAdapter);
+        selectedMode1 = specialitySpinner.getSelectedItem().toString();
+
+
+
+
+//        String subspeciality = subspecialitySpinner.getSelectedItem().toString();
+//        String speciality = specialitySpinner.getSelectedItem().toString();
+//
+        OK = findViewById(R.id.ok);
+
+        OK.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View a) {
+                Context context = a.getContext();
+
+                Intent i = new Intent(context, CmeSearchActivity.class);
+                i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                i.putExtra("Speciality",selectedMode1 );
+                i.putExtra("SubSpeciality",selectedMode2);
+                i.putExtra("Mode",selectedMode);
+
+
+                context.startActivity(i);
+            }
+        });
+
 
         pager.setAdapter(new ViewPagerAdapter(this));
         fetchData();
@@ -170,11 +247,11 @@ public class CmeActivity extends AppCompatActivity {
 
                             if (task.isSuccessful()) {
                                 for (QueryDocumentSnapshot document : task.getResult()) {
-                                    Log.d(TAG, document.getId() + " => " + document.getData());
+
                                     Map<String, Object> dataMap = document.getData();
                                     DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HH:mm");
                                     String Time = document.getString("Selected Time");
-                                    Log.d("vivek",Time);
+
                                     //
                                     LocalTime parsedTime = null;
                                     try {
