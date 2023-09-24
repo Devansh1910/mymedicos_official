@@ -166,6 +166,7 @@ public class CmeActivity extends AppCompatActivity {
                         @Override
                         public void onItemSelected(AdapterView<?> parentView, View selectedItemView, int position, long id) {
                             selectedMode2 = subspecialitySpinner.getSelectedItem().toString();
+                            selectedMode1 = specialitySpinner.getSelectedItem().toString();
 
 
 
@@ -187,13 +188,12 @@ public class CmeActivity extends AppCompatActivity {
                 // Do nothing
             }
         });
-        selectedMode1 = specialitySpinner.getSelectedItem().toString();
 
 
 
 
-//        String subspeciality = subspecialitySpinner.getSelectedItem().toString();
-//        String speciality = specialitySpinner.getSelectedItem().toString();
+
+
 //
         OK = findViewById(R.id.ok);
 
@@ -204,7 +204,7 @@ public class CmeActivity extends AppCompatActivity {
 
                 Intent i = new Intent(context, CmeSearchActivity.class);
                 i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                i.putExtra("Speciality",selectedMode1 );
+                i.putExtra("Speciality",selectedMode1);
                 i.putExtra("SubSpeciality",selectedMode2);
                 i.putExtra("Mode",selectedMode);
 

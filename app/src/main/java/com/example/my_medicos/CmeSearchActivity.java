@@ -66,6 +66,11 @@ public class CmeSearchActivity extends AppCompatActivity {
         SubSpeciality=getIntent().getExtras().getString("SubSpeciality");
         Mode=getIntent().getExtras().getString("Mode");
         Log.d(Speciality,"SubSpeciality");
+        Toolbar toolbar = findViewById(R.id.toolbar); // Replace with your Toolbar's ID
+        setSupportActionBar(toolbar); // Set the Toolbar as the app bar
+
+        getSupportActionBar().setTitle(Speciality); // Set the main title
+        getSupportActionBar().setSubtitle(SubSpeciality);
 
         fetchData();
 
@@ -102,50 +107,65 @@ public class CmeSearchActivity extends AppCompatActivity {
                                     String speciality=document.getString("Speciality");
                                     String subspeciality=document.getString("SubSpeciality");
                                     String Time = document.getString("Selected Time");
-                                    Log.d(speciality,subspeciality);
-                                    if (((mode==Mode)&&(speciality==Speciality)&&(subspeciality==SubSpeciality))) {
-                                        Log.d("vivek", Time);
-                                        //
-                                        LocalTime parsedTime = null;
-                                        try {
-                                            // Parse the time string into a LocalTime object
-                                            parsedTime = null;
-                                            if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
-                                                parsedTime = LocalTime.parse(Time, formatter);
-                                                Log.d("vivek", "0");
+
+                                    Log.d(mode, Mode);
+                                    Log.d(speciality, Speciality);
+                                    Log.d(subspeciality, SubSpeciality);
+                                    int d=mode.compareTo(Mode);
+                                    int f=speciality.compareTo(Speciality);
+                                    int b=subspeciality.compareTo(SubSpeciality);
+                                    Log.d(speciality, String.valueOf(f));
+                                    if (d==0) {
+                                        if(f==0){
+
+                                            if (b==0) {
+
+
+                                                //
+                                                LocalTime parsedTime = null;
+                                                try {
+                                                    // Parse the time string into a LocalTime object
+                                                    parsedTime = null;
+                                                    if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
+                                                        parsedTime = LocalTime.parse(Time, formatter);
+                                                        Log.d("vivek", "30");
+                                                    }
+
+                                                    // Display the parsed time
+                                                    System.out.println("Parsed Time: " + parsedTime);
+                                                } catch (
+                                                        java.time.format.DateTimeParseException e) {
+                                                    // Handle parsing error, e.g., if the input string is in the wrong format
+                                                    System.err.println("Error parsing time: " + e.getMessage());
+                                                    Log.d("vivek", "Time");
+                                                }
+                                                LocalTime currentTime = null;
+                                                if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
+                                                    currentTime = LocalTime.now();
+                                                    LocalDate currentDate = LocalDate.now();
+                                                }
+
+
+                                                int r = parsedTime.compareTo(currentTime);
+
+                                                Log.d("vivek", String.valueOf(r));
+                                                if (r <= 0) {
+                                                    field3 = ((String) dataMap.get("CME Title"));
+                                                    field4 = ((String) dataMap.get("CME Presenter"));
+                                                    field1 = (String) dataMap.get("User");
+                                                    field2 = ((String) dataMap.get("Speciality"));
+                                                    String field5 = ((String) dataMap.get("CME Organiser"));
+
+
+                                                    cmeitem1 c = new cmeitem1(field1, field2, 5, field3, field4, field5);
+                                                    items.add(c);
+                                                    recyclerView.setLayoutManager(new LinearLayoutManager(getApplication(), LinearLayoutManager.HORIZONTAL, false));
+                                                    recyclerView.setAdapter(new MyAdapter2(getApplication(), items));
+
+                                                } else {
+
+                                                }
                                             }
-
-                                            // Display the parsed time
-                                            System.out.println("Parsed Time: " + parsedTime);
-                                        } catch (java.time.format.DateTimeParseException e) {
-                                            // Handle parsing error, e.g., if the input string is in the wrong format
-                                            System.err.println("Error parsing time: " + e.getMessage());
-                                            Log.d("vivek", "Time");
-                                        }
-                                        LocalTime currentTime = null;
-                                        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
-                                            currentTime = LocalTime.now();
-                                            LocalDate currentDate = LocalDate.now();
-                                        }
-
-
-                                        int r = parsedTime.compareTo(currentTime);
-
-                                        Log.d("vivek", String.valueOf(r));
-                                        if (r <= 0) {
-                                            field3 = ((String) dataMap.get("CME Title"));
-                                            field4 = ((String) dataMap.get("CME Presenter"));
-                                            field1 = (String) dataMap.get("User");
-                                            field2 = ((String) dataMap.get("Speciality"));
-                                            String field5 = ((String) dataMap.get("CME Organiser"));
-
-
-                                            cmeitem1 c = new cmeitem1(field1, field2, 5, field3, field4, field5);
-                                            items.add(c);
-                                            recyclerView.setLayoutManager(new LinearLayoutManager(getApplication(), LinearLayoutManager.HORIZONTAL, false));
-                                            recyclerView.setAdapter(new MyAdapter2(getApplication(), items));
-
-                                        } else {
 
                                         }
                                     }
@@ -153,7 +173,8 @@ public class CmeSearchActivity extends AppCompatActivity {
                             } else {
                                 Log.d(TAG, "Error getting documents: ", task.getException());
                             }
-                        }
+                                }
+
                     });
         }
         recyclerView4 = findViewById(R.id.cme_recyclerview4);
@@ -177,47 +198,57 @@ public class CmeSearchActivity extends AppCompatActivity {
                                     String speciality=document.getString("Speciality");
                                     String subspeciality=document.getString("SubSpeciality");
 
-                                    if (((mode==Mode)&&(speciality==Speciality)&&(subspeciality==SubSpeciality))) {
-                                        //
-                                        LocalTime parsedTime = null;
-                                        try {
-                                            // Parse the time string into a LocalTime object
-                                            parsedTime = null;
-                                            if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
-                                                parsedTime = LocalTime.parse(Time, formatter);
-                                                Log.d("vivek", "0");
+                                    int d=mode.compareTo(Mode);
+                                    int f=speciality.compareTo(Speciality);
+                                    int b=subspeciality.compareTo(SubSpeciality);
+                                    Log.d(speciality, String.valueOf(b));
+                                    if (d==0) {
+                                        if (f==0) {
+
+                                            if (b == 0) {
+                                                //
+                                                LocalTime parsedTime = null;
+                                                try {
+                                                    // Parse the time string into a LocalTime object
+                                                    parsedTime = null;
+                                                    if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
+                                                        parsedTime = LocalTime.parse(Time, formatter);
+                                                        Log.d("vivek", "0");
+                                                    }
+
+                                                    // Display the parsed time
+                                                    System.out.println("Parsed Time: " + parsedTime);
+                                                } catch (
+                                                        java.time.format.DateTimeParseException e) {
+                                                    // Handle parsing error, e.g., if the input string is in the wrong format
+                                                    System.err.println("Error parsing time: " + e.getMessage());
+                                                    Log.d("vivek", "Time");
+                                                }
+                                                LocalTime currentTime = null;
+                                                if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
+                                                    currentTime = LocalTime.now();
+                                                    LocalDate currentDate = LocalDate.now();
+                                                }
+
+
+                                                int r = parsedTime.compareTo(currentTime);
+
+                                                Log.d("vivek", String.valueOf(r));
+                                                if (r <= 0) {
+                                                    field3 = ((String) dataMap.get("CME Title"));
+                                                    field4 = ((String) dataMap.get("CME Presenter"));
+                                                    field1 = (String) dataMap.get("CME Organiser");
+                                                    field2 = ((String) dataMap.get("Speciality"));
+                                                    cmeitem4 c = new cmeitem4(field1, field2, 5, field3, field4);
+                                                    items1.add(c);
+                                                    recyclerView4.setLayoutManager(new LinearLayoutManager(getApplication(), LinearLayoutManager.HORIZONTAL, false));
+                                                    recyclerView4.setAdapter(new MyAdapter1(getApplication(), items1));
+
+
+                                                } else {
+
+                                                }
                                             }
-
-                                            // Display the parsed time
-                                            System.out.println("Parsed Time: " + parsedTime);
-                                        } catch (java.time.format.DateTimeParseException e) {
-                                            // Handle parsing error, e.g., if the input string is in the wrong format
-                                            System.err.println("Error parsing time: " + e.getMessage());
-                                            Log.d("vivek", "Time");
-                                        }
-                                        LocalTime currentTime = null;
-                                        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
-                                            currentTime = LocalTime.now();
-                                            LocalDate currentDate = LocalDate.now();
-                                        }
-
-
-                                        int r = parsedTime.compareTo(currentTime);
-
-                                        Log.d("vivek", String.valueOf(r));
-                                        if (r <= 0) {
-                                            field3 = ((String) dataMap.get("CME Title"));
-                                            field4 = ((String) dataMap.get("CME Presenter"));
-                                            field1 = (String) dataMap.get("CME Organiser");
-                                            field2 = ((String) dataMap.get("Speciality"));
-                                            cmeitem4 c = new cmeitem4(field1, field2, 5, field3, field4);
-                                            items1.add(c);
-                                            recyclerView4.setLayoutManager(new LinearLayoutManager(getApplication(), LinearLayoutManager.HORIZONTAL, false));
-                                            recyclerView4.setAdapter(new MyAdapter1(getApplication(), items1));
-
-
-                                        } else {
-
                                         }
                                     }
 
@@ -258,58 +289,67 @@ public class CmeSearchActivity extends AppCompatActivity {
                                     String speciality=document.getString("Speciality");
                                     String subspeciality=document.getString("SubSpeciality");
 
-                                    if (((mode==Mode)&&(speciality==Speciality)&&(subspeciality==SubSpeciality))) {
+                                    int d=mode.compareTo(Mode);
+                                    int f=speciality.compareTo(Speciality);
+                                    int b=subspeciality.compareTo(SubSpeciality);
+                                    Log.d(speciality, String.valueOf(b));
+                                    if (d==0) {
+                                        if (f==0){
+
+                                        if (b == 0) {
 //
-                                        LocalTime parsedTime = null;
-                                        LocalDate parsedDate = null;
-                                        try {
-                                            // Parse the time string into a LocalTime object
-                                            parsedTime = null;
+                                            LocalTime parsedTime = null;
+                                            LocalDate parsedDate = null;
+                                            try {
+                                                // Parse the time string into a LocalTime object
+                                                parsedTime = null;
+                                                if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
+                                                    parsedTime = LocalTime.parse(Time, formatter);
+
+
+                                                    Log.d("vivek", "0");
+                                                }
+
+                                                // Display the parsed time
+                                                System.out.println("Parsed Time: " + parsedTime);
+                                            } catch (java.time.format.DateTimeParseException e) {
+                                                // Handle parsing error, e.g., if the input string is in the wrong format
+                                                System.err.println("Error parsing time: " + e.getMessage());
+                                                Log.d("vivek", "Time");
+                                            }
+                                            parsedDate = LocalDate.parse(date, formatter1);
+                                            LocalTime currentTime = null;
+                                            LocalDate currentDate = null;
                                             if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
-                                                parsedTime = LocalTime.parse(Time, formatter);
-
-
-                                                Log.d("vivek", "0");
+                                                currentTime = LocalTime.now();
+                                                currentDate = LocalDate.now();
                                             }
 
-                                            // Display the parsed time
-                                            System.out.println("Parsed Time: " + parsedTime);
-                                        } catch (java.time.format.DateTimeParseException e) {
-                                            // Handle parsing error, e.g., if the input string is in the wrong format
-                                            System.err.println("Error parsing time: " + e.getMessage());
-                                            Log.d("vivek", "Time");
-                                        }
-                                        parsedDate = LocalDate.parse(date, formatter1);
-                                        LocalTime currentTime = null;
-                                        LocalDate currentDate = null;
-                                        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
-                                            currentTime = LocalTime.now();
-                                            currentDate = LocalDate.now();
-                                        }
 
+                                            int r = parsedTime.compareTo(currentTime);
+                                            int r1 = parsedDate.compareTo(currentDate);
 
-                                        int r = parsedTime.compareTo(currentTime);
-                                        int r1 = parsedDate.compareTo(currentDate);
-
-                                        Log.d("vivek1", String.valueOf(r1));
-                                        if ((r > 0) && (r1 <= 0)) {
-                                            field1 = (String) dataMap.get("CME Presenter");
-                                            field2 = ((String) dataMap.get("CME Title"));
-                                            Log.d(TAG, (String) dataMap.get("Speciality"));
-                                            String combinedDateTime = document.getString("Selected Date");
+                                            Log.d("vivek1", String.valueOf(r1));
+                                            if ((r > 0) && (r1 <= 0)) {
+                                                field1 = (String) dataMap.get("CME Presenter");
+                                                field2 = ((String) dataMap.get("CME Title"));
+                                                Log.d(TAG, (String) dataMap.get("Speciality"));
+                                                String combinedDateTime = document.getString("Selected Date");
 
 //                                        Log.d("vivek", combinedDateTime);
 
-                                            String cmetime = document.getString("Selected Time");
+                                                String cmetime = document.getString("Selected Time");
 
-                                            cmeitem3 c = new cmeitem3(combinedDateTime, cmetime, field2, field1);
+                                                cmeitem3 c = new cmeitem3(combinedDateTime, cmetime, field2, field1);
 
-                                            item.add(c);
+                                                item.add(c);
 
-                                            recyclerView3.setLayoutManager(new LinearLayoutManager(getApplication()));
-                                            recyclerView3.setAdapter(new MyAdapter3(getApplication(), item));
-                                        } else {
+                                                recyclerView3.setLayoutManager(new LinearLayoutManager(getApplication()));
+                                                recyclerView3.setAdapter(new MyAdapter3(getApplication(), item));
+                                            } else {
 
+                                            }
+                                        }
                                         }
                                     }
                                 }

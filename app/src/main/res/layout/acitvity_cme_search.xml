@@ -24,7 +24,7 @@
         app:layout_constraintTop_toTopOf="parent">
 
         <androidx.appcompat.widget.Toolbar
-            android:id="@+id/cmetoolbar"
+            android:id="@+id/toolbar"
             app:title="SpeciALITY"
             app:navigationIcon="@drawable/bbk"
             app:titleTextColor="@color/white"
