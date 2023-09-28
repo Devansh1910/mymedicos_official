@@ -75,6 +75,7 @@ public class PostJobActivity extends AppCompatActivity {
     }
     public void post(){
         String Organisation = organisation.getText().toString().trim();
+
         String Location = location.getText().toString().trim();
         String Salary = salary.getText().toString().trim();
         String Contact = contact.getText().toString().trim();
@@ -86,6 +87,7 @@ public class PostJobActivity extends AppCompatActivity {
         usermap.put("JOB Salary", Salary);
         usermap.put("Contact", Contact);
         usermap.put("Remark", Remark);
+        usermap.put("JOB Speciality", Speciality);
 
 
         cmeref.push().setValue(usermap).addOnCompleteListener(new OnCompleteListener<Void>() {
