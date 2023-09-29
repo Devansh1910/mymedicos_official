@@ -2,6 +2,9 @@ package com.example.my_medicos;
 
 import static android.content.ContentValues.TAG;
 
+import static java.security.AccessController.getContext;
+
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -29,28 +32,31 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.tabs.TabLayout;
 import com.google.android.material.tabs.TabLayoutMediator;
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
-import java.time.LocalDate;
-import java.time.LocalTime;
-import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
 
 public class JobsActivity extends AppCompatActivity {
 
 
-    RecyclerView recyclerView;
+    RecyclerView recyclerView1;
+    MyAdapter6 adapter1;
 
     FloatingActionButton floatingActionButton;
 
     private ViewPager2 pager;
     private TabLayout tabLayout;
+    RecyclerView recyclerView2;
+    FirebaseFirestore db = FirebaseFirestore.getInstance();
+    String speciality,Organiser,Location;
 
     Toolbar toolbar;
 
+    @SuppressLint("MissingInflatedId")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -104,10 +110,14 @@ public class JobsActivity extends AppCompatActivity {
                 }
             }
         }).attach();
-       FirebaseFirestore db = FirebaseFirestore.getInstance();
-        Query query=db.collection("JOB");
+        recyclerView1 = findViewById(R.id.recyclerview5);
+        List<jobitem1> joblist = new ArrayList<jobitem1>();
 
-        query.get()
+
+        FirebaseFirestore dc = FirebaseFirestore.getInstance();
+        //......
+        dc.collection("JOB")
+                .get()
                 .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                     @Override
                     public void onComplete(@NonNull Task<QuerySnapshot> task ) {
@@ -115,12 +125,23 @@ public class JobsActivity extends AppCompatActivity {
                         if (task.isSuccessful()) {
                             for (QueryDocumentSnapshot document : task.getResult()) {
 
+
                                 Map<String, Object> dataMap = document.getData();
+                                String speciality = ((String) dataMap.get("JOB Speciality"));
+                                String Organiser =((String) dataMap.get("JOB Organiser"));
+                                String Location =((String) dataMap.get("JOB Location"));
 
-                                String Specaility = document.getString("Speciality");
-                                String Salary=document.getString("salary");
-                                String Organisation=document.getString("JOB Organisation");
-
+                                jobitem1 c = new jobitem1(speciality, Organiser, Location);
+                                joblist.add(c);
+                                Log.d("speciality2", speciality);
+                                Log.d("speciality2", Organiser);
+                                Log.d("speciality2", Location);
+//
+//                                // Pass the joblist to the adapter
+//                                Log.d("speciality2", speciality);
+                                recyclerView1.setLayoutManager(new LinearLayoutManager(getApplication(),LinearLayoutManager.VERTICAL, false));
+                                recyclerView1.setAdapter( new MyAdapter6(getApplication(),joblist));
+                                Log.d("speciality2", speciality);
 
 
 
@@ -130,7 +151,12 @@ public class JobsActivity extends AppCompatActivity {
                         }
                     }
                 });
-    }
+
+
+
+    //......
+}
+
 
     class ViewPagerAdapter extends FragmentStateAdapter {
 

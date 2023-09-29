@@ -1,6 +1,7 @@
 package com.example.my_medicos;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -33,6 +34,10 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
         holder.pos.setText(joblist.get(position).getPosition());
         holder.hosp.setText(joblist.get(position).getHospital());
         holder.loc.setText(joblist.get(position).getLocation());
+        Log.d("12345678",joblist.get(position).getPosition());
+        Log.d("12345678",joblist.get(position).getHospital());
+        Log.d("12345678",joblist.get(position).getLocation());
+
     }
 
     @Override

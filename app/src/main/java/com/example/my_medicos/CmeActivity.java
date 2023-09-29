@@ -251,15 +251,19 @@ public class CmeActivity extends AppCompatActivity {
                                     Map<String, Object> dataMap = document.getData();
                                     DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HH:mm");
                                     String Time = document.getString("Selected Time");
+                                    DateTimeFormatter formatter1 = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+                                    String date = document.getString("Selected Date");
 
                                     //
                                     LocalTime parsedTime = null;
+                                    LocalDate parsedDate = null;
                                     try {
                                         // Parse the time string into a LocalTime object
                                         parsedTime = null;
                                         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
                                             parsedTime = LocalTime.parse(Time, formatter);
-                                            Log.d("vivek","0");
+                                            parsedDate = LocalDate.parse(date, formatter1);
+
                                         }
 
                                         // Display the parsed time
@@ -267,27 +271,30 @@ public class CmeActivity extends AppCompatActivity {
                                     } catch (java.time.format.DateTimeParseException e) {
                                         // Handle parsing error, e.g., if the input string is in the wrong format
                                         System.err.println("Error parsing time: " + e.getMessage());
-                                        Log.d("vivek","Time");
+
                                     }
                                     LocalTime currentTime = null;
+
+                                    LocalDate currentDate = null;
                                     if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
                                         currentTime = LocalTime.now();
-                                        LocalDate currentDate = LocalDate.now();
+                                        currentDate = LocalDate.now();
                                     }
 
 
                                     int r = parsedTime.compareTo(currentTime);
+                                    int r1 = parsedDate.compareTo(currentDate);
 
-                                    Log.d("vivek", String.valueOf(r));
-                                    if (r<=0) {
+                                    Log.d("vivek2", String.valueOf(r));
+                                    if ((r <= 0) || (r1 < 0)) {
                                         field3 = ((String) dataMap.get("CME Title"));
                                         field4 = ((String) dataMap.get("CME Presenter"));
                                         field1 = (String) dataMap.get("User");
                                         field2 = ((String) dataMap.get("Speciality"));
-                                        String field5=((String) dataMap.get("CME Organiser"));
+                                        String field5 = ((String) dataMap.get("CME Organiser"));
 
 
-                                        cmeitem1 c = new cmeitem1(field1, field2,  5,field3,field4,field5);
+                                        cmeitem1 c = new cmeitem1(field1, field2, 5, field3, field4, field5);
                                         items.add(c);
                                         recyclerView.setLayoutManager(new LinearLayoutManager(getApplication(), LinearLayoutManager.HORIZONTAL, false));
                                         recyclerView.setAdapter(new MyAdapter2(getApplication(), items));
@@ -317,16 +324,20 @@ public class CmeActivity extends AppCompatActivity {
 
                                     Map<String, Object> dataMap = document.getData();
                                     DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HH:mm");
+                                    DateTimeFormatter formatter1 = DateTimeFormatter.ofPattern("yyyy-MM-dd");
                                     String Time = document.getString("Selected Time");
-                                    Log.d("vivek",Time);
+                                    String date =  document.getString("Selected Date");
+
                                     //
                                     LocalTime parsedTime = null;
+                                    LocalDate parsedDate=null;
                                     try {
                                         // Parse the time string into a LocalTime object
                                         parsedTime = null;
                                         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
                                             parsedTime = LocalTime.parse(Time, formatter);
-                                            Log.d("vivek","0");
+                                            parsedDate = LocalDate.parse(date, formatter1);
+
                                         }
 
                                         // Display the parsed time
@@ -334,24 +345,26 @@ public class CmeActivity extends AppCompatActivity {
                                     } catch (java.time.format.DateTimeParseException e) {
                                         // Handle parsing error, e.g., if the input string is in the wrong format
                                         System.err.println("Error parsing time: " + e.getMessage());
-                                        Log.d("vivek","Time");
+
                                     }
                                     LocalTime currentTime = null;
+                                    LocalDate currentDate = null;
                                     if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
                                         currentTime = LocalTime.now();
-                                        LocalDate currentDate = LocalDate.now();
+                                        currentDate = LocalDate.now();
                                     }
 
 
                                     int r = parsedTime.compareTo(currentTime);
 
                                     Log.d("vivek", String.valueOf(r));
-                                    if (r<=0) {
+                                    int r1 = parsedDate.compareTo(currentDate);
+                                    if ((r <= 0) || (r1 < 0)) {
                                         field3 = ((String) dataMap.get("CME Title"));
                                         field4 = ((String) dataMap.get("CME Presenter"));
                                         field1 = (String) dataMap.get("CME Organiser");
                                         field2 = ((String) dataMap.get("Speciality"));
-                                        cmeitem4 c = new cmeitem4(field1, field2,  5,field3,field4);
+                                        cmeitem4 c = new cmeitem4(field1, field2, 5, field3, field4);
                                         items1.add(c);
                                         recyclerView4.setLayoutManager(new LinearLayoutManager(getApplication(), LinearLayoutManager.HORIZONTAL, false));
                                         recyclerView4.setAdapter(new MyAdapter1(getApplication(), items1));
@@ -393,7 +406,7 @@ public class CmeActivity extends AppCompatActivity {
                                     DateTimeFormatter formatter1 = DateTimeFormatter.ofPattern("yyyy-MM-dd");
                                     String Time = document.getString("Selected Time");
                                     String date =  document.getString("Selected Date");
-                                    Log.d("vivek", Time);
+
 //
                                     LocalTime parsedTime = null;
                                     LocalDate parsedDate = null;
@@ -428,7 +441,7 @@ public class CmeActivity extends AppCompatActivity {
                                     int r1 = parsedDate.compareTo(currentDate);
 
                                     Log.d("vivek1", String.valueOf(r1));
-                                    if ((r > 0)&&(r1<=0)) {
+                                    if ((r > 0)&&(r1>=0)) {
                                         field1 = (String) dataMap.get("CME Presenter");
                                         field2 = ((String) dataMap.get("CME Title"));
                                         Log.d(TAG, (String) dataMap.get("Speciality"));

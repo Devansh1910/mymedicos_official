@@ -1,9 +1,12 @@
+//package com.example.my_medicos;
+//
+//public class jobitem1 {
+//}
 package com.example.my_medicos;
 
 import static android.content.ContentValues.TAG;
 
 import android.util.Log;
-
 import androidx.annotation.NonNull;
 
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -15,18 +18,23 @@ import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.Map;
 
-public class jobitem {
+
+
+public class jobitem1 {
 
     String position,speciality,Location,Organiser;
     String hospital;
     String location;
 
 
-    public jobitem(String position, String hospital, String location) {
+    public jobitem1(String position, String hospital, String location) {
 
         this.position = position;
         this.hospital = hospital;
         this.location = location;
+        Log.d("speciality1",position);
+        Log.d("speciality1",hospital);
+        Log.d("speciality1",location);
     }
 
     public String getPosition() {
@@ -53,3 +61,4 @@ public class jobitem {
         this.location = location;
     }
 }
+
