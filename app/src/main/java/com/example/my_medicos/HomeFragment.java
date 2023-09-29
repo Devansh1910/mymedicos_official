@@ -1,30 +1,20 @@
 package com.example.my_medicos;
 
-import static android.content.ContentValues.TAG;
-import static java.security.AccessController.getContext;
-
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 
-import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
-import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.QueryDocumentSnapshot;
-import com.google.firebase.firestore.QuerySnapshot;
+import com.example.my_medicos.ui.news.NewsActivity;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 public class HomeFragment extends Fragment {
 
@@ -102,56 +92,24 @@ public class HomeFragment extends Fragment {
                 startActivity(i);
             }
         });
+
+
         List<jobitem> joblist = new ArrayList<jobitem>();
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity(),LinearLayoutManager.HORIZONTAL, false));
-        FirebaseFirestore dc = FirebaseFirestore.getInstance();
-        //......
-        dc.collection("JOB")
-                .get()
-                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                    @Override
-                    public void onComplete(@NonNull Task<QuerySnapshot> task ) {
 
-                        if (task.isSuccessful()) {
-                            for (QueryDocumentSnapshot document : task.getResult()) {
+        joblist.add(new jobitem("Dentist", "ESI hospital", "Hubli"));
+        joblist.add(new jobitem("Surgen", "Shushruta hospital", "Hubli"));
+        joblist.add(new jobitem("Gynacologist", "Tatvadarshi hospital", "Hubli"));
+        joblist.add(new jobitem("Pediatric", "KMC", "Hubli"));
 
-                                Map<String, Object> dataMap = document.getData();
-                                String speciality = ((String) dataMap.get("JOB Speciality"));
-                                String Organiser =((String) dataMap.get("JOB Organiser"));
-                                String Location =((String) dataMap.get("JOB Location"));
-
-                                jobitem c = new jobitem(speciality, Organiser, Location);
-                                joblist.add(c);
-                                Log.d("speciality", speciality);
-                                adapter = new MyAdapter(getContext(),joblist); // Pass the joblist to the adapter
-                                recyclerView.setAdapter(adapter);
-
-
-
-                            }
-                        } else {
-                            Log.d(TAG, "Error getting documents: ", task.getException());
-                        }
-                    }
-                });
-
-
-//        List<jobitem> joblist = new ArrayList<jobitem>();
-//        recyclerView.setLayoutManager(new LinearLayoutManager(getActivity(),LinearLayoutManager.HORIZONTAL, false));
-//
-//        joblist.add(new jobitem("Dentist", "ESI hospital", "Hubli"));
-//        joblist.add(new jobitem("Surgen", "Shushruta hospital", "Hubli"));
-//        joblist.add(new jobitem("Gynacologist", "Tatvadarshi hospital", "Hubli"));
-//        joblist.add(new jobitem("Pediatric", "KMC", "Hubli"));
-//
-//        adapter = new MyAdapter(getContext(),joblist); // Pass the joblist to the adapter
-//        recyclerView.setAdapter(adapter);
+        adapter = new MyAdapter(getContext(),joblist); // Pass the joblist to the adapter
+        recyclerView.setAdapter(adapter);
 
         publication=rootView.findViewById(R.id.pub_image);
         publication.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent i=new Intent(getActivity(),PublicationsActivity.class);
+                Intent i=new Intent(getActivity(),PublicationActivity.class);
                 startActivity(i);
             }
         });

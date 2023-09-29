@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/navigation_free"
+        android:icon="@drawable/all"
+        android:title="All" />
+
+    <item
+        android:id="@+id/navigation_all"
+        android:icon="@drawable/free"
+        android:title="Free" />
+
+    <item
+        android:id="@+id/navigation_paid"
+        android:icon="@drawable/paid"
+        android:title="Paid" />
+
+    <item
+        android:id="@+id/navigation_cart"
+        android:icon="@drawable/cart"
+        android:title="Cart" />
+
+</menu>
