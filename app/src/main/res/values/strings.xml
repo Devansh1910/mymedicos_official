@@ -158,7 +158,12 @@
         <item>Radiology</item>
         <item>Select Subject</item>
         <item>Statistics</item>
+
     </string-array>
+    <string name="title_activity_publication">PublicationActivity</string>
+    <string name="title_free">All</string>
+    <string name="title_all">Free</string>
+    <string name="title_paid">Paid</string>
 
 
 </resources>

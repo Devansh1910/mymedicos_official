@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/mobile_navigation"
+    app:startDestination="@id/navigation_free">
+
+    <fragment
+        android:id="@+id/navigation_free"
+        android:name="com.example.my_medicos.ui.free.FreeFragment"
+        android:label="@string/title_free" />
+
+    <fragment
+        android:id="@+id/navigation_all"
+        android:name="com.example.my_medicos.ui.all.AllFragment"
+        android:label="@string/title_all"
+        tools:layout="@layout/fragment_all" />
+
+    <fragment
+        android:id="@+id/navigation_paid"
+        android:name="com.example.my_medicos.ui.paid.PaidFragment"
+        android:label="@string/title_paid"
+        tools:layout="@layout/fragment_paid" />
+    <fragment
+        android:id="@+id/navigation_cart"
+        android:name="com.example.my_medicos.ui.cart.CartFragment"
+        android:label="Cart"
+        tools:layout="@layout/fragment_cart" />
+</navigation>

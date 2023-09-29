@@ -24,6 +24,9 @@
         android:theme="@style/Theme.My_medicos"
         tools:targetApi="31">
         <activity
+            android:name=".PublicationActivity"
+            android:exported="false"/>
+        <activity
             android:name=".CmeSearchActivity"
             android:exported="false" />
         <activity
@@ -60,11 +63,9 @@
             android:name=".ResetPasswordActivity"
             android:exported="false" />
         <activity
-            android:name=".NewsActivity"
+            android:name=".ui.news.NewsActivity"
             android:exported="false" />
-        <activity
-            android:name=".PublicationsActivity"
-            android:exported="false" />
+
         <activity
             android:name=".CmeActivity"
             android:exported="false" />

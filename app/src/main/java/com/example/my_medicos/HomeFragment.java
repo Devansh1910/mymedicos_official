@@ -11,6 +11,8 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.my_medicos.ui.news.NewsActivity;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -107,7 +109,7 @@ public class HomeFragment extends Fragment {
         publication.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent i=new Intent(getActivity(),PublicationsActivity.class);
+                Intent i=new Intent(getActivity(),PublicationActivity.class);
                 startActivity(i);
             }
         });
