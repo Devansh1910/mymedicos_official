@@ -33,42 +33,54 @@
             </androidx.appcompat.widget.Toolbar>
         </com.google.android.material.appbar.AppBarLayout>
 
-        <EditText
+        <HorizontalScrollView
             android:layout_width="match_parent"
-            android:layout_height="@dimen/_40sdp"
-            android:layout_marginTop="@dimen/_5sdp"
-            android:layout_marginStart="@dimen/_10sdp"
-            android:layout_marginEnd="@dimen/_10sdp"
-            android:hint="    Search"
-            android:drawableEnd="@drawable/baseline_search_24"
-            android:background="@drawable/search_bg"/>
+            android:scrollbars="none"
+            android:layout_height="wrap_content">
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_marginTop="@dimen/_10sdp"
-            android:layout_height="wrap_content"
-            android:orientation="vertical">
-
-            <Spinner
-                android:id="@+id/city"
-                android:background="@drawable/spinner_back"
+            <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_marginStart="@dimen/_10sdp"
-                android:layout_marginEnd="@dimen/_10sdp"
-                android:layout_weight="1"
-                android:layout_height="@dimen/_40sdp"/>
+                android:layout_height="wrap_content"
+                android:paddingVertical="@dimen/_10ssp"
+                android:layout_marginBottom="@dimen/_5ssp"
+                android:orientation="horizontal">
 
-            <Spinner
-                android:background="@drawable/spinner_back"
-                android:id="@+id/speciality"
-                android:layout_width="match_parent"
-                android:layout_marginTop="@dimen/_10sdp"
-                android:layout_marginStart="@dimen/_10sdp"
-                android:layout_marginEnd="@dimen/_10sdp"
-                android:layout_weight="1"
-                android:layout_height="@dimen/_40sdp"/>
+                <Spinner
+                    android:id="@+id/city"
+                    android:layout_width="match_parent"
+                    android:paddingHorizontal="@dimen/_25ssp"
+                    android:layout_height="@dimen/_40sdp"
+                    android:layout_marginHorizontal="@dimen/_2ssp"
+                    android:layout_weight="1"
+                    android:background="@drawable/spinner_new" />
 
-        </LinearLayout>
+                <Spinner
+                    android:background="@drawable/spinner_new"
+                    android:id="@+id/speciality"
+                    android:paddingHorizontal="@dimen/_25ssp"
+                    android:layout_width="match_parent"
+                    android:layout_marginHorizontal="@dimen/_2ssp"
+                    android:layout_weight="1"
+                    android:layout_height="@dimen/_40sdp"/>
+
+                <Spinner
+                    android:background="@drawable/spinner_new"
+                    android:id="@+id/subspeciality"
+                    android:paddingHorizontal="@dimen/_25ssp"
+                    android:layout_width="match_parent"
+                    android:layout_weight="1"
+                    android:layout_marginHorizontal="@dimen/_5ssp"
+                    android:layout_height="@dimen/_40sdp"/>
+                <Button
+                    android:layout_width="match_parent"
+                    android:layout_height="52.00dp"
+                    android:id="@+id/ok"
+                    android:text="OK"
+                    android:clickable="true"/>
+
+            </LinearLayout>
+
+        </HorizontalScrollView>
 
         <com.google.android.material.tabs.TabLayout
             android:id="@+id/jobtablayout"

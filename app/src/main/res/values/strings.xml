@@ -103,6 +103,17 @@
         <item>Offline</item>
 
     </string-array>
+    <string-array name="Job_type">
+        <item>-Select Type-</item>
+        <item>Regular</item>
+        <item>Loccum</item>
+
+    </string-array>
+    <string-array name="experience">
+        <item>-Select Experience</item>
+        <item>-Fresher</item>
+        <item>-Experienced</item>
+    </string-array>
 
 
     <string-array name="indian_cities">

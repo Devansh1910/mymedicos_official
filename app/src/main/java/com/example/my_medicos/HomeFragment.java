@@ -119,13 +119,14 @@ public class HomeFragment extends Fragment {
 
 
                                 Map<String, Object> dataMap = document.getData();
-                                String speciality = ((String) dataMap.get("JOB Speciality"));
+//                                String speciality = ((String) dataMap.get("Speciality"));
+                                String speciality="";
                                 String Organiser =((String) dataMap.get("JOB Organiser"));
-                                String Location =((String) dataMap.get("JOB Location"));
+                                String Location =((String) dataMap.get("Location"));
 
                                 jobitem c = new jobitem(speciality, Organiser, Location);
                                 joblist.add(c);
-                                Log.d("speciality2", speciality);
+//                                Log.d("speciality2", speciality);
                                 Log.d("speciality2", Organiser);
                                 Log.d("speciality2", Location);
 //
@@ -133,7 +134,7 @@ public class HomeFragment extends Fragment {
 //                                Log.d("speciality2", speciality);
                                 adapter = new MyAdapter(getContext(),joblist); // Pass the joblist to the adapter
                                 recyclerView.setAdapter(adapter);
-                                Log.d("speciality2", speciality);
+//                                Log.d("speciality2", speciality);
 
 
 

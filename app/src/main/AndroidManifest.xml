@@ -60,7 +60,13 @@
             android:name=".PostCmeActivity"
             android:exported="false" />
         <activity
+            android:name=".JobDetailsActivity"
+            android:exported="false" />
+        <activity
             android:name=".ResetPasswordActivity"
+            android:exported="false" />
+        <activity
+            android:name=".JobsApplyActivity"
             android:exported="false" />
         <activity
             android:name=".ui.news.NewsActivity"

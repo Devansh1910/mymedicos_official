@@ -1,10 +1,14 @@
 package com.example.my_medicos;
 
+import static androidx.core.content.ContextCompat.startActivity;
+
 import android.content.Context;
+import android.content.Intent;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -35,6 +39,17 @@ public class MyAdapter6 extends RecyclerView.Adapter<MyAdapter6.MyViewHolder6> {
         Log.d("12345678", joblist.get(position).getPosition());
         Log.d("12345678", joblist.get(position).getHospital());
         Log.d("12345678", joblist.get(position).getLocation());
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View a) {
+                Context context = a.getContext();
+                Intent i = new Intent(context, JobDetailsActivity.class);
+                i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);// Add this line
+                i.putExtra("name",joblist.get(position).getHospital());
+                context.startActivity(i);
+            }
+        });
+
     }
 
     @Override
@@ -44,12 +59,25 @@ public class MyAdapter6 extends RecyclerView.Adapter<MyAdapter6.MyViewHolder6> {
 
     public static class MyViewHolder6 extends RecyclerView.ViewHolder {
         TextView pos, hosp, loc;
+        Button apply;
 
         public MyViewHolder6(@NonNull View itemView) {
             super(itemView);
             pos = itemView.findViewById(R.id.job_pos1);
             hosp = itemView.findViewById(R.id.hosp_name1);
             loc = itemView.findViewById(R.id.job_loc1);
+            apply=itemView.findViewById(R.id.Apply1);
+            apply.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Context context = view.getContext();
+                    Intent j=new Intent(context, JobsApplyActivity.class);
+                    j.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                    context.startActivity(j);
+                }
+
+
+            });
         }
     }
 }

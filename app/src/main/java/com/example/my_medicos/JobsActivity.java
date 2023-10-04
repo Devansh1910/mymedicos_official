@@ -12,7 +12,9 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.Spinner;
 import android.widget.Toast;
 
@@ -44,6 +46,14 @@ public class JobsActivity extends AppCompatActivity {
 
 
     RecyclerView recyclerView1;
+    Button OK;
+    private Spinner specialitySpinner;
+    String selectedMode1,selectedMode2,selectedMode;
+
+    private Spinner subspecialitySpinner;
+    private ArrayAdapter<CharSequence> specialityAdapter;
+    private ArrayAdapter<CharSequence> subspecialityAdapter;
+    private final String[][] subspecialities = subSpecialitiesData.subspecialities;
     MyAdapter6 adapter1;
 
     FloatingActionButton floatingActionButton;
@@ -79,21 +89,94 @@ public class JobsActivity extends AppCompatActivity {
         pager = findViewById(R.id.jobViewpager);
         tabLayout = findViewById(R.id.jobtablayout);
 
-        Spinner spinner = (Spinner) findViewById(R.id.speciality);
-// Create an ArrayAdapter using the string array and a default spinner layout
-        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
+        specialitySpinner = findViewById(R.id.speciality);
+        subspecialitySpinner = findViewById(R.id.subspeciality);
+
+        specialityAdapter = ArrayAdapter.createFromResource(this,
                 R.array.speciality, android.R.layout.simple_spinner_item);
-// Specify the layout to use when the list of choices appears
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-// Apply the adapter to the spinner
-        spinner.setAdapter(adapter);
+        specialityAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        specialitySpinner.setAdapter(specialityAdapter);
+
+
+        subspecialityAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item);
+        subspecialityAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        subspecialitySpinner.setAdapter(subspecialityAdapter);
+        // Initially, hide the subspeciality spinner
+        subspecialitySpinner.setVisibility(View.GONE);
+
+
+        specialitySpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parentView, View selectedItemView, int position, long id) {
+                selectedMode1 = specialitySpinner.getSelectedItem().toString();
+
+
+
+            }
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+
+            }
+        });
+
+        specialitySpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int position, long l) {
+                // Check if the selected speciality has subspecialities
+                int specialityIndex = specialitySpinner.getSelectedItemPosition();
+
+
+                if (specialityIndex >= 0 && specialityIndex < subspecialities.length && subspecialities[specialityIndex].length > 0) {
+                    String[] subspecialityArray = subspecialities[specialityIndex];
+                    subspecialityAdapter.clear();
+                    subspecialityAdapter.add("Select Subspeciality");
+                    for (String subspeciality : subspecialityArray) {
+                        subspecialityAdapter.add(subspeciality);
+                    }
+                    // Show the subspeciality spinner
+                    subspecialitySpinner.setVisibility(View.VISIBLE);
+
+                    subspecialitySpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                        @Override
+                        public void onItemSelected(AdapterView<?> parentView, View selectedItemView, int position, long id) {
+                            selectedMode2 = subspecialitySpinner.getSelectedItem().toString();
+                            selectedMode1 = specialitySpinner.getSelectedItem().toString();
+
+
+
+
+                        }
+                        @Override
+                        public void onNothingSelected(AdapterView<?> adapterView) {
+
+                        }
+                    });
+                } else {
+                    // Hide the subspeciality spinner
+                    subspecialitySpinner.setVisibility(View.GONE);
+                }
+
+            }
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+                // Do nothing
+            }
+        });
+
+
+
+
+
+
+//
+        OK = findViewById(R.id.ok);
 
         Spinner  spinner2= (Spinner) findViewById(R.id.city);
 // Create an ArrayAdapter using the string array and a default spinner layout
         ArrayAdapter<CharSequence> myadapter = ArrayAdapter.createFromResource(this,
                 R.array.indian_cities, android.R.layout.simple_spinner_item);
 // Specify the layout to use when the list of choices appears
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        myadapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 // Apply the adapter to the spinner
         spinner2.setAdapter(myadapter);
 
@@ -127,9 +210,9 @@ public class JobsActivity extends AppCompatActivity {
 
 
                                 Map<String, Object> dataMap = document.getData();
-                                String speciality = ((String) dataMap.get("JOB Speciality"));
+                                String speciality = "";
                                 String Organiser =((String) dataMap.get("JOB Organiser"));
-                                String Location =((String) dataMap.get("JOB Location"));
+                                String Location =((String) dataMap.get("Location"));
 
                                 jobitem1 c = new jobitem1(speciality, Organiser, Location);
                                 joblist.add(c);

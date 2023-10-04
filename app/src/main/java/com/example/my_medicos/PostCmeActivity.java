@@ -75,8 +75,8 @@ public class PostCmeActivity extends AppCompatActivity {
     private Calendar calendar;
     private SimpleDateFormat dateFormat, timeFormat;
 
-    private static final int REQUEST_STORAGE_PERMISSION = 1;
-    private static final int REQUEST_STORAGE_ACCESS = 2;
+    static final int REQUEST_STORAGE_PERMISSION = 1;
+    static final int REQUEST_STORAGE_ACCESS = 2;
     private ArrayAdapter<CharSequence> specialityAdapter;
     private ArrayAdapter<CharSequence> subspecialityAdapter;
     private CardView btnAccessStorage;
