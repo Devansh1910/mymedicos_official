@@ -50,7 +50,7 @@ public class HomeFragment extends Fragment {
         ugexams.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent i = new Intent(getActivity(), UgexamsActivity.class);
+                Intent i = new Intent(getActivity(), UgExamActivity.class);
                 startActivity(i);
             }
         });

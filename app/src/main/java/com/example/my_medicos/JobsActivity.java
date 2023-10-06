@@ -54,7 +54,7 @@ public class JobsActivity extends AppCompatActivity {
     private ArrayAdapter<CharSequence> specialityAdapter;
     private ArrayAdapter<CharSequence> subspecialityAdapter;
     private final String[][] subspecialities = subSpecialitiesData.subspecialities;
-    MyAdapter6 adapter1;
+//    MyAdapter6 adapter1;
 
     FloatingActionButton floatingActionButton;
 
@@ -223,7 +223,7 @@ public class JobsActivity extends AppCompatActivity {
 //                                // Pass the joblist to the adapter
 //                                Log.d("speciality2", speciality);
                                 recyclerView1.setLayoutManager(new LinearLayoutManager(getApplication(),LinearLayoutManager.VERTICAL, false));
-                                recyclerView1.setAdapter( new MyAdapter6(getApplication(),joblist));
+//                                recyclerView1.setAdapter( new MyAdapter6(getApplication(),joblist));
                                 Log.d("speciality2", speciality);
 
 
