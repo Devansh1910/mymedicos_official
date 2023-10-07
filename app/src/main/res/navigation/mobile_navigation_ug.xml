@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/mobile_navigation_ug"
+    app:startDestination="@+id/navigation_ughome">
+
+    <fragment
+        android:id="@+id/navigation_ugform"
+        android:name="com.example.my_medicos.ui.ugform.UgFormFragment"
+        android:label="Form"
+        tools:layout="@layout/fragment_ugform" />
+
+    <fragment
+        android:id="@+id/navigation_ughome"
+        android:name="com.example.my_medicos.ui.ughome.UgHomeFragment"
+        android:label="Post"
+        tools:layout="@layout/fragment_ug_home" />
+
+</navigation>

@@ -12,8 +12,6 @@
     <uses-permission android:name="android.permission.MANAGE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.RECEIVE_SMS" />
     <uses-permission android:name="android.permission.READ_SMS" />
-    <uses-permission android:name="com.sec.android.provider.badge.permission.READ"/>
-    <uses-permission android:name="com.sec.android.provider.badge.permission.WRITE"/>
 
     <application
         android:allowBackup="true"
@@ -25,6 +23,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.My_medicos"
         tools:targetApi="31">
+        <activity
+            android:name=".UgPostInsiderActivity"
+            android:exported="false"/>
         <activity
             android:name=".PublicationActivity"
             android:exported="false"/>
@@ -50,7 +51,7 @@
             android:name=".EducationInfo"
             android:exported="false" />
         <activity
-            android:name=".UgexamsActivity"
+            android:name=".UgExamActivity"
             android:exported="false" />
         <activity
             android:name=".PgprepActivity"
@@ -61,17 +62,15 @@
         <activity
             android:name=".PostCmeActivity"
             android:exported="false" />
-        <activity
-            android:name=".JobDetailsActivity"
-            android:exported="false"
-            android:parentActivityName=".JobsActivity" />
+<!--        <activity-->
+<!--            android:name=".JobDetailsActivity"-->
+<!--            android:exported="false" />-->
         <activity
             android:name=".ResetPasswordActivity"
             android:exported="false" />
-        <activity
-            android:name=".JobsApplyActivity"
-            android:exported="false" />
-
+<!--        <activity-->
+<!--            android:name=".JobsApplyActivity"-->
+<!--            android:exported="false" />-->
         <activity
             android:name=".ui.news.NewsActivity"
             android:exported="false" />

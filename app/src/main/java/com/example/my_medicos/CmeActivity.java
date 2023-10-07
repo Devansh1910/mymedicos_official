@@ -124,8 +124,6 @@ public class CmeActivity extends AppCompatActivity {
             public void onItemSelected(AdapterView<?> parentView, View selectedItemView, int position, long id) {
                 selectedMode = modeSpinner.getSelectedItem().toString();
 
-
-
             }
             @Override
             public void onNothingSelected(AdapterView<?> adapterView) {
@@ -188,12 +186,6 @@ public class CmeActivity extends AppCompatActivity {
                 // Do nothing
             }
         });
-
-
-
-
-
-
 //
         OK = findViewById(R.id.ok);
 
