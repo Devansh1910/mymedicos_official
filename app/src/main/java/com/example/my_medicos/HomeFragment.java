@@ -119,12 +119,13 @@ public class HomeFragment extends Fragment {
 
 
                                 Map<String, Object> dataMap = document.getData();
-//                                String speciality = ((String) dataMap.get("Speciality"));
-                                String speciality="";
+                                String speciality = ((String) dataMap.get("Speciality"));
+
                                 String Organiser =((String) dataMap.get("JOB Organiser"));
                                 String Location =((String) dataMap.get("Location"));
+                                String date=((String) dataMap.get("date"));
 
-                                jobitem c = new jobitem(speciality, Organiser, Location);
+                                jobitem c = new jobitem(speciality, Organiser, Location,date);
                                 joblist.add(c);
 //                                Log.d("speciality2", speciality);
                                 Log.d("speciality2", Organiser);

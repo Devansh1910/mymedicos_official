@@ -31,21 +31,25 @@ public class MyAdapter6 extends RecyclerView.Adapter<MyAdapter6.MyViewHolder6> {
         return new MyViewHolder6(v);
     }
 
+
     @Override
     public void onBindViewHolder(@NonNull MyViewHolder6 holder, int position) {
         holder.pos.setText(joblist.get(position).getPosition());
         holder.hosp.setText(joblist.get(position).getHospital());
         holder.loc.setText(joblist.get(position).getLocation());
-        Log.d("12345678", joblist.get(position).getPosition());
-        Log.d("12345678", joblist.get(position).getHospital());
-        Log.d("12345678", joblist.get(position).getLocation());
+        holder.date.setText(joblist.get(position).getDate());
+
+//        Log.d("12345678", joblist.get(position).getPosition());
+//        Log.d("12345678", joblist.get(position).getHospital());
+//        Log.d("12345678", joblist.get(position).getLocation());
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View a) {
                 Context context = a.getContext();
                 Intent i = new Intent(context, JobDetailsActivity.class);
                 i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);// Add this line
-                i.putExtra("name",joblist.get(position).getHospital());
+                i.putExtra("user",joblist.get(position).getuser());
+
                 context.startActivity(i);
             }
         });
@@ -58,7 +62,7 @@ public class MyAdapter6 extends RecyclerView.Adapter<MyAdapter6.MyViewHolder6> {
     }
 
     public static class MyViewHolder6 extends RecyclerView.ViewHolder {
-        TextView pos, hosp, loc;
+        TextView pos, hosp, loc,date;
         Button apply;
 
         public MyViewHolder6(@NonNull View itemView) {
@@ -66,6 +70,9 @@ public class MyAdapter6 extends RecyclerView.Adapter<MyAdapter6.MyViewHolder6> {
             pos = itemView.findViewById(R.id.job_pos1);
             hosp = itemView.findViewById(R.id.hosp_name1);
             loc = itemView.findViewById(R.id.job_loc1);
+            date=itemView.findViewById(R.id.date);
+
+
             apply=itemView.findViewById(R.id.Apply1);
             apply.setOnClickListener(new View.OnClickListener() {
                 @Override

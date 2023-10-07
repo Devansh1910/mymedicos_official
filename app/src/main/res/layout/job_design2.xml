@@ -1,15 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content">
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
 
     <androidx.cardview.widget.CardView
-        android:layout_width="@dimen/_180sdp"
+        android:layout_width="match_parent"
         app:cardElevation="@dimen/_10sdp"
         app:cardCornerRadius="@dimen/_10sdp"
-        android:backgroundTint="@color/blue"
-        android:layout_height="@dimen/_160sdp"
+        android:backgroundTint="@color/white"
+        android:layout_height="@dimen/_110sdp"
         app:layout_constraintStart_toStartOf="parent"
         android:layout_marginStart="@dimen/_10sdp"
         android:layout_marginTop="@dimen/_10sdp"
@@ -17,50 +17,90 @@
         android:layout_marginEnd="@dimen/_10sdp"
         app:layout_constraintTop_toTopOf="parent">
 
-        <TextView
-            android:id="@+id/job_pos1"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:fontFamily="@font/montserrat_medium"
-            android:layout_marginStart="@dimen/_10sdp"
-            android:layout_marginTop="@dimen/_20sdp"
-            android:textStyle="bold"
-            android:textSize="@dimen/_16ssp"
-            android:text="Position"/>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:padding="@dimen/_10ssp"
+            android:orientation="vertical">
 
-        <TextView
-            android:id="@+id/hosp_name1"
-            android:layout_width="wrap_content"
-            android:fontFamily="@font/montserrat_medium"
-            android:layout_height="wrap_content"
-            android:text="Hospital Name"
-            android:layout_marginTop="@dimen/_50sdp"
-            android:layout_marginStart="@dimen/_10sdp"
-            android:textSize="@dimen/_14ssp"
-            android:textStyle="bold"/>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/job_pos1"
+                    android:layout_width="0dp"
+                    android:layout_weight="2"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/montserrat_medium"
+                    android:textStyle="bold"
+                    android:textSize="@dimen/_16ssp"
+                    android:text="Enter Position here"/>
+
+                <TextView
+                    android:id="@+id/date"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="01-Sept-2023"
+                    android:gravity="center"
+                    android:paddingVertical="@dimen/_2ssp"
+                    android:paddingHorizontal="@dimen/_2ssp"
+                    android:background="@drawable/rounded_comment_box"
+                    android:layout_gravity="center"
+                    android:textColor="#616161"
+                    android:textStyle="bold"
+                    android:textSize="@dimen/_10ssp"/>
 
 
-        <TextView
-            android:id="@+id/job_loc1"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Location"
-            android:fontFamily="@font/montserrat_medium"
-            android:textStyle="bold"
-            android:textSize="@dimen/_12ssp"
-            android:layout_marginTop="@dimen/_80sdp"
-            android:layout_marginStart="@dimen/_10sdp">
-        </TextView>
+            </LinearLayout>
 
+            <TextView
+                android:id="@+id/hosp_name1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/montserrat_medium"
+                android:text="Hospital Name"
+                android:textColor="#A1A1A1"
+                android:textSize="@dimen/_12ssp"
+                android:textStyle="bold"/>
 
-        <Button
-            android:id="@+id/Apply1"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Apply"
-            android:layout_marginTop="@dimen/_120sdp"
-            android:layout_marginStart="@dimen/_100sdp"
-            android:backgroundTint="#7B6BF8"/>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginTop="@dimen/_2ssp"
+                android:gravity="left"
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:layout_width="@dimen/_15ssp"
+                    android:layout_height="@dimen/_15ssp"
+                    android:src="@drawable/ll"/>
+
+                <TextView
+                    android:id="@+id/job_loc1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="#858585"
+                    android:text="Enter the state here"
+                    android:fontFamily="@font/montserrat_medium"
+                    android:textStyle="bold"
+                    android:textSize="@dimen/_12ssp"/>
+
+            </LinearLayout>
+
+            <Button
+                android:id="@+id/Apply1"
+                android:layout_marginTop="@dimen/_2ssp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Apply"
+                android:backgroundTint="#2196F3"/>
+
+        </LinearLayout>
+
     </androidx.cardview.widget.CardView>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

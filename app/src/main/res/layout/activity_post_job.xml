@@ -57,6 +57,16 @@
                 android:hint="Job_Organiser"
                 android:paddingStart="@dimen/_10sdp" />
             <EditText
+                android:id="@+id/Job_hopital"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/_40sdp"
+                android:layout_marginStart="@dimen/_20sdp"
+                android:layout_marginTop="@dimen/_10sdp"
+                android:layout_marginEnd="@dimen/_20sdp"
+                android:background="@drawable/spinner_back"
+                android:hint="Hospital name"
+                android:paddingStart="@dimen/_10sdp" />
+            <EditText
                 android:id="@+id/opening"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/_40sdp"

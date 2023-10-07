@@ -25,13 +25,17 @@ public class jobitem1 {
     String position,speciality,Location,Organiser;
     String hospital;
     String location;
+    String date,user;
 
 
-    public jobitem1(String position, String hospital, String location) {
+    public jobitem1(String position, String hospital, String location,String date,String user) {
 
         this.position = position;
         this.hospital = hospital;
         this.location = location;
+        this.date=date;
+        this.user=user;
+
         Log.d("speciality1",position);
         Log.d("speciality1",hospital);
         Log.d("speciality1",location);
@@ -48,6 +52,10 @@ public class jobitem1 {
     public String getHospital() {
         return hospital;
     }
+    public String getDate() {
+        return date;
+    }
+    String getuser(){return user;}
 
     public void setHospital(String hospital) {
         this.hospital = hospital;

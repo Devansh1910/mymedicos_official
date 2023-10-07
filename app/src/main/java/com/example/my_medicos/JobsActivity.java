@@ -54,6 +54,7 @@ public class JobsActivity extends AppCompatActivity {
     private ArrayAdapter<CharSequence> specialityAdapter;
     private ArrayAdapter<CharSequence> subspecialityAdapter;
     private final String[][] subspecialities = subSpecialitiesData.subspecialities;
+    FirebaseFirestore dc = FirebaseFirestore.getInstance();
     MyAdapter6 adapter1;
 
     FloatingActionButton floatingActionButton;
@@ -61,7 +62,7 @@ public class JobsActivity extends AppCompatActivity {
     private ViewPager2 pager;
     private TabLayout tabLayout;
     RecyclerView recyclerView2;
-    FirebaseFirestore db = FirebaseFirestore.getInstance();
+
     String speciality,Organiser,Location;
 
     Toolbar toolbar;
@@ -105,19 +106,16 @@ public class JobsActivity extends AppCompatActivity {
         subspecialitySpinner.setVisibility(View.GONE);
 
 
-        specialitySpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> parentView, View selectedItemView, int position, long id) {
-                selectedMode1 = specialitySpinner.getSelectedItem().toString();
-
-
-
-            }
-            @Override
-            public void onNothingSelected(AdapterView<?> adapterView) {
-
-            }
-        });
+//        specialitySpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+//            @Override
+//            public void onItemSelected(AdapterView<?> parentView, View selectedItemView, int position, long id) {
+//                selectedMode1 = specialitySpinner.getSelectedItem().toString();
+//            }
+//            @Override
+//            public void onNothingSelected(AdapterView<?> adapterView) {
+//
+//            }
+//        });
 
         specialitySpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
@@ -195,10 +193,6 @@ public class JobsActivity extends AppCompatActivity {
         }).attach();
         recyclerView1 = findViewById(R.id.recyclerview5);
         List<jobitem1> joblist = new ArrayList<jobitem1>();
-
-
-        FirebaseFirestore dc = FirebaseFirestore.getInstance();
-        //......
         dc.collection("JOB")
                 .get()
                 .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
@@ -210,11 +204,15 @@ public class JobsActivity extends AppCompatActivity {
 
 
                                 Map<String, Object> dataMap = document.getData();
-                                String speciality = "";
+
                                 String Organiser =((String) dataMap.get("JOB Organiser"));
                                 String Location =((String) dataMap.get("Location"));
+                                String date=((String) dataMap.get("date"));
+                                String user=((String) dataMap.get("User"));
+                                String speciality=((String) dataMap.get("Speciality"));
 
-                                jobitem1 c = new jobitem1(speciality, Organiser, Location);
+
+                                jobitem1 c = new jobitem1(speciality, Organiser, Location,date,user);
                                 joblist.add(c);
                                 Log.d("speciality2", speciality);
                                 Log.d("speciality2", Organiser);

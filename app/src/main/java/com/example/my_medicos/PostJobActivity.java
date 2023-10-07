@@ -47,7 +47,7 @@ import java.util.Map;
 import android.app.ProgressDialog;
 
 public class PostJobActivity extends AppCompatActivity {
-    EditText title,Organiser,salary,jobposition,description,Opening,duration;
+    EditText title,Organiser,salary,jobposition,description,Opening,duration,hospital;
     public FirebaseDatabase db = FirebaseDatabase.getInstance();
     String selectedMode, selectedMode3;
     String selectedMode2;
@@ -91,6 +91,8 @@ public class PostJobActivity extends AppCompatActivity {
         jobposition=findViewById(R.id.Job_post);
         description=findViewById(R.id.Job_desc);
         duration=findViewById(R.id.job_duration);
+        hospital=findViewById(R.id.Job_hopital);
+
         dc.collection("users").get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
             @Override
             public void onComplete(Task<QuerySnapshot> task) {
@@ -127,19 +129,6 @@ public class PostJobActivity extends AppCompatActivity {
                 R.array.speciality, android.R.layout.simple_spinner_item);
         specialityAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         specialitySpinner.setAdapter(specialityAdapter);
-        specialitySpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> parentView, View selectedItemView, int position, long id) {
-                selectedMode3= specialitySpinner.getSelectedItem().toString();
-
-
-            }
-            @Override
-            public void onNothingSelected(AdapterView<?> adapterView) {
-
-            }
-        });
-
         subspecialityAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item);
         subspecialityAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         subspecialitySpinner.setAdapter(subspecialityAdapter);
@@ -163,6 +152,7 @@ public class PostJobActivity extends AppCompatActivity {
                         @Override
                         public void onItemSelected(AdapterView<?> parentView, View selectedItemView, int position, long id) {
                             subspecialities1 = subspecialitySpinner.getSelectedItem().toString();
+                            speciality=specialitySpinner.getSelectedItem().toString();
 
                         }
                         @Override
@@ -188,7 +178,19 @@ public class PostJobActivity extends AppCompatActivity {
         myadapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 // Apply the adapter to the spinner
         spinner2.setAdapter(myadapter);
-        selectedMode = spinner2.getSelectedItem().toString();
+
+        spinner2.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parentView, View selectedItemView, int position, long id) {
+                selectedMode = spinner2.getSelectedItem().toString();
+
+
+            }
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+
+            }
+        });
 
         Spinner modeSpinner = findViewById(R.id.job);
         ArrayAdapter<CharSequence> modeAdapter = ArrayAdapter.createFromResource(this,
@@ -299,6 +301,11 @@ public class PostJobActivity extends AppCompatActivity {
 
         // Get the selected date and time
         String selectedDate = tvDate.getText().toString();
+        Log.d("viveknew",speciality);
+//        Spinner jobspecialitySpinner = findViewById(R.id.speciality);
+//        speciality = jobspecialitySpinner.getSelectedItem().toString();
+        Log.d("viveknew",speciality);
+        String Hospital=hospital.getText().toString().trim();
 
 
         HashMap<String, Object> usermap = new HashMap<>();
@@ -312,29 +319,31 @@ public class PostJobActivity extends AppCompatActivity {
         usermap.put("Location",selectedMode);
 
         usermap.put("Job type",selectedMode2);
-        usermap.put("Speciality", selectedMode3);
+        usermap.put("Speciality", speciality);
         usermap.put("SubSpeciality",subspecialities1);
-        usermap.put("Selected Date", selectedDate);
+        usermap.put("date", selectedDate);
+        usermap.put("Hospital",Hospital);
+
         // Add selected date
        // Add selected time
 
 
 
 
-        dc.collection("JOB")
-                .add(usermap)
-                .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
-                    @Override
-                    public void onSuccess(DocumentReference documentReference) {
-                        Log.d(TAG, "DocumentSnapshot written with ID: " + documentReference.getId());
-                    }
-                })
-                .addOnFailureListener(new OnFailureListener() {
-                    @Override
-                    public void onFailure(@NonNull Exception e) {
-                        Log.w(TAG, "Error adding document", e);
-                    }
-                });
+//        dc.collection("JOB")
+//                .add(usermap)
+//                .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
+//                    @Override
+//                    public void onSuccess(DocumentReference documentReference) {
+//                        Log.d(TAG, "DocumentSnapshot written with ID: " + documentReference.getId());
+//                    }
+//                })
+//                .addOnFailureListener(new OnFailureListener() {
+//                    @Override
+//                    public void onFailure(@NonNull Exception e) {
+//                        Log.w(TAG, "Error adding document", e);
+//                    }
+//                });
 //        String Organisation = organisation.getText().toString().trim();
 //
 //        String Location = location.getText().toString().trim();
@@ -351,19 +360,19 @@ public class PostJobActivity extends AppCompatActivity {
 //        usermap.put("JOB Speciality", Speciality);
 
 
-//        cmeref.push().setValue(usermap).addOnCompleteListener(new OnCompleteListener<Void>() {
-//            @Override
-//            public void onComplete(@NonNull Task<Void> task) {
-//
-//
-//                if (task.isSuccessful()) {
-//                    dc.collection("JOB").add(usermap);
-//                    Toast.makeText(PostJobActivity.this, "Posted Successfully", Toast.LENGTH_SHORT).show();
-//                } else {
-//                    Toast.makeText(PostJobActivity.this, "Task Failed", Toast.LENGTH_SHORT).show();
-//                }
-//            }
-//        });
+        cmeref.push().setValue(usermap).addOnCompleteListener(new OnCompleteListener<Void>() {
+            @Override
+            public void onComplete(@NonNull Task<Void> task) {
+
+
+                if (task.isSuccessful()) {
+                    dc.collection("JOB").add(usermap);
+                    Toast.makeText(PostJobActivity.this, "Posted Successfully", Toast.LENGTH_SHORT).show();
+                } else {
+                    Toast.makeText(PostJobActivity.this, "Task Failed", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
 
 
 

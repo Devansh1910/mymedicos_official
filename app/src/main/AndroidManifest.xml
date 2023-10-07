@@ -12,6 +12,8 @@
     <uses-permission android:name="android.permission.MANAGE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.RECEIVE_SMS" />
     <uses-permission android:name="android.permission.READ_SMS" />
+    <uses-permission android:name="com.sec.android.provider.badge.permission.READ"/>
+    <uses-permission android:name="com.sec.android.provider.badge.permission.WRITE"/>
 
     <application
         android:allowBackup="true"
@@ -61,13 +63,15 @@
             android:exported="false" />
         <activity
             android:name=".JobDetailsActivity"
-            android:exported="false" />
+            android:exported="false"
+            android:parentActivityName=".JobsActivity" />
         <activity
             android:name=".ResetPasswordActivity"
             android:exported="false" />
         <activity
             android:name=".JobsApplyActivity"
             android:exported="false" />
+
         <activity
             android:name=".ui.news.NewsActivity"
             android:exported="false" />

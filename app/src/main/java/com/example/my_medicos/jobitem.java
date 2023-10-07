@@ -17,16 +17,18 @@ import java.util.Map;
 
 public class jobitem {
 
-    String position,speciality,Location,Organiser;
+    String position,speciality,Location,Organiser,date;
     String hospital;
     String location;
 
 
-    public jobitem(String position, String hospital, String location) {
+    public jobitem(String position, String hospital, String location,String date) {
 
         this.position = position;
         this.hospital = hospital;
         this.location = location;
+        this.date=date;
+
     }
 
     public String getPosition() {
@@ -39,6 +41,9 @@ public class jobitem {
 
     public String getHospital() {
         return hospital;
+    }
+    public String getDate() {
+        return date;
     }
 
     public void setHospital(String hospital) {
