@@ -25,11 +25,10 @@
             <androidx.appcompat.widget.Toolbar
                 android:id="@+id/cmetoolbar"
                 app:title="CME"
-                app:navigationIcon="@drawable/bbk"
+                app:navigationIcon="@drawable/arrow_bk"
                 app:titleTextColor="@color/white"
                 app:subtitleTextColor="@color/white"
                 app:subtitleTextAppearance="@color/white"
-                app:subtitle="Continuing Medical Education (CME)"
                 android:backgroundTint="@color/blue"
                 android:layout_width="match_parent"
                 android:layout_height="?attr/actionBarSize"
@@ -58,10 +57,10 @@
                     android:layout_height="@dimen/_40sdp"
                     android:layout_marginHorizontal="@dimen/_2ssp"
                     android:layout_weight="1"
-                    android:background="@drawable/spinner_new" />
+                    android:background="@drawable/white_back_using_ground" />
 
                 <Spinner
-                    android:background="@drawable/spinner_new"
+                    android:background="@drawable/white_back_using_ground"
                     android:id="@+id/speciality"
                     android:paddingHorizontal="@dimen/_25ssp"
                     android:layout_width="match_parent"
@@ -70,8 +69,8 @@
                     android:layout_height="@dimen/_40sdp"/>
 
                 <Spinner
-                    android:background="@drawable/spinner_new"
-                    android:id="@+id/subspeciality"
+                    android:background="@drawable/white_back_using_ground"
+                      android:id="@+id/subspeciality"
                     android:paddingHorizontal="@dimen/_25ssp"
                     android:layout_width="match_parent"
                     android:layout_weight="1"
@@ -114,7 +113,7 @@
 
                 <ViewFlipper
                     android:layout_width="match_parent"
-                    android:layout_height="@dimen/_120sdp"
+                    android:layout_height="@dimen/_140sdp"
                     android:autoStart="true"
                     android:layout_marginHorizontal="@dimen/_5ssp"
                     android:flipInterval="5000">
@@ -139,161 +138,148 @@
 
                 </ViewFlipper>
 
-                <LinearLayout
+                <com.google.android.material.tabs.TabLayout
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginVertical="@dimen/_10sdp"
-                    android:orientation="horizontal">
+                    android:layout_margin="@dimen/_10ssp"
+                    android:layout_height="match_parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent">
 
-                    <TextView
-                        android:layout_width="0dp"
+                    <com.google.android.material.tabs.TabItem
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:paddingStart="@dimen/_10ssp"
-                        android:textSize="@dimen/_12ssp"
-                        android:textStyle="bold"
-                        android:textColor="@color/black"
-                        android:fontFamily="@font/montserrat_medium"
                         android:text="Ongoing" />
 
-                    <TextView
-                        android:layout_width="0dp"
+                    <com.google.android.material.tabs.TabItem
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:gravity="end"
-                        android:textStyle="bold"
-                        android:paddingEnd="@dimen/_10ssp"
-                        android:layout_gravity="end"
-                        android:fontFamily="@font/montserrat_medium"
-                        android:text="See All"
-                        android:textColor="@color/blue" />
+                        android:text="Past" />
 
-                </LinearLayout>
+                    <com.google.android.material.tabs.TabItem
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Upcoming" />
+                </com.google.android.material.tabs.TabLayout>
+
+<!--                <LinearLayout-->
+<!--                    android:layout_width="match_parent"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:layout_marginVertical="@dimen/_10sdp"-->
+<!--                    android:orientation="horizontal">-->
+
+<!--                    <TextView-->
+<!--                        android:layout_width="0dp"-->
+<!--                        android:layout_height="wrap_content"-->
+<!--                        android:layout_weight="1"-->
+<!--                        android:paddingStart="@dimen/_10ssp"-->
+<!--                        android:textSize="@dimen/_12ssp"-->
+<!--                        android:textStyle="bold"-->
+<!--                        android:textColor="@color/black"-->
+<!--                        android:fontFamily="@font/montserrat_medium"-->
+<!--                        android:text="Ongoing" />-->
+
+<!--                    <TextView-->
+<!--                        android:layout_width="0dp"-->
+<!--                        android:layout_height="wrap_content"-->
+<!--                        android:layout_weight="1"-->
+<!--                        android:paddingStart="@dimen/_10ssp"-->
+<!--                        android:textSize="@dimen/_12ssp"-->
+<!--                        android:textStyle="bold"-->
+<!--                        android:textColor="@color/black"-->
+<!--                        android:fontFamily="@font/montserrat_medium"-->
+<!--                        android:text="Past" />-->
+
+<!--                    <TextView-->
+<!--                        android:layout_width="0dp"-->
+<!--                        android:layout_height="wrap_content"-->
+<!--                        android:layout_weight="1"-->
+<!--                        android:paddingStart="@dimen/_10ssp"-->
+<!--                        android:textSize="@dimen/_12ssp"-->
+<!--                        android:textStyle="bold"-->
+<!--                        android:textColor="@color/black"-->
+<!--                        android:fontFamily="@font/montserrat_medium"-->
+<!--                        android:text="Upcoming" />-->
+
+<!--                </LinearLayout>-->
 
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/cme_recyclerview1"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/_5sdp"
-                    android:orientation="horizontal">
-
-                </androidx.recyclerview.widget.RecyclerView>
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginVertical="@dimen/_10sdp"
-                    android:orientation="horizontal">
-
-                    <TextView
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:paddingStart="@dimen/_10ssp"
-                        android:textSize="@dimen/_12ssp"
-                        android:textStyle="bold"
-                        android:textColor="@color/black"
-                        android:fontFamily="@font/montserrat_medium"
-                        android:text="Past" />
-
-                    <TextView
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:gravity="end"
-                        android:textStyle="bold"
-                        android:paddingEnd="@dimen/_10ssp"
-                        android:layout_gravity="end"
-                        android:fontFamily="@font/montserrat_medium"
-                        android:text="See All"
-                        android:textColor="@color/blue" />
-
-                </LinearLayout>
-
-                <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/cme_recyclerview4"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal">
-
-                </androidx.recyclerview.widget.RecyclerView>
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginVertical="@dimen/_10sdp"
-                    android:orientation="horizontal">
-
-                    <TextView
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:paddingStart="@dimen/_10ssp"
-                        android:textSize="@dimen/_12ssp"
-                        android:textStyle="bold"
-                        android:textColor="@color/black"
-                        android:fontFamily="@font/montserrat_medium"
-                        android:text="Presenters of the month" />
-
-                    <TextView
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:textStyle="bold"
-                        android:gravity="end"
-                        android:paddingEnd="@dimen/_10ssp"
-                        android:layout_gravity="end"
-                        android:fontFamily="@font/montserrat_medium"
-                        android:text="See All"
-                        android:textColor="@color/blue" />
-
-                </LinearLayout>
-                <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/recyclerview2"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal">
-
-                </androidx.recyclerview.widget.RecyclerView>
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginVertical="@dimen/_10sdp"
-                    android:orientation="horizontal">
-
-                    <TextView
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:paddingStart="@dimen/_10ssp"
-                        android:textSize="@dimen/_12ssp"
-                        android:textStyle="bold"
-                        android:textColor="@color/black"
-                        android:fontFamily="@font/montserrat_medium"
-                        android:text="Upcoming" />
-
-                    <TextView
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:gravity="end"
-                        android:textStyle="bold"
-                        android:paddingEnd="@dimen/_10ssp"
-                        android:layout_gravity="end"
-                        android:fontFamily="@font/montserrat_medium"
-                        android:text="See All"
-                        android:textColor="@color/blue" />
-
-                </LinearLayout>
-
-                <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/recyclerview3"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
                     android:orientation="vertical">
 
                 </androidx.recyclerview.widget.RecyclerView>
+
+<!--                <LinearLayout-->
+<!--                    android:layout_width="match_parent"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:layout_marginVertical="@dimen/_10sdp"-->
+<!--                    android:orientation="horizontal">-->
+
+<!--                </LinearLayout>-->
+
+<!--                <androidx.recyclerview.widget.RecyclerView-->
+<!--                    android:id="@+id/cme_recyclerview4"-->
+<!--                    android:layout_width="match_parent"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:orientation="horizontal">-->
+
+<!--                </androidx.recyclerview.widget.RecyclerView>-->
+
+<!--                <LinearLayout-->
+<!--                    android:layout_width="match_parent"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:layout_marginVertical="@dimen/_10sdp"-->
+<!--                    android:orientation="horizontal">-->
+
+<!--                    <TextView-->
+<!--                        android:layout_width="0dp"-->
+<!--                        android:layout_height="wrap_content"-->
+<!--                        android:layout_weight="1"-->
+<!--                        android:paddingStart="@dimen/_10ssp"-->
+<!--                        android:textSize="@dimen/_12ssp"-->
+<!--                        android:textStyle="bold"-->
+<!--                        android:textColor="@color/black"-->
+<!--                        android:fontFamily="@font/montserrat_medium"-->
+<!--                        android:text="Presenters of the month" />-->
+
+<!--                    <TextView-->
+<!--                        android:layout_width="0dp"-->
+<!--                        android:layout_height="wrap_content"-->
+<!--                        android:layout_weight="1"-->
+<!--                        android:textStyle="bold"-->
+<!--                        android:gravity="end"-->
+<!--                        android:paddingEnd="@dimen/_10ssp"-->
+<!--                        android:layout_gravity="end"-->
+<!--                        android:fontFamily="@font/montserrat_medium"-->
+<!--                        android:text="See All"-->
+<!--                        android:textColor="@color/blue" />-->
+
+<!--                </LinearLayout>-->
+<!--                <androidx.recyclerview.widget.RecyclerView-->
+<!--                    android:id="@+id/recyclerview2"-->
+<!--                    android:layout_width="match_parent"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:orientation="horizontal">-->
+
+<!--                </androidx.recyclerview.widget.RecyclerView>-->
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginVertical="@dimen/_10sdp"
+                    android:orientation="horizontal">
+
+                </LinearLayout>
+
+<!--                <androidx.recyclerview.widget.RecyclerView-->
+<!--                    android:id="@+id/recyclerview3"-->
+<!--                    android:layout_width="match_parent"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:orientation="vertical">-->
+
+<!--                </androidx.recyclerview.widget.RecyclerView>-->
             </LinearLayout>
         </ScrollView>
         </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>

@@ -175,6 +175,9 @@
     <string name="title_free">All</string>
     <string name="title_all">Free</string>
     <string name="title_paid">Paid</string>
+    <string name="title_activity_cme_state_changer">CmeStateChanger</string>
+    <string name="tab_text_1">Tab 1</string>
+    <string name="tab_text_2">Tab 2</string>
 
 
 </resources>
