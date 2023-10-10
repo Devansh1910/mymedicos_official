@@ -288,7 +288,7 @@ public class CmeActivity extends AppCompatActivity {
 
                                         cmeitem1 c = new cmeitem1(field1, field2, 5, field3, field4, field5);
                                         items.add(c);
-                                        recyclerView.setLayoutManager(new LinearLayoutManager(getApplication(), LinearLayoutManager.HORIZONTAL, false));
+                                        recyclerView.setLayoutManager(new LinearLayoutManager(getApplication(), LinearLayoutManager.VERTICAL, false));
                                         recyclerView.setAdapter(new MyAdapter2(getApplication(), items));
 
                                     } else {
@@ -301,193 +301,193 @@ public class CmeActivity extends AppCompatActivity {
                         }
                     });
         }
-        recyclerView4 = findViewById(R.id.cme_recyclerview4);
-        List<cmeitem4> items1 = new ArrayList<>();
-        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
-            Query query=db.collection("CME").orderBy("Time", Query.Direction.DESCENDING);
-
-            query.get()
-                    .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                        @Override
-                        public void onComplete(@NonNull Task<QuerySnapshot> task ) {
-
-                            if (task.isSuccessful()) {
-                                for (QueryDocumentSnapshot document : task.getResult()) {
-
-                                    Map<String, Object> dataMap = document.getData();
-                                    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HH:mm");
-                                    DateTimeFormatter formatter1 = DateTimeFormatter.ofPattern("yyyy-MM-dd");
-                                    String Time = document.getString("Selected Time");
-                                    String date =  document.getString("Selected Date");
-
-                                    //
-                                    LocalTime parsedTime = null;
-                                    LocalDate parsedDate=null;
-                                    try {
-                                        // Parse the time string into a LocalTime object
-                                        parsedTime = null;
-                                        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
-                                            parsedTime = LocalTime.parse(Time, formatter);
-                                            parsedDate = LocalDate.parse(date, formatter1);
-
-                                        }
-
-                                        // Display the parsed time
-                                        System.out.println("Parsed Time: " + parsedTime);
-                                    } catch (java.time.format.DateTimeParseException e) {
-                                        // Handle parsing error, e.g., if the input string is in the wrong format
-                                        System.err.println("Error parsing time: " + e.getMessage());
-
-                                    }
-                                    LocalTime currentTime = null;
-                                    LocalDate currentDate = null;
-                                    if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
-                                        currentTime = LocalTime.now();
-                                        currentDate = LocalDate.now();
-                                    }
-
-
-                                    int r = parsedTime.compareTo(currentTime);
-
-                                    Log.d("vivek", String.valueOf(r));
-                                    int r1 = parsedDate.compareTo(currentDate);
-                                    if ((r <= 0) || (r1 < 0)) {
-                                        field3 = ((String) dataMap.get("CME Title"));
-                                        field4 = ((String) dataMap.get("CME Presenter"));
-                                        field1 = (String) dataMap.get("CME Organiser");
-                                        field2 = ((String) dataMap.get("Speciality"));
-                                        cmeitem4 c = new cmeitem4(field1, field2, 5, field3, field4);
-                                        items1.add(c);
-                                        recyclerView4.setLayoutManager(new LinearLayoutManager(getApplication(), LinearLayoutManager.HORIZONTAL, false));
-                                        recyclerView4.setAdapter(new MyAdapter1(getApplication(), items1));
-
-
-                                    } else {
-
-                                    }
-
-                                }
-                            } else {
-                                Log.d(TAG, "Error getting documents: ", task.getException());
-                            }
-                        }
-                    });
-        }
+//        recyclerView4 = findViewById(R.id.cme_recyclerview4);
+//        List<cmeitem4> items1 = new ArrayList<>();
+//        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
+//            Query query=db.collection("CME").orderBy("Time", Query.Direction.DESCENDING);
+//
+//            query.get()
+//                    .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+//                        @Override
+//                        public void onComplete(@NonNull Task<QuerySnapshot> task ) {
+//
+//                            if (task.isSuccessful()) {
+//                                for (QueryDocumentSnapshot document : task.getResult()) {
+//
+//                                    Map<String, Object> dataMap = document.getData();
+//                                    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HH:mm");
+//                                    DateTimeFormatter formatter1 = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+//                                    String Time = document.getString("Selected Time");
+//                                    String date =  document.getString("Selected Date");
+//
+//                                    //
+//                                    LocalTime parsedTime = null;
+//                                    LocalDate parsedDate=null;
+//                                    try {
+//                                        // Parse the time string into a LocalTime object
+//                                        parsedTime = null;
+//                                        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
+//                                            parsedTime = LocalTime.parse(Time, formatter);
+//                                            parsedDate = LocalDate.parse(date, formatter1);
+//
+//                                        }
+//
+//                                        // Display the parsed time
+//                                        System.out.println("Parsed Time: " + parsedTime);
+//                                    } catch (java.time.format.DateTimeParseException e) {
+//                                        // Handle parsing error, e.g., if the input string is in the wrong format
+//                                        System.err.println("Error parsing time: " + e.getMessage());
+//
+//                                    }
+//                                    LocalTime currentTime = null;
+//                                    LocalDate currentDate = null;
+//                                    if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
+//                                        currentTime = LocalTime.now();
+//                                        currentDate = LocalDate.now();
+//                                    }
+//
+//
+//                                    int r = parsedTime.compareTo(currentTime);
+//
+//                                    Log.d("vivek", String.valueOf(r));
+//                                    int r1 = parsedDate.compareTo(currentDate);
+//                                    if ((r <= 0) || (r1 < 0)) {
+//                                        field3 = ((String) dataMap.get("CME Title"));
+//                                        field4 = ((String) dataMap.get("CME Presenter"));
+//                                        field1 = (String) dataMap.get("CME Organiser");
+//                                        field2 = ((String) dataMap.get("Speciality"));
+//                                        cmeitem4 c = new cmeitem4(field1, field2, 5, field3, field4);
+//                                        items1.add(c);
+//                                        recyclerView4.setLayoutManager(new LinearLayoutManager(getApplication(), LinearLayoutManager.HORIZONTAL, false));
+//                                        recyclerView4.setAdapter(new MyAdapter1(getApplication(), items1));
+//
+//
+//                                    } else {
+//
+//                                    }
+//
+//                                }
+//                            } else {
+//                                Log.d(TAG, "Error getting documents: ", task.getException());
+//                            }
+//                        }
+//                    });
+//        }
         // Add more
         // Add more items here
 
-        recyclerView3 = findViewById(R.id.recyclerview3);
-        List<cmeitem3> item = new ArrayList<>();
-
-        //.....
-        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
-            Query query=db.collection("CME").orderBy("Time", Query.Direction.DESCENDING);
-            query
-                    .get()
-                    .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                        @Override
-                        public void onComplete(@NonNull Task<QuerySnapshot> task ) {
-
-                            if (task.isSuccessful()) {
-                                for (QueryDocumentSnapshot document : task.getResult()) {
-
-                                    Log.d(TAG, document.getId() + " => " + document.getData());
-
-                                    Map<String, Object> dataMap = document.getData();
-                                    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HH:mm");
-                                    DateTimeFormatter formatter1 = DateTimeFormatter.ofPattern("yyyy-MM-dd");
-                                    String Time = document.getString("Selected Time");
-                                    String date =  document.getString("Selected Date");
-
+//        recyclerView3 = findViewById(R.id.recyclerview3);
+//        List<cmeitem3> item = new ArrayList<>();
 //
-                                    LocalTime parsedTime = null;
-                                    LocalDate parsedDate = null;
-                                    try {
-                                        // Parse the time string into a LocalTime object
-                                        parsedTime = null;
-                                        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
-                                            parsedTime = LocalTime.parse(Time, formatter);
-
-
-
-                                            Log.d("vivek", "0");
-                                        }
-
-                                        // Display the parsed time
-                                        System.out.println("Parsed Time: " + parsedTime);
-                                    } catch (java.time.format.DateTimeParseException e) {
-                                        // Handle parsing error, e.g., if the input string is in the wrong format
-                                        System.err.println("Error parsing time: " + e.getMessage());
-                                        Log.d("vivek", "Time");
-                                    }
-                                    parsedDate = LocalDate.parse(date, formatter1);
-                                    LocalTime currentTime = null;
-                                    LocalDate currentDate = null;
-                                    if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
-                                        currentTime = LocalTime.now();
-                                        currentDate = LocalDate.now();
-                                    }
-
-
-                                    int r = parsedTime.compareTo(currentTime);
-                                    int r1 = parsedDate.compareTo(currentDate);
-
-                                    Log.d("vivek1", String.valueOf(r1));
-                                    if ((r > 0)&&(r1>=0)) {
-                                        field1 = (String) dataMap.get("CME Presenter");
-                                        field2 = ((String) dataMap.get("CME Title"));
-                                        Log.d(TAG, (String) dataMap.get("Speciality"));
-                                        String combinedDateTime = document.getString("Selected Date");
-
-//                                        Log.d("vivek", combinedDateTime);
-
-                                        String cmetime = document.getString("Selected Time");
-
-                                        cmeitem3 c = new cmeitem3(combinedDateTime, cmetime, field2, field1);
-
-                                        item.add(c);
-
-                                        recyclerView3.setLayoutManager(new LinearLayoutManager(getApplication()));
-                                        recyclerView3.setAdapter(new MyAdapter3(getApplication(), item));
-                                    } else {
-
-                                    }
-                                }
-                            } else {
-                                Log.d(TAG, "Error getting documents: ", task.getException());
-                            }
-                        }
-                    });
-        }
+//        //.....
+//        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
+//            Query query=db.collection("CME").orderBy("Time", Query.Direction.DESCENDING);
+//            query
+//                    .get()
+//                    .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+//                        @Override
+//                        public void onComplete(@NonNull Task<QuerySnapshot> task ) {
+//
+//                            if (task.isSuccessful()) {
+//                                for (QueryDocumentSnapshot document : task.getResult()) {
+//
+//                                    Log.d(TAG, document.getId() + " => " + document.getData());
+//
+//                                    Map<String, Object> dataMap = document.getData();
+//                                    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HH:mm");
+//                                    DateTimeFormatter formatter1 = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+//                                    String Time = document.getString("Selected Time");
+//                                    String date =  document.getString("Selected Date");
+//
+////
+//                                    LocalTime parsedTime = null;
+//                                    LocalDate parsedDate = null;
+//                                    try {
+//                                        // Parse the time string into a LocalTime object
+//                                        parsedTime = null;
+//                                        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
+//                                            parsedTime = LocalTime.parse(Time, formatter);
+//
+//
+//
+//                                            Log.d("vivek", "0");
+//                                        }
+//
+//                                        // Display the parsed time
+//                                        System.out.println("Parsed Time: " + parsedTime);
+//                                    } catch (java.time.format.DateTimeParseException e) {
+//                                        // Handle parsing error, e.g., if the input string is in the wrong format
+//                                        System.err.println("Error parsing time: " + e.getMessage());
+//                                        Log.d("vivek", "Time");
+//                                    }
+//                                    parsedDate = LocalDate.parse(date, formatter1);
+//                                    LocalTime currentTime = null;
+//                                    LocalDate currentDate = null;
+//                                    if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
+//                                        currentTime = LocalTime.now();
+//                                        currentDate = LocalDate.now();
+//                                    }
+//
+//
+//                                    int r = parsedTime.compareTo(currentTime);
+//                                    int r1 = parsedDate.compareTo(currentDate);
+//
+//                                    Log.d("vivek1", String.valueOf(r1));
+//                                    if ((r > 0)&&(r1>=0)) {
+//                                        field1 = (String) dataMap.get("CME Presenter");
+//                                        field2 = ((String) dataMap.get("CME Title"));
+//                                        Log.d(TAG, (String) dataMap.get("Speciality"));
+//                                        String combinedDateTime = document.getString("Selected Date");
+//
+////                                        Log.d("vivek", combinedDateTime);
+//
+//                                        String cmetime = document.getString("Selected Time");
+//
+//                                        cmeitem3 c = new cmeitem3(combinedDateTime, cmetime, field2, field1);
+//
+//                                        item.add(c);
+//
+//                                        recyclerView3.setLayoutManager(new LinearLayoutManager(getApplication()));
+//                                        recyclerView3.setAdapter(new MyAdapter3(getApplication(), item));
+//                                    } else {
+//
+//                                    }
+//                                }
+//                            } else {
+//                                Log.d(TAG, "Error getting documents: ", task.getException());
+//                            }
+//                        }
+//                    });
+//        }
         //.....
-        recyclerView2 = findViewById(R.id.recyclerview2);
-        List<cmeitem2> myitem = new ArrayList<cmeitem2>();
-        //......
-        db.collection("CME")
-                .get()
-                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                    @Override
-                    public void onComplete(@NonNull Task<QuerySnapshot> task ) {
-
-
-                        if (task.isSuccessful()) {
-                            for (QueryDocumentSnapshot document : task.getResult()) {
-                                Log.d(TAG, document.getId() + " => " + document.getData());
-                                Map<String, Object> dataMap = document.getData();
-
-
-
-
-
-                                recyclerView2.setLayoutManager(new LinearLayoutManager(getApplication(), LinearLayoutManager.HORIZONTAL, false));
-                                recyclerView2.setAdapter(new MyAdapter4(getApplication(), myitem));
-
-                            }
-                        } else {
-                            Log.d(TAG, "Error getting documents: ", task.getException());
-                        }
-                    }
-                });
+//        recyclerView2 = findViewById(R.id.recyclerview2);
+//        List<cmeitem2> myitem = new ArrayList<cmeitem2>();
+//        //......
+//        db.collection("CME")
+//                .get()
+//                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+//                    @Override
+//                    public void onComplete(@NonNull Task<QuerySnapshot> task ) {
+//
+//
+//                        if (task.isSuccessful()) {
+//                            for (QueryDocumentSnapshot document : task.getResult()) {
+//                                Log.d(TAG, document.getId() + " => " + document.getData());
+//                                Map<String, Object> dataMap = document.getData();
+//
+//
+//
+//
+//
+//                                recyclerView2.setLayoutManager(new LinearLayoutManager(getApplication(), LinearLayoutManager.VERTICAL, false));
+//                                recyclerView2.setAdapter(new MyAdapter4(getApplication(), myitem));
+//
+//                            }
+//                        } else {
+//                            Log.d(TAG, "Error getting documents: ", task.getException());
+//                        }
+//                    }
+//                });
         //......
     }
 

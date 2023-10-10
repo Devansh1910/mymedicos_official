@@ -1,12 +1,10 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
     <!-- Base application theme. -->
-    <style name="Base.Theme.My_medicos" parent="Theme.Material3.Light.NoActionBar">
+    <style name="Base.Theme.My_medicos" parent="Theme.MaterialComponents.Light.NoActionBar">
         <!-- Customize your light theme here. -->
-        <!-- <item name="colorPrimary">@color/my_light_primary</item> -->
         <item name="colorPrimary">#6BC1F2</item>
-
+        <!-- Other customizations -->
     </style>
-
 
     <style name="Theme.My_medicos" parent="Base.Theme.My_medicos" />
 
@@ -15,6 +13,12 @@
         <!-- Customize attributes for light mode -->
     </style>
 
+    <style name="Theme.My_medicos.NoActionBar">
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+    </style>
 
+    <style name="Theme.My_medicos.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
 
+    <style name="Theme.My_medicos.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
 </resources>
