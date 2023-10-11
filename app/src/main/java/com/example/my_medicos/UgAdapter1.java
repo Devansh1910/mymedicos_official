@@ -41,7 +41,7 @@ public class UgAdapter1 extends RecyclerView.Adapter<UgAdapter1.UgViewHolder1>{
     }
     public static class UgViewHolder1 extends  RecyclerView.ViewHolder {
 
-        TextView name,title,description;
+        TextView name,title,description,date;
 
         public UgViewHolder1(@NonNull View itemView) {
             super(itemView);
@@ -50,6 +50,7 @@ public class UgAdapter1 extends RecyclerView.Adapter<UgAdapter1.UgViewHolder1>{
             name=itemView.findViewById(R.id.dr_ug_name);
             description=itemView.findViewById(R.id.dr_ug_desciption);
             title=itemView.findViewById(R.id.dr_ug_title);
+            date=itemView.findViewById(R.id.dr_ug_date);
 
         }
     }

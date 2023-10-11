@@ -47,7 +47,6 @@ public class MyAdapter2  extends RecyclerView.Adapter<MyAdapter2.MyViewHolder2>{
 
         Log.d(item.get(position).getEmail(),"vivek2");
 
-
 //        int imageResource = item.get(position).getImage();
 //        Log.d("Image Debug", "Image Resource: " + imageResource);
 //
@@ -56,7 +55,6 @@ public class MyAdapter2  extends RecyclerView.Adapter<MyAdapter2.MyViewHolder2>{
 //        } else {
 //            holder.imageview.setImageResource(R.drawable.default_banner);
 //        }
-
 
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -87,11 +85,6 @@ public class MyAdapter2  extends RecyclerView.Adapter<MyAdapter2.MyViewHolder2>{
             title=itemView.findViewById(R.id.dr_title);
             presenters=itemView.findViewById((R.id.dr_presenters));
             position=itemView.findViewById(R.id.dr_pos);
-
-
-
-
-
         }
     }
 }
