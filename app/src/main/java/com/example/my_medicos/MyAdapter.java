@@ -2,12 +2,12 @@ package com.example.my_medicos;
 
 import android.content.Context;
 import android.content.Intent;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
+
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -37,9 +37,7 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
         holder.hosp.setText(joblist.get(position).getHospital());
         holder.loc.setText(joblist.get(position).getLocation());
         holder.date.setText(joblist.get(position).getDate());
-        Log.d("12345678",joblist.get(position).getPosition());
-        Log.d("12345678",joblist.get(position).getHospital());
-        Log.d("12345678",joblist.get(position).getLocation());
+
 
     }
 

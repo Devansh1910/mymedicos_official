@@ -133,6 +133,8 @@ public class HomeFragment extends Fragment {
 //
 //                                // Pass the joblist to the adapter
 //                                Log.d("speciality2", speciality);
+
+                                recyclerView.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false));
                                 adapter = new MyAdapter(getContext(),joblist); // Pass the joblist to the adapter
                                 recyclerView.setAdapter(adapter);
 //                                Log.d("speciality2", speciality);

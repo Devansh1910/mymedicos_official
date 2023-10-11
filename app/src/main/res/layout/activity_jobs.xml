@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".JobsActivity">
-
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -28,14 +28,12 @@
                 app:title="Jobs"
                 android:layout_width="match_parent"
                 android:layout_height="?attr/actionBarSize"
-                android:background="@color/white">
+                android:background="@color/white" />
 
-            </androidx.appcompat.widget.Toolbar>
         </com.google.android.material.appbar.AppBarLayout>
 
         <HorizontalScrollView
             android:layout_width="match_parent"
-            android:scrollbars="none"
             android:layout_height="wrap_content">
 
             <LinearLayout
@@ -47,36 +45,38 @@
 
                 <Spinner
                     android:id="@+id/city"
-                    android:layout_width="match_parent"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
                     android:paddingHorizontal="@dimen/_25ssp"
                     android:layout_height="@dimen/_40sdp"
                     android:layout_marginHorizontal="@dimen/_2ssp"
-                    android:layout_weight="1"
                     android:background="@drawable/spinner_new" />
 
                 <Spinner
-                    android:background="@drawable/spinner_new"
                     android:id="@+id/speciality"
-                    android:paddingHorizontal="@dimen/_25ssp"
-                    android:layout_width="match_parent"
-                    android:layout_marginHorizontal="@dimen/_2ssp"
+                    android:layout_width="0dp"
                     android:layout_weight="1"
-                    android:layout_height="@dimen/_40sdp"/>
+                    android:paddingHorizontal="@dimen/_25ssp"
+                    android:layout_height="@dimen/_40sdp"
+                    android:layout_marginHorizontal="@dimen/_2ssp"
+                    android:background="@drawable/spinner_new" />
 
                 <Spinner
-                    android:background="@drawable/spinner_new"
                     android:id="@+id/subspeciality"
-                    android:paddingHorizontal="@dimen/_25ssp"
-                    android:layout_width="match_parent"
+                    android:layout_width="0dp"
                     android:layout_weight="1"
+                    android:paddingHorizontal="@dimen/_25ssp"
+                    android:layout_height="@dimen/_40sdp"
                     android:layout_marginHorizontal="@dimen/_5ssp"
-                    android:layout_height="@dimen/_40sdp"/>
+                    android:background="@drawable/spinner_new" />
+
                 <Button
-                    android:layout_width="match_parent"
-                    android:layout_height="52.00dp"
                     android:id="@+id/ok"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="52.00dp"
                     android:text="OK"
-                    android:clickable="true"/>
+                    android:clickable="true" />
 
             </LinearLayout>
 
@@ -85,46 +85,19 @@
         <com.google.android.material.tabs.TabLayout
             android:id="@+id/jobtablayout"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"/>
+            android:layout_height="wrap_content" />
 
         <androidx.viewpager2.widget.ViewPager2
             android:id="@+id/jobViewpager"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
+            android:layout_width="match_parent"
+            android:layout_height="546dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/tabLayout" />
+            app:layout_constraintTop_toBottomOf="@id/jobtablayout" />
 
-       <ScrollView
-           android:layout_width="match_parent"
-           android:layout_height="wrap_content">
-
-           <LinearLayout
-               android:layout_width="match_parent"
-               android:layout_height="wrap_content"
-               android:orientation="vertical">
-
-
-                   <androidx.recyclerview.widget.RecyclerView
-                       android:id="@+id/recyclerview5"
-                       android:layout_width="match_parent"
-                       android:layout_height="wrap_content"
-                       android:orientation="horizontal">
-
-                   </androidx.recyclerview.widget.RecyclerView>
-
-
-
-
-           </LinearLayout>
-       </ScrollView>
 
     </LinearLayout>
-
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/floatingActionButton"
@@ -137,4 +110,5 @@
         android:src="@android:drawable/ic_input_add"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
-    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

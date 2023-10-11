@@ -81,6 +81,14 @@
             android:name=".EmployeeHomeActivity"
             android:exported="false" />
         <activity
+            android:name=".JobsApplyActivity"
+            android:exported="false"
+            android:parentActivityName=".JobsActivity" />
+        <activity
+            android:name=".JobDetailsActivity"
+            android:exported="false"
+            android:parentActivityName=".JobsActivity" />
+        <activity
             android:name=".PostJobActivity"
             android:exported="false"
             android:parentActivityName=".JobsActivity" />
