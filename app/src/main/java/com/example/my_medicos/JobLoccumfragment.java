@@ -39,6 +39,9 @@ public class JobLoccumfragment extends Fragment {
         adapter = new MyAdapter6(getActivity(), jobList);
         recyclerView.setAdapter(adapter);
 
+
+
+
         // Fetch data from Firestore and update jobList
         db.collection("JOB")
                 .get()

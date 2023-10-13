@@ -40,6 +40,7 @@ public class Jobregularfragment extends Fragment {
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         adapter = new MyAdapter6(getActivity(), jobList);
         recyclerView.setAdapter(adapter);
+        jobList.clear();
 
         // Fetch data from Firestore and update jobList
         db.collection("JOB")
@@ -49,6 +50,7 @@ public class Jobregularfragment extends Fragment {
                     public void onComplete(@NonNull Task<QuerySnapshot> task) {
                         if (task.isSuccessful()) {
                             for (QueryDocumentSnapshot document : task.getResult()) {
+
                                 Map<String, Object> dataMap = document.getData();
                                 String speciality = "";
 
