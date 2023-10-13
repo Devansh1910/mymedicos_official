@@ -17,8 +17,7 @@ import com.google.firebase.firestore.QuerySnapshot;
 
 import androidx.fragment.app.Fragment;
 
-
-public class PastFragment extends Fragment {
+public class OngoingFragment extends Fragment {
 
 
 

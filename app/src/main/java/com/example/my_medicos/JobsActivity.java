@@ -50,7 +50,6 @@ public class JobsActivity extends AppCompatActivity {
     RecyclerView recyclerView2;
     FirebaseFirestore db = FirebaseFirestore.getInstance();
     String speciality,Organiser,Location;
-
     Toolbar toolbar;
     TabLayout tab;
     ViewPager viewPager;
@@ -66,9 +65,6 @@ public class JobsActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
         tab=findViewById(R.id.tabLayout);
 //        viewPager=findViewById(R.id.view_pager);
-
-
-
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         floatingActionButton=findViewById(R.id.floatingActionButton);
@@ -81,44 +77,31 @@ public class JobsActivity extends AppCompatActivity {
         });
         pager = findViewById(R.id.jobViewpager);
         tabLayout = findViewById(R.id.jobtablayout);
-
         specialitySpinner = findViewById(R.id.speciality);
         subspecialitySpinner = findViewById(R.id.subspeciality);
-
         specialityAdapter = ArrayAdapter.createFromResource(this,
                 R.array.speciality, android.R.layout.simple_spinner_item);
         specialityAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         specialitySpinner.setAdapter(specialityAdapter);
-
-
         subspecialityAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item);
         subspecialityAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         subspecialitySpinner.setAdapter(subspecialityAdapter);
         // Initially, hide the subspeciality spinner
         subspecialitySpinner.setVisibility(View.GONE);
-
-
         specialitySpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parentView, View selectedItemView, int position, long id) {
                 selectedMode1 = specialitySpinner.getSelectedItem().toString();
-
-
-
             }
             @Override
             public void onNothingSelected(AdapterView<?> adapterView) {
-
             }
         });
-
         specialitySpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int position, long l) {
                 // Check if the selected speciality has subspecialities
                 int specialityIndex = specialitySpinner.getSelectedItemPosition();
-
-
                 if (specialityIndex >= 0 && specialityIndex < subspecialities.length && subspecialities[specialityIndex].length > 0) {
                     String[] subspecialityArray = subspecialities[specialityIndex];
                     subspecialityAdapter.clear();
@@ -128,38 +111,26 @@ public class JobsActivity extends AppCompatActivity {
                     }
                     // Show the subspeciality spinner
                     subspecialitySpinner.setVisibility(View.VISIBLE);
-
                     subspecialitySpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
                         @Override
                         public void onItemSelected(AdapterView<?> parentView, View selectedItemView, int position, long id) {
                             selectedMode2 = subspecialitySpinner.getSelectedItem().toString();
                             selectedMode1 = specialitySpinner.getSelectedItem().toString();
-
-
-
-
                         }
                         @Override
                         public void onNothingSelected(AdapterView<?> adapterView) {
-
                         }
                     });
                 } else {
                     // Hide the subspeciality spinner
                     subspecialitySpinner.setVisibility(View.GONE);
                 }
-
             }
             @Override
             public void onNothingSelected(AdapterView<?> adapterView) {
                 // Do nothing
             }
         });
-
-
-
-
-
 
 //
         OK = findViewById(R.id.ok);
@@ -238,7 +209,6 @@ public class JobsActivity extends AppCompatActivity {
     //......
 }
 
-
     class ViewPagerAdapter extends FragmentStateAdapter {
 
         public ViewPagerAdapter(@NonNull FragmentActivity fragmentActivity) {
@@ -263,8 +233,6 @@ public class JobsActivity extends AppCompatActivity {
         }
     }
 
-
-
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         new MenuInflater(this).inflate(R.menu.home_menu, menu);
@@ -274,15 +242,9 @@ public class JobsActivity extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-        int itemId = item.getItemId();
 
-        if (itemId == R.id.chat) {
-            Toast.makeText(this, "Chat clicked", Toast.LENGTH_SHORT).show();
-        }
-        else{
-            Intent i = new Intent(JobsActivity.this, HomeActivity.class);
+            Intent i = new Intent(JobsActivity.this, JobsHistoryActivity.class);
             startActivity(i);
-        }
 
         return super.onOptionsItemSelected(item);
     }

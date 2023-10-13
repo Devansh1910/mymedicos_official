@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".JobsActivity">
+    tools:context=".JobDetailsActivity">
 
     <!-- AppBarLayout -->
     <com.google.android.material.appbar.AppBarLayout
@@ -26,9 +26,9 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Jobs"
-                android:textSize="28sp"
+                android:textSize="20sp"
                 android:textStyle="bold"
-                android:textColor="#000000" /> <!-- Set text color to black -->
+                android:textColor="#3E3E3E" /> <!-- Set text color to black -->
         </androidx.appcompat.widget.Toolbar>
     </com.google.android.material.appbar.AppBarLayout>
 
@@ -46,9 +46,9 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Software Engineer"
-            android:textSize="34sp"
+            android:textSize="25dp"
             android:textStyle="bold"
-            android:textColor="#000000" /> <!-- Set text color to black -->
+            android:textColor="#1B1B1B" /> <!-- Set text color to black -->
 
         <!-- Company Name -->
     <LinearLayout
@@ -56,109 +56,102 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:gravity="center_vertical"
-        android:layout_marginTop="16dp">
-        <TextView
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="1dp">
 
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Hospital Name:"
-            android:textStyle="bold"
-            android:textSize="20sp"
-            android:textColor="#000000" />
         <TextView
             android:id="@+id/companyNameTextView"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:paddingVertical="@dimen/_2ssp"
+            android:paddingHorizontal="@dimen/_10ssp"
+            android:background="@drawable/rounded_edittext_background"
             android:layout_height="wrap_content"
             android:text="LinkedIn Corporation"
-            android:textSize="22sp"
-            android:textColor="#000000" /> <!-- Set text color to black -->
-    </LinearLayout>
-    <LinearLayout
-
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:gravity="center_vertical"
-        android:layout_marginTop="16dp">
-        <TextView
-
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="City:"
-            android:textStyle="bold"
-            android:textSize="20sp"
+            android:textSize="16sp"
             android:textColor="#000000" />
 
-        <!-- Location -->
+        <com.google.android.material.divider.MaterialDivider
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_weight="0.5"/>
+
         <TextView
             android:id="@+id/locationTextView"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
+            android:layout_weight="1"
             android:layout_height="wrap_content"
+            android:paddingHorizontal="@dimen/_10ssp"
+            android:paddingVertical="@dimen/_2ssp"
+            android:background="@drawable/rounded_edittext_background"
             android:text="Mountain View, CA"
-            android:textSize="20sp"
-            android:textColor="#000000" /> <!-- Set text color to black -->
+            android:textSize="16sp"
+            android:textColor="#000000" />
+
     </LinearLayout>
-        <!-- Salary -->
+
         <LinearLayout
             android:id="@+id/salaryLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:paddingVertical="@dimen/_3ssp"
             android:orientation="horizontal"
             android:gravity="center_vertical"
-            android:layout_marginTop="16dp">
+            android:layout_marginTop="2dp">
 
             <TextView
                 android:id="@+id/salaryLabel"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Salary:"
+                android:text="Expected Salary (Annual):"
                 android:textStyle="bold"
-                android:textSize="20sp"
-                android:textColor="#000000" /> <!-- Set text color to black -->
+                android:textSize="16sp"
+                android:textColor="#707070" /> <!-- Set text color to black -->
 
-            <EditText
+            <TextView
                 android:id="@+id/salaryEditText"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:inputType="text"
-                android:text="$100,000 - $120,000 per year"
+                android:paddingHorizontal="@dimen/_5ssp"
+                android:text="₹ 100,000 per year"
                 android:textSize="15sp"
-                android:textColor="#000000" /> <!-- Set text color to black -->
+                android:textColor="#424242" />
+
         </LinearLayout>
         <LinearLayout
-
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
+            android:paddingVertical="@dimen/_3ssp"
             android:gravity="center_vertical"
-            android:layout_marginTop="16dp">
+            android:layout_marginTop="1dp">
 
             <TextView
 
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="JOB Type:"
+                android:text="Category:"
                 android:textStyle="bold"
-                android:textSize="20sp"
-                android:textColor="#000000" /> <!-- Set text color to black -->
+                android:textSize="16sp"
+                android:textColor="#636363" />
 
-            <EditText
+            <TextView
                 android:id="@+id/Job_type"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:inputType="text"
                 android:text="Regular/Loccum"
                 android:textSize="15sp"
-                android:textColor="#000000" /> <!-- Set text color to black -->
+                android:textColor="#000000" />
         </LinearLayout>
 
-        <!-- Number of Openings -->
         <LinearLayout
             android:id="@+id/openingsLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
+            android:paddingVertical="@dimen/_3ssp"
             android:gravity="center_vertical"
             android:layout_marginTop="0dp">
 
@@ -168,25 +161,25 @@
                 android:layout_height="wrap_content"
                 android:text="Openings:"
                 android:textStyle="bold"
-                android:textSize="20sp"
-                android:textColor="#000000" /> <!-- Set text color to black -->
+                android:textSize="16sp"
+                android:textColor="#505050" /> <!-- Set text color to black -->
 
-            <EditText
+            <TextView
                 android:id="@+id/openingsEditText"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:inputType="number"
                 android:text="5"
-                android:textSize="18sp"
-                android:textColor="#000000" /> <!-- Set text color to black -->
+                android:paddingHorizontal="@dimen/_5ssp"
+                android:textSize="16sp"
+                android:textColor="#000000" />
         </LinearLayout>
 
-        <!-- Experience Requirements -->
         <LinearLayout
             android:id="@+id/experienceLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
+            android:paddingVertical="@dimen/_3ssp"
             android:gravity="center_vertical"
             android:layout_marginTop="0dp">
 
@@ -196,20 +189,20 @@
                 android:layout_height="wrap_content"
                 android:text="Experience:"
                 android:textStyle="bold"
-                android:textSize="20sp"
-                android:textColor="#000000" /> <!-- Set text color to black -->
+                android:textSize="16sp"
+                android:textColor="#5A5A5A" />
 
-            <EditText
+            <TextView
                 android:id="@+id/experienceEditText"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:inputType="text"
                 android:text="2+ years"
-                android:textSize="18sp"
-                android:textColor="#000000" /> <!-- Set text color to black -->
+                android:paddingHorizontal="@dimen/_5ssp"
+                android:textSize="16sp"
+                android:textColor="#000000" />
         </LinearLayout>
 
-        <!-- Author Information -->
         <LinearLayout
             android:id="@+id/authorInfoLayout"
             android:layout_width="match_parent"
@@ -226,48 +219,35 @@
 
                 <LinearLayout
                     android:layout_width="match_parent"
+                    android:layout_marginVertical="@dimen/_5ssp"
                     android:layout_height="wrap_content"
-                    android:orientation="horizontal">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Speciality: "
-                        android:textStyle="bold"
-                        android:textSize="20sp"
-                        android:textColor="#000000" /> <!-- Set text color to black -->
+                    android:orientation="vertical">
 
                     <TextView
                         android:id="@+id/authorSpecialityTextView"
                         android:layout_width="wrap_content"
+                        android:paddingVertical="@dimen/_2ssp"
+                        android:paddingHorizontal="@dimen/_10ssp"
                         android:layout_height="wrap_content"
+                        android:background="@drawable/rounded_edittext_background"
                         android:text="Software Engineering"
-                        android:textSize="18sp"
-                        android:textColor="#000000" /> <!-- Set text color to black -->
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Subspeciality: "
-
-                        android:textStyle="bold"
-                        android:textSize="20sp"
-                        android:textColor="#000000" /> <!-- Set text color to black -->
+                        android:textSize="16sp"
+                        android:textColor="#000000" />
 
                     <TextView
                         android:id="@+id/authorSubSpecialityTextView"
                         android:layout_width="wrap_content"
+                        android:layout_marginTop="@dimen/_5ssp"
+                        android:paddingHorizontal="@dimen/_10ssp"
+                        android:paddingVertical="@dimen/_2ssp"
+                        android:background="@drawable/rounded_edittext_background"
                         android:layout_height="wrap_content"
                         android:text="Mobile App Development"
-                        android:textSize="18sp"
-                        android:textColor="#000000" /> <!-- Set text color to black -->
+                        android:textSize="16sp"
+                        android:textColor="#000000" />
+
                 </LinearLayout>
+
             </LinearLayout>
         </LinearLayout>
 
@@ -276,23 +256,21 @@
             android:id="@+id/jobDescriptionTextView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Job Description:"
-            android:textSize="24sp"
+            android:text="Description"
+            android:textSize="20sp"
+            android:paddingTop="@dimen/_5ssp"
             android:textStyle="bold"
-            android:paddingTop="16dp"
-            android:textColor="#000000" /> <!-- Set text color to black -->
+            android:textColor="#595959" />
 
-        <!-- Job Description Content -->
         <TextView
             android:id="@+id/jobDescriptionContentTextView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam eget lectus non justo blandit luctus. Integer a elit vel ex sodales vestibulum."
-            android:textSize="18sp"
-            android:paddingTop="4dp"
-            android:textColor="#000000" /> <!-- Set text color to black -->
+            android:textSize="16sp"
+            android:paddingTop="1dp"
+            android:textColor="#6C6C6C" />
 
-        <!-- Buttons Layout -->
         <LinearLayout
             android:id="@+id/buttonLayout"
             android:layout_width="match_parent"
@@ -307,26 +285,13 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:text="Apply Now"
-                android:background="?attr/colorPrimary"
+                android:background="@drawable/submit_btn"
                 android:textColor="#FFFFFF"
-                android:textSize="24sp"
-                android:padding="16dp" />
+                android:textSize="16sp"
+                android:padding="8dp" />
 
-            <Space
-                android:layout_width="20dp"
-                android:layout_height="match_parent" />
 
-            <Button
-                android:id="@+id/shareButton"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="Share"
-                android:background="#2196F3"
-                android:textColor="#FFFFFF"
-                android:textSize="24sp"
 
-                android:padding="16dp" />
         </LinearLayout>
     </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

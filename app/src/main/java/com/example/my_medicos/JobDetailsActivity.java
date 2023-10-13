@@ -35,20 +35,16 @@ import java.util.Map;
 
 public class JobDetailsActivity extends AppCompatActivity {
 
-   Button shareButton;
+    Button shareButton;
     RecyclerView recyclerView1;
     MyAdapter6 adapter1;
-
     FloatingActionButton floatingActionButton;
-
     private ViewPager2 pager;
     private TabLayout tabLayout;
     RecyclerView recyclerView2;
     FirebaseFirestore db = FirebaseFirestore.getInstance();
     String speciality,Organiser,Location;
     String receivedData;
-
-
 
     @SuppressLint("MissingInflatedId")
     @Override
@@ -60,11 +56,11 @@ public class JobDetailsActivity extends AppCompatActivity {
         TextView companyNameTextView = findViewById(R.id.companyNameTextView);
         TextView locationTextView = findViewById(R.id.locationTextView);
         TextView salaryLabel = findViewById(R.id.salaryLabel);
-        EditText salaryEditText = findViewById(R.id.salaryEditText);
+        TextView salaryEditText = findViewById(R.id.salaryEditText);
         TextView openingsLabel = findViewById(R.id.openingsLabel);
-        EditText openingsEditText = findViewById(R.id.openingsEditText);
+        TextView openingsEditText = findViewById(R.id.openingsEditText);
         TextView experienceLabel = findViewById(R.id.experienceLabel);
-        EditText experienceEditText = findViewById(R.id.experienceEditText);
+        TextView experienceEditText = findViewById(R.id.experienceEditText);
         TextView authorSpecialityTextView = findViewById(R.id.authorSpecialityTextView);
         TextView authorSubSpecialityTextView = findViewById(R.id.authorSubSpecialityTextView);
         TextView jobDescriptionContentTextView = findViewById(R.id.jobDescriptionContentTextView);

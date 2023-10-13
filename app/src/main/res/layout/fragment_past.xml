@@ -5,11 +5,24 @@
     android:layout_height="match_parent"
     tools:context=".PastFragment">
 
-<TextView
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:text="Past"
-    android:layout_gravity="center"
-    android:textSize="@dimen/_100sdp"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/_20ssp"
+        android:textSize="@dimen/_20sdp"
+        android:text="Past">
+
+    </TextView>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/cme_recyclerview4"
+        android:layout_width="354dp"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/_20ssp"
+        android:layout_marginTop="@dimen/_40ssp"
+        android:orientation="horizontal">
+
+    </androidx.recyclerview.widget.RecyclerView>
 
 </FrameLayout>
