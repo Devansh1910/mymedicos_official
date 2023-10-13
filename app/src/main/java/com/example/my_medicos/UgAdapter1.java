@@ -33,6 +33,7 @@ public class UgAdapter1 extends RecyclerView.Adapter<UgAdapter1.UgViewHolder1>{
         holder.name.setText(item.get(position).getDocname());
         holder.description.setText(item.get(position).getDocdescripiton());
         holder.title.setText(item.get(position).getDoctitle());
+        holder.date.setText(item.get(position).getdate());
     }
 
     @Override
