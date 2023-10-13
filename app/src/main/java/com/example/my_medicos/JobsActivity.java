@@ -154,7 +154,6 @@ public class JobsActivity extends AppCompatActivity {
                 switch (position){
                     case 0: tab.setText("LOCUM"); break;
                     case 1: tab.setText("REGULAR"); break;
-                    case 2: tab.setText("History"); break;
                 }
             }
         }).attach();
@@ -224,15 +223,13 @@ public class JobsActivity extends AppCompatActivity {
                     return new JobLoccumfragment(); // Display Regular data in this fragment
                 case 1:
                     return new Jobregularfragment(); // Display Locum data in this fragment
-                case 2:
-                    return new Jobhistoryfragment();
             }
             return null;
         }
 
         @Override
         public int getItemCount() {
-            return 3;
+            return 2;
         }
     }
 
@@ -245,15 +242,9 @@ public class JobsActivity extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-        int itemId = item.getItemId();
 
-        if (itemId == R.id.chat) {
-            Toast.makeText(this, "Chat clicked", Toast.LENGTH_SHORT).show();
-        }
-        else{
-            Intent i = new Intent(JobsActivity.this, HomeActivity.class);
+            Intent i = new Intent(JobsActivity.this, JobsHistoryActivity.class);
             startActivity(i);
-        }
 
         return super.onOptionsItemSelected(item);
     }

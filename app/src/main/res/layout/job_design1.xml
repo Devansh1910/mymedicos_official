@@ -9,7 +9,7 @@
         app:cardElevation="@dimen/_10sdp"
         app:cardCornerRadius="@dimen/_10sdp"
         android:backgroundTint="@color/white"
-        android:layout_height="@dimen/_110sdp"
+        android:layout_height="wrap_content"
         app:layout_constraintStart_toStartOf="parent"
         android:layout_marginStart="@dimen/_10sdp"
         android:layout_marginTop="@dimen/_10sdp"

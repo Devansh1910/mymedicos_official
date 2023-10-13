@@ -34,6 +34,8 @@
 
         <HorizontalScrollView
             android:layout_width="match_parent"
+            android:scrollbars="vertical"
+            android:scrollbarStyle="insideInset"
             android:layout_height="wrap_content">
 
             <LinearLayout
