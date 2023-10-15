@@ -22,7 +22,6 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
-import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
@@ -53,9 +52,6 @@ public class CmeActivity extends AppCompatActivity {
     String field4;
     FloatingActionButton floatingActionButton;
     Button OK;
-    View ongoing;
-    View past;
-    View upcoming;
     RecyclerView recyclerView;
     RecyclerView recyclerView3;
     RecyclerView recyclerView2;
@@ -78,35 +74,6 @@ public class CmeActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_cme);
-        ongoing = findViewById(R.id.ongoing);
-        findViewById(R.id.ongoing).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Fragment fragment = new OngoingFragment();
-                FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
-                fragmentTransaction.replace(R.id.container, fragment).commit();
-            }
-        });
-
-        past = findViewById(R.id.past);
-        findViewById(R.id.past).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Fragment fragment = new PastFragment();
-                FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
-                fragmentTransaction.replace(R.id.container, fragment).commit();
-            }
-        });
-
-        upcoming = findViewById(R.id.upcoming);
-        findViewById(R.id.upcoming).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Fragment fragment = new UpcomingFragment();
-                FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
-                fragmentTransaction.replace(R.id.container, fragment).commit();
-            }
-        });
 
         swipeRefreshLayout = findViewById(R.id.swipe_refresh_layout);
 
@@ -334,7 +301,6 @@ public class CmeActivity extends AppCompatActivity {
                         }
                     });
         }
-//
 //        recyclerView4 = findViewById(R.id.cme_recyclerview4);
 //        List<cmeitem4> items1 = new ArrayList<>();
 //        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
@@ -412,6 +378,7 @@ public class CmeActivity extends AppCompatActivity {
 
 //        recyclerView3 = findViewById(R.id.recyclerview3);
 //        List<cmeitem3> item = new ArrayList<>();
+//
 //        //.....
 //        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
 //            Query query=db.collection("CME").orderBy("Time", Query.Direction.DESCENDING);
@@ -472,7 +439,7 @@ public class CmeActivity extends AppCompatActivity {
 //                                        Log.d(TAG, (String) dataMap.get("Speciality"));
 //                                        String combinedDateTime = document.getString("Selected Date");
 //
-//                                        Log.d("vivek", combinedDateTime);
+////                                        Log.d("vivek", combinedDateTime);
 //
 //                                        String cmetime = document.getString("Selected Time");
 //
