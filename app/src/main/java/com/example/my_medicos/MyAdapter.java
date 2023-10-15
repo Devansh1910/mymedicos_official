@@ -33,7 +33,7 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
 
     @Override
     public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
-        holder.pos.setText(joblist.get(position).getPosition());
+        holder.title.setText(joblist.get(position).getTitle());
         holder.hosp.setText(joblist.get(position).getHospital());
         holder.loc.setText(joblist.get(position).getLocation());
         holder.date.setText(joblist.get(position).getDate());
@@ -47,12 +47,12 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
     }
 
     public static class MyViewHolder extends RecyclerView.ViewHolder {
-        TextView pos, hosp, loc,date;
+        TextView title, hosp, loc,date;
         Button apply;
 
         public MyViewHolder(@NonNull View itemView) {
             super(itemView);
-            pos = itemView.findViewById(R.id.job_pos);
+            title = itemView.findViewById(R.id.job_pos);
             hosp = itemView.findViewById(R.id.hosp_name);
             loc = itemView.findViewById(R.id.job_loc);
             date=itemView.findViewById(R.id.job_date);

@@ -124,8 +124,9 @@ public class HomeFragment extends Fragment {
                                 String Organiser =((String) dataMap.get("JOB Organiser"));
                                 String Location =((String) dataMap.get("Location"));
                                 String date=((String) dataMap.get("date"));
+                                String Title=((String) dataMap.get("JOB Title"));
 
-                                jobitem c = new jobitem(speciality, Organiser, Location,date);
+                                jobitem c = new jobitem(speciality, Organiser, Location,date,Title);
                                 joblist.add(c);
 //                                Log.d("speciality2", speciality);
                                 Log.d("speciality2", Organiser);

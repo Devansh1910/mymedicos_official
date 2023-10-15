@@ -33,7 +33,7 @@ public class MyAdapter6 extends RecyclerView.Adapter<MyAdapter6.MyViewHolder6> {
 
     @Override
     public void onBindViewHolder(@NonNull MyViewHolder6 holder, int position) {
-        holder.pos.setText(joblist.get(position).getPosition());
+        holder.title.setText(joblist.get(position).getTitle());
         holder.hosp.setText(joblist.get(position).getHospital());
         holder.loc.setText(joblist.get(position).getLocation());
         holder.Date.setText(joblist.get(position).getDate());
@@ -47,7 +47,7 @@ public class MyAdapter6 extends RecyclerView.Adapter<MyAdapter6.MyViewHolder6> {
                 Context context = a.getContext();
                 Intent i = new Intent(context, JobDetailsActivity.class);
                 i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);// Add this line
-                i.putExtra("user",joblist.get(position).getuser());
+                i.putExtra("user",joblist.get(position).getTitle());
                 context.startActivity(i);
             }
         });
@@ -60,15 +60,16 @@ public class MyAdapter6 extends RecyclerView.Adapter<MyAdapter6.MyViewHolder6> {
     }
 
     public static class MyViewHolder6 extends RecyclerView.ViewHolder {
-        TextView pos, hosp, loc,Date;
+        TextView pos, hosp, loc,Date,title;
         Button apply;
 
         public MyViewHolder6(@NonNull View itemView) {
             super(itemView);
-            pos = itemView.findViewById(R.id.job_pos1);
+
             hosp = itemView.findViewById(R.id.hosp_name1);
             loc = itemView.findViewById(R.id.job_loc1);
             Date=itemView.findViewById(R.id.date1);
+            title=itemView.findViewById(R.id.job_pos1);
             apply=itemView.findViewById(R.id.Apply1);
             apply.setOnClickListener(new View.OnClickListener() {
                 @Override

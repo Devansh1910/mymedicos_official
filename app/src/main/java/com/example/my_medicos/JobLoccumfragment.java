@@ -58,13 +58,14 @@ public class JobLoccumfragment extends Fragment {
                                 String date = (String) dataMap.get("date");
                                 String user = (String) dataMap.get("User");
                                 String type=((String) dataMap.get("Job type"));
-                                Log.d("abcdef",user);
+                                String Title=((String) dataMap.get("JOB Title"));
+                                Log.d("abcdef",Title);
 
                                 int r=type.compareTo("Loccum");
                                 Log.d("abceded", String.valueOf(r));
                                 if(r==0) {
 
-                                    jobitem1 c = new jobitem1(speciality, Organiser, Location, date, user);
+                                    jobitem1 c = new jobitem1(speciality, Organiser, Location, date, user,Title);
                                     jobList.add(c);
                                 }
                             }

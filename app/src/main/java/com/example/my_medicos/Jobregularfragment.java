@@ -59,6 +59,7 @@ public class Jobregularfragment extends Fragment {
                                 String date = (String) dataMap.get("date");
                                 String user = (String) dataMap.get("User");
                                 String type=((String) dataMap.get("Job type"));
+                                String Title=((String) dataMap.get("JOB Title"));
 
                                 Log.d("abcd",type);
 
@@ -67,7 +68,7 @@ public class Jobregularfragment extends Fragment {
                                 Log.d("abcdef", String.valueOf(r));
                                 if(r==0) {
 
-                                    jobitem1 c = new jobitem1(speciality, Organiser, Location, date, user);
+                                    jobitem1 c = new jobitem1(speciality, Organiser, Location, date, user,Title);
                                     jobList.add(c);
                                 }
                             }

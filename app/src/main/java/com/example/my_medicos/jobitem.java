@@ -1,38 +1,27 @@
 package com.example.my_medicos;
 
-import static android.content.ContentValues.TAG;
-
-import android.util.Log;
-
-import androidx.annotation.NonNull;
-
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
-import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.Query;
-import com.google.firebase.firestore.QueryDocumentSnapshot;
-import com.google.firebase.firestore.QuerySnapshot;
-
-import java.util.Map;
-
 public class jobitem {
 
     String position,speciality,Location,Organiser,date;
     String hospital;
-    String location;
+    String location,title;
 
 
-    public jobitem(String position, String hospital, String location,String date) {
+    public jobitem(String position, String hospital, String location,String date,String title) {
 
         this.position = position;
         this.hospital = hospital;
         this.location = location;
         this.date=date;
+        this.title=title;
 
     }
 
     public String getPosition() {
         return position;
+    }
+    public String getTitle() {
+        return title;
     }
 
     public void setPosition(String position) {
