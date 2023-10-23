@@ -40,7 +40,8 @@
         android:gravity="center"
         android:orientation="horizontal"
         tools:layout_editor_absoluteX="-2dp"
-        tools:layout_editor_absoluteY="660dp">
+        tools:layout_editor_absoluteY="660dp"
+        tools:ignore="MissingConstraints">
 
 
         <EditText
@@ -148,12 +149,13 @@
         android:gravity="center"
         android:orientation="horizontal"
         tools:layout_editor_absoluteX="0dp"
-        tools:layout_editor_absoluteY="625dp">
+        tools:layout_editor_absoluteY="625dp"
+        tools:ignore="MissingConstraints">
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Did'nt Receive the OTP? " />
+            android:text="Did'nt Receive the OTP?" />
 
         <TextView
             android:id="@+id/resend_otp"
@@ -164,8 +166,6 @@
             android:textColor="@color/black"
             android:textStyle="bold" />
     </LinearLayout>
-
-
     <TextView
         android:id="@+id/enter_6_dig"
         android:layout_width="wrap_content"
@@ -177,16 +177,16 @@
 
         android:textSize="16sp"
         tools:layout_editor_absoluteX="26dp"
-        tools:layout_editor_absoluteY="547dp" />
+        tools:layout_editor_absoluteY="547dp"
+        tools:ignore="MissingConstraints" />
 
     <ImageView
         android:layout_width="243dp"
         android:layout_height="278dp"
         android:layout_gravity="center"
-        android:src="@drawable/gra"
         tools:layout_editor_absoluteX="0dp"
-        tools:layout_editor_absoluteY="155dp" />
-
+        tools:layout_editor_absoluteY="155dp"
+        tools:ignore="MissingConstraints" />
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -196,7 +196,8 @@
         android:textSize="@dimen/_14ssp"
         android:textStyle="bold"
         tools:layout_editor_absoluteX="32dp"
-        tools:layout_editor_absoluteY="486dp" />
+        tools:layout_editor_absoluteY="486dp"
+        tools:ignore="MissingConstraints" />
 
     <View
         android:id="@+id/rectangle_5"
