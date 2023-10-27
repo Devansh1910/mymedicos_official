@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".FirstActivity">
+
+
+    <VideoView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/videoview"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentTop="true"/>
+
+
+    <TextView
+        android:id="@+id/welcome_"
+        android:layout_width="142dp"
+        android:layout_height="33dp"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true"
+        android:text="Welcome,"
+        android:textColor="#335A53"
+        android:textSize="27sp"
+        android:textStyle="normal"
+
+        app:layout_constraintBottom_toTopOf="@+id/connecting_"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/videoview"
+        tools:ignore="MissingConstraints" />
+
+    <TextView
+        android:id="@+id/connecting_"
+        android:layout_width="347dp"
+        android:layout_height="98dp"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true"
+        android:textStyle="bold"
+        android:gravity="top"
+        android:text="Connecting White Coats"
+        android:textColor="#2c5733"
+        android:textSize="44sp"
+        tools:layout_editor_absoluteX="32dp"
+        tools:layout_editor_absoluteY="165dp"
+        tools:ignore="MissingConstraints" />
+
+    <Button
+        android:id="@+id/continue_to_phone"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:padding="@dimen/_18sdp"
+        android:backgroundTint="@color/black"
+        android:textStyle="bold"
+        android:textColor="@color/white"
+        android:textSize="@dimen/_12ssp"
+        android:text="Get Started"
+        android:layout_marginBottom="20dp"
+        android:orientation="horizontal"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        tools:ignore="MissingConstraints"/>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

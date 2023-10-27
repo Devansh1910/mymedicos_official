@@ -28,7 +28,7 @@ public class GetstartedActivity extends AppCompatActivity {
             @Override
             public void onAnimationEnd(Animation animation) {
                 // Start your main activity
-                startActivity(new Intent(GetstartedActivity.this, MainActivity.class));
+                startActivity(new Intent(GetstartedActivity.this, FirstActivity.class));
                 finish();
             }
 

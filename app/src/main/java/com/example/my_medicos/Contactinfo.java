@@ -75,9 +75,6 @@ public class Contactinfo extends AppCompatActivity {
 
     String userid;
 
-
-
-
     @SuppressLint({"NonConstantResourceId", "WrongViewCast"})
     @Override
     protected void onCreate(Bundle savedInstanceState) {
