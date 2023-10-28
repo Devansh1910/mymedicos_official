@@ -23,17 +23,19 @@ public class GetstartedActivity extends AppCompatActivity {
 
         animation.setAnimationListener(new Animation.AnimationListener() {
             @Override
-            public void onAnimationStart(Animation animation) { }
+            public void onAnimationStart(Animation animation) {
+            }
 
             @Override
             public void onAnimationEnd(Animation animation) {
                 // Start your main activity
-                startActivity(new Intent(GetstartedActivity.this, MainActivity.class));
+                startActivity(new Intent(GetstartedActivity.this, FirstActivity.class));
                 finish();
             }
 
             @Override
-            public void onAnimationRepeat(Animation animation) { }
+            public void onAnimationRepeat(Animation animation) {
+            }
         });
 
     }

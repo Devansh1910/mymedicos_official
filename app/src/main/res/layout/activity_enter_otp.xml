@@ -85,19 +85,19 @@
                 android:orientation="horizontal">
 
 
-               <EditText
-                   android:layout_width="@dimen/_30sdp"
-                   android:layout_height="@dimen/_36sdp"
-                   android:background="@drawable/spinner_back"
-                   android:gravity="center"
-                   android:id="@+id/inputotp1"
-                   android:imeOptions="actionNext"
-                  android:importantForAutofill="no"
-                  android:inputType="number"
-                   android:maxLength="1"
-                  android:textColor="@color/black"
+                <EditText
+                    android:layout_width="@dimen/_30sdp"
+                    android:layout_height="@dimen/_36sdp"
+                    android:background="@drawable/spinner_back"
+                    android:gravity="center"
+                    android:id="@+id/inputotp1"
+                    android:imeOptions="actionNext"
+                    android:importantForAutofill="no"
+                    android:inputType="number"
+                    android:maxLength="1"
+                    android:textColor="@color/black"
                     android:textSize="24sp" android:textStyle="bold"
-                  tools:ignore="LabelFor"/>
+                    tools:ignore="LabelFor"/>
 
                 <EditText
                     android:layout_marginStart="@dimen/_5sdp"
