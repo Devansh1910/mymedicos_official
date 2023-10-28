@@ -28,7 +28,9 @@
                 app:title="Jobs"
                 android:layout_width="match_parent"
                 android:layout_height="?attr/actionBarSize"
-                android:background="@color/blue" />
+                android:background="@color/blue"
+                app:menu="@menu/jobs_menu"/>
+
 
         </com.google.android.material.appbar.AppBarLayout>
 
@@ -83,20 +85,65 @@
             </LinearLayout>
 
         </HorizontalScrollView>
-
-        <com.google.android.material.tabs.TabLayout
-            android:id="@+id/jobtablayout"
+        <androidx.recyclerview.widget.RecyclerView
+            xmlns:android="http://schemas.android.com/apk/res/android"
+            xmlns:app="http://schemas.android.com/apk/res-auto"
+            xmlns:tools="http://schemas.android.com/tools"
+            android:id="@+id/recyclerview6"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:layout_height="@dimen/_220sdp"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
 
-        <androidx.viewpager2.widget.ViewPager2
-            android:id="@+id/jobViewpager"
-            android:layout_width="match_parent"
-            android:layout_height="1000dp"
+            app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent" />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="@dimen/_10sdp"
+            android:layout_marginStart="@dimen/_260sdp"
+            android:layout_marginTop="16dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            android:fontFamily="@font/montserrat_medium"
+            android:text="see more"
+            android:textSize="12sp"
+
+            app:layout_constraintStart_toStartOf="parent"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/_10sdp"
+            android:layout_marginTop="16dp"
+            android:layout_marginBottom="@dimen/_20sdp"
+            android:fontFamily="@font/montserrat_medium"
+            android:text="Recommended JOBS"
+            android:textStyle="bold"
+            android:textColor="#686885"
+            android:textSize="24sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/jobtablayout" />
+            app:layout_constraintTop_toTopOf="parent" />
+
+
+
+
+
+        <androidx.recyclerview.widget.RecyclerView
+            xmlns:android="http://schemas.android.com/apk/res/android"
+            xmlns:app="http://schemas.android.com/apk/res-auto"
+            xmlns:tools="http://schemas.android.com/tools"
+            android:id="@+id/recyclerview5"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent" />
 
     </LinearLayout>
 

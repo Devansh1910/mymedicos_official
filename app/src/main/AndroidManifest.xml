@@ -36,6 +36,9 @@
             android:name=".CmeSearchActivity"
             android:exported="false" />
         <activity
+            android:name=".JobsPostedYou"
+            android:exported="false" />
+        <activity
             android:name=".CmeDetailsActivity"
             android:exported="false" />
         <activity
@@ -67,6 +70,12 @@
             android:exported="false" /> <!-- <activity -->
         <!-- android:name=".JobDetailsActivity" -->
         <!-- android:exported="false" /> -->
+        <activity
+            android:name=".JobsActivity2"
+            android:exported="false" />
+        <activity
+            android:name=".JobsApplyActivity2"
+            android:exported="false" />
         <activity
             android:name=".ResetPasswordActivity"
             android:exported="false" /> <!-- <activity -->
@@ -124,6 +133,7 @@
         <meta-data
             android:name="preloaded_fonts"
             android:resource="@array/preloaded_fonts" />
+
     </application>
 
 </manifest>

@@ -91,7 +91,6 @@
                     android:textSize="@dimen/_12ssp"/>
 
             </LinearLayout>
-
             <Button
                 android:id="@+id/Apply1"
                 android:layout_marginTop="@dimen/_2ssp"
@@ -99,6 +98,16 @@
                 android:layout_height="wrap_content"
                 android:text="Apply"
                 android:backgroundTint="#2196F3"/>
+
+<!--            <Button-->
+<!--                android:id="@+id/Apply1"-->
+<!--                android:layout_marginTop="@dimen/_2ssp"-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:background="@drawable/button_background_clickable"-->
+<!--                android:text="Apply"-->
+<!--                android:textColor="#050404"-->
+<!--                android:backgroundTint="#2196F3"/>-->
 
         </LinearLayout>
 

@@ -1,60 +1,44 @@
 package com.example.my_medicos;
 
-import static com.example.my_medicos.PostCmeActivity.REQUEST_STORAGE_ACCESS;
-import static com.example.my_medicos.PostCmeActivity.REQUEST_STORAGE_PERMISSION;
-import static com.example.my_medicos.subSpecialitiesData.subspecialities;
+import static android.content.ContentValues.TAG;
 
 import android.annotation.SuppressLint;
-import android.app.DatePickerDialog;
 import android.app.ProgressDialog;
-import android.app.TimePickerDialog;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.net.Uri;
-import android.os.Build;
 import android.os.Bundle;
 import android.provider.DocumentsContract;
-import android.text.Editable;
 import android.text.TextUtils;
-import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
-import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
-import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.Spinner;
-import android.widget.TextView;
-import android.widget.TimePicker;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
-import androidx.viewpager2.widget.ViewPager2;
 
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
-import java.text.SimpleDateFormat;
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
-import java.util.Calendar;
 import java.util.HashMap;
-import java.util.Locale;
 import java.util.Map;
 
 public class JobsApplyActivity extends AppCompatActivity {
@@ -63,13 +47,14 @@ public class JobsApplyActivity extends AppCompatActivity {
     String current = user.getEmail();
     String field3,field4;
     EditText jobname, jobage, jobgender, jobexperience, jobcover;
-    Button postcme;
+    Button applyjob;
     public FirebaseDatabase db = FirebaseDatabase.getInstance();
     FirebaseFirestore dc = FirebaseFirestore.getInstance();
     private Spinner subspecialitySpinner;
     private Spinner specialitySpinner;
+    String receivedData;
     String subspecialities1;
-    public DatabaseReference cmeref = db.getReference().child("JOB Apply");
+    public DatabaseReference cmeref = db.getReference().child("JOBsApply");
     private ProgressDialog progressDialog;
 
     static final int REQUEST_STORAGE_PERMISSION = 1;
@@ -82,6 +67,11 @@ public class JobsApplyActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_apply_jobs1);
+        jobname = findViewById(R.id.name);
+        jobage = findViewById(R.id.Age);
+        jobgender = findViewById(R.id.gender);
+        jobcover = findViewById(R.id.cover);
+//        jobexperience = findViewById(R.id.cme_virtuallink);
         btnAccessStorage = findViewById(R.id.btnAccessStorage2);
 
         btnAccessStorage.setOnClickListener(new View.OnClickListener() {
@@ -90,6 +80,11 @@ public class JobsApplyActivity extends AppCompatActivity {
                 requestStoragePermission();
             }
         });
+        Intent intent = getIntent();
+        if (intent != null) {
+            receivedData = intent.getStringExtra("user");
+
+        }
         dc.collection("users").get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
             @Override
             public void onComplete(Task<QuerySnapshot> task) {
@@ -105,11 +100,6 @@ public class JobsApplyActivity extends AppCompatActivity {
                             Log.d("veefe",field4);
                             jobname.setText(field4);
                         }
-
-
-                        // Handle the retrieved data here
-
-                        // You can access data using document.getData() and perform necessary actions
                     }
                 } else {
                     // Handle the error
@@ -117,42 +107,52 @@ public class JobsApplyActivity extends AppCompatActivity {
                 }
             }
         });
-        jobname = findViewById(R.id.name);
-        jobage = findViewById(R.id.Age);
+
 
         jobname.setEnabled(false);
         jobname.setTextColor(Color.parseColor("#80000000"));
         jobname.setBackgroundResource(R.drawable.rounded_edittext_background);
-        jobgender = findViewById(R.id.gender);
-        jobcover = findViewById(R.id.cover);
-        jobexperience = findViewById(R.id.cme_virtuallink);
 
 
-        postcme = findViewById(R.id.post_btn1);
-         Spinner modeSpinner = findViewById(R.id.experience);
-        ArrayAdapter<CharSequence> modeAdapter = ArrayAdapter.createFromResource(this,
-                R.array.experience, android.R.layout.simple_spinner_item);
-        modeAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        modeSpinner.setAdapter(modeAdapter);
-        Spinner cmemodeSpinner = findViewById(R.id.experience);
-        cmemodeSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+
+        applyjob = findViewById(R.id.post_btn2);
+        Log.d(receivedData,"abcdef");
+
+//         Spinner modeSpinner = findViewById(R.id.experience);
+//        ArrayAdapter<CharSequence> modeAdapter = ArrayAdapter.createFromResource(this, R.array.experience, android.R.layout.simple_spinner_item);
+//        modeAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+//        modeSpinner.setAdapter(modeAdapter);
+//        Spinner cmemodeSpinner = findViewById(R.id.experience);
+//        cmemodeSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+//            @Override
+//            public void onItemSelected(AdapterView<?> parentView, View selectedItemView, int position, long id) {
+//                String selectedMode = cmemodeSpinner.getSelectedItem().toString();
+//
+//                if (selectedMode.equals("Experienced")) {
+//                    // Show the virtual link EditText and hide the place EditText
+//                    jobexperience.setVisibility(View.VISIBLE);
+//
+//                } else if (selectedMode.equals("Fresher")) {
+//                    // Show the place EditText and hide the virtual link EditText
+//                    jobexperience.setVisibility(View.GONE);
+//
+//                }
+//            }
+//            @Override
+//            public void onNothingSelected(AdapterView<?> adapterView) {
+//
+//            }
+//        });
+        applyjob.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onItemSelected(AdapterView<?> parentView, View selectedItemView, int position, long id) {
-                String selectedMode = cmemodeSpinner.getSelectedItem().toString();
+            public void onClick(View view) {
+                try {
+                    apply();
 
-                if (selectedMode.equals("Experienced")) {
-                    // Show the virtual link EditText and hide the place EditText
-                    jobexperience.setVisibility(View.VISIBLE);
-
-                } else if (selectedMode.equals("Fresher")) {
-                    // Show the place EditText and hide the virtual link EditText
-                    jobexperience.setVisibility(View.GONE);
-
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    Log.d("abcdefg", String.valueOf(e));
                 }
-            }
-            @Override
-            public void onNothingSelected(AdapterView<?> adapterView) {
-
             }
         });
     }
@@ -206,13 +206,13 @@ public class JobsApplyActivity extends AppCompatActivity {
         String treeDocumentId = DocumentsContract.getTreeDocumentId(treeUri);
         Uri docUri = DocumentsContract.buildDocumentUriUsingTree(treeUri, treeDocumentId);
     }
-    @RequiresApi(api = Build.VERSION_CODES.O)
-    public void postCme() {
+
+    public void apply() {
         String name = jobname.getText().toString().trim();
         String age = jobage.getText().toString().trim();
         String gender = jobgender.getText().toString().trim();
         String cover = jobcover.getText().toString().trim();
-        String experience = jobexperience.getText().toString().trim();
+//        String experience = jobexperience.getText().toString().trim();
 
 
 //        if (!link.startsWith("https://")) {
@@ -243,8 +243,8 @@ public class JobsApplyActivity extends AppCompatActivity {
 
 
         // Get the selected mode from the spinner
-        Spinner cmemodeSpinner = findViewById(R.id.experience);
-        String mode = cmemodeSpinner.getSelectedItem().toString();
+//        Spinner cmemodeSpinner = findViewById(R.id.experience);
+//        String mode = cmemodeSpinner.getSelectedItem().toString();
 
         // Get the selected speciality from the spinner
 
@@ -258,10 +258,26 @@ public class JobsApplyActivity extends AppCompatActivity {
         usermap.put("Age", age);
         usermap.put("Gender", gender);
         usermap.put("cover", cover);
-        usermap.put("experienced", experience);
+//        usermap.put("experienced", experience);
 
         usermap.put("User", current);
-        usermap.put("Experienced", mode);
+        usermap.put("Experienced", "mode");
+        usermap.put("Jobid",receivedData);
+        Log.d(receivedData,"abcdef");
+        dc.collection("JOBsApply")
+                .add(usermap)
+                .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
+                    @Override
+                    public void onSuccess(DocumentReference documentReference) {
+                        Log.d(TAG, "DocumentSnapshot written with ID: " + documentReference.getId());
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Log.w(TAG, "Error adding document", e);
+                    }
+                });
         // Add selected time
 
 
@@ -272,7 +288,7 @@ public class JobsApplyActivity extends AppCompatActivity {
 //                progressDialog.dismiss();
 //
 //                if (task.isSuccessful()) {
-//                    dc.collection("CME").add(usermap);
+//                    dc.collection("JOBsApply").add(usermap);
 //                    Toast.makeText(JobsApplyActivity.this, "Posted Successfully", Toast.LENGTH_SHORT).show();
 //                } else {
 //                    Toast.makeText(JobsApplyActivity.this, "Task Failed", Toast.LENGTH_SHORT).show();
