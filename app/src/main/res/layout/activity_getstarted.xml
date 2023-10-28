@@ -4,71 +4,19 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".GetstartedActivity"
-    android:background="@drawable/bgstarting">
+    tools:context=".GetstartedActivity">
 
 
-    <TextView
-        android:id="@+id/welcome_"
-        android:layout_width="142dp"
-        android:layout_height="33dp"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentTop="true"
-        android:text="Welcome,"
-        android:textColor="#335A53"
-        android:textSize="27sp"
-        android:textStyle="normal"
-
-        tools:layout_editor_absoluteX="32dp"
-        tools:layout_editor_absoluteY="132dp" />
-
-    <TextView
-        android:id="@+id/connecting_"
-        android:layout_width="347dp"
-        android:layout_height="98dp"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentTop="true"
-        android:textStyle="bold"
-        android:gravity="top"
-        android:text="Connecting White Coats"
-        android:textColor="#2c5733"
-        android:textSize="44sp"
-        tools:layout_editor_absoluteX="32dp"
-        tools:layout_editor_absoluteY="165dp" />
-
-    <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:background="@drawable/rectangle_3"
-        android:orientation="horizontal"
-        tools:layout_editor_absoluteX="24dp"
-        tools:layout_editor_absoluteY="586dp">
-
-
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@drawable/Phone"
-            android:layout_margin="16sp"
-            tools:layout_editor_absoluteX="24dp"
-            tools:layout_editor_absoluteY="586dp">
-
-
-
-
-        </ImageView>
-
-        <EditText
-
-            android:layout_width="217dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:layout_marginRight="30dp"
-            android:layout_marginTop="10dp"
-            android:inputType="text"
-            android:text="Continue with Phone number" />
-
-    </LinearLayout>
+    <ImageView
+        android:id="@+id/logo"
+        android:layout_width="200dp"
+        android:layout_height="200dp"
+        android:layout_centerInParent="true"
+        android:src="@drawable/img_21"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
