@@ -29,7 +29,7 @@ public class FirstActivity extends AppCompatActivity {
         }
 
         videoView = findViewById(R.id.videoview);
-        Uri uri = Uri.parse("android.resource://" + getPackageName() + "/" + R.raw.file);
+        Uri uri = Uri.parse("android.resource://" + getPackageName() + "/" + R.raw.bkvideovideo);
         videoView.setVideoURI(uri);
         videoView.start();
 
@@ -45,7 +45,7 @@ public class FirstActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-                Intent intent = new Intent(FirstActivity.this, MainActivity.class);
+                Intent intent = new Intent(FirstActivity.this, EnterMobile.class);
                 startActivity(intent);
             }
         });
