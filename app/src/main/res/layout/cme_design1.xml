@@ -12,7 +12,7 @@
 
     <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
-        android:backgroundTint="#E8E8E8"
+        android:backgroundTint="#CDD0FBF1"
         android:layout_height="230dp"
         app:cardCornerRadius="@dimen/_10sdp"
         app:cardElevation="@dimen/_10sdp"
@@ -40,7 +40,7 @@
                     android:layout_height="match_parent"
                     android:paddingLeft="@dimen/_14sdp"
                     android:paddingRight="@dimen/_10ssp"
-                    android:background="@drawable/imageofthis">
+                    android:background="#205E4E">
 
                     <LinearLayout
                         android:layout_width="wrap_content"
@@ -57,6 +57,7 @@
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
                             android:gravity="center"
+                            android:textStyle="bold"
                             android:paddingHorizontal="@dimen/_2ssp"
                             android:paddingVertical="@dimen/_2ssp"
                             android:text="Surgeon"
@@ -75,7 +76,7 @@
                         android:text="Management of Arthritis in Pediatrics \n along with Immunological disorders."
                         android:lineHeight="@dimen/_14sdp"
                         android:textSize="@dimen/_14sdp"
-                        android:textColor="@color/black"
+                        android:textColor="@color/white"
                         android:textStyle="bold"
                         android:layout_gravity="center"/>
 
@@ -144,7 +145,7 @@
                     android:gravity="center"
                     android:text="Organizer"
                     android:fontFamily="@font/montserrat_medium"
-                    android:textColor="#888787"/>
+                    android:textColor="#F1E7E7"/>
 
                 <androidx.fragment.app.FragmentContainerView
                     android:layout_width="0dp"
@@ -160,9 +161,10 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:gravity="center"
+                    android:textStyle="bold"
                     android:text="Online"
                     android:fontFamily="@font/montserrat_medium"
-                    android:textColor="#888787"/>
+                    android:textColor="#EAE4E4"/>
 
             </LinearLayout>
 
