@@ -30,7 +30,7 @@
                 app:titleTextColor="@color/white"
                 app:subtitleTextColor="@color/white"
                 app:subtitleTextAppearance="@color/white"
-                android:backgroundTint="@color/blue"
+                android:backgroundTint="#6DFFDA"
                 android:layout_width="match_parent"
                 android:layout_height="?attr/actionBarSize"
                 android:background="@color/white">
