@@ -26,7 +26,6 @@
                 android:layout_height="@dimen/_130sdp"
                 android:layout_gravity="center"/>
 
-
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
