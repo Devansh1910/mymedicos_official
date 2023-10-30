@@ -8,25 +8,31 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:orientation="vertical"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.279">
 
-
-        <TextView
-            android:layout_width="wrap_content"
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/_20sdp"
-            android:layout_marginTop="@dimen/_10sdp"
-            android:drawableRight="@drawable/baseline_person_outline_24"
-            android:drawablePadding="@dimen/_10sdp"
-            android:text="Register"
-            android:textColor="@color/blue"
-            android:textSize="@dimen/_20ssp"
-            android:textStyle="bold" />
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:gravity="center"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/_20sdp"
+                android:layout_marginTop="@dimen/_10sdp"
+                android:drawablePadding="@dimen/_10sdp"
+                android:text="Registration"
+                android:textColor="@color/black"
+                android:textSize="@dimen/_20ssp"
+                android:textStyle="bold" />
+
+        </LinearLayout>
 
         <TextView
             android:layout_width="wrap_content"
@@ -51,125 +57,178 @@
                    android:orientation="vertical">
 
                    <com.google.android.material.textfield.TextInputLayout
-                       android:id="@+id/emainin"
-                       android:layout_width="match_parent"
-                       android:layout_height="match_parent"
-                       android:layout_marginStart="@dimen/_32sdp"
-                       android:layout_marginTop="@dimen/_10sdp"
-                       android:layout_marginEnd="@dimen/_32sdp"
-                       app:boxStrokeErrorColor="#6BC1F2">
-
-                       <com.google.android.material.textfield.TextInputEditText
-                           android:id="@+id/emailedit"
-                           android:layout_width="match_parent"
-                           android:layout_height="wrap_content"
-                           android:drawableStart="@drawable/baseline_email_24"
-                           android:drawablePadding="@dimen/_10sdp"
-                           android:hint="Enter Email"
-                           android:inputType="text|textEmailAddress" />
-                   </com.google.android.material.textfield.TextInputLayout>
-
-                   <com.google.android.material.textfield.TextInputLayout
                        android:id="@+id/fullnamein"
                        android:layout_width="match_parent"
+                       android:layout_marginHorizontal="@dimen/_20ssp"
                        android:layout_height="match_parent"
-                       android:layout_marginStart="@dimen/_32sdp"
-                       android:layout_marginTop="@dimen/_10sdp"
-                       android:layout_marginEnd="@dimen/_32sdp"
+                       android:layout_marginTop="@dimen/_5sdp"
                        app:boxStrokeErrorColor="#6BC1F2">
 
                        <com.google.android.material.textfield.TextInputEditText
                            android:id="@+id/fullnameedit"
                            android:layout_width="match_parent"
+                           android:background="@drawable/bkregister"
                            android:layout_height="wrap_content"
-                           android:drawableStart="@drawable/baseline_person_outline_24"
+                           android:drawableStart="@drawable/profile"
                            android:drawablePadding="@dimen/_10sdp"
-                           android:hint="Enter Full Name"
+                           android:hint="Enter Your Name"
+                           android:textColorHint="#676767"
                            android:inputType="text|textPersonName" />
                    </com.google.android.material.textfield.TextInputLayout>
 
-                   <com.hbb20.CountryCodePicker
-                       android:id="@+id/countryCodePicker"
-                       android:layout_marginTop="@dimen/_10sdp"
-                       android:layout_marginStart="@dimen/_32sdp"
-                       android:background="@drawable/country_back"
-                       android:layout_width="match_parent"
-                       android:layout_marginEnd="@dimen/_32sdp"
-                       android:layout_height="wrap_content" />
-
                    <com.google.android.material.textfield.TextInputLayout
-                       android:id="@+id/phonein"
+                       android:id="@+id/emainin"
+                       android:layout_marginHorizontal="@dimen/_20ssp"
                        android:layout_width="match_parent"
                        android:layout_height="match_parent"
-                       android:layout_marginStart="@dimen/_32sdp"
                        android:layout_marginTop="@dimen/_10sdp"
-                       android:layout_marginEnd="@dimen/_32sdp"
                        app:boxStrokeErrorColor="#6BC1F2">
 
                        <com.google.android.material.textfield.TextInputEditText
-                           android:id="@+id/phoneedit"
+                           android:id="@+id/emailedit"
                            android:layout_width="match_parent"
+                           android:background="@drawable/bkregister"
                            android:layout_height="wrap_content"
-                           android:drawableStart="@drawable/baseline_phone_24"
+                           android:drawableStart="@drawable/mail"
                            android:drawablePadding="@dimen/_10sdp"
-                           android:hint="Enter your Phone Number"
-                           android:inputType="number" />
+                           android:hint="Enter Email"
+                           android:inputType="text|textEmailAddress" />
                    </com.google.android.material.textfield.TextInputLayout>
+
+                   <TextView
+                       android:layout_width="match_parent"
+                       android:layout_height="wrap_content"
+                       android:text="Select State"
+                       android:drawablePadding="@dimen/_5ssp"
+                       android:drawableEnd="@drawable/location"
+                       android:layout_marginVertical="@dimen/_8ssp"
+                       android:layout_marginHorizontal="@dimen/_20sdp"
+                       android:textStyle="bold"
+                       android:textColor="@color/black"/>
+
+                   <Spinner
+                       android:id="@+id/city"
+                       android:layout_marginHorizontal="@dimen/_20ssp"
+                       android:layout_width="match_parent"
+                       android:padding="@dimen/_13ssp"
+                       android:layout_height="wrap_content"
+                       android:background="@drawable/bkregister"/>
+
+                   <TextView
+                       android:layout_width="match_parent"
+                       android:layout_height="wrap_content"
+                       android:text="Pincode"
+                       android:drawablePadding="@dimen/_5ssp"
+                       android:drawableEnd="@drawable/pincode"
+                       android:layout_marginVertical="@dimen/_8ssp"
+                       android:layout_marginHorizontal="@dimen/_20sdp"
+                       android:textStyle="bold"
+                       android:textColor="@color/black"/>
 
                    <com.google.android.material.textfield.TextInputLayout
-                       android:id="@+id/passin"
+                       android:id="@+id/pincodewritter"
                        android:layout_width="match_parent"
+                       android:layout_marginHorizontal="@dimen/_20ssp"
                        android:layout_height="match_parent"
-                       android:layout_marginStart="@dimen/_32sdp"
-                       android:layout_marginTop="@dimen/_8sdp"
-                       android:layout_marginEnd="@dimen/_32sdp"
-                       app:boxStrokeErrorColor="#6BC1F2"
-                       app:passwordToggleEnabled="true"
-                       app:passwordToggleTint="#6BC1F2"
-                       app:helperText="Password requirements: at least 6 characters, one uppercase letter, one special character, one number">
+                       app:boxStrokeErrorColor="#6BC1F2">
 
                        <com.google.android.material.textfield.TextInputEditText
-                           android:id="@+id/passedit"
+                           android:id="@+id/pincode"
                            android:layout_width="match_parent"
+                           android:background="@drawable/bkregister"
                            android:layout_height="wrap_content"
-                           android:drawableStart="@drawable/baseline_lock_24"
-                           android:drawablePadding="@dimen/_10sdp"
-                           android:hint="Password"
-                           android:inputType="text|textPassword" />
-
+                           android:hint="Enter Pincode"
+                           android:inputType="number"
+                           android:maxLength="6"
+                           android:textColor="@color/black"
+                           android:textColorHint="#676767"/>
                    </com.google.android.material.textfield.TextInputLayout>
-
-                   <com.google.android.material.textfield.TextInputLayout
-                       android:id="@+id/conpassin"
+                   
+                   <LinearLayout
                        android:layout_width="match_parent"
-                       android:layout_height="match_parent"
-                       android:layout_marginStart="@dimen/_32sdp"
-                       android:layout_marginTop="@dimen/_10sdp"
-                       android:layout_marginEnd="@dimen/_32sdp"
-                       app:boxStrokeErrorColor="#6BC1F2"
-                       app:passwordToggleEnabled="true"
-                       app:passwordToggleTint="#6BC1F2">
+                       android:gravity="left"
+                       android:layout_marginHorizontal="@dimen/_20sdp"
+                       android:layout_marginVertical="@dimen/_8ssp"
+                       android:layout_height="wrap_content"
+                       android:orientation="vertical">
 
-                       <com.google.android.material.textfield.TextInputEditText
-                           android:id="@+id/conpassedit"
-                           android:layout_width="match_parent"
+                       <TextView
+                           android:layout_width="wrap_content"
                            android:layout_height="wrap_content"
-                           android:drawableStart="@drawable/baseline_lock_24"
-                           android:drawablePadding="@dimen/_10sdp"
-                           android:hint="Confirm Password"
-                           android:inputType="text|textPassword" />
-                   </com.google.android.material.textfield.TextInputLayout>
+                           android:textStyle="bold"
+                           android:textColor="#000000"
+                           android:layout_marginBottom="@dimen/_5ssp"
+                           android:text="Enjoy The Benefits Of:"/>
+
+                       <LinearLayout
+                           android:layout_width="wrap_content"
+                           android:layout_height="wrap_content"
+                           android:orientation="horizontal">
+
+                           <ImageView
+                               android:layout_width="wrap_content"
+                               android:layout_height="wrap_content"
+                               android:paddingRight="5dp"
+                               android:src="@drawable/correct"/>
+
+                           <TextView
+                               android:layout_width="wrap_content"
+                               android:layout_height="wrap_content"
+                               android:textSize="@dimen/_10ssp"
+                               android:text="Find ideal medical roles, internships and fellowships."/>
+
+                       </LinearLayout>
+
+                       <LinearLayout
+                           android:layout_width="wrap_content"
+                           android:gravity="center"
+                           android:layout_height="wrap_content"
+                           android:orientation="horizontal">
+
+                           <ImageView
+                               android:layout_width="wrap_content"
+                               android:layout_height="wrap_content"
+                               android:paddingRight="5dp"
+                               android:src="@drawable/correct"/>
+
+                           <TextView
+                               android:layout_width="wrap_content"
+                               android:layout_height="wrap_content"
+                               android:textSize="@dimen/_10ssp"
+                               android:text="Network, collaborate, and learn with medical peers \nwho share interests."/>
+
+                       </LinearLayout>
+
+                       <LinearLayout
+                           android:layout_width="wrap_content"
+                           android:gravity="center"
+                           android:layout_height="wrap_content"
+                           android:orientation="horizontal">
+
+                           <ImageView
+                               android:layout_width="wrap_content"
+                               android:layout_height="wrap_content"
+                               android:paddingRight="5dp"
+                               android:src="@drawable/correct"/>
+
+                           <TextView
+                               android:layout_width="wrap_content"
+                               android:layout_height="wrap_content"
+                               android:text="Find ideal medical roles, internships and fellowships."/>
+
+                       </LinearLayout>
+
+                   </LinearLayout>
 
                    <Button
                        android:id="@+id/register"
                        android:layout_width="match_parent"
+                       android:layout_marginHorizontal="@dimen/_20ssp"
                        android:layout_height="wrap_content"
-                       android:layout_marginStart="@dimen/_32sdp"
-                       android:layout_marginTop="@dimen/_20sdp"
-                       android:layout_marginEnd="@dimen/_32sdp"
-                       android:backgroundTint="@color/blue"
+                       android:layout_marginTop="@dimen/_10sdp"
+                       android:backgroundTint="#6DFFDA"
                        android:text="Register"
-                       android:textColor="@color/black"
+                       android:textColor="#636060"
                        android:textSize="@dimen/_16ssp"
                        android:textStyle="bold" />
 

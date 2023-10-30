@@ -22,7 +22,7 @@
         android:layout_marginHorizontal="@dimen/_15ssp"
         android:layout_marginBottom="48dp"
         android:orientation="vertical"
-        app:layout_constraintBottom_toTopOf="@+id/continue_to_phone"
+        app:layout_constraintBottom_toTopOf="@+id/bottomlayout"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.684"
         app:layout_constraintStart_toStartOf="parent">
@@ -56,27 +56,55 @@
 
     </LinearLayout>
 
-    <Button
-        android:id="@+id/continue_to_phone"
+    <LinearLayout
+        android:id="@+id/bottomlayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginHorizontal="@dimen/_20sdp"
-        android:paddingHorizontal="@dimen/_10ssp"
-        android:paddingVertical="@dimen/_10ssp"
-        android:background="@drawable/button"
-        android:drawablePadding="@dimen/_10ssp"
-        android:drawableStart="@drawable/phone"
-        android:orientation="horizontal"
-        android:text="Continue With Phonenumber"
-        android:textColor="@color/white"
-        android:textAllCaps="false"
-        android:shadowColor="@color/black"
-        android:shadowDy="@integer/material_motion_duration_long_1"
-        android:textSize="@dimen/_12ssp"
-        android:layout_marginBottom="@dimen/_15sdp"
-        android:textStyle="normal"
         app:layout_constraintBottom_toBottomOf="@+id/videoview"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"/>
+        app:layout_constraintStart_toStartOf="parent"
+        android:orientation="vertical">
+
+        <Button
+            android:id="@+id/continue_to_phone"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="@dimen/_20sdp"
+            android:paddingHorizontal="@dimen/_10ssp"
+            android:paddingVertical="@dimen/_10ssp"
+            android:background="@drawable/button"
+            android:drawablePadding="@dimen/_10ssp"
+            android:drawableStart="@drawable/phone"
+            android:orientation="horizontal"
+            android:text="Continue With Phonenumber"
+            android:textColor="@color/white"
+            android:textAllCaps="false"
+            android:shadowColor="@color/black"
+            android:shadowDy="@integer/material_motion_duration_long_1"
+            android:textSize="@dimen/_12ssp"
+            android:layout_marginBottom="@dimen/_15sdp"
+            android:textStyle="normal"/>
+
+        <Button
+            android:id="@+id/continue_to_email"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="@dimen/_20sdp"
+            android:paddingHorizontal="@dimen/_10ssp"
+            android:paddingVertical="@dimen/_10ssp"
+            android:background="@drawable/button"
+            android:drawablePadding="@dimen/_10ssp"
+            android:drawableStart="@drawable/mm"
+            android:orientation="horizontal"
+            android:text="Continue With Mail"
+            android:textColor="@color/white"
+            android:textAllCaps="false"
+            android:shadowColor="@color/black"
+            android:shadowDy="@integer/material_motion_duration_long_1"
+            android:textSize="@dimen/_12ssp"
+            android:layout_marginBottom="@dimen/_15sdp"
+            android:textStyle="normal"/>
+
+    </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
