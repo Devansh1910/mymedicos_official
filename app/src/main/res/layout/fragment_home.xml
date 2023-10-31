@@ -69,7 +69,7 @@
                                     android:layout_height="@dimen/_25sdp"
                                     android:layout_gravity="center"
                                     android:layout_marginStart="@dimen/_8sdp"
-                                    android:src="@drawable/calender" />
+                                    android:src="@drawable/cmeicon" />
 
                             </LinearLayout>
 
@@ -103,7 +103,7 @@
                                     android:layout_height="@dimen/_25sdp"
                                     android:layout_gravity="center"
                                     android:layout_marginStart="@dimen/_8sdp"
-                                    android:src="@drawable/publication" />
+                                    android:src="@drawable/publicationicon" />
                             </LinearLayout>
 
                             <TextView
@@ -135,7 +135,7 @@
                                     android:layout_height="@dimen/_25sdp"
                                     android:layout_gravity="center"
                                     android:layout_marginStart="@dimen/_8sdp"
-                                    android:src="@drawable/news" />
+                                    android:src="@drawable/newsicon" />
                             </LinearLayout>
 
                             <TextView
@@ -167,7 +167,7 @@
                                     android:layout_height="@dimen/_25sdp"
                                     android:layout_gravity="center"
                                     android:layout_marginStart="@dimen/_8sdp"
-                                    android:src="@drawable/employee" />
+                                    android:src="@drawable/jobicon" />
                             </LinearLayout>
 
                             <TextView
@@ -205,11 +205,11 @@
 
                                 <ImageView
                                     android:id="@+id/ugexams"
-                                    android:layout_width="@dimen/_35sdp"
-                                    android:layout_height="@dimen/_35sdp"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:padding="@dimen/_8ssp"
                                     android:layout_gravity="center"
-                                    android:layout_marginStart="@dimen/_4sdp"
-                                    android:src="@drawable/ug" />
+                                    android:src="@drawable/ugicon" />
 
                             </LinearLayout>
 
@@ -239,11 +239,11 @@
 
                                 <ImageView
                                     android:id="@+id/pg_prep"
-                                    android:layout_width="@dimen/_25sdp"
-                                    android:layout_height="@dimen/_25sdp"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:padding="@dimen/_8ssp"
                                     android:layout_gravity="center"
-                                    android:layout_marginStart="@dimen/_8sdp"
-                                    android:src="@drawable/pg" />
+                                    android:src="@drawable/pgicon" />
                             </LinearLayout>
 
                             <TextView
@@ -271,11 +271,11 @@
 
                                 <ImageView
                                     android:id="@+id/university"
-                                    android:layout_width="@dimen/_25sdp"
-                                    android:layout_height="@dimen/_25sdp"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:padding="@dimen/_8ssp"
                                     android:layout_gravity="center"
-                                    android:layout_marginStart="@dimen/_8sdp"
-                                    android:src="@drawable/uu" />
+                                    android:src="@drawable/universityicon" />
                             </LinearLayout>
 
                             <TextView
@@ -303,11 +303,11 @@
 
                                 <ImageView
                                     android:id="@+id/jobs_img1"
-                                    android:layout_width="@dimen/_35sdp"
-                                    android:layout_height="@dimen/_35sdp"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:padding="@dimen/_8ssp"
                                     android:layout_gravity="center"
-                                    android:layout_marginStart="@dimen/_4sdp"
-                                    android:src="@drawable/meme" />
+                                    android:src="@drawable/memeicon" />
                             </LinearLayout>
 
                             <TextView
@@ -352,24 +352,28 @@
 
                     <LinearLayout
                         android:layout_width="match_parent"
+                        android:paddingTop="@dimen/_5ssp"
+                        android:paddingHorizontal="@dimen/_10ssp"
                         android:layout_height="wrap_content">
 
                         <TextView
-                            android:layout_width="wrap_content"
+                            android:layout_width="0dp"
+                            android:layout_weight="1"
                             android:layout_height="wrap_content"
-                            android:layout_marginStart="@dimen/_15sdp"
-                            android:layout_marginTop="@dimen/_10sdp"
                             android:text="Recommended Jobs"
                             android:textSize="@dimen/_12ssp"
                             android:textStyle="bold" />
 
                         <TextView
-                            android:layout_width="wrap_content"
+                            android:layout_width="0dp"
+                            android:layout_weight="1"
                             android:layout_height="wrap_content"
-                            android:layout_marginStart="@dimen/_145sdp"
-                            android:layout_marginTop="@dimen/_10sdp"
-                            android:text="See All"
-                            android:textColor="@color/blue"
+                            android:text="View All"
+                            android:drawablePadding="@dimen/_8ssp"
+                            android:drawableEnd="@drawable/sidearrow"
+                            android:layout_gravity="center"
+                            android:gravity="end"
+                            android:textColor="#676666"
                             android:textSize="@dimen/_12ssp"
                             android:textStyle="bold" />
                     </LinearLayout>
@@ -377,7 +381,7 @@
                     <androidx.recyclerview.widget.RecyclerView
                         android:id="@+id/recyclerview_job1"
                         android:layout_width="match_parent"
-                        android:layout_height="142dp"
+                        android:layout_height="wrap_content"
                         android:layout_marginBottom="@dimen/_5sdp"
                         android:orientation="horizontal">
 
@@ -386,34 +390,38 @@
 
                     <LinearLayout
                         android:layout_width="match_parent"
+                        android:paddingTop="@dimen/_5ssp"
+                        android:paddingHorizontal="@dimen/_10ssp"
                         android:layout_height="wrap_content">
 
                         <TextView
-                            android:layout_width="wrap_content"
+                            android:layout_width="0dp"
+                            android:layout_weight="1"
                             android:layout_height="wrap_content"
-                            android:layout_marginStart="@dimen/_15sdp"
-                            android:layout_marginTop="@dimen/_10sdp"
                             android:text="Recommended Jobs"
                             android:textSize="@dimen/_12ssp"
                             android:textStyle="bold" />
 
                         <TextView
-                            android:layout_width="wrap_content"
+                            android:layout_width="0dp"
+                            android:layout_weight="1"
                             android:layout_height="wrap_content"
-                            android:layout_marginStart="@dimen/_145sdp"
-                            android:layout_marginTop="@dimen/_10sdp"
-                            android:text="See All"
-                            android:textColor="@color/blue"
+                            android:text="View All"
+                            android:drawablePadding="@dimen/_8ssp"
+                            android:drawableEnd="@drawable/sidearrow"
+                            android:layout_gravity="center"
+                            android:gravity="end"
+                            android:textColor="#676666"
                             android:textSize="@dimen/_12ssp"
                             android:textStyle="bold" />
                     </LinearLayout>
 
                     <androidx.recyclerview.widget.RecyclerView
-                        android:id="@+id/cme_recyclerview1"
+                        android:id="@+id/recyclerview_cme1"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="@dimen/_5sdp"
-                        android:orientation="vertical">
+                        android:orientation="horizontal">
 
                     </androidx.recyclerview.widget.RecyclerView>
 

@@ -48,7 +48,7 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
 
     public static class MyViewHolder extends RecyclerView.ViewHolder {
         TextView title, hosp, loc,date;
-        Button apply;
+        TextView apply;
 
         public MyViewHolder(@NonNull View itemView) {
             super(itemView);

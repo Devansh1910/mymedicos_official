@@ -29,22 +29,18 @@ import java.util.Map;
 public class HomeFragment extends Fragment {
 
     ImageView jobs,cme,news,publication,update,pg_prep,ugexams;
-    MyAdapter adapter;
-    RecyclerView recyclerView;
-
-
-
-
+    MyAdapter adapterjob;
+    MyAdapter2 adaptercme;
+    RecyclerView recyclerViewjob;
+    RecyclerView recyclerViewcme;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_home, container, false);
 
+        recyclerViewjob = rootView.findViewById(R.id.recyclerview_job1);
 
-
-
-
-        recyclerView = rootView.findViewById(R.id.recyclerview_job1);
+        recyclerViewcme = rootView.findViewById(R.id.recyclerview_cme1);
 
         ugexams=rootView.findViewById(R.id.ugexams);
         ugexams.setOnClickListener(new View.OnClickListener() {
@@ -105,7 +101,7 @@ public class HomeFragment extends Fragment {
 
 
         List<jobitem> joblist = new ArrayList<jobitem>();
-        recyclerView.setLayoutManager(new LinearLayoutManager(getActivity(),LinearLayoutManager.HORIZONTAL, false));
+        recyclerViewjob.setLayoutManager(new LinearLayoutManager(getActivity(),LinearLayoutManager.HORIZONTAL, false));
         FirebaseFirestore dc = FirebaseFirestore.getInstance();
         //......
         dc.collection("JOB")
@@ -117,10 +113,8 @@ public class HomeFragment extends Fragment {
                         if (task.isSuccessful()) {
                             for (QueryDocumentSnapshot document : task.getResult()) {
 
-
                                 Map<String, Object> dataMap = document.getData();
                                 String speciality = ((String) dataMap.get("Speciality"));
-
                                 String Organiser =((String) dataMap.get("JOB Organiser"));
                                 String Location =((String) dataMap.get("Location"));
                                 String date=((String) dataMap.get("date"));
@@ -135,13 +129,10 @@ public class HomeFragment extends Fragment {
 //                                // Pass the joblist to the adapter
 //                                Log.d("speciality2", speciality);
 
-                                recyclerView.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false));
-                                adapter = new MyAdapter(getContext(),joblist); // Pass the joblist to the adapter
-                                recyclerView.setAdapter(adapter);
+                                recyclerViewjob.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false));
+                                adapterjob = new MyAdapter(getContext(),joblist); // Pass the joblist to the adapter
+                                recyclerViewjob.setAdapter(adapterjob);
 //                                Log.d("speciality2", speciality);
-
-
-
                             }
                         } else {
                             Log.d(TAG, "Error getting documents: ", task.getException());
@@ -149,13 +140,37 @@ public class HomeFragment extends Fragment {
                     }
                 });
 
-//        joblist.add(new jobitem("Dentist", "ESI hospital", "Hubli"));
-//        joblist.add(new jobitem("Surgen", "Shushruta hospital", "Hubli"));
-//        joblist.add(new jobitem("Gynacologist", "Tatvadarshi hospital", "Hubli"));
-//        joblist.add(new jobitem("Pediatric", "KMC", "Hubli"));
-//
-//        adapter = new MyAdapter(getContext(),joblist); // Pass the joblist to the adapter
-//        recyclerView.setAdapter(adapter);
+        List<cmeitem1> cmelist = new ArrayList<cmeitem1>();
+        recyclerViewcme.setLayoutManager(new LinearLayoutManager(getActivity(),LinearLayoutManager.HORIZONTAL, false));
+        FirebaseFirestore cmedc = FirebaseFirestore.getInstance();
+        //......
+        cmedc.collection("CME")
+                .get()
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task ) {
+
+                        if (task.isSuccessful()) {
+                            for (QueryDocumentSnapshot document : task.getResult()) {
+
+                                Map<String, Object> dataMap = document.getData();
+                                String usercme = ((String) dataMap.get("User"));
+                                String specialitycme =((String) dataMap.get("Speciality"));
+                                String presentercme =((String) dataMap.get("CME Presenter"));
+                                String titlecme=((String) dataMap.get("CME Title"));
+                                String organizercme =((String) dataMap.get("CME Organiser"));
+
+                                cmeitem1 cme = new cmeitem1(usercme, specialitycme,5, titlecme,presentercme,organizercme);
+                                cmelist.add(cme);
+                                recyclerViewcme.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false));
+                                adaptercme = new MyAdapter2(getContext(),cmelist); // Pass the cmelist to the adapter
+                                recyclerViewcme.setAdapter(adaptercme);
+                            }
+                        } else {
+                            Log.d(TAG, "Error getting documents: ", task.getException());
+                        }
+                    }
+                });
 
         publication=rootView.findViewById(R.id.pub_image);
         publication.setOnClickListener(new View.OnClickListener() {
