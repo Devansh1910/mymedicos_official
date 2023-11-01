@@ -2,6 +2,7 @@ package com.example.my_medicos;
 
 import static android.content.ContentValues.TAG;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.util.Log;
@@ -46,7 +47,7 @@ public class MyAdapter6 extends RecyclerView.Adapter<MyAdapter6.MyViewHolder6> {
     }
 
     @Override
-    public void onBindViewHolder(@NonNull MyViewHolder6 holder, int position) {
+    public void onBindViewHolder(@NonNull MyViewHolder6 holder, @SuppressLint("RecyclerView") int position) {
         holder.title.setText(joblist.get(position).getTitle());
         holder.hosp.setText(joblist.get(position).getHospital());
         holder.loc.setText(joblist.get(position).getLocation());
@@ -76,9 +77,8 @@ public class MyAdapter6 extends RecyclerView.Adapter<MyAdapter6.MyViewHolder6> {
 
     public class MyViewHolder6 extends RecyclerView.ViewHolder {
         TextView pos, hosp, loc,Date,title;
-       String user;
-
-        Button apply;
+        String user;
+        TextView apply;
 
         public MyViewHolder6(@NonNull View itemView) {
             super(itemView);

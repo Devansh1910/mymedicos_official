@@ -1,5 +1,6 @@
 package com.example.my_medicos;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.view.LayoutInflater;
@@ -31,10 +32,8 @@ public class MyAdapter7 extends RecyclerView.Adapter<MyAdapter7.MyViewHolder7> {
     }
 
     @Override
-    public void onBindViewHolder(@NonNull MyViewHolder7 holder, int position) {
+    public void onBindViewHolder(@NonNull MyViewHolder7 holder, @SuppressLint("RecyclerView") int position) {
         holder.title.setText(joblist.get(position).getTitle());
-
-
 
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -43,7 +42,6 @@ public class MyAdapter7 extends RecyclerView.Adapter<MyAdapter7.MyViewHolder7> {
                 Intent i = new Intent(context, JobsActivity2.class);
                 i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);// Add this line
                 i.putExtra("Title",joblist.get(position).getTitle());
-
                 context.startActivity(i);
             }
         });
@@ -61,8 +59,6 @@ public class MyAdapter7 extends RecyclerView.Adapter<MyAdapter7.MyViewHolder7> {
 
         public MyViewHolder7(@NonNull View itemView) {
             super(itemView);
-
-
             title=itemView.findViewById(R.id.job_pos2);
 
 //            apply.setOnClickListener(new View.OnClickListener() {

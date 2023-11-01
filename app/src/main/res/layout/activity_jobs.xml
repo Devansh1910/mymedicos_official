@@ -7,98 +7,158 @@
     android:layout_height="match_parent"
     tools:context=".JobsActivity">
 
-    <LinearLayout
+    <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        android:layout_height="match_parent">
 
-        <com.google.android.material.appbar.AppBarLayout
-            android:id="@+id/cemtoolbar_container"
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:orientation="vertical"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent">
 
-            <androidx.appcompat.widget.Toolbar
-                android:id="@+id/jobstoolbar"
-                app:title="Jobs"
+            <com.google.android.material.appbar.AppBarLayout
+                android:id="@+id/cemtoolbar_container"
                 android:layout_width="match_parent"
-                android:layout_height="?attr/actionBarSize"
-                android:background="#6DFFDA" />
+                android:layout_height="wrap_content"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
 
-        </com.google.android.material.appbar.AppBarLayout>
+                    <androidx.appcompat.widget.Toolbar
+                        android:id="@+id/jobstoolbar"
+                        app:title="Jobs"
+                        app:navigationIcon="@drawable/arrowbackforappbar"
+                        app:titleTextColor="@color/black"
+                        app:subtitleTextColor="@color/white"
+                        app:subtitleTextAppearance="@color/white"
+                        android:backgroundTint="@color/white"
+                        android:layout_width="match_parent"
+                        android:layout_weight="1"
+                        android:layout_height="?attr/actionBarSize"
+                        android:background="@color/white">
 
-        <HorizontalScrollView
-            android:layout_width="match_parent"
-            android:scrollbars="vertical"
-            android:scrollbarStyle="insideInset"
-            android:layout_height="wrap_content">
+                    </androidx.appcompat.widget.Toolbar>
+
+
+            </com.google.android.material.appbar.AppBarLayout>
+
+
+            <!--        <HorizontalScrollView-->
+            <!--            android:layout_width="match_parent"-->
+            <!--            android:scrollbars="vertical"-->
+            <!--            android:scrollbarStyle="insideInset"-->
+            <!--            android:layout_height="wrap_content">-->
+
+            <!--            <LinearLayout-->
+            <!--                android:layout_width="match_parent"-->
+            <!--                android:layout_height="wrap_content"-->
+            <!--                android:paddingVertical="@dimen/_10ssp"-->
+            <!--                android:layout_marginBottom="@dimen/_5ssp"-->
+            <!--                android:orientation="horizontal">-->
+
+            <!--                <Spinner-->
+            <!--                    android:id="@+id/city"-->
+            <!--                    android:layout_width="0dp"-->
+            <!--                    android:layout_weight="1"-->
+            <!--                    android:paddingHorizontal="@dimen/_25ssp"-->
+            <!--                    android:layout_height="@dimen/_40sdp"-->
+            <!--                    android:layout_marginHorizontal="@dimen/_2ssp"-->
+            <!--                    android:background="@drawable/spinner_new" />-->
+
+            <!--                <Spinner-->
+            <!--                    android:id="@+id/speciality"-->
+            <!--                    android:layout_width="0dp"-->
+            <!--                    android:layout_weight="1"-->
+            <!--                    android:paddingHorizontal="@dimen/_25ssp"-->
+            <!--                    android:layout_height="@dimen/_40sdp"-->
+            <!--                    android:layout_marginHorizontal="@dimen/_2ssp"-->
+            <!--                    android:background="@drawable/spinner_new" />-->
+
+            <!--                <Spinner-->
+            <!--                    android:id="@+id/subspeciality"-->
+            <!--                    android:layout_width="0dp"-->
+            <!--                    android:layout_weight="1"-->
+            <!--                    android:paddingHorizontal="@dimen/_25ssp"-->
+            <!--                    android:layout_height="@dimen/_40sdp"-->
+            <!--                    android:layout_marginHorizontal="@dimen/_5ssp"-->
+            <!--                    android:background="@drawable/spinner_new" />-->
+
+            <!--                <Button-->
+            <!--                    android:id="@+id/ok"-->
+            <!--                    android:layout_width="0dp"-->
+            <!--                    android:layout_weight="1"-->
+            <!--                    android:layout_height="52.00dp"-->
+            <!--                    android:text="OK"-->
+            <!--                    android:clickable="true" />-->
+
+            <!--            </LinearLayout>-->
+
+            <!--        </HorizontalScrollView>-->
+
+            <androidx.appcompat.widget.SearchView
+                android:id="@+id/searchview"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:queryHint="Search Speciality"
+                app:iconifiedByDefault="false"
+                app:searchIcon="@drawable/searchfinalicon"
+                android:layout_marginHorizontal="@dimen/_10ssp"
+                android:paddingVertical="@dimen/_10ssp"
+                app:queryBackground="@drawable/flag_transparent"
+                android:background="@drawable/searchbk"
+                android:textAlignment="center"
+                android:textAppearance="@color/black">
+
+            </androidx.appcompat.widget.SearchView>
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/recyclerview6"
+                android:layout_width="match_parent"
+                android:layout_marginTop="@dimen/_5ssp"
+                android:layout_marginHorizontal="@dimen/_8ssp"
+                android:layout_height="500dp"
+                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"/>
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:paddingVertical="@dimen/_10ssp"
-                android:layout_marginBottom="@dimen/_5ssp"
-                android:orientation="horizontal">
+                android:paddingVertical="@dimen/_5ssp"
+                android:paddingHorizontal="@dimen/_10ssp"
+                android:layout_height="wrap_content">
 
-                <Spinner
-                    android:id="@+id/city"
+                <TextView
                     android:layout_width="0dp"
                     android:layout_weight="1"
-                    android:paddingHorizontal="@dimen/_25ssp"
-                    android:layout_height="@dimen/_40sdp"
-                    android:layout_marginHorizontal="@dimen/_2ssp"
-                    android:background="@drawable/spinner_new" />
+                    android:layout_height="wrap_content"
+                    android:text="Recommended Jobs"
+                    android:textSize="@dimen/_12ssp"
+                    android:textStyle="bold" />
 
-                <Spinner
-                    android:id="@+id/speciality"
+                <TextView
                     android:layout_width="0dp"
                     android:layout_weight="1"
-                    android:paddingHorizontal="@dimen/_25ssp"
-                    android:layout_height="@dimen/_40sdp"
-                    android:layout_marginHorizontal="@dimen/_2ssp"
-                    android:background="@drawable/spinner_new" />
-
-                <Spinner
-                    android:id="@+id/subspeciality"
-                    android:layout_width="0dp"
-                    android:layout_weight="1"
-                    android:paddingHorizontal="@dimen/_25ssp"
-                    android:layout_height="@dimen/_40sdp"
-                    android:layout_marginHorizontal="@dimen/_5ssp"
-                    android:background="@drawable/spinner_new" />
-
-                <Button
-                    android:id="@+id/ok"
-                    android:layout_width="0dp"
-                    android:layout_weight="1"
-                    android:layout_height="52.00dp"
-                    android:text="OK"
-                    android:clickable="true" />
-
+                    android:layout_height="wrap_content"
+                    android:text="View All"
+                    android:drawablePadding="@dimen/_8ssp"
+                    android:drawableEnd="@drawable/sidearrow"
+                    android:layout_gravity="center"
+                    android:gravity="end"
+                    android:textColor="#676666"
+                    android:textSize="@dimen/_12ssp"
+                    android:textStyle="bold" />
             </LinearLayout>
 
-        </HorizontalScrollView>
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/recyclerview5"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"/>
 
-        <com.google.android.material.tabs.TabLayout
-            android:id="@+id/jobtablayout"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+        </LinearLayout>
 
-        <androidx.viewpager2.widget.ViewPager2
-            android:id="@+id/jobViewpager"
-            android:layout_width="match_parent"
-            android:layout_height="1000dp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/jobtablayout" />
-
-    </LinearLayout>
+    </androidx.core.widget.NestedScrollView>
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/floatingActionButton"

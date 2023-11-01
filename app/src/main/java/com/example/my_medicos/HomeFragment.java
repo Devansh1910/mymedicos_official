@@ -2,13 +2,17 @@ package com.example.my_medicos;
 
 import static android.content.ContentValues.TAG;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
+import android.media.MediaPlayer;
+import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
@@ -31,8 +35,11 @@ public class HomeFragment extends Fragment {
     ImageView jobs,cme,news,publication,update,pg_prep,ugexams;
     MyAdapter adapterjob;
     MyAdapter2 adaptercme;
+
     RecyclerView recyclerViewjob;
     RecyclerView recyclerViewcme;
+    TextView navigatetojobs, navigatetocme;
+    @SuppressLint("MissingInflatedId")
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -80,6 +87,7 @@ public class HomeFragment extends Fragment {
             }
         });
 
+
         jobs = rootView.findViewById(R.id.jobs_img);
 
         jobs.setOnClickListener(new View.OnClickListener() {
@@ -95,6 +103,26 @@ public class HomeFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 Intent i=new Intent(getActivity(), NewsActivity.class);
+                startActivity(i);
+            }
+        });
+
+        navigatetojobs = rootView.findViewById(R.id.navigatejobs);
+
+        navigatetojobs.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent i = new Intent(getActivity(), JobsActivity.class);
+                startActivity(i);
+            }
+        });
+
+        navigatetocme=rootView.findViewById(R.id.navigatecme);
+
+        navigatetocme.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent i=new Intent(getActivity(), CmeActivity.class);
                 startActivity(i);
             }
         });

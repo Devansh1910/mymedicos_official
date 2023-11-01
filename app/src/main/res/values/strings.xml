@@ -9,7 +9,6 @@
 
     <!-- Specialities -->
     <string-array name="speciality">
-        <item>-Select your speciality-</item>
         <item>Internal Medicine</item>
         <item>Pediatrics</item>
         <item>Surgery</item>
@@ -40,7 +39,6 @@
 
     <!-- Subspecialities -->
     <string-array name="subspeciality">
-        <item>-Select your subspeciality-</item>
         <item>Cardiology</item>
         <item>Gastroenterology (M)</item>
         <item>Nephrology</item>

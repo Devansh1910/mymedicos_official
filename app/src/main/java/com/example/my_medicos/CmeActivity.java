@@ -92,9 +92,6 @@ public class CmeActivity extends AppCompatActivity {
 
         });
 
-
-
-
         toolbar = findViewById(R.id.cmetoolbar);
 
         pager = findViewById(R.id.view_pager);
@@ -165,10 +162,6 @@ public class CmeActivity extends AppCompatActivity {
                         public void onItemSelected(AdapterView<?> parentView, View selectedItemView, int position, long id) {
                             selectedMode2 = subspecialitySpinner.getSelectedItem().toString();
                             selectedMode1 = specialitySpinner.getSelectedItem().toString();
-
-
-
-
                         }
                         @Override
                         public void onNothingSelected(AdapterView<?> adapterView) {
