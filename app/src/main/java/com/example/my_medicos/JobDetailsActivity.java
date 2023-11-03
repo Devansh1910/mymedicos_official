@@ -9,28 +9,21 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
-import android.widget.EditText;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
-import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager2.widget.ViewPager2;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
-import com.google.android.material.appbar.AppBarLayout;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.tabs.TabLayout;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Map;
 
 public class JobDetailsActivity extends AppCompatActivity {
@@ -65,6 +58,12 @@ public class JobDetailsActivity extends AppCompatActivity {
         TextView authorSubSpecialityTextView = findViewById(R.id.authorSubSpecialityTextView);
         TextView jobDescriptionContentTextView = findViewById(R.id.jobDescriptionContentTextView);
         TextView jobtype=findViewById(R.id.Job_type);
+        Intent intent = getIntent();
+        if (intent != null && intent.hasExtra("user")) {
+            // Retrieve the extra data
+            receivedData = intent.getStringExtra("user");
+
+        }
 
 
         Button apply=findViewById(R.id.applyButton);
@@ -74,17 +73,14 @@ public class JobDetailsActivity extends AppCompatActivity {
                 Context context = view.getContext();
                 Intent j=new Intent(context, JobsApplyActivity.class);
                 j.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                j.putExtra("user",receivedData);
                 context.startActivity(j);
             }
         });
-        Intent intent = getIntent();
+
 
 // Check if the Intent has extra data
-        if (intent != null && intent.hasExtra("user")) {
-            // Retrieve the extra data
-            receivedData = intent.getStringExtra("user");
 
-        }
         FirebaseFirestore dc = FirebaseFirestore.getInstance();
         //......
         dc.collection("JOB")
@@ -105,6 +101,7 @@ public class JobDetailsActivity extends AppCompatActivity {
 
 //
                                     jobTitleTextView.setText((String) dataMap.get("JOB Title"));
+
                                     locationTextView.setText((String) dataMap.get("JOB Organiser"));
                                     salaryEditText.setText((String) dataMap.get("Job Salary"));
                                     jobDescriptionContentTextView.setText((String) dataMap.get("JOB Description"));

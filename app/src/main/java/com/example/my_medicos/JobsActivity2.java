@@ -5,6 +5,7 @@ import static android.content.ContentValues.TAG;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -23,7 +24,7 @@ import java.util.Map;
 
 public class JobsActivity2 extends AppCompatActivity {
     RecyclerView recyclerView1;
-    String receivedData;
+    String receivedData,Title1;
     FirebaseFirestore db = FirebaseFirestore.getInstance();
 
     @Override
@@ -39,8 +40,11 @@ public class JobsActivity2 extends AppCompatActivity {
         Intent intent = getIntent();
         if (intent != null) {
             receivedData = intent.getStringExtra("key");
+            Title1=intent.getStringExtra("Title");
+
 
         }
+
 
         recyclerView1 = findViewById(R.id.recyclerview6);
         List<jobitem1> joblist = new ArrayList<jobitem1>();
@@ -59,8 +63,9 @@ public class JobsActivity2 extends AppCompatActivity {
 
 
                                 Map<String, Object> dataMap = document.getData();
-                                String speciality = "(String) dataMap.ge";
+                                String speciality = (String) dataMap.get("Speciality");
 //                                Log.d("123456",speciality);
+
 //
                                 String Organiser = (String) dataMap.get("JOB Organiser");
                                 String Location = (String) dataMap.get("Location");
@@ -68,16 +73,16 @@ public class JobsActivity2 extends AppCompatActivity {
                                 String user = (String) dataMap.get("User");
                                 String type=((String) dataMap.get("Job type"));
                                 String Title=((String) dataMap.get("JOB Title"));
-//                                int r=speciality.compareTo(receivedData);
-//                                if (r==0) {
+                                int r=speciality.compareTo(Title1);
+                                Log.d("123456", String.valueOf(r));
+                                if (r==0) {
 
 //
                                     jobitem1 c = new jobitem1(speciality, Organiser, Location, date, user, Title);
                                     joblist.add(c);
-//                                }
-//                                else {
-//                                    Toast.makeText(JobsActivity2.this, "NO Content", Toast.LENGTH_SHORT).show();
-//                                }
+                                }
+
+
 
 //
 //                                // Pass the joblist to the adapter
@@ -89,7 +94,15 @@ public class JobsActivity2 extends AppCompatActivity {
 
 
                             }
-                        } else {
+                            if (joblist.size()==0) {
+
+                                Toast.makeText(JobsActivity2.this, "NO Content", Toast.LENGTH_SHORT).show();
+
+                            }
+                        }
+
+                        else {
+
                             Log.d(TAG, "Error getting documents: ", task.getException());
                         }
                     }

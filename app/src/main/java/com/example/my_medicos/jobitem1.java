@@ -27,7 +27,7 @@ public class jobitem1 {
 
         Log.d("speciality1",position);
         Log.d("speciality1",hospital);
-        Log.d("speciality1",title);
+        Log.d("speciality1",user);
     }
 
     public String getPosition() {
