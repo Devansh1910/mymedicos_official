@@ -277,9 +277,11 @@ public class CmeActivity extends AppCompatActivity {
                                         field1 = (String) dataMap.get("User");
                                         field2 = ((String) dataMap.get("Speciality"));
                                         String field5 = ((String) dataMap.get("CME Organiser"));
+                                        String Date=((String) dataMap.get("Selected Date"));
+                                        String time =((String) dataMap.get("Selected Time"));
 
 
-                                        cmeitem1 c = new cmeitem1(field1, field2, 5, field3, field4, field5);
+                                        cmeitem1 c = new cmeitem1(field1, field2, Date, field3, field4, field5,5,time);
                                         items.add(c);
                                         recyclerView.setLayoutManager(new LinearLayoutManager(getApplication(), LinearLayoutManager.VERTICAL, false));
                                         recyclerView.setAdapter(new MyAdapter2(getApplication(), items));

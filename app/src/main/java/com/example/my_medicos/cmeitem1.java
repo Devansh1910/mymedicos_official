@@ -8,13 +8,15 @@ public class cmeitem1 {
     public cmeitem1() {
     }
 
-    public cmeitem1(String email, String docpos, int imageview,String doctitle,String docpresenter,String docname) {
+    public cmeitem1(String email, String docpos, String date,String doctitle,String docpresenter,String docname,int imageview,String time) {
         this.docname = docname;
         this.docpos = docpos;
         this.imageview = imageview;
+        this.date=date;
         this.doctitle=doctitle;
         this.docpresenter=docpresenter;
         this.email=email;
+        this.time=time;
 
     }
 

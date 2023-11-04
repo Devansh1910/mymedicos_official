@@ -187,8 +187,10 @@ public class HomeFragment extends Fragment {
                                 String presentercme =((String) dataMap.get("CME Presenter"));
                                 String titlecme=((String) dataMap.get("CME Title"));
                                 String organizercme =((String) dataMap.get("CME Organiser"));
+                                String Date=((String) dataMap.get("Selected Date"));
+                                String time =((String) dataMap.get("Selected Time"));
 
-                                cmeitem1 cme = new cmeitem1(usercme, specialitycme,5, titlecme,presentercme,organizercme);
+                                cmeitem1 cme = new cmeitem1(usercme, specialitycme,Date, titlecme,presentercme,organizercme,5,time);
                                 cmelist.add(cme);
                                 recyclerViewcme.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false));
                                 adaptercme = new MyAdapter2(getContext(),cmelist); // Pass the cmelist to the adapter

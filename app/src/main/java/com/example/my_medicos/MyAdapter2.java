@@ -44,6 +44,8 @@ public class MyAdapter2  extends RecyclerView.Adapter<MyAdapter2.MyViewHolder2>{
         holder.position.setText(item.get(position).getDocpos());
         holder.title.setText((item.get(position).getDoctitle()));
         holder.presenters.setText(item.get(position).getDocpresenter());
+        holder.date.setText(item.get(position).getDate());
+        holder.time.setText(item.get(position).getTime());
 
         Log.d(item.get(position).getEmail(),"vivek2");
 
@@ -75,6 +77,7 @@ public class MyAdapter2  extends RecyclerView.Adapter<MyAdapter2.MyViewHolder2>{
     }
     public static class MyViewHolder2 extends  RecyclerView.ViewHolder {
 
+
         TextView name,position,title,presenters,date,time,venue,email;
         ImageView imageview;
         public MyViewHolder2(@NonNull View itemView) {
@@ -83,8 +86,10 @@ public class MyAdapter2  extends RecyclerView.Adapter<MyAdapter2.MyViewHolder2>{
 //          imageview = itemView.findViewById(R.id.cme_img);
             name=itemView.findViewById(R.id.dr_name);
             title=itemView.findViewById(R.id.dr_title);
+            date=itemView.findViewById(R.id.dr_date);
             presenters=itemView.findViewById((R.id.dr_presenters));
             position=itemView.findViewById(R.id.dr_pos);
+            time=itemView.findViewById(R.id.dr_time);
         }
     }
 }
