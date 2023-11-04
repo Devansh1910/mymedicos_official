@@ -94,9 +94,9 @@ public class JobsActivity2 extends AppCompatActivity {
 
 
                             }
-                            if (joblist.size()==0) {
+                            if (joblist.size()==0) {      
 
-                                Toast.makeText(JobsActivity2.this, "NO Content", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(JobsActivity2.this, "No Content", Toast.LENGTH_SHORT).show();
 
                             }
                         }

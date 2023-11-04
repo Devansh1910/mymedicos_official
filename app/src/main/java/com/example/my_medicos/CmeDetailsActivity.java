@@ -49,10 +49,6 @@ public class CmeDetailsActivity extends AppCompatActivity {
         TextView Name=findViewById(R.id.speakername);
         TextView Speciality=findViewById(R.id.speciality);
 
-
-
-
-
         moreButton.setOnClickListener(new View.OnClickListener() {
             boolean isExpanded = false;
 
@@ -70,13 +66,7 @@ public class CmeDetailsActivity extends AppCompatActivity {
         });
         String field1=getIntent().getExtras().getString("name");
 
-
-
-
-
         Query query1 = db.collection("users");
-
-
         query1.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
             @Override
             public void onComplete(Task<QuerySnapshot> task) {
@@ -91,15 +81,9 @@ public class CmeDetailsActivity extends AppCompatActivity {
                             field4 = ((String) dataMap.get("Name"));
                             Name.setText(field4);
 
-
-
-
                             break;
                         }
-
-
                         // Handle the retrieved data here
-
                         // You can access data using document.getData() and perform necessary actions
                     }
                 } else {
@@ -109,7 +93,6 @@ public class CmeDetailsActivity extends AppCompatActivity {
             }
         });
         Query query = db.collection("CME");
-
 
         query.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
             @Override
@@ -134,10 +117,7 @@ public class CmeDetailsActivity extends AppCompatActivity {
                             time.setText(time1);
                             Speciality.setText(speciality);
                         }
-
-
                         // Handle the retrieved data here
-
                         // You can access data using document.getData() and perform necessary actions
                     }
                 } else {
@@ -146,12 +126,7 @@ public class CmeDetailsActivity extends AppCompatActivity {
                 }
             }
         });
-
         // Replace "your_collection_name" and "your_field_name" with actual values
-
-
-
-
     }
 }
 

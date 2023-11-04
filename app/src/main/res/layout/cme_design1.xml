@@ -40,7 +40,7 @@
                     android:layout_height="match_parent"
                     android:paddingLeft="@dimen/_14sdp"
                     android:paddingRight="@dimen/_10ssp"
-                    android:background="#205E4E">
+                    android:background="@drawable/bkcme">
 
                     <LinearLayout
                         android:layout_width="wrap_content"
@@ -76,7 +76,7 @@
                         android:text="Management of Arthritis in Pediatrics \n along with Immunological disorders."
                         android:lineHeight="@dimen/_14sdp"
                         android:textSize="@dimen/_14sdp"
-                        android:textColor="@color/white"
+                        android:textColor="#555454"
                         android:textStyle="bold"
                         android:layout_gravity="center"/>
 

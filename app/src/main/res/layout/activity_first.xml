@@ -76,7 +76,7 @@
             android:drawablePadding="@dimen/_10ssp"
             android:drawableStart="@drawable/phone"
             android:orientation="horizontal"
-            android:text="Continue With Phonenumber"
+            android:text="Continue With Phone Number"
             android:textColor="@color/white"
             android:textAllCaps="false"
             android:shadowColor="@color/black"

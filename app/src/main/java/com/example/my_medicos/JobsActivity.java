@@ -12,6 +12,7 @@ import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.Spinner;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -28,6 +29,7 @@ import com.google.android.gms.tasks.Task;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.tabs.TabLayout;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
@@ -184,7 +186,7 @@ public class JobsActivity extends AppCompatActivity {
 //        }).attach();
 //        binding = ActivityYourActivityBinding.inflate(getLayoutInflater()); // Use the binding
 //        setContentView(binding.getRoot());
-        String[] specialitiesArray = getResources().getStringArray(R.array.speciality);
+        String[] specialitiesArray = getResources().getStringArray(R.array.specialityjobs);
 
 // Convert the string array into a List
         List<String> specialitiesList = Arrays.asList(specialitiesArray);

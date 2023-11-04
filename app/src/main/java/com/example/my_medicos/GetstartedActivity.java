@@ -37,6 +37,5 @@ public class GetstartedActivity extends AppCompatActivity {
             public void onAnimationRepeat(Animation animation) {
             }
         });
-
     }
 }

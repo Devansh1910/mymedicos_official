@@ -9,6 +9,7 @@
 
     <!-- Specialities -->
     <string-array name="speciality">
+        <item>-Select Speciality-</item>
         <item>Internal Medicine</item>
         <item>Pediatrics</item>
         <item>Surgery</item>
@@ -85,6 +86,36 @@
         <item>Transfusion Medicine</item>
         <item>Clinical Pharmacology</item>
         <!-- Add other subspecialities here -->
+    </string-array>
+
+    <!-- Specialities Jobs -->
+    <string-array name="specialityjobs">
+        <item>Internal Medicine</item>
+        <item>Pediatrics</item>
+        <item>Surgery</item>
+        <item>Obstetrics and Gynecology</item>
+        <item>Anesthesiology</item>
+        <item>Psychiatry</item>
+        <item>Radiology</item>
+        <item>Emergency Medicine</item>
+        <item>Dermatology</item>
+        <item>Family Medicine</item>
+        <item>Ophthalmology</item>
+        <item>Pathology</item>
+        <item>Physical Medicine and Rehabilitation</item>
+        <item>Infectious Disease</item>
+        <item>Allergy and Immunology</item>
+        <item>Pulmonology</item>
+        <item>Nuclear Medicine</item>
+        <item>Otolaryngology (ENT)</item>
+        <item>Preventive Medicine</item>
+        <item>Microbiology</item>
+        <item>Pharmacology</item>
+        <item>Forensic Medicine</item>
+        <item>Physiology</item>
+        <item>Anatomy</item>
+        <item>Biochemistry</item>
+        <!-- Add other specialities here -->
     </string-array>
 
     <!-- Speciality-Subspeciality mapping -->

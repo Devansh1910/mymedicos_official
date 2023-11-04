@@ -25,13 +25,13 @@
 
         <androidx.appcompat.widget.Toolbar
             android:id="@+id/toolbar"
-            app:title="SpeciALITY"
-            app:navigationIcon="@drawable/bbk"
-            app:titleTextColor="@color/white"
-            app:subtitleTextColor="@color/white"
-            app:subtitleTextAppearance="@color/white"
+            app:title="Speciality"
+            app:navigationIcon="@drawable/arrowbackforappbar"
+            app:titleTextColor="@color/black"
+            app:subtitleTextColor="@color/black"
+            app:subtitleTextAppearance="@color/black"
             app:subtitle="SubSpeciality"
-            android:backgroundTint="@color/blue"
+            android:backgroundTint="@color/white"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
             android:background="@color/white">
@@ -75,7 +75,7 @@
                         android:layout_gravity="end"
                         android:fontFamily="@font/montserrat_medium"
                         android:text="See All"
-                        android:textColor="@color/blue" />
+                        android:textColor="@color/green" />
 
                 </LinearLayout>
 
@@ -115,7 +115,7 @@
                         android:layout_gravity="end"
                         android:fontFamily="@font/montserrat_medium"
                         android:text="See All"
-                        android:textColor="@color/blue" />
+                        android:textColor="@color/green" />
 
                 </LinearLayout>
 
@@ -154,7 +154,7 @@
                         android:layout_gravity="end"
                         android:fontFamily="@font/montserrat_medium"
                         android:text="See All"
-                        android:textColor="@color/blue" />
+                        android:textColor="@color/green" />
 
                 </LinearLayout>
                 <androidx.recyclerview.widget.RecyclerView
@@ -192,7 +192,7 @@
                         android:layout_gravity="end"
                         android:fontFamily="@font/montserrat_medium"
                         android:text="See All"
-                        android:textColor="@color/blue" />
+                        android:textColor="@color/green" />
 
                 </LinearLayout>
 
