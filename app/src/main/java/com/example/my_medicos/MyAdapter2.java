@@ -87,9 +87,10 @@ public class MyAdapter2  extends RecyclerView.Adapter<MyAdapter2.MyViewHolder2>{
             name=itemView.findViewById(R.id.dr_name);
             title=itemView.findViewById(R.id.dr_title);
             date=itemView.findViewById(R.id.dr_date);
+            time=itemView.findViewById(R.id.dr_time);
             presenters=itemView.findViewById((R.id.dr_presenters));
             position=itemView.findViewById(R.id.dr_pos);
-            time=itemView.findViewById(R.id.dr_time);
+
         }
     }
 }

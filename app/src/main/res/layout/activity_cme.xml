@@ -144,6 +144,7 @@
                     android:layout_width="match_parent"
                     android:layout_margin="@dimen/_10ssp"
                     android:layout_height="match_parent"
+                    android:id="@+id/tablayout"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent">
 
@@ -207,14 +208,23 @@
 
 <!--                </LinearLayout>-->
 
-                <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/cme_recyclerview1"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/_5sdp"
-                    android:orientation="vertical">
 
-                </androidx.recyclerview.widget.RecyclerView>
+
+
+
+
+                <RelativeLayout
+                    xmlns:android="http://schemas.android.com/apk/res/android"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <!-- Include your ViewPager2 and any other UI elements here -->
+                    <androidx.viewpager2.widget.ViewPager2
+                        android:id="@+id/view_pager1"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent" />
+
+                </RelativeLayout>
 
 <!--                <LinearLayout-->
 <!--                    android:layout_width="match_parent"-->

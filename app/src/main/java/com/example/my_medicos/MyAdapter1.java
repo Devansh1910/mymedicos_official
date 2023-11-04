@@ -35,6 +35,8 @@ public class MyAdapter1 extends RecyclerView.Adapter<MyAdapter1.MyViewHolder2>{
         holder.position.setText(item.get(position).getDocpos());
         holder.title.setText(item.get(position).getDoctitle());
         holder.presenters.setText(item.get(position).getDocpresenter());
+        holder.date.setText(item.get(position).getDate());
+        holder.time.setText(item.get(position).getTime());
 
 
     }
@@ -45,7 +47,7 @@ public class MyAdapter1 extends RecyclerView.Adapter<MyAdapter1.MyViewHolder2>{
     }
     public static class MyViewHolder2 extends  RecyclerView.ViewHolder {
 
-        TextView name,position,title,presenters;
+        TextView name,position,title,presenters,date,time;
 
         public MyViewHolder2(@NonNull View itemView) {
             super(itemView);
@@ -55,6 +57,8 @@ public class MyAdapter1 extends RecyclerView.Adapter<MyAdapter1.MyViewHolder2>{
             position=itemView.findViewById(R.id.dr_pos);
             title=itemView.findViewById(R.id.dr_title);
             presenters=itemView.findViewById(R.id.dr_presenters);
+            date=itemView.findViewById(R.id.dr_date);
+            time=itemView.findViewById(R.id.dr_time);
 
         }
     }

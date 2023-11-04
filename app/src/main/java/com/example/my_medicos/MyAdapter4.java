@@ -33,10 +33,12 @@ public class MyAdapter4 extends RecyclerView.Adapter<MyAdapter4.MyViewHolder4>{
     @Override
     public void onBindViewHolder(@NonNull MyViewHolder4 holder, int position) {
 
-        holder.name.setText(item.get(position).getDoc_name());
-        holder.hosp.setText(item.get(position).getHosp_name());
-        holder.pose.setText(item.get(position).getPos_name());
-        holder.imageView.setImageResource(item.get(position).getImage());
+        holder.name.setText(item.get(position).getDocname());
+        holder.position.setText(item.get(position).getDocpos());
+        holder.title.setText(item.get(position).getDoctitle());
+        holder.presenters.setText(item.get(position).getDocpresenter());
+        holder.date.setText(item.get(position).getDate());
+        holder.time.setText(item.get(position).getTime());
     }
 
     @Override
@@ -46,15 +48,18 @@ public class MyAdapter4 extends RecyclerView.Adapter<MyAdapter4.MyViewHolder4>{
 
     public static class MyViewHolder4 extends  RecyclerView.ViewHolder{
 
-        TextView name,hosp,pose;
+
+        TextView date,time,title,name,position,presenters;
         ImageView imageView;
         public MyViewHolder4(@NonNull View itemView) {
             super(itemView);
 
-            name=itemView.findViewById(R.id.drname2);
-            hosp=itemView.findViewById(R.id.hospname2);
-            pose=itemView.findViewById(R.id.drpos2);
-            imageView=itemView.findViewById(R.id.cme_img2);
+            name=itemView.findViewById(R.id.dr_name);
+            position=itemView.findViewById(R.id.dr_pos);
+            title=itemView.findViewById(R.id.dr_title);
+            presenters=itemView.findViewById(R.id.dr_presenters);
+            date=itemView.findViewById(R.id.dr_date);
+            time=itemView.findViewById(R.id.dr_time);
         }
     }
 }

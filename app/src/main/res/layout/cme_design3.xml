@@ -1,103 +1,221 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.cardview.widget.CardView
-xmlns:android="http://schemas.android.com/apk/res/android"
-xmlns:app="http://schemas.android.com/apk/res-auto"
-android:layout_width="wrap_content"
-android:layout_marginStart="@dimen/_10sdp"
-app:cardCornerRadius="@dimen/_10sdp"
-android:layout_marginEnd="@dimen/_10sdp"
-android:layout_marginTop="@dimen/_5sdp"
-android:layout_marginBottom="@dimen/_5sdp"
-android:layout_height="wrap_content">
-
-<androidx.cardview.widget.CardView
-    android:layout_width="@dimen/_190sdp"
-    android:backgroundTint="#E8E8E8"
-    android:layout_height="@dimen/_140sdp"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_marginStart="@dimen/_10sdp"
     app:cardCornerRadius="@dimen/_10sdp"
-    app:cardElevation="@dimen/_10sdp"
-    android:orientation="vertical"
-    app:layout_constraintBottom_toBottomOf="parent"
-    app:layout_constraintEnd_toEndOf="parent"
-    app:layout_constraintHorizontal_bias="0.097"
-    app:layout_constraintStart_toStartOf="parent"
-    app:layout_constraintTop_toTopOf="parent"
-    app:layout_constraintVertical_bias="0.027">
+    android:layout_marginEnd="@dimen/_10sdp"
+    android:layout_marginTop="@dimen/_5sdp"
+    android:layout_marginBottom="@dimen/_5sdp"
+    android:layout_height="wrap_content">
 
-    <LinearLayout
+    <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:backgroundTint="#CDD0FBF1"
+        android:layout_height="230dp"
+        app:cardCornerRadius="@dimen/_10sdp"
+        app:cardElevation="@dimen/_10sdp"
         android:orientation="vertical">
 
-        <ImageView
-            android:id="@+id/cme3"
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/_90sdp"
-            android:scaleType="centerCrop"
-            android:src="@drawable/default_banner"/>
-
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_marginHorizontal="@dimen/_10ssp"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
+            android:layout_height="match_parent"
+            android:layout_marginHorizontal="8dp"
+            android:layout_marginVertical="@dimen/_5ssp"
+            android:orientation="vertical">
 
-            <TextView
-                android:id="@+id/cme_title"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="2"
-                android:text="Oscar"
-                android:maxLines="1"
-                android:fontFamily="@font/montserrat_medium"
-                android:textSize="@dimen/_18sdp"/>
+            <androidx.cardview.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="150dp"
+                android:elevation="8dp"
+                app:cardCornerRadius="8dp">
 
-            <TextView
-                android:id="@+id/cme_dr"
-                android:background="@drawable/rounded_edittext_background"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="2"
+                <LinearLayout
+                    android:id="@+id/cme_img_default"
+                    android:layout_width="match_parent"
+                    android:orientation="vertical"
+                    android:padding="@dimen/_10ssp"
+                    android:layout_gravity="center"
+                    android:layout_height="match_parent"
+                    android:paddingLeft="@dimen/_14sdp"
+                    android:paddingRight="@dimen/_10ssp"
+                    android:background="@drawable/bkcme">
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_gravity="right"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:id="@+id/dr_pos"
+                            android:paddingStart="@dimen/_10ssp"
+                            android:paddingEnd="@dimen/_10ssp"
+                            android:layout_width="0dp"
+                            android:background="@drawable/rounded_comment_box"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:gravity="center"
+                            android:textStyle="bold"
+                            android:paddingHorizontal="@dimen/_2ssp"
+                            android:paddingVertical="@dimen/_2ssp"
+                            android:text="Surgeon"
+                            android:maxLines="1"
+                            android:fontFamily="@font/montserrat_medium"
+                            android:textColor="#FFFFFF"/>
+
+                    </LinearLayout>
+
+                    <TextView
+                        android:id="@+id/dr_title"
+                        android:gravity="center"
+                        android:layout_marginVertical="@dimen/_10ssp"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Management of Arthritis in Pediatrics \n along with Immunological disorders."
+                        android:lineHeight="@dimen/_14sdp"
+                        android:textSize="@dimen/_14sdp"
+                        android:textColor="#555454"
+                        android:textStyle="bold"
+                        android:layout_gravity="center"/>
+
+                </LinearLayout>
+            </androidx.cardview.widget.CardView>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_gravity="center"
                 android:gravity="center"
-                android:text="Presenters"
-                android:fontFamily="@font/montserrat_medium"
-                android:textColor="#888787"/>
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_weight="3"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:id="@+id/dr_date"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="March, 10 2023"
+                        android:maxLines="1"
+                        android:textColor="#8C8C8C"
+                        android:textStyle="bold"
+                        android:fontFamily="@font/montserrat_medium"
+                        android:textSize="@dimen/_10sdp"/>
+
+                    <androidx.fragment.app.FragmentContainerView
+                        android:layout_width="2dp"
+                        android:background="@color/black"
+                        android:layout_margin="@dimen/_3ssp"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"/>
+
+                    <TextView
+                        android:id="@+id/dr_time"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="11:40 AM"
+                        android:textColor="#8C8C8C"
+                        android:textStyle="bold"
+                        android:maxLines="1"
+                        android:fontFamily="@font/montserrat_medium"
+                        android:textSize="@dimen/_10sdp"/>
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginVertical="@dimen/_2ssp"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/dr_presenters"
+                    android:background="@drawable/rounded_edittext_background"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:textStyle="bold"
+                    android:gravity="center"
+                    android:text="Organizer"
+                    android:fontFamily="@font/montserrat_medium"
+                    android:textColor="#F1E7E7"/>
+
+                <androidx.fragment.app.FragmentContainerView
+                    android:layout_width="0dp"
+                    android:layout_weight="2"
+                    android:layout_margin="@dimen/_3ssp"
+                    android:layout_height="0dp"
+                    android:layout_gravity="center"/>
+
+                <TextView
+                    android:id="@+id/dr_mode"
+                    android:background="@drawable/rounded_edittext_background"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:textStyle="bold"
+                    android:text="Online"
+                    android:fontFamily="@font/montserrat_medium"
+                    android:textColor="#EAE4E4"/>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/dr_name"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="2"
+                    android:textColor="#7C7C7C"
+                    android:text="Devansh Saxena"
+                    android:textStyle="bold"
+                    android:drawableStart="@drawable/send"
+                    android:fontFamily="@font/montserrat_medium"
+                    android:textSize="@dimen/_10ssp"/>
+
+            </LinearLayout>
+
         </LinearLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_marginHorizontal="@dimen/_10ssp"
+            android:layout_marginTop="@dimen/_20ssp"
             android:layout_height="wrap_content"
-            android:textColor="#888787"
-            android:background="@drawable/rounded_edittext_background"
+            android:layout_gravity="bottom"
+            android:gravity="end"
             android:orientation="horizontal">
 
-            <TextView
-                android:id="@+id/cme_timings"
-                android:layout_width="wrap_content"
+            <androidx.fragment.app.FragmentContainerView
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:gravity="center"
-                android:paddingHorizontal="@dimen/_2ssp"
-                android:paddingVertical="@dimen/_2ssp"
-                android:text="Surgeon"
-                android:maxLines="1"
-                android:fontFamily="@font/montserrat_medium" />
+                android:layout_weight="1"/>
 
             <TextView
-                android:id="@+id/cme_date"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="0dp"
                 android:layout_weight="1"
-                android:gravity="center"
-                android:paddingHorizontal="@dimen/_2ssp"
-                android:paddingVertical="@dimen/_2ssp"
-                android:text="Surgeon"
-                android:maxLines="1"
-                android:fontFamily="@font/montserrat_medium" />
+                android:layout_height="wrap_content"
+                android:text="Attend"
+                android:layout_gravity="bottom"
+                android:textColor="@color/white"
+                android:paddingHorizontal="@dimen/_40ssp"
+                android:paddingVertical="@dimen/_5ssp"
+                android:textStyle="bold"
+                android:gravity="right"
+                android:background="@drawable/cme_down_button_theme"
+                android:textSize="@dimen/_10ssp"/>
 
         </LinearLayout>
-
-    </LinearLayout>
-</androidx.cardview.widget.CardView>
+    </androidx.cardview.widget.CardView>
 </androidx.cardview.widget.CardView>

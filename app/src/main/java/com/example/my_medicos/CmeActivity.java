@@ -32,6 +32,7 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.tabs.TabLayout;
+import com.google.android.material.tabs.TabLayoutMediator;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
@@ -56,7 +57,7 @@ public class CmeActivity extends AppCompatActivity {
     RecyclerView recyclerView3;
     RecyclerView recyclerView2;
     RecyclerView recyclerView4;
-    private ViewPager2 pager;
+    private ViewPager2 pager,viewpager;
     private TabLayout tabLayout;
     private Spinner specialitySpinner;
     String selectedMode1,selectedMode2,selectedMode;
@@ -74,6 +75,9 @@ public class CmeActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_cme);
+        viewpager = findViewById(R.id.view_pager1);
+        viewpager.setAdapter(new ViewPagerAdapter(this));
+
 
         swipeRefreshLayout = findViewById(R.id.swipe_refresh_layout);
 
@@ -95,7 +99,20 @@ public class CmeActivity extends AppCompatActivity {
         toolbar = findViewById(R.id.cmetoolbar);
 
         pager = findViewById(R.id.view_pager);
-//        tabLayout = findViewById(R.id.tabLayout);
+        tabLayout = findViewById(R.id.tablayout);
+        new TabLayoutMediator(tabLayout, viewpager, (tab, position) -> {
+            switch (position) {
+                case 0:
+                    tab.setText("Ongoing");
+                    break;
+                case 1:
+                    tab.setText("Upcoming");
+                    break;
+                case 2:
+                    tab.setText("Past");
+                    break;
+            }
+        }).attach();
         specialitySpinner = findViewById(R.id.speciality);
         subspecialitySpinner = findViewById(R.id.subspeciality);
 
@@ -220,82 +237,82 @@ public class CmeActivity extends AppCompatActivity {
                 startActivity(i);
             }
         });
-        recyclerView = findViewById(R.id.cme_recyclerview1);
-        List<cmeitem1> items = new ArrayList<>();
-        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
-            Query query=db.collection("CME").orderBy("Time", Query.Direction.DESCENDING);
-
-            query.get()
-                    .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                        @Override
-                        public void onComplete(@NonNull Task<QuerySnapshot> task ) {
-
-                            if (task.isSuccessful()) {
-                                for (QueryDocumentSnapshot document : task.getResult()) {
-
-                                    Map<String, Object> dataMap = document.getData();
-                                    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HH:mm");
-                                    String Time = document.getString("Selected Time");
-                                    DateTimeFormatter formatter1 = DateTimeFormatter.ofPattern("yyyy-MM-dd");
-                                    String date = document.getString("Selected Date");
-
-                                    //
-                                    LocalTime parsedTime = null;
-                                    LocalDate parsedDate = null;
-                                    try {
-                                        // Parse the time string into a LocalTime object
-                                        parsedTime = null;
-                                        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
-                                            parsedTime = LocalTime.parse(Time, formatter);
-                                            parsedDate = LocalDate.parse(date, formatter1);
-
-                                        }
-
-                                        // Display the parsed time
-                                        System.out.println("Parsed Time: " + parsedTime);
-                                    } catch (java.time.format.DateTimeParseException e) {
-                                        // Handle parsing error, e.g., if the input string is in the wrong format
-                                        System.err.println("Error parsing time: " + e.getMessage());
-
-                                    }
-                                    LocalTime currentTime = null;
-
-                                    LocalDate currentDate = null;
-                                    if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
-                                        currentTime = LocalTime.now();
-                                        currentDate = LocalDate.now();
-                                    }
-
-
-                                    int r = parsedTime.compareTo(currentTime);
-                                    int r1 = parsedDate.compareTo(currentDate);
-
-                                    Log.d("vivek2", String.valueOf(r));
-                                    if ((r <= 0) || (r1 < 0)) {
-                                        field3 = ((String) dataMap.get("CME Title"));
-                                        field4 = ((String) dataMap.get("CME Presenter"));
-                                        field1 = (String) dataMap.get("User");
-                                        field2 = ((String) dataMap.get("Speciality"));
-                                        String field5 = ((String) dataMap.get("CME Organiser"));
-                                        String Date=((String) dataMap.get("Selected Date"));
-                                        String time =((String) dataMap.get("Selected Time"));
-
-
-                                        cmeitem1 c = new cmeitem1(field1, field2, Date, field3, field4, field5,5,time);
-                                        items.add(c);
-                                        recyclerView.setLayoutManager(new LinearLayoutManager(getApplication(), LinearLayoutManager.VERTICAL, false));
-                                        recyclerView.setAdapter(new MyAdapter2(getApplication(), items));
-
-                                    } else {
-
-                                    }
-                                }
-                            } else {
-                                Log.d(TAG, "Error getting documents: ", task.getException());
-                            }
-                        }
-                    });
-        }
+//        recyclerView = findViewById(R.id.cme_recyclerview1);
+//        List<cmeitem1> items = new ArrayList<>();
+//        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
+//            Query query=db.collection("CME").orderBy("Time", Query.Direction.DESCENDING);
+//
+//            query.get()
+//                    .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+//                        @Override
+//                        public void onComplete(@NonNull Task<QuerySnapshot> task ) {
+//
+//                            if (task.isSuccessful()) {
+//                                for (QueryDocumentSnapshot document : task.getResult()) {
+//
+//                                    Map<String, Object> dataMap = document.getData();
+//                                    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HH:mm");
+//                                    String Time = document.getString("Selected Time");
+//                                    DateTimeFormatter formatter1 = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+//                                    String date = document.getString("Selected Date");
+//
+//                                    //
+//                                    LocalTime parsedTime = null;
+//                                    LocalDate parsedDate = null;
+//                                    try {
+//                                        // Parse the time string into a LocalTime object
+//                                        parsedTime = null;
+//                                        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
+//                                            parsedTime = LocalTime.parse(Time, formatter);
+//                                            parsedDate = LocalDate.parse(date, formatter1);
+//
+//                                        }
+//
+//                                        // Display the parsed time
+//                                        System.out.println("Parsed Time: " + parsedTime);
+//                                    } catch (java.time.format.DateTimeParseException e) {
+//                                        // Handle parsing error, e.g., if the input string is in the wrong format
+//                                        System.err.println("Error parsing time: " + e.getMessage());
+//
+//                                    }
+//                                    LocalTime currentTime = null;
+//
+//                                    LocalDate currentDate = null;
+//                                    if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
+//                                        currentTime = LocalTime.now();
+//                                        currentDate = LocalDate.now();
+//                                    }
+//
+//
+//                                    int r = parsedTime.compareTo(currentTime);
+//                                    int r1 = parsedDate.compareTo(currentDate);
+//
+//                                    Log.d("vivek2", String.valueOf(r));
+//                                    if ((r <= 0) || (r1 < 0)) {
+//                                        field3 = ((String) dataMap.get("CME Title"));
+//                                        field4 = ((String) dataMap.get("CME Presenter"));
+//                                        field1 = (String) dataMap.get("User");
+//                                        field2 = ((String) dataMap.get("Speciality"));
+//                                        String field5 = ((String) dataMap.get("CME Organiser"));
+//                                        String Date=((String) dataMap.get("Selected Date"));
+//                                        String time =((String) dataMap.get("Selected Time"));
+//
+//
+//                                        cmeitem1 c = new cmeitem1(field1, field2, Date, field3, field4, field5,5,time);
+//                                        items.add(c);
+//                                        recyclerView.setLayoutManager(new LinearLayoutManager(getApplication(), LinearLayoutManager.VERTICAL, false));
+//                                        recyclerView.setAdapter(new MyAdapter2(getApplication(), items));
+//
+//                                    } else {
+//
+//                                    }
+//                                }
+//                            } else {
+//                                Log.d(TAG, "Error getting documents: ", task.getException());
+//                            }
+//                        }
+//                    });
+//        }
 //        recyclerView4 = findViewById(R.id.cme_recyclerview4);
 //        List<cmeitem4> items1 = new ArrayList<>();
 //        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
@@ -497,7 +514,7 @@ public class CmeActivity extends AppCompatActivity {
         public Fragment createFragment(int position) {
             switch (position) {
                 case 0:
-                    return new TodaysFragment();
+                    return new OngoingFragment();
                 case 1:
                     return new UpcomingFragment();
                 case 2:

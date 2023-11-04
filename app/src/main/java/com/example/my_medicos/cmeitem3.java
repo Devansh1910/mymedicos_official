@@ -7,52 +7,72 @@ public class cmeitem3 {
     String cmetitle;
 
     String drname;
+    String docname,docpos,doctitle,docpresenter;
 
-    public int getImage() {
-        return image;
+
+
+    int imageview;
+
+
+
+    public cmeitem3(String docname, String docpos, String date, String doctitle, String docpresenter,int imageview,String time)  {
+
+        this.docname = docname;
+        this.docpos = docpos;
+        this.imageview = imageview;
+        this.doctitle=doctitle;
+        this.date=date;
+        this.time=time;
+        this.docpresenter=docpresenter;
     }
 
-    int image;
-
-    public cmeitem3(String s, String s1, String abcdefgh, String johnWick, int img_6) {
+    public String getDocname() {
+        return docname;
     }
-
-    public cmeitem3(String date, String time, String cmetitle, String drname) {
-        this.date = date;
-        this.time = time;
-        this.cmetitle = cmetitle;
-        this.drname = drname;
-    }
-
     public String getDate() {
         return date;
     }
-
-    public void setDate(String date) {
-        this.date = date;
-    }
-
     public String getTime() {
         return time;
     }
 
-    public void setTime(String time) {
-        this.time = time;
+
+
+
+    public void setDocname(String docname) {
+        this.docname = docname;
     }
 
-    public String getCmetitle() {
-        return cmetitle;
+    public String getDocpos() {
+        return docpos;
     }
 
-    public void setCmetitle(String cmetitle) {
-        this.cmetitle = cmetitle;
+    public void setDocpos(String docpos) {
+        this.docpos = docpos;
     }
 
-    public String getDrname() {
-        return drname;
+    public int getImage() {
+        return imageview;
     }
 
-    public void setDrname(String drname) {
-        this.drname = drname;
+    public String getDoctitle() {
+        return doctitle;
+    }
+
+    public void setDoctitle(String doctitle) {
+        this.doctitle = doctitle;
+    }
+
+    public String getDocpresenter() {
+        return docpresenter;
+    }
+
+    public void setDocpresenter(String docpresenter) {
+        this.docpresenter = docpresenter;
+    }
+
+
+    public void setImage(int imageview) {
+        this.imageview = imageview;
     }
 }

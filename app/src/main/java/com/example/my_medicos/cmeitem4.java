@@ -1,22 +1,33 @@
 package com.example.my_medicos;
 public class cmeitem4 {
 
-    String docname,docpos,doctitle,docpresenter;
+    String docname,docpos,doctitle,docpresenter,date,time;
     int imageview;
 
 
 
-    public cmeitem4(String docname, String docpos, int imageview, String doctitle, String docpresenter) {
+    public cmeitem4(String docname, String docpos, String date, String doctitle, String docpresenter,int imageview,String time) {
         this.docname = docname;
         this.docpos = docpos;
 //        this.imageview = imageview;
         this.doctitle=doctitle;
+        this.date=date;
+        this.time=time;
         this.docpresenter=docpresenter;
     }
 
     public String getDocname() {
         return docname;
     }
+    public String getDate() {
+        return date;
+    }
+    public String getTime() {
+        return time;
+    }
+
+
+
 
     public void setDocname(String docname) {
         this.docname = docname;
