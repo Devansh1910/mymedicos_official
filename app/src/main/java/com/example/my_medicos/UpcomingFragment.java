@@ -142,7 +142,7 @@ public class UpcomingFragment extends Fragment {
                                     int r1 = parsedDate.compareTo(currentDate);
 
                                     Log.d("vivek1", String.valueOf(r1));
-                                    if ((r > 0)&&(r1>=0)) {
+                                    if ((r1>0)) {
                                         String field3 = ((String) dataMap.get("CME Title"));
                                         String field4 = ((String) dataMap.get("CME Presenter"));
                                         String field1 = (String) dataMap.get("CME Organiser");
@@ -155,11 +155,27 @@ public class UpcomingFragment extends Fragment {
 
                                         item.add(c);
 
-                                        recyclerView3.setLayoutManager(new LinearLayoutManager(getContext()));
-                                        recyclerView3.setAdapter(new MyAdapter3(getContext(), item));
+
                                     } else {
+                                        if ((r>0)&&(r1==0)){
+                                            String field3 = ((String) dataMap.get("CME Title"));
+                                            String field4 = ((String) dataMap.get("CME Presenter"));
+                                            String field1 = (String) dataMap.get("CME Organiser");
+                                            String field2;
+                                            field2 = ((String) dataMap.get("Speciality"));
+                                            String Date=((String) dataMap.get("Selected Date"));
+                                            String time =((String) dataMap.get("Selected Time"));
+
+                                            cmeitem3 c = new cmeitem3(field1, field2, Date, field3, field4,5,time);
+
+                                            item.add(c);
+
+                                        }
+
 
                                     }
+                                    recyclerView3.setLayoutManager(new LinearLayoutManager(getContext()));
+                                    recyclerView3.setAdapter(new MyAdapter3(getContext(), item));
                                 }
                             } else {
                                 Log.d(TAG, "Error getting documents: ", task.getException());

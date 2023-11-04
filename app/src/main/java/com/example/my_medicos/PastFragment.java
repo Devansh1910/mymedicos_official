@@ -94,7 +94,7 @@ public class PastFragment extends Fragment {
 
                                     Log.d("vivek", String.valueOf(r));
                                     int r1 = parsedDate.compareTo(currentDate);
-                                    if ((r < 0) || (r1 < 0)) {
+                                    if ((r < 0) && (r1 <= 0)) {
                                         String field3 = ((String) dataMap.get("CME Title"));
                                         String field4 = ((String) dataMap.get("CME Presenter"));
                                         String field1 = (String) dataMap.get("CME Organiser");
