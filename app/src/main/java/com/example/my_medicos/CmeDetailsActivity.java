@@ -48,6 +48,7 @@ public class CmeDetailsActivity extends AppCompatActivity {
         TextView time=findViewById(R.id.time1);
         TextView Name=findViewById(R.id.speakername);
         TextView Speciality=findViewById(R.id.speciality);
+        TextView Type=findViewById(R.id.type);
 
         moreButton.setOnClickListener(new View.OnClickListener() {
             boolean isExpanded = false;
@@ -65,6 +66,9 @@ public class CmeDetailsActivity extends AppCompatActivity {
             }
         });
         String field1=getIntent().getExtras().getString("name");
+        String field5=getIntent().getExtras().getString("type");
+        Type.setText(field5);
+
 
         Query query1 = db.collection("users");
         query1.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
