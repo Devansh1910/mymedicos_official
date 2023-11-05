@@ -55,6 +55,112 @@
                 android:src="@drawable/img_4"
                 android:scaleType="centerCrop"/>
 
+
+            <RelativeLayout
+                android:id="@+id/relativeboxnotforpast"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/_150sdp">
+
+                <ImageView
+                    android:id="@+id/defaultimage"
+                    android:layout_marginHorizontal="@dimen/_5ssp"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:src="@drawable/darkcmebk"
+                    android:scaleType="centerCrop"/>
+
+                <LinearLayout
+                    android:id="@+id/textpartforlive"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:gravity="center"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Click on"
+                        android:layout_marginEnd="@dimen/_5ssp"
+                        android:textStyle="bold"
+                        android:textSize="@dimen/_14ssp"
+                        android:textColor="@color/white"/>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="'Attend'"
+                        android:background="@drawable/roundedbkofwhite"
+                        android:textStyle="bold"
+                        android:paddingVertical="@dimen/_2ssp"
+                        android:paddingHorizontal="@dimen/_10ssp"
+                        android:layout_marginEnd="@dimen/_5ssp"
+                        android:textSize="@dimen/_14ssp"
+                        android:textColor="#F30909" />
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text=" to access this Seminar"
+                        android:textStyle="bold"
+                        android:textSize="@dimen/_14ssp"
+                        android:textColor="@color/white" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/textpartforupcoming"
+                    android:layout_width="match_parent"
+                    android:gravity="center"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical">
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Click on"
+                            android:layout_marginEnd="@dimen/_5ssp"
+                            android:textStyle="bold"
+                            android:textSize="@dimen/_14ssp"
+                            android:textColor="@color/white"/>
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="'Reserve'"
+                            android:background="@drawable/roundedbkofgreen"
+                            android:textStyle="bold"
+                            android:paddingVertical="@dimen/_2ssp"
+                            android:paddingHorizontal="@dimen/_10ssp"
+                            android:layout_marginEnd="@dimen/_5ssp"
+                            android:textSize="@dimen/_14ssp"
+                            android:textColor="@color/white" />
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="when this will be live"
+                            android:textStyle="bold"
+                            android:textSize="@dimen/_14ssp"
+                            android:textColor="@color/white" />
+
+                    </LinearLayout>
+
+                    <TextView
+                        android:textAlignment="center"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="you'll be notified 15 min before"
+                        android:textStyle="bold"
+                        android:textSize="@dimen/_14ssp"
+                        android:textColor="@color/white" />
+
+                </LinearLayout>
+
+            </RelativeLayout>
+
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -69,6 +175,7 @@
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/montserrat_medium"
                     android:text=""
+                    android:textStyle="bold"
                     android:hint="Date"
                     android:textSize="@dimen/_12ssp" />
 
@@ -77,6 +184,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="@dimen/_10sdp"
+                    android:textStyle="bold"
                     android:fontFamily="@font/montserrat_medium"
                     android:text="Time"
                     android:textSize="@dimen/_12ssp" />
@@ -96,6 +204,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:ellipsize="end"
+                    android:textColor="#716E6E"
                     android:lineSpacingExtra="@dimen/_2sdp"
                     android:maxLines="3"
                     android:text="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum." />

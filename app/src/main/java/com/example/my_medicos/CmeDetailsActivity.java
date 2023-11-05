@@ -2,12 +2,22 @@ package com.example.my_medicos;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.cardview.widget.CardView;
+
+import android.annotation.SuppressLint;
+import android.media.MediaPlayer;
+import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.webkit.WebView;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
+import android.widget.VideoView;
+
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
@@ -28,6 +38,9 @@ public class CmeDetailsActivity extends AppCompatActivity {
     String email;
     String field4;
 
+    VideoView videoView;
+
+    @SuppressLint("MissingInflatedId")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -53,22 +66,50 @@ public class CmeDetailsActivity extends AppCompatActivity {
         LinearLayout reservebtn = findViewById(R.id.reservbtn);
         LinearLayout livebtn = findViewById(R.id.livebtn);
         LinearLayout pastbtn = findViewById(R.id.pastbtn);
+        WebView youtube = findViewById(R.id.youtube);
+        ImageView defaultimageofcme = findViewById(R.id.defaultimage);
+        LinearLayout textpartforlive = findViewById(R.id.textpartforlive);
+        LinearLayout textpartforupcoming = findViewById(R.id.textpartforupcoming);
+        RelativeLayout relativeboxnotforpast = findViewById(R.id.relativeboxnotforpast);
+
+
 
         if ("UPCOMING".equals(field5)) {
             // Show the reservebtn and hide the livebtn for Upcoming events
             reservebtn.setVisibility(View.VISIBLE);
             livebtn.setVisibility(View.GONE);
             pastbtn.setVisibility(View.GONE);
+            youtube.setVisibility(View.GONE);
+            defaultimageofcme.setVisibility(View.VISIBLE);
+            textpartforlive.setVisibility(View.INVISIBLE);
+            textpartforupcoming.setVisibility(View.VISIBLE);
+            relativeboxnotforpast.setVisibility(View.VISIBLE);
+
+
+
         } else if ("LIVE".equals(field5)) {
             // Show the livebtn and hide the reservebtn for Ongoing events
             reservebtn.setVisibility(View.GONE);
             livebtn.setVisibility(View.VISIBLE);
             pastbtn.setVisibility(View.GONE);
+            youtube.setVisibility(View.GONE);
+            defaultimageofcme.setVisibility(View.VISIBLE);
+            textpartforlive.setVisibility(View.VISIBLE);
+            textpartforupcoming.setVisibility(View.INVISIBLE);
+            relativeboxnotforpast.setVisibility(View.VISIBLE);
+
+
         } else if ("PAST".equals(field5)) {
                 // Show the livebtn and hide the reservebtn for Ongoing events
                 reservebtn.setVisibility(View.GONE);
                 livebtn.setVisibility(View.GONE);
                 pastbtn.setVisibility(View.VISIBLE);
+                youtube.setVisibility(View.VISIBLE);
+                defaultimageofcme.setVisibility(View.GONE);
+                textpartforlive.setVisibility(View.INVISIBLE);
+                textpartforupcoming.setVisibility(View.INVISIBLE);
+                relativeboxnotforpast.setVisibility(View.GONE);
+
 
         } else {
             // Handle other cases or set a default behavior if needed
