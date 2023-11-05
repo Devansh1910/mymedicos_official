@@ -148,10 +148,11 @@ public class UpcomingFragment extends Fragment {
                                         String field1 = (String) dataMap.get("CME Organiser");
                                         String field2;
                                         field2 = ((String) dataMap.get("Speciality"));
+                                        String field5=((String ) dataMap.get("User"));
                                         String Date=((String) dataMap.get("Selected Date"));
                                         String time =((String) dataMap.get("Selected Time"));
 
-                                        cmeitem3 c = new cmeitem3(field1, field2, Date, field3, field4,5,time);
+                                        cmeitem3 c = new cmeitem3(field1, field2, Date, field3, field4,5,time,field5,"UPCOMING");
 
                                         item.add(c);
 
@@ -165,8 +166,9 @@ public class UpcomingFragment extends Fragment {
                                             field2 = ((String) dataMap.get("Speciality"));
                                             String Date=((String) dataMap.get("Selected Date"));
                                             String time =((String) dataMap.get("Selected Time"));
+                                            String field5=((String ) dataMap.get("User"));
 
-                                            cmeitem3 c = new cmeitem3(field1, field2, Date, field3, field4,5,time);
+                                            cmeitem3 c = new cmeitem3(field1, field2, Date, field3, field4,5,time,field5,"UPCOMING");
 
                                             item.add(c);
 

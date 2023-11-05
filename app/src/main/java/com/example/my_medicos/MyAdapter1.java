@@ -2,6 +2,7 @@
 package com.example.my_medicos;
 
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -37,6 +38,17 @@ public class MyAdapter1 extends RecyclerView.Adapter<MyAdapter1.MyViewHolder2>{
         holder.presenters.setText(item.get(position).getDocpresenter());
         holder.date.setText(item.get(position).getDate());
         holder.time.setText(item.get(position).getTime());
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View a) {
+                Context context = a.getContext();
+                Intent i = new Intent(context, CmeDetailsActivity.class);
+                i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);// Add this line
+                i.putExtra("name",item.get(position).getEmail());
+                i.putExtra("type",item.get(position).getType());
+                context.startActivity(i);
+            }
+        });
 
 
     }

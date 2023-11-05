@@ -65,6 +65,7 @@ public class MyAdapter2  extends RecyclerView.Adapter<MyAdapter2.MyViewHolder2>{
                 Intent i = new Intent(context, CmeDetailsActivity.class);
                 i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);// Add this line
                 i.putExtra("name",item.get(position).getEmail());
+
                 context.startActivity(i);
             }
         });

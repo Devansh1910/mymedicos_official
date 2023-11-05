@@ -98,7 +98,8 @@ public class OngoingFragment extends Fragment  {
                                         field2 = ((String) dataMap.get("Speciality"));
                                         String Date=((String) dataMap.get("Selected Date"));
                                         String time =((String) dataMap.get("Selected Time"));
-                                        cmeitem4 c = new cmeitem4(field1, field2, Date, field3, field4,5,time);
+                                        String field5=((String ) dataMap.get("User"));
+                                        cmeitem4 c = new cmeitem4(field1, field2, Date, field3, field4,5,time,field5,"LIVE");
                                         items1.add(c);
                                         recyclerView.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false));
                                         recyclerView.setAdapter(new MyAdapter1(getContext(), items1));

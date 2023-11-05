@@ -2,7 +2,7 @@ package com.example.my_medicos;
 
 public class cmeitem1 {
 
-    String docname,docpos,doctitle,docpresenter,email,date,time,venue;
+    String docname,docpos,doctitle,docpresenter,email,date,time,venue,type;
     int imageview;
 
     public cmeitem1() {

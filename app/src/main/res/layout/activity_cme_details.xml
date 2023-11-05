@@ -31,6 +31,17 @@
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
             android:background="@color/white">
+            <TextView
+                android:id="@+id/type"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/textView"
+                android:layout_gravity="end"
+                android:layout_marginEnd="@dimen/_10sdp"
+                android:text="LIVE/UPCOMING/PAST"
+                android:textColor="@color/black"
+                android:clickable="true"
+                android:textStyle="bold" />
 
         </androidx.appcompat.widget.Toolbar>
 
