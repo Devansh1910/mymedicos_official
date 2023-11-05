@@ -40,7 +40,7 @@
                     android:layout_height="match_parent"
                     android:paddingLeft="@dimen/_14sdp"
                     android:paddingRight="@dimen/_10ssp"
-                    android:background="@drawable/bkcme">
+                    android:background="@drawable/bkofcmedetail">
 
                     <LinearLayout
                         android:layout_width="wrap_content"

@@ -42,10 +42,6 @@ public class cmeitem2 {
         return type;
     }
 
-
-
-
-
     public void setDocname(String docname) {
         this.docname = docname;
     }

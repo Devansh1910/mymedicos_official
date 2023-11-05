@@ -84,7 +84,7 @@
                     android:layout_height="match_parent"
                     android:paddingLeft="@dimen/_14sdp"
                     android:paddingRight="@dimen/_100ssp"
-                    android:background="@drawable/bkcme">
+                    android:background="@drawable/bkofcmedetail">
 
                     <TextView
                         android:id="@+id/dr_ug_title"
