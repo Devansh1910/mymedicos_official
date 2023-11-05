@@ -2,8 +2,6 @@ package com.example.my_medicos;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
-
-import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -67,14 +65,6 @@ public class CmeDetailsActivity extends AppCompatActivity {
             }
         });
         String field1=getIntent().getExtras().getString("name");
-        String field5=getIntent().getExtras().getString("type");
-        @SuppressLint({"MissingInflatedId", "LocalSuppress"})
-        TextView Type=findViewById(R.id.type);
-        Type.setText(field5);
-
-
-
-
 
         Query query1 = db.collection("users");
         query1.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
@@ -119,7 +109,6 @@ public class CmeDetailsActivity extends AppCompatActivity {
                             String venue=((String) dataMap.get("CME Venue"));
                             String date1=((String) dataMap.get("Selected Date"));
                             String time1=((String) dataMap.get("Selected Time"));
-
                             String title=((String) dataMap.get("CME Title"));
                             setSupportActionBar(toolbar);
                             getSupportActionBar().setTitle(title);

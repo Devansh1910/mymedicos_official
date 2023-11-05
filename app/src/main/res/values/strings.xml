@@ -9,7 +9,7 @@
 
     <!-- Specialities -->
     <string-array name="speciality">
-        <item>-Select Speciality-</item>
+        <item>Select Speciality</item>
         <item>Internal Medicine</item>
         <item>Pediatrics</item>
         <item>Surgery</item>
@@ -90,31 +90,32 @@
 
     <!-- Specialities Jobs -->
     <string-array name="specialityjobs">
-        <item>Internal Medicine</item>
-        <item>Pediatrics</item>
-        <item>Surgery</item>
-        <item>Obstetrics and Gynecology</item>
-        <item>Anesthesiology</item>
-        <item>Psychiatry</item>
-        <item>Radiology</item>
-        <item>Emergency Medicine</item>
-        <item>Dermatology</item>
-        <item>Family Medicine</item>
-        <item>Ophthalmology</item>
-        <item>Pathology</item>
-        <item>Physical Medicine and Rehabilitation</item>
-        <item>Infectious Disease</item>
         <item>Allergy and Immunology</item>
-        <item>Pulmonology</item>
-        <item>Nuclear Medicine</item>
-        <item>Otolaryngology (ENT)</item>
-        <item>Preventive Medicine</item>
-        <item>Microbiology</item>
-        <item>Pharmacology</item>
-        <item>Forensic Medicine</item>
-        <item>Physiology</item>
         <item>Anatomy</item>
+        <item>Anesthesiology</item>
         <item>Biochemistry</item>
+        <item>Dermatology</item>
+        <item>Emergency Medicine</item>
+        <item>Family Medicine</item>
+        <item>Forensic Medicine</item>
+        <item>Infectious Disease</item>
+        <item>Internal Medicine</item>
+        <item>Duty Doctor MBBS</item>
+        <item>Microbiology</item>
+        <item>Nuclear Medicine</item>
+        <item>Obstetrics and Gynecology</item>
+        <item>Ophthalmology</item>
+        <item>Otolaryngology (ENT)</item>
+        <item>Pathology</item>
+        <item>Pediatrics</item>
+        <item>Pharmacology</item>
+        <item>Physical Medicine and Rehabilitation</item>
+        <item>Physiology</item>
+        <item>Preventive Medicine</item>
+        <item>Psychiatry</item>
+        <item>Pulmonology</item>
+        <item>Radiology</item>
+        <item>Surgery</item>
         <!-- Add other specialities here -->
     </string-array>
 
@@ -127,26 +128,26 @@
     </array>
 
     <string-array name="mode">
-        <item>-Select mode-</item>
+        <item>Select mode</item>
         <item>Online</item>
         <item>Offline</item>
 
     </string-array>
     <string-array name="Job_type">
-        <item>-Select Type-</item>
+        <item>Select Type</item>
         <item>Regular</item>
         <item>Loccum</item>
 
     </string-array>
     <string-array name="experience">
-        <item>-Select Experience</item>
+        <item>Select Experience</item>
         <item>-Fresher</item>
         <item>-Experienced</item>
     </string-array>
 
 
     <string-array name="indian_cities">
-        <item>-Select city-</item>
+        <item>Select city</item>
         <item>New Delhi</item>
         <item>Mumbai</item>
         <item>Bangalore</item>
@@ -162,7 +163,7 @@
 
 
     <string-array name="indian_medical_universities">
-        <item>-Select university-</item>
+        <item>Select university</item>
         <item>All India Institute of Medical Sciences (AIIMS)</item>
         <item>Armed Forces Medical College (AFMC)</item>
         <item>Christian Medical College (CMC), Vellore</item>

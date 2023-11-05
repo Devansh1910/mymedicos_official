@@ -25,10 +25,17 @@
 
             <androidx.appcompat.widget.Toolbar
                 android:id="@+id/jobstoolbar"
-                app:title="Jobs"
+                app:title="Posted"
+                app:navigationIcon="@drawable/arrowbackforappbar"
+                app:titleTextColor="@color/black"
+                app:subtitleTextColor="@color/white"
+                app:subtitleTextAppearance="@color/white"
+                android:backgroundTint="@color/white"
                 android:layout_width="match_parent"
+                android:layout_weight="1"
                 android:layout_height="?attr/actionBarSize"
-                android:background="@color/blue" />
+                android:background="@color/white">
+            </androidx.appcompat.widget.Toolbar>
 
         </com.google.android.material.appbar.AppBarLayout>
 

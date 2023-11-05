@@ -11,7 +11,6 @@ public class jobitem2 {
 
         this.title=title;
 
-
     }
 
     public String getPosition() {
@@ -43,4 +42,8 @@ public class jobitem2 {
     public void setLocation(String location) {
         this.location = location;
     }
+
+
+
+
 }

@@ -51,16 +51,13 @@
             android:layout_height="match_parent"
             android:layout_alignParentLeft="true"
             android:layout_alignParentTop="true"
-            android:background="#FFFFFF"
             android:orientation="vertical">
-
 
             <View
                 android:id="@+id/rectangle_2"
                 android:layout_width="60dp"
                 android:layout_height="60dp"
                 android:background="@drawable/timesection" />
-
 
             <TextView
                 android:id="@+id/jobTitleTextView"
@@ -73,7 +70,6 @@
                 android:textSize="24sp"
                 android:textStyle="bold" />
 
-
             <TextView
                 android:id="@+id/companyNameTextView"
                 android:layout_width="47dp"
@@ -84,7 +80,6 @@
                 android:textColor="#434545"
                 android:textSize="14sp" />
 
-
             <TextView
                 android:id="@+id/posted_on_3"
                 android:layout_width="111dp"
@@ -94,8 +89,8 @@
                 android:text=" Posted on 3 March"
                 android:textColor="#434545"
                 android:textSize="12sp" />
-        </LinearLayout>
 
+        </LinearLayout>
         <!-- Larger "Job Title" Heading -->
         <TextView
             android:layout_width="wrap_content"
@@ -103,9 +98,11 @@
             android:text="Software Engineer"
             android:textColor="#1B1B1B"
             android:textSize="25dp"
-            android:textStyle="bold" /> <!-- Set text color to black -->
+            android:textStyle="bold" />
 
+        <!-- Set text color to black -->
         <!-- Company Name -->
+
         <LinearLayout
 
             android:layout_width="match_parent"

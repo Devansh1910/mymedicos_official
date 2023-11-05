@@ -57,7 +57,7 @@ public class JobDetailsActivity extends AppCompatActivity {
         TextView authorSpecialityTextView = findViewById(R.id.authorSpecialityTextView);
         TextView authorSubSpecialityTextView = findViewById(R.id.authorSubSpecialityTextView);
         TextView jobDescriptionContentTextView = findViewById(R.id.jobDescriptionContentTextView);
-        TextView jobtype=findViewById(R.id.Job_type);
+        TextView jobtype = findViewById(R.id.Job_type);
         Intent intent = getIntent();
         if (intent != null && intent.hasExtra("user")) {
             // Retrieve the extra data
@@ -101,7 +101,6 @@ public class JobDetailsActivity extends AppCompatActivity {
 
 //
                                     jobTitleTextView.setText((String) dataMap.get("JOB Title"));
-
                                     locationTextView.setText((String) dataMap.get("JOB Organiser"));
                                     salaryEditText.setText((String) dataMap.get("Job Salary"));
                                     jobDescriptionContentTextView.setText((String) dataMap.get("JOB Description"));

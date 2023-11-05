@@ -9,6 +9,7 @@
     app:cardCornerRadius="@dimen/_10sdp">
 
         <LinearLayout
+            android:id="@+id/fulldetails"
             android:layout_width="280dp"
             android:layout_height="match_parent"
             android:orientation="vertical">
@@ -60,6 +61,7 @@
                 android:layout_height="wrap_content">
 
                 <LinearLayout
+                    android:id="@+id/Apply"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:paddingVertical="@dimen/_5ssp"
@@ -80,16 +82,16 @@
                         android:textStyle="bold" />
 
                     <TextView
-                        android:id="@+id/Apply"
+                        android:id="@+id/Category"
                         android:layout_width="0dp"
-                        android:text="Loccum"
-                        android:layout_gravity="center"
-                        android:gravity="center"
-                        android:textColor="#FFFFFF"
-                        android:textStyle="bold"
-                        android:layout_weight="1"
                         android:layout_height="wrap_content"
-                        android:background="@drawable/jobbackground" />
+                        android:layout_gravity="center"
+                        android:layout_weight="1"
+                        android:background="@drawable/jobbackground"
+                        android:gravity="center"
+                        android:text="Loccum"
+                        android:textColor="#FFFFFF"
+                        android:textStyle="bold" />
 
                 </LinearLayout>
 

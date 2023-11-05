@@ -120,10 +120,6 @@
                 android:layout_marginEnd="@dimen/_20sdp"
                 android:background="@drawable/spinner_back" />
 
-
-
-
-
             <EditText
                 android:id="@+id/experienced"
                 android:layout_width="match_parent"

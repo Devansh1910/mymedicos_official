@@ -5,7 +5,7 @@ import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -37,8 +37,7 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
         holder.hosp.setText(joblist.get(position).getHospital());
         holder.loc.setText(joblist.get(position).getLocation());
         holder.date.setText(joblist.get(position).getDate());
-
-
+        holder.cat.setText(joblist.get(position).getCategory());
     }
 
     @Override
@@ -47,16 +46,17 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
     }
 
     public static class MyViewHolder extends RecyclerView.ViewHolder {
-        TextView title, hosp, loc,date;
-        TextView apply;
+        TextView title, hosp, loc,date,cat;
+        LinearLayout apply;
 
         public MyViewHolder(@NonNull View itemView) {
             super(itemView);
             title = itemView.findViewById(R.id.job_pos);
             hosp = itemView.findViewById(R.id.hosp_name);
             loc = itemView.findViewById(R.id.job_loc);
-            date=itemView.findViewById(R.id.job_date);
-            apply=itemView.findViewById(R.id.Apply);
+            date = itemView.findViewById(R.id.job_date);
+            apply = itemView.findViewById(R.id.Apply);
+            cat = itemView.findViewById(R.id.Category);
             apply.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
@@ -65,10 +65,7 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
                     j.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                     context.startActivity(j);
                 }
-
-
             });
-
         }
     }
 }
