@@ -80,7 +80,7 @@
                     android:textStyle="bold" />
 
                 <TextView
-                    android:id="@+id/Apply1"
+                    android:id="@+id/categoryshow"
                     android:layout_width="0dp"
                     android:text="Loccum"
                     android:layout_gravity="center"

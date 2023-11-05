@@ -8,7 +8,7 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:orientation="vertical"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -25,7 +25,7 @@
         <androidx.appcompat.widget.Toolbar
             android:id="@+id/detailtoolbar"
             app:title="CME"
-            app:navigationIcon="@drawable/backarrow"
+            app:navigationIcon="@drawable/arrowbackforappbar"
             app:titleTextColor="@color/black"
             android:backgroundTint="@color/white"
             android:layout_width="match_parent"
@@ -36,7 +36,8 @@
 
     </com.google.android.material.appbar.AppBarLayout>
 
-            <ImageView
+            <WebView
+                android:id="@+id/youtube"
                 android:layout_marginHorizontal="@dimen/_5ssp"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/_150sdp"

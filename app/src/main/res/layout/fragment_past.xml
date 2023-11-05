@@ -8,10 +8,8 @@
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/cme_recyclerview_past"
-        android:layout_width="354dp"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="@dimen/_20ssp"
-        android:layout_marginTop="@dimen/_40ssp"
         android:orientation="horizontal">
 
     </androidx.recyclerview.widget.RecyclerView>

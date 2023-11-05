@@ -98,7 +98,6 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/tabLayout" />
 
-
         <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
             android:id="@+id/swipe_refresh_layout"
             android:layout_width="match_parent"
@@ -208,11 +207,6 @@
 
 <!--                </LinearLayout>-->
 
-
-
-
-
-
                 <RelativeLayout
                     xmlns:android="http://schemas.android.com/apk/res/android"
                     android:layout_width="match_parent"
@@ -304,12 +298,15 @@
         android:id="@+id/floatingActionButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:backgroundTint="@color/blue"
+        android:backgroundTint="@color/green"
         android:layout_marginEnd="32dp"
         android:layout_marginBottom="32dp"
+        app:fabCustomSize="55dp"
         android:clickable="true"
+        app:tint="@color/black"
+        app:maxImageSize="@dimen/_35ssp"
         android:contentDescription="Add CME"
-        android:src="@android:drawable/ic_input_add"
+        android:src="@drawable/path_svgrepo_com"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
 

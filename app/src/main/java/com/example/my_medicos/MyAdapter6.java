@@ -52,6 +52,7 @@ public class MyAdapter6 extends RecyclerView.Adapter<MyAdapter6.MyViewHolder6> {
         holder.hosp.setText(joblist.get(position).getHospital());
         holder.loc.setText(joblist.get(position).getLocation());
         holder.Date.setText(joblist.get(position).getDate());
+        holder.Category.setText(joblist.get(position).getCategory());
 
         Log.d("12345678", joblist.get(position).getPosition());
         Log.d("12345678", joblist.get(position).getHospital());
@@ -76,9 +77,9 @@ public class MyAdapter6 extends RecyclerView.Adapter<MyAdapter6.MyViewHolder6> {
     }
 
     public class MyViewHolder6 extends RecyclerView.ViewHolder {
-        TextView pos, hosp, loc,Date,title;
+        TextView pos, hosp, loc,Date,title, Category;
         String user;
-        TextView apply;
+        TextView categoryshow;
 
         public MyViewHolder6(@NonNull View itemView) {
             super(itemView);
@@ -88,10 +89,10 @@ public class MyAdapter6 extends RecyclerView.Adapter<MyAdapter6.MyViewHolder6> {
             loc = itemView.findViewById(R.id.job_loc1);
             Date=itemView.findViewById(R.id.date1);
             title=itemView.findViewById(R.id.job_pos1);
-            apply=itemView.findViewById(R.id.Apply1);
+            Category=itemView.findViewById(R.id.categoryshow);
 
 
-            apply.setOnClickListener(new View.OnClickListener() {
+            Category.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
                     Context context = view.getContext();

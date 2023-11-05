@@ -43,15 +43,49 @@
 
     </com.google.android.material.appbar.AppBarLayout>
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/recyclerview6"
+        <com.google.android.material.tabs.TabLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent" />
+            android:layout_margin="@dimen/_10ssp"
+            android:layout_height="match_parent"
+            android:id="@+id/tablayout"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent">
+
+            <com.google.android.material.tabs.TabItem
+                android:id="@+id/loccum"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Loccum" />
+
+            <com.google.android.material.tabs.TabItem
+                android:id="@+id/regular"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Regular" />
+        </com.google.android.material.tabs.TabLayout>
+
+        <RelativeLayout
+            xmlns:android="http://schemas.android.com/apk/res/android"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <!-- Include your ViewPager2 and any other UI elements here -->
+            <androidx.viewpager2.widget.ViewPager2
+                android:id="@+id/view_pager_jobs"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" />
+
+        </RelativeLayout>
+
+<!--        <androidx.recyclerview.widget.RecyclerView-->
+<!--            android:id="@+id/recyclerview6"-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"-->
+<!--            app:layout_constraintTop_toTopOf="parent"-->
+<!--            app:layout_constraintBottom_toBottomOf="parent"-->
+<!--            app:layout_constraintStart_toStartOf="parent"-->
+<!--            app:layout_constraintEnd_toEndOf="parent" />-->
 
     </LinearLayout>
     </androidx.core.widget.NestedScrollView>

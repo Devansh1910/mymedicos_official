@@ -1,10 +1,20 @@
 package com.example.my_medicos;
 
+import static android.content.ContentValues.TAG;
+
+import static java.security.AccessController.getContext;
+
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.webkit.WebChromeClient;
+import android.webkit.WebView;
 import android.widget.TextView;
 import android.widget.Toast;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -17,13 +27,15 @@ import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
 public class CmeDetailsActivity extends AppCompatActivity {
     FirebaseAuth auth = FirebaseAuth.getInstance();
     FirebaseUser user = auth.getCurrentUser();
-
-
+    RecyclerView recyclerViewcmeinsider;
+    MyAdapter2 adaptercmeinsider;
     Toolbar toolbar;
     String field3;
     String field7;
@@ -34,6 +46,7 @@ public class CmeDetailsActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_cme_details);
+        //Youtube
 
         // Initialize Firebase
         FirebaseFirestore db = FirebaseFirestore.getInstance();
@@ -92,6 +105,7 @@ public class CmeDetailsActivity extends AppCompatActivity {
                 }
             }
         });
+
         Query query = db.collection("CME");
 
         query.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
@@ -126,7 +140,13 @@ public class CmeDetailsActivity extends AppCompatActivity {
                 }
             }
         });
-        // Replace "your_collection_name" and "your_field_name" with actual values
+
+        WebView webview = findViewById(R.id.youtube);
+        String video = "<iframe width=\"100%\" height=\"100%\" src=\"https://www.youtube.com/embed/z-mJEZbHFLs?si=MRCAlDt499plfZwz\" title=\"YouTube video player\" frameborder=\"0\" allow=\"accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share\" allowfullscreen></iframe>";
+        webview.loadData(video,"text/html","utf-8");
+        webview.getSettings().setJavaScriptEnabled(true);
+        webview.setWebChromeClient(new WebChromeClient());
+
     }
 }
 

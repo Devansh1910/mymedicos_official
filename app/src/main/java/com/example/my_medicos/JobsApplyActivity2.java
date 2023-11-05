@@ -103,7 +103,7 @@ public class JobsApplyActivity2 extends AppCompatActivity {
                                 String Location = (String) dataMap.get("Location");
                                 String date = (String) dataMap.get("date");
                                 String user = (String) dataMap.get("User");
-                                String type = (String) dataMap.get("Job type");
+                                String Category = (String) dataMap.get("Job type");
                                 String Title = (String) dataMap.get("JOB Title");
                                 Log.d(user,"abc");
                                 Log.d(Jobidn,"abc");
@@ -111,7 +111,7 @@ public class JobsApplyActivity2 extends AppCompatActivity {
                                 Log.d("abcdefsfsd", String.valueOf(r));
 
                                 if (r == 0) {
-                                    jobitem1 c = new jobitem1(speciality, Organiser, Location, date, user, Title);
+                                    jobitem1 c = new jobitem1(speciality, Organiser, Location, date, user, Title, Category);
                                     joblist.add(c);
                                 }
 

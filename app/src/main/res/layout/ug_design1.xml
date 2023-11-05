@@ -16,7 +16,7 @@
         app:cardCornerRadius="@dimen/_10sdp"
         app:cardElevation="@dimen/_10sdp"
         android:orientation="vertical"
-        android:background="@drawable/rounded_comment_box"
+        android:backgroundTint="#E6E1FAF2"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.097"
@@ -77,7 +77,6 @@
                 android:layout_height="150dp"
                 android:layout_marginHorizontal="8dp"
                 android:layout_marginVertical="@dimen/_5ssp"
-                android:elevation="8dp"
                 app:cardCornerRadius="8dp">
 
                 <LinearLayout
@@ -85,7 +84,7 @@
                     android:layout_height="match_parent"
                     android:paddingLeft="@dimen/_14sdp"
                     android:paddingRight="@dimen/_100ssp"
-                    android:background="@drawable/bkgroundimg">
+                    android:background="@drawable/bkcme">
 
                     <TextView
                         android:id="@+id/dr_ug_title"
@@ -94,7 +93,7 @@
                         android:text="Hellobbbbbbbrrrrrrrrrrrrrrrrrnnbrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrr"
                         android:lineHeight="@dimen/_14sdp"
                         android:textSize="@dimen/_14sdp"
-                        android:textColor="@color/white"
+                        android:textColor="#817E7E"
                         android:textStyle="bold"
                         android:layout_gravity="center"/>
 

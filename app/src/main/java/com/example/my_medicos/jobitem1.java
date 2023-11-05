@@ -12,11 +12,11 @@ public class jobitem1 {
 
     String position,speciality,Location,Organiser;
     String hospital;
-    String location;
+    String location,category;
     String date,user,title;
 
 
-    public jobitem1(String position, String hospital, String location,String date,String user,String title) {
+    public jobitem1(String position, String hospital, String location,String date,String user,String title,String category) {
 
         this.position = position;
         this.hospital = hospital;
@@ -24,6 +24,7 @@ public class jobitem1 {
         this.date=date;
         this.user=user;
         this.title=title;
+        this.category=category;
 
         Log.d("speciality1",position);
         Log.d("speciality1",hospital);
@@ -60,6 +61,14 @@ public class jobitem1 {
 
     public void setLocation(String location) {
         this.location = location;
+    }
+
+    public String getCategory() {
+        return category;
+    }
+
+    public void setCategory(String category) {
+        this.category = category;
     }
 }
 
