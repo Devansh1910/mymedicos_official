@@ -38,6 +38,7 @@ import java.util.Map;
 
 public class RegularFragment extends Fragment  {
     RecyclerView recyclerView;
+    String title;
 
     @SuppressLint("MissingInflatedId")
     @Override
@@ -45,6 +46,12 @@ public class RegularFragment extends Fragment  {
         View view = inflater.inflate(R.layout.fragment_regular, container, false);
         recyclerView = view.findViewById(R.id.jobs_recyclerview_regular);
         FirebaseFirestore db = FirebaseFirestore.getInstance();
+        Bundle args = getArguments();
+        if (args != null) {
+            title = args.getString("Title");
+            Log.d("Title",title);
+            // Use the 'title' as needed in RegularFragment
+        }
 
         List<jobitem1> joblist = new ArrayList<jobitem1>();
         List<jobitem1> regularJobList = new ArrayList<jobitem1>();
@@ -71,8 +78,12 @@ public class RegularFragment extends Fragment  {
                                     String speciality = (String) dataMap.get("Speciality");
                                     String user = (String) dataMap.get("User");
                                     String Title = (String) dataMap.get("JOB Title");
-                                    jobitem1 c = new jobitem1(speciality, Organiser, Location, date, user,Title , Category);
-                                    regularJobList.add(c);
+                                    Log.d("title",speciality);
+                                    int r=title.compareTo(speciality);
+                                    if (r==0) {
+                                        jobitem1 c = new jobitem1(speciality, Organiser, Location, date, user, Title, Category);
+                                        regularJobList.add(c);
+                                    }
                                 }
                             }
 

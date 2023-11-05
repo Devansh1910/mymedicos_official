@@ -56,7 +56,7 @@ public class JobsActivity2 extends AppCompatActivity {
         }
 
         viewpagerjobs = findViewById(R.id.view_pager_jobs);
-        viewpagerjobs.setAdapter(new JobsActivity2.ViewPagerAdapterJobs(this));
+        viewpagerjobs.setAdapter(new ViewPagerAdapterJobs(this, Title1)); // Pass Title1 to the adapter
 
         pagerjobs = findViewById(R.id.view_pager_jobs);
         tabLayoutjobs = findViewById(R.id.tablayout);
@@ -73,9 +73,11 @@ public class JobsActivity2 extends AppCompatActivity {
     }
 
     class ViewPagerAdapterJobs extends FragmentStateAdapter {
+        private String title;
 
-        public ViewPagerAdapterJobs(@NonNull FragmentActivity fragmentActivity) {
+        public ViewPagerAdapterJobs(@NonNull FragmentActivity fragmentActivity, String title) {
             super(fragmentActivity);
+            this.title = title; // Store the title in the adapter
         }
 
         @NonNull
@@ -83,9 +85,17 @@ public class JobsActivity2 extends AppCompatActivity {
         public Fragment createFragment(int position) {
             switch (position) {
                 case 0:
-                    return new RegularFragment();
+                    RegularFragment regularFragment = new RegularFragment();
+                    Bundle args = new Bundle();
+                    args.putString("Title", title); // Pass Title1 to RegularFragment
+                    regularFragment.setArguments(args);
+                    return regularFragment;
                 case 1:
-                    return new LocumFragment();
+                    LocumFragment locumFragment = new LocumFragment();
+                    Bundle argsLocum = new Bundle();
+                    argsLocum.putString("Title", title); // Pass Title1 to LocumFragment
+                    locumFragment.setArguments(argsLocum);
+                    return locumFragment;
             }
             return null;
         }

@@ -26,11 +26,18 @@ import java.util.Map;
 
 public class LocumFragment extends Fragment {
     RecyclerView recyclerView;
+    String title;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_locum, container, false);
         recyclerView = view.findViewById(R.id.jobs_recyclerview_locum);
+        Bundle args = getArguments();
+        if (args != null) {
+            title = args.getString("Title");
+            Log.d("Title",title);
+            // Use the 'title' as needed in RegularFragment
+        }
 
         List<jobitem1> locumJobList = new ArrayList<>();
 
@@ -54,8 +61,13 @@ public class LocumFragment extends Fragment {
                                     String speciality = (String) dataMap.get("Speciality");
                                     String user = (String) dataMap.get("User");
                                     String Title = (String) dataMap.get("JOB Title");
-                                    jobitem1 c = new jobitem1(speciality, Organiser, Location, date, user, Title, Category);
-                                    locumJobList.add(c);
+                                    Log.d("title",speciality);
+                                    int r=title.compareTo(speciality);
+
+                                    if (r==0) {
+                                        jobitem1 c = new jobitem1(speciality, Organiser, Location, date, user, Title, Category);
+                                        locumJobList.add(c);
+                                    }
                                 }
                             }
 
