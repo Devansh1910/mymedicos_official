@@ -5,6 +5,7 @@ import androidx.appcompat.widget.Toolbar;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -16,14 +17,11 @@ import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
-import java.time.format.DateTimeFormatter;
 import java.util.Map;
 
 public class CmeDetailsActivity extends AppCompatActivity {
     FirebaseAuth auth = FirebaseAuth.getInstance();
     FirebaseUser user = auth.getCurrentUser();
-
-
     Toolbar toolbar;
     String field3;
     String field7;
@@ -39,35 +37,44 @@ public class CmeDetailsActivity extends AppCompatActivity {
         FirebaseFirestore db = FirebaseFirestore.getInstance();
 
         toolbar = findViewById(R.id.detailtoolbar);
-//        setSupportActionBar(toolbar);
-//        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         final TextView textView = findViewById(R.id.description);
         final TextView moreButton = findViewById(R.id.moreButton);
-        TextView date=findViewById(R.id.date);
-        TextView time=findViewById(R.id.time1);
-        TextView Name=findViewById(R.id.speakername);
-        TextView Speciality=findViewById(R.id.speciality);
-        TextView Type=findViewById(R.id.type);
+        TextView date = findViewById(R.id.date);
+        TextView time = findViewById(R.id.time1);
+        TextView Name = findViewById(R.id.speakername);
+        TextView Speciality = findViewById(R.id.speciality);
+        TextView Type = findViewById(R.id.type);
 
-        moreButton.setOnClickListener(new View.OnClickListener() {
-            boolean isExpanded = false;
-
-            @Override
-            public void onClick(View v) {
-                if (isExpanded) {
-                    textView.setMaxLines(3);
-                    moreButton.setText("More");
-                } else {
-                    textView.setMaxLines(Integer.MAX_VALUE); // Expand to show all lines
-                    moreButton.setText("Less");
-                }
-                isExpanded = !isExpanded;
-            }
-        });
-        String field1=getIntent().getExtras().getString("name");
-        String field5=getIntent().getExtras().getString("type");
+        String field1 = getIntent().getExtras().getString("name");
+        String field5 = getIntent().getExtras().getString("type");
         Type.setText(field5);
+
+        LinearLayout reservebtn = findViewById(R.id.reservbtn);
+        LinearLayout livebtn = findViewById(R.id.livebtn);
+        LinearLayout pastbtn = findViewById(R.id.pastbtn);
+
+        if ("UPCOMING".equals(field5)) {
+            // Show the reservebtn and hide the livebtn for Upcoming events
+            reservebtn.setVisibility(View.VISIBLE);
+            livebtn.setVisibility(View.GONE);
+            pastbtn.setVisibility(View.GONE);
+        } else if ("LIVE".equals(field5)) {
+            // Show the livebtn and hide the reservebtn for Ongoing events
+            reservebtn.setVisibility(View.GONE);
+            livebtn.setVisibility(View.VISIBLE);
+            pastbtn.setVisibility(View.GONE);
+        } else if ("PAST".equals(field5)) {
+                // Show the livebtn and hide the reservebtn for Ongoing events
+                reservebtn.setVisibility(View.GONE);
+                livebtn.setVisibility(View.GONE);
+                pastbtn.setVisibility(View.VISIBLE);
+
+        } else {
+            // Handle other cases or set a default behavior if needed
+            reservebtn.setVisibility(View.GONE);
+            livebtn.setVisibility(View.GONE);
+        }
 
 
         Query query1 = db.collection("users");

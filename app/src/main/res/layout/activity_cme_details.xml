@@ -115,31 +115,81 @@
             </LinearLayout>
 
 
-            <LinearLayout
-                android:layout_width="match_parent"
+        <LinearLayout
+            android:id="@+id/reservbtn"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <Button
+                android:id="@+id/reservecmebtn"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_margin="@dimen/_10sdp"
-                android:orientation="horizontal">
+                android:layout_weight="1"
+                android:backgroundTint="@color/green"
+                android:textStyle="bold"
+                android:textColor="@color/white"
+                android:layout_marginStart="@dimen/_10sdp"
+                android:layout_marginEnd="@dimen/_5sdp"
+                android:text="Reserve a Seat"/>
 
-                <Button
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="2"
-                    android:padding="@dimen/_5sdp"
-                    android:layout_marginStart="@dimen/_10sdp"
-                    android:layout_marginEnd="@dimen/_10sdp"
-                    android:text="RESERVE SEAT"/>
+            <Button
+                android:layout_width="0dp"
+                android:layout_weight="0.75"
+                android:drawableLeft="@drawable/baseline_share_24"
+                android:layout_marginStart="@dimen/_5sdp"
+                android:layout_marginEnd="@dimen/_10sdp"
+                android:layout_height="wrap_content"
+                android:text="SHARE"/>
+        </LinearLayout>
 
-                <Button
-                    android:layout_width="wrap_content"
-                    android:drawableLeft="@drawable/baseline_share_24"
-                    android:layout_marginStart="@dimen/_10sdp"
-                    android:layout_marginEnd="@dimen/_10sdp"
-                    android:layout_weight="1"
-                    android:layout_height="wrap_content"
-                    android:padding="@dimen/_5sdp"
-                    android:text="SHARE"/>
-            </LinearLayout>
+        <LinearLayout
+            android:id="@+id/livebtn"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <Button
+                android:id="@+id/attendcmebtn"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:backgroundTint="#FF0000"
+                android:textStyle="bold"
+                android:textColor="@color/white"
+                android:layout_marginStart="@dimen/_10sdp"
+                android:layout_marginEnd="@dimen/_5sdp"
+                android:text="Attend"/>
+
+            <Button
+                android:layout_width="0dp"
+                android:layout_weight="0.75"
+                android:drawableLeft="@drawable/baseline_share_24"
+                android:layout_marginStart="@dimen/_5sdp"
+                android:layout_marginEnd="@dimen/_10sdp"
+                android:layout_height="wrap_content"
+                android:text="SHARE"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/pastbtn"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <Button
+                android:layout_width="0dp"
+                android:layout_weight="0.75"
+                android:textColor="@color/black"
+                android:textStyle="bold"
+                android:backgroundTint="#DBE4E2"
+                android:drawableLeft="@drawable/shareicon"
+                android:layout_marginStart="@dimen/_5sdp"
+                android:layout_marginEnd="@dimen/_10sdp"
+                android:layout_height="wrap_content"
+                android:text="Share with Others"/>
+
+        </LinearLayout>
 
 
             <LinearLayout
