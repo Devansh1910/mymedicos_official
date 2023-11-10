@@ -5,7 +5,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".JobsActivity">
+    tools:context=".activities.job.JobsActivity">
 
     <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
@@ -42,9 +42,7 @@
 
                     </androidx.appcompat.widget.Toolbar>
 
-
             </com.google.android.material.appbar.AppBarLayout>
-
 
             <!--        <HorizontalScrollView-->
             <!--            android:layout_width="match_parent"-->
@@ -132,7 +130,7 @@
                     android:layout_width="0dp"
                     android:layout_weight="1"
                     android:layout_height="wrap_content"
-                    android:text="Recommended Jobs"
+                    android:text="@string/recommended_jobs"
                     android:textSize="@dimen/_12ssp"
                     android:textStyle="bold" />
 
@@ -140,14 +138,14 @@
                     android:layout_width="0dp"
                     android:layout_weight="1"
                     android:layout_height="wrap_content"
-                    android:text="View All"
+                    android:text="@string/view_all"
                     android:drawablePadding="@dimen/_8ssp"
-                    android:drawableEnd="@drawable/sidearrow"
                     android:layout_gravity="center"
                     android:gravity="end"
                     android:textColor="#676666"
                     android:textSize="@dimen/_12ssp"
-                    android:textStyle="bold" />
+                    android:textStyle="bold"
+                    app:drawableEndCompat="@drawable/sidearrow" />
             </LinearLayout>
 
             <androidx.recyclerview.widget.RecyclerView
@@ -171,9 +169,10 @@
         android:clickable="true"
         app:tint="@color/black"
         app:maxImageSize="@dimen/_35ssp"
-        android:contentDescription="Add CME"
+        android:contentDescription="@string/add_cme"
         android:src="@drawable/createjob"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
+        app:layout_constraintEnd_toEndOf="parent"
+        android:focusable="true" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

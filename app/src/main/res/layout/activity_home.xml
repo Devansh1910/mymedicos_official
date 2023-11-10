@@ -8,7 +8,7 @@
     android:fitsSystemWindows="true"
     tools:openDrawer="start"
     android:id="@+id/drawer_layout"
-    tools:context=".HomeActivity">
+    tools:context=".activities.home.HomeActivity">
 
     <com.google.android.material.navigation.NavigationView
         android:id="@+id/nav_view"

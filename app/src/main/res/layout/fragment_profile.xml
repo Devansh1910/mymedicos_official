@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:background="@color/white"
     android:layout_height="match_parent"
-    tools:context=".ProfileFragment">
+    tools:context=".activities.home.fragments.ProfileFragment">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"

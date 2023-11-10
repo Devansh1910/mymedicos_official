@@ -8,13 +8,13 @@
 
     <fragment
         android:id="@+id/navigation_ugform"
-        android:name="com.example.my_medicos.ui.ugform.UgFormFragment"
+        android:name="com.example.my_medicos.activities.publications.ui.ugform.UgFormFragment"
         android:label="Form"
         tools:layout="@layout/fragment_ugform" />
 
     <fragment
         android:id="@+id/navigation_ughome"
-        android:name="com.example.my_medicos.ui.ughome.UgHomeFragment"
+        android:name="com.example.my_medicos.activities.publications.ui.ughome.UgHomeFragment"
         android:label="Post"
         tools:layout="@layout/fragment_ug_home" />
 

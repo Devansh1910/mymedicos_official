@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".PgprepActivity">
+    tools:context=".activities.pg.PgprepActivity">
 
 
     <LinearLayout
@@ -61,7 +61,7 @@
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
                         android:fontFamily="@font/montserrat_medium"
-                        android:text="Anatomy"
+                        android:text="@string/anatomy"
                         android:textAlignment="center"
                         android:textSize="@dimen/_20ssp" />
                 </androidx.cardview.widget.CardView>
@@ -82,7 +82,7 @@
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
                         android:fontFamily="@font/montserrat_medium"
-                        android:text="Physiology"
+                        android:text="@string/physiology"
                         android:textAlignment="center"
                         android:textSize="@dimen/_20ssp" />
                 </androidx.cardview.widget.CardView>
@@ -103,7 +103,7 @@
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
                         android:fontFamily="@font/montserrat_medium"
-                        android:text="Biochemistry"
+                        android:text="@string/biochemistry"
                         android:textAlignment="center"
                         android:textSize="@dimen/_20ssp" />
                 </androidx.cardview.widget.CardView>
@@ -124,7 +124,7 @@
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
                         android:fontFamily="@font/montserrat_medium"
-                        android:text="Pathology"
+                        android:text="@string/pathology"
                         android:textAlignment="center"
                         android:textSize="@dimen/_20ssp" />
                 </androidx.cardview.widget.CardView>
@@ -145,7 +145,7 @@
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
                         android:fontFamily="@font/montserrat_medium"
-                        android:text="Microbiology"
+                        android:text="@string/microbiology"
                         android:textAlignment="center"
                         android:textSize="@dimen/_20ssp" />
                 </androidx.cardview.widget.CardView>
@@ -166,7 +166,7 @@
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
                         android:fontFamily="@font/montserrat_medium"
-                        android:text="Pharmology"
+                        android:text="@string/pharmology"
                         android:textAlignment="center"
                         android:textSize="@dimen/_20ssp" />
                 </androidx.cardview.widget.CardView>
@@ -187,7 +187,7 @@
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
                         android:fontFamily="@font/montserrat_medium"
-                        android:text="Pharmacology"
+                        android:text="@string/pharmacology"
                         android:textAlignment="center"
                         android:textSize="@dimen/_20ssp" />
                 </androidx.cardview.widget.CardView>
@@ -208,7 +208,7 @@
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
                         android:fontFamily="@font/montserrat_medium"
-                        android:text="Forensic Medicine"
+                        android:text="@string/forensic_medicine"
                         android:textAlignment="center"
                         android:textSize="@dimen/_20ssp" />
                 </androidx.cardview.widget.CardView>
@@ -229,7 +229,7 @@
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
                         android:fontFamily="@font/montserrat_medium"
-                        android:text="PSM"
+                        android:text="@string/psm"
                         android:textAlignment="center"
                         android:textSize="@dimen/_20ssp" />
                 </androidx.cardview.widget.CardView>
@@ -250,7 +250,7 @@
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
                         android:fontFamily="@font/montserrat_medium"
-                        android:text="Opthalmologgy"
+                        android:text="@string/opthalmologgy"
                         android:textAlignment="center"
                         android:textSize="@dimen/_20ssp" />
                 </androidx.cardview.widget.CardView>
@@ -271,7 +271,7 @@
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
                         android:fontFamily="@font/montserrat_medium"
-                        android:text="ENT"
+                        android:text="@string/ent"
                         android:textAlignment="center"
                         android:textSize="@dimen/_20ssp" />
                 </androidx.cardview.widget.CardView>
@@ -292,7 +292,7 @@
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
                         android:fontFamily="@font/montserrat_medium"
-                        android:text="Medicine"
+                        android:text="@string/medicine"
                         android:textAlignment="center"
                         android:textSize="@dimen/_20ssp" />
                 </androidx.cardview.widget.CardView>
@@ -313,7 +313,7 @@
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
                         android:fontFamily="@font/montserrat_medium"
-                        android:text="Surgery"
+                        android:text="@string/surgery"
                         android:textAlignment="center"
                         android:textSize="@dimen/_20ssp" />
                 </androidx.cardview.widget.CardView>
@@ -334,7 +334,7 @@
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
                         android:fontFamily="@font/montserrat_medium"
-                        android:text="OBG"
+                        android:text="@string/obg"
                         android:textAlignment="center"
                         android:textSize="@dimen/_20ssp" />
                 </androidx.cardview.widget.CardView>
@@ -355,7 +355,7 @@
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
                         android:fontFamily="@font/montserrat_medium"
-                        android:text="Pediatrics"
+                        android:text="@string/pediatrics"
                         android:textAlignment="center"
                         android:textSize="@dimen/_20ssp" />
                 </androidx.cardview.widget.CardView>
@@ -376,7 +376,7 @@
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
                         android:fontFamily="@font/montserrat_medium"
-                        android:text="Orthopedics"
+                        android:text="@string/orthopedics"
                         android:textAlignment="center"
                         android:textSize="@dimen/_20ssp" />
                 </androidx.cardview.widget.CardView>
@@ -397,7 +397,7 @@
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
                         android:fontFamily="@font/montserrat_medium"
-                        android:text="Psuchiatry"
+                        android:text="@string/psuchiatry"
                         android:textAlignment="center"
                         android:textSize="@dimen/_20ssp" />
                 </androidx.cardview.widget.CardView>
@@ -418,7 +418,7 @@
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
                         android:fontFamily="@font/montserrat_medium"
-                        android:text="Radiology"
+                        android:text="@string/radiology"
                         android:textAlignment="center"
                         android:textSize="@dimen/_20ssp" />
                 </androidx.cardview.widget.CardView>
@@ -439,7 +439,7 @@
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
                         android:fontFamily="@font/montserrat_medium"
-                        android:text="Dermatology"
+                        android:text="@string/dermatology"
                         android:textAlignment="center"
                         android:textSize="@dimen/_20ssp" />
                 </androidx.cardview.widget.CardView>
@@ -461,7 +461,7 @@
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
                         android:fontFamily="@font/montserrat_medium"
-                        android:text="Statistics"
+                        android:text="@string/statistics"
                         android:textAlignment="center"
                         android:textSize="@dimen/_20ssp" />
                 </androidx.cardview.widget.CardView>

@@ -208,6 +208,37 @@
     <string name="title_activity_cme_state_changer">CmeStateChanger</string>
     <string name="tab_text_1">Tab 1</string>
     <string name="tab_text_2">Tab 2</string>
+    <string name="logout">Logout</string>
+    <string name="notifications">Notifications</string>
+    <string name="settings">Settings</string>
+    <string name="anatomy">Anatomy</string>
+    <string name="physiology">Physiology</string>
+    <string name="biochemistry">Biochemistry</string>
+    <string name="pathology">Pathology</string>
+    <string name="microbiology">Microbiology</string>
+    <string name="pharmology">Pharmology</string>
+    <string name="pharmacology">Pharmacology</string>
+    <string name="forensic_medicine">Forensic Medicine</string>
+    <string name="psm">PSM</string>
+    <string name="opthalmologgy">Opthalmologgy</string>
+    <string name="ent">ENT</string>
+    <string name="medicine">Medicine</string>
+    <string name="surgery">Surgery</string>
+    <string name="obg">OBG</string>
+    <string name="pediatrics">Pediatrics</string>
+    <string name="orthopedics">Orthopedics</string>
+    <string name="psuchiatry">Psuchiatry</string>
+    <string name="radiology">Radiology</string>
+    <string name="dermatology">Dermatology</string>
+    <string name="statistics">Statistics</string>
+    <string name="recommended_jobs">Recommended Jobs</string>
+    <string name="view_all">View All</string>
+    <string name="add_cme">Add CME</string>
+    <string name="ongoing">Ongoing</string>
+    <string name="see_all">See All</string>
+    <string name="past">Past</string>
+    <string name="presenters_of_the_month">Presenters of the month</string>
+    <string name="upcoming">Upcoming</string>
 
 
 </resources>

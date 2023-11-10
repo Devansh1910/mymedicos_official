@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:background="@color/white"
     android:layout_height="match_parent"
-    tools:context=".CmeSearchActivity">
+    tools:context=".activities.cme.CmeSearchActivity">
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -63,7 +63,8 @@
                         android:textStyle="bold"
                         android:textColor="@color/black"
                         android:fontFamily="@font/montserrat_medium"
-                        android:text="Ongoing" />
+                        android:text="@string/ongoing"
+                        tools:ignore="RtlSymmetry" />
 
                     <TextView
                         android:layout_width="0dp"
@@ -74,8 +75,9 @@
                         android:paddingEnd="@dimen/_10ssp"
                         android:layout_gravity="end"
                         android:fontFamily="@font/montserrat_medium"
-                        android:text="See All"
-                        android:textColor="@color/green" />
+                        android:text="@string/see_all"
+                        android:textColor="@color/green"
+                        tools:ignore="RtlSymmetry" />
 
                 </LinearLayout>
 
@@ -103,7 +105,8 @@
                         android:textStyle="bold"
                         android:textColor="@color/black"
                         android:fontFamily="@font/montserrat_medium"
-                        android:text="Past" />
+                        android:text="@string/past"
+                        tools:ignore="RtlSymmetry" />
 
                     <TextView
                         android:layout_width="0dp"
@@ -114,8 +117,9 @@
                         android:paddingEnd="@dimen/_10ssp"
                         android:layout_gravity="end"
                         android:fontFamily="@font/montserrat_medium"
-                        android:text="See All"
-                        android:textColor="@color/green" />
+                        android:text="@string/see_all"
+                        android:textColor="@color/green"
+                        tools:ignore="RtlSymmetry" />
 
                 </LinearLayout>
 
@@ -142,7 +146,8 @@
                         android:textStyle="bold"
                         android:textColor="@color/black"
                         android:fontFamily="@font/montserrat_medium"
-                        android:text="Presenters of the month" />
+                        android:text="@string/presenters_of_the_month"
+                        tools:ignore="RtlSymmetry" />
 
                     <TextView
                         android:layout_width="0dp"
@@ -153,8 +158,9 @@
                         android:paddingEnd="@dimen/_10ssp"
                         android:layout_gravity="end"
                         android:fontFamily="@font/montserrat_medium"
-                        android:text="See All"
-                        android:textColor="@color/green" />
+                        android:text="@string/see_all"
+                        android:textColor="@color/green"
+                        tools:ignore="RtlSymmetry" />
 
                 </LinearLayout>
                 <androidx.recyclerview.widget.RecyclerView
@@ -180,7 +186,8 @@
                         android:textStyle="bold"
                         android:textColor="@color/black"
                         android:fontFamily="@font/montserrat_medium"
-                        android:text="Upcoming" />
+                        android:text="@string/upcoming"
+                        tools:ignore="RtlSymmetry" />
 
                     <TextView
                         android:layout_width="0dp"
@@ -191,8 +198,9 @@
                         android:paddingEnd="@dimen/_10ssp"
                         android:layout_gravity="end"
                         android:fontFamily="@font/montserrat_medium"
-                        android:text="See All"
-                        android:textColor="@color/green" />
+                        android:text="@string/see_all"
+                        android:textColor="@color/green"
+                        tools:ignore="RtlSymmetry" />
 
                 </LinearLayout>
 
@@ -207,15 +215,6 @@
 
         </ScrollView>
 
-
-
-
-
     </LinearLayout>
-
-
-
-
-
 
 </androidx.constraintlayout.widget.ConstraintLayout>

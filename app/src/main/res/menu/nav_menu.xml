@@ -1,28 +1,21 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 
     <item
-        android:title="Profile"
-        android:icon="@drawable/person"
-        android:id="@+id/drawer_profile"
-        android:orderInCategory="1">
-    </item>
-
-    <item
-        android:title="Settings"
+        android:title="@string/settings"
         android:icon="@drawable/baseline_settings_24"
         android:id="@+id/drawer_settings"
         android:orderInCategory="2">
     </item>
 
     <item
-        android:title="Notifications"
+        android:title="@string/notifications"
         android:icon="@drawable/baseline_notifications_24"
         android:id="@+id/drawer_notifications"
         android:orderInCategory="3">
     </item>
 
     <item
-        android:title="Logout"
+        android:title="@string/logout"
         android:icon="@drawable/baseline_logout_24"
         android:id="@+id/drawer_logout"
         android:orderInCategory="4">

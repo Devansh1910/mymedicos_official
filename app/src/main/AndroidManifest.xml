@@ -23,106 +23,99 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.My_medicos"
         tools:targetApi="31">
-<!--        <activity-->
-<!--            android:name=".logindetails"-->
-<!--            android:exported="false" />-->
         <activity
-            android:name=".FirstActivity"
+            android:name=".activities.cme.CmeCreatedActivity"
+            android:exported="false" />
+        <activity
+            android:name=".activities.cme.CmeReservedActivity"
+            android:exported="false" /> <!-- <activity -->
+        <!-- android:name=".logindetails" -->
+        <!-- android:exported="false" /> -->
+        <activity
+            android:name=".activities.login.FirstActivity"
             android:exported="false"
             android:theme="@style/AppTheme.Light" />
         <activity
-            android:name=".JobsHistoryActivity"
+            android:name=".activities.ug.UgPostInsiderActivity"
             android:exported="false" />
         <activity
-            android:name=".UgPostInsiderActivity"
+            android:name=".activities.publications.PublicationActivity"
             android:exported="false" />
         <activity
-            android:name=".PublicationActivity"
+            android:name=".activities.cme.CmeSearchActivity"
             android:exported="false" />
         <activity
-            android:name=".CmeSearchActivity"
+            android:name=".activities.job.category.JobsPostedYou"
             android:exported="false" />
         <activity
-            android:name=".JobsPostedYou"
+            android:name=".activities.cme.CmeDetailsActivity"
             android:exported="false" />
         <activity
-            android:name=".CmeDetailsActivity"
+            android:name=".activities.login.EnterOtp"
             android:exported="false" />
         <activity
-            android:name=".EnterOtp"
+            android:name=".activities.login.EnterMobile"
             android:exported="false" />
         <activity
-            android:name=".EnterMobile"
+            android:name=".activities.profile.Contactinfo"
             android:exported="false" />
         <activity
-            android:name=".Contactinfo"
+            android:name=".activities.profile.Personalinfo"
             android:exported="false" />
         <activity
-            android:name=".Personalinfo"
+            android:name=".activities.ug.UgExamActivity"
             android:exported="false" />
         <activity
-            android:name=".EducationInfo"
+            android:name=".activities.pg.PgprepActivity"
             android:exported="false" />
         <activity
-            android:name=".UgExamActivity"
+            android:name=".activities.university.UniversityupdatesActivity"
             android:exported="false" />
         <activity
-            android:name=".PgprepActivity"
-            android:exported="false" />
-        <activity
-            android:name=".UniversityupdatesActivity"
-            android:exported="false" />
-        <activity
-            android:name=".PostCmeActivity"
+            android:name=".activities.cme.PostCmeActivity"
             android:exported="false" /> <!-- <activity -->
         <!-- android:name=".JobDetailsActivity" -->
         <!-- android:exported="false" /> -->
         <activity
-            android:name=".JobsActivity2"
+            android:name=".activities.job.JobsActivity2"
             android:exported="false" />
         <activity
-            android:name=".JobsApplyActivity2"
+            android:name=".activities.job.category.JobsApplyActivity2"
             android:exported="false" />
         <activity
-            android:name=".ResetPasswordActivity"
+            android:name=".activities.login.ResetPasswordActivity"
             android:exported="false" /> <!-- <activity -->
         <!-- android:name=".JobsApplyActivity" -->
         <!-- android:exported="false" /> -->
         <activity
-            android:name=".ui.news.NewsActivity"
+            android:name=".activities.publications.ui.news.NewsActivity"
             android:exported="false" />
         <activity
-            android:name=".CmeActivity"
+            android:name=".activities.cme.CmeActivity"
             android:exported="false" /> <!-- <activity -->
         <!-- android:name=".UgExamActivity" -->
         <!-- android:exported="false" /> -->
         <activity
-            android:name=".EmployeeHomeActivity"
+            android:name=".activities.job.JobsApplyActivity"
+            android:exported="false"
+            android:parentActivityName=".activities.job.JobsActivity" />
+        <activity
+            android:name=".activities.job.JobDetailsActivity"
+            android:exported="false"
+            android:parentActivityName=".activities.job.JobsActivity" />
+        <activity
+            android:name=".activities.job.PostJobActivity"
+            android:exported="false"
+            android:parentActivityName=".activities.job.JobsActivity" />
+        <activity
+            android:name=".activities.job.JobsActivity"
+            android:exported="false"
+            android:parentActivityName=".activities.home.HomeActivity" />
+        <activity
+            android:name=".activities.home.HomeActivity"
             android:exported="false" />
         <activity
-            android:name=".JobsApplyActivity"
-            android:exported="false"
-            android:parentActivityName=".JobsActivity" />
-        <activity
-            android:name=".JobDetailsActivity"
-            android:exported="false"
-            android:parentActivityName=".JobsActivity" />
-        <activity
-            android:name=".PostJobActivity"
-            android:exported="false"
-            android:parentActivityName=".JobsActivity" />
-        <activity
-            android:name=".JobsActivity"
-            android:exported="false"
-            android:parentActivityName=".HomeActivity" />
-        <activity
-            android:name=".HomeActivity"
-            android:exported="false" />
-        <activity
-            android:name=".ChooseActivity"
-            android:exported="false" />
-        <activity
-            android:name=".GetstartedActivity"
+            android:name=".activities.login.GetstartedActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -131,16 +124,15 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".RegisterActivity"
+            android:name=".activities.login.RegisterActivity"
             android:exported="false" />
         <activity
-            android:name=".MainActivity"
+            android:name=".activities.login.MainActivity"
             android:exported="false" />
 
         <meta-data
             android:name="preloaded_fonts"
             android:resource="@array/preloaded_fonts" />
-
     </application>
 
 </manifest>
