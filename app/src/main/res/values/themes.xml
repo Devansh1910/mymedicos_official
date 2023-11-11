@@ -2,8 +2,10 @@
     <!-- Base application theme. -->
     <style name="Base.Theme.My_medicos" parent="Theme.Material3.DayNight.NoActionBar">
         <!-- Customize your light theme here. -->
-        <item name="colorPrimary">@color/black</item>
+        <item name="colorSecondary">@color/white</item>
         <!-- Other customizations -->
+        <!-- Set the status bar color to black -->
+        <item name="android:statusBarColor">@android:color/black</item>
     </style>
 
     <style name="Theme.My_medicos" parent="Base.Theme.My_medicos" />
@@ -17,6 +19,13 @@
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
     </style>
+
+    <!-- Add this to your styles.xml file -->
+    <style name="Theme.My_medicos.ProductDetail" parent="Base.Theme.My_medicos">
+        <item name="windowActionBar">true</item>
+        <item name="windowNoTitle">false</item>
+    </style>
+
 
     <style name="Theme.My_medicos.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
 

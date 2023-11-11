@@ -7,6 +7,10 @@ android {
     namespace = "com.example.my_medicos"
     compileSdk = 34
 
+    buildFeatures {
+        viewBinding
+    }
+
     defaultConfig {
         applicationId = "com.example.my_medicos"
         minSdk = 24
@@ -75,4 +79,21 @@ dependencies {
     implementation("com.google.firebase:firebase-core:21.1.1")
     implementation("com.google.firebase:firebase-firestore:23.0.4")
     implementation ("com.squareup.picasso:picasso:2.71828")
+    //....
+    implementation ("com.github.bumptech.glide:glide:4.13.0")
+    annotationProcessor ("com.github.bumptech.glide:compiler:4.13.0")
+    /* For Slider - End */
+
+    /* For Rounded Image View */
+    implementation ("com.makeramen:roundedimageview:2.3.0")
+    /* For Material Search Bar */
+    implementation ("com.github.mancj:MaterialSearchBar:0.8.5")
+    implementation ("me.relex:circleindicator:2.1.6")
+    implementation ("org.imaginativeworld.whynotimagecarousel:whynotimagecarousel:2.1.0")
+    /* For Slider - End */
+
+    implementation ("com.android.volley:volley:1.2.1")
+
+    implementation ("com.github.hishd:TinyCart:1.0.1")
+    implementation ("com.github.delight-im:Android-AdvancedWebView:v3.2.1")
 }
