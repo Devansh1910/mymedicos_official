@@ -52,7 +52,6 @@
             android:name=".activities.publications.activity.ProductDetailedActivity"
             android:theme="@style/Theme.My_medicos.ProductDetail">
         </activity>
-
         <activity
             android:name=".activities.cme.CmeCreatedActivity"
             android:exported="false" />

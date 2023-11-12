@@ -37,18 +37,18 @@ public class PgprepActivity extends AppCompatActivity {
     }
 
 
-    @Override
-    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-        int itemId = item.getItemId();
-
-        if (itemId == R.id.chat) {
-            Toast.makeText(this, "Chat clicked", Toast.LENGTH_SHORT).show();
-        }
-        else{
-            Intent i = new Intent(PgprepActivity.this, HomeActivity.class);
-            startActivity(i);
-        }
-
-        return super.onOptionsItemSelected(item);
-    }
+//    @Override
+//    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+//        int itemId = item.getItemId();
+//
+//        if (itemId == R.id.chat) {
+//            Toast.makeText(this, "Chat clicked", Toast.LENGTH_SHORT).show();
+//        }
+//        else{
+//            Intent i = new Intent(PgprepActivity.this, HomeActivity.class);
+//            startActivity(i);
+//        }
+//
+//        return super.onOptionsItemSelected(item);
+//    }
 }

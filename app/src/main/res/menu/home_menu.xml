@@ -7,6 +7,7 @@
         android:title="History"
         android:visible="false"
         android:icon="@drawable/baseline_work_outline_24"
-        app:showAsAction="always"/>
+        app:showAsAction="always">
+    </item>
 
 </menu>

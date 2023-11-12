@@ -18,17 +18,60 @@
 
         <androidx.appcompat.widget.Toolbar
             android:id="@+id/toolbar"
+            android:paddingEnd="@dimen/_10ssp"
+            android:layout_gravity="center"
+            android:gravity="center"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
             android:background="@color/green"
-            app:menu="@menu/publication">
+            app:menu="@menu/home_menu">
 
-            <TextView
-                android:layout_width="wrap_content"
+            <LinearLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Library"
-                android:textSize="@dimen/_15sdp"
-                android:fontFamily="@font/roboto_bold"/>
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:text="Library"
+                    android:layout_weight="1"
+                    android:textSize="@dimen/_18sdp"
+                    android:fontFamily="@font/roboto_bold"/>
+
+                <LinearLayout
+                    android:id="@+id/totheccart"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:paddingHorizontal="@dimen/_10ssp"
+                    android:paddingVertical="@dimen/_5ssp"
+                    android:background="@drawable/cartbknew">
+
+                    <TextView
+                        android:id="@+id/cart_title"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Cart"
+                        android:textStyle="bold"
+                        android:textColor="#000"
+                        android:gravity="center"
+                        android:layout_gravity="center"
+                        android:textSize="14sp"
+                        android:layout_marginStart="8dp" />
+
+                    <ImageView
+                        android:id="@+id/cart_icon"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:layout_gravity="center"
+                        android:src="@drawable/cart"
+                        android:contentDescription="@null"/>
+
+                </LinearLayout>
+
+            </LinearLayout>
 
         </androidx.appcompat.widget.Toolbar>
     </com.google.android.material.appbar.AppBarLayout>
@@ -39,7 +82,8 @@
         android:layout_height="wrap_content"
         android:background="@color/green"
         android:orientation="vertical"
-        android:padding="10dp"
+        android:paddingHorizontal="10dp"
+        android:paddingBottom="10dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/appBarLayout">

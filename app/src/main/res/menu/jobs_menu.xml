@@ -4,7 +4,6 @@
         android:title="Jobs You Posted"
         android:icon="@drawable/person"
         android:id="@+id/drawer_jobsposted"
-
         android:orderInCategory="1">
     </item>
 

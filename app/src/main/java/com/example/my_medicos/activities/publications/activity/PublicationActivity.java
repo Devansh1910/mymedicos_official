@@ -1,11 +1,19 @@
 package com.example.my_medicos.activities.publications.activity;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.GridLayoutManager;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
+import android.view.View;
+import android.widget.LinearLayout;
+import android.widget.Toast;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -13,11 +21,17 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.example.my_medicos.R;
+import com.example.my_medicos.activities.home.HomeActivity;
+import com.example.my_medicos.activities.job.JobsActivity;
+import com.example.my_medicos.activities.job.category.JobsApplyActivity2;
+import com.example.my_medicos.activities.job.category.JobsPostedYou;
 import com.example.my_medicos.activities.publications.adapters.CategoryAdapter;
 import com.example.my_medicos.activities.publications.adapters.ProductAdapter;
 import com.example.my_medicos.activities.publications.model.Category;
 import com.example.my_medicos.activities.publications.model.Product;
 import com.example.my_medicos.activities.publications.utils.Constants;
+import com.example.my_medicos.activities.university.UniversityupdatesActivity;
 import com.example.my_medicos.databinding.ActivityPublicationBinding;
 import com.mancj.materialsearchbar.MaterialSearchBar;
 
@@ -66,6 +80,13 @@ public class PublicationActivity extends AppCompatActivity {
         initCategories();
         initProducts();
         initSlider();
+
+        binding.totheccart.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(PublicationActivity.this, CartPublicationActivity.class));
+            }
+        });
     }
 
     private void initSlider() {
@@ -87,6 +108,7 @@ public class PublicationActivity extends AppCompatActivity {
         RequestQueue queue = Volley.newRequestQueue(this);
 
         StringRequest request = new StringRequest(Request.Method.GET, Constants.GET_CATEGORIES_URL, new Response.Listener<String>() {
+            @SuppressLint("NotifyDataSetChanged")
             @Override
             public void onResponse(String response) {
                 try {
@@ -190,6 +212,12 @@ public class PublicationActivity extends AppCompatActivity {
         GridLayoutManager layoutManager = new GridLayoutManager(this, 2);
         binding.productList.setLayoutManager(layoutManager);
         binding.productList.setAdapter(productAdapter);
+    }
+
+    @Override
+    public boolean onSupportNavigateUp() {
+        finish();
+        return super.onSupportNavigateUp();
     }
 
 }
