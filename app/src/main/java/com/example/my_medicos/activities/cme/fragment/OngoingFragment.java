@@ -44,7 +44,7 @@ public class OngoingFragment extends Fragment  {
         recyclerView = view.findViewById(R.id.cme_recyclerview_today);
         FirebaseFirestore db = FirebaseFirestore.getInstance();
 
-        List<cmeitem4> items1 = new ArrayList<>();
+
         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
             Query query=db.collection("CME").orderBy("Time", Query.Direction.DESCENDING);
 
@@ -52,6 +52,7 @@ public class OngoingFragment extends Fragment  {
                     .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                         @Override
                         public void onComplete(@NonNull Task<QuerySnapshot> task ) {
+                            List<cmeitem4> items1 = new ArrayList<>();
 
                             if (task.isSuccessful()) {
                                 for (QueryDocumentSnapshot document : task.getResult()) {
@@ -96,27 +97,34 @@ public class OngoingFragment extends Fragment  {
                                     if ((r <= 0) && (r1 == 0)) {
                                         String field3 = ((String) dataMap.get("CME Title"));
                                         String field4 = ((String) dataMap.get("CME Presenter"));
+                                        String end=((String) dataMap.get("endtime"));
                                         String field1 = (String) dataMap.get("CME Organiser");
                                         String field2;
                                         field2 = ((String) dataMap.get("Speciality"));
                                         String Date=((String) dataMap.get("Selected Date"));
                                         String time =((String) dataMap.get("Selected Time"));
                                         String field5=((String ) dataMap.get("User"));
-                                        cmeitem4 c = new cmeitem4(field1, field2, Date, field3, field4,5,time,field5,"LIVE");
-                                        items1.add(c);
-                                        recyclerView.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false));
-                                        recyclerView.setAdapter(new MyAdapter1(getContext(), items1));
+                                        String documentid=((String) dataMap.get("documentId"));
+                                        if (end==null) {
+                                            cmeitem4 c = new cmeitem4(field1, field2, Date, field3, field4, 5, time, field5, "LIVE", documentid);
+                                            items1.add(c);
+                                        }
+
 
 
                                     } else {
 
                                     }
 
+
                                 }
+                                recyclerView.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, true));
+                                recyclerView.setAdapter(new MyAdapter1(getContext(), items1));
                             } else {
                                 Log.d(TAG, "Error getting documents: ", task.getException());
                             }
                         }
+
                     });
         }
 

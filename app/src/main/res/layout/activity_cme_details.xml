@@ -105,6 +105,42 @@
                         android:textColor="@color/white" />
 
                 </LinearLayout>
+                <LinearLayout
+                    android:id="@+id/textpartforlivecreator"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:gravity="center"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Click on"
+                        android:layout_marginEnd="@dimen/_5ssp"
+                        android:textStyle="bold"
+                        android:textSize="@dimen/_14ssp"
+                        android:textColor="@color/white"/>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="'Live'"
+                        android:background="@drawable/roundedbkofwhite"
+                        android:textStyle="bold"
+                        android:paddingVertical="@dimen/_2ssp"
+                        android:paddingHorizontal="@dimen/_10ssp"
+                        android:layout_marginEnd="@dimen/_5ssp"
+                        android:textSize="@dimen/_14ssp"
+                        android:textColor="#F30909" />
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text=" to access this Seminar"
+                        android:textStyle="bold"
+                        android:textSize="@dimen/_14ssp"
+                        android:textColor="@color/white" />
+
+                </LinearLayout>
 
                 <LinearLayout
                     android:id="@+id/textpartforupcoming"
@@ -241,6 +277,17 @@
                 android:layout_marginStart="@dimen/_10sdp"
                 android:layout_marginEnd="@dimen/_5sdp"
                 android:text="Reserve a Seat"/>
+            <Button
+                android:id="@+id/schedulemeet"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:backgroundTint="@color/green"
+                android:textStyle="bold"
+                android:textColor="@color/white"
+                android:layout_marginStart="@dimen/_10sdp"
+                android:layout_marginEnd="@dimen/_5sdp"
+                android:text="Schedule meet"/>
 
             <Button
                 android:id="@+id/reservedcmebtn"
@@ -270,6 +317,28 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal">
+            <Button
+                android:id="@+id/livecmebtn"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:backgroundTint="#FF0000"
+                android:textStyle="bold"
+                android:textColor="@color/white"
+                android:layout_marginStart="@dimen/_10sdp"
+                android:layout_marginEnd="@dimen/_5sdp"
+                android:text="Live"/>
+            <Button
+                android:id="@+id/liveendpost"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:backgroundTint="#FF0000"
+                android:textStyle="bold"
+                android:textColor="@color/white"
+                android:layout_marginStart="@dimen/_10sdp"
+                android:layout_marginEnd="@dimen/_5sdp"
+                android:text="End Post"/>
 
             <Button
                 android:id="@+id/attendcmebtn"

@@ -49,7 +49,9 @@ public class MyAdapter1 extends RecyclerView.Adapter<MyAdapter1.MyViewHolder2>{
                 Context context = a.getContext();
                 Intent i = new Intent(context, CmeDetailsActivity.class);
                 i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);// Add this line
+                i.putExtra("documentid",item.get(position).getDocumentid());
                 i.putExtra("name",item.get(position).getEmail());
+                i.putExtra("time",item.get(position).getTime());
                 i.putExtra("type",item.get(position).getType());
                 context.startActivity(i);
             }

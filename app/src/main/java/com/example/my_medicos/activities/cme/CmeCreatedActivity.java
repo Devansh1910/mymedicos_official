@@ -70,11 +70,12 @@ public class CmeCreatedActivity extends AppCompatActivity {
                                 String organizercme =((String) dataMap.get("CME Organiser"));
                                 String Date=((String) dataMap.get("Selected Date"));
                                 String time =((String) dataMap.get("Selected Time"));
+                                String documentid=((String ) dataMap.get("documentId"));
                                 int r = usercme.compareTo(userEmail);
                                 Log.d("abcdefsfsd", String.valueOf(r));
 
                                 if (r == 0) {
-                                    cmeitem1 cme = new cmeitem1(usercme, specialitycme,Date, titlecme,presentercme,organizercme,5,time);
+                                    cmeitem1 cme = new cmeitem1(usercme, specialitycme,Date, titlecme,presentercme,organizercme,5,time,documentid);
                                     cmelist.add(cme);
                                 }
 

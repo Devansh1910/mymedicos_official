@@ -450,6 +450,7 @@ public class PostCmeActivity extends AppCompatActivity {
         usermap.put("SubSpeciality",subspecialities1);
         usermap.put("Selected Date", selectedDate); // Add selected date
         usermap.put("Selected Time", selectedTime); // Add selected time
+        usermap.put("endtime",null);
 
         progressDialog.setMessage("Posting...");
         progressDialog.show();
@@ -460,12 +461,28 @@ public class PostCmeActivity extends AppCompatActivity {
                 progressDialog.dismiss();
 
                 if (task.isSuccessful()) {
-                    dc.collection("CME").add(usermap);
-                    Toast.makeText(PostCmeActivity.this, "Posted Successfully", Toast.LENGTH_SHORT).show();
+                    // Get the generated document ID
+                    String generatedDocId = cmeref.push().getKey();
+
+                    // Add the document ID to the usermap
+                    usermap.put("documentId", generatedDocId);
+
+                    // Add the data to the "CME" collection along with the document ID
+                    dc.collection("CME").document(generatedDocId).set(usermap).addOnCompleteListener(new OnCompleteListener<Void>() {
+                        @Override
+                        public void onComplete(@NonNull Task<Void> task) {
+                            if (task.isSuccessful()) {
+                                Toast.makeText(PostCmeActivity.this, "Posted Successfully", Toast.LENGTH_SHORT).show();
+                            } else {
+                                Toast.makeText(PostCmeActivity.this, "Task Failed", Toast.LENGTH_SHORT).show();
+                            }
+                        }
+                    });
                 } else {
                     Toast.makeText(PostCmeActivity.this, "Task Failed", Toast.LENGTH_SHORT).show();
                 }
             }
         });
+
     }
 }

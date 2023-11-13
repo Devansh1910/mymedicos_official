@@ -154,8 +154,9 @@ public class UpcomingFragment extends Fragment {
                                         String field5=((String ) dataMap.get("User"));
                                         String Date=((String) dataMap.get("Selected Date"));
                                         String time =((String) dataMap.get("Selected Time"));
+                                        String documentid=((String) dataMap.get("documentId"));
 
-                                        cmeitem3 c = new cmeitem3(field1, field2, Date, field3, field4,5,time,field5,"UPCOMING");
+                                        cmeitem3 c = new cmeitem3(field1, field2, Date, field3, field4,5,time,field5,"UPCOMING",documentid);
 
                                         item.add(c);
 
@@ -170,8 +171,9 @@ public class UpcomingFragment extends Fragment {
                                             String Date=((String) dataMap.get("Selected Date"));
                                             String time =((String) dataMap.get("Selected Time"));
                                             String field5=((String ) dataMap.get("User"));
+                                            String documentid=((String) dataMap.get("documentId"));
 
-                                            cmeitem3 c = new cmeitem3(field1, field2, Date, field3, field4,5,time,field5,"UPCOMING");
+                                            cmeitem3 c = new cmeitem3(field1, field2, Date, field3, field4,5,time,field5,"UPCOMING",documentid);
 
                                             item.add(c);
 
@@ -179,9 +181,10 @@ public class UpcomingFragment extends Fragment {
 
 
                                     }
-                                    recyclerView3.setLayoutManager(new LinearLayoutManager(getContext()));
-                                    recyclerView3.setAdapter(new MyAdapter3(getContext(), item));
+
                                 }
+                                recyclerView3.setLayoutManager(new LinearLayoutManager(getContext()));
+                                recyclerView3.setAdapter(new MyAdapter3(getContext(), item));
                             } else {
                                 Log.d(TAG, "Error getting documents: ", task.getException());
                             }

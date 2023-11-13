@@ -97,7 +97,7 @@ public class PastFragment extends Fragment {
 
                                     Log.d("vivek", String.valueOf(r));
                                     int r1 = parsedDate.compareTo(currentDate);
-                                    if ((r < 0) && (r1 <= 0)) {
+                                    if ((r1 <= 0)) {
                                         String field3 = ((String) dataMap.get("CME Title"));
                                         String field4 = ((String) dataMap.get("CME Presenter"));
                                         String field1 = (String) dataMap.get("CME Organiser");
@@ -106,17 +106,37 @@ public class PastFragment extends Fragment {
                                         field2 = ((String) dataMap.get("Speciality"));
                                         String Date=((String) dataMap.get("Selected Date"));
                                         String time =((String) dataMap.get("Selected Time"));
-                                        cmeitem2 c = new cmeitem2(field1, field2, Date, field3, field4,5,time,field5,"PAST");
-                                        myitem.add(c);
-                                        recyclerView2.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false));
-                                        recyclerView2.setAdapter(new MyAdapter4(getContext(), myitem));
+                                        String documentid=((String) dataMap.get("documentId"));
+                                        String end=((String) dataMap.get("endtime"));
+                                        cmeitem2 c = new cmeitem2(field1, field2, Date, field3, field4,5,time,field5,"PAST",documentid);
+                                        if (end!=null) {
+                                            myitem.add(c);
+
+                                        }
 
 
-                                    } else {
+                                    } else if ((r < 0)&& (r1 == 0)){
+                                        String field3 = ((String) dataMap.get("CME Title"));
+                                        String field4 = ((String) dataMap.get("CME Presenter"));
+                                        String field1 = (String) dataMap.get("CME Organiser");
+                                        String field2;
+                                        String time =((String) dataMap.get("Selected Time"));
+                                        String field5=((String ) dataMap.get("User"));
+                                        field2 = ((String) dataMap.get("Speciality"));
+                                        String Date=((String) dataMap.get("Selected Date"));
+                                        String documentid=((String) dataMap.get("documentId"));
+                                        String end=((String) dataMap.get("endtime"));
+                                        cmeitem2 c = new cmeitem2(field1, field2, Date, field3, field4,5,time,field5,"PAST",documentid);
+                                        if (end!=null) {
+                                            myitem.add(c);
+
+                                        }
 
                                     }
 
                                 }
+                                recyclerView2.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false));
+                                recyclerView2.setAdapter(new MyAdapter4(getContext(), myitem));
                             } else {
                                 Log.d(TAG, "Error getting documents: ", task.getException());
                             }

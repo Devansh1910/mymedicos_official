@@ -9,13 +9,13 @@ public class cmeitem2 {
     String pos_nam,type;
 
     int image;
-    String docname,docpos,doctitle,docpresenter,date,time,email;
+    String docname,docpos,doctitle,docpresenter,date,time,email,documentid;
 
 
 
 
 
-    public cmeitem2(String docname, String docpos, String date, String doctitle, String docpresenter,int imageview,String time,String email,String type) {
+    public cmeitem2(String docname, String docpos, String date, String doctitle, String docpresenter,int imageview,String time,String email,String type,String documentid) {
         this.docname = docname;
         this.docpos = docpos;
         this.imageview = imageview;
@@ -25,6 +25,7 @@ public class cmeitem2 {
         this.email=email;
         this.type=type;
         this.docpresenter=docpresenter;
+        this.documentid=documentid;
     }
     public String getDocname() {
         return docname;
@@ -48,6 +49,9 @@ public class cmeitem2 {
 
     public String getDocpos() {
         return docpos;
+    }
+    public String getDocumentid() {
+        return documentid;
     }
 
     public void setDocpos(String docpos) {

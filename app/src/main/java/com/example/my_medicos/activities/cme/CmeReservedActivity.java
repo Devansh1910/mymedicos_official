@@ -28,6 +28,7 @@ import java.util.Map;
 public class CmeReservedActivity extends AppCompatActivity {
     RecyclerView recyclerView1cmereserved;
     String userEmail;
+    String field3;
     String Cmeid;
 
     @Override
@@ -42,7 +43,9 @@ public class CmeReservedActivity extends AppCompatActivity {
             userEmail = currentUser.getEmail();
         }
 
+
         FirebaseFirestore dc = FirebaseFirestore.getInstance();
+
 
         dc.collection("CMEsReserved")
                 .get()
@@ -52,13 +55,14 @@ public class CmeReservedActivity extends AppCompatActivity {
                         if (task.isSuccessful()) {
                             for (QueryDocumentSnapshot document : task.getResult()) {
                                 Map<String, Object> dataMap = document.getData();
-                                Cmeid = (String) dataMap.get("Cmeid");
+                                Cmeid = (String) dataMap.get("documentidapply");
                                 String user = (String) dataMap.get("User");
-                                if (Cmeid != null && user != null) {
-                                    int r = user.compareTo(userEmail);
-                                    if (r == 0) {
-                                        fetch(Cmeid);
-                                    }
+                                int r=userEmail.compareTo(user);
+                                if (r==0){
+                                    fetch(Cmeid);
+                                }
+                                else{
+
                                 }
                             }
                         } else {
@@ -89,10 +93,11 @@ public class CmeReservedActivity extends AppCompatActivity {
                                 String organizercme = ((String) dataMap.get("CME Organiser"));
                                 String Date = ((String) dataMap.get("Selected Date"));
                                 String time = ((String) dataMap.get("Selected Time"));
+                                String documentid=((String) dataMap.get("documentId"));
                                 if (Cmeidn != null && usercme != null) {
-                                    int r = Cmeidn.compareTo(usercme);
+                                    int r = Cmeidn.compareTo(documentid);
                                     if (r == 0) {
-                                        cmeitem1 cme = new cmeitem1(usercme, specialitycme, Date, titlecme, presentercme, organizercme, 5, time);
+                                        cmeitem1 cme = new cmeitem1(usercme, specialitycme, Date, titlecme, presentercme, organizercme, 5, time,documentid);
                                         cmelist.add(cme);
                                     }
                                 }

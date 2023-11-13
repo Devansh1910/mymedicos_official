@@ -7,7 +7,7 @@ public class cmeitem3 {
     String cmetitle;
 
     String drname;
-    String docname,docpos,doctitle,docpresenter,email,type;
+    String docname,docpos,doctitle,docpresenter,email,type,documentid;
 
 
 
@@ -15,7 +15,7 @@ public class cmeitem3 {
 
 
 
-    public cmeitem3(String docname, String docpos, String date, String doctitle, String docpresenter,int imageview,String time,String email,String type)  {
+    public cmeitem3(String docname, String docpos, String date, String doctitle, String docpresenter,int imageview,String time,String email,String type,String documentid)  {
 
         this.docname = docname;
         this.docpos = docpos;
@@ -26,10 +26,15 @@ public class cmeitem3 {
         this.email=email;
         this.type=type;
         this.docpresenter=docpresenter;
+        this.documentid=documentid;
+
     }
 
     public String getDocname() {
         return docname;
+    }
+    public String getDocumentid() {
+        return documentid;
     }
     public String getDate() {
         return date;
