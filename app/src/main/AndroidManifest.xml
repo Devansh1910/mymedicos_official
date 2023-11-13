@@ -22,7 +22,32 @@
         android:roundIcon="@drawable/logo"
         android:supportsRtl="true"
         android:theme="@style/Theme.My_medicos"
+        tools:replace="android:label"
         tools:targetApi="31">
+        <activity
+            android:name=".activities.publications.activity.insiders.CategoryPublicationInsiderActivity"
+            android:exported="false" />
+        <activity
+            android:name=".activities.news.NewsActivity"
+            android:exported="false" />
+        <activity
+            android:name=".activities.publications.activity.PaymentPublicationActivity"
+            android:theme="@style/Theme.My_medicos.ProductDetail"></activity>
+        <activity
+            android:name=".activities.publications.activity.CheckoutPublicationActivity"
+            android:theme="@style/Theme.My_medicos.ProductDetail"></activity>
+        <activity
+            android:name=".activities.publications.activity.CategoryPublicationActivity"
+            android:theme="@style/Theme.My_medicos.ProductDetail"></activity>
+        <activity
+            android:name=".activities.publications.activity.CartPublicationActivity"
+            android:theme="@style/Theme.My_medicos.ProductDetail"></activity>
+        <activity
+            android:name=".activities.publications.activity.SearchPublicationActivity"
+            android:theme="@style/Theme.My_medicos.ProductDetail"></activity> <!-- Update your AndroidManifest.xml file -->
+        <activity
+            android:name=".activities.publications.activity.ProductDetailedActivity"
+            android:theme="@style/Theme.My_medicos.ProductDetail"></activity>
         <activity
             android:name=".activities.cme.CmeCreatedActivity"
             android:exported="false" />
@@ -39,7 +64,7 @@
             android:name=".activities.ug.UgPostInsiderActivity"
             android:exported="false" />
         <activity
-            android:name=".activities.publications.PublicationActivity"
+            android:name=".activities.publications.activity.PublicationActivity"
             android:exported="false" />
         <activity
             android:name=".activities.cme.CmeSearchActivity"
@@ -87,9 +112,6 @@
             android:exported="false" /> <!-- <activity -->
         <!-- android:name=".JobsApplyActivity" -->
         <!-- android:exported="false" /> -->
-        <activity
-            android:name=".activities.publications.ui.news.NewsActivity"
-            android:exported="false" />
         <activity
             android:name=".activities.cme.CmeActivity"
             android:exported="false" /> <!-- <activity -->
