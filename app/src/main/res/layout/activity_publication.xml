@@ -130,8 +130,38 @@
                     app:autoPlay="true"/>
             </androidx.cardview.widget.CardView>
 
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:paddingTop="@dimen/_5ssp"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="wrap_content"
+                    android:text="Top Explored"
+                    android:textSize="@dimen/_12ssp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/navigateinsidepublicationsexplored"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="wrap_content"
+                    android:text="View All"
+                    android:drawablePadding="@dimen/_8ssp"
+                    android:drawableEnd="@drawable/sidearrow"
+                    android:layout_gravity="center"
+                    android:gravity="end"
+                    android:textColor="#676666"
+                    android:textSize="@dimen/_12ssp"
+                    android:textStyle="bold" />
+            </LinearLayout>
+
             <androidx.cardview.widget.CardView
                 android:id="@+id/cardView"
+                android:outlineSpotShadowColor="@color/white"
+                android:elevation="0dp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
@@ -140,15 +170,41 @@
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/categoriesList"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_margin="10dp" />
+                    android:layout_height="wrap_content"/>
             </androidx.cardview.widget.CardView>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:paddingTop="@dimen/_5ssp"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="wrap_content"
+                    android:text="Recommended for you"
+                    android:textSize="@dimen/_12ssp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/navigateinsidepublication"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="wrap_content"
+                    android:text="View All"
+                    android:drawablePadding="@dimen/_8ssp"
+                    android:drawableEnd="@drawable/sidearrow"
+                    android:layout_gravity="center"
+                    android:gravity="end"
+                    android:textColor="#676666"
+                    android:textSize="@dimen/_12ssp"
+                    android:textStyle="bold" />
+            </LinearLayout>
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/productList"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="16dp" />
+                android:layout_height="wrap_content" />
         </LinearLayout>
     </androidx.core.widget.NestedScrollView>
 

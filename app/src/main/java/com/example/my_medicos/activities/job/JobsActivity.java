@@ -281,6 +281,13 @@ public class JobsActivity extends AppCompatActivity {
             Intent i = new Intent(this, JobsApplyActivity2.class);
             startActivity(i);
         }
-        return super.onOptionsItemSelected(item);
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                // Handle the back arrow click, finish the current activity
+                finish();
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
     }
 }

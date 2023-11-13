@@ -3,6 +3,7 @@ package com.example.my_medicos.activities.publications.activity;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
@@ -11,6 +12,7 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.Toast;
@@ -26,6 +28,7 @@ import com.example.my_medicos.activities.home.HomeActivity;
 import com.example.my_medicos.activities.job.JobsActivity;
 import com.example.my_medicos.activities.job.category.JobsApplyActivity2;
 import com.example.my_medicos.activities.job.category.JobsPostedYou;
+import com.example.my_medicos.activities.publications.activity.insiders.CategoryPublicationInsiderActivity;
 import com.example.my_medicos.activities.publications.adapters.CategoryAdapter;
 import com.example.my_medicos.activities.publications.adapters.ProductAdapter;
 import com.example.my_medicos.activities.publications.model.Category;
@@ -42,7 +45,7 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 
-public class PublicationActivity extends AppCompatActivity {
+public class  PublicationActivity extends AppCompatActivity {
 
     ActivityPublicationBinding binding;
     CategoryAdapter categoryAdapter;
@@ -99,7 +102,7 @@ public class PublicationActivity extends AppCompatActivity {
 
         getCategories();
 
-        GridLayoutManager layoutManager = new GridLayoutManager(this, 4);
+        GridLayoutManager layoutManager = new GridLayoutManager(this, 2);
         binding.categoriesList.setLayoutManager(layoutManager);
         binding.categoriesList.setAdapter(categoryAdapter);
     }
@@ -114,9 +117,10 @@ public class PublicationActivity extends AppCompatActivity {
                 try {
                     Log.e("err", response);
                     JSONObject mainObj = new JSONObject(response);
-                    if(mainObj.getString("status").equals("success")) {
+                    if (mainObj.getString("status").equals("success")) {
                         JSONArray categoriesArray = mainObj.getJSONArray("categories");
-                        for(int i =0; i< categoriesArray.length(); i++) {
+                        int categoriesCount = Math.min(categoriesArray.length(), 5); // Limit to the first 5 categories or the actual count if less than 5
+                        for (int i = 0; i < categoriesCount; i++) {
                             JSONObject object = categoriesArray.getJSONObject(i);
                             Category category = new Category(
                                     object.getString("name"),
@@ -127,6 +131,54 @@ public class PublicationActivity extends AppCompatActivity {
                             );
                             categories.add(category);
                         }
+
+                        // If there are more than 5 categories, add a "More" category
+                        // Inside the if statement
+                        if (categoriesArray.length() > 5) {
+                            Category moreCategory = new Category(
+                                    "More",
+                                    "more_category_icon", // Replace with the actual icon for the "More" category
+                                    "#CCCCCC", // Replace with the color for the "More" category
+                                    "View More Categories",
+                                    -1 // Replace with a unique ID for the "More" category
+                            );
+                            categories.add(moreCategory);
+                        }
+
+                        categoryAdapter.notifyDataSetChanged();
+
+// Add click listener to RecyclerView items
+                        binding.categoriesList.addOnItemTouchListener(new RecyclerView.OnItemTouchListener() {
+                            @Override
+                            public boolean onInterceptTouchEvent(@NonNull RecyclerView rv, @NonNull MotionEvent e) {
+                                View child = rv.findChildViewUnder(e.getX(), e.getY());
+                                int position = rv.getChildAdapterPosition(child);
+
+                                if (position != RecyclerView.NO_POSITION) {
+                                    // Check if the clicked item is the "More" category
+                                    if (position == categories.size() - 1 && categories.get(position).getId() == -1) {
+                                        // Redirect to CategoryPublicationInsiderActivity
+                                        Intent intent = new Intent(PublicationActivity.this, CategoryPublicationInsiderActivity.class);
+                                        startActivity(intent);
+                                    } else {
+                                        // Handle the click for other categories as needed
+                                        // For example, you might want to redirect to a different activity or perform some other action
+                                        // based on the selected category.
+                                    }
+                                }
+
+                                return false;
+                            }
+
+                            @Override
+                            public void onTouchEvent(@NonNull RecyclerView rv, @NonNull MotionEvent e) {}
+
+                            @Override
+                            public void onRequestDisallowInterceptTouchEvent(boolean disallowIntercept) {}
+                        });
+
+
+
                         categoryAdapter.notifyDataSetChanged();
                     } else {
                         // DO nothing
@@ -209,7 +261,7 @@ public class PublicationActivity extends AppCompatActivity {
 
         getRecentProducts();
 
-        GridLayoutManager layoutManager = new GridLayoutManager(this, 2);
+        GridLayoutManager layoutManager = new GridLayoutManager(this, 1);
         binding.productList.setLayoutManager(layoutManager);
         binding.productList.setAdapter(productAdapter);
     }
