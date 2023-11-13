@@ -281,18 +281,14 @@ public class CmeDetailsActivity extends AppCompatActivity {
                     liveendpost.setVisibility(View.GONE);
                     livecmebtn.setVisibility(View.VISIBLE);
 
-
-//
                 }
-
 
                 // Your existing code for the "Attend" button...
             } else {
                 // Hide the buttons for non-creators
                 reservebtn.setVisibility(View.GONE);
                 livebtn.setVisibility(View.VISIBLE);
-
-                livecmebtn.setVisibility(View.VISIBLE);
+                livecmebtn.setVisibility(View.GONE);
                 pastbtn.setVisibility(View.GONE);
                 youtube.setVisibility(View.GONE);
                 defaultimageofcme.setVisibility(View.VISIBLE);
@@ -306,8 +302,6 @@ public class CmeDetailsActivity extends AppCompatActivity {
                 attendcmebtn.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-
-
                         Query query = db.collection("CME").whereEqualTo("User", current);
                         query.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                             @Override
@@ -317,12 +311,10 @@ public class CmeDetailsActivity extends AppCompatActivity {
                                         String virtualLink = document.getString("Virtual Link");
 
                                         if (!TextUtils.isEmpty(virtualLink)) {
-                                            // Open the virtual link in a web browser
                                             Uri uri = Uri.parse(virtualLink);
                                             Intent intent = new Intent(Intent.ACTION_VIEW, uri);
                                             startActivity(intent);
                                         } else {
-                                            // Show a message or handle the case when the virtual link is not available
                                             showReservationDialog();
                                         }
                                     }
@@ -406,7 +398,6 @@ public class CmeDetailsActivity extends AppCompatActivity {
     private void showReservationDialog() {
         Dialog dialog = new Dialog(this);
         dialog.setContentView(R.layout.loaderofmeeting);
-        // Customize the dialog or handle button clicks as needed
         dialog.show();
     }
     public static String getCurrentTime() {

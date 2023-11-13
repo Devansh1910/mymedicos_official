@@ -137,7 +137,7 @@
                                 android:layout_height="wrap_content"
                                 android:layout_gravity="center"
                                 android:layout_marginTop="@dimen/_5sdp"
-                                android:text="Recent\nPublications"
+                                android:text="Library"
                                 android:textAlignment="center"
                                 android:textSize="@dimen/_10ssp" />
                         </LinearLayout>

@@ -118,7 +118,7 @@ public class OngoingFragment extends Fragment  {
 
 
                                 }
-                                recyclerView.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, true));
+                                recyclerView.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, true));
                                 recyclerView.setAdapter(new MyAdapter1(getContext(), items1));
                             } else {
                                 Log.d(TAG, "Error getting documents: ", task.getException());
