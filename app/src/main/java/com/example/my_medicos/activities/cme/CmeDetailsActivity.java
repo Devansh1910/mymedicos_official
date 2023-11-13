@@ -259,6 +259,7 @@ public class CmeDetailsActivity extends AppCompatActivity {
                                             Log.d(TAG, "DocumentSnapshot successfully updated!");
                                             Toast.makeText(CmeDetailsActivity.this, "Successfully Ended", Toast.LENGTH_SHORT).show();
                                             liveendpost.setVisibility(View.GONE);
+                                            Log.d("abc","bcd");
 
                                         }
                                     })
