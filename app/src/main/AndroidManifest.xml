@@ -25,6 +25,9 @@
         tools:replace="android:label"
         tools:targetApi="31">
         <activity
+            android:name=".activities.memes.MemeActivity"
+            android:exported="false" />
+        <activity
             android:name=".activities.publications.activity.insiders.CategoryPublicationInsiderActivity"
             android:exported="false" />
         <activity
@@ -32,22 +35,22 @@
             android:exported="false" />
         <activity
             android:name=".activities.publications.activity.PaymentPublicationActivity"
-            android:theme="@style/Theme.My_medicos.ProductDetail"></activity>
+            android:theme="@style/Theme.My_medicos.ProductDetail" />
         <activity
             android:name=".activities.publications.activity.CheckoutPublicationActivity"
-            android:theme="@style/Theme.My_medicos.ProductDetail"></activity>
+            android:theme="@style/Theme.My_medicos.ProductDetail" />
         <activity
             android:name=".activities.publications.activity.CategoryPublicationActivity"
-            android:theme="@style/Theme.My_medicos.ProductDetail"></activity>
+            android:theme="@style/Theme.My_medicos.ProductDetail" />
         <activity
             android:name=".activities.publications.activity.CartPublicationActivity"
-            android:theme="@style/Theme.My_medicos.ProductDetail"></activity>
+            android:theme="@style/Theme.My_medicos.ProductDetail" />
         <activity
             android:name=".activities.publications.activity.SearchPublicationActivity"
-            android:theme="@style/Theme.My_medicos.ProductDetail"></activity> <!-- Update your AndroidManifest.xml file -->
+            android:theme="@style/Theme.My_medicos.ProductDetail" /> <!-- Update your AndroidManifest.xml file -->
         <activity
             android:name=".activities.publications.activity.ProductDetailedActivity"
-            android:theme="@style/Theme.My_medicos.ProductDetail"></activity>
+            android:theme="@style/Theme.My_medicos.ProductDetail" />
         <activity
             android:name=".activities.cme.CmeCreatedActivity"
             android:exported="false" />

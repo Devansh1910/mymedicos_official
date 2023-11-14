@@ -15,11 +15,11 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
+import com.example.my_medicos.activities.drawer.SettingsActivity;
 import com.example.my_medicos.activities.home.fragments.ClubFragment;
 import com.example.my_medicos.activities.home.fragments.HomeFragment;
 import com.example.my_medicos.activities.home.fragments.ProfileFragment;
 import com.example.my_medicos.R;
-import com.example.my_medicos.activities.drawer.SettingsFragment;
 import com.example.my_medicos.activities.login.MainActivity;
 import com.google.android.material.bottomappbar.BottomAppBar;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
@@ -55,23 +55,23 @@ public class HomeActivity extends AppCompatActivity {
         toggle.syncState();
 
 
-        navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
-            @Override
-            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-
-                int id= item.getItemId();
-
-                if (id==R.id.drawer_settings) {
-                    replaceFragment(new SettingsFragment());
-                } else if (id==R.id.drawer_logout) {
-                    performLogout();
-                }else {
-                    Toast.makeText(HomeActivity.this, "Notification Clicked", Toast.LENGTH_SHORT).show();
-                }
-                drawerLayout.closeDrawer(GravityCompat.START);
-                return true;
-            }
-        });
+//        navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
+//            @Override
+//            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+//
+//                int id= item.getItemId();
+//
+//                if (id==R.id.drawer_settings) {
+//                    replaceFragment(new SettingsActivity());
+//                } else if (id==R.id.drawer_logout) {
+//                    performLogout();
+//                }else {
+//                    Toast.makeText(HomeActivity.this, "Notification Clicked", Toast.LENGTH_SHORT).show();
+//                }
+//                drawerLayout.closeDrawer(GravityCompat.START);
+//                return true;
+//            }
+//        });
 
 
 

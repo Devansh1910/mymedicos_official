@@ -137,7 +137,7 @@
                                 android:layout_height="wrap_content"
                                 android:layout_gravity="center"
                                 android:layout_marginTop="@dimen/_5sdp"
-                                android:text="Library"
+                                android:text="Recent\nPublications"
                                 android:textAlignment="center"
                                 android:textSize="@dimen/_10ssp" />
                         </LinearLayout>
@@ -328,7 +328,7 @@
                                 android:background="@drawable/back2">
 
                                 <ImageView
-                                    android:id="@+id/jobs_img1"
+                                    android:id="@+id/meme"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:padding="@dimen/_8ssp"

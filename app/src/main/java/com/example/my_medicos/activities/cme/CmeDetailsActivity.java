@@ -216,8 +216,6 @@ public class CmeDetailsActivity extends AppCompatActivity {
             long currenttimeformatted = convertTimeToMillis(currentTime);
 
 
-
-
             if (isCreator) {
                 reservebtn.setVisibility(View.GONE);
                 pastbtn.setVisibility(View.GONE);
@@ -231,7 +229,7 @@ public class CmeDetailsActivity extends AppCompatActivity {
                 relativeboxnotforpast.setVisibility(View.VISIBLE);
                 Log.d("timenew", String.valueOf(eventStartTime));
                 livebtn.setVisibility(View.VISIBLE);
-                Log.d("CmeDetailsActivity", "Time difference: " +(currenttimeformatted - eventStartTime));
+                Log.d("CmeDetailsActivity", "Time difference: " + (currenttimeformatted - eventStartTime));
 
                 if ((currenttimeformatted - eventStartTime) >= 10 * 60 * 1000) {
 
@@ -259,7 +257,7 @@ public class CmeDetailsActivity extends AppCompatActivity {
                                             Log.d(TAG, "DocumentSnapshot successfully updated!");
                                             Toast.makeText(CmeDetailsActivity.this, "Successfully Ended", Toast.LENGTH_SHORT).show();
                                             liveendpost.setVisibility(View.GONE);
-                                            Log.d("abc","bcd");
+                                            Log.d("abc", "bcd");
 
                                         }
                                     })
@@ -281,13 +279,17 @@ public class CmeDetailsActivity extends AppCompatActivity {
                     liveendpost.setVisibility(View.GONE);
                     livecmebtn.setVisibility(View.VISIBLE);
 
+
+//
                 }
+
 
                 // Your existing code for the "Attend" button...
             } else {
                 // Hide the buttons for non-creators
                 reservebtn.setVisibility(View.GONE);
                 livebtn.setVisibility(View.VISIBLE);
+
                 livecmebtn.setVisibility(View.GONE);
                 pastbtn.setVisibility(View.GONE);
                 youtube.setVisibility(View.GONE);
@@ -302,6 +304,8 @@ public class CmeDetailsActivity extends AppCompatActivity {
                 attendcmebtn.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
+
+
                         Query query = db.collection("CME").whereEqualTo("User", current);
                         query.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                             @Override
@@ -309,14 +313,17 @@ public class CmeDetailsActivity extends AppCompatActivity {
                                 if (task.isSuccessful()) {
                                     for (QueryDocumentSnapshot document : task.getResult()) {
                                         String virtualLink = document.getString("Virtual Link");
+//                                        String virtualLink = "https://us04web.zoom.us/j/71840187333?pwd=BMFoNKz3xaQDpSq5yBxd4yL2MQq61a.1";
 
-                                        if (!TextUtils.isEmpty(virtualLink)) {
+                                        try {
                                             Uri uri = Uri.parse(virtualLink);
                                             Intent intent = new Intent(Intent.ACTION_VIEW, uri);
                                             startActivity(intent);
-                                        } else {
-                                            showReservationDialog();
+                                        } catch (Exception e) {
+                                            e.printStackTrace();
+                                            Log.e("VirtualLinkError", "Error opening virtual link", e);
                                         }
+
                                     }
                                 } else {
                                     // Handle the error
@@ -398,6 +405,7 @@ public class CmeDetailsActivity extends AppCompatActivity {
     private void showReservationDialog() {
         Dialog dialog = new Dialog(this);
         dialog.setContentView(R.layout.loaderofmeeting);
+        // Customize the dialog or handle button clicks as needed
         dialog.show();
     }
     public static String getCurrentTime() {

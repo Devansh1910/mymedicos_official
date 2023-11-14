@@ -17,6 +17,7 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.my_medicos.activities.memes.MemeActivity;
 import com.example.my_medicos.activities.news.NewsActivity;
 import com.example.my_medicos.adapter.job.MyAdapter;
 import com.example.my_medicos.adapter.cme.MyAdapter2;
@@ -41,7 +42,7 @@ import java.util.Map;
 
 public class HomeFragment extends Fragment {
 
-    ImageView jobs,cme,news,publication,update,pg_prep,ugexams;
+    ImageView jobs,cme,news,publication,update,pg_prep,ugexams,meme;
     MyAdapter adapterjob;
     MyAdapter2 adaptercme;
 
@@ -142,6 +143,16 @@ public class HomeFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 Intent i=new Intent(getActivity(), CmeActivity.class);
+                startActivity(i);
+            }
+        });
+
+        meme=rootView.findViewById(R.id.meme);
+
+        meme.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent i=new Intent(getActivity(), MemeActivity.class);
                 startActivity(i);
             }
         });
