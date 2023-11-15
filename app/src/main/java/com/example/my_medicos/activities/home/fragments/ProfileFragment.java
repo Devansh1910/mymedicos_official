@@ -125,11 +125,11 @@ public class ProfileFragment extends Fragment {
                                     Log.d(TAG, document.getId() + " => " + document.getData());
                                     Map<String, Object> dataMap = document.getData();
                                     String field1 = (String) dataMap.get("Email ID");
-                                    String field2 = (String) dataMap.get("UID");
-                                    int a = field2.compareTo(currentUser.getUid());
+                                    String field2 = (String) dataMap.get("Phone Number");
+                                    int a = field1.compareTo(currentUser.getEmail());
                                     int b = field2.compareTo(currentUser.getPhoneNumber());
 
-                                    if (a == 0 ) {
+                                    if (a == 0 || b == 0) {
                                         String userName = (String) dataMap.get("Name");
                                         String userEmail = (String) dataMap.get("Email ID");
                                         String userPhone = (String) dataMap.get("Phone Number");

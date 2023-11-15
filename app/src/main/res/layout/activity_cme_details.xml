@@ -305,6 +305,7 @@
             <Button
                 android:layout_width="0dp"
                 android:layout_weight="0.75"
+                android:backgroundTint="@color/black"
                 android:drawableLeft="@drawable/baseline_share_24"
                 android:layout_marginStart="@dimen/_5sdp"
                 android:layout_marginEnd="@dimen/_10sdp"
@@ -355,6 +356,7 @@
             <Button
                 android:layout_width="0dp"
                 android:layout_weight="0.75"
+                android:backgroundTint="@color/black"
                 android:drawableLeft="@drawable/baseline_share_24"
                 android:layout_marginStart="@dimen/_5sdp"
                 android:layout_marginEnd="@dimen/_10sdp"
