@@ -70,9 +70,10 @@ public class RegularFragment extends Fragment  {
                                     String user = (String) dataMap.get("User");
                                     String Title = (String) dataMap.get("JOB Title");
                                     Log.d("title",speciality);
+                                    String Documentid = (String) dataMap.get("documentId");
                                     int r=title.compareTo(speciality);
                                     if (r==0) {
-                                        jobitem1 c = new jobitem1(speciality, Organiser, Location, date, user, Title, Category);
+                                        jobitem1 c = new jobitem1(speciality, Organiser, Location, date, user, Title, Category,Documentid);
                                         regularJobList.add(c);
                                     }
                                 }

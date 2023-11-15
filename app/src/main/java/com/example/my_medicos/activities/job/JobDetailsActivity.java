@@ -24,6 +24,8 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.tabs.TabLayout;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
@@ -42,8 +44,12 @@ public class JobDetailsActivity extends AppCompatActivity {
     private TabLayout tabLayout;
     RecyclerView recyclerView2;
     FirebaseFirestore db = FirebaseFirestore.getInstance();
+
     String speciality,Organiser,Location;
-    String receivedData;
+    String receivedData,documentid;
+    FirebaseAuth auth = FirebaseAuth.getInstance();
+    FirebaseUser user = auth.getCurrentUser();
+    String current=user.getEmail();
 
     @SuppressLint("MissingInflatedId")
     @Override
@@ -67,21 +73,44 @@ public class JobDetailsActivity extends AppCompatActivity {
         if (intent != null && intent.hasExtra("user")) {
             // Retrieve the extra data
             receivedData = intent.getStringExtra("user");
+            documentid=intent.getStringExtra("documentid");
 
         }
 
 
         Button apply=findViewById(R.id.applyButton);
-        apply.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Context context = view.getContext();
-                Intent j=new Intent(context, JobsApplyActivity.class);
-                j.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                j.putExtra("user",receivedData);
-                context.startActivity(j);
-            }
-        });
+        Button applycant=findViewById(R.id.applycant);
+        if (receivedData==current){
+            apply.setVisibility(View.GONE);
+            applycant.setVisibility(View.VISIBLE);
+            applycant.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Context context = view.getContext();
+                    Intent j=new Intent(context, JobsApplyActivity.class);
+                    j.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                    j.putExtra("user",receivedData);
+                    context.startActivity(j);
+                }
+            });
+
+        }
+        else{
+            apply.setVisibility(View.VISIBLE);
+            applycant.setVisibility(View.GONE);
+            apply.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Context context = view.getContext();
+                    Intent j=new Intent(context, JobsApplyActivity.class);
+                    j.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                    j.putExtra("user",receivedData);
+                    context.startActivity(j);
+                }
+            });
+        }
+
+
 
 // Check if the Intent has extra data
 
@@ -98,8 +127,8 @@ public class JobDetailsActivity extends AppCompatActivity {
 
 
                                 Map<String, Object> dataMap = document.getData();
-                                String user = ((String) dataMap.get("User"));
-                                int r=user.compareTo(receivedData);
+                                String user = ((String) dataMap.get("documentId"));
+                                int r=documentid.compareTo(user);
                                 Log.d("vivekpalnew", String.valueOf(r));
                                 if (r==0) {
 
@@ -149,7 +178,9 @@ public class JobDetailsActivity extends AppCompatActivity {
                                 String user = (String) dataMap.get("User");
                                 String Category=((String) dataMap.get("Job type"));
                                 String Title=((String) dataMap.get("JOB Title"));
-                                jobitem1 c = new jobitem1(speciality, Organiser, Location, date, user,Title , Category);
+                                String documentid=((String) dataMap.get("documentid"));
+
+                                jobitem1 c = new jobitem1(speciality, Organiser, Location, date, user,Title , Category,documentid);
                                 joblist.add(c);
 
 //                                // Pass the joblist to the adapter

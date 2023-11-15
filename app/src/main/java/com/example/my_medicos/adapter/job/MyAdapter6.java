@@ -57,6 +57,7 @@ public class MyAdapter6 extends RecyclerView.Adapter<MyAdapter6.MyViewHolder6> {
                 Intent i = new Intent(context, JobDetailsActivity.class);
                 i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);// Add this line
                 i.putExtra("user",joblist.get(position).getuser());
+                i.putExtra("documentid",joblist.get(position).getDocumentid());
                 context.startActivity(i);
             }
         });

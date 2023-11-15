@@ -61,11 +61,12 @@ public class LocumFragment extends Fragment {
                                     String speciality = (String) dataMap.get("Speciality");
                                     String user = (String) dataMap.get("User");
                                     String Title = (String) dataMap.get("JOB Title");
+                                    String Documentid = (String) dataMap.get("documentId");
                                     Log.d("title",speciality);
                                     int r=title.compareTo(speciality);
 
                                     if (r==0) {
-                                        jobitem1 c = new jobitem1(speciality, Organiser, Location, date, user, Title, Category);
+                                        jobitem1 c = new jobitem1(speciality, Organiser, Location, date, user, Title, Category,Documentid);
                                         locumJobList.add(c);
                                     }
                                 }

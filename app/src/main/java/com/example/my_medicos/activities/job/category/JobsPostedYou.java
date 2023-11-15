@@ -71,11 +71,12 @@ public class JobsPostedYou extends AppCompatActivity {
                                 String user = (String) dataMap.get("User");
                                 String Title = (String) dataMap.get("JOB Title");
                                 String Category = (String) dataMap.get("Job type");
+                                String documentid = (String) dataMap.get("documentId");
                                 int r = user.compareTo(userEmail);
                                 Log.d("abcdefsfsd", String.valueOf(r));
 
                                 if (r == 0) {
-                                    jobitem1 c = new jobitem1(speciality, Organiser, Location, date, user, Title, Category);
+                                    jobitem1 c = new jobitem1(speciality, Organiser, Location, date, user, Title, Category,documentid);
                                     joblist.add(c);
                                 }
 

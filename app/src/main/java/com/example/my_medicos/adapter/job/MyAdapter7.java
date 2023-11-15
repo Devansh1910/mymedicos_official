@@ -46,6 +46,7 @@ public class MyAdapter7 extends RecyclerView.Adapter<MyAdapter7.MyViewHolder7> {
                 Intent i = new Intent(context, JobsActivity2.class);
                 i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);// Add this line
                 i.putExtra("Title",joblist.get(position).getTitle());
+
                 context.startActivity(i);
             }
         });

@@ -13,14 +13,15 @@ public class jobitem1 {
     String position,speciality,Location,Organiser;
     String hospital;
     String location,category;
-    String date,user,title;
+    String date,user,title,documentid;
 
 
-    public jobitem1(String position, String hospital, String location,String date,String user,String title,String category) {
+    public jobitem1(String position, String hospital, String location,String date,String user,String title,String category,String documentid) {
 
         this.position = position;
         this.hospital = hospital;
         this.location = location;
+        this.documentid=documentid;
         this.date=date;
         this.user=user;
         this.title=title;
@@ -36,6 +37,9 @@ public class jobitem1 {
     }
     public String getTitle() {
         return title;
+    }
+    public String getDocumentid() {
+        return documentid;
     }
 
 

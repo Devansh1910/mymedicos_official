@@ -247,7 +247,9 @@ public class JobsActivity extends AppCompatActivity {
                                 String user = (String) dataMap.get("User");
                                 String Category=((String) dataMap.get("Job type"));
                                 String Title=((String) dataMap.get("JOB Title"));
-                                jobitem1 c = new jobitem1(speciality, Organiser, Location, date, user,Title , Category);
+                                String documentid=((String) dataMap.get("documentId"));
+
+                                jobitem1 c = new jobitem1(speciality, Organiser, Location, date, user,Title , Category,documentid);
                                 joblist.add(c);
 
 //                                // Pass the joblist to the adapter

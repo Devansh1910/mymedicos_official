@@ -296,6 +296,16 @@
                 android:text="Apply Now"
                 android:textColor="#FFFFFF"
                 android:textSize="16sp" />
+            <Button
+                android:id="@+id/applycant"
+                android:layout_width="0dp"
+                android:layout_weight="0.5"
+                android:layout_height="wrap_content"
+                android:padding="8dp"
+                android:backgroundTint="#000000"
+                android:text="Applycant"
+                android:textColor="#FFFFFF"
+                android:textSize="16sp" />
 
             <com.google.android.material.divider.MaterialDivider
                 android:layout_width="0dp"

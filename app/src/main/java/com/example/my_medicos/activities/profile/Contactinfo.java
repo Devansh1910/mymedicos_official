@@ -264,6 +264,32 @@ public class Contactinfo extends AppCompatActivity {
                 }
             }
         });
+        dc.collection("users")
+                .whereEqualTo("Email ID", userid)
+                .get()
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        if (task.isSuccessful()) {
+                            for (QueryDocumentSnapshot document : task.getResult()) {
+                                Map<String, Object> dataMap = document.getData();
+
+                                // Retrieve data from Firestore document
+                                String presentAddress = (String) dataMap.get("present");
+                                String permanentAddress = (String) dataMap.get("permanent");
+                                String age = (String) dataMap.get("Age");
+
+                                // Set the fetched data to the corresponding EditText fields
+                                Present.setText(presentAddress);
+                                Permanent.setText(permanentAddress);
+                                Age.setText(age);
+                            }
+                        } else {
+                            // Handle the error
+                            Toast.makeText(Contactinfo.this, "Error fetching data from Firebase Firestore", Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                });
 
     }
 

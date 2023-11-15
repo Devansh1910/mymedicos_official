@@ -23,6 +23,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.my_medicos.R;
+import com.example.my_medicos.activities.cme.PostCmeActivity;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
@@ -359,10 +360,28 @@ public class PostJobActivity extends AppCompatActivity {
 
 
                 if (task.isSuccessful()) {
-                    dc.collection("JOB").add(usermap);
-                    Toast.makeText(PostJobActivity.this, "Posted Successfully", Toast.LENGTH_SHORT).show();
-                } else {
-                    Toast.makeText(PostJobActivity.this, "Task Failed", Toast.LENGTH_SHORT).show();
+
+                    if (task.isSuccessful()) {
+                        // Get the generated document ID
+                        String generatedDocId = cmeref.push().getKey();
+
+                        // Add the document ID to the usermap
+                        usermap.put("documentId", generatedDocId);
+
+                        // Add the data to the "CME" collection along with the document ID
+                        dc.collection("JOB").document(generatedDocId).set(usermap).addOnCompleteListener(new OnCompleteListener<Void>() {
+                            @Override
+                            public void onComplete(@NonNull Task<Void> task) {
+                                if (task.isSuccessful()) {
+                                    Toast.makeText(PostJobActivity.this, "Posted Successfully", Toast.LENGTH_SHORT).show();
+                                } else {
+                                    Toast.makeText(PostJobActivity.this, "Task Failed", Toast.LENGTH_SHORT).show();
+                                }
+                            }
+                        });
+                    } else {
+                        Toast.makeText(PostJobActivity.this, "Task Failed", Toast.LENGTH_SHORT).show();
+                    }
                 }
             }
         });
