@@ -188,8 +188,7 @@
                     android:layout_width="wrap_content"
                     android:backgroundTint="@color/black"
                     android:layout_height="wrap_content"
-                    android:text="@string/pick_date"
-                    style="?android:attr/buttonBarButtonStyle" />
+                    android:text="@string/pick_date"/>
 
                 <Button
                     android:id="@+id/btnTimePicker"
@@ -197,8 +196,7 @@
                     android:layout_marginStart="@dimen/_10ssp"
                     android:backgroundTint="@color/black"
                     android:layout_height="wrap_content"
-                    android:text="@string/pick_time"
-                    style="?android:attr/buttonBarButtonStyle" />
+                    android:text="@string/pick_time"/>
 
             </LinearLayout>
 
