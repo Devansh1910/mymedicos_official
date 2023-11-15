@@ -5,8 +5,6 @@
 
     <string name="OpenDrawer">Open Navigation Drawer</string>
     <string name="CloseDrawer">close Navigation Drawer</string>
-
-
     <!-- Specialities -->
     <string-array name="speciality">
         <item>Select Speciality</item>
@@ -202,15 +200,10 @@
 
     </string-array>
     <string name="title_activity_publication">PublicationActivity</string>
-    <string name="title_free">All</string>
-    <string name="title_all">Free</string>
-    <string name="title_paid">Paid</string>
+
     <string name="title_activity_cme_state_changer">CmeStateChanger</string>
     <string name="tab_text_1">Tab 1</string>
     <string name="tab_text_2">Tab 2</string>
-    <string name="logout">Logout</string>
-    <string name="notifications">Notifications</string>
-    <string name="settings">Settings</string>
     <string name="anatomy">Anatomy</string>
     <string name="physiology">Physiology</string>
     <string name="biochemistry">Biochemistry</string>
@@ -239,6 +232,35 @@
     <string name="past">Past</string>
     <string name="presenters_of_the_month">Presenters of the month</string>
     <string name="upcoming">Upcoming</string>
+    <string name="title_activity_drawer">DrawerActivity</string>
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+    <string name="nav_header_title">Android Studio</string>
+    <string name="nav_header_subtitle">android.studio@android.com</string>
+    <string name="nav_header_desc">Navigation header</string>
+    <string name="menu_settings">Settings</string>
+    <string name="menu_notification">Notification</string>
+    <string name="menu_logout">Logout</string>
+    <string name="this_feature_is_nunder_construction">This feature is\nUnder Construction</string>
+    <string name="todo">TODO</string>
+    <string name="name">Name</string>
+    <string name="example_example_com">example@example.com</string>
+    <string name="fill_the_following_details_and_post_your_cme">Fill the following details and post your CME…</string>
+    <string name="title_of_the_cme">Title of the CME</string>
+    <string name="organiser">Organiser</string>
+    <string name="presenter">Presenter</string>
+    <string name="description">Description</string>
+    <string name="_0_2000">0/2000</string>
+    <string name="create_a_random_room_code_to_organize_your_cme">Create a Random Room Code to Organize your CME</string>
+    <string name="virtual_link_code">Virtual Link Code</string>
+    <string name="place_if_offline">Place(if offline)</string>
+    <string name="pick_date">Pick Date</string>
+    <string name="pick_time">Pick Time</string>
+    <string name="selected_date">Selected Date:</string>
+    <string name="selected_time">Selected Time:</string>
+    <string name="attach_a_document">Attach a Document</string>
+    <string name="upload">Upload</string>
+    <string name="post">Post</string>
 
 
 </resources>

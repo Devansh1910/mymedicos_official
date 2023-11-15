@@ -3,27 +3,24 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/mobile_navigation"
-    app:startDestination="@id/navigation_free">
+    app:startDestination="@+id/nav_home"
+    tools:ignore="InvalidNavigation">
 
     <fragment
-        android:id="@+id/navigation_free"
-        android:name="com.example.my_medicos.activities.publications.ui.free.FreeFragment"
-        android:label="@string/title_free" />
+        android:id="@+id/nav_settings"
+        android:name="com.example.my_medicos.activities.drawer.drawercontent.settings.SettingsFragment"
+        android:label="@string/menu_settings"
+        tools:layout="@layout/fragment_settings" />
 
     <fragment
-        android:id="@+id/navigation_all"
-        android:name="com.example.my_medicos.activities.publications.ui.all.AllFragment"
-        android:label="@string/title_all"
-        tools:layout="@layout/fragment_all" />
+        android:id="@+id/nav_notifications"
+        android:name="com.example.my_medicos.activities.drawer.drawercontent.notifications.NotificationsFragment"
+        android:label="@string/menu_notification"
+        tools:layout="@layout/fragment_notifications" />
 
     <fragment
-        android:id="@+id/navigation_paid"
-        android:name="com.example.my_medicos.activities.publications.ui.paid.PaidFragment"
-        android:label="@string/title_paid"
-        tools:layout="@layout/fragment_paid" />
-    <fragment
-        android:id="@+id/navigation_cart"
-        android:name="com.example.my_medicos.activities.publications.ui.cart.CartFragment"
-        android:label="Cart"
-        tools:layout="@layout/fragment_cart" />
+        android:id="@+id/nav_logout"
+        android:name="com.example.my_medicos.activities.drawer.drawercontent.logout.LogoutFragment"
+        android:label="@string/menu_logout"
+        tools:layout="@layout/fragment_logout" />
 </navigation>

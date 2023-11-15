@@ -29,7 +29,7 @@
                 android:layout_marginTop="16dp"
                 android:layout_marginBottom="@dimen/_20sdp"
                 android:fontFamily="@font/montserrat_medium"
-                android:text="Fill the following details and post your CME..."
+                android:text="@string/fill_the_following_details_and_post_your_cme"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
@@ -39,16 +39,18 @@
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/_40sdp"
                 android:background="@drawable/spinner_back"
-                android:hint="Title of the CME"
-                android:paddingStart="@dimen/_10sdp" />
+                android:hint="@string/title_of_the_cme"
+                android:paddingStart="@dimen/_10sdp"
+                tools:ignore="RtlSymmetry" />
 
             <EditText
                 android:id="@+id/cme_organiser"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/_40sdp"
                 android:layout_marginTop="@dimen/_10sdp"
-                android:hint="Organiser"
-                android:paddingStart="@dimen/_10sdp" />
+                android:hint="@string/organiser"
+                android:paddingStart="@dimen/_10sdp"
+                tools:ignore="RtlSymmetry" />
 
             <EditText
                 android:id="@+id/cme_presenter"
@@ -56,8 +58,9 @@
                 android:layout_height="@dimen/_40sdp"
                 android:layout_marginTop="@dimen/_10sdp"
                 android:background="@drawable/spinner_back"
-                android:hint="Presenter"
-                android:paddingStart="@dimen/_10sdp" />
+                android:hint="@string/presenter"
+                android:paddingStart="@dimen/_10sdp"
+                tools:ignore="RtlSymmetry" />
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -71,7 +74,7 @@
                     android:minHeight="@dimen/_90sdp"
                     android:layout_marginTop="@dimen/_10sdp"
                     android:background="@drawable/spinner_back"
-                    android:hint="Description"
+                    android:hint="@string/description"
                     android:gravity="top"
                     android:paddingVertical="@dimen/_10ssp"
                     android:paddingHorizontal="@dimen/_10sdp"
@@ -83,9 +86,10 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="end"
-                    android:text="0/2000"
+                    android:text="@string/_0_2000"
                     android:textColor="@android:color/darker_gray"
-                    android:paddingEnd="@dimen/_20sdp"/>
+                    android:paddingEnd="@dimen/_20sdp"
+                    tools:ignore="RtlSymmetry" />
 
             </LinearLayout>
 
@@ -118,7 +122,7 @@
                 android:textStyle="bold"
                 android:textAlignment="center"
                 android:textSize="@dimen/_12ssp"
-                android:text="Create a Random Room Code to Organize your CME"
+                android:text="@string/create_a_random_room_code_to_organize_your_cme"
                 app:layout_constraintEnd_toEndOf="parent"
                 android:textColor="#888282"/>
 
@@ -128,8 +132,9 @@
                 android:layout_height="@dimen/_40sdp"
                 android:layout_marginTop="@dimen/_10sdp"
                 android:background="@drawable/spinner_back"
-                android:hint="Virtual Link Code"
-                android:paddingStart="@dimen/_10sdp" />
+                android:hint="@string/virtual_link_code"
+                android:paddingStart="@dimen/_10sdp"
+                tools:ignore="RtlSymmetry" />
 
 <!--            <LinearLayout-->
 <!--                android:layout_width="match_parent"-->
@@ -154,9 +159,10 @@
                 android:layout_marginTop="@dimen/_10sdp"
                 android:layout_marginEnd="@dimen/_20sdp"
                 android:background="@drawable/spinner_back"
-                android:hint="Place(if offline)"
+                android:hint="@string/place_if_offline"
                 android:paddingStart="@dimen/_10sdp"
-                android:visibility="gone" />
+                android:visibility="gone"
+                tools:ignore="RtlSymmetry" />
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -171,7 +177,7 @@
                     android:layout_width="wrap_content"
                     android:backgroundTint="@color/black"
                     android:layout_height="wrap_content"
-                    android:text="Pick Date"/>
+                    android:text="@string/pick_date"/>
 
                 <Button
                     android:id="@+id/btnTimePicker"
@@ -179,7 +185,7 @@
                     android:layout_marginStart="@dimen/_10ssp"
                     android:backgroundTint="@color/black"
                     android:layout_height="wrap_content"
-                    android:text="Pick Time"/>
+                    android:text="@string/pick_time"/>
 
             </LinearLayout>
 
@@ -195,13 +201,13 @@
                     android:id="@+id/tvDate"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Selected Date:"/>
+                    android:text="@string/selected_date"/>
 
                 <TextView
                     android:id="@+id/tvTime"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Selected Time:"/>
+                    android:text="@string/selected_time"/>
 
 
             </LinearLayout>
@@ -209,19 +215,6 @@
             <androidx.cardview.widget.CardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center">
-
-<!--                <ImageView-->
-<!--                    android:layout_width="wrap_content"-->
-<!--                    android:layout_height="wrap_content"-->
-<!--                    android:src=""/>-->
-
-            </androidx.cardview.widget.CardView>
-
-            <androidx.cardview.widget.CardView
-                android:id="@+id/btnAccessStorage"
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/_100sdp"
                 android:layout_marginTop="@dimen/_5ssp"
                 android:layout_marginBottom="@dimen/_10ssp"
                 android:outlineSpotShadowColor="@color/white"
@@ -232,16 +225,38 @@
                 android:padding="8dp">
 
                 <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:orientation="vertical">
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="horizontal">
 
-                    <ImageView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:src="@drawable/upload"
-                        android:layout_gravity="center"/>
+                    <TextView
+                        android:id="@+id/addPdf"
+                        android:layout_width="0dp"
+                        android:layout_weight="1"
+                        android:layout_height="match_parent"
+                        android:paddingHorizontal="@dimen/_10ssp"
+                        android:textStyle="bold"
+                        android:paddingVertical="@dimen/_10ssp"
+                        android:gravity="center"
+                        android:textSize="@dimen/_12ssp"
+                        android:text="Attach a Document"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        android:textColor="#BAB2B2"/>
+
+                    <TextView
+                        android:id="@+id/uploadpdfbtn"
+                        android:layout_width="0dp"
+                        android:layout_weight="0.5"
+                        android:layout_height="match_parent"
+                        android:paddingHorizontal="@dimen/_10ssp"
+                        android:textStyle="bold"
+                        android:paddingVertical="@dimen/_10ssp"
+                        android:gravity="center"
+                        android:textSize="@dimen/_12ssp"
+                        android:text="Upload"
+                        android:background="@color/green"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        android:textColor="#FFFFFF"/>
 
                 </LinearLayout>
 
@@ -253,6 +268,8 @@
                 android:layout_height="wrap_content"
                 android:backgroundTint="@color/black"
                 android:layout_marginTop="@dimen/_5sdp"
+                android:textStyle="bold"
+                android:textColor="@color/white"
                 android:fontFamily="@font/montserrat_medium"
                 android:text="Post" />
 

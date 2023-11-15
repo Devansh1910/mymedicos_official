@@ -2,16 +2,18 @@ package com.example.my_medicos.activities.cme;
 
 import static com.example.my_medicos.list.subSpecialitiesData.subspecialities;
 
+import android.annotation.SuppressLint;
 import android.app.DatePickerDialog;
 import android.app.ProgressDialog;
 import android.app.TimePickerDialog;
 import android.content.Intent;
-import android.content.pm.PackageManager;
+import android.database.Cursor;
 import android.graphics.Color;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.provider.DocumentsContract;
+import android.provider.OpenableColumns;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
@@ -28,14 +30,14 @@ import android.widget.TimePicker;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.cardview.widget.CardView;
-import androidx.core.app.ActivityCompat;
-import androidx.core.content.ContextCompat;
 
 import com.example.my_medicos.R;
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -44,7 +46,11 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
+import com.google.firebase.storage.UploadTask;
 
+import java.io.File;
 import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -70,28 +76,51 @@ public class PostCmeActivity extends AppCompatActivity {
     private static final int MAX_CHARACTERS = 1000;
     private EditText etName, etClass, etPhoneNumber;
     private Button btnDatePicker, btnTimePicker;
+
     private TextView tvDate, tvTime;
     private Calendar calendar;
     private SimpleDateFormat dateFormat, timeFormat;
-
-    static final int REQUEST_STORAGE_PERMISSION = 1;
-    static final int REQUEST_STORAGE_ACCESS = 2;
+    static final int REQ = 1;
+    private Uri pdfData;
+    private DatabaseReference databasereference;
+    private StorageReference storageReference;
+    private TextView addPdf,uploadPdfBtn;
+    String downloadUrl = "";
+    private ProgressDialog pd;
+    private String pdfName;
     private ArrayAdapter<CharSequence> specialityAdapter;
     private ArrayAdapter<CharSequence> subspecialityAdapter;
-    private CardView btnAccessStorage;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_post_cme);
-        btnAccessStorage = findViewById(R.id.btnAccessStorage);
+        addPdf = findViewById(R.id.addPdf);
+        //..............
+        databasereference = FirebaseDatabase.getInstance().getReference();
+        storageReference = FirebaseStorage.getInstance().getReference();
 
-        btnAccessStorage.setOnClickListener(new View.OnClickListener() {
+        pd = new ProgressDialog(this);
+
+        addPdf = findViewById(R.id.addPdf);
+
+        uploadPdfBtn = findViewById(R.id.uploadpdfbtn);
+
+        addPdf.setOnClickListener(view -> {
+            openGallery();
+        });
+
+        uploadPdfBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                requestStoragePermission();
+                if(pdfData == null){
+                    Toast.makeText(PostCmeActivity.this, "Select a Document", Toast.LENGTH_SHORT).show();
+                }else{
+                    uploadPdf();
+                }
             }
         });
+
+        //..................
 
         btnDatePicker = findViewById(R.id.btnDatePicker);
         btnTimePicker = findViewById(R.id.btnTimePicker);
@@ -278,57 +307,84 @@ public class PostCmeActivity extends AppCompatActivity {
                 showTimePicker();
             }
         });
-
-
-
-
     }
-
-
-    private void requestStoragePermission() {
-        if (ContextCompat.checkSelfPermission(this, android.Manifest.permission.READ_EXTERNAL_STORAGE)
-                != PackageManager.PERMISSION_GRANTED) {
-            // Permission is not granted, request it
-            ActivityCompat.requestPermissions(this,
-                    new String[]{android.Manifest.permission.READ_EXTERNAL_STORAGE},
-                    REQUEST_STORAGE_PERMISSION);
-        } else {
-            // Permission is already granted, open storage
-            openStorageForAccess();
-        }
-    }
-
-    private void openStorageForAccess() {
-        Intent intent = new Intent(Intent.ACTION_OPEN_DOCUMENT_TREE);
-        startActivityForResult(intent, REQUEST_STORAGE_ACCESS);
-    }
-
-    @Override
-    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-        if (requestCode == REQUEST_STORAGE_PERMISSION) {
-            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                // Permission granted, open storage
-                openStorageForAccess();
-            } else {
-                // Permission denied, show a message or disable functionality
-                Toast.makeText(this, "Storage permission denied", Toast.LENGTH_SHORT).show();
+    private void uploadPdf() {
+        pd.setTitle("Please wait..");
+        pd.setMessage("Uploading Pdf..");
+        pd.show();
+        StorageReference reference = storageReference.child("pdf/"+pdfName+"-"+System.currentTimeMillis()+".pdf");
+        reference.putFile(pdfData).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+            @Override
+            public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                Task<Uri> uriTask = taskSnapshot.getStorage().getDownloadUrl();
+                while (!uriTask.isComplete());
+                Uri uri = uriTask.getResult();
+                uploadData(String.valueOf(uri));
             }
-        }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                pd.dismiss();
+                Toast.makeText(PostCmeActivity.this, "Something went wrong!", Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 
+    private void uploadData(String valueOf) {
+        String uniqueKey = databasereference.child("pdf").push().getKey();
+        HashMap data = new HashMap();
+        data.put("pdfUrl",downloadUrl);
+
+        databasereference.child("pdf").child(uniqueKey).setValue(data).addOnCompleteListener(new OnCompleteListener<Void>() {
+            @Override
+            public void onComplete(@NonNull Task<Void> task) {
+                pd.dismiss();
+                Toast.makeText(PostCmeActivity.this, "Pdf Uploaded Successfully", Toast.LENGTH_SHORT).show();
+                cmetitle.setText("");
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                pd.dismiss();
+                Toast.makeText(PostCmeActivity.this, "Failed to upload!", Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
+    //.................................
+
+    private void openGallery() {
+        Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
+        intent.setType("*/*");
+        startActivityForResult(Intent.createChooser(intent, "Select File"), REQ);
+    }
+
+    @SuppressLint("Range")
     @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == REQUEST_STORAGE_ACCESS && resultCode == RESULT_OK) {
-            if (data != null) {
-                Uri treeUri = data.getData();
-                if (treeUri != null) {
-                    listFilesInDirectory(treeUri);
+        if (requestCode == REQ && resultCode == RESULT_OK) {
+            pdfData = data.getData();
+
+            if(pdfData.toString().startsWith("content://")){
+                Cursor cursor = null;
+                try {
+                    cursor = PostCmeActivity.this.getContentResolver().query(pdfData,null,null,null,null);
+                    if(cursor != null && cursor.moveToFirst()){
+                        pdfName = cursor.getString(cursor.getColumnIndex(OpenableColumns.DISPLAY_NAME));
+                    }
+                } catch (Exception e) {
+                    throw new RuntimeException(e);
                 }
+            }else if (pdfData.toString().startsWith("file://")){
+                pdfName = new File(pdfData.toString()).getName();
             }
+            addPdf.setText(pdfName);
         }
     }
+
+
+    //................................
 
     private void listFilesInDirectory(Uri treeUri) {
         String treeDocumentId = DocumentsContract.getTreeDocumentId(treeUri);
