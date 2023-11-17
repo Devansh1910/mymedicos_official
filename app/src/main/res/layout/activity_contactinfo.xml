@@ -110,7 +110,7 @@
                 android:background="@drawable/back6"
                 android:paddingStart="@dimen/_10sdp"
                 android:layout_height="50dp"
-                android:hint="Email ID"
+                android:hint="Phone number"
                 android:textSize="@dimen/_14ssp"/>
 
             <EditText
@@ -121,7 +121,7 @@
                 android:paddingStart="@dimen/_10sdp"
                 android:textSize="@dimen/_14ssp"
                 android:layout_marginTop="20dp"
-                android:hint="Phone Number" />
+                android:hint="Email Id" />
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -148,7 +148,7 @@
 
             </LinearLayout>
 
-            <EditText
+            <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/present1"
                 android:layout_width="match_parent"
                 android:layout_height="100dp"
@@ -179,7 +179,7 @@
 
             </LinearLayout>
 
-            <EditText
+            <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/permanent1"
                 android:layout_width="match_parent"
                 android:layout_height="100dp"
@@ -212,7 +212,7 @@
 
             </LinearLayout>
 
-            <EditText
+            <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/age1"
                 android:layout_width="match_parent"
                 android:background="@drawable/back6"
@@ -230,22 +230,13 @@
                 android:layout_marginVertical="@dimen/_10ssp"
                 android:orientation="horizontal">
 
-                <Spinner
-                    android:id="@+id/speciality"
-                    android:layout_width="0dp"
-                    android:layout_weight="1"
-                    android:layout_height="wrap_content"
-                    android:padding="@dimen/_10ssp"
-                    android:background="@drawable/back6"/>
-
-                <Spinner
-                    android:id="@+id/subspeciality"
-                    android:layout_width="0dp"
-                    android:layout_weight="1"
-                    android:layout_marginStart="@dimen/_8ssp"
-                    android:layout_height="wrap_content"
-                    android:padding="@dimen/_10ssp"
-                    android:background="@drawable/back6"/>
+<!--                <Spinner-->
+<!--                    android:id="@+id/speciality"-->
+<!--                    android:layout_width="0dp"-->
+<!--                    android:layout_weight="1"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:padding="@dimen/_10ssp"-->
+<!--                    android:background="@drawable/back6"/>-->
 
             </LinearLayout>
 

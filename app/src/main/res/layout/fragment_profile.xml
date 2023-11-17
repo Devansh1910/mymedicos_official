@@ -90,7 +90,7 @@
                             android:layout_marginStart="@dimen/_2ssp"
                             android:textColor="@color/black"
                             android:fontFamily="@font/montserrat_medium"
-                            android:text="Devansh Saxena"
+                            android:text="Loading.."
                             android:textSize="@dimen/_14ssp" />
 
                     </LinearLayout>
@@ -101,6 +101,7 @@
                         android:orientation="horizontal">
 
                         <TextView
+                            android:id="@+id/user_location_dr"
                             android:padding="@dimen/_3ssp"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
@@ -109,10 +110,11 @@
                             android:background="@drawable/smaller_block"
                             android:layout_marginVertical="@dimen/_4ssp"
                             android:fontFamily="@font/montserrat_medium"
-                            android:text="Diabetology"
+                            android:text="Loading.."
                             android:textSize="@dimen/_9ssp" />
 
                         <TextView
+                            android:id="@+id/user_interest_dr"
                             android:padding="@dimen/_3ssp"
                             android:layout_width="wrap_content"
                             android:layout_marginStart="@dimen/_5ssp"
@@ -122,7 +124,7 @@
                             android:background="@drawable/smaller_block"
                             android:layout_marginVertical="@dimen/_4ssp"
                             android:fontFamily="@font/montserrat_medium"
-                            android:text="Cardiology"
+                            android:text="Loading.."
                             android:textSize="@dimen/_9ssp" />
 
                     </LinearLayout>
@@ -143,7 +145,7 @@
                             android:layout_marginHorizontal="@dimen/_4ssp"
                             android:layout_marginVertical="@dimen/_2ssp"
                             android:fontFamily="@font/montserrat_medium"
-                            android:text="devanshsaxena@gmail.com"
+                            android:text="Loading.."
                             android:textSize="@dimen/_10ssp" />
 
                         <ImageView
@@ -164,26 +166,16 @@
                         android:orientation="horizontal">
 
                         <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:textStyle="bold"
-                            android:textColor="@color/black"
-                            android:layout_marginStart="@dimen/_5ssp"
-                            android:fontFamily="@font/montserrat_medium"
-                            android:text="+91"
-                            android:textSize="@dimen/_10ssp" />
-
-                        <TextView
                             android:id="@+id/user_phone_dr"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
+                            android:layout_marginStart="@dimen/_5ssp"
                             android:textColor="@color/black"
                             android:textStyle="bold"
                             android:layout_marginHorizontal="@dimen/_2ssp"
                             android:fontFamily="@font/montserrat_medium"
-                            android:text="9305506538"
+                            android:text="Loading.."
                             android:textSize="@dimen/_10ssp" />
 
                         <ImageView

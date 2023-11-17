@@ -113,32 +113,20 @@
                 android:layout_height="wrap_content"
                 android:orientation="vertical">
 
-                <ViewFlipper
+                <androidx.cardview.widget.CardView
                     android:layout_width="match_parent"
-                    android:layout_height="@dimen/_140sdp"
-                    android:autoStart="true"
-                    android:layout_marginHorizontal="@dimen/_5ssp"
-                    android:flipInterval="5000">
+                    android:layout_height="wrap_content"
+                    app:cardCornerRadius="10dp">
 
-                    <ImageView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:src="@drawable/dc2"
-                        android:scaleType="centerCrop"/>
-
-                    <ImageView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:src="@drawable/dc3"
-                        android:scaleType="centerCrop"/>
-
-                    <ImageView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:src="@drawable/doctorimg1"
-                        android:scaleType="centerCrop"/>
-
-                </ViewFlipper>
+                    <org.imaginativeworld.whynotimagecarousel.ImageCarousel
+                        android:id="@+id/cmecarousel"
+                        android:layout_width="match_parent"
+                        android:layout_height="150dp"
+                        app:showNavigationButtons="false"
+                        android:layout_marginHorizontal="@dimen/_10ssp"
+                        app:showCaption="false"
+                        app:autoPlay="true"/>
+                </androidx.cardview.widget.CardView>
 
                 <com.google.android.material.tabs.TabLayout
                     android:layout_width="match_parent"

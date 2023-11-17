@@ -27,7 +27,7 @@ import java.util.Map;
 
 public class JobsApplyActivity2 extends AppCompatActivity {
     RecyclerView  recyclerView1;
-    String userEmail;
+    String userPhone;
     String Jobid;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,7 +39,7 @@ public class JobsApplyActivity2 extends AppCompatActivity {
         FirebaseUser currentUser = firebaseAuth.getCurrentUser();
 
         if (currentUser != null) {
-            userEmail = currentUser.getEmail();
+            userPhone = currentUser.getPhoneNumber();
         }
 
 
@@ -59,7 +59,7 @@ public class JobsApplyActivity2 extends AppCompatActivity {
                                 Map<String, Object> dataMap = document.getData();
                                 Jobid=(String) dataMap.get("Jobid");
                                 String user = (String) dataMap.get("User");
-                                int r=user.compareTo(userEmail);
+                                int r=user.compareTo(userPhone);
                                 Log.d("abcdefgh", String.valueOf(r));
                                 if (r==0){
                                     fetch(Jobid);

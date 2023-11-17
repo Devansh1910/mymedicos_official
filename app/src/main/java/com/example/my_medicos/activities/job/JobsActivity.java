@@ -108,90 +108,7 @@ public class JobsActivity extends AppCompatActivity {
                 startActivity(i);
             }
         });
-//        pager = findViewById(R.id.jobViewpager);
-//        tabLayout = findViewById(R.id.jobtablayout);
-//        specialitySpinner = findViewById(R.id.speciality);
-//        subspecialitySpinner = findViewById(R.id.subspeciality);
-//        specialityAdapter = ArrayAdapter.createFromResource(this,
-//                R.array.speciality, android.R.layout.simple_spinner_item);
-//        specialityAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-//        specialitySpinner.setAdapter(specialityAdapter);
-//        subspecialityAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item);
-//        subspecialityAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-//        subspecialitySpinner.setAdapter(subspecialityAdapter);
-//        // Initially, hide the subspeciality spinner
-//        subspecialitySpinner.setVisibility(View.GONE);
-//        specialitySpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-//            @Override
-//            public void onItemSelected(AdapterView<?> parentView, View selectedItemView, int position, long id) {
-//                selectedMode1 = specialitySpinner.getSelectedItem().toString();
-//            }
-//            @Override
-//            public void onNothingSelected(AdapterView<?> adapterView) {
-//            }
-//        });
-//        specialitySpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-//            @Override
-//            public void onItemSelected(AdapterView<?> adapterView, View view, int position, long l) {
-//                // Check if the selected speciality has subspecialities
-//                int specialityIndex = specialitySpinner.getSelectedItemPosition();
-//                if (specialityIndex >= 0 && specialityIndex < subspecialities.length && subspecialities[specialityIndex].length > 0) {
-//                    String[] subspecialityArray = subspecialities[specialityIndex];
-//                    subspecialityAdapter.clear();
-//                    subspecialityAdapter.add("Select Subspeciality");
-//                    for (String subspeciality : subspecialityArray) {
-//                        subspecialityAdapter.add(subspeciality);
-//                    }
-//                    // Show the subspeciality spinner
-//                    subspecialitySpinner.setVisibility(View.VISIBLE);
-//                    subspecialitySpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-//                        @Override
-//                        public void onItemSelected(AdapterView<?> parentView, View selectedItemView, int position, long id) {
-//                            selectedMode2 = subspecialitySpinner.getSelectedItem().toString();
-//                            selectedMode1 = specialitySpinner.getSelectedItem().toString();
-//                        }
-//                        @Override
-//                        public void onNothingSelected(AdapterView<?> adapterView) {
-//                        }
-//                    });
-//                } else {
-//                    // Hide the subspeciality spinner
-//                    subspecialitySpinner.setVisibility(View.GONE);
-//                }
-//            }
-//            @Override
-//            public void onNothingSelected(AdapterView<?> adapterView) {
-//                // Do nothing
-//            }
-//        });
 
-//
-//        OK = findViewById(R.id.ok);
-//
-//        Spinner  spinner2= (Spinner) findViewById(R.id.city);
-//// Create an ArrayAdapter using the string array and a default spinner layout
-//        ArrayAdapter<CharSequence> myadapter = ArrayAdapter.createFromResource(this,
-//                R.array.indian_cities, android.R.layout.simple_spinner_item);
-//// Specify the layout to use when the list of choices appears
-//        myadapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-//// Apply the adapter to the spinner
-//        spinner2.setAdapter(myadapter);
-
-
-
-//        pager.setAdapter(new ViewPagerAdapter(this));
-//
-//        new TabLayoutMediator(tabLayout, pager, new TabLayoutMediator.TabConfigurationStrategy() {
-//            @Override
-//            public void onConfigureTab(@NonNull TabLayout.Tab tab, int position) {
-//                switch (position){
-//                    case 0: tab.setText("LOCUM"); break;
-//                    case 1: tab.setText("REGULAR"); break;
-//                }
-//            }
-//        }).attach();
-//        binding = ActivityYourActivityBinding.inflate(getLayoutInflater()); // Use the binding
-//        setContentView(binding.getRoot());
         String[] specialitiesArray = getResources().getStringArray(R.array.specialityjobs);
 
 // Convert the string array into a List
@@ -211,17 +128,6 @@ public class JobsActivity extends AppCompatActivity {
         GridLayoutManager gridLayoutManager = new GridLayoutManager(this, spanCount);
         recyclerView2.setLayoutManager(gridLayoutManager);
         recyclerView2.setAdapter(new MyAdapter7(this, joblist2));
-
-//        recyclerView2 = findViewById(R.id.recyclerview6);
-//        List<jobitem2> joblist2 = new ArrayList<jobitem2>();
-//        joblist2.add(new jobitem2("Dentist"));
-//        joblist2.add(new jobitem2("Surgen"));
-//        joblist2.add(new jobitem2("Gynacologist"));
-//        joblist2.add(new jobitem2("Pediatric"));
-//        recyclerView2.setLayoutManager(new LinearLayoutManager(this,LinearLayoutManager.VERTICAL, false));
-//
-//
-//        recyclerView2.setAdapter(new MyAdapter7(this,joblist2));
 
         recyclerView1 = findViewById(R.id.recyclerview5);
         List<jobitem1> joblist = new ArrayList<jobitem1>();

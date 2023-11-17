@@ -48,7 +48,7 @@ public class PostJobActivity extends AppCompatActivity {
     FirebaseAuth auth = FirebaseAuth.getInstance();
     private ProgressDialog progressDialog;
     FirebaseUser user = auth.getCurrentUser();
-    String current = user.getEmail();
+    String current = user.getPhoneNumber();
     private Spinner subspecialitySpinner;
     private Spinner specialitySpinner;
     String subspecialities1;
@@ -93,7 +93,7 @@ public class PostJobActivity extends AppCompatActivity {
                 if (task.isSuccessful()) {
                     for (QueryDocumentSnapshot document : task.getResult()) {
                         Map<String, Object> dataMap = document.getData();
-                        String field3 = ((String) dataMap.get("Email ID"));
+                        String field3 = ((String) dataMap.get("Phone Number"));
                         boolean areEqualIgnoreCase = current.equalsIgnoreCase(field3);
                         Log.d("vivek", String.valueOf(areEqualIgnoreCase));
                         int r=current.compareTo(field3);
@@ -102,11 +102,6 @@ public class PostJobActivity extends AppCompatActivity {
                             Log.d("veefe",field4);
                             Organiser.setText(field4);
                         }
-
-
-                        // Handle the retrieved data here
-
-                        // You can access data using document.getData() and perform necessary actions
                     }
                 } else {
                     // Handle the error
@@ -274,26 +269,14 @@ public class PostJobActivity extends AppCompatActivity {
             return;
         }
         if (TextUtils.isEmpty(Salary)) {
-            salary.setError("Email Required");
+            salary.setError("Salary Required");
             return;
         }
         if (TextUtils.isEmpty(Position)) {
-            jobposition.setError("Email Required");
+            jobposition.setError("Position Required");
             return;
         }
 
-
-        // Get the selected mode from the spinner
-
-
-        // Get the selected speciality from the spinner
-
-
-        // Get current date and time
-
-
-
-        // Get the selected date and time
         String selectedDate = tvDate.getText().toString();
         Log.d("viveknew",speciality);
 //        Spinner jobspecialitySpinner = findViewById(R.id.speciality);
@@ -317,42 +300,6 @@ public class PostJobActivity extends AppCompatActivity {
         usermap.put("SubSpeciality",subspecialities1);
         usermap.put("date", selectedDate);
         usermap.put("Hospital",Hospital);
-
-        // Add selected date
-       // Add selected time
-
-
-
-
-//        dc.collection("JOB")
-//                .add(usermap)
-//                .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
-//                    @Override
-//                    public void onSuccess(DocumentReference documentReference) {
-//                        Log.d(TAG, "DocumentSnapshot written with ID: " + documentReference.getId());
-//                    }
-//                })
-//                .addOnFailureListener(new OnFailureListener() {
-//                    @Override
-//                    public void onFailure(@NonNull Exception e) {
-//                        Log.w(TAG, "Error adding document", e);
-//                    }
-//                });
-//        String Organisation = organisation.getText().toString().trim();
-//
-//        String Location = location.getText().toString().trim();
-//        String Salary = salary.getText().toString().trim();
-//        String Contact = contact.getText().toString().trim();
-//        String Remark = remaks.getText().toString().trim();
-//        HashMap<String, Object> usermap = new HashMap<>();
-//
-//        usermap.put("JOB Organiser", Organisation);
-//        usermap.put("JOB Location", Location);
-//        usermap.put("JOB Salary", Salary);
-//        usermap.put("Contact", Contact);
-//        usermap.put("Remark", Remark);
-//        usermap.put("JOB Speciality", Speciality);
-
 
         cmeref.push().setValue(usermap).addOnCompleteListener(new OnCompleteListener<Void>() {
             @Override

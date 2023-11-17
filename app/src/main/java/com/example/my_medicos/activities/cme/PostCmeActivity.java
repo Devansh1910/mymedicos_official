@@ -62,7 +62,7 @@ import java.util.Map;
 public class PostCmeActivity extends AppCompatActivity {
     FirebaseAuth auth = FirebaseAuth.getInstance();
     FirebaseUser user = auth.getCurrentUser();
-    String current = user.getEmail();
+    String current = user.getPhoneNumber();
     String field3,field4;
     EditText cmetitle, cmeorg, cmepresenter, cmevenu, virtuallink, cme_place;
     Button postcme;
@@ -187,7 +187,7 @@ public class PostCmeActivity extends AppCompatActivity {
                 if (task.isSuccessful()) {
                     for (QueryDocumentSnapshot document : task.getResult()) {
                         Map<String, Object> dataMap = document.getData();
-                        field3 = ((String) dataMap.get("Email ID"));
+                        field3 = ((String) dataMap.get("Phone Number"));
                         boolean areEqualIgnoreCase = current.equalsIgnoreCase(field3);
                         Log.d("vivek", String.valueOf(areEqualIgnoreCase));
                         int r=current.compareTo(field3);
@@ -455,7 +455,7 @@ public class PostCmeActivity extends AppCompatActivity {
             return;
         }
         if (TextUtils.isEmpty(presenter)) {
-            cmepresenter.setError("Email Required");
+            cmepresenter.setError("Phone Number Required");
             return;
         }
         if (TextUtils.isEmpty(venu)) {

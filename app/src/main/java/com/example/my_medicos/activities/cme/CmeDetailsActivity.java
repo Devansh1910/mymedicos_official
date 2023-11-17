@@ -54,7 +54,7 @@ public class CmeDetailsActivity extends AppCompatActivity {
 
     Button reservecmebtn;
     Button reservedcmebtn ;
-    String current = user.getEmail();
+    String current = user.getPhoneNumber();
     private boolean isReserved;
 
     String field4;
@@ -279,12 +279,8 @@ public class CmeDetailsActivity extends AppCompatActivity {
                     liveendpost.setVisibility(View.GONE);
                     livecmebtn.setVisibility(View.VISIBLE);
 
-
-//
                 }
 
-
-                // Your existing code for the "Attend" button...
             } else {
                 // Hide the buttons for non-creators
                 reservebtn.setVisibility(View.GONE);
@@ -358,7 +354,7 @@ public class CmeDetailsActivity extends AppCompatActivity {
                 if (task.isSuccessful()) {
                     for (QueryDocumentSnapshot document : task.getResult()) {
                         Map<String, Object> dataMap = document.getData();
-                        field3 = ((String) dataMap.get("Email ID"));
+                        field3 = ((String) dataMap.get("Phone Number"));
                         boolean areEqualIgnoreCase = name.equalsIgnoreCase(field3);
                         Log.d("vivek4", String.valueOf(areEqualIgnoreCase));
                         int r = name.compareTo(field3);

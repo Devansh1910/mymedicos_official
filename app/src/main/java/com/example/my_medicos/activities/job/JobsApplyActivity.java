@@ -45,7 +45,7 @@ import java.util.Map;
 public class JobsApplyActivity extends AppCompatActivity {
     FirebaseAuth auth = FirebaseAuth.getInstance();
     FirebaseUser user = auth.getCurrentUser();
-    String current = user.getEmail();
+    String current = user.getPhoneNumber();
     String field3,field4;
     EditText jobname, jobage, jobgender, jobexperience, jobcover;
     Button applyjob;
@@ -193,11 +193,11 @@ public class JobsApplyActivity extends AppCompatActivity {
             return;
         }
         if (TextUtils.isEmpty(gender)) {
-            jobgender.setError("Email Required");
+            jobgender.setError("Gender Required");
             return;
         }
         if (TextUtils.isEmpty(cover)) {
-            jobcover.setError("Email Required");
+            jobcover.setError("Cover Required");
             return;
         }
 
@@ -206,7 +206,6 @@ public class JobsApplyActivity extends AppCompatActivity {
         usermap.put("Age", age);
         usermap.put("Gender", gender);
         usermap.put("cover", cover);
-
         usermap.put("User", current);
         usermap.put("Experienced", "mode");
         usermap.put("Jobid",receivedData);

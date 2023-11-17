@@ -28,7 +28,7 @@
                 android:layout_marginTop="@dimen/_10sdp"
                 android:drawablePadding="@dimen/_10sdp"
                 android:text="Registration"
-                android:textColor="@color/black"
+                android:textColor="@color/unselected"
                 android:textSize="@dimen/_20ssp"
                 android:textStyle="bold" />
 
@@ -37,6 +37,8 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:textStyle="bold"
+            android:textColor="@color/unselected"
             android:layout_marginStart="@dimen/_20sdp"
             android:layout_marginTop="@dimen/_5sdp"
             android:text="Please fill the following details!" />
@@ -69,7 +71,6 @@
                            android:layout_width="match_parent"
                            android:background="@drawable/bkregister"
                            android:layout_height="wrap_content"
-                           android:drawableStart="@drawable/profile"
                            android:drawablePadding="@dimen/_10sdp"
                            android:hint="Enter Your Name"
                            android:textColorHint="#676767"
@@ -93,6 +94,48 @@
                            android:drawablePadding="@dimen/_10sdp"
                            android:hint="Enter Email"
                            android:inputType="text|textEmailAddress" />
+
+                   </com.google.android.material.textfield.TextInputLayout>
+
+                   <com.google.android.material.textfield.TextInputLayout
+                       android:id="@+id/password"
+                       android:layout_marginHorizontal="@dimen/_20ssp"
+                       android:layout_width="match_parent"
+                       android:layout_height="match_parent"
+                       android:layout_marginTop="@dimen/_10sdp"
+                       app:boxStrokeErrorColor="#6BC1F2">
+
+                       <com.google.android.material.textfield.TextInputEditText
+                           android:id="@+id/passwordedit"
+                           android:layout_width="match_parent"
+                           android:background="@drawable/bkregister"
+                           android:layout_height="wrap_content"
+                           android:drawableStart="@drawable/passedit"
+                           android:drawablePadding="@dimen/_10sdp"
+                           android:hint="Enter Password"
+                           android:inputType="text|textEmailAddress" />
+
+                   </com.google.android.material.textfield.TextInputLayout>
+
+                   <com.google.android.material.textfield.TextInputLayout
+                       android:id="@+id/phonenumber"
+                       android:layout_marginHorizontal="@dimen/_20ssp"
+                       android:layout_width="match_parent"
+                       android:layout_height="match_parent"
+                       android:layout_marginTop="@dimen/_10sdp"
+                       app:boxStrokeErrorColor="#6BC1F2">
+
+                       <com.google.android.material.textfield.TextInputEditText
+                           android:id="@+id/phonenumberededit"
+                           android:layout_width="match_parent"
+                           android:background="@drawable/bkregister"
+                           android:layout_height="wrap_content"
+                           android:drawableStart="@drawable/phone"
+                           android:drawablePadding="@dimen/_10sdp"
+                           android:maxLength="10"
+                           android:hint="Enter Phone Number"
+                           android:inputType="number" />
+
                    </com.google.android.material.textfield.TextInputLayout>
 
                    <TextView
@@ -104,7 +147,7 @@
                        android:layout_marginVertical="@dimen/_8ssp"
                        android:layout_marginHorizontal="@dimen/_20sdp"
                        android:textStyle="bold"
-                       android:textColor="@color/black"/>
+                       android:textColor="@color/unselected"/>
 
                    <Spinner
                        android:id="@+id/city"
@@ -117,13 +160,32 @@
                    <TextView
                        android:layout_width="match_parent"
                        android:layout_height="wrap_content"
-                       android:text="Pincode"
+                       android:text="What's your Favourite Topic ?"
                        android:drawablePadding="@dimen/_5ssp"
-                       android:drawableEnd="@drawable/pincode"
                        android:layout_marginVertical="@dimen/_8ssp"
                        android:layout_marginHorizontal="@dimen/_20sdp"
                        android:textStyle="bold"
-                       android:textColor="@color/black"/>
+                       android:textColor="@color/unselected"/>
+
+                   <Spinner
+                       android:id="@+id/interest"
+                       android:layout_marginHorizontal="@dimen/_20ssp"
+                       android:layout_width="match_parent"
+                       android:padding="@dimen/_13ssp"
+                       android:layout_height="wrap_content"
+                       android:background="@drawable/bkregister"/>
+
+                   <TextView
+                       android:layout_width="match_parent"
+                       android:layout_height="wrap_content"
+                       android:text="Pincode"
+                       android:drawablePadding="@dimen/_5ssp"
+                       android:drawableEnd="@drawable/pincode"
+                       android:textSize="@dimen/_12ssp"
+                       android:layout_marginVertical="@dimen/_8ssp"
+                       android:layout_marginHorizontal="@dimen/_20sdp"
+                       android:textStyle="bold"
+                       android:textColor="@color/unselected"/>
 
                    <com.google.android.material.textfield.TextInputLayout
                        android:id="@+id/pincodewritter"

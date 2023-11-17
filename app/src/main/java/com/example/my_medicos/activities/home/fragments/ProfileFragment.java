@@ -37,7 +37,7 @@ public class ProfileFragment extends Fragment {
     private static final String DATA_LOADED_KEY = "data_loaded";
 
     CardView personalinfo, contactinfo;
-    TextView user_name_dr, user_email_dr, user_phone_dr;
+    TextView user_name_dr, user_email_dr, user_phone_dr,user_location_dr,user_interest_dr;
     ImageView profileImageView;
 
     private boolean dataLoaded = false;
@@ -76,18 +76,16 @@ public class ProfileFragment extends Fragment {
         user_name_dr = rootView.findViewById(R.id.user_name_dr);
         user_email_dr = rootView.findViewById(R.id.user_email_dr);
         user_phone_dr = rootView.findViewById(R.id.user_phone_dr);
+        user_location_dr = rootView.findViewById(R.id.user_location_dr);
+        user_interest_dr = rootView.findViewById(R.id.user_interest_dr);
         profileImageView = rootView.findViewById(R.id.circularImageView);
 
-        // Check if data has already been loaded, if not, fetch user data and profile image
         if (!dataLoaded) {
             fetchdata();
             fetchUserData();
-
         }
-
         return rootView;
     }
-
     @Override
     public void onSaveInstanceState(@NonNull Bundle outState) {
         super.onSaveInstanceState(outState);
@@ -102,9 +100,13 @@ public class ProfileFragment extends Fragment {
         }
         String username = preferences.get("username", "");
         String email = preferences.get("email", "");
+        String location = preferences.get("location", "");
+        String interest = preferences.get("interest", "");
         String phone=preferences.get("userphone","");
         user_name_dr.setText(username);
         user_email_dr.setText(email);
+        user_location_dr.setText(location);
+        user_interest_dr.setText(interest);
         user_phone_dr.setText(phone);
 
     }
@@ -112,7 +114,7 @@ public class ProfileFragment extends Fragment {
     private void fetchUserData() {
         FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
         if (currentUser != null) {
-            String userId = currentUser.getUid();
+            String userId = currentUser.getPhoneNumber();
             FirebaseFirestore db = FirebaseFirestore.getInstance();
 
             db.collection("users")
@@ -124,30 +126,29 @@ public class ProfileFragment extends Fragment {
                                 for (QueryDocumentSnapshot document : task.getResult()) {
                                     Log.d(TAG, document.getId() + " => " + document.getData());
                                     Map<String, Object> dataMap = document.getData();
-                                    String field1 = (String) dataMap.get("Email ID");
-                                    String field2 = (String) dataMap.get("Phone Number");
-                                    int a = field1.compareTo(currentUser.getEmail());
-                                    int b = field2.compareTo(currentUser.getPhoneNumber());
+                                    String field1 = (String) dataMap.get("Phone Number");
+                                    int a = field1.compareTo(currentUser.getPhoneNumber());
 
-                                    if (a == 0 || b == 0) {
+                                    if (a == 0) {
                                         String userName = (String) dataMap.get("Name");
                                         String userEmail = (String) dataMap.get("Email ID");
+                                        String userLocation = (String) dataMap.get("Location");
+                                        String userInterest = (String) dataMap.get("Interest");
                                         String userPhone = (String) dataMap.get("Phone Number");
                                         Preferences preferences = Preferences.userRoot(); // User preferences
                                         // Store data
                                         preferences.put("username", userName);
+
                                         preferences.put("email", userEmail);
+
+                                        preferences.put("location", userLocation);
+
+                                        preferences.put("interest", userInterest);
+
                                         preferences.put("userphone",userPhone);
                                         user_name_dr.setText(userName);
-                                        user_email_dr.setText(userEmail);
                                         user_phone_dr.setText(userPhone);
                                         fetchdata();
-
-                                        // Retrieve data
-
-
-                                        // Set the data to the TextViews
-
                                         fetchUserProfileImage(userId);
                                     }
                                 }
@@ -162,12 +163,9 @@ public class ProfileFragment extends Fragment {
     private void fetchUserProfileImage(String userId) {
         FirebaseStorage storage = FirebaseStorage.getInstance();
         StorageReference storageRef = storage.getReference().child("users").child(userId).child("profile_image.jpg");
-
-        // Load the profile image using Picasso
         storageRef.getDownloadUrl().addOnSuccessListener(uri -> {
             Picasso.get().load(uri).into(profileImageView);
         }).addOnFailureListener(exception -> {
-            // Handle any errors while fetching the image
             Log.e(TAG, "Error fetching profile image: " + exception.getMessage());
         });
     }

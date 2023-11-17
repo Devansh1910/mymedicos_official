@@ -27,7 +27,7 @@ import java.util.Map;
 
 public class CmeReservedActivity extends AppCompatActivity {
     RecyclerView recyclerView1cmereserved;
-    String userEmail;
+    String userPhone;
     String field3;
     String Cmeid;
 
@@ -40,7 +40,7 @@ public class CmeReservedActivity extends AppCompatActivity {
         FirebaseUser currentUser = firebaseAuth.getCurrentUser();
 
         if (currentUser != null) {
-            userEmail = currentUser.getEmail();
+            userPhone = currentUser.getPhoneNumber();
         }
 
 
@@ -57,7 +57,7 @@ public class CmeReservedActivity extends AppCompatActivity {
                                 Map<String, Object> dataMap = document.getData();
                                 Cmeid = (String) dataMap.get("documentidapply");
                                 String user = (String) dataMap.get("User");
-                                int r=userEmail.compareTo(user);
+                                int r=userPhone.compareTo(user);
                                 if (r==0){
                                     fetch(Cmeid);
                                 }

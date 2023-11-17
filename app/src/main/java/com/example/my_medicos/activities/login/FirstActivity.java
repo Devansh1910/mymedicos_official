@@ -15,12 +15,10 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.my_medicos.R;
 import com.example.my_medicos.activities.home.HomeActivity;
+import com.google.firebase.auth.FirebaseAuth;
 
 public class FirstActivity extends AppCompatActivity {
-
-    VideoView videoView;
     Button continue_to_phone;
-    Button continue_to_email;
 
     @SuppressLint("MissingInflatedId")
     @Override
@@ -42,29 +40,8 @@ public class FirstActivity extends AppCompatActivity {
             actionBar.hide();
         }
 
-        videoView = findViewById(R.id.videoview);
-        Uri uri = Uri.parse("android.resource://" + getPackageName() + "/" + R.raw.bkvideovideo);
-        videoView.setVideoURI(uri);
-        videoView.start();
-
-        videoView.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
-            @Override
-            public void onPrepared(MediaPlayer mp) {
-                mp.setLooping(true);
-            }
-        });
-
         continue_to_phone = findViewById(R.id.continue_to_phone);
         continue_to_phone.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(FirstActivity.this, EnterMobile.class);
-                startActivity(intent);
-            }
-        });
-
-        continue_to_email = findViewById(R.id.continue_to_email);
-        continue_to_email.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(FirstActivity.this, MainActivity.class);
@@ -74,7 +51,7 @@ public class FirstActivity extends AppCompatActivity {
     }
 
     private boolean isLoggedIn() {
-        SharedPreferences preferences = getSharedPreferences("user_data", Context.MODE_PRIVATE);
-        return preferences.getBoolean("is_logged_in", false);
+        FirebaseAuth mAuth = FirebaseAuth.getInstance();
+        return mAuth.getCurrentUser() != null;
     }
 }

@@ -26,7 +26,7 @@ import java.util.Map;
 
 public class CmeCreatedActivity extends AppCompatActivity {
     private static final String TAG = "CmesPostedYou"; // Logging tag
-    String userEmail = null;
+    String userPhoneNumber = null;
     RecyclerView recyclerView1cme;
 
     @SuppressLint("MissingInflatedId")
@@ -43,7 +43,7 @@ public class CmeCreatedActivity extends AppCompatActivity {
         FirebaseUser currentUser = firebaseAuth.getCurrentUser();
 
         if (currentUser != null) {
-            userEmail = currentUser.getEmail();
+            userPhoneNumber = currentUser.getPhoneNumber();
         }
 
         // Now, userEmail contains the current user's email address
@@ -71,7 +71,7 @@ public class CmeCreatedActivity extends AppCompatActivity {
                                 String Date=((String) dataMap.get("Selected Date"));
                                 String time =((String) dataMap.get("Selected Time"));
                                 String documentid=((String ) dataMap.get("documentId"));
-                                int r = usercme.compareTo(userEmail);
+                                int r = usercme.compareTo(userPhoneNumber);
                                 Log.d("abcdefsfsd", String.valueOf(r));
 
                                 if (r == 0) {

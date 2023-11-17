@@ -26,7 +26,7 @@ import java.util.Map;
 
 public class JobsPostedYou extends AppCompatActivity {
     private static final String TAG = "JobsPostedYou"; // Logging tag
-    String userEmail = null;
+    String userPhoneNumber = null;
     RecyclerView recyclerView1;
 
     @SuppressLint("MissingInflatedId")
@@ -43,7 +43,7 @@ public class JobsPostedYou extends AppCompatActivity {
         FirebaseUser currentUser = firebaseAuth.getCurrentUser();
 
         if (currentUser != null) {
-            userEmail = currentUser.getEmail();
+            userPhoneNumber = currentUser.getPhoneNumber();
         }
 
         // Now, userEmail contains the current user's email address
@@ -72,7 +72,7 @@ public class JobsPostedYou extends AppCompatActivity {
                                 String Title = (String) dataMap.get("JOB Title");
                                 String Category = (String) dataMap.get("Job type");
                                 String documentid = (String) dataMap.get("documentId");
-                                int r = user.compareTo(userEmail);
+                                int r = user.compareTo(userPhoneNumber);
                                 Log.d("abcdefsfsd", String.valueOf(r));
 
                                 if (r == 0) {
