@@ -1,38 +1,34 @@
 
 package com.example.my_medicos.activities.cme.fragment;
 
-        import static android.content.ContentValues.TAG;
-
-        import android.annotation.SuppressLint;
-        import android.os.Build;
-        import android.os.Bundle;
-        import android.util.Log;
-        import android.view.LayoutInflater;
-        import android.view.View;
-        import android.view.ViewGroup;
-
-        import androidx.annotation.NonNull;
-        import androidx.fragment.app.Fragment;
-        import androidx.recyclerview.widget.LinearLayoutManager;
-        import androidx.recyclerview.widget.RecyclerView;
-
-        import com.example.my_medicos.adapter.cme.MyAdapter1;
-        import com.example.my_medicos.R;
-        import com.example.my_medicos.adapter.cme.items.cmeitem4;
-        import com.google.android.gms.tasks.OnCompleteListener;
-        import com.google.android.gms.tasks.Task;
-        import com.google.firebase.firestore.FirebaseFirestore;
-        import com.google.firebase.firestore.Query;
-        import com.google.firebase.firestore.QueryDocumentSnapshot;
-        import com.google.firebase.firestore.QuerySnapshot;
-
-        import java.time.LocalDate;
-        import java.time.LocalTime;
-        import java.time.format.DateTimeFormatter;
-        import java.time.format.DateTimeParseException;
-        import java.util.ArrayList;
-        import java.util.List;
-        import java.util.Map;
+import static android.content.ContentValues.TAG;
+import android.annotation.SuppressLint;
+import android.os.Build;
+import android.os.Bundle;
+import android.util.Log;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import androidx.annotation.NonNull;
+import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+import com.example.my_medicos.adapter.cme.MyAdapter1;
+import com.example.my_medicos.R;
+import com.example.my_medicos.adapter.cme.items.cmeitem4;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.Query;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
+import java.time.LocalDate;
+import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
 
 public class OngoingFragment extends Fragment  {
     RecyclerView recyclerView;

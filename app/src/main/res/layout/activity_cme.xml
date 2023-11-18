@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/container"
@@ -126,15 +127,14 @@
                         android:layout_marginHorizontal="@dimen/_10ssp"
                         app:showCaption="false"
                         app:autoPlay="true"/>
+
                 </androidx.cardview.widget.CardView>
 
                 <com.google.android.material.tabs.TabLayout
-                    android:layout_width="match_parent"
-                    android:layout_margin="@dimen/_10ssp"
-                    android:layout_height="match_parent"
                     android:id="@+id/tablayout"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent">
+                    android:layout_width="match_parent"
+                    android:layout_marginVertical="@dimen/_10ssp"
+                    android:layout_height="wrap_content">
 
                     <com.google.android.material.tabs.TabItem
                         android:id="@+id/ongoing"
@@ -155,53 +155,10 @@
                         android:text="Upcoming" />
                 </com.google.android.material.tabs.TabLayout>
 
-<!--                <LinearLayout-->
-<!--                    android:layout_width="match_parent"-->
-<!--                    android:layout_height="wrap_content"-->
-<!--                    android:layout_marginVertical="@dimen/_10sdp"-->
-<!--                    android:orientation="horizontal">-->
-
-<!--                    <TextView-->
-<!--                        android:layout_width="0dp"-->
-<!--                        android:layout_height="wrap_content"-->
-<!--                        android:layout_weight="1"-->
-<!--                        android:paddingStart="@dimen/_10ssp"-->
-<!--                        android:textSize="@dimen/_12ssp"-->
-<!--                        android:textStyle="bold"-->
-<!--                        android:textColor="@color/black"-->
-<!--                        android:fontFamily="@font/montserrat_medium"-->
-<!--                        android:text="Ongoing" />-->
-
-<!--                    <TextView-->
-<!--                        android:layout_width="0dp"-->
-<!--                        android:layout_height="wrap_content"-->
-<!--                        android:layout_weight="1"-->
-<!--                        android:paddingStart="@dimen/_10ssp"-->
-<!--                        android:textSize="@dimen/_12ssp"-->
-<!--                        android:textStyle="bold"-->
-<!--                        android:textColor="@color/black"-->
-<!--                        android:fontFamily="@font/montserrat_medium"-->
-<!--                        android:text="Past" />-->
-
-<!--                    <TextView-->
-<!--                        android:layout_width="0dp"-->
-<!--                        android:layout_height="wrap_content"-->
-<!--                        android:layout_weight="1"-->
-<!--                        android:paddingStart="@dimen/_10ssp"-->
-<!--                        android:textSize="@dimen/_12ssp"-->
-<!--                        android:textStyle="bold"-->
-<!--                        android:textColor="@color/black"-->
-<!--                        android:fontFamily="@font/montserrat_medium"-->
-<!--                        android:text="Upcoming" />-->
-
-<!--                </LinearLayout>-->
-
                 <RelativeLayout
-                    xmlns:android="http://schemas.android.com/apk/res/android"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content">
 
-                    <!-- Include your ViewPager2 and any other UI elements here -->
                     <androidx.viewpager2.widget.ViewPager2
                         android:id="@+id/view_pager1"
                         android:layout_width="match_parent"
@@ -209,78 +166,12 @@
 
                 </RelativeLayout>
 
-<!--                <LinearLayout-->
-<!--                    android:layout_width="match_parent"-->
-<!--                    android:layout_height="wrap_content"-->
-<!--                    android:layout_marginVertical="@dimen/_10sdp"-->
-<!--                    android:orientation="horizontal">-->
-
-<!--                </LinearLayout>-->
-
-<!--                <androidx.recyclerview.widget.RecyclerView-->
-<!--                    android:id="@+id/cme_recyclerview4"-->
-<!--                    android:layout_width="match_parent"-->
-<!--                    android:layout_height="wrap_content"-->
-<!--                    android:orientation="horizontal">-->
-
-<!--                </androidx.recyclerview.widget.RecyclerView>-->
-
-<!--                <LinearLayout-->
-<!--                    android:layout_width="match_parent"-->
-<!--                    android:layout_height="wrap_content"-->
-<!--                    android:layout_marginVertical="@dimen/_10sdp"-->
-<!--                    android:orientation="horizontal">-->
-
-<!--                    <TextView-->
-<!--                        android:layout_width="0dp"-->
-<!--                        android:layout_height="wrap_content"-->
-<!--                        android:layout_weight="1"-->
-<!--                        android:paddingStart="@dimen/_10ssp"-->
-<!--                        android:textSize="@dimen/_12ssp"-->
-<!--                        android:textStyle="bold"-->
-<!--                        android:textColor="@color/black"-->
-<!--                        android:fontFamily="@font/montserrat_medium"-->
-<!--                        android:text="Presenters of the month" />-->
-
-<!--                    <TextView-->
-<!--                        android:layout_width="0dp"-->
-<!--                        android:layout_height="wrap_content"-->
-<!--                        android:layout_weight="1"-->
-<!--                        android:textStyle="bold"-->
-<!--                        android:gravity="end"-->
-<!--                        android:paddingEnd="@dimen/_10ssp"-->
-<!--                        android:layout_gravity="end"-->
-<!--                        android:fontFamily="@font/montserrat_medium"-->
-<!--                        android:text="See All"-->
-<!--                        android:textColor="@color/blue" />-->
-
-<!--                </LinearLayout>-->
-<!--                <androidx.recyclerview.widget.RecyclerView-->
-<!--                    android:id="@+id/recyclerview2"-->
-<!--                    android:layout_width="match_parent"-->
-<!--                    android:layout_height="wrap_content"-->
-<!--                    android:orientation="horizontal">-->
-
-<!--                </androidx.recyclerview.widget.RecyclerView>-->
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginVertical="@dimen/_10sdp"
-                    android:orientation="horizontal">
-
-                </LinearLayout>
-
-<!--                <androidx.recyclerview.widget.RecyclerView-->
-<!--                    android:id="@+id/recyclerview3"-->
-<!--                    android:layout_width="match_parent"-->
-<!--                    android:layout_height="wrap_content"-->
-<!--                    android:orientation="vertical">-->
-
-<!--                </androidx.recyclerview.widget.RecyclerView>-->
             </LinearLayout>
+
         </ScrollView>
+
         </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+
     </LinearLayout>
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
