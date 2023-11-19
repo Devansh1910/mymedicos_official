@@ -24,7 +24,7 @@ import com.example.my_medicos.adapter.cme.MyAdapter2;
 import com.example.my_medicos.R;
 import com.example.my_medicos.activities.cme.CmeActivity;
 import com.example.my_medicos.activities.job.JobsActivity;
-import com.example.my_medicos.activities.pg.PgprepActivity;
+import com.example.my_medicos.activities.pg.activites.PgprepActivity;
 import com.example.my_medicos.activities.publications.activity.PublicationActivity;
 import com.example.my_medicos.activities.ug.UgExamActivity;
 import com.example.my_medicos.activities.university.UniversityupdatesActivity;

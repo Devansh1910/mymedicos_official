@@ -9,7 +9,8 @@
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.READ_PHONE_STATE" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
-    <uses-permission android:name="android.permission.MANAGE_EXTERNAL_STORAGE"
+    <uses-permission
+        android:name="android.permission.MANAGE_EXTERNAL_STORAGE"
         tools:ignore="ScopedStorage" />
     <uses-permission android:name="android.permission.RECEIVE_SMS" />
     <uses-permission android:name="android.permission.READ_SMS" />
@@ -25,6 +26,18 @@
         android:theme="@style/Theme.My_medicos"
         tools:replace="android:label"
         tools:targetApi="31">
+        <activity
+            android:name=".activities.pg.animations.WrongAnswerActivity"
+            android:exported="false" />
+        <activity
+            android:name=".activities.pg.animations.CorrectAnswerActivity"
+            android:exported="false" />
+        <activity
+            android:name=".activities.pg.activites.detailed.VideoBankDetailedActivity"
+            android:exported="false" />
+        <activity
+            android:name=".activities.pg.activites.detailed.QuestionBankDetailedActivity"
+            android:exported="false" />
         <activity
             android:name=".activities.drawer.DrawerActivity"
             android:exported="false"
@@ -88,9 +101,6 @@
             android:name=".activities.login.EnterOtp"
             android:exported="false" />
         <activity
-            android:name=".activities.login.EnterMobile"
-            android:exported="false" />
-        <activity
             android:name=".activities.profile.Contactinfo"
             android:exported="false" />
         <activity
@@ -100,27 +110,21 @@
             android:name=".activities.ug.UgExamActivity"
             android:exported="false" />
         <activity
-            android:name=".activities.pg.PgprepActivity"
+            android:name=".activities.pg.activites.PgprepActivity"
             android:exported="false" />
         <activity
             android:name=".activities.university.UniversityupdatesActivity"
             android:exported="false" />
         <activity
             android:name=".activities.cme.PostCmeActivity"
-            android:exported="false" /> <!-- <activity -->
-        <!-- android:name=".JobDetailsActivity" -->
-        <!-- android:exported="false" /> -->
+            android:exported="false" />
         <activity
             android:name=".activities.job.JobsActivity2"
             android:exported="false" />
         <activity
             android:name=".activities.job.category.JobsApplyActivity2"
             android:exported="false" />
-        <activity
-            android:name=".activities.login.ResetPasswordActivity"
-            android:exported="false" /> <!-- <activity -->
-        <!-- android:name=".JobsApplyActivity" -->
-        <!-- android:exported="false" /> -->
+
         <activity
             android:name=".activities.cme.CmeActivity"
             android:exported="false" /> <!-- <activity -->

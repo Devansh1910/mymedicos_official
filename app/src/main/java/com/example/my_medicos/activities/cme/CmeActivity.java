@@ -31,10 +31,8 @@ import com.example.my_medicos.activities.cme.fragment.OngoingFragment;
 import com.example.my_medicos.activities.cme.fragment.PastFragment;
 import com.example.my_medicos.R;
 import com.example.my_medicos.activities.cme.fragment.UpcomingFragment;
-import com.example.my_medicos.activities.cme.utils.ConstantsCme;
-import com.example.my_medicos.activities.publications.utils.Constants;
+import com.example.my_medicos.activities.cme.utils.ConstantsDashboard;
 import com.example.my_medicos.databinding.ActivityCmeBinding;
-import com.example.my_medicos.databinding.ActivityPublicationBinding;
 import com.example.my_medicos.list.subSpecialitiesData;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.tabs.TabLayout;
@@ -223,7 +221,7 @@ public class CmeActivity extends AppCompatActivity {
     void getCmeSliders() {
         RequestQueue queue = Volley.newRequestQueue(this);
 
-        StringRequest request = new StringRequest(Request.Method.GET, ConstantsCme.GET_CME_SLIDER_URL, response -> {
+        StringRequest request = new StringRequest(Request.Method.GET, ConstantsDashboard.GET_CME_SLIDER_URL, response -> {
             try {
                 JSONArray homesliderArray = new JSONArray(response);
                 for (int i = 0; i < homesliderArray.length(); i++) {

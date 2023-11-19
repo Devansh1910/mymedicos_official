@@ -1,0 +1,76 @@
+package com.example.my_medicos.activities.pg.model;
+import com.hishd.tinycart.model.Item;
+
+import java.io.Serializable;
+import java.math.BigDecimal;
+
+public class PerDayPG implements Item, Serializable {
+
+    private String question, optiona, optionb,optionc,optiond, checkbtn;
+    public PerDayPG(String DailyQuestion, String optionA, String optionB, String optionC, String optionD, String SubmitAnswer) {
+        this.question = DailyQuestion;
+        this.optiona = optionA;
+        this.optionb = optionB;
+        this.optionc = optionC;
+        this.optiond = optionD;
+        this.checkbtn = SubmitAnswer;
+    }
+
+    public String getDailyQuestion() {
+        return question;
+    }
+
+    public void setDailyQuestion(String DailyQuestion) {
+        this.question = DailyQuestion;
+    }
+
+    public String getDailyQuestionA() {
+        return optiona;
+    }
+
+    public void setDailyQuestionA(String optionA) {
+        this.optiona = optionA;
+    }
+
+    public String getDailyQuestionB() {
+        return optionb;
+    }
+
+    public void setDailyQuestionB(String optionB) {
+        this.optionb = optionB;
+    }
+
+    public String getDailyQuestionC() {
+        return optionc;
+    }
+
+    public void setDailyQuestionC(String optionC) {
+        this.optionc = optionC;
+    }
+
+    public String getDailyQuestionD() {
+        return optiond;
+    }
+
+    public void setDailyQuestionD(String optionD) {
+        this.optiond = optionD;
+    }
+
+    public String getSubmitDailyQuestion() {
+        return checkbtn;
+    }
+
+    public void setSubmitDailyQuestion(String SubmitAnswer) {
+        this.checkbtn = SubmitAnswer;
+    }
+
+    @Override
+    public BigDecimal getItemPrice() {
+        return null;
+    }
+
+    @Override
+    public String getItemName() {
+        return question;
+    }
+}

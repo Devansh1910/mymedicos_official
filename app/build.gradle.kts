@@ -93,7 +93,10 @@ dependencies {
     /* For Slider - End */
 
     implementation ("com.android.volley:volley:1.2.1")
+    //..
 
+    implementation ("com.airbnb.android:lottie:3.4.0")
+    //..
     implementation ("com.github.hishd:TinyCart:1.0.1")
     implementation ("com.github.delight-im:Android-AdvancedWebView:v3.2.1")
 }
