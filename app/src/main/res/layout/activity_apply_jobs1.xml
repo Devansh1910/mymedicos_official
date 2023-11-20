@@ -76,16 +76,16 @@
                 <EditText
                     android:id="@+id/cover"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:minHeight="@dimen/_90sdp"
+                    android:layout_height="91dp"
                     android:layout_marginTop="@dimen/_10sdp"
                     android:background="@drawable/spinner_back"
-                    android:hint="Cover letter"
                     android:gravity="top"
-                    android:paddingVertical="@dimen/_10ssp"
-                    android:paddingHorizontal="@dimen/_10sdp"
+                    android:hint="Cover letter"
+                    android:inputType="textMultiLine"
                     android:maxLength="2000"
-                    android:inputType="textMultiLine"/>
+                    android:minHeight="@dimen/_90sdp"
+                    android:paddingHorizontal="@dimen/_10sdp"
+                    android:paddingVertical="@dimen/_10ssp" />
 
                 <TextView
                     android:id="@+id/char_counter"
@@ -142,36 +142,53 @@
                 android:background="@drawable/spinner_back"
                 android:hint="if experience"
                 android:paddingStart="@dimen/_10sdp" />
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:orientation="horizontal">
+                <androidx.cardview.widget.CardView
+                    android:id="@+id/btnAccessStorage2"
+                    android:layout_width="95dp"
+                    android:layout_height="71dp"
+                    android:layout_marginTop="@dimen/_5ssp"
+                    android:backgroundTint="@color/white"
+                    android:elevation="4dp"
 
-            <androidx.cardview.widget.CardView
-                android:id="@+id/btnAccessStorage2"
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/_100sdp"
-                android:layout_marginTop="@dimen/_5ssp"
-                android:outlineSpotShadowColor="@color/white"
-                android:outlineAmbientShadowColor="@color/white"
-                android:backgroundTint="@color/white"
-                android:foreground="@drawable/dotted_border"
-                android:elevation="4dp"
-                android:padding="8dp">
-
-
-                <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:orientation="vertical">
+                    android:outlineAmbientShadowColor="@color/white"
+                    android:outlineSpotShadowColor="@color/white"
+                    android:padding="8dp">
 
 
-                    <ImageView
+                    <LinearLayout
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:src="@drawable/upload"
-                        android:layout_gravity="center"/>
+                        android:layout_gravity="center"
+                        android:orientation="vertical">
 
-                </LinearLayout>
 
-            </androidx.cardview.widget.CardView>
+                        <ImageView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:src="@drawable/upload" />
+
+                    </LinearLayout>
+
+                </androidx.cardview.widget.CardView>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Upload"
+                    android:textStyle="bold"
+
+                    android:textSize="@dimen/_17sdp"
+                    android:layout_gravity="center">
+
+                </TextView>
+            </LinearLayout>
+
+
 
             <Button
                 android:id="@+id/post_btn2"
@@ -181,6 +198,8 @@
                 android:layout_marginTop="@dimen/_5sdp"
                 android:fontFamily="@font/montserrat_medium"
                 android:text="Post" />
+
+
 
         </LinearLayout>
     </ScrollView>

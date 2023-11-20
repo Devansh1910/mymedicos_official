@@ -292,7 +292,7 @@
                 android:layout_weight="0.5"
                 android:layout_height="wrap_content"
                 android:padding="8dp"
-                android:backgroundTint="#000000"
+                android:backgroundTint="@color/green"
                 android:text="Apply Now"
                 android:textColor="#FFFFFF"
                 android:textSize="16sp" />
@@ -302,7 +302,7 @@
                 android:layout_weight="0.5"
                 android:layout_height="wrap_content"
                 android:padding="8dp"
-                android:backgroundTint="#000000"
+                android:backgroundTint="@color/green"
                 android:text="Applycant"
                 android:textColor="#FFFFFF"
                 android:textSize="16sp" />

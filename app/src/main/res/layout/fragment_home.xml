@@ -85,16 +85,16 @@
                             <LinearLayout
                                 android:layout_width="@dimen/_40sdp"
                                 android:layout_height="@dimen/_40sdp"
-                                android:background="@drawable/back1">
+                                >
 
 
                                 <ImageView
                                     android:id="@+id/cme_img1"
-                                    android:layout_width="@dimen/_25sdp"
-                                    android:layout_height="@dimen/_25sdp"
+                                    android:layout_width="52dp"
+                                    android:layout_height="52dp"
                                     android:layout_gravity="center"
-                                    android:layout_marginStart="@dimen/_8sdp"
-                                    android:src="@drawable/cmeicon" />
+                                    android:layout_marginStart="@dimen/_1sdp"
+                                    android:src="@drawable/cmeicon1" />
 
                             </LinearLayout>
 
@@ -104,6 +104,7 @@
                                 android:layout_gravity="center"
                                 android:layout_marginTop="@dimen/_5sdp"
                                 android:text="CME"
+                                android:textStyle="bold"
                                 android:textSize="@dimen/_10sdp"
                                 tools:ignore="TextSizeCheck" />
                         </LinearLayout>
@@ -120,15 +121,15 @@
                                 android:layout_width="@dimen/_40sdp"
                                 android:layout_height="@dimen/_40sdp"
                                 android:layout_gravity="center"
-                                android:background="@drawable/back2">
+                                >
 
                                 <ImageView
                                     android:id="@+id/pub_image"
-                                    android:layout_width="@dimen/_25sdp"
-                                    android:layout_height="@dimen/_25sdp"
+                                    android:layout_width="52dp"
+                                    android:layout_height="52dp"
                                     android:layout_gravity="center"
-                                    android:layout_marginStart="@dimen/_8sdp"
-                                    android:src="@drawable/publicationicon" />
+                                    android:layout_marginStart="@dimen/_1sdp"
+                                    android:src="@drawable/publicationicon1" />
                             </LinearLayout>
 
                             <TextView
@@ -136,6 +137,7 @@
                                 android:layout_height="wrap_content"
                                 android:layout_gravity="center"
                                 android:layout_marginTop="@dimen/_5sdp"
+                                android:textStyle="bold"
                                 android:text="Recent\nPublications"
                                 android:textAlignment="center"
                                 android:textSize="@dimen/_10ssp" />
@@ -152,15 +154,15 @@
                             <LinearLayout
                                 android:layout_width="@dimen/_40sdp"
                                 android:layout_height="@dimen/_40sdp"
-                                android:background="@drawable/back1">
+                                >
 
                                 <ImageView
                                     android:id="@+id/news_home"
-                                    android:layout_width="@dimen/_25sdp"
-                                    android:layout_height="@dimen/_25sdp"
+                                    android:layout_width="@dimen/_40sdp"
+                                    android:layout_height="40dp"
                                     android:layout_gravity="center"
-                                    android:layout_marginStart="@dimen/_8sdp"
-                                    android:src="@drawable/newsicon" />
+                                    android:layout_marginStart="@dimen/_1sdp"
+                                    android:src="@drawable/newsicon1" />
                             </LinearLayout>
 
                             <TextView
@@ -169,6 +171,7 @@
                                 android:layout_gravity="center"
                                 android:layout_marginTop="@dimen/_5sdp"
                                 android:text="Medical\nNews"
+                                android:textStyle="bold"
                                 android:textAlignment="center"
                                 android:textSize="@dimen/_10ssp" />
                         </LinearLayout>
@@ -184,15 +187,15 @@
                             <LinearLayout
                                 android:layout_width="@dimen/_40sdp"
                                 android:layout_height="@dimen/_40sdp"
-                                android:background="@drawable/back2">
+                              >
 
                                 <ImageView
                                     android:id="@+id/jobs_img"
-                                    android:layout_width="@dimen/_25sdp"
-                                    android:layout_height="@dimen/_25sdp"
+                                    android:layout_width="50dp"
+                                    android:layout_height="52dp"
                                     android:layout_gravity="center"
-                                    android:layout_marginStart="@dimen/_8sdp"
-                                    android:src="@drawable/jobicon" />
+                                    android:layout_marginStart="@dimen/_1sdp"
+                                    android:src="@drawable/job" />
                             </LinearLayout>
 
                             <TextView
@@ -201,6 +204,7 @@
                                 android:layout_gravity="center"
                                 android:layout_marginTop="@dimen/_5sdp"
                                 android:text="Jobs"
+                                android:textStyle="bold"
                                 android:textSize="@dimen/_10ssp" />
                         </LinearLayout>
 
@@ -225,16 +229,16 @@
                             <LinearLayout
                                 android:layout_width="@dimen/_40sdp"
                                 android:layout_height="@dimen/_40sdp"
-                                android:background="@drawable/back1">
+                            >
 
 
                                 <ImageView
                                     android:id="@+id/ugexams"
-                                    android:layout_width="wrap_content"
+                                    android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
-                                    android:padding="@dimen/_8ssp"
                                     android:layout_gravity="center"
-                                    android:src="@drawable/ugicon" />
+                                    android:padding="@dimen/_1sdp"
+                                    android:src="@drawable/ugicon1" />
 
                             </LinearLayout>
 
@@ -244,6 +248,7 @@
                                 android:layout_gravity="center"
                                 android:layout_marginTop="@dimen/_5sdp"
                                 android:text="UG exams"
+                                android:textStyle="bold"
                                 android:textSize="@dimen/_10sdp"
                                 tools:ignore="TextSizeCheck" />
                         </LinearLayout>
@@ -260,22 +265,21 @@
                                 android:layout_width="@dimen/_40sdp"
                                 android:layout_height="@dimen/_40sdp"
                                 android:layout_gravity="center"
-                                android:background="@drawable/back2">
+                               >
 
                                 <ImageView
                                     android:id="@+id/pg_prep"
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:padding="@dimen/_8ssp"
+                                    android:layout_width="@dimen/_40sdp"
+                                    android:layout_height="@dimen/_40sdp"
                                     android:layout_gravity="center"
-                                    android:src="@drawable/pgicon" />
+                                    android:src="@drawable/pgicon1" />
                             </LinearLayout>
 
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_gravity="center"
-                                android:layout_marginTop="@dimen/_5sdp"
+                               android:textStyle="bold"
                                 android:text="PG\nPreperation"
                                 android:textAlignment="center"
                                 android:textSize="@dimen/_10ssp" />
@@ -292,15 +296,15 @@
                             <LinearLayout
                                 android:layout_width="@dimen/_40sdp"
                                 android:layout_height="@dimen/_40sdp"
-                                android:background="@drawable/back1">
+                             >
 
                                 <ImageView
                                     android:id="@+id/university"
                                     android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:padding="@dimen/_8ssp"
+                                    android:layout_height="52dp"
+
                                     android:layout_gravity="center"
-                                    android:src="@drawable/universityicon" />
+                                    android:src="@drawable/universityicon1" />
                             </LinearLayout>
 
                             <TextView
@@ -309,6 +313,7 @@
                                 android:layout_gravity="center"
                                 android:layout_marginTop="@dimen/_5sdp"
                                 android:text="University\nUpdates"
+                                android:textStyle="bold"
                                 android:textAlignment="center"
                                 android:textSize="@dimen/_10ssp" />
                         </LinearLayout>
@@ -324,13 +329,13 @@
                             <LinearLayout
                                 android:layout_width="@dimen/_40sdp"
                                 android:layout_height="@dimen/_40sdp"
-                                android:background="@drawable/back2">
+                                >
 
                                 <ImageView
                                     android:id="@+id/meme"
-                                    android:layout_width="wrap_content"
+                                    android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
-                                    android:padding="@dimen/_8ssp"
+
                                     android:layout_gravity="center"
                                     android:src="@drawable/memeicon" />
                             </LinearLayout>
@@ -341,6 +346,7 @@
                                 android:layout_gravity="center"
                                 android:layout_marginTop="@dimen/_5sdp"
                                 android:text="Medical\nMemes"
+                                android:textStyle="bold"
                                 android:textSize="@dimen/_10ssp" />
                         </LinearLayout>
 
