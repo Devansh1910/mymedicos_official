@@ -23,40 +23,20 @@ import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 import androidx.viewpager2.adapter.FragmentStateAdapter;
 import androidx.viewpager2.widget.ViewPager2;
 
-import com.android.volley.Request;
-import com.android.volley.RequestQueue;
-import com.android.volley.toolbox.StringRequest;
-import com.android.volley.toolbox.Volley;
 import com.example.my_medicos.activities.cme.fragment.OngoingFragment;
 import com.example.my_medicos.activities.cme.fragment.PastFragment;
 import com.example.my_medicos.R;
 import com.example.my_medicos.activities.cme.fragment.UpcomingFragment;
-import com.example.my_medicos.activities.cme.utils.ConstantsDashboard;
-import com.example.my_medicos.databinding.ActivityCmeBinding;
 import com.example.my_medicos.list.subSpecialitiesData;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.tabs.TabLayout;
 import com.google.android.material.tabs.TabLayoutMediator;
 import com.google.firebase.firestore.FirebaseFirestore;
 
-import org.imaginativeworld.whynotimagecarousel.model.CarouselItem;
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-
 public class CmeActivity extends AppCompatActivity {
-
-    ActivityCmeBinding binding;
-    String field1;
-    String  field2,email,Date,Time1,venue;
-    String field3;
-    String field4;
     FloatingActionButton floatingActionButton;
     Button OK;
     RecyclerView recyclerView;
-//    RecyclerView recyclerView3;
-//    RecyclerView recyclerView2;
-//    RecyclerView recyclerView4;
     private ViewPager2 pager,viewpager;
     private TabLayout tabLayout;
     private Spinner specialitySpinner;
@@ -73,11 +53,8 @@ public class CmeActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_cme);
-
-
         viewpager = findViewById(R.id.view_pager1);
-        viewpager.setAdapter(new ViewPagerAdapter(this)); // Make sure to initialize the ViewPager2 before using it
-
+        viewpager.setAdapter(new ViewPagerAdapter(this));
         swipeRefreshLayout = findViewById(R.id.swipe_refresh_layout);
         swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
@@ -86,14 +63,11 @@ public class CmeActivity extends AppCompatActivity {
                 swipeRefreshLayout.setRefreshing(false);
             }
         });
-
         toolbar = findViewById(R.id.cmetoolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-
         pager = findViewById(R.id.view_pager);
         tabLayout = findViewById(R.id.tablayout);
-
         new TabLayoutMediator(tabLayout, viewpager, (tab, position) -> {
             switch (position) {
                 case 0:
@@ -107,9 +81,6 @@ public class CmeActivity extends AppCompatActivity {
                     break;
             }
         }).attach();
-
-// Existing code...
-
         specialitySpinner = findViewById(R.id.speciality);
         subspecialitySpinner = findViewById(R.id.subspeciality);
 
@@ -147,6 +118,7 @@ public class CmeActivity extends AppCompatActivity {
             public void onNothingSelected(AdapterView<?> adapterView) {
             }
         });
+
         specialitySpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int position, long l) {
@@ -196,8 +168,6 @@ public class CmeActivity extends AppCompatActivity {
         pager.setAdapter(new ViewPagerAdapter(this));
         fetchData();
 
-        initCmeSlider();
-
     }
     public void fetchData() {
         recyclerView = findViewById(R.id.cme_recyclerview1);
@@ -213,35 +183,6 @@ public class CmeActivity extends AppCompatActivity {
             }
         });
     }
-
-    private void initCmeSlider() {
-        getCmeSliders();
-    }
-
-    void getCmeSliders() {
-        RequestQueue queue = Volley.newRequestQueue(this);
-
-        StringRequest request = new StringRequest(Request.Method.GET, ConstantsDashboard.GET_CME_SLIDER_URL, response -> {
-            try {
-                JSONArray homesliderArray = new JSONArray(response);
-                for (int i = 0; i < homesliderArray.length(); i++) {
-                    JSONObject childObj = homesliderArray.getJSONObject(i);
-                    binding.cmecarousel.addData(
-                            new CarouselItem(
-                                    childObj.getString("url"),
-                                    childObj.getString("action")
-                            )
-                    );
-                }
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
-        }, error -> {
-            // Handle error if needed
-        });
-        queue.add(request);
-    }
-
     class ViewPagerAdapter extends FragmentStateAdapter {
         public ViewPagerAdapter(@NonNull FragmentActivity fragmentActivity) {
             super(fragmentActivity);

@@ -2,33 +2,46 @@
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="@color/white"
     android:layout_height="match_parent"
     tools:context=".activities.home.fragments.ClubFragment">
 
     <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_gravity="center"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_gravity="center"
         android:orientation="vertical"
-        tools:ignore="UselessParent">
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
 
-        <VideoView
-            android:id="@+id/underconstructionid"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"/>
+        <com.airbnb.lottie.LottieAnimationView
+            android:id="@+id/underconstructionanim"
+            android:layout_width="300dp"
+            android:layout_height="300dp"
+            app:lottie_autoPlay="true"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:lottie_loop="true"
+            app:lottie_rawRes="@raw/uc"
+            app:lottie_speed="1" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textStyle="bold"
-            android:textAlignment="center"
-            android:textSize="@dimen/_16ssp"
             android:layout_gravity="center"
             android:gravity="center"
-            android:text="@string/this_feature_is_nunder_construction"/>
+            android:text="This feature is\nUnder Construction"
+            android:textAlignment="center"
+            android:textSize="@dimen/_16ssp"
+            android:textStyle="bold" />
 
 
     </LinearLayout>
+
 
 </FrameLayout>

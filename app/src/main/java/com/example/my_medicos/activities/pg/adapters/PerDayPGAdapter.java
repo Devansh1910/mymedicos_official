@@ -160,14 +160,19 @@ public class PerDayPGAdapter extends RecyclerView.Adapter<PerDayPGAdapter.DailyQ
     private void showCorrectAnswerPopup() {
         // Launch the CorrectAnswerActivity using Intent
         Intent intent = new Intent(context, CorrectAnswerActivity.class);
+        // Add FLAG_ACTIVITY_CLEAR_TOP flag
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         context.startActivity(intent);
     }
 
     private void showWrongAnswerPopup() {
-        // Launch the CorrectAnswerActivity using Intent
+        // Launch the WrongAnswerActivity using Intent
         Intent intent = new Intent(context, WrongAnswerActivity.class);
+        // Add FLAG_ACTIVITY_CLEAR_TOP flag
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         context.startActivity(intent);
     }
+
 
     private void showToast(String message) {
         Toast.makeText(context, message, Toast.LENGTH_SHORT).show();

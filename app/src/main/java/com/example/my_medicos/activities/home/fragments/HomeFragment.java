@@ -14,11 +14,19 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
 import com.example.my_medicos.activities.memes.MemeActivity;
+import com.example.my_medicos.activities.news.News;
 import com.example.my_medicos.activities.news.NewsActivity;
+import com.example.my_medicos.activities.news.NewsAdapter;
+import com.example.my_medicos.activities.utils.ConstantsDashboard;
 import com.example.my_medicos.adapter.job.MyAdapter;
 import com.example.my_medicos.adapter.cme.MyAdapter2;
 import com.example.my_medicos.R;
@@ -27,14 +35,20 @@ import com.example.my_medicos.activities.job.JobsActivity;
 import com.example.my_medicos.activities.pg.activites.PgprepActivity;
 import com.example.my_medicos.activities.publications.activity.PublicationActivity;
 import com.example.my_medicos.activities.ug.UgExamActivity;
-import com.example.my_medicos.activities.university.UniversityupdatesActivity;
+import com.example.my_medicos.activities.university.activity.UniversityActivity;
 import com.example.my_medicos.adapter.cme.items.cmeitem1;
 import com.example.my_medicos.adapter.job.items.jobitem;
+import com.example.my_medicos.databinding.FragmentHomeBinding;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
+
+import org.imaginativeworld.whynotimagecarousel.model.CarouselItem;
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -42,6 +56,7 @@ import java.util.Map;
 
 public class HomeFragment extends Fragment {
 
+    private FragmentHomeBinding binding; // Declare binding variable
     ImageView jobs,cme,news,publication,update,pg_prep,ugexams,meme;
     MyAdapter adapterjob;
     MyAdapter2 adaptercme;
@@ -53,7 +68,8 @@ public class HomeFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View rootView = inflater.inflate(R.layout.fragment_home, container, false);
+        binding = FragmentHomeBinding.inflate(inflater, container, false);
+        View rootView = binding.getRoot();
 
         recyclerViewjob = rootView.findViewById(R.id.recyclerview_job1);
 
@@ -82,7 +98,7 @@ public class HomeFragment extends Fragment {
         update.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent i =new Intent(getActivity(), UniversityupdatesActivity.class);
+                Intent i =new Intent(getActivity(), UniversityActivity.class);
                 startActivity(i);
             }
         });
@@ -242,12 +258,37 @@ public class HomeFragment extends Fragment {
                 startActivity(i);
             }
         });
-
+        initHomeSlider();
 
         return rootView;
+    }
+    void getsliderHome() {
+        RequestQueue queue = Volley.newRequestQueue(requireContext()); // Use requireContext()
 
+        StringRequest request = new StringRequest(Request.Method.GET, ConstantsDashboard.GET_HOME_SLIDER_URL, response -> {
+            try {
+                JSONArray newssliderArray = new JSONArray(response);
+                for (int i = 0; i < newssliderArray.length(); i++) {
+                    JSONObject childObj = newssliderArray.getJSONObject(i);
+                    binding.homecarousel.addData(
+                            new CarouselItem(
+                                    childObj.getString("url"),
+                                    childObj.getString("action")
+                            )
+                    );
+                }
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        }, error -> {
+            // Handle error if needed
+        });
 
+        queue.add(request);
+    }
 
+    private void initHomeSlider() {
+        getsliderHome();
     }
 
 

@@ -4,16 +4,12 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.GridLayoutManager;
 
 import android.os.Bundle;
-import android.util.Log;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
-import com.example.my_medicos.activities.cme.utils.ConstantsDashboard;
-import com.example.my_medicos.activities.publications.adapters.ProductAdapter;
-import com.example.my_medicos.activities.publications.model.Product;
-import com.example.my_medicos.activities.publications.utils.Constants;
+import com.example.my_medicos.activities.utils.ConstantsDashboard;
 import com.example.my_medicos.databinding.ActivityNewsBinding;
 
 import org.imaginativeworld.whynotimagecarousel.model.CarouselItem;
@@ -75,25 +71,24 @@ public class  NewsActivity extends AppCompatActivity {
     void getSliderNews() {
         RequestQueue queue = Volley.newRequestQueue(this);
 
-        StringRequest request = new StringRequest(Request.Method.GET, ConstantsDashboard.GET_NEWS, response -> {
+        StringRequest request = new StringRequest(Request.Method.GET, ConstantsDashboard.GET_NEWS_SLIDER_URL, response -> {
             try {
-                JSONObject object = new JSONObject(response);
-                if(object.getString("status").equals("success")) {
-                    JSONArray offerArray = object.getJSONArray("news");
-                    for(int i =0; i < offerArray.length(); i++) {
-                        JSONObject childObj =  offerArray.getJSONObject(i);
-                        binding.newscarousel.addData(
-                                new CarouselItem(
-                                        childObj.getString("thumbnail"),
-                                        childObj.getString("Title")
-                                )
-                        );
-                    }
+                JSONArray newssliderArray = new JSONArray(response);
+                for (int i = 0; i < newssliderArray.length(); i++) {
+                    JSONObject childObj = newssliderArray.getJSONObject(i);
+                    binding.newscarousel.addData(
+                            new CarouselItem(
+                                    childObj.getString("url"),
+                                    childObj.getString("action")
+                            )
+                    );
                 }
             } catch (JSONException e) {
                 e.printStackTrace();
             }
-        }, error -> {});
+        }, error -> {
+            // Handle error if needed
+        });
         queue.add(request);
     }
 

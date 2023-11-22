@@ -12,26 +12,24 @@ import com.example.my_medicos.activities.pg.activites.PgprepActivity;
 
 public class WrongAnswerActivity extends AppCompatActivity {
 
-    LottieAnimationView wronganim, wrong;
+    LottieAnimationView wrong;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_wrong_answer);
 
-//        wronganim = findViewById(R.id.wronganswer);
         wrong = findViewById(R.id.wronganime);
 
-
-//        wronganim.animate().translationY(0).setDuration(2000).setStartDelay(0);
         wrong.animate().translationY(0).setDuration(2000).setStartDelay(0);
 
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
-                Intent i = new Intent(getApplicationContext(), PgprepActivity.class);
-                startActivity(i);
-                finish(); // Close this activity to prevent it from being in the back stack
+                Intent intent = new Intent(getApplicationContext(), PgprepActivity.class);
+                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
+                startActivity(intent);
+                finish();
             }
         }, 1800);
     }

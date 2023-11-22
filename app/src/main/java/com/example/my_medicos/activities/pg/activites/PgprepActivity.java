@@ -16,7 +16,7 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
-import com.example.my_medicos.activities.cme.utils.ConstantsDashboard;
+import com.example.my_medicos.activities.utils.ConstantsDashboard;
 import com.example.my_medicos.activities.pg.activites.insiders.SpecialityPGInsiderActivity;
 import com.example.my_medicos.activities.pg.adapters.PerDayPGAdapter;
 import com.example.my_medicos.activities.pg.adapters.QuestionBanksPGAdapter;
@@ -26,7 +26,6 @@ import com.example.my_medicos.activities.pg.model.PerDayPG;
 import com.example.my_medicos.activities.pg.model.QuestionsPG;
 import com.example.my_medicos.activities.pg.model.SpecialitiesPG;
 import com.example.my_medicos.activities.pg.model.VideoPG;
-import com.example.my_medicos.activities.publications.activity.insiders.CategoryPublicationInsiderActivity;
 import com.example.my_medicos.activities.publications.adapters.ProductAdapter;
 import com.example.my_medicos.activities.publications.model.Product;
 import com.example.my_medicos.activities.publications.utils.Constants;
@@ -99,25 +98,24 @@ public class  PgprepActivity extends AppCompatActivity {
     void getRecentPgSlider() {
         RequestQueue queue = Volley.newRequestQueue(this);
 
-        StringRequest request = new StringRequest(Request.Method.GET, Constants.GET_OFFERS_URL, response -> {
+        StringRequest request = new StringRequest(Request.Method.GET, ConstantsDashboard.GET_PG_SLIDER_URL, response -> {
             try {
-                JSONObject object = new JSONObject(response);
-                if(object.getString("status").equals("success")) {
-                    JSONArray offerArray = object.getJSONArray("news_infos");
-                    for(int i =0; i < offerArray.length(); i++) {
-                        JSONObject childObj =  offerArray.getJSONObject(i);
-                        binding.carousel.addData(
-                                new CarouselItem(
-                                        Constants.NEWS_IMAGE_URL + childObj.getString("image"),
-                                        childObj.getString("title")
-                                )
-                        );
-                    }
+                JSONArray pgsliderArray = new JSONArray(response);
+                for (int i = 0; i < pgsliderArray.length(); i++) {
+                    JSONObject childObj = pgsliderArray.getJSONObject(i);
+                    binding.carousel.addData(
+                            new CarouselItem(
+                                    childObj.getString("url"),
+                                    childObj.getString("action")
+                            )
+                    );
                 }
             } catch (JSONException e) {
                 e.printStackTrace();
             }
-        }, error -> {});
+        }, error -> {
+            // Handle error if needed
+        });
         queue.add(request);
     }
 

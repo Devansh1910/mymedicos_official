@@ -53,7 +53,7 @@ public class UgHomeFragment extends Fragment {
         List<ugitem1> items = new ArrayList<>();
 
         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
-            Query query = db.collection("UG");
+            Query query = db.collection("UGConfirm");
 
             query.get()
                     .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {

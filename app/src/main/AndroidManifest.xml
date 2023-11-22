@@ -50,6 +50,9 @@
             android:name=".activities.publications.activity.insiders.CategoryPublicationInsiderActivity"
             android:exported="false" />
         <activity
+            android:name=".activities.university.activity.insiders.UniversitiesInsiderActivity"
+            android:exported="false" />
+        <activity
             android:name=".activities.news.NewsActivity"
             android:exported="false" />
         <activity
@@ -113,7 +116,7 @@
             android:name=".activities.pg.activites.PgprepActivity"
             android:exported="false" />
         <activity
-            android:name=".activities.university.UniversityupdatesActivity"
+            android:name=".activities.university.activity.UniversityActivity"
             android:exported="false" />
         <activity
             android:name=".activities.cme.PostCmeActivity"

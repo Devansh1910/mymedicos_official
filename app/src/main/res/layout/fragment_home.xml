@@ -36,32 +36,20 @@
                         android:layout_marginHorizontal="@dimen/_10ssp"
                         app:cardCornerRadius="@dimen/_15ssp">
 
-                        <ViewFlipper
+                        <androidx.cardview.widget.CardView
                             android:layout_width="match_parent"
-                            android:layout_height="@dimen/_140sdp"
-                            android:autoStart="true"
-                            android:layout_marginHorizontal="@dimen/_5ssp"
-                            android:flipInterval="2000">
+                            android:layout_height="wrap_content"
+                            app:cardCornerRadius="10dp">
 
-                            <ImageView
+                            <org.imaginativeworld.whynotimagecarousel.ImageCarousel
+                                android:id="@+id/homecarousel"
                                 android:layout_width="match_parent"
-                                android:layout_height="match_parent"
-                                android:src="@drawable/firstimagehome"
-                                android:scaleType="centerCrop"/>
+                                android:layout_height="150dp"
+                                app:showNavigationButtons="false"
+                                app:showCaption="false"
+                                app:autoPlay="true"/>
 
-                            <ImageView
-                                android:layout_width="match_parent"
-                                android:layout_height="match_parent"
-                                android:src="@drawable/secondimagehome"
-                                android:scaleType="centerCrop"/>
-
-                            <ImageView
-                                android:layout_width="match_parent"
-                                android:layout_height="match_parent"
-                                android:src="@drawable/thirdimagehome"
-                                android:scaleType="centerCrop"/>
-
-                        </ViewFlipper>
+                        </androidx.cardview.widget.CardView>
 
 
                     </androidx.cardview.widget.CardView>

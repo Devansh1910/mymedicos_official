@@ -11,12 +11,12 @@
     android:layout_height="match_parent"
     tools:context=".activities.login.EnterOtp">
 
-            <ImageView
-                android:layout_width="@dimen/_200sdp"
-                android:src="@drawable/otpdoctor"
-                android:layout_marginVertical="@dimen/_20sdp"
-                android:scaleType="centerCrop"
-                android:layout_height="@dimen/_200sdp"/>
+    <ImageView
+        android:layout_width="182dp"
+        android:layout_height="301dp"
+        android:layout_marginVertical="@dimen/_20sdp"
+        android:scaleType="centerCrop"
+        android:src="@drawable/we" />
 
             <TextView
                 android:layout_width="wrap_content"

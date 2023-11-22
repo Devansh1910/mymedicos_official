@@ -69,12 +69,10 @@ public class MainActivity extends AppCompatActivity {
                     return;
                 }
 
-                // Add the country code if not present
                 if (!phoneNumber.startsWith("+91")) {
-                    phoneNumber = "+91" + phoneNumber; // Replace +91 with your country code
+                    phoneNumber = "+91" + phoneNumber;
                 }
 
-                // Check if the user is already registered
                 checkIfUserExists(phoneNumber);
             }
         });
@@ -89,7 +87,6 @@ public class MainActivity extends AppCompatActivity {
                     public void onComplete(@NonNull Task<QuerySnapshot> task) {
                         if (task.isSuccessful()) {
                             if (task.getResult() != null && !task.getResult().isEmpty()) {
-                                // User exists, proceed with verification
                                 mdialog.setMessage("Logging in");
                                 mdialog.show();
 
@@ -116,14 +113,13 @@ public class MainActivity extends AppCompatActivity {
                                                 mdialog.dismiss();
                                                 Intent intent = new Intent(MainActivity.this, EnterOtp.class);
                                                 intent.putExtra("mobile", finalPhoneNumber);
-                                                intent.putExtra("Countrycode", "+91"); // Replace with your country code
+                                                intent.putExtra("Countrycode", "+91");
                                                 intent.putExtra("backendotp", backendOtp);
                                                 startActivity(intent);
                                             }
                                         }
                                 );
                             } else {
-                                // User not registered, show toast and redirect to registration activity
                                 Toast.makeText(MainActivity.this, "Not Registered", Toast.LENGTH_SHORT).show();
                                 Intent intent = new Intent(MainActivity.this, RegisterActivity.class);
                                 startActivity(intent);

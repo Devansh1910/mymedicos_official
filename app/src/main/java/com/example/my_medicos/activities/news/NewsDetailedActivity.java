@@ -18,7 +18,7 @@ import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.bumptech.glide.Glide;
 import com.example.my_medicos.R;
-import com.example.my_medicos.activities.cme.utils.ConstantsDashboard;
+import com.example.my_medicos.activities.utils.ConstantsDashboard;
 import com.example.my_medicos.activities.publications.activity.CartPublicationActivity;
 import com.example.my_medicos.databinding.ActivityNewsDetailedBinding;
 import com.hishd.tinycart.model.Cart;
