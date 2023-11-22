@@ -2,13 +2,17 @@
     android:width="343dp"
     android:height="44dp"
     android:viewportWidth="343"
+
     android:viewportHeight="44">
   <path
-      android:pathData="M0,0h343v44h-343z"
-      android:fillColor="#CDFDF1"/>
+      android:pathData="M0,14C0,6.27 6.27,0 14,0H329C336.73,0 343,6.27 343,14V44H0V14Z"
+      android:fillColor="#EBFFFA"/>
   <path
       android:pathData="M8,37.75L335,37.75"
       android:strokeWidth="0.5"
       android:fillColor="#00000000"
-      android:strokeColor="#C6C6C8"/>
+      android:strokeColor="#C6C6C8"
+
+      />
+
 </vector>

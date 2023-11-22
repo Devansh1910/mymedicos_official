@@ -107,7 +107,7 @@
             <EditText
                 android:id="@+id/email1"
                 android:layout_width="match_parent"
-                android:background="@drawable/back6"
+                android:background="@drawable/spinner_back"
                 android:paddingStart="@dimen/_10sdp"
                 android:layout_height="50dp"
                 android:hint="Phone number"
@@ -117,7 +117,7 @@
                 android:id="@+id/phonenumber"
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
-                android:background="@drawable/back6"
+                android:background="@drawable/spinner_back"
                 android:paddingStart="@dimen/_10sdp"
                 android:textSize="@dimen/_14ssp"
                 android:layout_marginTop="20dp"
@@ -144,7 +144,7 @@
                     android:layout_marginStart="@dimen/_8ssp"
                     android:layout_height="wrap_content"
                     android:padding="@dimen/_10ssp"
-                    android:background="@drawable/back6"/>
+                    android:background="@drawable/spinner_back"/>
 
             </LinearLayout>
 
@@ -155,7 +155,7 @@
                 android:gravity="bottom"
                 android:textSize="@dimen/_14ssp"
                 android:padding="@dimen/_8ssp"
-                android:background="@drawable/back6"
+                android:background="@drawable/spinner_back"
                 android:hint="Present Address (Optional)"/>
 
             <LinearLayout
@@ -186,7 +186,7 @@
                 android:gravity="bottom"
                 android:textSize="@dimen/_14ssp"
                 android:padding="@dimen/_8ssp"
-                android:background="@drawable/back6"
+                android:background="@drawable/spinner_back"
                 android:hint="Permanent Address (Optional)"/>
 
             <LinearLayout
@@ -215,7 +215,7 @@
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/age1"
                 android:layout_width="match_parent"
-                android:background="@drawable/back6"
+                android:background="@drawable/spinner_back"
                 android:paddingStart="@dimen/_10sdp"
                 android:layout_height="50dp"
                 android:hint="Enter Age"
@@ -295,7 +295,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/_5ssp"
-                android:backgroundTint="@color/black"
+                android:backgroundTint="@color/green"
                 android:hint="Submit"
                 android:onClick="submitButton"
                 android:textColorHint="#FFFFFF" />
