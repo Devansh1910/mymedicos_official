@@ -76,7 +76,7 @@ public class  PublicationActivity extends AppCompatActivity {
         binding.totheccart.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startActivity(new Intent(PublicationActivity.this, CartPublicationActivity.class));
+                startActivity(new Intent(PublicationActivity.this, UserContentActivity.class));
             }
         });
     }
@@ -95,7 +95,6 @@ public class  PublicationActivity extends AppCompatActivity {
         binding.categoriesList.setLayoutManager(layoutManager);
         binding.categoriesList.setAdapter(categoryAdapter);
     }
-
     void getCategories() {
         RequestQueue queue = Volley.newRequestQueue(this);
 
@@ -121,8 +120,6 @@ public class  PublicationActivity extends AppCompatActivity {
                             categories.add(category);
                         }
 
-                        // If there are more than 5 categories, add a "More" category
-                        // Inside the if statement
                         if (categoriesArray.length() > 5) {
                             Category moreCategory = new Category(
                                     "More",
@@ -136,7 +133,6 @@ public class  PublicationActivity extends AppCompatActivity {
 
                         categoryAdapter.notifyDataSetChanged();
 
-// Add click listener to RecyclerView items
                         binding.categoriesList.addOnItemTouchListener(new RecyclerView.OnItemTouchListener() {
                             @Override
                             public boolean onInterceptTouchEvent(@NonNull RecyclerView rv, @NonNull MotionEvent e) {
@@ -150,27 +146,19 @@ public class  PublicationActivity extends AppCompatActivity {
                                         Intent intent = new Intent(PublicationActivity.this, CategoryPublicationInsiderActivity.class);
                                         startActivity(intent);
                                     } else {
-                                        // Handle the click for other categories as needed
-                                        // For example, you might want to redirect to a different activity or perform some other action
-                                        // based on the selected category.
+
                                     }
                                 }
-
                                 return false;
                             }
-
                             @Override
                             public void onTouchEvent(@NonNull RecyclerView rv, @NonNull MotionEvent e) {}
 
                             @Override
                             public void onRequestDisallowInterceptTouchEvent(boolean disallowIntercept) {}
                         });
-
-
-
                         categoryAdapter.notifyDataSetChanged();
                     } else {
-                        // DO nothing
                     }
                 } catch (JSONException e) {
                     e.printStackTrace();

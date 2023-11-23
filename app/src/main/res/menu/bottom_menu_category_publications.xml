@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:title="Text Books"
+        android:icon="@drawable/bookicon"
+        android:id="@+id/textbooks">
+    </item>
+
+    <item
+        android:title="Research Papers"
+        android:icon="@drawable/outline_groups_24"
+        android:id="@+id/research">
+    </item>
+
+    <item
+        android:title="Paid Content"
+        android:icon="@drawable/paid"
+        android:id="@+id/paidbooks">
+    </item>
+
+    <item
+        android:title="Free Books"
+        android:icon="@drawable/baseline_person_outline_24"
+        android:id="@+id/freebooks">
+    </item>
+</menu>

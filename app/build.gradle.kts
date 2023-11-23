@@ -99,5 +99,7 @@ dependencies {
     //..
     implementation ("com.github.hishd:TinyCart:1.0.1")
     implementation ("com.github.delight-im:Android-AdvancedWebView:v3.2.1")
-    //...
+    //...Bottom navigation bar
+    implementation("com.exyte:animated-navigation-bar:1.0.0")
+
 }

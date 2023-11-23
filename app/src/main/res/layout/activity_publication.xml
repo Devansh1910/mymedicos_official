@@ -52,7 +52,7 @@
                         android:id="@+id/cart_title"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Cart"
+                        android:text="Content"
                         android:textStyle="bold"
                         android:textColor="#000"
                         android:gravity="center"
@@ -65,8 +65,9 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:gravity="center"
+                        android:layout_marginStart="@dimen/_5ssp"
                         android:layout_gravity="center"
-                        android:src="@drawable/cart"
+                        android:src="@drawable/bookicon"
                         android:contentDescription="@null"/>
 
                 </LinearLayout>

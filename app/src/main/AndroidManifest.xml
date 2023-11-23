@@ -27,6 +27,9 @@
         tools:replace="android:label"
         tools:targetApi="31">
         <activity
+            android:name=".activities.publications.activity.UserContentActivity"
+            android:exported="false" />
+        <activity
             android:name=".activities.pg.animations.WrongAnswerActivity"
             android:exported="false" />
         <activity
@@ -127,7 +130,6 @@
         <activity
             android:name=".activities.job.category.JobsApplyActivity2"
             android:exported="false" />
-
         <activity
             android:name=".activities.cme.CmeActivity"
             android:exported="false" /> <!-- <activity -->
