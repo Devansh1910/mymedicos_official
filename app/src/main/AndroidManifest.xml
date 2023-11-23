@@ -128,6 +128,9 @@
             android:name=".activities.job.JobsActivity2"
             android:exported="false" />
         <activity
+            android:name=".activities.job.JobsApplycantActivty"
+            android:exported="false" />
+        <activity
             android:name=".activities.job.category.JobsApplyActivity2"
             android:exported="false" />
         <activity
@@ -153,6 +156,9 @@
             android:parentActivityName=".activities.home.HomeActivity" />
         <activity
             android:name=".activities.home.HomeActivity"
+            android:exported="false" />
+        <activity
+            android:name=".activities.utils.ConstantsDashboard"
             android:exported="false" />
         <activity
             android:name=".activities.login.GetstartedActivity"

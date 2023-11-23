@@ -61,15 +61,15 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
             date = itemView.findViewById(R.id.job_date);
             apply = itemView.findViewById(R.id.Apply);
             cat = itemView.findViewById(R.id.Category);
-            apply.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    Context context = view.getContext();
-                    Intent j=new Intent(context, JobsApplyActivity.class);
-                    j.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                    context.startActivity(j);
-                }
-            });
+//            apply.setOnClickListener(new View.OnClickListener() {
+//                @Override
+//                public void onClick(View view) {
+//                    Context context = view.getContext();
+//                    Intent j=new Intent(context, JobsApplyActivity.class);
+//                    j.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+//                    context.startActivity(j);
+//                }
+//            });
         }
     }
 }

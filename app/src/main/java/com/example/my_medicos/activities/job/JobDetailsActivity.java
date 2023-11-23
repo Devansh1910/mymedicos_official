@@ -9,6 +9,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -49,7 +50,7 @@ public class JobDetailsActivity extends AppCompatActivity {
     String receivedData,documentid;
     FirebaseAuth auth = FirebaseAuth.getInstance();
     FirebaseUser user = auth.getCurrentUser();
-    String current=user.getEmail();
+    String current=user.getPhoneNumber();
 
     @SuppressLint("MissingInflatedId")
     @Override
@@ -79,22 +80,31 @@ public class JobDetailsActivity extends AppCompatActivity {
 
 
         Button apply=findViewById(R.id.applyButton);
+        LinearLayout applylinear=findViewById(R.id.applylinear);
+
         Button applycant=findViewById(R.id.applycant);
-        if (receivedData==current){
+        apply.setVisibility(View.GONE);
+        applycant.setVisibility(View.GONE);
+        Log.d("received data",receivedData);
+        int r=receivedData.compareTo(current);
+        Log.d("received data1",receivedData);
+        if (r==0){
             apply.setVisibility(View.GONE);
             applycant.setVisibility(View.VISIBLE);
             applycant.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
                     Context context = view.getContext();
-                    Intent j=new Intent(context, JobsApplyActivity.class);
+                    Intent j=new Intent(context, JobsApplycantActivty.class);
                     j.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                     j.putExtra("user",receivedData);
+                    j.putExtra("documentid",documentid);
                     context.startActivity(j);
                 }
             });
 
         }
+
         else{
             apply.setVisibility(View.VISIBLE);
             applycant.setVisibility(View.GONE);
@@ -105,6 +115,7 @@ public class JobDetailsActivity extends AppCompatActivity {
                     Intent j=new Intent(context, JobsApplyActivity.class);
                     j.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                     j.putExtra("user",receivedData);
+                    j.putExtra("documentid",documentid);
                     context.startActivity(j);
                 }
             });

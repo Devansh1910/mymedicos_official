@@ -57,6 +57,7 @@ public class JobsApplyActivity extends AppCompatActivity {
     String subspecialities1;
     public DatabaseReference cmeref = db.getReference().child("JOBsApply");
     private ProgressDialog progressDialog;
+    String documentid;
 
     static final int REQUEST_STORAGE_PERMISSION = 1;
     static final int REQUEST_STORAGE_ACCESS = 2;
@@ -83,6 +84,7 @@ public class JobsApplyActivity extends AppCompatActivity {
         Intent intent = getIntent();
         if (intent != null) {
             receivedData = intent.getStringExtra("user");
+            documentid = intent.getStringExtra("documentid");
 
         }
         dc.collection("users").get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
@@ -208,7 +210,7 @@ public class JobsApplyActivity extends AppCompatActivity {
         usermap.put("cover", cover);
         usermap.put("User", current);
         usermap.put("Experienced", "mode");
-        usermap.put("Jobid",receivedData);
+        usermap.put("Jobid",documentid);
         Log.d(receivedData,"abcdef");
         dc.collection("JOBsApply")
                 .add(usermap)
