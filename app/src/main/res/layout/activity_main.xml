@@ -34,37 +34,38 @@
         android:id="@+id/cardView2"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginHorizontal="@dimen/_15sdp"
-        app:cardBackgroundColor="#ABFDE8"
+        android:layout_marginHorizontal="@dimen/_10sdp"
         android:layout_marginVertical="@dimen/_20sdp"
+        app:cardBackgroundColor="#ABFDE8"
         app:cardCornerRadius="@dimen/_10sdp"
+        app:layout_constraintBottom_toTopOf="@+id/linearLayout2"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/logintoolbar_container">
 
         <ViewFlipper
             android:layout_width="match_parent"
-            android:layout_height="@dimen/_140sdp"
+            android:layout_height="@dimen/_170sdp"
             android:autoStart="true"
             android:flipInterval="2000">
 
             <ImageView
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:scaleType="centerCrop"
-                android:src="@drawable/loginimagea" />
+                android:src="@drawable/slidee" />
 
             <ImageView
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:scaleType="centerCrop"
-                android:src="@drawable/loginimageb" />
+                android:src="@drawable/slideee" />
 
             <ImageView
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:scaleType="centerCrop"
-                android:src="@drawable/loginimagec" />
+                android:src="@drawable/firstslide" />
 
         </ViewFlipper>
 

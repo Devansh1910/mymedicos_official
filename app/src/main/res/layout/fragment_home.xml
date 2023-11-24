@@ -3,8 +3,11 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@drawable/rectangle"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".activities.home.fragments.HomeFragment">
+
+
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
@@ -56,9 +59,13 @@
 
                     <GridLayout
                         android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:columnCount="4"
+                        android:layout_height="wrap_content"
                         android:layout_gravity="center"
+                        android:layout_margin="@dimen/_10sdp"
+                        android:padding="@dimen/_8sdp"
+                        android:columnCount="4"
+                        android:background="@drawable/mainbackground"
+                        android:elevation="@dimen/_10sdp"
                         android:orientation="horizontal"
                         android:rowCount="2">
 
@@ -210,8 +217,8 @@
                                     android:id="@+id/ugexams"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
-                                    android:padding="@dimen/_8ssp"
                                     android:layout_gravity="center"
+                                    android:padding="@dimen/_8ssp"
                                     android:src="@drawable/ugicon" />
 
                             </LinearLayout>
@@ -244,8 +251,8 @@
                                     android:id="@+id/pg_prep"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
-                                    android:padding="@dimen/_8ssp"
                                     android:layout_gravity="center"
+                                    android:padding="@dimen/_8ssp"
                                     android:src="@drawable/pgicon" />
                             </LinearLayout>
 
@@ -276,8 +283,8 @@
                                     android:id="@+id/university"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
-                                    android:padding="@dimen/_8ssp"
                                     android:layout_gravity="center"
+                                    android:padding="@dimen/_8ssp"
                                     android:src="@drawable/universityicon" />
                             </LinearLayout>
 
@@ -308,8 +315,8 @@
                                     android:id="@+id/meme"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
-                                    android:padding="@dimen/_8ssp"
                                     android:layout_gravity="center"
+                                    android:padding="@dimen/_8ssp"
                                     android:src="@drawable/memeicon" />
                             </LinearLayout>
 
@@ -327,7 +334,9 @@
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:paddingTop="@dimen/_5ssp"
+                        android:layout_margin="@dimen/_8sdp"
                         android:paddingHorizontal="@dimen/_10ssp"
+                        android:elevation="@dimen/_16sdp"
                         android:layout_height="wrap_content">
 
                         <TextView
@@ -358,6 +367,9 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginBottom="@dimen/_5sdp"
+                        android:layout_marginRight="@dimen/_5sdp"
+                        android:layout_marginLeft="@dimen/_5sdp"
+                        android:background="@drawable/mainbackground"
                         android:orientation="horizontal">
 
                     </androidx.recyclerview.widget.RecyclerView>
@@ -365,7 +377,9 @@
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:paddingTop="@dimen/_5ssp"
+                        android:layout_margin="@dimen/_8sdp"
                         android:paddingHorizontal="@dimen/_10ssp"
+                        android:elevation="@dimen/_16sdp"
                         android:layout_height="wrap_content">
 
                         <TextView
@@ -393,60 +407,61 @@
 
                     <LinearLayout
                         android:layout_width="match_parent"
-                        android:paddingTop="@dimen/_5ssp"
+                        android:layout_height="60dp"
+                        android:layout_margin="8dp"
+                        android:background="@drawable/mainbackground"
                         android:paddingHorizontal="@dimen/_10ssp"
-                        android:layout_height="wrap_content">
+                        android:paddingTop="@dimen/_5ssp">
 
                         <TextView
                             android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginEnd="@dimen/_5ssp"
+                            android:layout_weight="1"
+                            android:background="@drawable/colorofhomeactivity"
+                            android:paddingHorizontal="@dimen/_5ssp"
+                            android:paddingVertical="@dimen/_10ssp"
                             android:text="Upcoming"
-                            android:layout_weight="1"
-                            android:layout_marginEnd="@dimen/_5ssp"
-                            android:paddingHorizontal="@dimen/_10ssp"
-                            android:paddingVertical="@dimen/_15ssp"
-                            android:background="@drawable/colorofhomeactivity"
-                            android:textSize="@dimen/_12ssp"
-                            android:textStyle="bold"
                             android:textAlignment="center"
                             android:textColor="#454242"
-                            android:layout_height="wrap_content"/>
+                            android:textSize="@dimen/_12ssp"
+                            android:textStyle="bold" />
 
                         <TextView
                             android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginEnd="@dimen/_5ssp"
+                            android:layout_weight="1"
+                            android:background="@drawable/colorofhomeactivity"
+                            android:paddingHorizontal="@dimen/_5ssp"
+                            android:paddingVertical="@dimen/_10ssp"
                             android:text="Past"
-                            android:background="@drawable/colorofhomeactivity"
-                            android:paddingHorizontal="@dimen/_10ssp"
-                            android:paddingVertical="@dimen/_15ssp"
-                            android:layout_weight="1"
-                            android:layout_marginEnd="@dimen/_5ssp"
-                            android:textSize="@dimen/_12ssp"
-                            android:textStyle="bold"
                             android:textAlignment="center"
                             android:textColor="#454242"
-                            android:layout_height="wrap_content"/>
+                            android:textSize="@dimen/_12ssp"
+                            android:textStyle="bold" />
 
                         <TextView
                             android:layout_width="0dp"
-                            android:text="Ongoing"
-                            android:paddingHorizontal="@dimen/_10ssp"
-                            android:paddingVertical="@dimen/_15ssp"
-                            android:background="@drawable/colorofhomeactivity"
+                            android:layout_height="wrap_content"
                             android:layout_weight="1"
-                            android:textSize="@dimen/_12ssp"
-                            android:textStyle="bold"
+                            android:background="@drawable/colorofhomeactivity"
+                            android:paddingHorizontal="@dimen/_5ssp"
+                            android:paddingVertical="@dimen/_10ssp"
+                            android:text="Ongoing"
                             android:textAlignment="center"
                             android:textColor="#454242"
-                            android:layout_height="wrap_content"/>
-
-
+                            android:textSize="@dimen/_12ssp"
+                            android:textStyle="bold" />
                     </LinearLayout>
 
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:paddingTop="@dimen/_5ssp"
+                        android:layout_margin="@dimen/_8sdp"
                         android:paddingHorizontal="@dimen/_10ssp"
+                        android:elevation="@dimen/_16sdp"
                         android:layout_height="wrap_content">
-
                         <TextView
                             android:layout_width="0dp"
                             android:layout_weight="1"
@@ -478,11 +493,12 @@
                         android:orientation="horizontal">
 
                     </androidx.recyclerview.widget.RecyclerView>
-
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:paddingTop="@dimen/_5ssp"
+                        android:layout_margin="@dimen/_8sdp"
                         android:paddingHorizontal="@dimen/_10ssp"
+                        android:elevation="@dimen/_16sdp"
                         android:layout_height="wrap_content">
 
                         <TextView
