@@ -13,7 +13,7 @@
     </item>
 
     <item
-        android:title="SlideShow"
+        android:title="Slide Share"
         android:icon="@drawable/slide"
         android:id="@+id/slideshare">
     </item>

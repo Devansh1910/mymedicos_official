@@ -58,24 +58,35 @@
                    android:layout_height="wrap_content"
                    android:orientation="vertical">
 
+                   <Spinner
+                       android:id="@+id/prefixSpinner"
+                       android:layout_width="match_parent"
+                       android:layout_height="wrap_content"
+                       android:layout_marginHorizontal="@dimen/_20ssp"
+                       android:layout_marginTop="@dimen/_10sdp"
+                       android:background="@drawable/mid"/>
+
+
                    <com.google.android.material.textfield.TextInputLayout
                        android:id="@+id/fullnamein"
                        android:layout_width="match_parent"
+                       android:layout_weight="1"
                        android:layout_marginHorizontal="@dimen/_20ssp"
                        android:layout_height="match_parent"
                        android:layout_marginTop="@dimen/_5sdp"
                        app:boxStrokeErrorColor="#6BC1F2">
 
-                       <com.google.android.material.textfield.TextInputEditText
-                           android:id="@+id/fullnameedit"
-                           android:layout_width="match_parent"
-                           android:background="@drawable/mid"
-                           android:layout_height="wrap_content"
-                           android:drawablePadding="@dimen/_10sdp"
-                           android:hint="Enter Your Name"
-                           android:textColorHint="#676767"
-                           android:inputType="text|textPersonName" />
-                   </com.google.android.material.textfield.TextInputLayout>
+                           <com.google.android.material.textfield.TextInputEditText
+                               android:id="@+id/fullnameedit"
+                               android:layout_width="match_parent"
+                               android:background="@drawable/mid"
+                               android:layout_height="wrap_content"
+                               android:drawablePadding="@dimen/_10sdp"
+                               android:hint="Enter Your Name"
+                               android:textColorHint="#676767"
+                               android:inputType="text|textPersonName" />
+                       </com.google.android.material.textfield.TextInputLayout>
+
 
                    <com.google.android.material.textfield.TextInputLayout
                        android:id="@+id/emainin"
