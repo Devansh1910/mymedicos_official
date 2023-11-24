@@ -111,7 +111,7 @@ public class JobsApplyActivity2 extends AppCompatActivity {
                                 String documentid = (String) dataMap.get("documentId");
                                 Log.d(user,"abc");
                                 Log.d(Jobidn,"abc");
-                                int r = Jobidn.compareTo(user);
+                                int r = Jobidn.compareTo(documentid);
                                 Log.d("abcdefsfsd", String.valueOf(r));
 
                                 if (r == 0) {
