@@ -2,6 +2,7 @@ package com.example.my_medicos.activities.pg.adapters;
 
 import android.content.Context;
 import android.content.Intent;
+import android.net.Uri;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,9 +11,13 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
+import com.example.my_medicos.R;
 import com.example.my_medicos.activities.pg.activites.detailed.VideoBankDetailedActivity;
+import com.example.my_medicos.activities.pg.model.QuestionPG;
 import com.example.my_medicos.activities.pg.model.VideoPG;
 import com.example.my_medicos.databinding.ItemProductBinding;
+import com.example.my_medicos.databinding.ItemQuestionBinding;
+import com.example.my_medicos.databinding.ItemVideosBinding;
 
 import java.util.ArrayList;
 
@@ -30,29 +35,29 @@ public class VideoPGAdapter extends RecyclerView.Adapter<VideoPGAdapter.VideoPGV
     @NonNull
     @Override
     public VideoPGViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        return new VideoPGViewHolder(LayoutInflater.from(context).inflate(com.example.my_medicos.R.layout.item_product, parent, false));
+        return new VideoPGViewHolder(LayoutInflater.from(context).inflate(R.layout.item_videos, parent, false));
     }
 
     @Override
     public void onBindViewHolder(@NonNull VideoPGViewHolder holder, int position) {
         VideoPG videobankpg = videobankspg.get(position);
         Glide.with(context)
-                .load(videobankpg.getImage())
-                .into(holder.binding.image);
-        holder.binding.label.setText(videobankpg.getName());
-        holder.binding.price.setText("PKR " + videobankpg.getPrice());
+                .load(videobankpg.getThumbnail())
+                .into(holder.binding.thumbnailvideo);
+        holder.binding.videoslabel.setText(videobankpg.getLabel());
+        holder.binding.timeofvideo.setText(videobankpg.getUrl());
 
-        holder.itemView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(context, VideoBankDetailedActivity.class);
-                intent.putExtra("name", videobankpg.getName());
-                intent.putExtra("image", videobankpg.getImage());
-                intent.putExtra("id", videobankpg.getId());
-                intent.putExtra("price", videobankpg.getPrice());
-                context.startActivity(intent);
-            }
-        });
+//        holder.itemView.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                Intent intent = new Intent(context, VideoBankDetailedActivity.class);
+//                intent.putExtra("name", videobankpg.getLabel());
+//                intent.putExtra("image", videobankpg.getThumbnail());
+//                intent.putExtra("id", videobankpg.getDate());
+//                intent.putExtra("price", videobankpg.getUrl());
+//                context.startActivity(intent);
+//            }
+//        });
     }
 
     @Override
@@ -61,12 +66,27 @@ public class VideoPGAdapter extends RecyclerView.Adapter<VideoPGAdapter.VideoPGV
     }
 
     public class VideoPGViewHolder extends RecyclerView.ViewHolder {
-
-        ItemProductBinding binding;
+        ItemVideosBinding binding;
 
         public VideoPGViewHolder(@NonNull View itemView) {
             super(itemView);
-            binding = ItemProductBinding.bind(itemView);
+            binding = ItemVideosBinding.bind(itemView);
+            binding.Videobtn.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    int position = getAdapterPosition();
+                    if (position != RecyclerView.NO_POSITION) {
+                        VideoPG clickedNews = videobankspg.get(position);
+                        openUrlInBrowser(clickedNews.getDate());
+                    }
+                }
+            });
+
         }
     }
+    private void openUrlInBrowser(String url) {
+        Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
+        context.startActivity(intent);
+    }
+
 }

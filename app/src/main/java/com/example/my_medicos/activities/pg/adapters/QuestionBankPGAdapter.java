@@ -1,4 +1,4 @@
-package com.example.my_medicos.activities.news;
+package com.example.my_medicos.activities.pg.adapters;
 
 import android.content.Context;
 import android.content.Intent;
@@ -11,34 +11,36 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
+import com.example.my_medicos.R;
+import com.example.my_medicos.activities.pg.model.QuestionPG;
 import com.example.my_medicos.databinding.ItemNewsBinding;
+import com.example.my_medicos.databinding.ItemQuestionBinding;
+
 import java.util.ArrayList;
 
-public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.NewsViewHolder> {
+public class QuestionBankPGAdapter extends RecyclerView.Adapter<QuestionBankPGAdapter.QuestionBankViewHolder> {
 
     Context context;
-    ArrayList<News> newses;
+    ArrayList<QuestionPG> questions;
 
-    public NewsAdapter(Context context, ArrayList<News> news) {
+    public QuestionBankPGAdapter(Context context, ArrayList<QuestionPG> questions) {
         this.context = context;
-        this.newses = news;
+        this.questions = questions;
     }
 
     @NonNull
     @Override
-    public NewsViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        return new NewsViewHolder(LayoutInflater.from(context).inflate(com.example.my_medicos.R.layout.item_news, parent, false));
+    public QuestionBankViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        return new QuestionBankViewHolder(LayoutInflater.from(context).inflate(R.layout.item_question, parent, false));
     }
 
 
     @Override
-    public void onBindViewHolder(@NonNull NewsViewHolder holder, int position) {
-        News news = newses.get(position);
-        Glide.with(context)
-                .load(news.getThumbnail())
-                .into(holder.binding.thumbnailnews);
-        holder.binding.newslabel.setText(news.getLabel());
-        holder.binding.newslabel.setText(news.getUrl());
+    public void onBindViewHolder(@NonNull QuestionBankViewHolder holder, int position) {
+        QuestionPG news = questions.get(position);
+        Glide.with(context);
+        holder.binding.questionslabel.setText(news.getLabel());
+        holder.binding.timeofquestions.setText(news.getUrl());
 
 //        holder.itemView.setOnClickListener(new View.OnClickListener() {
 //            @Override
@@ -55,21 +57,20 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.NewsViewHolder
 
     @Override
     public int getItemCount() {
-        return newses.size();
+        return questions.size();
     }
-    public class NewsViewHolder extends RecyclerView.ViewHolder {
-        ItemNewsBinding binding;
+    public class QuestionBankViewHolder extends RecyclerView.ViewHolder {
+        ItemQuestionBinding binding;
 
-        public NewsViewHolder(@NonNull View itemView) {
+        public QuestionBankViewHolder(@NonNull View itemView) {
             super(itemView);
-            binding = ItemNewsBinding.bind(itemView);
-
-            binding.readmoreBtn.setOnClickListener(new View.OnClickListener() {
+            binding = ItemQuestionBinding.bind(itemView);
+            binding.DownloadbtnQuestion.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
                     int position = getAdapterPosition();
                     if (position != RecyclerView.NO_POSITION) {
-                        News clickedNews = newses.get(position);
+                        QuestionPG clickedNews = questions.get(position);
                         openUrlInBrowser(clickedNews.getDate());
                     }
                 }

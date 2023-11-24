@@ -1,10 +1,11 @@
 package com.example.my_medicos.activities.pg.model;
 
-public class VideoPG {
-    private String label, thumbnail, url, date;
-    public VideoPG(String name, String image,String url,String date) {
+public class QuestionPG {
+    private String label, description, url, date;
+    public QuestionPG(String name, String status,String url,String date) {
+
         this.label = name;
-        this.thumbnail = image;
+        this.description = status;
         this.url = url;
         this.date = date;
     }
@@ -17,18 +18,25 @@ public class VideoPG {
         this.label = name;
     }
 
-    public String getThumbnail() {
-        return thumbnail;
-    }
-
 //    public void setThumbnail(String image) {
 //        this.thumbnail = image;
 //    }
 
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String status) {
+        this.description = status;
+    }
+
     public String getUrl() {
+        // Check if the URL is not null and has at least 10 characters
         if (url != null && url.length() > 10) {
+            // Return the first 10 characters of the URL
             return url.substring(0, 10);
         } else {
+            // Return the entire URL if it's null or less than 10 characters
             return url;
         }
     }

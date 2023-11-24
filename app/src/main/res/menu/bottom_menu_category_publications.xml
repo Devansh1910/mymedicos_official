@@ -7,20 +7,20 @@
     </item>
 
     <item
-        android:title="Research Papers"
-        android:icon="@drawable/outline_groups_24"
+        android:title="Research"
+        android:icon="@drawable/research"
         android:id="@+id/research">
     </item>
 
     <item
-        android:title="Paid Content"
+        android:title="Paid"
         android:icon="@drawable/paid"
         android:id="@+id/paidbooks">
     </item>
 
     <item
-        android:title="Free Books"
-        android:icon="@drawable/baseline_person_outline_24"
+        android:title="Free"
+        android:icon="@drawable/free"
         android:id="@+id/freebooks">
     </item>
 </menu>

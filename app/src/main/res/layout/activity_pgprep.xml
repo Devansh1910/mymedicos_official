@@ -124,13 +124,26 @@
                 android:layout_height="wrap_content"
                 app:cardCornerRadius="10dp">
 
-                <org.imaginativeworld.whynotimagecarousel.ImageCarousel
-                    android:id="@+id/carousel"
+                <FrameLayout
                     android:layout_width="match_parent"
-                    android:layout_height="150dp"
-                    app:showNavigationButtons="false"
-                    app:showCaption="false"
-                    app:autoPlay="true"/>
+                    android:layout_height="wrap_content">
+
+                    <ImageView
+                        android:id="@+id/urlopener"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:src="@drawable/justforbannerdrawable"/>
+
+                    <org.imaginativeworld.whynotimagecarousel.ImageCarousel
+                        android:id="@+id/carousel"
+                        android:layout_width="match_parent"
+                        android:layout_height="150dp"
+                        app:showNavigationButtons="false"
+                        app:showCaption="false"
+                        app:autoPlay="true"/>
+
+                </FrameLayout>
+
             </androidx.cardview.widget.CardView>
 
             <LinearLayout
@@ -240,9 +253,9 @@
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/questionbankList"
-                android:orientation="horizontal"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
+                android:layout_height="wrap_content"
+                android:orientation="horizontal" />
 
             <LinearLayout
                 android:layout_width="match_parent"
