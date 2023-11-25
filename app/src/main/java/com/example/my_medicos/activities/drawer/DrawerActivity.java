@@ -28,8 +28,7 @@ public class DrawerActivity extends AppCompatActivity {
         setSupportActionBar(binding.appBarDrawer.toolbar);
         DrawerLayout drawer = binding.drawerLayout;
         NavigationView navigationView = binding.navView;
-        // Passing each menu ID as a set of Ids because each
-        // menu should be considered as top level destinations.
+
         mAppBarConfiguration = new AppBarConfiguration.Builder(
                 R.id.nav_settings, R.id.nav_notifications, R.id.nav_logout)
                 .setOpenableLayout(drawer)
