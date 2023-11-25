@@ -6,6 +6,11 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fillViewport="true">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@drawable/rectangle1"
+        android:orientation="vertical">
 
 <LinearLayout
     android:layout_width="match_parent"
@@ -38,379 +43,486 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        app:layout_constraintTop_toBottomOf="@id/jobsinsidertoolbar_container"
         android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/_16sdp"
+        android:layout_marginRight="@dimen/_16sdp"
+        android:elevation="@dimen/_4sdp"
         android:orientation="vertical"
-        android:background="@color/white"
-        android:padding="16dp">
+        android:padding="8dp"
+        app:layout_constraintTop_toBottomOf="@id/jobsinsidertoolbar_container">
+<LinearLayout
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal">
+        <ImageView
+            android:layout_width="69dp"
+            android:layout_height="61dp"
+            android:elevation="@dimen/_8sdp"
+            android:src="@drawable/frame_2">
 
+        </ImageView>
+
+        <TextView
+            android:id="@+id/jobTitleTextView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:fontFamily="@font/roboto_bold"
+            android:gravity="start"
+            android:layout_marginHorizontal="@dimen/_8sdp"
+            android:text="Loading.."
+            android:textColor="@color/black"
+            android:textSize="22sp"
+            android:textStyle="bold" />
+       </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/_4sdp"
+            android:orientation="horizontal">
 
             <TextView
-                android:id="@+id/jobTitleTextView"
-                android:layout_width="match_parent"
+                android:id="@+id/companyNameTextView"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:layout_weight="0.5"
                 android:gravity="start"
-                android:text="Loading.."
-                android:textColor="@color/black"
-                android:textSize="26sp"
-                android:fontFamily="@font/roboto_bold"
+                android:layout_marginHorizontal="@dimen/_16sdp"
+                android:text="Loading..."
+                android:textColor="#434545"
+                android:textSize="16sp"
                 android:textStyle="bold" />
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal">
-
-                <TextView
-                    android:id="@+id/companyNameTextView"
-                    android:layout_width="0dp"
-                    android:layout_weight="0.5"
-                    android:layout_height="wrap_content"
-                    android:gravity="start"
-                    android:text="Loading..."
-                    android:textColor="#434545"
-                    android:textSize="16sp" />
-
-                <TextView
-                    android:id="@+id/jobposteddate"
-                    android:layout_width="0dp"
-                    android:layout_weight="0.5"
-                    android:layout_height="wrap_content"
-                    android:gravity="start"
-                    android:text="Loading..."
-                    android:textColor="#434545"
-                    android:textSize="16sp" />
-
-                <TextView
-                    android:id="@+id/locationTextView"
-                    android:layout_width="0dp"
-                    android:layout_weight="0.5"
-                    android:layout_height="wrap_content"
-                    android:gravity="start"
-                    android:text="Loading..."
-                    android:textColor="#434545"
-                    android:textSize="16sp" />
-
-            </LinearLayout>
+        </LinearLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@drawable/rounded_edittext_background"
+            android:layout_marginTop="@dimen/_8sdp"
+            android:layout_marginHorizontal="@dimen/_8sdp"
+            android:paddingHorizontal="@dimen/_8sdp"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/jobposteddate"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.5"
+                android:gravity="start"
+                android:text="Loading..."
+                android:textColor="#434545"
+                android:textSize="14sp" />
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="@dimen/_4sdp"
+                android:src="@drawable/loc">
+
+            </ImageView>
+
+            <TextView
+                android:id="@+id/locationTextView"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.5"
+                android:gravity="start"
+                android:text="Loading..."
+                android:textColor="#434545"
+                android:textSize="14sp" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
             android:orientation="horizontal">
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:paddingLeft="@dimen/_10ssp"
-                android:paddingRight="@dimen/_5ssp"
                 android:layout_marginVertical="@dimen/_5ssp"
                 android:paddingVertical="@dimen/_2ssp"
+                android:paddingLeft="@dimen/_10ssp"
+                android:paddingRight="@dimen/_5ssp"
+                android:layout_marginHorizontal="@dimen/_8sdp"
                 android:text="Posted by"
                 android:textColor="#686666"
-                android:textSize="16sp" />
+                android:textSize="12sp" />
 
             <TextView
                 android:id="@+id/organizername"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginVertical="@dimen/_5ssp"
+                android:fontFamily="@font/roboto_bold"
                 android:paddingVertical="@dimen/_2ssp"
                 android:text="Loading..."
-                android:fontFamily="@font/roboto_bold"
-                android:textColor="#686666"
-                android:textSize="16sp" />
+                android:textColor="#096159"
+                android:textSize="14sp" />
 
         </LinearLayout>
 
-        <LinearLayout
-            android:id="@+id/salaryLayout"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="center_vertical"
-            android:orientation="horizontal"
-            android:paddingVertical="@dimen/_3ssp">
+    </LinearLayout>
 
-            <ImageView
-                android:layout_width="0dp"
-                android:layout_weight="0.2"
-                android:layout_height="wrap_content"
-                android:src="@drawable/briefcase"/>
 
-        <LinearLayout
-            android:layout_width="0dp"
-            android:layout_weight="1"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:fontFamily="@font/roboto_bold"
-                android:text="₹"
-                android:textColor="#8A8686"
-                android:textSize="15sp"
-                tools:ignore="TouchTargetSizeCheck" />
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/line"
+        android:elevation="@dimen/_8sdp"
+        ></LinearLayout>
 
-            <TextView
-                android:id="@+id/salaryEditText"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:inputType="text"
-                android:fontFamily="@font/roboto_bold"
-                android:paddingHorizontal="@dimen/_5ssp"
-                android:text="Loading..."
-                android:textColor="#8A8686"
-                android:textSize="15sp"
-                tools:ignore="TouchTargetSizeCheck" />
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/_16sdp"
+        android:background="@drawable/rounded_edittext_background"
+        android:layout_marginRight="@dimen/_16sdp"
+        android:layout_marginTop="@dimen/_16sdp"
+        android:elevation="@dimen/_3sdp"
+        android:orientation="vertical"
+       android:padding="@dimen/_8sdp">
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:fontFamily="@font/roboto_bold"
-                android:text="/yr"
-                android:textColor="#8A8686"
-                android:textSize="15sp"
-                tools:ignore="TouchTargetSizeCheck" />
-
-        </LinearLayout>
-
-            <TextView
-                android:id="@+id/Job_type"
-                android:layout_width="0dp"
-                android:layout_weight="1"
-                android:layout_height="wrap_content"
-                android:paddingHorizontal="@dimen/_5ssp"
-                android:paddingVertical="@dimen/_2ssp"
-                android:inputType="text"
-                android:text="Loading.."
-                android:fontFamily="@font/roboto_bold"
-                android:background="@drawable/typeback"
-                android:textColor="#07AC85"
-                android:textSize="15sp"
-                tools:ignore="TouchTargetSizeCheck" />
-
-        </LinearLayout>
-
+        <!-- Job Description -->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal">
-
-            <ImageView
-                android:layout_width="0dp"
-                android:layout_weight="0.1"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:src="@drawable/buildingjob"/>
+            android:layout_margin="@dimen/_16sdp"
+            android:background="@drawable/rounded_edittext_background"
+            android:elevation="@dimen/_2sdp"
+            android:orientation="vertical"
+            android:padding="@dimen/_10sdp">
 
             <LinearLayout
-                android:layout_width="0dp"
-                android:layout_weight="1"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal">
-
-                <TextView
-                    android:id="@+id/openingsEditText"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:paddingHorizontal="@dimen/_5ssp"
-                    android:text="Loading..."
-                    android:textColor="#000000"
-                    android:textSize="16sp" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:paddingHorizontal="@dimen/_5ssp"
-                    android:text="Employees"
-                    android:textColor="#000000"
-                    android:textSize="16sp" />
-
-            </LinearLayout>
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:id="@+id/experienceLayout"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
-
-            <ImageView
-                android:layout_width="0dp"
-                android:layout_weight="0.1"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:src="@drawable/bulb"/>
-
-            <LinearLayout
-                android:layout_width="0dp"
-                android:layout_weight="1"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal">
-
-                <TextView
-                    android:id="@+id/experienceEditText"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:paddingHorizontal="@dimen/_5ssp"
-                    android:text="Loading,,,"
-                    android:textColor="#000000"
-                    android:textSize="16sp" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:paddingHorizontal="@dimen/_5ssp"
-                    android:text="years of experience"
-                    android:textColor="#000000"
-                    android:textSize="16sp" />
-
-            </LinearLayout>
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:id="@+id/authorInfoLayout"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="0dp"
-            android:orientation="vertical">
-            <!-- Author Speciality -->
-        </LinearLayout>
-
-        <LinearLayout
-            android:id="@+id/applylinear"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginVertical="@dimen/_10ssp"
-            android:orientation="horizontal">
-
-            <Button
-                android:id="@+id/applyButton"
-                android:layout_width="0dp"
-                android:layout_weight="0.5"
-                android:layout_height="wrap_content"
-                android:padding="8dp"
-                android:backgroundTint="@color/green"
-                android:text="Apply Now"
-                android:textColor="#FFFFFF"
-                android:textSize="16sp" />
-            <Button
-                android:id="@+id/applycant"
-                android:layout_width="0dp"
-                android:layout_weight="0.5"
-                android:layout_height="wrap_content"
-                android:padding="8dp"
-                android:backgroundTint="@color/green"
-                android:text="Applycant"
-                android:textColor="#FFFFFF"
-                android:textSize="16sp" />
-
-            <com.google.android.material.divider.MaterialDivider
-                android:layout_width="0dp"
-                android:layout_height="0dp"
-                android:layout_weight="0.03"/>
-
-            <LinearLayout
-                android:id="@+id/saveButton"
-                android:layout_width="0dp"
-                android:layout_gravity="center"
-                android:gravity="center"
-                android:background="@drawable/savejobsfile"
-                android:layout_weight="0.5"
-                android:layout_height="match_parent"
+                android:layout_marginVertical="@dimen/_8sdp"
                 android:orientation="horizontal">
 
                 <ImageView
-                    android:layout_width="wrap_content"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
-                    android:src="@drawable/savenew"/>
+                    android:layout_weight="0.1"
+                    android:src="@drawable/s" />
 
-                <TextView
-                    android:paddingHorizontal="@dimen/_5ssp"
-                    android:layout_width="wrap_content"
-                    android:layout_gravity="center"
+                <LinearLayout
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:text="Save"
-                    android:fontFamily="@font/roboto_bold"
-                    android:textStyle="bold"
-                    android:textColor="@color/black"
-                    android:textSize="18sp" />
+                    android:layout_weight="1"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:paddingHorizontal="@dimen/_5ssp"
+                        android:text="Speciality"
+                        android:textColor="#000000"
+                        android:textSize="12sp" />
+
+                    <TextView
+                        android:id="@+id/authorSpecialityTextView"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:paddingHorizontal="@dimen/_5ssp"
+                        android:text="Loading..."
+                        android:textColor="#000000"
+                        android:textSize="12sp" />
+
+
+                </LinearLayout>
 
             </LinearLayout>
 
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginVertical="@dimen/_8sdp"
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_weight="0.1"
+                    android:src="@drawable/s" />
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:paddingHorizontal="@dimen/_5ssp"
+                        android:text="Subspeciality"
+                        android:textColor="#000000"
+                        android:textSize="12sp" />
+
+                    <TextView
+                        android:id="@+id/authorSubSpecialityTextView"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:paddingHorizontal="@dimen/_5ssp"
+                        android:text="Loading..."
+                        android:textColor="#000000"
+                        android:textSize="12sp" />
+
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+
+            <LinearLayout
+                android:id="@+id/salaryLayout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:paddingVertical="@dimen/_3ssp">
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="20dp"
+                    android:layout_weight="0.2"
+                    android:src="@drawable/rupee" />
+
+                <LinearLayout
+                    android:layout_width="164dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/roboto_bold"
+                        android:paddingHorizontal="@dimen/_8sdp"
+                        android:text="₹"
+                        android:textColor="#8A8686"
+                        android:textSize="15sp"
+                        tools:ignore="TouchTargetSizeCheck" />
+
+                    <TextView
+                        android:id="@+id/salaryEditText"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/roboto_bold"
+                        android:inputType="text"
+                        android:text="Loading..."
+                        android:textColor="#8A8686"
+                        android:textSize="13sp"
+                        tools:ignore="TouchTargetSizeCheck" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/roboto_bold"
+                        android:text="/yr"
+                        android:textColor="#8A8686"
+                        android:textSize="13sp"
+                        tools:ignore="TouchTargetSizeCheck" />
+
+                </LinearLayout>
+
+                <TextView
+                    android:id="@+id/Job_type"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:background="@drawable/typeback"
+                    android:fontFamily="@font/roboto_bold"
+                    android:inputType="text"
+                    android:paddingHorizontal="@dimen/_5ssp"
+                    android:paddingVertical="@dimen/_2ssp"
+                    android:text="Loading.."
+                    android:textAlignment="center"
+                    android:textColor="#07AC85"
+                    android:textSize="12sp"
+                    tools:ignore="TouchTargetSizeCheck" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginVertical="@dimen/_8sdp"
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_weight="0.1"
+                    android:src="@drawable/man" />
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:id="@+id/openingsEditText"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:paddingHorizontal="@dimen/_5ssp"
+                        android:text="Loading..."
+                        android:textColor="#000000"
+                        android:textSize="12sp" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:paddingHorizontal="@dimen/_5ssp"
+                        android:text="Employees"
+                        android:textColor="#000000"
+                        android:textSize="12sp" />
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/experienceLayout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_weight="0.1"
+                    android:src="@drawable/yfe" />
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:id="@+id/experienceEditText"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:paddingHorizontal="@dimen/_5ssp"
+                        android:text="Loading,,,"
+                        android:textColor="#000000"
+                        android:textSize="12sp" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:paddingHorizontal="@dimen/_5ssp"
+                        android:text="years of experience"
+                        android:textColor="#000000"
+                        android:textSize="12sp" />
+
+                </LinearLayout>
+
+            </LinearLayout>
         </LinearLayout>
 
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="About Role"
-            android:fontFamily="@font/roboto_bold"
-            android:textColor="#595959"
-            android:textSize="20sp"
-            android:textStyle="bold" />
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_marginVertical="@dimen/_5ssp"
-            android:layout_height="wrap_content"
-            android:orientation="vertical">
-
-            <TextView
-                android:id="@+id/authorSpecialityTextView"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:background="@drawable/rounded_edittext_background"
-                android:paddingHorizontal="@dimen/_10ssp"
-                android:paddingVertical="@dimen/_2ssp"
-                android:text="Software Engineering"
-                android:textColor="#000000"
-                android:textSize="16sp" />
-
-            <TextView
-                android:id="@+id/authorSubSpecialityTextView"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/_5ssp"
-                android:background="@drawable/rounded_edittext_background"
-                android:paddingHorizontal="@dimen/_10ssp"
-                android:paddingVertical="@dimen/_2ssp"
-                android:text="Mobile App Development"
-                android:textColor="#000000"
-                android:textSize="16sp" />
-
-        </LinearLayout>
-
-        <!-- Job Description -->
         <TextView
             android:id="@+id/jobDescriptionTextView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginHorizontal="@dimen/_8sdp"
             android:text="Description"
-            android:layout_marginVertical="@dimen/_8ssp"
             android:textColor="#595959"
-            android:textSize="20sp"
+            android:textSize="13sp"
             android:textStyle="bold" />
 
         <TextView
             android:id="@+id/jobDescriptionContentTextView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:fontFamily="@font/roboto_bold"
-            android:paddingTop="1dp"
+            android:layout_marginHorizontal="@dimen/_10sdp"
             android:text="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam eget lectus non justo blandit luctus. Integer a elit vel ex sodales vestibulum."
             android:textColor="#8E8D8D"
-            android:textSize="16sp" />
+            android:textSize="12sp" />
 
-        </LinearLayout>
+    </LinearLayout>
+
 
     <LinearLayout
+        android:id="@+id/applylinear"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/_16sdp"
+        android:layout_marginRight="@dimen/_16sdp"
+        android:orientation="horizontal"
+        android:padding="@dimen/_2sdp">
+
+        <Button
+            android:id="@+id/applyButton"
+            android:layout_width="0dp"
+            android:layout_height="36dp"
+            android:layout_weight="0.5"
+            android:backgroundTint="@color/green"
+            android:text="Apply Now"
+            android:textColor="#FFFFFF"
+            android:textSize="12sp" />
+
+        <Button
+            android:id="@+id/applycant"
+            android:layout_width="0dp"
+            android:layout_height="46dp"
+            android:layout_weight="0.5"
+            android:backgroundTint="@color/green"
+            android:text="Applycant"
+            android:textColor="#FFFFFF"
+            android:textSize="13sp" />
+
+        <com.google.android.material.divider.MaterialDivider
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_weight="0.03" />
+
+        <LinearLayout
+            android:id="@+id/saveButton"
+            android:layout_width="0dp"
+            android:layout_height="28dp"
+            android:layout_gravity="center"
+            android:layout_weight="0.5"
+            android:background="@drawable/savejobsfile"
+            android:gravity="center"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/savee" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:fontFamily="@font/roboto_bold"
+                android:paddingHorizontal="@dimen/_5ssp"
+                android:text="Save"
+                android:textColor="@color/black"
+                android:textSize="13sp"
+                android:textStyle="bold" />
+        </LinearLayout>
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/line111"
+        android:layout_marginHorizontal="@dimen/_20sdp">
+    </LinearLayout>
+        <LinearLayout
         android:layout_width="match_parent"
         android:paddingVertical="@dimen/_5ssp"
         android:paddingHorizontal="@dimen/_10ssp"
+        android:layout_marginTop="@dimen/_4sdp"
+        android:layout_marginLeft="@dimen/_16sdp"
+        android:layout_marginRight="@dimen/_16sdp"
         android:layout_height="wrap_content">
 
         <TextView
@@ -439,8 +551,10 @@
         android:id="@+id/recyclerviewjobsinsider"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"/>
+        android:layout_margin="@dimen/_8sdp"
+        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
 
 </LinearLayout>
+  </LinearLayout>
 
 </androidx.core.widget.NestedScrollView>

@@ -24,7 +24,7 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.027">
 
-        <LinearLayout
+        <RelativeLayout
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:orientation="vertical">
@@ -113,6 +113,6 @@
                     android:maxLines="1"
                     android:textSize="@dimen/_12sdp"/>
 
-        </LinearLayout>
+        </RelativeLayout>
     </androidx.cardview.widget.CardView>
 </androidx.cardview.widget.CardView>

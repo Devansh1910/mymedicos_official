@@ -28,7 +28,6 @@
             android:paddingHorizontal="@dimen/_12sdp"
             android:layout_gravity="bottom"
             android:paddingVertical="@dimen/_5ssp"
-            android:background="@drawable/slideshowdownloadbk"
             android:orientation="horizontal">
 
             <LinearLayout

@@ -51,6 +51,10 @@
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:background="@drawable/recbg"
+                    android:layout_gravity="center"
+                    android:padding="@dimen/_5sdp"
+                    android:layout_margin="@dimen/_10sdp"
                     android:layout_marginVertical="@dimen/_10sdp"
                     android:orientation="horizontal">
 
@@ -86,6 +90,10 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/_5sdp"
+                    android:layout_marginLeft="@dimen/_10sdp"
+                    android:layout_marginRight="@dimen/_10sdp"
+
+
                     android:orientation="horizontal">
 
                 </androidx.recyclerview.widget.RecyclerView>

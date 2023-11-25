@@ -9,6 +9,11 @@
         android:interpolator="@android:anim/accelerate_decelerate_interpolator"
         android:fillAfter="true" />
     <alpha
+        android:interpolator="@android:anim/accelerate_interpolator"
+        android:fromAlpha="1.0"
+        android:toAlpha="0.0"
+        android:duration="1000" />
+    <alpha
         android:fromAlpha="0"
         android:toAlpha="1"
         android:duration="1000"
