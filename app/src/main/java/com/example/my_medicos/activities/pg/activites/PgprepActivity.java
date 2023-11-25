@@ -5,6 +5,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
+
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
@@ -17,6 +19,7 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.example.my_medicos.R;
 import com.example.my_medicos.activities.news.News;
 import com.example.my_medicos.activities.news.NewsAdapter;
 import com.example.my_medicos.activities.pg.adapters.QuestionBankPGAdapter;
@@ -56,17 +59,17 @@ public class  PgprepActivity extends AppCompatActivity {
     VideoPGAdapter videosAdapter;
     ArrayList<VideoPG> videoforpg;
 
-    ProductAdapter productAdapter;
-    ArrayList<Product> products;
-
-    NewsAdapter newsAdapter;
-    ArrayList<News> news;
+    private SwipeRefreshLayout swipeRefreshLayout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         binding = ActivityPgprepBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
+
+        // Initialize SwipeRefreshLayout
+        swipeRefreshLayout = findViewById(R.id.swipeRefreshLayout);
+        swipeRefreshLayout.setOnRefreshListener(this::refreshContent);
 
 
         binding.searchBarforpg.setOnSearchActionListener(new MaterialSearchBar.OnSearchActionListener() {
@@ -96,7 +99,23 @@ public class  PgprepActivity extends AppCompatActivity {
 
     }
 
-    // this is for the slider
+    private void refreshContent() {
+        clearData();
+        fetchData();
+        swipeRefreshLayout.setRefreshing(false);
+    }
+    private void clearData() {
+        dailyquestionspg.clear();
+        specialitiespost.clear();
+        questionsforpg.clear();
+        videoforpg.clear();
+    }
+    private void fetchData() {
+        getPerDayQuestions();
+        getSpecialityPG();
+        getRecentQuestions();
+        getRecentVideos();
+    }
     private void initSliderPg() {
         getRecentPgSlider();
     }

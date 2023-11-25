@@ -93,15 +93,16 @@ dependencies {
     implementation ("me.relex:circleindicator:2.1.6")
     implementation ("org.imaginativeworld.whynotimagecarousel:whynotimagecarousel:2.1.0")
     /* For Slider - End */
-
     implementation ("com.android.volley:volley:1.2.1")
     //..
-
     implementation ("com.airbnb.android:lottie:3.4.0")
     //..
     implementation ("com.github.hishd:TinyCart:1.0.1")
     implementation ("com.github.delight-im:Android-AdvancedWebView:v3.2.1")
     //...Bottom navigation bar
     implementation("com.exyte:animated-navigation-bar:1.0.0")
+    //...Shimmer....
+    implementation ("com.facebook.shimmer:shimmer:0.5.0")
+
 
 }

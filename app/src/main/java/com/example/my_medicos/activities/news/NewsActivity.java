@@ -2,6 +2,7 @@ package com.example.my_medicos.activities.news;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import android.os.Bundle;
 
@@ -9,6 +10,7 @@ import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.example.my_medicos.R;
 import com.example.my_medicos.activities.utils.ConstantsDashboard;
 import com.example.my_medicos.databinding.ActivityNewsBinding;
 
@@ -24,14 +26,30 @@ public class  NewsActivity extends AppCompatActivity {
     NewsAdapter newsAdapter;
     ArrayList<News> news;
 
+    private SwipeRefreshLayout swipeRefreshLayoutNews;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         binding = ActivityNewsBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
+        swipeRefreshLayoutNews = findViewById(R.id.swipeRefreshLayoutNews);
+        swipeRefreshLayoutNews.setOnRefreshListener(this::refreshContent);
+
         initNews();
         initNewsSlider();
+    }
+    private void refreshContent() {
+        clearData();
+        fetchData();
+        swipeRefreshLayoutNews.setRefreshing(false);
+    }
+    private void clearData() {
+        news.clear();
+    }
+    private void fetchData() {
+        getRecentNews();
     }
 
     private void initNews() {

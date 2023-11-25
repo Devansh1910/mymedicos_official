@@ -6,10 +6,12 @@ import android.view.View;
 import android.view.ViewGroup;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.example.my_medicos.R;
 import com.example.my_medicos.activities.slideshow.Slideshow;
 import com.example.my_medicos.activities.slideshow.SlideshowAdapter;
 import com.example.my_medicos.activities.utils.ConstantsDashboard;
@@ -23,9 +25,10 @@ import java.util.ArrayList;
 
 public class SlideshowFragment extends Fragment {
 
-    private FragmentSlideshowBinding binding; // Declare binding variable
-    SlideshowAdapter slideshowAdapter;
-    ArrayList<Slideshow> slideshows;
+    private FragmentSlideshowBinding binding;
+    private SwipeRefreshLayout swipeRefreshLayout;
+    private SlideshowAdapter slideshowAdapter;
+    private ArrayList<Slideshow> slideshows;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -33,12 +36,23 @@ public class SlideshowFragment extends Fragment {
         binding = FragmentSlideshowBinding.inflate(inflater, container, false);
         View rootView = binding.getRoot();
 
+        swipeRefreshLayout = rootView.findViewById(R.id.swipeRefreshLayout);
+        swipeRefreshLayout.setOnRefreshListener(this::refreshData);
+
         initSlideshowSlider();
         initSliderContent();
 
         return rootView;
     }
 
+    private void refreshData() {
+        slideshows.clear();
+        slideshowAdapter.notifyDataSetChanged();
+
+        getSlideshowRecent();
+
+        swipeRefreshLayout.setRefreshing(false);
+    }
     void getSlideshowRecent() {
         RequestQueue queue = Volley.newRequestQueue(requireContext());
 
