@@ -93,7 +93,7 @@ public class JobsApplyActivity extends AppCompatActivity {
                 if (task.isSuccessful()) {
                     for (QueryDocumentSnapshot document : task.getResult()) {
                         Map<String, Object> dataMap = document.getData();
-                        field3 = ((String) dataMap.get("Email ID"));
+                        field3 = ((String) dataMap.get("Phone Number"));
                         boolean areEqualIgnoreCase = current.equalsIgnoreCase(field3);
                         Log.d("vivek", String.valueOf(areEqualIgnoreCase));
                         int r=current.compareTo(field3);
@@ -217,6 +217,7 @@ public class JobsApplyActivity extends AppCompatActivity {
                 .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
                     @Override
                     public void onSuccess(DocumentReference documentReference) {
+                        Toast.makeText(JobsApplyActivity.this, "Applied Successfully!", Toast.LENGTH_SHORT).show();
                         Log.d(TAG, "DocumentSnapshot written with ID: " + documentReference.getId());
                     }
                 })

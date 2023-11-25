@@ -1,22 +1,14 @@
 package com.example.my_medicos.activities.login;
 
-import static androidx.constraintlayout.helper.widget.MotionEffect.TAG;
-
-import android.annotation.SuppressLint;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
-import android.widget.ImageView;
-import android.widget.LinearLayout;
-import android.widget.ScrollView;
 import android.widget.Spinner;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -28,7 +20,6 @@ import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.textfield.TextInputEditText;
-import com.google.android.material.textfield.TextInputLayout;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentReference;
@@ -40,63 +31,50 @@ import java.util.regex.Pattern;
 
 public class RegisterActivity extends AppCompatActivity {
 
-    TextView loginreg;
     Button register;
+    private Spinner prefixSpinner, locationSpinner, interestSpinner;
+    private ArrayAdapter<CharSequence> prefixAdapter, locationAdapter, interestAdapter;
+    private FirebaseAuth mAuth;
+    private ProgressDialog progressDialog;
 
-    private Spinner locationspinner, interestspinner;
-    private ArrayAdapter<CharSequence> interestAdapter, locationAdapter;
-    private FirebaseAuth mauth;
-    private ProgressDialog mdialog;
-
-    HashMap<String, Object> usermap = new HashMap<>();
+    HashMap<String, Object> userMap = new HashMap<>();
     private FirebaseFirestore db = FirebaseFirestore.getInstance();
 
-    TextInputEditText email, fullname, phone, pass;
+    TextInputEditText email, fullName, phoneNumber, password;
 
-    @SuppressLint("MissingInflatedId")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register);
 
         register = findViewById(R.id.register);
-        locationspinner = findViewById(R.id.city);
-        interestspinner = findViewById(R.id.interest);
+        prefixSpinner = findViewById(R.id.prefixSpinner);
+        locationSpinner = findViewById(R.id.city);
+        interestSpinner = findViewById(R.id.interest);
         email = findViewById(R.id.emailedit);
-        fullname = findViewById(R.id.fullnameedit);
-        phone = findViewById(R.id.phonenumberededit);
-        pass = findViewById(R.id.passwordedit);
+        fullName = findViewById(R.id.fullnameedit);
+        phoneNumber = findViewById(R.id.phonenumberededit);
+        password = findViewById(R.id.passwordedit);
 
-        loginreg = findViewById(R.id.loginreg);
+        mAuth = FirebaseAuth.getInstance();
+        progressDialog = new ProgressDialog(this);
 
-        loginreg.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent i = new Intent(RegisterActivity.this, MainActivity.class);
-                startActivity(i);
-                finish();
-            }
-        });
-
-        mauth = FirebaseAuth.getInstance();
-
-        mdialog = new ProgressDialog(this);
-
+        setupSpinners();
         register();
+    }
 
-        interestAdapter = ArrayAdapter.createFromResource(this,
-                R.array.speciality, android.R.layout.simple_spinner_item);
-        interestAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        interestspinner.setAdapter(interestAdapter);
+    private void setupSpinners() {
+        // Prefix Spinner
+        prefixAdapter = ArrayAdapter.createFromResource(this,
+                R.array.prefix_options, android.R.layout.simple_spinner_item);
+        prefixAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        prefixSpinner.setAdapter(prefixAdapter);
 
-        // Initially, hide the subspeciality spinner
-        interestspinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+        prefixSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
-            public void onItemSelected(AdapterView<?> adapterView, View view, int position, long l) {
-                // Check if the selected speciality has subspecialities
-                int interestIndex = interestspinner.getSelectedItemPosition();
-                String selectInterest =interestspinner.getSelectedItem().toString();
-                usermap.put("interest",selectInterest);
+            public void onItemSelected(AdapterView<?> adapterView, View view, int position, long id) {
+                String selectedPrefix = adapterView.getItemAtPosition(position).toString();
+                userMap.put("prefix", selectedPrefix);
             }
 
             @Override
@@ -105,18 +83,36 @@ public class RegisterActivity extends AppCompatActivity {
             }
         });
 
-
+        // Location Spinner
         locationAdapter = ArrayAdapter.createFromResource(this,
                 R.array.indian_cities, android.R.layout.simple_spinner_item);
         locationAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        locationspinner.setAdapter(locationAdapter);
+        locationSpinner.setAdapter(locationAdapter);
 
-        locationspinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+        locationSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
-            public void onItemSelected(AdapterView<?> adapterView, View view, int position, long l) {
-                int locationIndex = locationspinner.getSelectedItemPosition();
-                String selectedLocation = locationspinner.getSelectedItem().toString();
-                usermap.put("location", selectedLocation);
+            public void onItemSelected(AdapterView<?> adapterView, View view, int position, long id) {
+                String selectedLocation = adapterView.getItemAtPosition(position).toString();
+                userMap.put("location", selectedLocation);
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+                // Do nothing
+            }
+        });
+
+        // Interest Spinner
+        interestAdapter = ArrayAdapter.createFromResource(this,
+                R.array.speciality, android.R.layout.simple_spinner_item);
+        interestAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        interestSpinner.setAdapter(interestAdapter);
+
+        interestSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int position, long id) {
+                String selectedInterest = adapterView.getItemAtPosition(position).toString();
+                userMap.put("interest", selectedInterest);
             }
 
             @Override
@@ -131,22 +127,20 @@ public class RegisterActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 String mail = email.getText().toString().trim();
-                // Check if the email contains "@gmail.com"
                 if (!isValidEmail(mail)) {
                     email.setError("Invalid Email Address");
                     return;
                 }
 
-                String name = fullname.getText().toString().trim();
-                String enteredPhone = phone.getText().toString().trim();
-                String password = pass.getText().toString().trim();
+                String name = fullName.getText().toString().trim();
+                String enteredPhone = phoneNumber.getText().toString().trim();
+                String pass = password.getText().toString().trim();
 
-                // Add +91 as a default prefix to the phone number
-                String phoneno;
+                String phoneNo;
                 if (!enteredPhone.startsWith("+91")) {
-                    phoneno = "+91" + enteredPhone;
+                    phoneNo = "+91" + enteredPhone;
                 } else {
-                    phoneno = enteredPhone;
+                    phoneNo = enteredPhone;
                 }
 
                 if (TextUtils.isEmpty(mail)) {
@@ -154,50 +148,53 @@ public class RegisterActivity extends AppCompatActivity {
                     return;
                 }
                 if (TextUtils.isEmpty(name)) {
-                    fullname.setError("Full Name Required");
+                    fullName.setError("Full Name Required");
                     return;
                 }
-                if (TextUtils.isEmpty(phoneno)) {
-                    phone.setError("Phone Number Required");
+                if (TextUtils.isEmpty(phoneNo)) {
+                    phoneNumber.setError("Phone Number Required");
                     return;
                 }
-                if (TextUtils.isEmpty(password)) {
-                    pass.setError("Password Required");
+                if (TextUtils.isEmpty(pass)) {
+                    password.setError("Password Required");
                     return;
                 }
-                if (!isPasswordValid(password)) {
-                    pass.setError("Invalid password");
+                if (!isPasswordValid(pass)) {
+                    password.setError("Invalid password");
                     Toast.makeText(RegisterActivity.this, "Password is Invalid", Toast.LENGTH_SHORT).show();
                     return;
                 }
-                mdialog.setMessage("Registering");
-                mdialog.show();
 
-                mauth.createUserWithEmailAndPassword(mail, password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+                progressDialog.setMessage("Registering");
+                progressDialog.show();
+
+                mAuth.createUserWithEmailAndPassword(mail, pass).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful()) {
-                            mauth.getCurrentUser().sendEmailVerification().addOnCompleteListener(new OnCompleteListener<Void>() {
+                            mAuth.getCurrentUser().sendEmailVerification().addOnCompleteListener(new OnCompleteListener<Void>() {
                                 @Override
                                 public void onComplete(@NonNull Task<Void> task) {
                                     if (task.isSuccessful()) {
-                                        createUserInFirestore(mail, name, phoneno, usermap.get("location").toString(), usermap.get("interest").toString());
+                                        createUserInFirestore(mail, name, phoneNo,
+                                                userMap.get("location").toString(),
+                                                userMap.get("interest").toString());
 
                                         Intent i = new Intent(RegisterActivity.this, MainActivity.class);
                                         startActivity(i);
                                         finish();
 
                                         Toast.makeText(getApplicationContext(), "Registration Successful, please verify your Email ID", Toast.LENGTH_SHORT).show();
-                                        mdialog.dismiss();
+                                        progressDialog.dismiss();
                                     } else {
                                         Toast.makeText(getApplicationContext(), "Registration Failed", Toast.LENGTH_SHORT).show();
-                                        mdialog.dismiss();
+                                        progressDialog.dismiss();
                                     }
                                 }
                             });
                         } else {
                             Toast.makeText(getApplicationContext(), "Registration Failed", Toast.LENGTH_SHORT).show();
-                            mdialog.dismiss();
+                            progressDialog.dismiss();
                         }
                     }
                 });
@@ -205,54 +202,42 @@ public class RegisterActivity extends AppCompatActivity {
         });
     }
 
-    private void createUserInFirestore(String mail, String name, String phoneno, String location,String interest) {
+    private void createUserInFirestore(String mail, String name, String phoneNo, String location, String interest) {
         Map<String, Object> user = new HashMap<>();
         user.put("Email ID", mail);
         user.put("Name", name);
-        user.put("Phone Number", phoneno);
+        user.put("Phone Number", phoneNo);
         user.put("Location", location);
         user.put("Interest", interest);
-        user.put("UID", mauth.getCurrentUser().getUid());
+        user.put("Prefix", userMap.get("prefix").toString());
+        user.put("UID", mAuth.getCurrentUser().getUid());
 
         db.collection("users")
                 .add(user)
                 .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
                     @Override
                     public void onSuccess(DocumentReference documentReference) {
-                        Log.d(TAG, "User document added with UID: " + mauth.getCurrentUser().getUid());
+                        // Log success if needed
                     }
                 })
                 .addOnFailureListener(new OnFailureListener() {
                     @Override
                     public void onFailure(@NonNull Exception e) {
-                        Log.w(TAG, "Error adding user document", e);
+                        // Log failure if needed
                     }
                 });
     }
 
     public static boolean isPasswordValid(String password) {
-        if (password.length() < 6) {
-            return false;
-        }
-
-        if (!Pattern.compile("[A-Z]").matcher(password).find()) {
-            return false;
-        }
-
-        if (!Pattern.compile("[^a-zA-Z0-9]").matcher(password).find()) {
-            return false;
-        }
-
-        if (!Pattern.compile("[0-9]").matcher(password).find()) {
-            return false;
-        }
-
-        return true;
+        // Implement password validation logic as needed
+        return password.length() >= 6 &&
+                Pattern.compile("[A-Z]").matcher(password).find() &&
+                Pattern.compile("[^a-zA-Z0-9]").matcher(password).find() &&
+                Pattern.compile("[0-9]").matcher(password).find();
     }
 
-    // Method to check if the email contains "@gmail.com"
     private boolean isValidEmail(String email) {
+        // Implement email validation logic as needed
         return email.toLowerCase().endsWith("@gmail.com");
     }
-
 }

@@ -3,6 +3,7 @@ package com.example.my_medicos.activities.pg.activites;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import android.annotation.SuppressLint;
 import android.content.Intent;
@@ -16,14 +17,16 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.example.my_medicos.activities.news.News;
+import com.example.my_medicos.activities.news.NewsAdapter;
+import com.example.my_medicos.activities.pg.adapters.QuestionBankPGAdapter;
+import com.example.my_medicos.activities.pg.model.QuestionPG;
 import com.example.my_medicos.activities.utils.ConstantsDashboard;
 import com.example.my_medicos.activities.pg.activites.insiders.SpecialityPGInsiderActivity;
 import com.example.my_medicos.activities.pg.adapters.PerDayPGAdapter;
-import com.example.my_medicos.activities.pg.adapters.QuestionBanksPGAdapter;
 import com.example.my_medicos.activities.pg.adapters.SpecialitiesPGAdapter;
 import com.example.my_medicos.activities.pg.adapters.VideoPGAdapter;
 import com.example.my_medicos.activities.pg.model.PerDayPG;
-import com.example.my_medicos.activities.pg.model.QuestionsPG;
 import com.example.my_medicos.activities.pg.model.SpecialitiesPG;
 import com.example.my_medicos.activities.pg.model.VideoPG;
 import com.example.my_medicos.activities.publications.adapters.ProductAdapter;
@@ -47,14 +50,17 @@ public class  PgprepActivity extends AppCompatActivity {
     SpecialitiesPGAdapter specialitiesPGAdapter;
     ArrayList<SpecialitiesPG> specialitiespost;
 
-    QuestionBanksPGAdapter questionsAdapter;
-    ArrayList<QuestionsPG> questionsforpg;
+    QuestionBankPGAdapter questionsAdapter;
+    ArrayList<QuestionPG> questionsforpg;
 
     VideoPGAdapter videosAdapter;
     ArrayList<VideoPG> videoforpg;
 
     ProductAdapter productAdapter;
     ArrayList<Product> products;
+
+    NewsAdapter newsAdapter;
+    ArrayList<News> news;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -221,7 +227,6 @@ public class  PgprepActivity extends AppCompatActivity {
 
                         specialitiesPGAdapter.notifyDataSetChanged();
 
-// Add click listener to RecyclerView items
                         binding.questionbankList.addOnItemTouchListener(new RecyclerView.OnItemTouchListener() {
                             @Override
                             public boolean onInterceptTouchEvent(@NonNull RecyclerView rv, @NonNull MotionEvent e) {
@@ -229,9 +234,7 @@ public class  PgprepActivity extends AppCompatActivity {
                                 int position = rv.getChildAdapterPosition(child);
 
                                 if (position != RecyclerView.NO_POSITION) {
-                                    // Check if the clicked item is the "More" category
                                     if (position == specialitiespost.size() - 1 && specialitiespost.get(position).getId() == -1) {
-                                        // Redirect to CategoryPublicationInsiderActivity
                                         Intent intent = new Intent(PgprepActivity.this, SpecialityPGInsiderActivity.class);
                                         startActivity(intent);
                                     } else {
@@ -272,11 +275,11 @@ public class  PgprepActivity extends AppCompatActivity {
     // this is for the questionbank
     void initQuestionsBanks() {
         questionsforpg = new ArrayList<>();
-        questionsAdapter = new QuestionBanksPGAdapter(this, questionsforpg);
+        questionsAdapter = new QuestionBankPGAdapter(this, questionsforpg);
 
         getRecentQuestions();
 
-        GridLayoutManager layoutManager = new GridLayoutManager(this, 1);
+        LinearLayoutManager layoutManager = new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false);
         binding.questionbankList.setLayoutManager(layoutManager);
         binding.questionbankList.setAdapter(questionsAdapter);
     }
@@ -284,25 +287,21 @@ public class  PgprepActivity extends AppCompatActivity {
     void getRecentQuestions() {
         RequestQueue queue = Volley.newRequestQueue(this);
 
-        String url = Constants.GET_PRODUCTS_URL + "?count=8";
+        String url = ConstantsDashboard.GET_PG_QUESTIONBANK_URL;
         StringRequest request = new StringRequest(Request.Method.GET, url, response -> {
             try {
                 JSONObject object = new JSONObject(response);
                 if(object.getString("status").equals("success")){
-                    JSONArray questionbankArray = object.getJSONArray("products");
-                    for(int i =0; i< questionbankArray.length(); i++) {
-                        JSONObject childObj = questionbankArray.getJSONObject(i);
-                        QuestionsPG questionbank = new QuestionsPG(
-                                childObj.getString("name"),
-                                Constants.PRODUCTS_IMAGE_URL + childObj.getString("image"),
-                                childObj.getString("status"),
-                                childObj.getDouble("price"),
-                                childObj.getDouble("price_discount"),
-                                childObj.getInt("stock"),
-                                childObj.getInt("id")
-
+                    JSONArray array = object.getJSONArray("data");
+                    for (int i = 0; i < array.length(); i++) {
+                        JSONObject childObj = array.getJSONObject(i);
+                        QuestionPG questionbankItem = new QuestionPG(
+                                childObj.getString("Title"),
+                                childObj.getString("Description"),
+                                childObj.getString("Time"),
+                                childObj.getString("file")
                         );
-                        questionsforpg.add(questionbank);
+                        questionsforpg.add(questionbankItem);
                     }
                     questionsAdapter.notifyDataSetChanged();
                 }
@@ -321,33 +320,29 @@ public class  PgprepActivity extends AppCompatActivity {
 
         getRecentVideos();
 
-        GridLayoutManager layoutManager = new GridLayoutManager(this, 1);
+        LinearLayoutManager layoutManager = new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false);
         binding.videobankList.setLayoutManager(layoutManager);
-        binding.videobankList.setAdapter(productAdapter);
+        binding.videobankList.setAdapter(videosAdapter);
     }
 
     void getRecentVideos() {
         RequestQueue queue = Volley.newRequestQueue(this);
 
-        String url = Constants.GET_PRODUCTS_URL + "?count=8";
+        String url = ConstantsDashboard.GET_PG_VIDEOS_URL;
         StringRequest request = new StringRequest(Request.Method.GET, url, response -> {
             try {
                 JSONObject object = new JSONObject(response);
                 if(object.getString("status").equals("success")){
-                    JSONArray videobankArray = object.getJSONArray("products");
-                    for(int i =0; i< videobankArray.length(); i++) {
-                        JSONObject childObj = videobankArray.getJSONObject(i);
-                        VideoPG videobanks = new VideoPG(
-                                childObj.getString("name"),
-                                Constants.PRODUCTS_IMAGE_URL + childObj.getString("image"),
-                                childObj.getString("status"),
-                                childObj.getDouble("price"),
-                                childObj.getDouble("price_discount"),
-                                childObj.getInt("stock"),
-                                childObj.getInt("id")
-
+                    JSONArray array = object.getJSONArray("data");
+                    for (int i = 0; i < array.length(); i++) {
+                        JSONObject childObj = array.getJSONObject(i);
+                        VideoPG videoItem = new VideoPG(
+                                childObj.getString("Title"),
+                                childObj.getString("Thumbnail"),
+                                childObj.getString("Time"),
+                                childObj.getString("URL")
                         );
-                        videoforpg.add(videobanks);
+                        videoforpg.add(videoItem);
                     }
                     videosAdapter.notifyDataSetChanged();
                 }

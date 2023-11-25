@@ -37,7 +37,7 @@ public class ProfileFragment extends Fragment {
     private static final String DATA_LOADED_KEY = "data_loaded";
 
     CardView personalinfo, contactinfo;
-    TextView user_name_dr, user_email_dr, user_phone_dr,user_location_dr,user_interest_dr;
+    TextView user_name_dr, user_email_dr, user_phone_dr,user_location_dr,user_interest_dr,user_prefix;
     ImageView profileImageView;
 
     private boolean dataLoaded = false;
@@ -79,6 +79,7 @@ public class ProfileFragment extends Fragment {
         user_location_dr = rootView.findViewById(R.id.user_location_dr);
         user_interest_dr = rootView.findViewById(R.id.user_interest_dr);
         profileImageView = rootView.findViewById(R.id.circularImageView);
+        user_prefix = rootView.findViewById(R.id.prefixselecterfromuser);
 
         if (!dataLoaded) {
             fetchdata();
@@ -103,11 +104,13 @@ public class ProfileFragment extends Fragment {
         String location = preferences.get("location", "");
         String interest = preferences.get("interest", "");
         String phone=preferences.get("userphone","");
+        String prefix =preferences.get("prefix","");
         user_name_dr.setText(username);
         user_email_dr.setText(email);
         user_location_dr.setText(location);
         user_interest_dr.setText(interest);
         user_phone_dr.setText(phone);
+        user_prefix.setText(prefix);
 
     }
 
@@ -135,6 +138,7 @@ public class ProfileFragment extends Fragment {
                                         String userLocation = (String) dataMap.get("Location");
                                         String userInterest = (String) dataMap.get("Interest");
                                         String userPhone = (String) dataMap.get("Phone Number");
+                                        String userPrefix = (String) dataMap.get("Prefix");
                                         Preferences preferences = Preferences.userRoot(); // User preferences
                                         // Store data
                                         preferences.put("username", userName);
@@ -146,6 +150,8 @@ public class ProfileFragment extends Fragment {
                                         preferences.put("interest", userInterest);
 
                                         preferences.put("userphone",userPhone);
+
+                                        preferences.put("prefix",userPrefix);
                                         user_name_dr.setText(userName);
                                         user_phone_dr.setText(userPhone);
                                         fetchdata();

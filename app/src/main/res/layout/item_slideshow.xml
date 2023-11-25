@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_marginStart="8dp"
+    android:layout_marginTop="8dp"
+    android:layout_marginEnd="8dp"
+    android:layout_marginBottom="8dp"
+    app:cardCornerRadius="20dp">
+
+    <androidx.cardview.widget.CardView
+        android:layout_width="match_parent"
+        android:elevation="@dimen/_10ssp"
+        app:cardCornerRadius="@dimen/_20sdp"
+        android:layout_height="@dimen/_120sdp">
+
+        <ImageView
+            android:id="@+id/thumbnailslideshow"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/_120sdp"
+            android:scaleType="centerCrop"
+            app:srcCompat="@drawable/placeholder" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingHorizontal="@dimen/_12sdp"
+            android:layout_gravity="bottom"
+            android:paddingVertical="@dimen/_5ssp"
+            android:background="@drawable/slideshowdownloadbk"
+            android:orientation="horizontal">
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/slideshowlabel"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="TextView"
+                    android:textSize="16dp"
+                    android:textStyle="bold"
+                    android:fontFamily="@font/roboto_bold"
+                    android:maxLines="1"
+                    android:textColor="@color/white" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Certified!"
+                    android:textSize="10sp"
+                    android:textStyle="bold"
+                    android:fontFamily="@font/roboto_bold"
+                    android:maxLines="1"
+                    android:textColor="#E3D8D8" />
+
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/downloadpptbtn"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="wrap_content"
+                android:text="Download"
+                android:paddingVertical="@dimen/_5ssp"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:background="@drawable/morecategory"
+                android:textSize="16dp"
+                android:textStyle="bold"
+                android:fontFamily="@font/roboto_bold"
+                android:maxLines="1"
+                android:textColor="@color/black" />
+
+        </LinearLayout>
+
+    </androidx.cardview.widget.CardView>
+
+
+</FrameLayout>

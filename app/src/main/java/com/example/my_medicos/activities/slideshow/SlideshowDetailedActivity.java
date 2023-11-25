@@ -1,4 +1,4 @@
-package com.example.my_medicos.activities.pg.activites.detailed;
+package com.example.my_medicos.activities.slideshow;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -18,10 +18,10 @@ import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.bumptech.glide.Glide;
 import com.example.my_medicos.R;
-import com.example.my_medicos.activities.pg.model.VideoPG;
-import com.example.my_medicos.activities.utils.ConstantsDashboard;
+import com.example.my_medicos.activities.news.News;
 import com.example.my_medicos.activities.publications.activity.CartPublicationActivity;
-import com.example.my_medicos.databinding.ActivityVideoBankDetailedBinding;
+import com.example.my_medicos.activities.utils.ConstantsDashboard;
+import com.example.my_medicos.databinding.ActivityNewsDetailedBinding;
 import com.hishd.tinycart.model.Cart;
 import com.hishd.tinycart.util.TinyCartHelper;
 
@@ -29,28 +29,29 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 
-public class VideoBankDetailedActivity extends AppCompatActivity {
+public class SlideshowDetailedActivity extends AppCompatActivity {
 
 
-    ActivityVideoBankDetailedBinding binding;
-    VideoPG currentVideos;
+    ActivityNewsDetailedBinding binding;
+    News currentNews;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
-        binding = ActivityVideoBankDetailedBinding.inflate(getLayoutInflater());
+        binding = ActivityNewsDetailedBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
         String name = getIntent().getStringExtra("Title");
         String image = getIntent().getStringExtra("thumbnail");
+        String status = getIntent().getStringExtra("Description");
         String time = getIntent().getStringExtra("Time");
 
 
         Glide.with(this)
                 .load(image)
-                .into(binding.videobankthumbnailImage);
+                .into(binding.newsthumbnail);
 
         getNewsDetails(name);
 
@@ -61,11 +62,11 @@ public class VideoBankDetailedActivity extends AppCompatActivity {
         Cart cart = TinyCartHelper.getCart();
 
 
-        binding.VideovideoBankBtn.setOnClickListener(new View.OnClickListener() {
+        binding.readmoreBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                binding.VideovideoBankBtn.setEnabled(false);
-                binding.VideovideoBankBtn.setText("Opening Youtube...");
+                binding.readmoreBtn.setEnabled(false);
+                binding.readmoreBtn.setText("Added in cart");
             }
         });
     }
@@ -87,23 +88,24 @@ public class VideoBankDetailedActivity extends AppCompatActivity {
     void getNewsDetails(String name) {
         RequestQueue queue = Volley.newRequestQueue(this);
 
-        String url = ConstantsDashboard.GET_PG_VIDEOS_URL + name;
+        String url = ConstantsDashboard.GET_NEWS + name;
 
         StringRequest request = new StringRequest(Request.Method.GET, url, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
                 try {
-                    JSONObject videos = new JSONObject(response);
-                    String image = videos.getString("image");
-                    binding.videobankDescription.setText(
-                            Html.fromHtml(image)
-                    );
-                    currentVideos = new VideoPG(
-                            videos.getString("name"),
-                            videos.getString("image"),
-                            videos.getString("url"),
-                            videos.getString("date")
-                    );
+                    JSONObject news = new JSONObject(response);
+                        String description = news.getString("Description");
+                        binding.newsDescription.setText(
+                                Html.fromHtml(description)
+                        );
+                        currentNews = new News(
+                                news.getString("name"),
+                                news.getString("image"),
+                                news.getString("status"),
+                                news.getString("url"),
+                                news.getString("date")
+                        );
 
                 } catch (JSONException e) {
                     e.printStackTrace();
