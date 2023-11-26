@@ -7,8 +7,6 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".activities.home.fragments.HomeFragment">
 
-
-
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
@@ -57,284 +55,282 @@
 
                     </androidx.cardview.widget.CardView>
 
-                    <GridLayout
+                    <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
-                        android:layout_margin="@dimen/_10sdp"
+                        android:layout_marginVertical="@dimen/_5ssp"
+                        android:layout_marginHorizontal="@dimen/_10ssp"
                         android:padding="@dimen/_8sdp"
-                        android:columnCount="4"
                         android:background="@drawable/mainbackground"
-                        android:elevation="@dimen/_10sdp"
-                        android:orientation="horizontal"
-                        android:rowCount="2">
+                        android:orientation="vertical">
 
                         <LinearLayout
-                            android:layout_width="wrap_content"
+                            android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_marginStart="@dimen/_22sdp"
-                            android:layout_marginTop="@dimen/_10sdp"
-                            android:orientation="vertical">
+                            android:layout_gravity="center"
+                            android:gravity="center"
+                            android:orientation="horizontal">
 
                             <LinearLayout
-                                android:layout_width="@dimen/_40sdp"
-                                android:layout_height="@dimen/_40sdp"
-                                android:background="@drawable/back1">
-
-
-                                <ImageView
-                                    android:id="@+id/cme_img1"
-                                    android:layout_width="@dimen/_25sdp"
-                                    android:layout_height="@dimen/_25sdp"
-                                    android:layout_gravity="center"
-                                    android:layout_marginStart="@dimen/_8sdp"
-                                    android:src="@drawable/cmeicon" />
-
-                            </LinearLayout>
-
-                            <TextView
-                                android:layout_width="wrap_content"
+                                android:layout_width="0dp"
+                                android:layout_weight="1"
                                 android:layout_height="wrap_content"
-                                android:layout_gravity="center"
-                                android:layout_marginTop="@dimen/_5sdp"
-                                android:text="CME"
-                                android:textSize="@dimen/_10sdp"
-                                tools:ignore="TextSizeCheck" />
+                                android:orientation="vertical">
 
-                        </LinearLayout>
-
-
-                        <LinearLayout
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginStart="@dimen/_25sdp"
-                            android:layout_marginTop="@dimen/_10sdp"
-                            android:orientation="vertical">
-
-                            <LinearLayout
-                                android:layout_width="@dimen/_40sdp"
-                                android:layout_height="@dimen/_40sdp"
-                                android:layout_gravity="center"
-                                android:background="@drawable/back2">
-
-                                <ImageView
-                                    android:id="@+id/pub_image"
-                                    android:layout_width="@dimen/_25sdp"
-                                    android:layout_height="@dimen/_25sdp"
+                                <LinearLayout
+                                    android:layout_width="@dimen/_40sdp"
+                                    android:layout_height="@dimen/_40sdp"
                                     android:layout_gravity="center"
-                                    android:layout_marginStart="@dimen/_8sdp"
-                                    android:src="@drawable/publicationicon" />
-                            </LinearLayout>
+                                    android:background="@drawable/back1">
 
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_gravity="center"
-                                android:layout_marginTop="@dimen/_5sdp"
-                                android:text="Recent\nPublications"
-                                android:textAlignment="center"
-                                android:textSize="@dimen/_10ssp" />
-                        </LinearLayout>
+                                    <ImageView
+                                        android:id="@+id/cme_img1"
+                                        android:layout_width="@dimen/_25sdp"
+                                        android:layout_height="@dimen/_25sdp"
+                                        android:layout_gravity="center"
+                                        android:layout_marginStart="@dimen/_8sdp"
+                                        android:src="@drawable/cmeicon" />
 
+                                </LinearLayout>
 
-                        <LinearLayout
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginStart="@dimen/_25sdp"
-                            android:layout_marginTop="@dimen/_10sdp"
-                            android:orientation="vertical">
-
-                            <LinearLayout
-                                android:layout_width="@dimen/_40sdp"
-                                android:layout_height="@dimen/_40sdp"
-                                android:background="@drawable/back1">
-
-                                <ImageView
-                                    android:id="@+id/news_home"
-                                    android:layout_width="@dimen/_25sdp"
-                                    android:layout_height="@dimen/_25sdp"
-                                    android:layout_gravity="center"
-                                    android:layout_marginStart="@dimen/_8sdp"
-                                    android:src="@drawable/newsicon" />
-                            </LinearLayout>
-
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_gravity="center"
-                                android:layout_marginTop="@dimen/_5sdp"
-                                android:text="Medical\nNews"
-                                android:textAlignment="center"
-                                android:textSize="@dimen/_10ssp" />
-                        </LinearLayout>
-
-
-                        <LinearLayout
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginStart="@dimen/_25sdp"
-                            android:layout_marginTop="@dimen/_10sdp"
-                            android:orientation="vertical">
-
-                            <LinearLayout
-                                android:layout_width="@dimen/_40sdp"
-                                android:layout_height="@dimen/_40sdp"
-                                android:background="@drawable/back2">
-
-                                <ImageView
-                                    android:id="@+id/jobs_img"
-                                    android:layout_width="@dimen/_25sdp"
-                                    android:layout_height="@dimen/_25sdp"
-                                    android:layout_gravity="center"
-                                    android:layout_marginStart="@dimen/_8sdp"
-                                    android:src="@drawable/jobicon" />
-                            </LinearLayout>
-
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_gravity="center"
-                                android:layout_marginTop="@dimen/_5sdp"
-                                android:text="Jobs"
-                                android:textSize="@dimen/_10ssp" />
-                        </LinearLayout>
-
-
-                        <LinearLayout
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginStart="@dimen/_22sdp"
-                            android:layout_marginTop="@dimen/_10sdp"
-                            android:orientation="vertical">
-
-                            <LinearLayout
-                                android:layout_width="@dimen/_40sdp"
-                                android:layout_height="@dimen/_40sdp"
-                                android:background="@drawable/back1">
-
-
-                                <ImageView
-                                    android:id="@+id/ugexams"
+                                <TextView
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:layout_gravity="center"
-                                    android:padding="@dimen/_8ssp"
-                                    android:src="@drawable/ugicon" />
+                                    android:layout_marginTop="@dimen/_5sdp"
+                                    android:text="CME"
+                                    android:textSize="@dimen/_10sdp"
+                                    tools:ignore="TextSizeCheck" />
 
                             </LinearLayout>
 
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_gravity="center"
-                                android:layout_marginTop="@dimen/_5sdp"
-                                android:text="UG exams"
-                                android:textSize="@dimen/_10sdp"
-                                tools:ignore="TextSizeCheck" />
-                        </LinearLayout>
-
-
-                        <LinearLayout
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginStart="@dimen/_25sdp"
-                            android:layout_marginTop="@dimen/_10sdp"
-                            android:orientation="vertical">
-
                             <LinearLayout
-                                android:layout_width="@dimen/_40sdp"
-                                android:layout_height="@dimen/_40sdp"
-                                android:layout_gravity="center"
-                                android:background="@drawable/back2">
+                                android:layout_width="0dp"
+                                android:layout_weight="1"                                android:layout_height="wrap_content"
+                                android:orientation="vertical">
 
-                                <ImageView
-                                    android:id="@+id/pg_prep"
+                                <LinearLayout
+                                    android:layout_width="@dimen/_40sdp"
+                                    android:layout_height="@dimen/_40sdp"
+                                    android:layout_gravity="center"
+                                    android:background="@drawable/back2">
+
+                                    <ImageView
+                                        android:id="@+id/pub_image"
+                                        android:layout_width="@dimen/_25sdp"
+                                        android:layout_height="@dimen/_25sdp"
+                                        android:layout_gravity="center"
+                                        android:layout_marginStart="@dimen/_8sdp"
+                                        android:src="@drawable/publicationicon" />
+                                </LinearLayout>
+
+                                <TextView
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:layout_gravity="center"
-                                    android:padding="@dimen/_8ssp"
-                                    android:src="@drawable/pgicon" />
+                                    android:layout_marginTop="@dimen/_5sdp"
+                                    android:text="Library"
+                                    android:textAlignment="center"
+                                    android:textSize="@dimen/_10ssp" />
                             </LinearLayout>
 
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_gravity="center"
-                                android:layout_marginTop="@dimen/_5sdp"
-                                android:text="PG\nPreperation"
-                                android:textAlignment="center"
-                                android:textSize="@dimen/_10ssp" />
-                        </LinearLayout>
-
-
-                        <LinearLayout
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginStart="@dimen/_25sdp"
-                            android:layout_marginTop="@dimen/_10sdp"
-                            android:orientation="vertical">
-
                             <LinearLayout
-                                android:layout_width="@dimen/_40sdp"
-                                android:layout_height="@dimen/_40sdp"
-                                android:background="@drawable/back1">
+                                android:layout_width="0dp"
+                                android:layout_weight="1"                                android:layout_height="wrap_content"
+                                android:orientation="vertical">
 
-                                <ImageView
-                                    android:id="@+id/university"
+                                <LinearLayout
+                                    android:layout_width="@dimen/_40sdp"
+                                    android:layout_height="@dimen/_40sdp"
+                                    android:layout_gravity="center"
+                                    android:background="@drawable/back1">
+
+                                    <ImageView
+                                        android:id="@+id/news_home"
+                                        android:layout_width="@dimen/_25sdp"
+                                        android:layout_height="@dimen/_25sdp"
+                                        android:layout_gravity="center"
+                                        android:layout_marginStart="@dimen/_8sdp"
+                                        android:src="@drawable/newsicon" />
+                                </LinearLayout>
+
+                                <TextView
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:layout_gravity="center"
-                                    android:padding="@dimen/_8ssp"
-                                    android:src="@drawable/universityicon" />
+                                    android:layout_marginTop="@dimen/_5sdp"
+                                    android:text="News"
+                                    android:textAlignment="center"
+                                    android:textSize="@dimen/_10ssp" />
                             </LinearLayout>
 
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_gravity="center"
-                                android:layout_marginTop="@dimen/_5sdp"
-                                android:text="University\nUpdates"
-                                android:textAlignment="center"
-                                android:textSize="@dimen/_10ssp" />
-                        </LinearLayout>
-
-
-                        <LinearLayout
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginStart="@dimen/_25sdp"
-                            android:layout_marginTop="@dimen/_10sdp"
-                            android:orientation="vertical">
-
                             <LinearLayout
-                                android:layout_width="@dimen/_40sdp"
-                                android:layout_height="@dimen/_40sdp"
-                                android:background="@drawable/back2">
+                                android:layout_width="0dp"
+                                android:layout_weight="1"                                android:layout_height="wrap_content"
+                                android:orientation="vertical">
 
-                                <ImageView
-                                    android:id="@+id/meme"
+                                <LinearLayout
+                                    android:layout_width="@dimen/_40sdp"
+                                    android:layout_height="@dimen/_40sdp"
+                                    android:layout_gravity="center"
+                                    android:background="@drawable/back2">
+
+                                    <ImageView
+                                        android:id="@+id/jobs_img"
+                                        android:layout_width="@dimen/_25sdp"
+                                        android:layout_height="@dimen/_25sdp"
+                                        android:layout_gravity="center"
+                                        android:layout_marginStart="@dimen/_8sdp"
+                                        android:src="@drawable/jobicon" />
+                                </LinearLayout>
+
+                                <TextView
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:layout_gravity="center"
-                                    android:padding="@dimen/_8ssp"
-                                    android:src="@drawable/memeicon" />
+                                    android:layout_marginTop="@dimen/_5sdp"
+                                    android:text="Jobs"
+                                    android:textSize="@dimen/_10ssp" />
                             </LinearLayout>
 
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_gravity="center"
-                                android:layout_marginTop="@dimen/_5sdp"
-                                android:text="Medical\nMemes"
-                                android:textSize="@dimen/_10ssp" />
                         </LinearLayout>
 
-                    </GridLayout>
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_gravity="center"
+                            android:gravity="center"
+                            android:paddingTop="@dimen/_8ssp"
+                            android:orientation="horizontal">
+
+                            <LinearLayout
+                                android:layout_width="0dp"
+                                android:layout_weight="1"                                android:layout_height="wrap_content"
+                                android:orientation="vertical">
+
+                                <LinearLayout
+                                    android:layout_width="@dimen/_40sdp"
+                                    android:layout_height="@dimen/_40sdp"
+                                    android:layout_gravity="center"
+                                    android:background="@drawable/back1">
+
+
+                                    <ImageView
+                                        android:id="@+id/ugexams"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:layout_gravity="center"
+                                        android:padding="@dimen/_8ssp"
+                                        android:src="@drawable/ugicon" />
+
+                                </LinearLayout>
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_gravity="center"
+                                    android:layout_marginTop="@dimen/_5sdp"
+                                    android:text="UG exams"
+                                    android:textSize="@dimen/_10sdp"
+                                    tools:ignore="TextSizeCheck" />
+                            </LinearLayout>
+
+                            <LinearLayout
+                                android:layout_width="0dp"
+                                android:layout_weight="1"                                android:layout_height="wrap_content"
+                                android:orientation="vertical">
+
+                                <LinearLayout
+                                    android:layout_width="@dimen/_40sdp"
+                                    android:layout_height="@dimen/_40sdp"
+                                    android:layout_gravity="center"
+                                    android:background="@drawable/back2">
+
+                                    <ImageView
+                                        android:id="@+id/pg_prep"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:layout_gravity="center"
+                                        android:padding="@dimen/_8ssp"
+                                        android:src="@drawable/pgicon" />
+                                </LinearLayout>
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_gravity="center"
+                                    android:layout_marginTop="@dimen/_5sdp"
+                                    android:text="Post Graduate"
+                                    android:textAlignment="center"
+                                    android:textSize="@dimen/_10ssp" />
+                            </LinearLayout>
+
+                            <LinearLayout
+                                android:layout_width="0dp"
+                                android:layout_weight="1"                                android:layout_height="wrap_content"
+                                android:orientation="vertical">
+
+                                <LinearLayout
+                                    android:layout_width="@dimen/_40sdp"
+                                    android:layout_height="@dimen/_40sdp"
+                                    android:layout_gravity="center"
+                                    android:background="@drawable/back1">
+
+                                    <ImageView
+                                        android:id="@+id/university"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:layout_gravity="center"
+                                        android:padding="@dimen/_8ssp"
+                                        android:src="@drawable/universityicon" />
+                                </LinearLayout>
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_gravity="center"
+                                    android:layout_marginTop="@dimen/_5sdp"
+                                    android:text="Updates"
+                                    android:textAlignment="center"
+                                    android:textSize="@dimen/_10ssp" />
+                            </LinearLayout>
+
+                            <LinearLayout
+                                android:layout_width="0dp"
+                                android:layout_weight="1"                                android:layout_height="wrap_content"
+                                android:orientation="vertical">
+
+                                <LinearLayout
+                                    android:layout_width="@dimen/_40sdp"
+                                    android:layout_gravity="center"
+                                    android:layout_height="@dimen/_40sdp"
+                                    android:background="@drawable/back2">
+
+                                    <ImageView
+                                        android:id="@+id/meme"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:layout_gravity="center"
+                                        android:padding="@dimen/_8ssp"
+                                        android:src="@drawable/memeicon" />
+                                </LinearLayout>
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_gravity="center"
+                                    android:layout_marginTop="@dimen/_5sdp"
+                                    android:text="Memes"
+                                    android:textSize="@dimen/_10ssp" />
+                            </LinearLayout>
+
+                        </LinearLayout>
+
+                    </LinearLayout>
 
                     <LinearLayout
                         android:layout_width="match_parent"
-                        android:paddingTop="@dimen/_5ssp"
-                        android:layout_margin="@dimen/_8sdp"
                         android:paddingHorizontal="@dimen/_10ssp"
                         android:elevation="@dimen/_16sdp"
                         android:layout_height="wrap_content">
@@ -369,15 +365,12 @@
                         android:layout_marginBottom="@dimen/_5sdp"
                         android:layout_marginRight="@dimen/_5sdp"
                         android:layout_marginLeft="@dimen/_5sdp"
-                        android:background="@drawable/mainbackground"
                         android:orientation="horizontal">
 
                     </androidx.recyclerview.widget.RecyclerView>
 
                     <LinearLayout
                         android:layout_width="match_parent"
-                        android:paddingTop="@dimen/_5ssp"
-                        android:layout_margin="@dimen/_8sdp"
                         android:paddingHorizontal="@dimen/_10ssp"
                         android:elevation="@dimen/_16sdp"
                         android:layout_height="wrap_content">
@@ -407,11 +400,9 @@
 
                     <LinearLayout
                         android:layout_width="match_parent"
-                        android:layout_height="60dp"
-                        android:layout_margin="8dp"
-                        android:background="@drawable/mainbackground"
-                        android:paddingHorizontal="@dimen/_10ssp"
-                        android:paddingTop="@dimen/_5ssp">
+                        android:paddingVertical="@dimen/_5ssp"
+                        android:layout_height="wrap_content"
+                        android:paddingHorizontal="@dimen/_10ssp">
 
                         <TextView
                             android:layout_width="0dp"
@@ -457,11 +448,9 @@
 
                     <LinearLayout
                         android:layout_width="match_parent"
-                        android:paddingTop="@dimen/_5ssp"
-                        android:layout_margin="@dimen/_8sdp"
                         android:paddingHorizontal="@dimen/_10ssp"
-                        android:elevation="@dimen/_16sdp"
                         android:layout_height="wrap_content">
+
                         <TextView
                             android:layout_width="0dp"
                             android:layout_weight="1"
@@ -495,8 +484,6 @@
                     </androidx.recyclerview.widget.RecyclerView>
                     <LinearLayout
                         android:layout_width="match_parent"
-                        android:paddingTop="@dimen/_5ssp"
-                        android:layout_margin="@dimen/_8sdp"
                         android:paddingHorizontal="@dimen/_10ssp"
                         android:elevation="@dimen/_16sdp"
                         android:layout_height="wrap_content">
@@ -523,7 +510,6 @@
                     <androidx.cardview.widget.CardView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginVertical="@dimen/_5ssp"
                         android:layout_marginHorizontal="@dimen/_10ssp"
                         app:cardCornerRadius="@dimen/_15ssp">
 

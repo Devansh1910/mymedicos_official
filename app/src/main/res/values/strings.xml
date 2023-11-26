@@ -265,11 +265,10 @@
     <string name="author">Author</string>
 
     <string-array name="prefix_options">
-            <item>Dr.</item>
-            <item>Lt.</item>
-            <item>Ct.</item>
+        <item>Dr.</item>
+        <item>Lt.</item>
+        <item>Ct.</item>
     </string-array>
-
 
 
 </resources>

@@ -129,7 +129,7 @@
                             android:fontFamily="@font/roboto_bold"
                             android:gravity="right"
                             android:padding="10dp"
-                            android:text="PKR 0.0"
+                            android:text="INR 0.0"
                             android:textColor="@color/black"
                             android:textSize="16sp"
                             android:textStyle="bold" />
@@ -174,7 +174,7 @@
                         android:background="@drawable/mid"
                         android:ems="10"
                         android:hint="Full Name"
-                        android:inputType="textPersonName"
+                        android:inputType="none"
                         android:padding="15dp" />
 
                     <EditText
@@ -185,7 +185,7 @@
                         android:background="@drawable/mid"
                         android:ems="10"
                         android:hint="Email Address"
-                        android:inputType="textPersonName"
+                        android:inputType="none"
                         android:padding="15dp" />
 
                     <EditText
@@ -196,29 +196,7 @@
                         android:background="@drawable/mid"
                         android:ems="10"
                         android:hint="Phone Number"
-                        android:inputType="textPersonName"
-                        android:padding="15dp" />
-
-                    <EditText
-                        android:id="@+id/addressBox"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_margin="10dp"
-                        android:background="@drawable/mid"
-                        android:ems="10"
-                        android:hint="Address"
-                        android:inputType="textPersonName"
-                        android:padding="15dp" />
-
-                    <EditText
-                        android:id="@+id/dateBox"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_margin="10dp"
-                        android:background="@drawable/mid"
-                        android:ems="10"
-                        android:hint="Date Shipping"
-                        android:inputType="textPersonName"
+                        android:inputType="none"
                         android:padding="15dp" />
 
                     <EditText

@@ -58,7 +58,7 @@ public class CategoryPublicationActivity extends AppCompatActivity {
     void getProducts(int catId) {
         RequestQueue queue = Volley.newRequestQueue(this);
 
-        String url = Constants.GET_PRODUCTS_URL + "?category_id=" + catId;
+        String url = Constants.GET_PRODUCTS_URL + "  " + catId;
         StringRequest request = new StringRequest(Request.Method.GET, url, response -> {
             try {
                 JSONObject object = new JSONObject(response);

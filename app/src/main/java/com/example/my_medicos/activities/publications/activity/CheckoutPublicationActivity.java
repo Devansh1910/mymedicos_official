@@ -82,7 +82,6 @@ public class CheckoutPublicationActivity extends AppCompatActivity {
         binding.cartList.setLayoutManager(layoutManager);
         binding.cartList.addItemDecoration(itemDecoration);
         binding.cartList.setAdapter(adapter);
-
         binding.subtotal.setText(String.format("INR %.2f",cart.getTotalPrice()));
 
         totalPrice = (cart.getTotalPrice().doubleValue() * tax / 100) + cart.getTotalPrice().doubleValue();
@@ -106,7 +105,6 @@ public class CheckoutPublicationActivity extends AppCompatActivity {
         JSONObject dataObject = new JSONObject();
         try {
 
-            productOrder.put("address",binding.addressBox.getText().toString());
             productOrder.put("buyer",binding.nameBox.getText().toString());
             productOrder.put("comment", binding.commentBox.getText().toString());
             productOrder.put("created_at", Calendar.getInstance().getTimeInMillis());
@@ -201,4 +199,6 @@ public class CheckoutPublicationActivity extends AppCompatActivity {
         finish();
         return super.onSupportNavigateUp();
     }
+
+
 }
