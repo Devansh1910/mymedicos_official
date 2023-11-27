@@ -87,8 +87,7 @@ public class HomeActivity extends AppCompatActivity {
             Log.d("usernaem2", username);
             navUsername.setText(username);
         }
-        Log.d("iditennnew", "djnvjvdssn");
-
+        Log.d("Issue in Opening Home", "Issue in Opening the Application Home");
         NavigationView navigationView = findViewById(R.id.nav_view2);
 
         navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
@@ -107,7 +106,6 @@ public class HomeActivity extends AppCompatActivity {
                 } else {
                     Toast.makeText(HomeActivity.this, "Something went Wrong ", Toast.LENGTH_SHORT).show();
                 }
-
                 drawerLayout.closeDrawer(GravityCompat.START);
                 return true;
             }
@@ -121,7 +119,7 @@ public class HomeActivity extends AppCompatActivity {
 
         bottomNavigation.setOnItemSelectedListener(item -> {
             int frgId = item.getItemId();
-            Log.d("nsjnjsn","hcisb");
+            Log.d("Something Item Issue in HomeActivity","Check the Item Part (Issue in Fragment)");
             if (frgId == R.id.home) {
                 replaceFragment(new HomeFragment());
             } else if (frgId == R.id.work) {
@@ -139,20 +137,6 @@ public class HomeActivity extends AppCompatActivity {
         getMenuInflater().inflate(R.menu.drawer, menu);
         return true;
     }
-//    @Override
-//    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-//        int id = item.getItemId();
-//        if (id == R.id.nav_settings1) {
-//            Log.d("MenuItemSelected", "Settings item clicked!"); // Add this line
-//            replaceFragmentDrawer(new SettingsFragment());
-//            return true;
-//        }
-//        // Handle other menu items...
-//        return super.onOptionsItemSelected(item);
-//    }
-
-
-
 
     @Override
     public void onBackPressed() {
@@ -169,19 +153,6 @@ public class HomeActivity extends AppCompatActivity {
         fragmentTransaction.replace(R.id.frame_layout, fragment);
         fragmentTransaction.commit();
     }
-
-//    private boolean replaceFragmentDrawer(Fragment fragment) {
-//        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-//        transaction.replace(R.id.nav_host_fragment_content_drawer, fragment); // replace a Fragment with Frame Layout
-//        transaction.commit(); // commit the changes
-//        drawerLayout.closeDrawers(); // close the all open Drawer Views
-//
-//        getSupportFragmentManager()
-//                .beginTransaction()
-//                .replace(R.id.nav_host_fragment_content_drawer, fragment)
-//                .commit();
-//        return true;
-//    }
 
     private void performLogout() {
         AlertDialog.Builder builder = new AlertDialog.Builder(HomeActivity.this);

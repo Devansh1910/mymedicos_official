@@ -95,7 +95,7 @@ public class JobDetailsActivity extends AppCompatActivity {
                 @Override
                 public void onClick(View view) {
                     Context context = view.getContext();
-                    Intent j=new Intent(context, JobsApplycantActivty.class);
+                    Intent j=new Intent(context, JobsApplicantActivty.class);
                     j.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                     j.putExtra("user",receivedData);
                     j.putExtra("documentid",documentid);
