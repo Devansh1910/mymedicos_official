@@ -36,6 +36,11 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
             <EditText
                 android:id="@+id/Job_title"
                 android:layout_width="match_parent"
@@ -43,8 +48,20 @@
                 android:layout_marginStart="@dimen/_20sdp"
                 android:layout_marginEnd="@dimen/_20sdp"
                 android:background="@drawable/spinner_back"
+                android:maxLength="50"
                 android:hint="Title of the JOB"
                 android:paddingStart="@dimen/_10sdp" />
+
+            <TextView
+                android:id="@+id/char_counter_title_job"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="end"
+                android:text="0/50"
+                android:textColor="@android:color/darker_gray"
+                android:paddingEnd="@dimen/_20sdp"/>
+
+        </LinearLayout>
 
             <EditText
                 android:id="@+id/Job_organiser"
@@ -66,12 +83,14 @@
                 android:background="@drawable/spinner_back"
                 android:hint="Hospital name"
                 android:paddingStart="@dimen/_10sdp" />
+
             <EditText
                 android:id="@+id/opening"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/_40sdp"
                 android:layout_marginStart="@dimen/_20sdp"
                 android:layout_marginTop="@dimen/_10sdp"
+                android:inputType="number"
                 android:layout_marginEnd="@dimen/_20sdp"
                 android:background="@drawable/spinner_back"
                 android:hint="No of Opening"
@@ -147,6 +166,7 @@
                 android:layout_marginStart="@dimen/_20sdp"
                 android:layout_marginEnd="@dimen/_20sdp"
                 android:background="@drawable/spinner_back" />
+
             <Spinner
                 android:id="@+id/city"
                 android:layout_width="match_parent"
@@ -174,6 +194,7 @@
                 android:layout_marginStart="@dimen/_20sdp"
                 android:layout_marginTop="@dimen/_10sdp"
                 android:layout_marginEnd="@dimen/_20sdp"
+                android:inputType="number"
                 android:background="@drawable/spinner_back"
                 android:hint="Job Duration"
                 android:paddingStart="@dimen/_10sdp"
