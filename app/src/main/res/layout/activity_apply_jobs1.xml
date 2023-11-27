@@ -43,6 +43,7 @@
 
             <EditText
                 android:id="@+id/Age"
+                android:inputType="number"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/_40sdp"
                 android:layout_marginTop="@dimen/_10sdp"
@@ -50,8 +51,8 @@
                 android:hint="Age"
                 android:paddingStart="@dimen/_10sdp" />
 
-            <EditText
-                android:id="@+id/gender"
+            <Spinner
+                android:id="@+id/genderapplicant"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/_40sdp"
                 android:layout_marginTop="@dimen/_10sdp"

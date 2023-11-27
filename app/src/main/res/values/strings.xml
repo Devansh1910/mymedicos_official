@@ -271,5 +271,11 @@
         <item>Ct.</item>
     </string-array>
 
+    <string-array name="gender">
+        <item>Male</item>
+        <item>Female</item>
+        <item>Trans Gender</item>
+    </string-array>
+
 
 </resources>

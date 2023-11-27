@@ -56,10 +56,8 @@ public class JobsApplyActivity extends AppCompatActivity {
     FirebaseUser user = auth.getCurrentUser();
     String current = user.getPhoneNumber();
     String field3,field4;
-
     private Uri pdfData;
     static final int REQ = 1;
-
     private DatabaseReference databasereference;
     private StorageReference storageReference;
     private TextView addPdf,uploadPdfBtn;
@@ -67,22 +65,18 @@ public class JobsApplyActivity extends AppCompatActivity {
     private ProgressDialog pd;
     private String pdfName;
 
-    EditText applicantname, jobage, jobgender, jobexperience, jobcover;
+    EditText applicantname, jobage, jobcover;
     Button applyjob;
+
+    Spinner jobgender;
+
     public FirebaseDatabase db = FirebaseDatabase.getInstance();
     FirebaseFirestore dc = FirebaseFirestore.getInstance();
-    private Spinner subspecialitySpinner;
-    private Spinner specialitySpinner;
+    private Spinner genderSpinner;
     String receivedData;
-    String subspecialities1;
     public DatabaseReference cmeref = db.getReference().child("JOBsApply");
-    private ProgressDialog progressDialog;
     String documentid;
-
-    static final int REQUEST_STORAGE_PERMISSION = 1;
-    static final int REQUEST_STORAGE_ACCESS = 2;
-    private ArrayAdapter<CharSequence> specialityAdapter;
-    private ArrayAdapter<CharSequence> subspecialityAdapter;
+    private ArrayAdapter<CharSequence> genderAdapter;
     private TextView uploadpdfbtnjobs;
     @SuppressLint("MissingInflatedId")
     @Override
@@ -91,7 +85,7 @@ public class JobsApplyActivity extends AppCompatActivity {
         setContentView(R.layout.activity_apply_jobs1);
         applicantname = findViewById(R.id.name);
         jobage = findViewById(R.id.Age);
-        jobgender = findViewById(R.id.gender);
+        jobgender = findViewById(R.id.genderapplicant);
         jobcover = findViewById(R.id.cover);
         uploadpdfbtnjobs = findViewById(R.id.uploadpdfbtnjobs);
 
@@ -120,6 +114,13 @@ public class JobsApplyActivity extends AppCompatActivity {
                 }
             }
         });
+
+        genderSpinner = findViewById(R.id.genderapplicant);
+
+        genderAdapter = ArrayAdapter.createFromResource(this,
+                R.array.gender, android.R.layout.simple_spinner_item);
+        genderAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        genderSpinner.setAdapter(genderAdapter);
         dc.collection("users").get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
             @Override
             public void onComplete(Task<QuerySnapshot> task) {
@@ -247,7 +248,7 @@ public class JobsApplyActivity extends AppCompatActivity {
     public void apply() {
         String name = applicantname.getText().toString().trim();
         String age = jobage.getText().toString().trim();
-        String gender = jobgender.getText().toString().trim();
+        String gender = jobgender.getSelectedItem().toString().trim();
         String cover = jobcover.getText().toString().trim();
 
         if (TextUtils.isEmpty(name)) {
@@ -256,10 +257,6 @@ public class JobsApplyActivity extends AppCompatActivity {
         }
         if (TextUtils.isEmpty(age)) {
             jobage.setError("Organizer Required");
-            return;
-        }
-        if (TextUtils.isEmpty(gender)) {
-            jobgender.setError("Gender Required");
             return;
         }
         if (TextUtils.isEmpty(cover)) {

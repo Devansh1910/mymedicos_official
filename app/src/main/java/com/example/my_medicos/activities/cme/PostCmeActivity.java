@@ -464,14 +464,13 @@ public class PostCmeActivity extends AppCompatActivity {
         }
 
         if (venu.length() > MAX_CHARACTERS) {
-            // Display an error message if the content exceeds the limit
             cmevenu.setError("Character limit exceeded");
             return;
+
         } else {
             cmevenu.setError(null); // Clear any previous error
         }
 
-        // Get the selected mode from the spinner
         Spinner cmemodeSpinner = findViewById(R.id.cmemode);
         String mode = cmemodeSpinner.getSelectedItem().toString();
 
