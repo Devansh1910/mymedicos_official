@@ -27,7 +27,7 @@ public class DrawerActivity extends AppCompatActivity {
 
         setSupportActionBar(binding.appBarDrawer.toolbar);
         DrawerLayout drawer = binding.drawerLayout;
-        NavigationView navigationView = binding.navView;
+        NavigationView navigationView = binding.navView1;
 
         mAppBarConfiguration = new AppBarConfiguration.Builder(
                 R.id.nav_settings, R.id.nav_notifications, R.id.nav_logout)

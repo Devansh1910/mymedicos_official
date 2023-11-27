@@ -53,6 +53,7 @@ public class CmeActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_cme);
+
         viewpager = findViewById(R.id.view_pager1);
         viewpager.setAdapter(new ViewPagerAdapter(this));
         swipeRefreshLayout = findViewById(R.id.swipe_refresh_layout);
@@ -170,7 +171,7 @@ public class CmeActivity extends AppCompatActivity {
 
     }
     public void fetchData() {
-        recyclerView = findViewById(R.id.cme_recyclerview1);
+
         setSupportActionBar(toolbar);
         db = FirebaseFirestore.getInstance();
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);

@@ -7,7 +7,7 @@
     tools:ignore="InvalidNavigation">
 
     <fragment
-        android:id="@+id/nav_settings"
+        android:id="@+id/nav_settings2"
         android:name="com.example.my_medicos.activities.drawer.drawercontent.settings.SettingsFragment"
         android:label="@string/menu_settings"
         tools:layout="@layout/fragment_settings" />

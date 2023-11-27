@@ -1,12 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
+    android:id="@+id/container"
     android:background="@color/white"
+    android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".activities.cme.CmeSearchActivity">
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -15,214 +16,118 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
-    <com.google.android.material.appbar.AppBarLayout
-        android:id="@+id/cemtoolbar_container"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
-
-        <androidx.appcompat.widget.Toolbar
-            android:id="@+id/toolbar"
-            app:title="Speciality"
-            app:navigationIcon="@drawable/arrowbackforappbar"
-            app:titleTextColor="@color/black"
-            app:subtitleTextColor="@color/black"
-            app:subtitleTextAppearance="@color/black"
-            app:subtitle="SubSpeciality"
-            android:backgroundTint="@color/white"
+        <com.google.android.material.appbar.AppBarLayout
+            android:id="@+id/cemtoolbar_container"
             android:layout_width="match_parent"
-            android:layout_height="?attr/actionBarSize"
-            android:background="@color/white">
+            android:layout_height="wrap_content"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
 
-        </androidx.appcompat.widget.Toolbar>
-    </com.google.android.material.appbar.AppBarLayout>
+            <androidx.appcompat.widget.Toolbar
+                android:id="@+id/toolbar"
+                app:title="Speciality"
+                app:navigationIcon="@drawable/arrowbackforappbar"
+                app:titleTextColor="@color/black"
+                app:subtitleTextColor="@color/black"
+                app:subtitleTextAppearance="@color/black"
+                app:subtitle="SubSpeciality"
+                android:backgroundTint="@color/white"
+                android:layout_width="match_parent"
+                android:layout_height="?attr/actionBarSize"
+                android:background="@color/white">
+
+            </androidx.appcompat.widget.Toolbar>
+        </com.google.android.material.appbar.AppBarLayout>
 
 
-        <ScrollView
+
+
+        <androidx.viewpager2.widget.ViewPager2
+            android:id="@+id/view_pager"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tabLayout" />
+
+        <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+            android:id="@+id/swipe_refresh_layout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
-            <LinearLayout
+            <ScrollView
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical">
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:background="@drawable/recbg"
-                    android:layout_gravity="center"
-                    android:padding="@dimen/_5sdp"
-                    android:layout_margin="@dimen/_10sdp"
-                    android:layout_marginVertical="@dimen/_10sdp"
-                    android:orientation="horizontal">
-
-                    <TextView
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:paddingStart="@dimen/_10ssp"
-                        android:textSize="@dimen/_12ssp"
-                        android:textStyle="bold"
-                        android:textColor="@color/black"
-                        android:fontFamily="@font/montserrat_medium"
-                        android:text="@string/ongoing"
-                        tools:ignore="RtlSymmetry" />
-
-                    <TextView
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:gravity="end"
-                        android:textStyle="bold"
-                        android:paddingEnd="@dimen/_10ssp"
-                        android:layout_gravity="end"
-                        android:fontFamily="@font/montserrat_medium"
-                        android:text="@string/see_all"
-                        android:textColor="@color/green"
-                        tools:ignore="RtlSymmetry" />
-
-                </LinearLayout>
-
-                <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/cme_recyclerview1"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/_5sdp"
-                    android:layout_marginLeft="@dimen/_10sdp"
-                    android:layout_marginRight="@dimen/_10sdp"
-
-
-                    android:orientation="horizontal">
-
-                </androidx.recyclerview.widget.RecyclerView>
+                android:layout_height="wrap_content">
 
                 <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginVertical="@dimen/_10sdp"
-                    android:orientation="horizontal">
-
-                    <TextView
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:paddingStart="@dimen/_10ssp"
-                        android:textSize="@dimen/_12ssp"
-                        android:textStyle="bold"
-                        android:textColor="@color/black"
-                        android:fontFamily="@font/montserrat_medium"
-                        android:text="@string/past"
-                        tools:ignore="RtlSymmetry" />
-
-                    <TextView
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:gravity="end"
-                        android:textStyle="bold"
-                        android:paddingEnd="@dimen/_10ssp"
-                        android:layout_gravity="end"
-                        android:fontFamily="@font/montserrat_medium"
-                        android:text="@string/see_all"
-                        android:textColor="@color/green"
-                        tools:ignore="RtlSymmetry" />
-
-                </LinearLayout>
-
-                <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/cme_recyclerview4"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal">
-
-                </androidx.recyclerview.widget.RecyclerView>
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginVertical="@dimen/_10sdp"
-                    android:orientation="horizontal">
-
-                    <TextView
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:paddingStart="@dimen/_10ssp"
-                        android:textSize="@dimen/_12ssp"
-                        android:textStyle="bold"
-                        android:textColor="@color/black"
-                        android:fontFamily="@font/montserrat_medium"
-                        android:text="@string/presenters_of_the_month"
-                        tools:ignore="RtlSymmetry" />
-
-                    <TextView
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:textStyle="bold"
-                        android:gravity="end"
-                        android:paddingEnd="@dimen/_10ssp"
-                        android:layout_gravity="end"
-                        android:fontFamily="@font/montserrat_medium"
-                        android:text="@string/see_all"
-                        android:textColor="@color/green"
-                        tools:ignore="RtlSymmetry" />
-
-                </LinearLayout>
-                <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/recyclerview2"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal">
-
-                </androidx.recyclerview.widget.RecyclerView>
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginVertical="@dimen/_10sdp"
-                    android:orientation="horizontal">
-
-                    <TextView
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:paddingStart="@dimen/_10ssp"
-                        android:textSize="@dimen/_12ssp"
-                        android:textStyle="bold"
-                        android:textColor="@color/black"
-                        android:fontFamily="@font/montserrat_medium"
-                        android:text="@string/upcoming"
-                        tools:ignore="RtlSymmetry" />
-
-                    <TextView
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:gravity="end"
-                        android:textStyle="bold"
-                        android:paddingEnd="@dimen/_10ssp"
-                        android:layout_gravity="end"
-                        android:fontFamily="@font/montserrat_medium"
-                        android:text="@string/see_all"
-                        android:textColor="@color/green"
-                        tools:ignore="RtlSymmetry" />
-
-                </LinearLayout>
-
-                <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/recyclerview3"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="vertical">
 
-                </androidx.recyclerview.widget.RecyclerView>
-            </LinearLayout>
 
-        </ScrollView>
 
+                    <com.google.android.material.tabs.TabLayout
+                        android:layout_width="match_parent"
+                        android:layout_margin="@dimen/_10ssp"
+                        android:layout_height="match_parent"
+                        android:id="@+id/tablayout"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent">
+
+                        <com.google.android.material.tabs.TabItem
+                            android:id="@+id/ongoing"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Ongoing" />
+
+                        <com.google.android.material.tabs.TabItem
+                            android:id="@+id/past"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Past" />
+
+                        <com.google.android.material.tabs.TabItem
+                            android:id="@+id/upcoming"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Upcoming" />
+                    </com.google.android.material.tabs.TabLayout>
+
+                    <RelativeLayout
+                        xmlns:android="http://schemas.android.com/apk/res/android"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+
+                        <!-- Include your ViewPager2 and any other UI elements here -->
+                        <androidx.viewpager2.widget.ViewPager2
+                            android:id="@+id/view_pager1"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent" />
+
+                    </RelativeLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginVertical="@dimen/_10sdp"
+                        android:orientation="horizontal">
+
+                    </LinearLayout>
+
+                    <!--                <androidx.recyclerview.widget.RecyclerView-->
+                    <!--                    android:id="@+id/recyclerview3"-->
+                    <!--                    android:layout_width="match_parent"-->
+                    <!--                    android:layout_height="wrap_content"-->
+                    <!--                    android:orientation="vertical">-->
+
+                    <!--                </androidx.recyclerview.widget.RecyclerView>-->
+                </LinearLayout>
+            </ScrollView>
+        </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
     </LinearLayout>
+
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -7,17 +7,17 @@
     android:layout_gravity="start"
     android:fitsSystemWindows="true"
     tools:openDrawer="start"
-    android:id="@+id/drawer_layout"
+    android:id="@+id/drawer_layout1"
     tools:context=".activities.home.HomeActivity">
 
     <com.google.android.material.navigation.NavigationView
-        android:id="@+id/nav_view"
+        android:id="@+id/nav_view2"
         android:layout_width="@dimen/_200sdp"
         android:layout_height="match_parent"
         android:layout_gravity="start"
         android:fitsSystemWindows="true"
         app:headerLayout="@layout/nav_header_drawer"
-        app:menu="@menu/drawer">
+        app:menu="@menu/activity_main_drawer">
 
 
     </com.google.android.material.navigation.NavigationView>
@@ -58,6 +58,7 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/appBarLayout">
         </FrameLayout>
+
 
         <com.google.android.material.bottomappbar.BottomAppBar
             android:id="@+id/bottomappabar"

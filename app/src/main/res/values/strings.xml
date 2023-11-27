@@ -199,6 +199,7 @@
         <item>Statistics</item>
 
     </string-array>
+
     <string name="title_activity_publication">PublicationActivity</string>
 
     <string name="title_activity_cme_state_changer">CmeStateChanger</string>
