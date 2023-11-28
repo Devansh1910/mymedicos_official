@@ -52,7 +52,7 @@ import java.util.Map;
 public class UgPostInsiderActivity extends AppCompatActivity {
     FirebaseAuth auth = FirebaseAuth.getInstance();
     FirebaseUser user = auth.getCurrentUser();
-    String current = user.getEmail();
+    String current = user.getPhoneNumber();
     String field3,field4;
     EditText ugtitle, ugorg, ugvenu;
     Button postug;
@@ -66,7 +66,6 @@ public class UgPostInsiderActivity extends AppCompatActivity {
     private static final int MAX_CHARACTERS = 1000;
     private Calendar calendar;
     private SimpleDateFormat dateFormat, timeFormat;
-
     static final int REQUEST_STORAGE_PERMISSION = 1;
     static final int REQUEST_STORAGE_ACCESS = 2;
     private ArrayAdapter<CharSequence> specialityAdapter;
@@ -146,7 +145,7 @@ public class UgPostInsiderActivity extends AppCompatActivity {
                 if (task.isSuccessful()) {
                     for (QueryDocumentSnapshot document : task.getResult()) {
                         Map<String, Object> dataMap = document.getData();
-                        field3 = ((String) dataMap.get("Email ID"));
+                        field3 = ((String) dataMap.get("Phone Number"));
                         boolean areEqualIgnoreCase = current.equalsIgnoreCase(field3);
                         Log.d("vivek", String.valueOf(areEqualIgnoreCase));
                         int r=current.compareTo(field3);

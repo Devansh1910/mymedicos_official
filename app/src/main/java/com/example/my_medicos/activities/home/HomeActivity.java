@@ -1,7 +1,6 @@
 package com.example.my_medicos.activities.home;
 
 import static androidx.fragment.app.FragmentManager.TAG;
-
 import android.annotation.SuppressLint;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -40,6 +39,7 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 
 import java.util.Map;
+import java.util.Objects;
 import java.util.prefs.Preferences;
 
 public class HomeActivity extends AppCompatActivity {
@@ -70,16 +70,16 @@ public class HomeActivity extends AppCompatActivity {
         FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
         if (currentUser != null) {
             String userId = currentUser.getPhoneNumber();
-            Log.d("currentuser23", userId);
+            Log.d("Something wennt wrong...", Objects.requireNonNull(userId));
         }
 
         navUsername = navigationView.getHeaderView(0).findViewById(R.id.name2);
         navUserMail = navigationView.getHeaderView(0).findViewById(R.id.email2);
 
-        navUserMail.setText(currentUser.getEmail());
+        navUserMail.setText(Objects.requireNonNull(currentUser).getPhoneNumber());
         fetchUserData();
 
-        Log.d("currentuser23", currentUser.getEmail());
+        Log.d("Something went wrong..", Objects.requireNonNull(currentUser.getPhoneNumber()));
 
         Preferences preferences = Preferences.userRoot();
         if (preferences.get("username", null) != null) {
@@ -87,7 +87,8 @@ public class HomeActivity extends AppCompatActivity {
             Log.d("usernaem2", username);
             navUsername.setText(username);
         }
-        Log.d("Issue in Opening Home", "Issue in Opening the Application Home");
+        Log.d("iditennnew", "djnvjvdssn");
+
         NavigationView navigationView = findViewById(R.id.nav_view2);
 
         navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
@@ -106,6 +107,7 @@ public class HomeActivity extends AppCompatActivity {
                 } else {
                     Toast.makeText(HomeActivity.this, "Something went Wrong ", Toast.LENGTH_SHORT).show();
                 }
+
                 drawerLayout.closeDrawer(GravityCompat.START);
                 return true;
             }
@@ -119,7 +121,7 @@ public class HomeActivity extends AppCompatActivity {
 
         bottomNavigation.setOnItemSelectedListener(item -> {
             int frgId = item.getItemId();
-            Log.d("Something Item Issue in HomeActivity","Check the Item Part (Issue in Fragment)");
+            Log.d("nsjnjsn","hcisb");
             if (frgId == R.id.home) {
                 replaceFragment(new HomeFragment());
             } else if (frgId == R.id.work) {
@@ -137,6 +139,20 @@ public class HomeActivity extends AppCompatActivity {
         getMenuInflater().inflate(R.menu.drawer, menu);
         return true;
     }
+//    @Override
+//    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+//        int id = item.getItemId();
+//        if (id == R.id.nav_settings1) {
+//            Log.d("MenuItemSelected", "Settings item clicked!"); // Add this line
+//            replaceFragmentDrawer(new SettingsFragment());
+//            return true;
+//        }
+//        // Handle other menu items...
+//        return super.onOptionsItemSelected(item);
+//    }
+
+
+
 
     @Override
     public void onBackPressed() {
@@ -153,6 +169,19 @@ public class HomeActivity extends AppCompatActivity {
         fragmentTransaction.replace(R.id.frame_layout, fragment);
         fragmentTransaction.commit();
     }
+
+//    private boolean replaceFragmentDrawer(Fragment fragment) {
+//        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+//        transaction.replace(R.id.nav_host_fragment_content_drawer, fragment); // replace a Fragment with Frame Layout
+//        transaction.commit(); // commit the changes
+//        drawerLayout.closeDrawers(); // close the all open Drawer Views
+//
+//        getSupportFragmentManager()
+//                .beginTransaction()
+//                .replace(R.id.nav_host_fragment_content_drawer, fragment)
+//                .commit();
+//        return true;
+//    }
 
     private void performLogout() {
         AlertDialog.Builder builder = new AlertDialog.Builder(HomeActivity.this);
@@ -177,8 +206,9 @@ public class HomeActivity extends AppCompatActivity {
                 .show();
     }
 
+
     @SuppressLint("RestrictedApi")
-    private void fetchUserData() {
+    public void fetchUserData() {
         FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
         if (currentUser != null) {
             String userId = currentUser.getPhoneNumber();
@@ -191,7 +221,10 @@ public class HomeActivity extends AppCompatActivity {
                             for (QueryDocumentSnapshot document : task.getResult()) {
                                 Map<String, Object> dataMap = document.getData();
                                 String field1 = (String) dataMap.get("Phone Number");
-                                int a = field1.compareTo(currentUser.getPhoneNumber());
+                                int a=0;
+                                if (field1!=null) {
+                                    a = field1.compareTo(currentUser.getPhoneNumber());
+                                }
 
                                 if (a == 0) {
                                     String userName = (String) dataMap.get("Name");
@@ -209,4 +242,5 @@ public class HomeActivity extends AppCompatActivity {
                     });
         }
     }
+
 }

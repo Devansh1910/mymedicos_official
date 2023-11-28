@@ -1,5 +1,7 @@
 package com.example.my_medicos.activities.profile;
 
+import static androidx.constraintlayout.helper.widget.MotionEffect.TAG;
+
 import android.annotation.SuppressLint;
 import android.app.ProgressDialog;
 import android.content.Intent;
@@ -38,7 +40,6 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
@@ -54,12 +55,11 @@ import de.hdodenhof.circleimageview.CircleImageView;
 public class Contactinfo extends AppCompatActivity {
     private EditText email, phone;
     TextInputEditText presentaddress, permanentaddress, agedr;
-    private Spinner location, speciality;
+    private Spinner location;
     String selectedGender;
     Button Submit;
-    private ArrayAdapter<CharSequence> locationAdapter, specialityAdapter;
+    private ArrayAdapter<CharSequence> locationAdapter;
     private CircleImageView avatarImageView;
-    RadioButton rb;
     private TextView uploadAvatarCardView;
     private FirebaseAuth mAuth;
     public FirebaseDatabase profiledb = FirebaseDatabase.getInstance();
@@ -80,7 +80,6 @@ public class Contactinfo extends AppCompatActivity {
         FirebaseUser currentUser = mAuth.getCurrentUser();
 
         location = findViewById(R.id.location);
-//        speciality = findViewById(R.id.speciality);
         avatarImageView = findViewById(R.id.avatarImageView);
         uploadAvatarCardView = findViewById(R.id.upload_avatar);
 
@@ -106,12 +105,16 @@ public class Contactinfo extends AppCompatActivity {
                         Map<String, Object> dataMap = document.getData();
                         String field3 = ((String) dataMap.get("Phone Number"));
 
-                        int r = userid.compareTo(field3);
+                        if (field3 != null && userid != null) {
+                            int r = userid.compareTo(field3);
 
-                        if (r == 0) {
-                            String field4 = ((String) dataMap.get("Email ID"));
-                            Log.d("veefe", field4);
-                            phone.setText(field4);
+                            if (r == 0) {
+                                String field4 = ((String) dataMap.get("Email ID"));
+                                Log.d("veefe", field4);
+                                phone.setText(field4);
+                            }
+                        } else {
+                            Log.e(TAG, "Field3 or userid is null");
                         }
                     }
                 } else {
@@ -155,21 +158,13 @@ public class Contactinfo extends AppCompatActivity {
                 if (selectedRadioButton != null) {
                     String selectedText = selectedRadioButton.getText().toString();
 
-                    Log.d("RadioButton"+selectedRadioButtonId, "Selected Text: " + selectedText);
-                    selectedGender=selectedText;
+                    Log.d("RadioButton" + selectedRadioButtonId, "Selected Text: " + selectedText);
+                    selectedGender = selectedText;
                 }
             }
         });
 
-//        Button conSubmitButton = findViewById(R.id.upload_avatar);
-//        conSubmitButton.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                openGallery();
-//            }
-//        });
-
-        Submit=findViewById(R.id.consubmit);
+        Submit = findViewById(R.id.consubmit);
         Submit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -178,6 +173,7 @@ public class Contactinfo extends AppCompatActivity {
                 }
             }
         });
+
         String currentaddress = presentaddress.getText().toString().trim();
         String fulladdress = permanentaddress.getText().toString().trim();
         String drage = agedr.getText().toString().trim();
@@ -211,7 +207,6 @@ public class Contactinfo extends AppCompatActivity {
                                 presentaddress.setText(presentAddress);
                                 permanentaddress.setText(permanentAddress);
                                 agedr.setText(age);
-
                             }
                         } else {
                             // Handle the error
@@ -219,14 +214,7 @@ public class Contactinfo extends AppCompatActivity {
                         }
                     }
                 });
-
     }
-
-
-//    private void openGallery() {
-//        Intent galleryIntent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-//        startActivityForResult(galleryIntent, 1);
-//    }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
@@ -264,47 +252,41 @@ public class Contactinfo extends AppCompatActivity {
             }
         }
     }
+
     private void postinfo() {
-        Submit.setOnClickListener(new View.OnClickListener() {
+        String presentaddresscurrent = presentaddress.getText().toString().trim();
+        String permanentaddresscurrent = permanentaddress.getText().toString().trim();
+        String agecurrent = agedr.getText().toString().trim();
+
+        usermap.put("Present Address", presentaddresscurrent);
+        usermap.put("Permanent Address", permanentaddresscurrent);
+        usermap.put("Age", agecurrent);
+
+        pdialog.setMessage("Uploading...");
+        pdialog.show();
+
+        userref.push().setValue(usermap).addOnCompleteListener(new OnCompleteListener<Void>() {
             @Override
-            public void onClick(View view) {
-                String presentaddresscurrent = presentaddress.getText().toString().trim();
-                String permanentaddresscurrent = permanentaddress.getText().toString().trim();
-                String agecurrent = agedr.getText().toString().trim();
+            public void onComplete(@NonNull Task<Void> task) {
+                pdialog.dismiss();
 
-                HashMap<String, Object> usermap = new HashMap<>();
-                usermap.put("Present Address", presentaddresscurrent);
-                usermap.put("Permanent Address", permanentaddresscurrent);
-                usermap.put("Age", agecurrent);
-
-                pdialog.setMessage("Uploading...");
-                pdialog.show();
-
-                userref.push().setValue(usermap).addOnCompleteListener(new OnCompleteListener<Void>() {
-                    @Override
-                    public void onComplete(@NonNull Task<Void> task) {
-                        pdialog.dismiss();
-
-                        if (task.isSuccessful()) {
-                            String userDocId = userref.push().getKey();
-                            usermap.put("userId", userDocId);
-                            dc.collection("users").document(userDocId).set(usermap).addOnCompleteListener(new OnCompleteListener<Void>() {
-                                @Override
-                                public void onComplete(@NonNull Task<Void> task) {
-                                    if (task.isSuccessful()) {
-                                        Toast.makeText(Contactinfo.this, "Uploaded Successfully", Toast.LENGTH_SHORT).show();
-                                    } else {
-                                        Toast.makeText(Contactinfo.this, "Update Failed", Toast.LENGTH_SHORT).show();
-                                    }
-                                }
-                            });
-                        } else {
-                            Toast.makeText(Contactinfo.this, "Update Failed", Toast.LENGTH_SHORT).show();
+                if (task.isSuccessful()) {
+                    String userDocId = userref.push().getKey();
+                    usermap.put("userId", userDocId);
+                    dc.collection("users").document(userDocId).set(usermap).addOnCompleteListener(new OnCompleteListener<Void>() {
+                        @Override
+                        public void onComplete(@NonNull Task<Void> task) {
+                            if (task.isSuccessful()) {
+                                Toast.makeText(Contactinfo.this, "Uploaded Successfully", Toast.LENGTH_SHORT).show();
+                            } else {
+                                Toast.makeText(Contactinfo.this, "Update Failed", Toast.LENGTH_SHORT).show();
+                            }
                         }
-                    }
-                });
+                    });
+                } else {
+                    Toast.makeText(Contactinfo.this, "Update Failed", Toast.LENGTH_SHORT).show();
+                }
             }
         });
     }
-
 }

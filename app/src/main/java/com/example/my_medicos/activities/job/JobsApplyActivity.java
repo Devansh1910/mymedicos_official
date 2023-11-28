@@ -1,6 +1,6 @@
 package com.example.my_medicos.activities.job;
 
-import static android.content.ContentValues.TAG;
+import static androidx.constraintlayout.helper.widget.MotionEffect.TAG;
 
 import android.annotation.SuppressLint;
 import android.app.ProgressDialog;
@@ -25,12 +25,8 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.cardview.widget.CardView;
-import androidx.core.app.ActivityCompat;
-import androidx.core.content.ContextCompat;
 
 import com.example.my_medicos.R;
-import com.example.my_medicos.activities.cme.PostCmeActivity;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -240,12 +236,13 @@ public class JobsApplyActivity extends AppCompatActivity {
             addPdf.setText(pdfName);
         }
     }
-    private void listFilesInDirectory(Uri treeUri) {
-        String treeDocumentId = DocumentsContract.getTreeDocumentId(treeUri);
-        Uri docUri = DocumentsContract.buildDocumentUriUsingTree(treeUri, treeDocumentId);
-    }
 
     public void apply() {
+        if (current == null) {
+            Toast.makeText(JobsApplyActivity.this, "User information not available", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
         String name = applicantname.getText().toString().trim();
         String age = jobage.getText().toString().trim();
         String gender = jobgender.getSelectedItem().toString().trim();
@@ -271,8 +268,9 @@ public class JobsApplyActivity extends AppCompatActivity {
         usermap.put("cover", cover);
         usermap.put("User", current);
         usermap.put("Experienced", "mode");
-        usermap.put("Jobid",documentid);
-        Log.d(receivedData,"abcdef");
+        usermap.put("Jobid", documentid);
+
+        Log.d(receivedData, "abcdef");
         dc.collection("JOBsApply")
                 .add(usermap)
                 .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {

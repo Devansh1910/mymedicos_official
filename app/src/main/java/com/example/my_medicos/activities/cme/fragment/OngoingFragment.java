@@ -40,7 +40,6 @@ public class OngoingFragment extends Fragment  {
         recyclerView = view.findViewById(R.id.cme_recyclerview_today);
         FirebaseFirestore db = FirebaseFirestore.getInstance();
 
-
         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
             Query query=db.collection("CME").orderBy("Time", Query.Direction.DESCENDING);
 
@@ -106,13 +105,9 @@ public class OngoingFragment extends Fragment  {
                                             items1.add(c);
                                         }
 
-
-
                                     } else {
 
                                     }
-
-
                                 }
                                 recyclerView.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, true));
                                 recyclerView.setAdapter(new MyAdapter1(getContext(), items1));
@@ -123,10 +118,6 @@ public class OngoingFragment extends Fragment  {
 
                     });
         }
-
-        // Query and display Today's CME events in the RecyclerView
-        // Customize your logic to query and display data for today's events.
-        // Set the appropriate adapter for the RecyclerView.
 
         return view;
     }
