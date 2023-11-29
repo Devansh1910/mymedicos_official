@@ -51,9 +51,11 @@
             android:textStyle="bold" />
 
         <EditText
-            android:id="@+id/Job_organiser"
+            android:id="@+id/mcnumber"
             android:layout_width="match_parent"
             android:layout_height="@dimen/_40sdp"
+            android:inputType="number"
+            android:maxLength="16"
             android:layout_marginTop="@dimen/_10sdp"
             android:background="@drawable/back4"
             android:hint="Enter Medical Council Number"
@@ -105,7 +107,7 @@
         app:layout_constraintStart_toStartOf="parent">
 
         <Button
-            android:id="@+id/applyButton"
+            android:id="@+id/verificationButton"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:padding="@dimen/_5ssp"
@@ -114,6 +116,18 @@
             android:textStyle="normal"
             android:textColor="#FFFFFF"
             android:textSize="16sp" />
+
+        <Button
+            android:id="@+id/verificationPendingButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="@dimen/_5ssp"
+            android:backgroundTint="@color/unselected"
+            android:text="@string/verification_pending"
+            android:textStyle="normal"
+            android:textColor="#FFFFFF"
+            android:textSize="16sp"
+            android:visibility="gone" />
 
     </LinearLayout>
 
