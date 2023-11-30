@@ -41,7 +41,7 @@ public class Personalinfo extends AppCompatActivity {
     EditText medicalcouncilnumber;
 
     public FirebaseDatabase db = FirebaseDatabase.getInstance();
-    public DatabaseReference medicalref = db.getReference().child("Medical Council Number Request");
+    public DatabaseReference medicalref = db.getReference().child("Medical_Council_Number_Request");
     private ProgressDialog progressDialog;
 
     @SuppressLint("MissingInflatedId")
@@ -125,7 +125,7 @@ public class Personalinfo extends AppCompatActivity {
                 if (task.isSuccessful()) {
                     String generatedDocId = medicalref.push().getKey();
                     usermap.put("documentId", generatedDocId);
-                    mcnumber.collection("Medical Council Number Request").document(generatedDocId).set(usermap).addOnCompleteListener(new OnCompleteListener<Void>() {
+                    mcnumber.collection("Medical_Council_Number_Request").document(generatedDocId).set(usermap).addOnCompleteListener(new OnCompleteListener<Void>() {
                         @Override
                         public void onComplete(@NonNull Task<Void> task) {
                             if (task.isSuccessful()) {
