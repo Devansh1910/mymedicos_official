@@ -1,17 +1,17 @@
 package com.example.my_medicos.activities.profile;
+
 import static androidx.constraintlayout.helper.widget.MotionEffect.TAG;
-import android.annotation.SuppressLint;
+
 import android.app.ProgressDialog;
+import android.content.ContentValues;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.net.Uri;
-import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
 import android.provider.MediaStore;
-import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
@@ -32,8 +32,9 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.my_medicos.R;
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
-import com.google.android.material.textfield.TextInputEditText;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
@@ -53,14 +54,16 @@ import de.hdodenhof.circleimageview.CircleImageView;
 
 public class Contactinfo extends AppCompatActivity {
     private EditText email, phone;
-    TextInputEditText presentaddress, permanentaddress, agedr;
+    EditText presentaddress, permanentaddress, agedr;
     private Spinner location, speciality;
     String selectedGender;
+    String selectedMode;
     Button Submit;
     private ArrayAdapter<CharSequence> locationAdapter, specialityAdapter;
     private CircleImageView avatarImageView;
     RadioButton rb;
     private TextView uploadAvatarCardView;
+    String documentid;
     private FirebaseAuth mAuth;
     public FirebaseDatabase profiledb = FirebaseDatabase.getInstance();
     public DatabaseReference userref = profiledb.getReference().child("users");
@@ -68,6 +71,9 @@ public class Contactinfo extends AppCompatActivity {
     FirebaseFirestore dc = FirebaseFirestore.getInstance();
     HashMap<String, Object> usermap = new HashMap<>();
     String userid;
+    String currentaddress;
+    String fulladdress ;
+    String drage ;
 
     private ProgressDialog pdialog;
 
@@ -109,11 +115,14 @@ public class Contactinfo extends AppCompatActivity {
 
                         if (field3 != null && userid != null) {
                             int r = userid.compareTo(field3);
+                            documentid=document.getId();
+                            Log.d("documentid",documentid);
 
                             if (r == 0) {
                                 String field4 = ((String) dataMap.get("Email ID"));
                                 Log.d("veefe", field4);
                                 phone.setText(field4);
+                                break;
                             }
                         } else {
                             Log.e(TAG, "Field3 or userid is null");
@@ -141,7 +150,7 @@ public class Contactinfo extends AppCompatActivity {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int position, long l) {
                 int locationIndex = location.getSelectedItemPosition();
-                String selectedMode = location.getSelectedItem().toString();
+              selectedMode = location.getSelectedItem().toString();
                 usermap.put("location", selectedMode);
             }
 
@@ -149,6 +158,7 @@ public class Contactinfo extends AppCompatActivity {
             public void onNothingSelected(AdapterView<?> adapterView) {
             }
         });
+
 
         RadioGroup radioGroup = findViewById(R.id.radiogrp);
         radioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
@@ -175,17 +185,10 @@ public class Contactinfo extends AppCompatActivity {
         });
 
         Submit=findViewById(R.id.consubmit);
-        Submit.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                    postinfo();
-                }
-            }
-        });
-        String currentaddress = presentaddress.getText().toString().trim();
-        String fulladdress = permanentaddress.getText().toString().trim();
-        String drage = agedr.getText().toString().trim();
+
+         currentaddress = presentaddress.getText().toString().trim();
+        fulladdress = permanentaddress.getText().toString().trim();
+         drage = agedr.getText().toString().trim();
         CheckBox sameAddressCheckBox = findViewById(R.id.checkbox1);
         sameAddressCheckBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
@@ -224,6 +227,15 @@ public class Contactinfo extends AppCompatActivity {
                         }
                     }
                 });
+        Submit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                postinfo();
+
+            }
+        });
+
 
     }
 
@@ -270,46 +282,48 @@ public class Contactinfo extends AppCompatActivity {
         }
     }
     private void postinfo() {
-        Submit.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                String presentaddresscurrent = presentaddress.getText().toString().trim();
-                String permanentaddresscurrent = permanentaddress.getText().toString().trim();
-                String agecurrent = agedr.getText().toString().trim();
 
-                HashMap<String, Object> usermap = new HashMap<>();
-                usermap.put("Present Address", presentaddresscurrent);
-                usermap.put("Permanent Address", permanentaddresscurrent);
-                usermap.put("Age", agecurrent);
+        currentaddress = presentaddress.getText().toString().trim();
+        fulladdress= permanentaddress.getText().toString().trim();
 
-                pdialog.setMessage("Uploading...");
-                pdialog.show();
+        drage = agedr.getText().toString().trim();
 
-                userref.push().setValue(usermap).addOnCompleteListener(new OnCompleteListener<Void>() {
+
+
+
+
+
+
+
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+        Log.d("somethinf ",currentaddress);
+        Log.d("somthinf",documentid);
+
+// Reference to the document you want to update
+        DocumentReference docRef = db.collection("users").document(documentid);
+
+// Update the document with a new field
+        docRef.update("present", currentaddress,
+                        "permanent", fulladdress,
+                        "Age", drage,
+                        "Location",selectedMode)
+                .addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
-                    public void onComplete(@NonNull Task<Void> task) {
-                        pdialog.dismiss();
+                    public void onSuccess(Void aVoid) {
+                        Log.d(ContentValues.TAG, "DocumentSnapshot successfully updated!");
+                        Toast.makeText(Contactinfo.this, "Successfully Ended", Toast.LENGTH_SHORT).show();
 
-                        if (task.isSuccessful()) {
-                            String userDocId = userref.push().getKey();
-                            usermap.put("userId", userDocId);
-                            dc.collection("users").document(userDocId).set(usermap).addOnCompleteListener(new OnCompleteListener<Void>() {
-                                @Override
-                                public void onComplete(@NonNull Task<Void> task) {
-                                    if (task.isSuccessful()) {
-                                        Toast.makeText(Contactinfo.this, "Uploaded Successfully", Toast.LENGTH_SHORT).show();
-                                    } else {
-                                        Toast.makeText(Contactinfo.this, "Update Failed", Toast.LENGTH_SHORT).show();
-                                    }
-                                }
-                            });
-                        } else {
-                            Toast.makeText(Contactinfo.this, "Update Failed", Toast.LENGTH_SHORT).show();
-                        }
+
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Log.w(ContentValues.TAG, "Error updating document", e);
                     }
                 });
-            }
-        });
+
+
     }
 
 }
