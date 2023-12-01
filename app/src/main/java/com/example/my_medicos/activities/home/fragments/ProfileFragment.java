@@ -114,6 +114,7 @@ public class ProfileFragment extends Fragment {
 
     }
 
+    // Inside the fetchUserData method
     private void fetchUserData() {
         FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
         if (currentUser != null) {
@@ -130,32 +131,32 @@ public class ProfileFragment extends Fragment {
                                     Log.d(TAG, document.getId() + " => " + document.getData());
                                     Map<String, Object> dataMap = document.getData();
                                     String field1 = (String) dataMap.get("Phone Number");
-                                    int a = field1.compareTo(currentUser.getPhoneNumber());
 
-                                    if (a == 0) {
-                                        String userName = (String) dataMap.get("Name");
-                                        String userEmail = (String) dataMap.get("Email ID");
-                                        String userLocation = (String) dataMap.get("Location");
-                                        String userInterest = (String) dataMap.get("Interest");
-                                        String userPhone = (String) dataMap.get("Phone Number");
-                                        String userPrefix = (String) dataMap.get("Prefix");
-                                        Preferences preferences = Preferences.userRoot(); // User preferences
-                                        // Store data
-                                        preferences.put("username", userName);
-
-                                        preferences.put("email", userEmail);
-
-                                        preferences.put("location", userLocation);
-
-                                        preferences.put("interest", userInterest);
-
-                                        preferences.put("userphone",userPhone);
-
-                                        preferences.put("prefix",userPrefix);
-                                        user_name_dr.setText(userName);
-                                        user_phone_dr.setText(userPhone);
-                                        fetchdata();
-                                        fetchUserProfileImage(userId);
+                                    if (field1 != null && currentUser.getPhoneNumber() != null) {
+                                        int a = field1.compareTo(currentUser.getPhoneNumber());
+                                        if (a == 0) {
+                                            String userName = (String) dataMap.get("Name");
+                                            String userEmail = (String) dataMap.get("Email ID");
+                                            String userLocation = (String) dataMap.get("Location");
+                                            String userInterest = (String) dataMap.get("Interest");
+                                            String userPhone = (String) dataMap.get("Phone Number");
+                                            String userPrefix = (String) dataMap.get("Prefix");
+                                            Preferences preferences = Preferences.userRoot(); // User preferences
+                                            // Store data
+                                            preferences.put("username", userName);
+                                            preferences.put("email", userEmail);
+                                            preferences.put("location", userLocation);
+                                            preferences.put("interest", userInterest);
+                                            preferences.put("userphone", userPhone);
+                                            preferences.put("prefix", userPrefix);
+                                            user_name_dr.setText(userName);
+                                            user_phone_dr.setText(userPhone);
+                                            fetchdata();
+                                            fetchUserProfileImage(userId);
+                                        }
+                                    } else {
+                                        // Handle the case where either field1 or currentUser.getPhoneNumber() is null
+                                        Log.e(TAG, "Field1 or currentUser.getPhoneNumber() is null");
                                     }
                                 }
                             } else {
@@ -165,6 +166,7 @@ public class ProfileFragment extends Fragment {
                     });
         }
     }
+
 
     private void fetchUserProfileImage(String userId) {
         FirebaseStorage storage = FirebaseStorage.getInstance();

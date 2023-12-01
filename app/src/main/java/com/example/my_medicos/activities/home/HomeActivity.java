@@ -1,7 +1,6 @@
 package com.example.my_medicos.activities.home;
 
 import static androidx.fragment.app.FragmentManager.TAG;
-
 import android.annotation.SuppressLint;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -40,6 +39,7 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 
 import java.util.Map;
+import java.util.Objects;
 import java.util.prefs.Preferences;
 
 public class HomeActivity extends AppCompatActivity {
@@ -70,16 +70,16 @@ public class HomeActivity extends AppCompatActivity {
         FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
         if (currentUser != null) {
             String userId = currentUser.getPhoneNumber();
-            Log.d("currentuser23", userId);
+            Log.d("Something wennt wrong...", Objects.requireNonNull(userId));
         }
 
         navUsername = navigationView.getHeaderView(0).findViewById(R.id.name2);
         navUserMail = navigationView.getHeaderView(0).findViewById(R.id.email2);
 
-        navUserMail.setText(currentUser.getEmail());
+        navUserMail.setText(Objects.requireNonNull(currentUser).getPhoneNumber());
         fetchUserData();
 
-        Log.d("currentuser23", currentUser.getEmail());
+        Log.d("Something went wrong..", Objects.requireNonNull(currentUser.getPhoneNumber()));
 
         Preferences preferences = Preferences.userRoot();
         if (preferences.get("username", null) != null) {
@@ -206,8 +206,9 @@ public class HomeActivity extends AppCompatActivity {
                 .show();
     }
 
+
     @SuppressLint("RestrictedApi")
-    private void fetchUserData() {
+    public void fetchUserData() {
         FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
         if (currentUser != null) {
             String userId = currentUser.getPhoneNumber();
@@ -220,7 +221,10 @@ public class HomeActivity extends AppCompatActivity {
                             for (QueryDocumentSnapshot document : task.getResult()) {
                                 Map<String, Object> dataMap = document.getData();
                                 String field1 = (String) dataMap.get("Phone Number");
-                                int a = field1.compareTo(currentUser.getPhoneNumber());
+                                int a=0;
+                                if (field1!=null) {
+                                    a = field1.compareTo(currentUser.getPhoneNumber());
+                                }
 
                                 if (a == 0) {
                                     String userName = (String) dataMap.get("Name");
@@ -238,4 +242,5 @@ public class HomeActivity extends AppCompatActivity {
                     });
         }
     }
+
 }

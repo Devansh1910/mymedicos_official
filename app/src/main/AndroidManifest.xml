@@ -131,7 +131,7 @@
             android:name=".activities.job.JobsActivity2"
             android:exported="false" />
         <activity
-            android:name=".activities.job.JobsApplycantActivty"
+            android:name=".activities.job.JobsApplicantActivty"
             android:exported="false" />
         <activity
             android:name=".activities.job.category.JobsApplyActivity2"

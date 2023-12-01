@@ -1,28 +1,28 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.core.widget.NestedScrollView
+<RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:fillViewport="true">
-    <LinearLayout
+    android:layout_height="match_parent">
+
+    <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@drawable/rectangle1"
-        android:orientation="vertical">
+        android:fillViewport="true"
+        android:layout_above="@id/applylinear">
 
-<LinearLayout
-    android:layout_width="match_parent"
-    android:orientation="vertical"
-    android:layout_height="match_parent"
-    android:background="@color/white"
-    tools:context=".activities.job.JobDetailsActivity">
-
-    <com.google.android.material.appbar.AppBarLayout
-        android:id="@+id/jobsinsidertoolbar_container"
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:orientation="vertical"
+        android:layout_height="match_parent"
+        android:background="@color/white"
+        tools:context=".activities.job.JobDetailsActivity">
+
+        <com.google.android.material.appbar.AppBarLayout
+            android:id="@+id/jobsinsidertoolbar_container"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
 
         <androidx.appcompat.widget.Toolbar
             android:id="@+id/jobsinsidertoolbar"
@@ -44,61 +44,59 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="@dimen/_16sdp"
-        android:layout_marginRight="@dimen/_16sdp"
         android:elevation="@dimen/_4sdp"
         android:orientation="vertical"
-        android:padding="8dp"
-        app:layout_constraintTop_toBottomOf="@id/jobsinsidertoolbar_container">
-<LinearLayout
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:orientation="horizontal">
-        <ImageView
-            android:layout_width="69dp"
-            android:layout_height="61dp"
-            android:elevation="@dimen/_8sdp"
-            android:src="@drawable/frame_2">
+        android:padding="8dp">
 
-        </ImageView>
-
-        <TextView
-            android:id="@+id/jobTitleTextView"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:fontFamily="@font/roboto_bold"
-            android:gravity="start"
-            android:layout_marginHorizontal="@dimen/_8sdp"
-            android:text="Loading.."
-            android:textColor="@color/black"
-            android:textSize="22sp"
-            android:textStyle="bold" />
-       </LinearLayout>
         <LinearLayout
-            android:layout_width="match_parent"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <ImageView
+            android:layout_width="0dp"
+            android:layout_weight="0.25"
+            android:padding="@dimen/_2ssp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/_4sdp"
-            android:orientation="horizontal">
+            android:scaleType="centerCrop"
+            android:elevation="@dimen/_8sdp"
+            android:src="@drawable/frame_2"/>
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/jobTitleTextView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/roboto_bold"
+                android:gravity="start"
+                android:text="Loading.."
+                android:textColor="@color/black"
+                android:textSize="22sp"
+                android:textStyle="bold" />
 
             <TextView
                 android:id="@+id/companyNameTextView"
-                android:layout_width="0dp"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_weight="0.5"
                 android:gravity="start"
-                android:layout_marginHorizontal="@dimen/_16sdp"
                 android:text="Loading..."
                 android:textColor="#434545"
                 android:textSize="16sp"
                 android:textStyle="bold" />
+
         </LinearLayout>
+
+    </LinearLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/_8sdp"
-            android:layout_marginHorizontal="@dimen/_8sdp"
+            android:layout_marginTop="@dimen/_5sdp"
             android:paddingHorizontal="@dimen/_8sdp"
             android:orientation="horizontal">
 
@@ -134,15 +132,12 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:paddingVertical="@dimen/_2ssp"
             android:orientation="horizontal">
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginVertical="@dimen/_5ssp"
-                android:paddingVertical="@dimen/_2ssp"
-                android:paddingLeft="@dimen/_10ssp"
-                android:paddingRight="@dimen/_5ssp"
                 android:layout_marginHorizontal="@dimen/_8sdp"
                 android:text="Posted by"
                 android:textColor="#686666"
@@ -152,9 +147,7 @@
                 android:id="@+id/organizername"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginVertical="@dimen/_5ssp"
                 android:fontFamily="@font/roboto_bold"
-                android:paddingVertical="@dimen/_2ssp"
                 android:text="Loading..."
                 android:textColor="#096159"
                 android:textSize="14sp" />
@@ -163,40 +156,16 @@
 
     </LinearLayout>
 
-
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@drawable/line"
-        android:elevation="@dimen/_8sdp"
-        ></LinearLayout>
-
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="@dimen/_16sdp"
+        android:padding="@dimen/_8ssp"
         android:background="@drawable/rounded_edittext_background"
-        android:layout_marginRight="@dimen/_16sdp"
-        android:layout_marginTop="@dimen/_16sdp"
-        android:elevation="@dimen/_3sdp"
-        android:orientation="vertical"
-       android:padding="@dimen/_8sdp">
-
-        <!-- Job Description -->
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="@dimen/_16sdp"
-            android:background="@drawable/rounded_edittext_background"
-            android:elevation="@dimen/_2sdp"
-            android:orientation="vertical"
-            android:padding="@dimen/_10sdp">
+        android:orientation="vertical">
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginVertical="@dimen/_8sdp"
                 android:orientation="horizontal">
 
                 <ImageView
@@ -206,31 +175,15 @@
                     android:layout_weight="0.1"
                     android:src="@drawable/s" />
 
-                <LinearLayout
+                <TextView
+                    android:id="@+id/authorSpecialityTextView"
                     android:layout_width="0dp"
-                    android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:orientation="horizontal">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:paddingHorizontal="@dimen/_5ssp"
-                        android:text="Speciality"
-                        android:textColor="#000000"
-                        android:textSize="12sp" />
-
-                    <TextView
-                        android:id="@+id/authorSpecialityTextView"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:paddingHorizontal="@dimen/_5ssp"
-                        android:text="Loading..."
-                        android:textColor="#000000"
-                        android:textSize="12sp" />
-
-
-                </LinearLayout>
+                    android:layout_height="wrap_content"
+                    android:paddingHorizontal="@dimen/_5ssp"
+                    android:text="Loading..."
+                    android:textColor="#000000"
+                    android:textSize="12sp" />
 
             </LinearLayout>
 
@@ -247,34 +200,17 @@
                     android:layout_weight="0.1"
                     android:src="@drawable/s" />
 
-                <LinearLayout
+                <TextView
+                    android:id="@+id/authorSubSpecialityTextView"
                     android:layout_width="0dp"
-                    android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:orientation="horizontal">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:paddingHorizontal="@dimen/_5ssp"
-                        android:text="Subspeciality"
-                        android:textColor="#000000"
-                        android:textSize="12sp" />
-
-                    <TextView
-                        android:id="@+id/authorSubSpecialityTextView"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:paddingHorizontal="@dimen/_5ssp"
-                        android:text="Loading..."
-                        android:textColor="#000000"
-                        android:textSize="12sp" />
-
-
-                </LinearLayout>
+                    android:layout_height="wrap_content"
+                    android:paddingHorizontal="@dimen/_5ssp"
+                    android:text="Loading..."
+                    android:textColor="#000000"
+                    android:textSize="12sp" />
 
             </LinearLayout>
-
 
             <LinearLayout
                 android:id="@+id/salaryLayout"
@@ -425,104 +361,34 @@
                 </LinearLayout>
 
             </LinearLayout>
-        </LinearLayout>
 
-        <TextView
+            <TextView
             android:id="@+id/jobDescriptionTextView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/_8ssp"
             android:layout_marginHorizontal="@dimen/_8sdp"
             android:text="Description"
             android:textColor="#595959"
             android:textSize="13sp"
             android:textStyle="bold" />
 
-        <TextView
+            <TextView
             android:id="@+id/jobDescriptionContentTextView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginHorizontal="@dimen/_10sdp"
+            android:layout_marginHorizontal="@dimen/_8sdp"
             android:text="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam eget lectus non justo blandit luctus. Integer a elit vel ex sodales vestibulum."
             android:textColor="#8E8D8D"
             android:textSize="12sp" />
 
     </LinearLayout>
 
-
     <LinearLayout
-        android:id="@+id/applylinear"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="@dimen/_16sdp"
-        android:layout_marginRight="@dimen/_16sdp"
-        android:orientation="horizontal"
-        android:padding="@dimen/_2sdp">
-
-        <Button
-            android:id="@+id/applyButton"
-            android:layout_width="0dp"
-            android:layout_height="36dp"
-            android:layout_weight="0.5"
-            android:backgroundTint="@color/green"
-            android:text="Apply Now"
-            android:textColor="#FFFFFF"
-            android:textSize="12sp" />
-
-        <Button
-            android:id="@+id/applycant"
-            android:layout_width="0dp"
-            android:layout_height="46dp"
-            android:layout_weight="0.5"
-            android:backgroundTint="@color/green"
-            android:text="Applycant"
-            android:textColor="#FFFFFF"
-            android:textSize="13sp" />
-
-        <com.google.android.material.divider.MaterialDivider
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            android:layout_weight="0.03" />
-
-        <LinearLayout
-            android:id="@+id/saveButton"
-            android:layout_width="0dp"
-            android:layout_height="28dp"
-            android:layout_gravity="center"
-            android:layout_weight="0.5"
-            android:background="@drawable/savejobsfile"
-            android:gravity="center"
-            android:orientation="horizontal">
-
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:src="@drawable/savee" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:fontFamily="@font/roboto_bold"
-                android:paddingHorizontal="@dimen/_5ssp"
-                android:text="Save"
-                android:textColor="@color/black"
-                android:textSize="13sp"
-                android:textStyle="bold" />
-        </LinearLayout>
-    </LinearLayout>
-    <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:background="@drawable/line111"
-        android:layout_marginHorizontal="@dimen/_20sdp">
-    </LinearLayout>
-        <LinearLayout
         android:layout_width="match_parent"
         android:paddingVertical="@dimen/_5ssp"
         android:paddingHorizontal="@dimen/_10ssp"
         android:layout_marginTop="@dimen/_4sdp"
-        android:layout_marginLeft="@dimen/_16sdp"
-        android:layout_marginRight="@dimen/_16sdp"
         android:layout_height="wrap_content">
 
         <TextView
@@ -545,6 +411,7 @@
             android:textSize="@dimen/_12ssp"
             android:textStyle="bold"
             app:drawableEndCompat="@drawable/sidearrow" />
+
     </LinearLayout>
 
     <androidx.recyclerview.widget.RecyclerView
@@ -554,7 +421,56 @@
         android:layout_margin="@dimen/_8sdp"
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
 
-</LinearLayout>
-  </LinearLayout>
+        </LinearLayout>
 
-</androidx.core.widget.NestedScrollView>
+    </androidx.core.widget.NestedScrollView>
+
+    <LinearLayout
+        android:id="@+id/applylinear"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentBottom="true"
+        android:elevation="8dp"
+        android:orientation="horizontal"
+        android:padding="@dimen/_2sdp">
+
+        <Button
+            android:id="@+id/applyButton"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.5"
+            android:backgroundTint="@color/green"
+            android:text="Apply Now"
+            android:textColor="#FFFFFF"
+            android:textSize="12sp" />
+
+        <Button
+            android:id="@+id/applycant"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.5"
+            android:backgroundTint="@color/green"
+            android:text="Applicant"
+            android:textColor="#FFFFFF"
+            android:textSize="13sp" />
+
+        <com.google.android.material.divider.MaterialDivider
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_weight="0.03" />
+
+        <Button
+            android:id="@+id/sharebtnforjobs"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.5"
+            android:backgroundTint="@color/black"
+            android:text="Share"
+            android:textColor="#FFFFFF"
+            android:textSize="13sp" />
+
+    </LinearLayout>
+
+</RelativeLayout>

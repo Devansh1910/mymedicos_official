@@ -1,9 +1,7 @@
 package com.example.my_medicos.activities.job;
 
 import static com.example.my_medicos.list.subSpecialitiesData.subspecialities;
-
 import android.app.DatePickerDialog;
-import android.app.ProgressDialog;
 import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
@@ -18,12 +16,9 @@ import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-
 import com.example.my_medicos.R;
-import com.example.my_medicos.activities.cme.PostCmeActivity;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
@@ -33,39 +28,33 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
-
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
-
 public class PostJobActivity extends AppCompatActivity {
     EditText title,Organiser,salary,jobposition,description,Opening,duration,hospital;
     public FirebaseDatabase db = FirebaseDatabase.getInstance();
-    String selectedMode, selectedMode3;
+    String selectedMode;
     String selectedMode2;
     FirebaseAuth auth = FirebaseAuth.getInstance();
-    private ProgressDialog progressDialog;
     FirebaseUser user = auth.getCurrentUser();
     String current = user.getPhoneNumber();
     private Spinner subspecialitySpinner;
     private Spinner specialitySpinner;
     String subspecialities1;
-    private Button btnDatePicker, btnTimePicker;
-    private TextView tvDate, tvTime;
+    private Button btnDatePicker;
+    private TextView tvDate;
     private Calendar calendar;
-    private SimpleDateFormat dateFormat, timeFormat;
+    private SimpleDateFormat dateFormat;
     private ArrayAdapter<CharSequence> specialityAdapter;
     private ArrayAdapter<CharSequence> subspecialityAdapter;
     FirebaseFirestore dc = FirebaseFirestore.getInstance();
-
     public DatabaseReference cmeref = db.getReference().child("CME's");
-    String speciality,subspeciality,location,jobtype;
+    String speciality;
     Button post;
-
     @Override
-
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_post_job);
@@ -74,8 +63,6 @@ public class PostJobActivity extends AppCompatActivity {
         calendar = Calendar.getInstance();
         dateFormat = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
         title=findViewById(R.id.Job_title);
-
-
         Organiser=findViewById(R.id.Job_organiser);
         Organiser.setEnabled(false);
         Organiser.setTextColor(Color.parseColor("#80000000"));
@@ -160,24 +147,18 @@ public class PostJobActivity extends AppCompatActivity {
             }
         });
         Spinner  spinner2= (Spinner) findViewById(R.id.city);
-// Create an ArrayAdapter using the string array and a default spinner layout
         ArrayAdapter<CharSequence> myadapter = ArrayAdapter.createFromResource(this,
                 R.array.indian_cities, android.R.layout.simple_spinner_item);
-// Specify the layout to use when the list of choices appears
         myadapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-// Apply the adapter to the spinner
         spinner2.setAdapter(myadapter);
 
         spinner2.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parentView, View selectedItemView, int position, long id) {
                 selectedMode = spinner2.getSelectedItem().toString();
-
-
             }
             @Override
             public void onNothingSelected(AdapterView<?> adapterView) {
-
             }
         });
 
@@ -193,12 +174,9 @@ public class PostJobActivity extends AppCompatActivity {
             @Override
             public void onItemSelected(AdapterView<?> parentView, View selectedItemView, int position, long id) {
                 selectedMode2 = cmemodeSpinner.getSelectedItem().toString();
-
-
             }
             @Override
             public void onNothingSelected(AdapterView<?> adapterView) {
-
             }
         });
 
@@ -217,8 +195,6 @@ public class PostJobActivity extends AppCompatActivity {
                 showDatePicker();
             }
         });
-
-
     }
     private void showDatePicker() {
         DatePickerDialog datePickerDialog = new DatePickerDialog(
@@ -250,16 +226,6 @@ public class PostJobActivity extends AppCompatActivity {
         String Desciption = description.getText().toString().trim();
         String Duration = duration.getText().toString().trim();
 
-
-
-//        if (!link.startsWith("https://")) {
-//            virtuallink.setError("Not a Valid Link");
-//            virtuallink.setTextColor(Color.RED);
-//            return;
-//        } else {
-//            virtuallink.setTextColor(Color.DKGRAY);
-//        }
-
         if (TextUtils.isEmpty(Title)) {
             title.setError("Title Required");
             return;
@@ -279,11 +245,8 @@ public class PostJobActivity extends AppCompatActivity {
 
         String selectedDate = tvDate.getText().toString();
         Log.d("viveknew",speciality);
-//        Spinner jobspecialitySpinner = findViewById(R.id.speciality);
-//        speciality = jobspecialitySpinner.getSelectedItem().toString();
         Log.d("viveknew",speciality);
         String Hospital=hospital.getText().toString().trim();
-
 
         HashMap<String, Object> usermap = new HashMap<>();
         usermap.put("JOB Title", Title);
@@ -294,7 +257,6 @@ public class PostJobActivity extends AppCompatActivity {
         usermap.put("JOB Opening", opening);
         usermap.put("User", current);
         usermap.put("Location",selectedMode);
-
         usermap.put("Job type",selectedMode2);
         usermap.put("Speciality", speciality);
         usermap.put("SubSpeciality",subspecialities1);
@@ -309,13 +271,8 @@ public class PostJobActivity extends AppCompatActivity {
                 if (task.isSuccessful()) {
 
                     if (task.isSuccessful()) {
-                        // Get the generated document ID
                         String generatedDocId = cmeref.push().getKey();
-
-                        // Add the document ID to the usermap
                         usermap.put("documentId", generatedDocId);
-
-                        // Add the data to the "CME" collection along with the document ID
                         dc.collection("JOB").document(generatedDocId).set(usermap).addOnCompleteListener(new OnCompleteListener<Void>() {
                             @Override
                             public void onComplete(@NonNull Task<Void> task) {
@@ -332,8 +289,5 @@ public class PostJobActivity extends AppCompatActivity {
                 }
             }
         });
-
-
-
     }
 }

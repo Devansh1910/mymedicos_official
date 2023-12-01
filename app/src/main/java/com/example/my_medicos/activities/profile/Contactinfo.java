@@ -1,5 +1,6 @@
 package com.example.my_medicos.activities.profile;
-
+import static androidx.constraintlayout.helper.widget.MotionEffect.TAG;
+import android.annotation.SuppressLint;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -10,6 +11,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
 import android.provider.MediaStore;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
@@ -36,6 +38,7 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
@@ -103,12 +106,17 @@ public class Contactinfo extends AppCompatActivity {
                         Map<String, Object> dataMap = document.getData();
                         String field3 = ((String) dataMap.get("Phone Number"));
 
-                        int r = userid.compareTo(field3);
 
-                        if (r == 0) {
-                            String field4 = ((String) dataMap.get("Email ID"));
-                            Log.d("veefe", field4);
-                            phone.setText(field4);
+                        if (field3 != null && userid != null) {
+                            int r = userid.compareTo(field3);
+
+                            if (r == 0) {
+                                String field4 = ((String) dataMap.get("Email ID"));
+                                Log.d("veefe", field4);
+                                phone.setText(field4);
+                            }
+                        } else {
+                            Log.e(TAG, "Field3 or userid is null");
                         }
                     }
                 } else {

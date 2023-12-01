@@ -1,15 +1,17 @@
 package com.example.my_medicos.activities.job;
 
-import static android.content.ContentValues.TAG;
+import static androidx.constraintlayout.helper.widget.MotionEffect.TAG;
 
 import android.annotation.SuppressLint;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.database.Cursor;
 import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.DocumentsContract;
+import android.provider.OpenableColumns;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
@@ -17,13 +19,12 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.cardview.widget.CardView;
-import androidx.core.app.ActivityCompat;
-import androidx.core.content.ContextCompat;
 
 import com.example.my_medicos.R;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -38,7 +39,11 @@ import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
+import com.google.firebase.storage.UploadTask;
 
+import java.io.File;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -47,46 +52,71 @@ public class JobsApplyActivity extends AppCompatActivity {
     FirebaseUser user = auth.getCurrentUser();
     String current = user.getPhoneNumber();
     String field3,field4;
-    EditText jobname, jobage, jobgender, jobexperience, jobcover;
+    private Uri pdfData;
+    static final int REQ = 1;
+    private DatabaseReference databasereference;
+    private StorageReference storageReference;
+    private TextView addPdf,uploadPdfBtn;
+    String downloadUrl = "";
+    private ProgressDialog pd;
+    private String pdfName;
+
+    EditText applicantname, jobage, jobcover;
     Button applyjob;
+
+    Spinner jobgender;
+
     public FirebaseDatabase db = FirebaseDatabase.getInstance();
     FirebaseFirestore dc = FirebaseFirestore.getInstance();
-    private Spinner subspecialitySpinner;
-    private Spinner specialitySpinner;
+    private Spinner genderSpinner;
     String receivedData;
-    String subspecialities1;
     public DatabaseReference cmeref = db.getReference().child("JOBsApply");
-    private ProgressDialog progressDialog;
     String documentid;
-
-    static final int REQUEST_STORAGE_PERMISSION = 1;
-    static final int REQUEST_STORAGE_ACCESS = 2;
-    private ArrayAdapter<CharSequence> specialityAdapter;
-    private ArrayAdapter<CharSequence> subspecialityAdapter;
-    private CardView btnAccessStorage;
+    private ArrayAdapter<CharSequence> genderAdapter;
+    private TextView uploadpdfbtnjobs;
     @SuppressLint("MissingInflatedId")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_apply_jobs1);
-        jobname = findViewById(R.id.name);
+        applicantname = findViewById(R.id.name);
         jobage = findViewById(R.id.Age);
-        jobgender = findViewById(R.id.gender);
+        jobgender = findViewById(R.id.genderapplicant);
         jobcover = findViewById(R.id.cover);
-        btnAccessStorage = findViewById(R.id.btnAccessStorage2);
+        uploadpdfbtnjobs = findViewById(R.id.uploadpdfbtnjobs);
 
-        btnAccessStorage.setOnClickListener(new View.OnClickListener() {
+        addPdf = findViewById(R.id.addPdfjobs);
+        //..............
+        databasereference = FirebaseDatabase.getInstance().getReference();
+        storageReference = FirebaseStorage.getInstance().getReference();
+
+        pd = new ProgressDialog(this);
+
+        addPdf = findViewById(R.id.addPdfjobs);
+
+        uploadPdfBtn = findViewById(R.id.uploadpdfbtnjobs);
+
+        addPdf.setOnClickListener(view -> {
+            openGallery();
+        });
+
+        uploadPdfBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                requestStoragePermission();
+                if(pdfData == null){
+                    Toast.makeText(JobsApplyActivity.this, "Select a Document", Toast.LENGTH_SHORT).show();
+                }else{
+                    uploadPdf();
+                }
             }
         });
-        Intent intent = getIntent();
-        if (intent != null) {
-            receivedData = intent.getStringExtra("user");
-            documentid = intent.getStringExtra("documentid");
 
-        }
+        genderSpinner = findViewById(R.id.genderapplicant);
+
+        genderAdapter = ArrayAdapter.createFromResource(this,
+                R.array.gender, android.R.layout.simple_spinner_item);
+        genderAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        genderSpinner.setAdapter(genderAdapter);
         dc.collection("users").get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
             @Override
             public void onComplete(Task<QuerySnapshot> task) {
@@ -100,7 +130,7 @@ public class JobsApplyActivity extends AppCompatActivity {
                         if (r==0){
                             field4 = ((String) dataMap.get("Name"));
                             Log.d("veefe",field4);
-                            jobname.setText(field4);
+                            applicantname.setText(field4);
                         }
                     }
                 } else {
@@ -111,9 +141,9 @@ public class JobsApplyActivity extends AppCompatActivity {
         });
 
 
-        jobname.setEnabled(false);
-        jobname.setTextColor(Color.parseColor("#80000000"));
-        jobname.setBackgroundResource(R.drawable.rounded_edittext_background);
+        applicantname.setEnabled(false);
+        applicantname.setTextColor(Color.parseColor("#80000000"));
+        applicantname.setBackgroundResource(R.drawable.rounded_edittext_background);
 
 
 
@@ -134,68 +164,96 @@ public class JobsApplyActivity extends AppCompatActivity {
         });
     }
 
-    private void requestStoragePermission() {
-        if (ContextCompat.checkSelfPermission(this, android.Manifest.permission.READ_EXTERNAL_STORAGE)
-                != PackageManager.PERMISSION_GRANTED) {
-            ActivityCompat.requestPermissions(this,
-                    new String[]{android.Manifest.permission.READ_EXTERNAL_STORAGE},
-                    REQUEST_STORAGE_PERMISSION);
-        } else {
-            openStorageForAccess();
-        }
-    }
-
-    private void openStorageForAccess() {
-        Intent intent = new Intent(Intent.ACTION_OPEN_DOCUMENT_TREE);
-        startActivityForResult(intent, REQUEST_STORAGE_ACCESS);
-    }
-
-    @Override
-    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-        if (requestCode == REQUEST_STORAGE_PERMISSION) {
-            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                openStorageForAccess();
-            } else {
-                Toast.makeText(this, "Storage permission denied", Toast.LENGTH_SHORT).show();
+    private void uploadPdf() {
+        pd.setTitle("Please wait..");
+        pd.setMessage("Uploading Pdf..");
+        pd.show();
+        StorageReference reference = storageReference.child("pdf/"+pdfName+"-"+System.currentTimeMillis()+".pdf");
+        reference.putFile(pdfData).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+            @Override
+            public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                Task<Uri> uriTask = taskSnapshot.getStorage().getDownloadUrl();
+                while (!uriTask.isComplete());
+                Uri uri = uriTask.getResult();
+                uploadData(String.valueOf(uri));
             }
-        }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                pd.dismiss();
+                Toast.makeText(JobsApplyActivity.this, "Something went wrong!", Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 
+    private void uploadData(String valueOf) {
+        String uniqueKey = databasereference.child("pdf").push().getKey();
+        HashMap data = new HashMap();
+        data.put("pdfUrl",downloadUrl);
+
+        databasereference.child("pdf").child(uniqueKey).setValue(data).addOnCompleteListener(new OnCompleteListener<Void>() {
+            @Override
+            public void onComplete(@NonNull Task<Void> task) {
+                pd.dismiss();
+                Toast.makeText(JobsApplyActivity.this, "Pdf Uploaded Successfully", Toast.LENGTH_SHORT).show();
+                applicantname.setText("");
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                pd.dismiss();
+                Toast.makeText(JobsApplyActivity.this, "Failed to upload!", Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
+    private void openGallery() {
+        Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
+        intent.setType("*/*");
+        startActivityForResult(Intent.createChooser(intent, "Select File"), REQ);
+    }
+
+    @SuppressLint("Range")
     @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == REQUEST_STORAGE_ACCESS && resultCode == RESULT_OK) {
-            if (data != null) {
-                Uri treeUri = data.getData();
-                if (treeUri != null) {
-                    listFilesInDirectory(treeUri);
-                }
-            }
-        }
-    }
+        if (requestCode == REQ && resultCode == RESULT_OK) {
+            pdfData = data.getData();
 
-    private void listFilesInDirectory(Uri treeUri) {
-        String treeDocumentId = DocumentsContract.getTreeDocumentId(treeUri);
-        Uri docUri = DocumentsContract.buildDocumentUriUsingTree(treeUri, treeDocumentId);
+            if(pdfData.toString().startsWith("content://")){
+                Cursor cursor = null;
+                try {
+                    cursor = JobsApplyActivity.this.getContentResolver().query(pdfData,null,null,null,null);
+                    if(cursor != null && cursor.moveToFirst()){
+                        pdfName = cursor.getString(cursor.getColumnIndex(OpenableColumns.DISPLAY_NAME));
+                    }
+                } catch (Exception e) {
+                    throw new RuntimeException(e);
+                }
+            }else if (pdfData.toString().startsWith("file://")){
+                pdfName = new File(pdfData.toString()).getName();
+            }
+            addPdf.setText(pdfName);
+        }
     }
 
     public void apply() {
-        String name = jobname.getText().toString().trim();
+        if (current == null) {
+            Toast.makeText(JobsApplyActivity.this, "User information not available", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        String name = applicantname.getText().toString().trim();
         String age = jobage.getText().toString().trim();
-        String gender = jobgender.getText().toString().trim();
+        String gender = jobgender.getSelectedItem().toString().trim();
         String cover = jobcover.getText().toString().trim();
 
         if (TextUtils.isEmpty(name)) {
-            jobname.setError("Title Required");
+            applicantname.setError("Title Required");
             return;
         }
         if (TextUtils.isEmpty(age)) {
             jobage.setError("Organizer Required");
-            return;
-        }
-        if (TextUtils.isEmpty(gender)) {
-            jobgender.setError("Gender Required");
             return;
         }
         if (TextUtils.isEmpty(cover)) {
@@ -210,8 +268,9 @@ public class JobsApplyActivity extends AppCompatActivity {
         usermap.put("cover", cover);
         usermap.put("User", current);
         usermap.put("Experienced", "mode");
-        usermap.put("Jobid",documentid);
-        Log.d(receivedData,"abcdef");
+        usermap.put("Jobid", documentid);
+
+        Log.d(receivedData, "abcdef");
         dc.collection("JOBsApply")
                 .add(usermap)
                 .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
