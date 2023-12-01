@@ -24,6 +24,7 @@ import com.example.my_medicos.activities.publications.adapters.ProductAdapter;
 import com.example.my_medicos.activities.publications.model.Category;
 import com.example.my_medicos.activities.publications.model.Product;
 import com.example.my_medicos.activities.publications.utils.Constants;
+import com.example.my_medicos.activities.utils.ConstantsDashboard;
 import com.example.my_medicos.databinding.ActivityPublicationBinding;
 import com.mancj.materialsearchbar.MaterialSearchBar;
 
@@ -98,7 +99,7 @@ public class  PublicationActivity extends AppCompatActivity {
     void getCategories() {
         RequestQueue queue = Volley.newRequestQueue(this);
 
-        StringRequest request = new StringRequest(Request.Method.GET, Constants.GET_CATEGORIES_URL, new Response.Listener<String>() {
+        StringRequest request = new StringRequest(Request.Method.GET, ConstantsDashboard.GET_SPECIALITY, new Response.Listener<String>() {
             @SuppressLint("NotifyDataSetChanged")
             @Override
             public void onResponse(String response) {
@@ -106,31 +107,28 @@ public class  PublicationActivity extends AppCompatActivity {
                     Log.e("err", response);
                     JSONObject mainObj = new JSONObject(response);
                     if (mainObj.getString("status").equals("success")) {
-                        JSONArray categoriesArray = mainObj.getJSONArray("categories");
-                        int categoriesCount = Math.min(categoriesArray.length(), 5); // Limit to the first 5 categories or the actual count if less than 5
+                        JSONArray categoriesArray = mainObj.getJSONArray("data");
+                        int categoriesCount = Math.min(categoriesArray.length(), 25);
                         for (int i = 0; i < categoriesCount; i++) {
                             JSONObject object = categoriesArray.getJSONObject(i);
                             Category category = new Category(
-                                    object.getString("name"),
-                                    Constants.CATEGORIES_IMAGE_URL + object.getString("icon"),
-                                    object.getString("color"),
-                                    object.getString("brief"),
-                                    object.getInt("id")
+                                    object.getString("id"),
+                                    object.getInt("priority")
                             );
                             categories.add(category);
+                            Log.e("Something went wrong..",object.getString("priority"));
                         }
 
-                        if (categoriesArray.length() > 5) {
-                            Category moreCategory = new Category(
-                                    "More",
-                                    "more_category_icon", // Replace with the actual icon for the "More" category
-                                    "#CCCCCC", // Replace with the color for the "More" category
-                                    "View More Categories",
-                                    -1 // Replace with a unique ID for the "More" category
-                            );
-                            categories.add(moreCategory);
-                        }
-
+//                        if (categoriesArray.length() > 5) {
+//                            Category moreCategory = new Category(
+//                                    "More",
+//                                    , // Replace with the actual icon for the "More" category
+//                                    "#CCCCCC", // Replace with the color for the "More" category
+//                                    "View More Categories",
+//                                    -1 // Replace with a unique ID for the "More" category
+//                            );
+//                            categories.add(moreCategory);
+//                        }
                         categoryAdapter.notifyDataSetChanged();
 
                         binding.categoriesList.addOnItemTouchListener(new RecyclerView.OnItemTouchListener() {
@@ -140,8 +138,7 @@ public class  PublicationActivity extends AppCompatActivity {
                                 int position = rv.getChildAdapterPosition(child);
 
                                 if (position != RecyclerView.NO_POSITION) {
-                                    // Check if the clicked item is the "More" category
-                                    if (position == categories.size() - 1 && categories.get(position).getId() == -1) {
+                                    if (position == categories.size() - 1 && categories.get(position).getPriority() == -1) {
                                         // Redirect to CategoryPublicationInsiderActivity
                                         Intent intent = new Intent(PublicationActivity.this, CategoryPublicationInsiderActivity.class);
                                         startActivity(intent);
@@ -187,24 +184,26 @@ public class  PublicationActivity extends AppCompatActivity {
     void getRecentProducts() {
         RequestQueue queue = Volley.newRequestQueue(this);
 
-        String url = Constants.GET_PRODUCTS_URL + "?count=8";
+        String url = ConstantsDashboard.GET_SPECIALITY_ALL_PRODUCT;
         StringRequest request = new StringRequest(Request.Method.GET, url, response -> {
             try {
                 JSONObject object = new JSONObject(response);
                 if(object.getString("status").equals("success")){
-                    JSONArray productsArray = object.getJSONArray("products");
+                    JSONArray productsArray = object.getJSONArray("data");
                     for(int i =0; i< productsArray.length(); i++) {
                         JSONObject childObj = productsArray.getJSONObject(i);
+                        JSONObject productObj = childObj.getJSONObject("data");
                         Product product = new Product(
-                                childObj.getString("name"),
-                                Constants.PRODUCTS_IMAGE_URL + childObj.getString("image"),
-                                childObj.getString("status"),
-                                childObj.getDouble("price"),
-                                childObj.getDouble("price_discount"),
-                                childObj.getInt("stock"),
-                                childObj.getInt("id")
+                                productObj.getString("Title"),
+                                productObj.getString("thumbnail"),
+                                productObj.getString("Author"),
+                                productObj.getDouble("Price"),
+                                productObj.getString("Type"),
+                                productObj.getString("Category"),
+                                childObj.getString("id"),
+                                productObj.getString("Subject")
 
-                        );
+                                );
                         products.add(product);
                     }
                     productAdapter.notifyDataSetChanged();

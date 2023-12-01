@@ -36,19 +36,20 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductV
     public void onBindViewHolder(@NonNull ProductViewHolder holder, int position) {
         Product product = products.get(position);
         Glide.with(context)
-                .load(product.getImage())
+                .load(product.getThumbnail())
                 .into(holder.binding.image);
-        holder.binding.label.setText(product.getName());
+        holder.binding.label.setText(product.getTitle());
         holder.binding.price.setText("INR " + product.getPrice());
 
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(context, ProductDetailedActivity.class);
-                intent.putExtra("name", product.getName());
-                intent.putExtra("image", product.getImage());
+                intent.putExtra("Title", product.getTitle());
+                intent.putExtra("thumbnail", product.getThumbnail());
                 intent.putExtra("id", product.getId());
-                intent.putExtra("price", product.getPrice());
+                intent.putExtra("Subject",product.getSubject());
+                intent.putExtra("Price", product.getPrice());
                 context.startActivity(intent);
             }
         });

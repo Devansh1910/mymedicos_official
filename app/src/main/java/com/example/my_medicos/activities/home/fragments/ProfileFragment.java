@@ -6,6 +6,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -14,9 +15,9 @@ import androidx.annotation.Nullable;
 import androidx.cardview.widget.CardView;
 import androidx.fragment.app.Fragment;
 
+import com.example.my_medicos.R;
 import com.example.my_medicos.activities.profile.Contactinfo;
 import com.example.my_medicos.activities.profile.Personalinfo;
-import com.example.my_medicos.R;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
@@ -37,8 +38,9 @@ public class ProfileFragment extends Fragment {
     private static final String DATA_LOADED_KEY = "data_loaded";
 
     CardView personalinfo, contactinfo;
-    TextView user_name_dr, user_email_dr, user_phone_dr,user_location_dr,user_interest_dr,user_prefix;
-    ImageView profileImageView;
+    TextView user_name_dr, user_email_dr, user_phone_dr, user_location_dr, user_interest_dr, user_prefix;
+    ImageView profileImageView, verifiedprofilebehere;
+    FrameLayout verifiedUser, circularImageView;
 
     private boolean dataLoaded = false;
 
@@ -80,6 +82,8 @@ public class ProfileFragment extends Fragment {
         user_interest_dr = rootView.findViewById(R.id.user_interest_dr);
         profileImageView = rootView.findViewById(R.id.circularImageView);
         user_prefix = rootView.findViewById(R.id.prefixselecterfromuser);
+        verifiedprofilebehere = rootView.findViewById(R.id.verifiedprofilebehere);
+        verifiedUser = rootView.findViewById(R.id.verifieduser);
 
         if (!dataLoaded) {
             fetchdata();
@@ -87,34 +91,34 @@ public class ProfileFragment extends Fragment {
         }
         return rootView;
     }
+
     @Override
     public void onSaveInstanceState(@NonNull Bundle outState) {
         super.onSaveInstanceState(outState);
         outState.putBoolean(DATA_LOADED_KEY, dataLoaded);
     }
+
     private void fetchdata() {
         Preferences preferences = Preferences.userRoot();
         if (preferences.get("username", null) != null) {
             System.out.println("Key '" + "username" + "' exists in preferences.");
-            String username=preferences.get("username", null);
-            Log.d("usernaem",username);
+            String username = preferences.get("username", null);
+            Log.d("usernaem", username);
         }
         String username = preferences.get("username", "");
         String email = preferences.get("email", "");
         String location = preferences.get("location", "");
         String interest = preferences.get("interest", "");
-        String phone=preferences.get("userphone","");
-        String prefix =preferences.get("prefix","");
+        String phone = preferences.get("userphone", "");
+        String prefix = preferences.get("prefix", "");
         user_name_dr.setText(username);
         user_email_dr.setText(email);
         user_location_dr.setText(location);
         user_interest_dr.setText(interest);
         user_phone_dr.setText(phone);
         user_prefix.setText(prefix);
-
     }
 
-    // Inside the fetchUserData method
     private void fetchUserData() {
         FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
         if (currentUser != null) {
@@ -129,6 +133,7 @@ public class ProfileFragment extends Fragment {
                             if (task.isSuccessful()) {
                                 for (QueryDocumentSnapshot document : task.getResult()) {
                                     Log.d(TAG, document.getId() + " => " + document.getData());
+                                    String docID = document.getId();
                                     Map<String, Object> dataMap = document.getData();
                                     String field1 = (String) dataMap.get("Phone Number");
 
@@ -141,21 +146,40 @@ public class ProfileFragment extends Fragment {
                                             String userInterest = (String) dataMap.get("Interest");
                                             String userPhone = (String) dataMap.get("Phone Number");
                                             String userPrefix = (String) dataMap.get("Prefix");
-                                            Preferences preferences = Preferences.userRoot(); // User preferences
-                                            // Store data
+                                            String userAuthorized = (String) dataMap.get("authorized");
+
+                                            Boolean mcnVerified = (Boolean) dataMap.get("MCN verified");
+
+                                            Preferences preferences = Preferences.userRoot();
                                             preferences.put("username", userName);
                                             preferences.put("email", userEmail);
                                             preferences.put("location", userLocation);
                                             preferences.put("interest", userInterest);
                                             preferences.put("userphone", userPhone);
+                                            preferences.put("docId", docID);
                                             preferences.put("prefix", userPrefix);
                                             user_name_dr.setText(userName);
                                             user_phone_dr.setText(userPhone);
+
+                                            if (mcnVerified != null && mcnVerified) {
+                                                // Boolean value is true
+                                                preferences.putBoolean("mcn_verified", true);
+                                                verifiedUser.setVisibility(View.VISIBLE);
+                                                profileImageView.setVisibility(View.GONE);
+                                                fetchUserProfileImageVerified(userId);
+                                            } else {
+                                                // Boolean value is false or null
+                                                preferences.putBoolean("mcn_verified", false);
+                                                verifiedUser.setVisibility(View.GONE);
+                                                profileImageView.setVisibility(View.VISIBLE);
+                                                fetchUserProfileImage(userId);
+                                            }
+
                                             fetchdata();
                                             fetchUserProfileImage(userId);
+                                            fetchUserProfileImageVerified(userId);
                                         }
                                     } else {
-                                        // Handle the case where either field1 or currentUser.getPhoneNumber() is null
                                         Log.e(TAG, "Field1 or currentUser.getPhoneNumber() is null");
                                     }
                                 }
@@ -167,12 +191,20 @@ public class ProfileFragment extends Fragment {
         }
     }
 
-
     private void fetchUserProfileImage(String userId) {
         FirebaseStorage storage = FirebaseStorage.getInstance();
         StorageReference storageRef = storage.getReference().child("users").child(userId).child("profile_image.jpg");
         storageRef.getDownloadUrl().addOnSuccessListener(uri -> {
             Picasso.get().load(uri).into(profileImageView);
+        }).addOnFailureListener(exception -> {
+            Log.e(TAG, "Error fetching profile image: " + exception.getMessage());
+        });
+    }
+    private void fetchUserProfileImageVerified(String userId) {
+        FirebaseStorage storage = FirebaseStorage.getInstance();
+        StorageReference storageRef = storage.getReference().child("users").child(userId).child("profile_image.jpg");
+        storageRef.getDownloadUrl().addOnSuccessListener(uri -> {
+            Picasso.get().load(uri).into(verifiedprofilebehere);
         }).addOnFailureListener(exception -> {
             Log.e(TAG, "Error fetching profile image: " + exception.getMessage());
         });

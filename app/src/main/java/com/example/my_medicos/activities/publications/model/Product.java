@@ -6,92 +6,90 @@ import java.math.BigDecimal;
 
 public class Product implements Item, Serializable {
 
-    private String name, image, status;
-    private double price, discount;
-    private int stock, id;
-    private int quantity;
-
-    public Product(String name, String image, String status, double price, double discount, int stock, int id) {
-        this.name = name;
-        this.image = image;
-        this.status = status;
-        this.price = price;
-        this.discount = discount;
-        this.stock = stock;
+    private String Title, thumbnail, Author, Type, Category, id, Subject;
+    private double Price;
+    public Product(String title, String thumbnail, String author, double price, String type, String category, String id, String subject) {
+        this.Title = title;
+        this.thumbnail = thumbnail;
+        this.Author = author;
+        this.Price = price;
+        this.Type = type;
+        this.Category = category;
+        this.Subject = subject;
         this.id = id;
     }
 
-    public String getName() {
-        return name;
+    public String getTitle() {
+        return Title;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setTitle(String title) {
+        this.Title = title;
     }
 
-    public String getImage() {
-        return image;
+    public String getThumbnail() {
+        return thumbnail;
     }
 
-    public void setImage(String image) {
-        this.image = image;
+    public void setThumbnail (String thumbnail) {
+        this.thumbnail = thumbnail;
     }
 
-    public String getStatus() {
-        return status;
+    public String getAuthor() {
+        return Author;
     }
 
-    public void setStatus(String status) {
-        this.status = status;
+    public void setAuthor(String author) {
+        this.Author = author;
     }
 
     public double getPrice() {
-        return price;
+        return Price;
     }
 
     public void setPrice(double price) {
-        this.price = price;
+        this.Price = price;
     }
 
-    public double getDiscount() {
-        return discount;
+    public String getType() {
+        return Type;
     }
 
-    public void setDiscount(double discount) {
-        this.discount = discount;
+    public void setType(String type) {
+        this.Type = type;
     }
 
-    public int getStock() {
-        return stock;
+    public String getCategory() {
+        return Category;
     }
 
-    public void setStock(int stock) {
-        this.stock = stock;
+    public void setCategory(String category) {
+        this.Category = category;
     }
 
-    public int getId() {
+    public String getSubject() {
+        return Subject;
+    }
+
+    public void setSubject(String subject) {
+        this.Subject = subject;
+    }
+
+    public String getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(String id) {
         this.id = id;
     }
 
     @Override
     public BigDecimal getItemPrice() {
-        return new BigDecimal(price);
+        return new BigDecimal(Price);
     }
 
     @Override
     public String getItemName() {
-        return name;
-    }
-
-    public int getQuantity() {
-        return quantity;
-    }
-
-    public void setQuantity(int quantity) {
-        this.quantity = quantity;
+        return Title;
     }
 }

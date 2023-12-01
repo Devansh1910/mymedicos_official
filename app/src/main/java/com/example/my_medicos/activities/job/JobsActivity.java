@@ -84,21 +84,6 @@ public class JobsActivity extends AppCompatActivity {
 
 //........................
 
-
-        searchview = findViewById(R.id.searchview);
-        searchview.clearFocus();
-        searchview.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
-            @Override
-            public boolean onQueryTextSubmit(String query) {
-                return false;
-            }
-
-            @Override
-            public boolean onQueryTextChange(String newText) {
-                return true;
-            }
-        });
-
 //.........................
         floatingActionButton=findViewById(R.id.floatingActionButton);
         floatingActionButton.setOnClickListener(new View.OnClickListener() {

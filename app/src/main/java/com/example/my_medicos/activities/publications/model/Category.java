@@ -1,15 +1,12 @@
 package com.example.my_medicos.activities.publications.model;
 
 public class Category {
-    private String name, icon, color, brief;
-    private int id;
+    private String name;
+    private int priority;
 
-    public Category(String name, String icon, String color, String brief, int id) {
+    public Category(String name, int priority) {
         this.name = name;
-        this.icon = icon;
-        this.color = color;
-        this.brief = brief;
-        this.id = id;
+        this.priority = priority;
     }
 
     public String getName() {
@@ -20,35 +17,11 @@ public class Category {
         this.name = name;
     }
 
-    public String getIcon() {
-        return icon;
+    public int getPriority() {
+        return priority;
     }
 
-    public void setIcon(String icon) {
-        this.icon = icon;
-    }
-
-    public String getColor() {
-        return color;
-    }
-
-    public void setColor(String color) {
-        this.color = color;
-    }
-
-    public String getBrief() {
-        return brief;
-    }
-
-    public void setBrief(String brief) {
-        this.brief = brief;
-    }
-
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
+    public void setPriority(int priority) {
+        this.priority = priority;
     }
 }

@@ -52,12 +52,12 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.CartViewHolder
     public void onBindViewHolder(@NonNull CartViewHolder holder, int position) {
         Product product = products.get(position);
         Glide.with(context)
-                .load(product.getImage())
+                .load(product.getThumbnail())
                 .into(holder.binding.image);
 
-        holder.binding.name.setText(product.getName());
-        holder.binding.price.setText("PKR " + product.getPrice());
-        holder.binding.quantity.setText(product.getQuantity() + " item(s)");
+        holder.binding.name.setText(product.getTitle());
+        holder.binding.price.setText("INR " + product.getPrice());
+        holder.binding.type.setText(product.getSubject());
 
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @SuppressLint("ResourceAsColor")
@@ -71,43 +71,19 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.CartViewHolder
 
                 dialog.getWindow().setBackgroundDrawable(new ColorDrawable(android.R.color.transparent));
 
-                quantityDialogBinding.productName.setText(product.getName());
-                quantityDialogBinding.productStock.setText("Stock: " + product.getStock());
-                quantityDialogBinding.quantity.setText(String.valueOf(product.getQuantity()));
-                int stock = product.getStock();
+                quantityDialogBinding.productName.setText(product.getTitle());
+                quantityDialogBinding.productPrice.setText("Type: " + product.getType());
+                String type = product.getType();
 
 
-                quantityDialogBinding.plusBtn.setOnClickListener(new View.OnClickListener() {
+                quantityDialogBinding.removeBtn.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        int quantity = product.getQuantity();
-                        quantity++;
-
-                        if(quantity>product.getStock()) {
-                            Toast.makeText(context, "Max stock available: "+ product.getStock(), Toast.LENGTH_SHORT).show();
-                            return;
-                        } else {
-                            product.setQuantity(quantity);
-                            quantityDialogBinding.quantity.setText(String.valueOf(quantity));
-                        }
+                        String quantity = product.getId();
+                        product.setId(quantity);
+                        quantityDialogBinding.removeBtn.setText(String.valueOf(quantity));
 
                         notifyDataSetChanged();
-                        cart.updateItem(product, product.getQuantity());
-                        cartListener.onQuantityChanged();
-                    }
-                });
-
-                quantityDialogBinding.minusBtn.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        int quantity = product.getQuantity();
-                        if(quantity > 1)
-                            quantity--;
-                        product.setQuantity(quantity);
-                        quantityDialogBinding.quantity.setText(String.valueOf(quantity));
-
-                        notifyDataSetChanged();
-                        cart.updateItem(product, product.getQuantity());
                         cartListener.onQuantityChanged();
                     }
                 });
@@ -116,9 +92,7 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.CartViewHolder
                     @Override
                     public void onClick(View view) {
                         dialog.dismiss();
-//                        notifyDataSetChanged();
-//                        cart.updateItem(product, product.getQuantity());
-//                        cartListener.onQuantityChanged();
+//
                     }
                 });
 

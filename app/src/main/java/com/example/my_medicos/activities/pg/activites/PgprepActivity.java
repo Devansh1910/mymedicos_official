@@ -186,15 +186,11 @@ public class  PgprepActivity extends AppCompatActivity {
                 e.printStackTrace();
             }
         }, error -> {
-            // Log or print the error for debugging
             Log.e("API_ERROR", "Error in API request: " + error.getMessage());
         });
-
         queue.add(request);
     }
 
-
-    // this is for the speciality
     void initSpecialities() {
         specialitiespost = new ArrayList<>();
         specialitiesPGAdapter = new SpecialitiesPGAdapter(this, specialitiespost);
@@ -246,7 +242,7 @@ public class  PgprepActivity extends AppCompatActivity {
 
                         specialitiesPGAdapter.notifyDataSetChanged();
 
-                        binding.questionbankList.addOnItemTouchListener(new RecyclerView.OnItemTouchListener() {
+                        binding.specialityList.addOnItemTouchListener(new RecyclerView.OnItemTouchListener() {
                             @Override
                             public boolean onInterceptTouchEvent(@NonNull RecyclerView rv, @NonNull MotionEvent e) {
                                 View child = rv.findChildViewUnder(e.getX(), e.getY());
@@ -306,7 +302,7 @@ public class  PgprepActivity extends AppCompatActivity {
     void getRecentQuestions() {
         RequestQueue queue = Volley.newRequestQueue(this);
 
-        String url = ConstantsDashboard.GET_PG_QUESTIONBANK_URL;
+        String url = ConstantsDashboard.GET_PG_QUESTIONBANK_URL_HOME;
         StringRequest request = new StringRequest(Request.Method.GET, url, response -> {
             try {
                 JSONObject object = new JSONObject(response);

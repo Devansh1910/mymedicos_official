@@ -65,7 +65,7 @@ public class CheckoutPublicationActivity extends AppCompatActivity {
         for(Map.Entry<Item, Integer> item : cart.getAllItemsWithQty().entrySet()) {
             Product product = (Product) item.getKey();
             int quantity = item.getValue();
-            product.setQuantity(quantity);
+            product.setPrice(quantity);
 
             products.add(product);
         }
@@ -124,13 +124,13 @@ public class CheckoutPublicationActivity extends AppCompatActivity {
             for(Map.Entry<Item, Integer> item : cart.getAllItemsWithQty().entrySet()) {
                 Product product = (Product) item.getKey();
                 int quantity = item.getValue();
-                product.setQuantity(quantity);
+                product.setPrice(quantity);
 
                 JSONObject productObj = new JSONObject();
                 productObj.put("amount", quantity);
                 productObj.put("price_item", product.getPrice());
                 productObj.put("product_id", product.getId());
-                productObj.put("product_name", product.getName());
+                productObj.put("product_name", product.getTitle());
                 product_order_detail.put(productObj);
             }
 

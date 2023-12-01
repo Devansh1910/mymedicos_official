@@ -6,31 +6,59 @@
     android:layout_height="match_parent"
     tools:context=".activities.publications.activity.CategoryPublicationActivity">
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/productList"
-        android:layout_width="0dp"
+    <FrameLayout
+        android:id="@+id/frame_layout"
+        android:layout_width="match_parent"
         android:layout_height="0dp"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/bottomappabarcategorypublication"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent">
 
-    <com.google.android.material.bottomnavigation.BottomNavigationView
-        android:id="@+id/bottomNavigationView"
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/productList"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+    </FrameLayout>
+
+    <com.google.android.material.bottomappbar.BottomAppBar
+        android:id="@+id/bottomappabarcategorypublication"
         android:layout_width="match_parent"
         android:layout_height="@dimen/_60sdp"
         android:layout_gravity="bottom"
-        android:elevation="@dimen/_10ssp"
-        app:itemActiveIndicatorStyle="@drawable/item_tint_selector"
-        app:itemIconTint="@drawable/item_tint_selector"
-        app:itemTextColor="@drawable/item_tint_selector"
-        app:labelVisibilityMode="labeled"
+        android:gravity="bottom"
+        app:itemActiveIndicatorStyle="@color/blue"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintVertical_bias="0.996"
-        app:menu="@menu/bottom_menu_category_publications">
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="1.0"
+        tools:ignore="BottomAppBar">
 
-    </com.google.android.material.bottomnavigation.BottomNavigationView>
+        <com.google.android.material.bottomnavigation.BottomNavigationView
+            android:id="@+id/bottomNavigationViewcategorypublication"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/_60sdp"
+            android:layout_gravity="bottom"
+            app:itemActiveIndicatorStyle="@drawable/item_tint_selector"
+            app:itemIconTint="@drawable/item_tint_selector"
+            app:itemTextColor="@drawable/item_tint_selector"
+            app:labelVisibilityMode="labeled"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.996"
+            app:menu="@menu/bottom_menu_category_publications">
+
+        </com.google.android.material.bottomnavigation.BottomNavigationView>
+
+    </com.google.android.material.bottomappbar.BottomAppBar>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

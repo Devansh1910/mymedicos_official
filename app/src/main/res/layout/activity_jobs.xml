@@ -96,22 +96,6 @@
 
             <!--        </HorizontalScrollView>-->
 
-            <androidx.appcompat.widget.SearchView
-                android:id="@+id/searchview"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                app:queryHint="Search Speciality"
-                app:iconifiedByDefault="false"
-                app:searchIcon="@drawable/searchfinalicon"
-                android:layout_marginHorizontal="@dimen/_10ssp"
-                android:paddingVertical="@dimen/_10ssp"
-                app:queryBackground="@drawable/flag_transparent"
-                android:background="@drawable/searchbk"
-                android:textAlignment="center"
-                android:textAppearance="@color/black">
-
-            </androidx.appcompat.widget.SearchView>
-
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/recyclerview6"
                 android:layout_width="match_parent"

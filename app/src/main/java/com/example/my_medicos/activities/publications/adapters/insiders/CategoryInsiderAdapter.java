@@ -40,14 +40,14 @@ public class CategoryInsiderAdapter extends RecyclerView.Adapter<CategoryInsider
         Category category = categories.get(position);
         holder.label.setText(category.getName());
         Glide.with(context)
-                .load(category.getIcon())
+                .load(category.getPriority())
                 .into(holder.image);
 
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(context, CategoryPublicationActivity.class);
-                intent.putExtra("catId", category.getId());
+                intent.putExtra("catId", category.getPriority());
                 intent.putExtra("categoryName", category.getName());
                 context.startActivity(intent);
             }

@@ -12,6 +12,7 @@ import com.android.volley.toolbox.Volley;
 import com.example.my_medicos.activities.publications.adapters.ProductAdapter;
 import com.example.my_medicos.activities.publications.model.Product;
 import com.example.my_medicos.activities.publications.utils.Constants;
+import com.example.my_medicos.activities.utils.ConstantsDashboard;
 import com.example.my_medicos.databinding.ActivitySearchPgBinding;
 import com.example.my_medicos.databinding.ActivitySearchPublicationBinding;
 
@@ -58,22 +59,23 @@ public class SearchPgActivity extends AppCompatActivity {
     void getProducts(String query) {
         RequestQueue queue = Volley.newRequestQueue(this);
 
-        String url = Constants.GET_PRODUCTS_URL + "?q=" + query;
+        String url = ConstantsDashboard.GET_SPECIALITY_ALL_PRODUCT;
         StringRequest request = new StringRequest(Request.Method.GET, url, response -> {
             try {
                 JSONObject object = new JSONObject(response);
                 if(object.getString("status").equals("success")){
-                    JSONArray productsArray = object.getJSONArray("products");
+                    JSONArray productsArray = object.getJSONArray("data");
                     for(int i =0; i< productsArray.length(); i++) {
                         JSONObject childObj = productsArray.getJSONObject(i);
                         Product product = new Product(
-                                childObj.getString("name"),
-                                Constants.PRODUCTS_IMAGE_URL + childObj.getString("image"),
-                                childObj.getString("status"),
-                                childObj.getDouble("price"),
-                                childObj.getDouble("price_discount"),
-                                childObj.getInt("stock"),
-                                childObj.getInt("id")
+                                childObj.getString("Title"),
+                                childObj.getString("thumbnail"),
+                                childObj.getString("Author"),
+                                childObj.getDouble("Price"),
+                                childObj.getString("Type"),
+                                childObj.getString("Category"),
+                                childObj.getString("Subject"),
+                                object.getString("id")
 
                         );
                         products.add(product);

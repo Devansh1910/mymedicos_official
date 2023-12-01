@@ -6,6 +6,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.Html;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -21,6 +22,7 @@ import com.bumptech.glide.Glide;
 import com.example.my_medicos.R;
 import com.example.my_medicos.activities.publications.model.Product;
 import com.example.my_medicos.activities.publications.utils.Constants;
+import com.example.my_medicos.activities.utils.ConstantsDashboard;
 import com.example.my_medicos.databinding.ActivityProductDetailedBinding;
 import com.hishd.tinycart.model.Cart;
 import com.hishd.tinycart.util.TinyCartHelper;
@@ -43,10 +45,10 @@ public class ProductDetailedActivity extends AppCompatActivity {
         binding = ActivityProductDetailedBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
-        String name = getIntent().getStringExtra("name");
-        String image = getIntent().getStringExtra("image");
-        int id = getIntent().getIntExtra("id",0);
-        double price = getIntent().getDoubleExtra("price",0);
+        String name = getIntent().getStringExtra("Title");
+        String image = getIntent().getStringExtra("thumbnail");
+        String id = getIntent().getStringExtra("id");
+        double price = getIntent().getDoubleExtra("Price",0);
 
         Glide.with(this)
                 .load(image)
@@ -64,7 +66,7 @@ public class ProductDetailedActivity extends AppCompatActivity {
         binding.addToCartBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                cart.addItem(currentProduct,1);
+                cart.addItem(currentProduct,0);
                 binding.addToCartBtn.setEnabled(false);
                 binding.addToCartBtn.setText("Added in cart");
             }
@@ -85,10 +87,10 @@ public class ProductDetailedActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    void getProductDetails(int id) {
+    void getProductDetails(String id) {
         RequestQueue queue = Volley.newRequestQueue(this);
 
-        String url = Constants.GET_PRODUCT_DETAILS_URL + id;
+        String url = ConstantsDashboard.GET_SPECIALITY_PRODUCT + id;
 
         StringRequest request = new StringRequest(Request.Method.GET, url, new Response.Listener<String>() {
             @Override
@@ -96,20 +98,23 @@ public class ProductDetailedActivity extends AppCompatActivity {
                 try {
                     JSONObject object = new JSONObject(response);
                     if(object.getString("status").equals("success")) {
-                        JSONObject product = object.getJSONObject("product");
-                        String description = product.getString("description");
+                        JSONObject product = object.getJSONObject("data");
+                        String description = product.getString("id");
                         binding.productDescription.setText(
                                 Html.fromHtml(description)
                         );
+                        Log.e("Something Went wrong..",product.getString("Title"));
 
                         currentProduct = new Product(
-                                product.getString("name"),
-                                Constants.PRODUCTS_IMAGE_URL + product.getString("image"),
-                                product.getString("status"),
-                                product.getDouble("price"),
-                                product.getDouble("price_discount"),
-                                product.getInt("stock"),
-                                product.getInt("id")
+                                product.getString("Title"),
+                                product.getString("thumbnail"),
+                                product.getString("Author"),
+                                product.getDouble("Price"),
+                                product.getString("Type"),
+                                product.getString("Category"),
+                                product.getString("Subject"),
+                                object.getString("id")
+
                         );
 
                     }

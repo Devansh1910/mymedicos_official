@@ -210,14 +210,45 @@ public class RegisterActivity extends AppCompatActivity {
         user.put("Location", location);
         user.put("Interest", interest);
         user.put("Prefix", userMap.get("prefix").toString());
-        user.put("UID", mAuth.getCurrentUser().getUid());
+        user.put("MCN verified", false);
 
         db.collection("users")
                 .add(user)
                 .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
                     @Override
                     public void onSuccess(DocumentReference documentReference) {
-                        // Log success if needed
+                        String documentId = documentReference.getId();
+                        documentReference.update("DocID", documentId)
+                                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                                    @Override
+                                    public void onSuccess(Void aVoid) {
+                                        // Log success if needed
+                                    }
+                                })
+                                .addOnFailureListener(new OnFailureListener() {
+                                    @Override
+                                    public void onFailure(@NonNull Exception e) {
+                                        // Log failure if needed
+                                    }
+                                });
+
+                        // Continue with the rest of the registration logic
+                        mAuth.getCurrentUser().sendEmailVerification().addOnCompleteListener(new OnCompleteListener<Void>() {
+                            @Override
+                            public void onComplete(@NonNull Task<Void> task) {
+                                if (task.isSuccessful()) {
+                                    Intent i = new Intent(RegisterActivity.this, MainActivity.class);
+                                    startActivity(i);
+                                    finish();
+
+                                    Toast.makeText(getApplicationContext(), "Registration Successful, please verify your Email ID", Toast.LENGTH_SHORT).show();
+                                    progressDialog.dismiss();
+                                } else {
+                                    Toast.makeText(getApplicationContext(), "Registration Failed", Toast.LENGTH_SHORT).show();
+                                    progressDialog.dismiss();
+                                }
+                            }
+                        });
                     }
                 })
                 .addOnFailureListener(new OnFailureListener() {
@@ -227,6 +258,8 @@ public class RegisterActivity extends AppCompatActivity {
                     }
                 });
     }
+
+
 
     public static boolean isPasswordValid(String password) {
         // Implement password validation logic as needed

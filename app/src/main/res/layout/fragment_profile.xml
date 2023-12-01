@@ -39,6 +39,39 @@
                         android:layout_gravity="center"
                         android:src="@drawable/img_10" />
 
+                    <FrameLayout
+                        android:id="@+id/verifieduser"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center">
+
+                        <de.hdodenhof.circleimageview.CircleImageView
+                            android:id="@+id/circularImageViewVerified"
+                            android:layout_width="80dp"
+                            android:layout_height="80dp"
+                            android:src="@drawable/img_10" />
+
+                        <ImageView
+                            android:layout_width="24dp"
+                            android:layout_height="24dp"
+                            android:layout_gravity="bottom|end"
+                            android:layout_marginBottom="0dp"
+                            android:elevation="10dp"
+                            android:layout_marginEnd="0dp"
+                            android:src="@drawable/greenlogo" />
+
+                        <de.hdodenhof.circleimageview.CircleImageView
+                            android:id="@+id/verifiedprofilebehere"
+                            android:layout_width="82dp"
+                            android:layout_height="82dp"
+                            android:layout_gravity="center"
+                            android:padding="3dp"
+                            android:src="@drawable/img_10"
+                            android:background="@drawable/greenbk" />
+
+                    </FrameLayout>
+
+
                     <TextView
                         android:id="@+id/share"
                         android:paddingHorizontal="@dimen/_5ssp"
@@ -214,7 +247,7 @@
                 android:id="@+id/contact_info"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:backgroundTint="@color/blue"
+                android:backgroundTint="@color/green"
                 app:cardCornerRadius="@dimen/_10ssp"
                 android:layout_margin="@dimen/_10ssp">
 

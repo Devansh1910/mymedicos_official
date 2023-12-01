@@ -74,7 +74,7 @@ public class JobsApplyActivity extends AppCompatActivity {
     String documentid;
     private ArrayAdapter<CharSequence> genderAdapter;
     private TextView uploadpdfbtnjobs;
-    @SuppressLint("MissingInflatedId")
+    @SuppressLint({"MissingInflatedId", "CutPasteId"})
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -125,21 +125,19 @@ public class JobsApplyActivity extends AppCompatActivity {
                         Map<String, Object> dataMap = document.getData();
                         field3 = ((String) dataMap.get("Phone Number"));
                         boolean areEqualIgnoreCase = current.equalsIgnoreCase(field3);
-                        Log.d("vivek", String.valueOf(areEqualIgnoreCase));
+                        Log.d("Something went wrong..", String.valueOf(areEqualIgnoreCase));
                         int r=current.compareTo(field3);
                         if (r==0){
                             field4 = ((String) dataMap.get("Name"));
-                            Log.d("veefe",field4);
+                            Log.d("Issue in Fetching the name...",field4);
                             applicantname.setText(field4);
                         }
                     }
                 } else {
-                    // Handle the error
                     Toast.makeText(JobsApplyActivity.this, "Error fetching data from Firebase Firestore", Toast.LENGTH_SHORT).show();
                 }
             }
         });
-
 
         applicantname.setEnabled(false);
         applicantname.setTextColor(Color.parseColor("#80000000"));

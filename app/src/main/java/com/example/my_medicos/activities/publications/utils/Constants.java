@@ -1,5 +1,4 @@
 package com.example.my_medicos.activities.publications.utils;
-
 public class Constants {
     public static String API_BASE_URL = "https://galgotiascafe.000webhostapp.com/";
     public static String GET_CATEGORIES_URL = API_BASE_URL + "/services/listCategory";

@@ -20,6 +20,7 @@ import com.example.my_medicos.activities.publications.adapters.CategoryAdapter;
 import com.example.my_medicos.activities.publications.adapters.insiders.CategoryInsiderAdapter;
 import com.example.my_medicos.activities.publications.model.Category;
 import com.example.my_medicos.activities.publications.utils.Constants;
+import com.example.my_medicos.activities.utils.ConstantsDashboard;
 import com.example.my_medicos.databinding.ActivityCategoryPublicationInsiderBinding;
 
 import org.json.JSONArray;
@@ -69,7 +70,7 @@ public class CategoryPublicationInsiderActivity extends AppCompatActivity {
     void getCategories() {
         RequestQueue queue = Volley.newRequestQueue(this);
 
-        StringRequest request = new StringRequest(Request.Method.GET, Constants.GET_CATEGORIES_URL, new Response.Listener<String>() {
+        StringRequest request = new StringRequest(Request.Method.GET, ConstantsDashboard.GET_SPECIALITY, new Response.Listener<String>() {
             @SuppressLint("NotifyDataSetChanged")
             @Override
             public void onResponse(String response) {
@@ -81,11 +82,8 @@ public class CategoryPublicationInsiderActivity extends AppCompatActivity {
                         for (int i = 0; i < categoriesArray.length(); i++) {
                             JSONObject object = categoriesArray.getJSONObject(i);
                             Category category = new Category(
-                                    object.getString("name"),
-                                    Constants.CATEGORIES_IMAGE_URL + object.getString("icon"),
-                                    object.getString("color"),
-                                    object.getString("brief"),
-                                    object.getInt("id")
+                                    object.getString("id"),
+                                    object.getInt("priority")
                             );
                             categories.add(category);
                         }
