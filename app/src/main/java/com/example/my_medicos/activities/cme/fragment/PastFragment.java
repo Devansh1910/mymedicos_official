@@ -37,8 +37,6 @@ import java.util.Map;
 public class PastFragment extends Fragment {
     RecyclerView recyclerView2;
 
-
-
     @SuppressLint("MissingInflatedId")
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
