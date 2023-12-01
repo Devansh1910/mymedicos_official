@@ -101,6 +101,7 @@
             android:paddingVertical="@dimen/_5ssp"
             android:gravity="center"
             android:textSize="@dimen/_10ssp"
+            android:clickable="true"
             android:text="Download Attachment"
             android:background="@drawable/bkofcme"
             app:layout_constraintEnd_toEndOf="parent"

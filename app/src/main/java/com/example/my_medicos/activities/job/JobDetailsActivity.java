@@ -5,6 +5,7 @@ import static android.content.ContentValues.TAG;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -80,6 +81,8 @@ public class JobDetailsActivity extends AppCompatActivity {
 
 
         Button apply=findViewById(R.id.applyButton);
+        Button alreadyapply=findViewById(R.id.Alreadyapplied);
+        alreadyapply.setVisibility(View.GONE);
         LinearLayout applylinear=findViewById(R.id.applylinear);
 
         Button applycant=findViewById(R.id.applycant);
@@ -167,6 +170,55 @@ public class JobDetailsActivity extends AppCompatActivity {
 
         recyclerView1 = findViewById(R.id.recyclerviewjobsinsider);
         List<jobitem1> joblist = new ArrayList<jobitem1>();
+        FirebaseFirestore checking = FirebaseFirestore.getInstance();
+        //......
+        checking.collection("JOBsApply")
+                .get()
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task ) {
+
+                        if (task.isSuccessful()) {
+                            for (QueryDocumentSnapshot document : task.getResult()) {
+
+                                Map<String, Object> dataMap = document.getData();
+
+
+                                String Organiser = (String) dataMap.get("Jobid");
+
+
+                                String user = (String) dataMap.get("User");
+                                Log.d("abcdef",user);
+                                Log.d("abcdef",Organiser);
+
+                                if ((Organiser!=null)&&(user!=null)) {
+                                    int r=current.compareTo(user);
+                                    int r1 = Organiser.compareTo(documentid);
+                                    Log.d("abcdef",user);
+                                    Log.d("abcdef",Organiser);
+
+                                    Log.d("abcdef", String.valueOf(r));
+                                    Log.d("abcdef", String.valueOf(r1));
+
+
+                                    if ((r == 0) && (r1 == 0)) {
+                                        alreadyapply.setVisibility(View.VISIBLE);
+                                        alreadyapply.setEnabled(false);
+                                        alreadyapply.setBackgroundColor(Color.GRAY);
+                                        applycant.setVisibility(View.GONE);
+                                        apply.setVisibility(View.GONE);
+
+                                    }
+                                }
+
+
+
+                            }
+                        } else {
+                            Log.d(TAG, "Error getting documents: ", task.getException());
+                        }
+                    }
+                });
 
 
         FirebaseFirestore jobsinsider = FirebaseFirestore.getInstance();

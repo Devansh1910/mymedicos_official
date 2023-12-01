@@ -1,16 +1,22 @@
 package com.example.my_medicos.activities.job;
 
 import android.annotation.SuppressLint;
+import android.app.DownloadManager;
+import android.content.Context;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
+import android.os.Environment;
 import android.util.Log;
+import android.widget.Toast;
+
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+
 import com.example.my_medicos.R;
 import com.example.my_medicos.adapter.job.AdapterforApplicants;
-import com.example.my_medicos.adapter.job.MyAdapter;
 import com.example.my_medicos.adapter.job.items.jobitem;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -19,6 +25,7 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -82,6 +89,7 @@ public class JobsApplicantActivty extends AppCompatActivity {
                                 String Location = (String) dataMap.get("cover");
                                 String date = (String) dataMap.get("Age");
                                 String speciality ="";
+                                String pdf=((String) dataMap.get("Job pdf"));
                                 String user = (String) dataMap.get("User");
                                 String Title = (String) dataMap.get("Full name");
                                 String Documentid = (String) dataMap.get("Jobid");
@@ -89,8 +97,9 @@ public class JobsApplicantActivty extends AppCompatActivity {
                                 Log.d("documentid",documentid);
                                 Log.d("Documentid",Documentid);
 
+
                                 if (r==0) {
-                                    jobitem c = new jobitem(user, Organiser, Location, date, Title, user,Documentid);
+                                    jobitem c = new jobitem(user, Organiser, Location, date, Title, pdf,Documentid);
                                     locumJobList.add(c);
                                     recyclerView.setLayoutManager(new LinearLayoutManager(getApplication(), LinearLayoutManager.VERTICAL, false));
                                     recyclerView.setAdapter(new AdapterforApplicants(getApplication(), locumJobList));
@@ -101,5 +110,8 @@ public class JobsApplicantActivty extends AppCompatActivity {
                         }
                     }
                 });
+
     }
+
+
 }

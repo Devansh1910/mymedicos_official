@@ -5,12 +5,10 @@ import static androidx.constraintlayout.helper.widget.MotionEffect.TAG;
 import android.annotation.SuppressLint;
 import android.app.ProgressDialog;
 import android.content.Intent;
-import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
-import android.provider.DocumentsContract;
 import android.provider.OpenableColumns;
 import android.text.TextUtils;
 import android.util.Log;
@@ -57,7 +55,7 @@ public class JobsApplyActivity extends AppCompatActivity {
     private DatabaseReference databasereference;
     private StorageReference storageReference;
     private TextView addPdf,uploadPdfBtn;
-    String downloadUrl = "";
+    String downloadUrl = null;
     private ProgressDialog pd;
     private String pdfName;
 
@@ -65,13 +63,14 @@ public class JobsApplyActivity extends AppCompatActivity {
     Button applyjob;
 
     Spinner jobgender;
+    String Jobid;
 
     public FirebaseDatabase db = FirebaseDatabase.getInstance();
     FirebaseFirestore dc = FirebaseFirestore.getInstance();
     private Spinner genderSpinner;
     String receivedData;
     public DatabaseReference cmeref = db.getReference().child("JOBsApply");
-    String documentid;
+    String documentid=null;
     private ArrayAdapter<CharSequence> genderAdapter;
     private TextView uploadpdfbtnjobs;
     @SuppressLint({"MissingInflatedId", "CutPasteId"})
@@ -99,6 +98,12 @@ public class JobsApplyActivity extends AppCompatActivity {
         addPdf.setOnClickListener(view -> {
             openGallery();
         });
+        Intent intent = getIntent();
+        if (intent != null) {
+            receivedData = intent.getStringExtra("user");
+            Jobid = intent.getStringExtra("documentid");
+
+        }
 
         uploadPdfBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -174,6 +179,7 @@ public class JobsApplyActivity extends AppCompatActivity {
                 while (!uriTask.isComplete());
                 Uri uri = uriTask.getResult();
                 uploadData(String.valueOf(uri));
+                downloadUrl=String.valueOf(uri);
             }
         }).addOnFailureListener(new OnFailureListener() {
             @Override
@@ -241,12 +247,12 @@ public class JobsApplyActivity extends AppCompatActivity {
             return;
         }
 
-        String name = applicantname.getText().toString().trim();
+
         String age = jobage.getText().toString().trim();
         String gender = jobgender.getSelectedItem().toString().trim();
         String cover = jobcover.getText().toString().trim();
 
-        if (TextUtils.isEmpty(name)) {
+        if (TextUtils.isEmpty(field4)) {
             applicantname.setError("Title Required");
             return;
         }
@@ -260,13 +266,14 @@ public class JobsApplyActivity extends AppCompatActivity {
         }
 
         HashMap<String, Object> usermap = new HashMap<>();
-        usermap.put("Full name", name);
+        usermap.put("Full name", field4);
         usermap.put("Age", age);
         usermap.put("Gender", gender);
         usermap.put("cover", cover);
         usermap.put("User", current);
         usermap.put("Experienced", "mode");
-        usermap.put("Jobid", documentid);
+        usermap.put("Job pdf",downloadUrl);
+        usermap.put("Jobid", Jobid);
 
         Log.d(receivedData, "abcdef");
         dc.collection("JOBsApply")
