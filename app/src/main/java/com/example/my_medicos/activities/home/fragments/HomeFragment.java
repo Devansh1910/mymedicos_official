@@ -4,6 +4,7 @@ import static android.content.ContentValues.TAG;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -32,13 +33,16 @@ import com.example.my_medicos.activities.ug.UgExamActivity;
 import com.example.my_medicos.activities.university.activity.UniversityActivity;
 import com.example.my_medicos.activities.utils.ConstantsDashboard;
 import com.example.my_medicos.adapter.cme.MyAdapter2;
+import com.example.my_medicos.adapter.cme.MyAdapter4;
 import com.example.my_medicos.adapter.cme.items.cmeitem1;
+import com.example.my_medicos.adapter.cme.items.cmeitem2;
 import com.example.my_medicos.adapter.job.MyAdapter;
 import com.example.my_medicos.adapter.job.items.jobitem;
 import com.example.my_medicos.databinding.FragmentHomeBinding;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
@@ -47,6 +51,10 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.time.LocalDate;
+import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -60,6 +68,7 @@ public class HomeFragment extends Fragment {
 
     RecyclerView recyclerViewjob;
     RecyclerView recyclerViewcme;
+    TextView home1,home2,home3;
     TextView navigatetojobs, navigatetocme, navigatecmeinsider;
     @SuppressLint("MissingInflatedId")
     @Override
@@ -72,7 +81,7 @@ public class HomeFragment extends Fragment {
 
         recyclerViewcme = rootView.findViewById(R.id.recyclerview_cme1);
 
-        ugexams=rootView.findViewById(R.id.ugexams);
+        ugexams = rootView.findViewById(R.id.ugexams);
         ugexams.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -81,31 +90,57 @@ public class HomeFragment extends Fragment {
             }
         });
 
-        pg_prep=rootView.findViewById(R.id.pg_prep);
+        pg_prep = rootView.findViewById(R.id.pg_prep);
         pg_prep.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent i =new Intent(getActivity(), PgprepActivity.class);
+                Intent i = new Intent(getActivity(), PgprepActivity.class);
+                startActivity(i);
+            }
+        });
+        home1=rootView.findViewById(R.id.home1);
+        home2=rootView.findViewById(R.id.home2);
+        home3=rootView.findViewById(R.id.home3);
+        home1.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent i = new Intent(getActivity(), CmeActivity.class);
+                startActivity(i);
+            }
+        });
+        home2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent i = new Intent(getActivity(), CmeActivity.class);
+                startActivity(i);
+            }
+        });
+        home3.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent i = new Intent(getActivity(), CmeActivity.class);
                 startActivity(i);
             }
         });
 
-        update=rootView.findViewById(R.id.university);
+
+
+        update = rootView.findViewById(R.id.university);
 
         update.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent i =new Intent(getActivity(), UniversityActivity.class);
+                Intent i = new Intent(getActivity(), UniversityActivity.class);
                 startActivity(i);
             }
         });
 
-        cme=rootView.findViewById(R.id.cme_img1);
+        cme = rootView.findViewById(R.id.cme_img1);
 
         cme.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent i=new Intent(getActivity(), CmeActivity.class);
+                Intent i = new Intent(getActivity(), CmeActivity.class);
                 startActivity(i);
             }
         });
@@ -121,11 +156,11 @@ public class HomeFragment extends Fragment {
             }
         });
 
-        news=rootView.findViewById(R.id.news_home);
+        news = rootView.findViewById(R.id.news_home);
         news.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent i=new Intent(getActivity(), NewsActivity.class);
+                Intent i = new Intent(getActivity(), NewsActivity.class);
                 startActivity(i);
             }
         });
@@ -140,60 +175,60 @@ public class HomeFragment extends Fragment {
             }
         });
 
-        navigatetocme=rootView.findViewById(R.id.navigatecme);
+        navigatetocme = rootView.findViewById(R.id.navigatecme);
 
         navigatetocme.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent i=new Intent(getActivity(), CmeActivity.class);
+                Intent i = new Intent(getActivity(), CmeActivity.class);
                 startActivity(i);
             }
         });
 
-        navigatecmeinsider=rootView.findViewById(R.id.navigatecmeinsider);
+        navigatecmeinsider = rootView.findViewById(R.id.navigatecmeinsider);
 
         navigatecmeinsider.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent i=new Intent(getActivity(), CmeActivity.class);
+                Intent i = new Intent(getActivity(), CmeActivity.class);
                 startActivity(i);
             }
         });
 
-        meme=rootView.findViewById(R.id.meme);
+        meme = rootView.findViewById(R.id.meme);
 
         meme.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent i=new Intent(getActivity(), MemeActivity.class);
+                Intent i = new Intent(getActivity(), MemeActivity.class);
                 startActivity(i);
             }
         });
 
 
         List<jobitem> joblist = new ArrayList<jobitem>();
-        recyclerViewjob.setLayoutManager(new LinearLayoutManager(getActivity(),LinearLayoutManager.HORIZONTAL, false));
+        recyclerViewjob.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.HORIZONTAL, false));
         FirebaseFirestore dc = FirebaseFirestore.getInstance();
         //......
         dc.collection("JOB")
                 .get()
                 .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                     @Override
-                    public void onComplete(@NonNull Task<QuerySnapshot> task ) {
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
 
                         if (task.isSuccessful()) {
                             for (QueryDocumentSnapshot document : task.getResult()) {
 
                                 Map<String, Object> dataMap = document.getData();
                                 String speciality = ((String) dataMap.get("Speciality"));
-                                String Organiser =((String) dataMap.get("JOB Organiser"));
-                                String Location =((String) dataMap.get("Location"));
-                                String date=((String) dataMap.get("date"));
-                                String Title=((String) dataMap.get("JOB Title"));
-                                String Category =((String) dataMap.get("Job type"));
-                                String documentid =((String) dataMap.get("documentId"));
+                                String Organiser = ((String) dataMap.get("JOB Organiser"));
+                                String Location = ((String) dataMap.get("Location"));
+                                String date = ((String) dataMap.get("date"));
+                                String Title = ((String) dataMap.get("JOB Title"));
+                                String Category = ((String) dataMap.get("Job type"));
+                                String documentid = ((String) dataMap.get("documentId"));
 
-                                jobitem c = new jobitem(speciality, Organiser, Location,date,Title,Category,documentid);
+                                jobitem c = new jobitem(speciality, Organiser, Location, date, Title, Category, documentid);
                                 joblist.add(c);
                                 Log.d("speciality2", Organiser);
                                 Log.d("speciality2", Location);
@@ -202,7 +237,7 @@ public class HomeFragment extends Fragment {
 //                                Log.d("speciality2", speciality);
 
                                 recyclerViewjob.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false));
-                                adapterjob = new MyAdapter(getContext(),joblist); // Pass the joblist to the adapter
+                                adapterjob = new MyAdapter(getContext(), joblist); // Pass the joblist to the adapter
                                 recyclerViewjob.setAdapter(adapterjob);
 //                                Log.d("speciality2", speciality);
                             }
@@ -213,50 +248,118 @@ public class HomeFragment extends Fragment {
                 });
 
         List<cmeitem1> cmelist = new ArrayList<cmeitem1>();
-        recyclerViewcme.setLayoutManager(new LinearLayoutManager(getActivity(),LinearLayoutManager.HORIZONTAL, false));
-        FirebaseFirestore cmedc = FirebaseFirestore.getInstance();
+        recyclerViewcme.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.HORIZONTAL, false));
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+        List<cmeitem2> myitem = new ArrayList<cmeitem2>();
         //......
-        cmedc.collection("CME")
-                .get()
-                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                    @Override
-                    public void onComplete(@NonNull Task<QuerySnapshot> task ) {
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
+            Query query = db.collection("CME").orderBy("Time", Query.Direction.DESCENDING);
 
-                        if (task.isSuccessful()) {
-                            for (QueryDocumentSnapshot document : task.getResult()) {
+            query.get()
+                    .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                        @Override
+                        public void onComplete(@NonNull Task<QuerySnapshot> task) {
 
-                                Map<String, Object> dataMap = document.getData();
-                                String usercme = ((String) dataMap.get("User"));
-                                String specialitycme =((String) dataMap.get("Speciality"));
-                                String presentercme =((String) dataMap.get("CME Presenter"));
-                                String titlecme=((String) dataMap.get("CME Title"));
-                                String organizercme =((String) dataMap.get("CME Organiser"));
-                                String Date=((String) dataMap.get("Selected Date"));
-                                String time =((String) dataMap.get("Selected Time"));
-                                String documentid=((String) dataMap.get("documentid"));
+                            if (task.isSuccessful()) {
+                                for (QueryDocumentSnapshot document : task.getResult()) {
 
-                                cmeitem1 cme = new cmeitem1(usercme, specialitycme,Date, titlecme,presentercme,organizercme,5,time,documentid);
-                                cmelist.add(cme);
-                                recyclerViewcme.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false));
-                                adaptercme = new MyAdapter2(getContext(),cmelist); // Pass the cmelist to the adapter
-                                recyclerViewcme.setAdapter(adaptercme);
+                                    Map<String, Object> dataMap = document.getData();
+                                    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HH:mm");
+                                    DateTimeFormatter formatter1 = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+                                    String Time = document.getString("Selected Time");
+                                    String date = document.getString("Selected Date");
+
+                                    //
+                                    LocalTime parsedTime = null;
+                                    LocalDate parsedDate = null;
+                                    try {
+                                        // Parse the time string into a LocalTime object
+                                        parsedTime = null;
+                                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                                            parsedTime = LocalTime.parse(Time, formatter);
+                                            parsedDate = LocalDate.parse(date, formatter1);
+
+                                        }
+
+                                        // Display the parsed time
+                                        System.out.println("Parsed Time: " + parsedTime);
+                                    } catch (DateTimeParseException e) {
+                                        // Handle parsing error, e.g., if the input string is in the wrong format
+                                        System.err.println("Error parsing time: " + e.getMessage());
+
+                                    }
+                                    LocalTime currentTime = null;
+                                    LocalDate currentDate = null;
+                                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                                        currentTime = LocalTime.now();
+                                        currentDate = LocalDate.now();
+                                    }
+
+
+                                    int r = parsedTime.compareTo(currentTime);
+
+                                    Log.d("vivek", String.valueOf(r));
+                                    int r1 = parsedDate.compareTo(currentDate);
+                                    if ((r1 <= 0)) {
+                                        String field3 = ((String) dataMap.get("CME Title"));
+
+                                        List<String> presenters = (List<String>) dataMap.get("CME Presenter");
+                                        String field4 = presenters.get(0);
+                                        String field1 = (String) dataMap.get("CME Organiser");
+                                        String field2;
+                                        String field5 = ((String) dataMap.get("User"));
+                                        field2 = ((String) dataMap.get("Speciality"));
+                                        String Date = ((String) dataMap.get("Selected Date"));
+                                        String time = ((String) dataMap.get("Selected Time"));
+                                        String documentid = ((String) dataMap.get("documentId"));
+                                        String end = ((String) dataMap.get("endtime"));
+                                        cmeitem2 c = new cmeitem2(field1, field2, Date, field3, field4, 5, time, field5, "PAST", documentid);
+                                        if (end != null) {
+                                            myitem.add(c);
+
+                                        }
+
+
+                                    } else if ((r < 0) && (r1 == 0)) {
+                                        String field3 = ((String) dataMap.get("CME Title"));
+                                        String field4 = ((String) dataMap.get("CME Presenter"));
+                                        String field1 = (String) dataMap.get("CME Organiser");
+                                        String field2;
+                                        String time = ((String) dataMap.get("Selected Time"));
+                                        String field5 = ((String) dataMap.get("User"));
+                                        field2 = ((String) dataMap.get("Speciality"));
+                                        String Date = ((String) dataMap.get("Selected Date"));
+                                        String documentid = ((String) dataMap.get("documentId"));
+                                        String end = ((String) dataMap.get("endtime"));
+                                        cmeitem2 c = new cmeitem2(field1, field2, Date, field3, field4, 5, time, field5, "PAST", documentid);
+                                        if (end != null) {
+                                            myitem.add(c);
+
+                                        }
+
+                                    }
+
+                                }
+                                recyclerViewcme.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false));
+                                recyclerViewcme.setAdapter(new MyAdapter4(getContext(), myitem));
+                            } else {
+                                Log.d(TAG, "Error getting documents: ", task.getException());
                             }
-                        } else {
-                            Log.d(TAG, "Error getting documents: ", task.getException());
                         }
-                    }
-                });
+                    });
 
-        publication=rootView.findViewById(R.id.pub_image);
-        publication.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent i=new Intent(getActivity(), PublicationActivity.class);
-                startActivity(i);
-            }
-        });
-        initHomeSlider();
+            publication = rootView.findViewById(R.id.pub_image);
+            publication.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Intent i = new Intent(getActivity(), PublicationActivity.class);
+                    startActivity(i);
+                }
+            });
+            initHomeSlider();
 
+            return rootView;
+        }
         return rootView;
     }
     void getsliderHome() {
@@ -286,7 +389,7 @@ public class HomeFragment extends Fragment {
 
     private void initHomeSlider() {
         getsliderHome();
-    }
+    }{}
 
 
 }

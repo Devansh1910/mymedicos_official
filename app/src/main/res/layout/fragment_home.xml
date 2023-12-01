@@ -405,6 +405,7 @@
                         android:paddingHorizontal="@dimen/_10ssp">
 
                         <TextView
+                            android:id="@+id/home1"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_marginEnd="@dimen/_5ssp"
@@ -419,6 +420,7 @@
                             android:textStyle="bold" />
 
                         <TextView
+                            android:id="@+id/home2"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_marginEnd="@dimen/_5ssp"
@@ -433,6 +435,7 @@
                             android:textStyle="bold" />
 
                         <TextView
+                            android:id="@+id/home3"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"

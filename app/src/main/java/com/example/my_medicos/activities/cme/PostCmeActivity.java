@@ -54,6 +54,7 @@ import java.io.File;
 import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.Arrays;
 import java.util.Calendar;
 import java.util.HashMap;
 import java.util.Locale;
@@ -64,6 +65,7 @@ public class PostCmeActivity extends AppCompatActivity {
     FirebaseUser user = auth.getCurrentUser();
     String current = user.getPhoneNumber();
     String field3,field4;
+    String selectedMode;
     EditText cmetitle, cmeorg, cmepresenter, cmevenu, virtuallink, cme_place;
     Button postcme;
     public FirebaseDatabase db = FirebaseDatabase.getInstance();
@@ -82,19 +84,24 @@ public class PostCmeActivity extends AppCompatActivity {
     private SimpleDateFormat dateFormat, timeFormat;
     static final int REQ = 1;
     private Uri pdfData;
+    TextView room;
     private DatabaseReference databasereference;
     private StorageReference storageReference;
     private TextView addPdf,uploadPdfBtn;
-    String downloadUrl = "";
+    String downloadUrl = null;
     private ProgressDialog pd;
     private String pdfName;
     private ArrayAdapter<CharSequence> specialityAdapter;
     private ArrayAdapter<CharSequence> subspecialityAdapter;
+    @SuppressLint("MissingInflatedId")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_post_cme);
         addPdf = findViewById(R.id.addPdf);
+        room=findViewById(R.id.room);
+        room.setVisibility(View.GONE);
+
         //..............
         databasereference = FirebaseDatabase.getInstance().getReference();
         storageReference = FirebaseStorage.getInstance().getReference();
@@ -190,11 +197,13 @@ public class PostCmeActivity extends AppCompatActivity {
                         field3 = ((String) dataMap.get("Phone Number"));
                         boolean areEqualIgnoreCase = current.equalsIgnoreCase(field3);
                         Log.d("vivek", String.valueOf(areEqualIgnoreCase));
-                        int r=current.compareTo(field3);
-                        if (r==0){
-                            field4 = ((String) dataMap.get("Name"));
-                            Log.d("veefe",field4);
-                            cmeorg.setText(field4);
+                        if ((current!=null)&&(field3!=null)) {
+                            int r = current.compareTo(field3);
+                            if (r == 0) {
+                                field4 = ((String) dataMap.get("Name"));
+                                Log.d("veefe", field4);
+                                cmeorg.setText(field4);
+                            }
                         }
 
 
@@ -222,6 +231,8 @@ public class PostCmeActivity extends AppCompatActivity {
         cmeorg.setTextColor(Color.parseColor("#80000000"));
         cmeorg.setBackgroundResource(R.drawable.rounded_edittext_background);
         cmepresenter = findViewById(R.id.cme_presenter);
+
+
         cmevenu = findViewById(R.id.cme_venu);
         virtuallink = findViewById(R.id.cme_virtuallink);
         cme_place = findViewById(R.id.cme_place);
@@ -277,15 +288,17 @@ public class PostCmeActivity extends AppCompatActivity {
         cmemodeSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parentView, View selectedItemView, int position, long id) {
-                String selectedMode = cmemodeSpinner.getSelectedItem().toString();
+                selectedMode = cmemodeSpinner.getSelectedItem().toString();
 
                 if (selectedMode.equals("Online")) {
                     // Show the virtual link EditText and hide the place EditText
                     virtuallink.setVisibility(View.VISIBLE);
+                    room.setVisibility(View.VISIBLE);
                     cme_place.setVisibility(View.GONE);
                 } else if (selectedMode.equals("Offline")) {
                     // Show the place EditText and hide the virtual link EditText
                     virtuallink.setVisibility(View.GONE);
+                    room.setVisibility(View.GONE);
                     cme_place.setVisibility(View.VISIBLE);
                 }
             }
@@ -320,6 +333,7 @@ public class PostCmeActivity extends AppCompatActivity {
                 while (!uriTask.isComplete());
                 Uri uri = uriTask.getResult();
                 uploadData(String.valueOf(uri));
+                downloadUrl = String.valueOf(uri);
             }
         }).addOnFailureListener(new OnFailureListener() {
             @Override
@@ -435,20 +449,31 @@ public class PostCmeActivity extends AppCompatActivity {
         String title = cmetitle.getText().toString().trim();
         String organiser = cmeorg.getText().toString().trim();
         String presenter = cmepresenter.getText().toString().trim();
+        String[] presentersArray = presenter.split("\\s*,\\s*");
         String venu = cmevenu.getText().toString().trim();
         String link = virtuallink.getText().toString().trim();
         String place = cme_place.getText().toString().trim();
 
-        if (!link.matches("https://us04web\\.zoom\\.us/.*")) {
-            virtuallink.setError("Invalid link format");
-            return;
-        } else {
-            virtuallink.setError(null); // Clear any previous error
+        if (selectedMode.equals("Online")) {
+            if (!link.matches("https://us04web\\.zoom\\.us/.*")) {
+                virtuallink.setError("Invalid link format");
+                return;
+            } else {
+                virtuallink.setError(null); // Clear any previous error
+            }
+        }
+        else{
+            virtuallink.setError(null);
         }
 
         if (TextUtils.isEmpty(title)) {
             cmetitle.setError("Title Required");
             return;
+        } else if (title.length() > 50) {
+            cmetitle.setError("Title must be 50 characters or less");
+            return;
+        } else {
+            cmetitle.setError(null); // Clear any previous error
         }
         if (TextUtils.isEmpty(organiser)) {
             cmeorg.setError("Organizer Required");
@@ -494,11 +519,13 @@ public class PostCmeActivity extends AppCompatActivity {
         HashMap<String, Object> usermap = new HashMap<>();
         usermap.put("CME Title", title);
         usermap.put("CME Organiser", field4);
-        usermap.put("CME Presenter", presenter);
+        usermap.put("CME Presenter", Arrays.asList(presentersArray));
+        Log.d("array check", Arrays.asList(presentersArray).toString());
         usermap.put("CME Venue", venu);
         usermap.put("Virtual Link", link);
         usermap.put("CME Place", place);
         usermap.put("User", current);
+        usermap.put("Cme pdf",downloadUrl);
         usermap.put("Date", formattedDate);
         usermap.put("Time",formattedTime);
         usermap.put("Mode", mode);

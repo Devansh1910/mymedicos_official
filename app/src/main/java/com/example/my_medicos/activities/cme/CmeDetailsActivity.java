@@ -2,17 +2,15 @@ package com.example.my_medicos.activities.cme;
 
 import static android.content.ContentValues.TAG;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
 import android.annotation.SuppressLint;
 import android.app.Dialog;
+import android.app.DownloadManager;
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
-import android.text.TextUtils;
+import android.os.Environment;
 import android.util.Log;
 import android.view.View;
 import android.webkit.WebView;
@@ -23,6 +21,10 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.VideoView;
+
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 
 import com.example.my_medicos.R;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -40,6 +42,7 @@ import com.google.firebase.firestore.QuerySnapshot;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class CmeDetailsActivity extends AppCompatActivity {
@@ -59,6 +62,7 @@ public class CmeDetailsActivity extends AppCompatActivity {
 
     String field4;
     VideoView videoView;
+    String pdf=null;
 
     @SuppressLint("MissingInflatedId")
     @Override
@@ -71,6 +75,7 @@ public class CmeDetailsActivity extends AppCompatActivity {
         FirebaseFirestore db = FirebaseFirestore.getInstance();
 
         toolbar = findViewById(R.id.detailtoolbar);
+        TextView presenter3=findViewById(R.id.presenters3);
 
         final TextView textView = findViewById(R.id.description);
         final TextView moreButton = findViewById(R.id.moreButton);
@@ -82,6 +87,8 @@ public class CmeDetailsActivity extends AppCompatActivity {
         reservecmebtn = findViewById(R.id.reservecmebtn);
         reservedcmebtn = findViewById(R.id.reservedcmebtn);
         Button liveendpost=findViewById(R.id.liveendpost);
+        TextView addpresent=findViewById(R.id.addpresenter);
+         addpresent.setVisibility(View.GONE);
 
 
         String field1 = getIntent().getExtras().getString("documentid");
@@ -89,6 +96,8 @@ public class CmeDetailsActivity extends AppCompatActivity {
         String field5 = getIntent().getExtras().getString("type");
         String field6=getIntent().getExtras().getString("time");
         Type.setText(field5);
+        Button downloadPdfButton = findViewById(R.id.downloadPdfButton);
+        TextView presenters2=findViewById(R.id.presenters1);
 
         LinearLayout reservebtn = findViewById(R.id.reservbtn);
         boolean isCreator = current.equals(name);
@@ -102,6 +111,7 @@ public class CmeDetailsActivity extends AppCompatActivity {
        isReserved = sharedPref.getBoolean("isReserved", false);
         reservecmebtn.setVisibility(isReserved ? View.GONE : View.VISIBLE);
         reservedcmebtn.setVisibility(isReserved ? View.VISIBLE : View.GONE);
+        presenter3.setVisibility(View.GONE);
 
 
         // Check if the user has already reserved a seat in Firestore
@@ -130,26 +140,76 @@ public class CmeDetailsActivity extends AppCompatActivity {
                     for (QueryDocumentSnapshot document : task.getResult()) {
                         Map<String, Object> dataMap = document.getData();
                         field3 = ((String) dataMap.get("documentId"));
-                        boolean areEqualIgnoreCase = field1.equalsIgnoreCase(field3);
-                        Log.d("vivek", String.valueOf(areEqualIgnoreCase));
-                        int r = field1.compareTo(field3);
-                        if (r == 0) {
-                            String speciality = ((String) dataMap.get("Speciality"));
-                            String venue = ((String) dataMap.get("CME Venue"));
-                            String date1 = ((String) dataMap.get("Selected Date"));
-                            String time1 = ((String) dataMap.get("Selected Time"));
+                        if (field3!=null) {
 
 
+                            int r = field1.compareTo(field3);
+                            if (r == 0) {
+                                String speciality = ((String) dataMap.get("Speciality"));
+                                String venue = ((String) dataMap.get("CME Venue"));
+                                String date1 = ((String) dataMap.get("Selected Date"));
+                                String time1 = ((String) dataMap.get("Selected Time"));
+                                List<String> presenters = (List<String>) dataMap.get("CME Presenter");
+                            int count=0;
+                            String pres = null;
+                            if (presenters != null && !presenters.isEmpty()) {
+                                for (String presenter : presenters) {
+                                    if (pres==null){
+                                        pres =presenter+ "   ";
+                                    }
+                                    else {
+                                        pres = pres + presenter + "   ";
+                                    }
+                                    // Process each presenter individually
+                                    Log.d("Presenter", presenter);
+                                    count++;
+                                    // You can display each presenter in your UI as needed
+                                }
+                            }
+                            presenter3.setText(pres);
 
-                            String title = ((String) dataMap.get("CME Title"));
-                            String virtuallink = ((String) dataMap.get("Virtual Link"));
+                            presenters2.setText(presenters.get(0));
+                                if (count>1) {
+                                    addpresent.setVisibility(View.VISIBLE);
+                                    addpresent.setOnClickListener(new View.OnClickListener() {
+                                        @Override
+                                        public void onClick(View v) {
+                                            // Call the method to download PDF
+                                           presenter3.setVisibility(View.VISIBLE);
+                                           presenters2.setVisibility(View.GONE);
+                                           addpresent.setVisibility(View.GONE);
 
-                            setSupportActionBar(toolbar);
-                            getSupportActionBar().setTitle(title);
-                            textView.setText(venue);
-                            date.setText(date1);
-                            time.setText(time1);
-                            Speciality.setText(speciality);
+                                        }
+                                    });
+
+                                }
+
+
+                                pdf = ((String) dataMap.get("Cme pdf"));
+                                if (pdf == null) {
+                                    downloadPdfButton.setVisibility(View.GONE);
+                                } else {
+                                    downloadPdfButton.setVisibility(View.VISIBLE);
+                                    downloadPdfButton.setOnClickListener(new View.OnClickListener() {
+                                        @Override
+                                        public void onClick(View v) {
+                                            // Call the method to download PDF
+                                            downloadPdf(pdf);
+                                        }
+                                    });
+                                }
+
+
+                                String title = ((String) dataMap.get("CME Title"));
+                                String virtuallink = ((String) dataMap.get("Virtual Link"));
+
+                                setSupportActionBar(toolbar);
+                                getSupportActionBar().setTitle(title);
+                                textView.setText(venue);
+                                date.setText(date1);
+                                time.setText(time1);
+                                Speciality.setText(speciality);
+                            }
                         }
                     }
                 } else {
@@ -250,7 +310,8 @@ public class CmeDetailsActivity extends AppCompatActivity {
                             DocumentReference docRef = db.collection("CME").document(field1);
 
 // Update the document with a new field
-                            docRef.update("endtime", getCurrentTime())
+                            docRef.update("endtime", getCurrentTime(),
+                                            "youtubelink",null)
                                     .addOnSuccessListener(new OnSuccessListener<Void>() {
                                         @Override
                                         public void onSuccess(Void aVoid) {
@@ -339,7 +400,7 @@ public class CmeDetailsActivity extends AppCompatActivity {
             youtube.setVisibility(View.VISIBLE);
             defaultimageofcme.setVisibility(View.GONE);
             textpartforlive.setVisibility(View.INVISIBLE);
-            textpartforupcoming.setVisibility(View.INVISIBLE);
+            textpartforupcoming.setVisibility(View.GONE);
             relativeboxnotforpast.setVisibility(View.GONE);
         } else {
             // Handle other cases or set a default behavior if needed
@@ -357,11 +418,13 @@ public class CmeDetailsActivity extends AppCompatActivity {
                         field3 = ((String) dataMap.get("Phone Number"));
                         boolean areEqualIgnoreCase = name.equalsIgnoreCase(field3);
                         Log.d("vivek4", String.valueOf(areEqualIgnoreCase));
-                        int r = name.compareTo(field3);
-                        if (r == 0) {
-                            field4 = ((String) dataMap.get("Name"));
-                            Name.setText(field4);
-                            break;
+                        if ((name!=null)&&(field3!=null)) {
+                            int r = name.compareTo(field3);
+                            if (r == 0) {
+                                field4 = ((String) dataMap.get("Name"));
+                                Name.setText(field4);
+                                break;
+                            }
                         }
                     }
                 } else {
@@ -427,6 +490,23 @@ public class CmeDetailsActivity extends AppCompatActivity {
     private boolean checkIfReserved(String userId, String eventId) {
         SharedPreferences preferences = getSharedPreferences("ReservedStatus", Context.MODE_PRIVATE);
         return preferences.getBoolean(userId + eventId, false);
+    }
+    public void downloadPdf(String pdfUrl) {
+        DownloadManager.Request request = new DownloadManager.Request(Uri.parse(pdfUrl));
+
+        // Title and description of the download notification
+        request.setTitle("Downloading PDF");
+        request.setDescription("Please wait...");
+
+        // Set destination in the external public directory
+        request.setDestinationInExternalPublicDir(Environment.DIRECTORY_DOWNLOADS, "your_pdf_filename.pdf");
+
+        // Get download service and enqueue file
+        DownloadManager manager = (DownloadManager) getSystemService(Context.DOWNLOAD_SERVICE);
+        manager.enqueue(request);
+
+        // Optionally, you can show a toast or notification to indicate the download has started
+        Toast.makeText(this, "Download started", Toast.LENGTH_SHORT).show();
     }
 
     // Method to save the reservation status

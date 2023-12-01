@@ -114,7 +114,8 @@ public class PastFragmentSearch extends Fragment {
                                     int r1 = parsedDate.compareTo(currentDate);
                                     if ((r1 <= 0)) {
                                         String field3 = ((String) dataMap.get("CME Title"));
-                                        String field4 = ((String) dataMap.get("CME Presenter"));
+                                        List<String> presenters = (List<String>) dataMap.get("CME Presenter");
+                                        String field4=presenters.get(0);
                                         String field1 = (String) dataMap.get("CME Organiser");
                                         String field2;
                                         String field5=((String ) dataMap.get("User"));

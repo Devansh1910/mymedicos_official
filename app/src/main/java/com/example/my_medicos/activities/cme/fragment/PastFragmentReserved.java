@@ -1,39 +1,40 @@
 
 package com.example.my_medicos.activities.cme.fragment;
 
-        import static android.content.ContentValues.TAG;
+import static android.content.ContentValues.TAG;
 
-        import android.annotation.SuppressLint;
-        import android.os.Build;
-        import android.os.Bundle;
-        import android.util.Log;
-        import android.view.LayoutInflater;
-        import android.view.View;
-        import android.view.ViewGroup;
-        import java.time.LocalDate;
-        import java.time.LocalTime;
-        import java.time.format.DateTimeFormatter;
-        import java.time.format.DateTimeParseException;
-        import java.util.ArrayList;
-        import java.util.List;
-        import java.util.Map;
+import android.annotation.SuppressLint;
+import android.os.Build;
+import android.os.Bundle;
+import android.util.Log;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
 
-        import com.example.my_medicos.adapter.cme.MyAdapter4;
-        import com.example.my_medicos.R;
-        import com.example.my_medicos.adapter.cme.items.cmeitem2;
-        import com.google.android.gms.tasks.OnCompleteListener;
-        import com.google.android.gms.tasks.Task;
-        import com.google.firebase.auth.FirebaseAuth;
-        import com.google.firebase.auth.FirebaseUser;
-        import com.google.firebase.firestore.FirebaseFirestore;
-        import com.google.firebase.firestore.Query;
-        import com.google.firebase.firestore.QueryDocumentSnapshot;
-        import com.google.firebase.firestore.QuerySnapshot;
+import androidx.annotation.NonNull;
+import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
-        import androidx.annotation.NonNull;
-        import androidx.fragment.app.Fragment;
-        import androidx.recyclerview.widget.LinearLayoutManager;
-        import androidx.recyclerview.widget.RecyclerView;
+import com.example.my_medicos.R;
+import com.example.my_medicos.adapter.cme.MyAdapter4;
+import com.example.my_medicos.adapter.cme.items.cmeitem2;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.Query;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
+
+import java.time.LocalDate;
+import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
 
 
 public class PastFragmentReserved extends Fragment {
@@ -145,7 +146,8 @@ public class PastFragmentReserved extends Fragment {
                                     int r1 = parsedDate.compareTo(currentDate);
                                     if ((r1 <= 0)) {
                                         String field3 = ((String) dataMap.get("CME Title"));
-                                        String field4 = ((String) dataMap.get("CME Presenter"));
+                                        List<String> presenters = (List<String>) dataMap.get("CME Presenter");
+                                        String field4=presenters.get(0);
                                         String field1 = (String) dataMap.get("CME Organiser");
                                         String field2;
                                         String usercme=((String ) dataMap.get("User"));

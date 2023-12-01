@@ -42,7 +42,7 @@
                     android:id="@+id/dr_ug_profile"
                     android:layout_width="20dp"
                     android:layout_marginEnd="@dimen/_5ssp"
-                    android:src="@drawable/bkgroundimg"
+                    android:src="@drawable/bkloginbackground"
                     android:layout_height="20dp"/>
 
                 <TextView

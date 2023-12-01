@@ -155,7 +155,8 @@ public class UpcomingFragmentCreated extends Fragment {
                                     Log.d("vivek1", String.valueOf(r1));
                                     if ((r1>0)) {
                                         String field3 = ((String) dataMap.get("CME Title"));
-                                        String field4 = ((String) dataMap.get("CME Presenter"));
+                                        List<String> presenters = (List<String>) dataMap.get("CME Presenter");
+                                        String field4=presenters.get(0);
                                         String field1 = (String) dataMap.get("CME Organiser");
                                         String field2;
                                         field2 = ((String) dataMap.get("Speciality"));
@@ -175,7 +176,8 @@ public class UpcomingFragmentCreated extends Fragment {
                                     } else {
                                         if ((r>0)&&(r1==0)){
                                             String field3 = ((String) dataMap.get("CME Title"));
-                                            String field4 = ((String) dataMap.get("CME Presenter"));
+                                            List<String> presenters = (List<String>) dataMap.get("CME Presenter");
+                                            String field4=presenters.get(0);
                                             String field1 = (String) dataMap.get("CME Organiser");
                                             String field2;
                                             field2 = ((String) dataMap.get("Speciality"));

@@ -3,6 +3,7 @@ package com.example.my_medicos.activities.cme;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -23,9 +24,9 @@ import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 import androidx.viewpager2.adapter.FragmentStateAdapter;
 import androidx.viewpager2.widget.ViewPager2;
 
+import com.example.my_medicos.R;
 import com.example.my_medicos.activities.cme.fragment.OngoingFragment;
 import com.example.my_medicos.activities.cme.fragment.PastFragment;
-import com.example.my_medicos.R;
 import com.example.my_medicos.activities.cme.fragment.UpcomingFragment;
 import com.example.my_medicos.list.subSpecialitiesData;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -53,6 +54,9 @@ public class CmeActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_cme);
+        OK = findViewById(R.id.ok);
+        OK.setBackgroundColor(Color.GRAY);
+
 
         viewpager = findViewById(R.id.view_pager1);
         viewpager.setAdapter(new ViewPagerAdapter(this));
@@ -105,6 +109,7 @@ public class CmeActivity extends AppCompatActivity {
             @Override
             public void onItemSelected(AdapterView<?> parentView, View selectedItemView, int position, long id) {
                 selectedMode = modeSpinner.getSelectedItem().toString();
+                OK.setClickable(false);
             }
             @Override
             public void onNothingSelected(AdapterView<?> adapterView) {
@@ -114,6 +119,7 @@ public class CmeActivity extends AppCompatActivity {
             @Override
             public void onItemSelected(AdapterView<?> parentView, View selectedItemView, int position, long id) {
                 selectedMode1 = specialitySpinner.getSelectedItem().toString();
+                OK.setClickable(false);
             }
             @Override
             public void onNothingSelected(AdapterView<?> adapterView) {
@@ -137,6 +143,8 @@ public class CmeActivity extends AppCompatActivity {
                         public void onItemSelected(AdapterView<?> parentView, View selectedItemView, int position, long id) {
                             selectedMode2 = subspecialitySpinner.getSelectedItem().toString();
                             selectedMode1 = specialitySpinner.getSelectedItem().toString();
+                            OK.setClickable(true);
+                            OK.setBackgroundColor(Color.parseColor("#90EE90"));
                         }
                         @Override
                         public void onNothingSelected(AdapterView<?> adapterView) {
@@ -151,7 +159,7 @@ public class CmeActivity extends AppCompatActivity {
             public void onNothingSelected(AdapterView<?> adapterView) {
             }
         });
-        OK = findViewById(R.id.ok);
+
         OK.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View a) {
@@ -165,6 +173,8 @@ public class CmeActivity extends AppCompatActivity {
                 context.startActivity(i);
             }
         });
+
+
 
         pager.setAdapter(new ViewPagerAdapter(this));
         fetchData();
