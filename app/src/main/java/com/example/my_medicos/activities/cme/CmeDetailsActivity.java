@@ -13,7 +13,9 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.util.Log;
 import android.view.View;
+import android.webkit.WebChromeClient;
 import android.webkit.WebView;
+import android.webkit.WebViewClient;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -70,8 +72,6 @@ public class CmeDetailsActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_cme_details);
 
-
-        // Initialize Firebase
         FirebaseFirestore db = FirebaseFirestore.getInstance();
 
         toolbar = findViewById(R.id.detailtoolbar);
@@ -88,7 +88,8 @@ public class CmeDetailsActivity extends AppCompatActivity {
         reservedcmebtn = findViewById(R.id.reservedcmebtn);
         Button liveendpost=findViewById(R.id.liveendpost);
         TextView addpresent=findViewById(R.id.addpresenter);
-         addpresent.setVisibility(View.GONE);
+        WebView youtube = findViewById(R.id.youtube);
+        addpresent.setVisibility(View.GONE);
 
 
         String field1 = getIntent().getExtras().getString("documentid");
@@ -96,7 +97,7 @@ public class CmeDetailsActivity extends AppCompatActivity {
         String field5 = getIntent().getExtras().getString("type");
         String field6=getIntent().getExtras().getString("time");
         Type.setText(field5);
-        Button downloadPdfButton = findViewById(R.id.downloadPdfButton);
+        LinearLayout downloadPdfButton = findViewById(R.id.downloadPdfButton);
         TextView presenters2=findViewById(R.id.presenters1);
 
         LinearLayout reservebtn = findViewById(R.id.reservbtn);
@@ -121,7 +122,6 @@ public class CmeDetailsActivity extends AppCompatActivity {
 
         LinearLayout livebtn = findViewById(R.id.livebtn);
         LinearLayout pastbtn = findViewById(R.id.pastbtn);
-        WebView youtube = findViewById(R.id.youtube);
         ImageView defaultimageofcme = findViewById(R.id.defaultimage);
         LinearLayout textpartforlive = findViewById(R.id.textpartforlive);
         LinearLayout textpartforlivecreator = findViewById(R.id.textpartforlivecreator);
@@ -149,6 +149,23 @@ public class CmeDetailsActivity extends AppCompatActivity {
                                 String venue = ((String) dataMap.get("CME Venue"));
                                 String date1 = ((String) dataMap.get("Selected Date"));
                                 String time1 = ((String) dataMap.get("Selected Time"));
+                                String youtubeLink = (String) dataMap.get("youtubelink");
+
+                                WebView webView = findViewById(R.id.youtube);
+                                webView.getSettings().setJavaScriptEnabled(true);
+                                webView.setWebChromeClient(new WebChromeClient());
+
+                                String embedHtml = "<html><body><iframe width=\"100%\" height=\"100%\" src=\"" + youtubeLink + "\" frameborder=\"0\" allowfullscreen></iframe></body></html>";
+                                webView.loadData(embedHtml, "text/html", "utf-8");
+
+                                webView.setWebViewClient(new WebViewClient() {
+                                    @Override
+                                    public boolean shouldOverrideUrlLoading(WebView view, String url) {
+                                        view.loadUrl(url);
+                                        return true;
+                                    }
+                                });
+
                                 List<String> presenters = (List<String>) dataMap.get("CME Presenter");
                             int count=0;
                             String pres = null;
@@ -160,10 +177,8 @@ public class CmeDetailsActivity extends AppCompatActivity {
                                     else {
                                         pres = pres + presenter + "   ";
                                     }
-                                    // Process each presenter individually
                                     Log.d("Presenter", presenter);
                                     count++;
-                                    // You can display each presenter in your UI as needed
                                 }
                             }
                             presenter3.setText(pres);
@@ -174,16 +189,13 @@ public class CmeDetailsActivity extends AppCompatActivity {
                                     addpresent.setOnClickListener(new View.OnClickListener() {
                                         @Override
                                         public void onClick(View v) {
-                                            // Call the method to download PDF
                                            presenter3.setVisibility(View.VISIBLE);
                                            presenters2.setVisibility(View.GONE);
                                            addpresent.setVisibility(View.GONE);
 
                                         }
                                     });
-
                                 }
-
 
                                 pdf = ((String) dataMap.get("Cme pdf"));
                                 if (pdf == null) {
@@ -193,13 +205,10 @@ public class CmeDetailsActivity extends AppCompatActivity {
                                     downloadPdfButton.setOnClickListener(new View.OnClickListener() {
                                         @Override
                                         public void onClick(View v) {
-                                            // Call the method to download PDF
                                             downloadPdf(pdf);
                                         }
                                     });
                                 }
-
-
                                 String title = ((String) dataMap.get("CME Title"));
                                 String virtuallink = ((String) dataMap.get("Virtual Link"));
 
@@ -213,14 +222,11 @@ public class CmeDetailsActivity extends AppCompatActivity {
                         }
                     }
                 } else {
-                    // Handle the error
                     Toast.makeText(CmeDetailsActivity.this, "Error fetching data from Firebase Firestore", Toast.LENGTH_SHORT).show();
                 }
             }
         });
         long eventStartTime=convertTimeToMillis(field6);
-
-//
 
         if ("UPCOMING".equals(field5)) {
             reservebtn.setVisibility(View.VISIBLE);
@@ -231,7 +237,6 @@ public class CmeDetailsActivity extends AppCompatActivity {
             pastbtn.setVisibility(View.GONE);
             reservecmebtn.setVisibility(View.GONE);
             reservedcmebtn.setVisibility(View.GONE);
-            // Show the reservebtn and hide the livebtn for Upcoming events
             if (isCreator){
                 reservecmebtn.setVisibility(View.GONE);
                 Schedule.setVisibility(View.VISIBLE);
@@ -242,14 +247,12 @@ public class CmeDetailsActivity extends AppCompatActivity {
 
             }
 
-
             reservecmebtn.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     if (isReserved) {
                         Toast.makeText(CmeDetailsActivity.this, "You have already reserved a seat", Toast.LENGTH_SHORT).show();
                     } else {
-                        // Save the reservation state in SharedPreferences
                         SharedPreferences.Editor editor = sharedPref.edit();
                         editor.putBoolean("isReserved", true);
                         editor.apply();
@@ -268,8 +271,6 @@ public class CmeDetailsActivity extends AppCompatActivity {
             relativeboxnotforpast.setVisibility(View.VISIBLE);
 
         } else if ("LIVE".equals(field5)) {
-            // Show the livebtn and hide the reservebtn for Ongoing events
-            // Replace this with the actual method to get the start time
             String currentTime = getCurrentTime();
             Log.d("CurrentTime", currentTime);
 
@@ -293,23 +294,13 @@ public class CmeDetailsActivity extends AppCompatActivity {
 
                 if ((currenttimeformatted - eventStartTime) >= 10 * 60 * 1000) {
 
-                    // If more than 10 minutes have passed, show the "End" and "Post" buttons
-
                     liveendpost.setVisibility(View.VISIBLE);
                     livecmebtn.setVisibility(View.GONE);
-//                    endBtn.setVisibility(View.VISIBLE); // Assuming you have a button with the id "endBtn" for "End" button
-//                    postBtn.setVisibility(View.VISIBLE); // Assuming you have a button with the id "postBtn" for "Post" button
-//
-//                    // Handle the click events for "End" and "Post" buttons
                     liveendpost.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
                             FirebaseFirestore db = FirebaseFirestore.getInstance();
-
-// Reference to the document you want to update
                             DocumentReference docRef = db.collection("CME").document(field1);
-
-// Update the document with a new field
                             docRef.update("endtime", getCurrentTime(),
                                             "youtubelink",null)
                                     .addOnSuccessListener(new OnSuccessListener<Void>() {
@@ -328,18 +319,11 @@ public class CmeDetailsActivity extends AppCompatActivity {
                                             Log.w(TAG, "Error updating document", e);
                                         }
                                     });
-
-
                         }
                     });
-
-//
                 } else {
-                    // If less than 10 minutes have passed, keep showing the "Live" button
-
                     liveendpost.setVisibility(View.GONE);
                     livecmebtn.setVisibility(View.VISIBLE);
-
                 }
 
             } else {
@@ -459,7 +443,6 @@ public class CmeDetailsActivity extends AppCompatActivity {
                     }
                 });
     }
-
 
     private void showReservationDialog() {
         Dialog dialog = new Dialog(this);
