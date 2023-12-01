@@ -2,7 +2,7 @@
     <!-- Base application theme. -->
     <style name="Base.Theme.My_medicos" parent="Theme.Material3.DayNight.NoActionBar">
         <!-- Customize your light theme here. -->
-        <item name="colorSecondary">@color/white</item>
+        <item name="colorSecondary">#6BB7FDE5</item>
         <!-- Other customizations -->
         <!-- Set the status bar color to black -->
         <item name="android:statusBarColor">@android:color/black</item>
