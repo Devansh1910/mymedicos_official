@@ -6,15 +6,19 @@ import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.ViewFlipper;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -41,6 +45,8 @@ import com.example.my_medicos.adapter.job.items.jobitem;
 import com.example.my_medicos.databinding.FragmentHomeBinding;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
@@ -58,6 +64,7 @@ import java.time.format.DateTimeParseException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.prefs.Preferences;
 
 public class HomeFragment extends Fragment {
 
@@ -65,21 +72,38 @@ public class HomeFragment extends Fragment {
     ImageView jobs,cme,news,publication,update,pg_prep,ugexams,meme;
     MyAdapter adapterjob;
     MyAdapter2 adaptercme;
-
     RecyclerView recyclerViewjob;
     RecyclerView recyclerViewcme;
-    TextView home1,home2,home3;
+    TextView home1,home2,home3,personname;
     TextView navigatetojobs, navigatetocme, navigatecmeinsider;
-    @SuppressLint("MissingInflatedId")
+
+    private ViewFlipper viewFlipper;
+    private boolean dataLoaded = false;
+    private Handler handler;
+    private LinearLayout dotsLayout;
+    private final int AUTO_SCROLL_DELAY = 3000;
+    @SuppressLint({"MissingInflatedId", "RestrictedApi"})
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         binding = FragmentHomeBinding.inflate(inflater, container, false);
         View rootView = binding.getRoot();
 
+
         recyclerViewjob = rootView.findViewById(R.id.recyclerview_job1);
 
+        viewFlipper = rootView.findViewById(R.id.viewFlipper);
+        dotsLayout = rootView.findViewById(R.id.dotsLayout);
+        handler = new Handler();
+
+        addDots();
+
+        handler.postDelayed(autoScrollRunnable, AUTO_SCROLL_DELAY);
+
         recyclerViewcme = rootView.findViewById(R.id.recyclerview_cme1);
+
+        personname = rootView.findViewById(R.id.personnamewillbehere);
+
 
         ugexams = rootView.findViewById(R.id.ugexams);
         ugexams.setOnClickListener(new View.OnClickListener() {
@@ -246,7 +270,6 @@ public class HomeFragment extends Fragment {
                         }
                     }
                 });
-
         List<cmeitem1> cmelist = new ArrayList<cmeitem1>();
         recyclerViewcme.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.HORIZONTAL, false));
         FirebaseFirestore db = FirebaseFirestore.getInstance();
@@ -340,7 +363,7 @@ public class HomeFragment extends Fragment {
                                     }
 
                                 }
-                                recyclerViewcme.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false));
+                                recyclerViewcme.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false));
                                 recyclerViewcme.setAdapter(new MyAdapter4(getContext(), myitem));
                             } else {
                                 Log.d(TAG, "Error getting documents: ", task.getException());
@@ -357,8 +380,10 @@ public class HomeFragment extends Fragment {
                 }
             });
             initHomeSlider();
-
-            return rootView;
+            if (!dataLoaded) {
+                fetchdata();
+                fetchUserData();
+            }
         }
         return rootView;
     }
@@ -387,9 +412,109 @@ public class HomeFragment extends Fragment {
         queue.add(request);
     }
 
+    private void fetchUserData() {
+        FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
+        if (currentUser != null) {
+            String userId = currentUser.getPhoneNumber();
+            FirebaseFirestore db = FirebaseFirestore.getInstance();
+
+            db.collection("users")
+                    .get()
+                    .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                        @Override
+                        public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                            if (task.isSuccessful()) {
+                                for (QueryDocumentSnapshot document : task.getResult()) {
+                                    Log.d(TAG, document.getId() + " => " + document.getData());
+                                    String docID = document.getId();
+                                    Map<String, Object> dataMap = document.getData();
+                                    String field1 = (String) dataMap.get("Phone Number");
+
+                                    if (field1 != null && currentUser.getPhoneNumber() != null) {
+                                        int a = field1.compareTo(currentUser.getPhoneNumber());
+                                        if (a == 0) {
+                                            String userName = (String) dataMap.get("Name");
+                                            String userEmail = (String) dataMap.get("Email ID");
+                                            String userLocation = (String) dataMap.get("Location");
+                                            String userInterest = (String) dataMap.get("Interest");
+                                            String userPhone = (String) dataMap.get("Phone Number");
+                                            String userPrefix = (String) dataMap.get("Prefix");
+                                            String userAuthorized = (String) dataMap.get("authorized");
+
+                                            Boolean mcnVerified = (Boolean) dataMap.get("MCN verified");
+
+                                            Preferences preferences = Preferences.userRoot();
+                                            preferences.put("username", userName);
+                                            preferences.put("email", userEmail);
+                                            preferences.put("location", userLocation);
+                                            preferences.put("interest", userInterest);
+                                            preferences.put("userphone", userPhone);
+                                            preferences.put("docId", docID);
+                                            preferences.put("prefix", userPrefix);
+                                            personname.setText(userName);
+
+                                            fetchdata();
+                                        }
+                                    } else {
+                                        Log.e(TAG, "Field1 or currentUser.getPhoneNumber() is null");
+                                    }
+                                }
+                            } else {
+                                Log.d(TAG, "Error getting documents: ", task.getException());
+                            }
+                        }
+                    });
+        }
+    }
+    private void fetchdata() {
+        Preferences preferences = Preferences.userRoot();
+        if (preferences.get("username", null) != null) {
+            System.out.println("Key '" + "username" + "' exists in preferences.");
+            String username = preferences.get("username", null);
+            Log.d("usernaem", username);
+        }
+        String username = preferences.get("username", "");
+        personname.setText(username);
+    }
+
     private void initHomeSlider() {
         getsliderHome();
     }{}
+
+    private final Runnable autoScrollRunnable = new Runnable() {
+        @Override
+        public void run() {
+            int currentChildIndex = viewFlipper.getDisplayedChild();
+            int nextChildIndex = (currentChildIndex + 1) % viewFlipper.getChildCount();
+            viewFlipper.setDisplayedChild(nextChildIndex);
+            updateDots(nextChildIndex);
+            handler.postDelayed(this, AUTO_SCROLL_DELAY);
+        }
+    };
+
+    private void addDots() {
+        for (int i = 0; i < viewFlipper.getChildCount(); i++) {
+            ImageView dot = new ImageView(requireContext());
+            dot.setImageDrawable(getResources().getDrawable(R.drawable.inactive_thumb));
+            LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(
+                    LinearLayout.LayoutParams.WRAP_CONTENT,
+                    LinearLayout.LayoutParams.WRAP_CONTENT
+            );
+            params.setMargins(8, 0, 8, 0);
+            dotsLayout.addView(dot, params);
+        }
+        updateDots(0);
+    }
+
+    @SuppressLint("UseCompatLoadingForDrawables")
+    private void updateDots(int currentDotIndex) {
+        for (int i = 0; i < dotsLayout.getChildCount(); i++) {
+            ImageView dot = (ImageView) dotsLayout.getChildAt(i);
+            dot.setImageDrawable(getResources().getDrawable(
+                    i == currentDotIndex ? R.drawable.custom_thumb : R.drawable.inactive_thumb
+            ));
+        }
+    }
 
 
 }
