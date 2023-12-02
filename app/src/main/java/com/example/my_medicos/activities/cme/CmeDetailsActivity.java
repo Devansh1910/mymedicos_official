@@ -29,6 +29,9 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
 import com.example.my_medicos.R;
+import com.google.android.exoplayer2.ExoPlayer;
+import com.google.android.exoplayer2.MediaItem;
+import com.google.android.exoplayer2.ui.StyledPlayerView;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -48,6 +51,8 @@ import java.util.List;
 import java.util.Map;
 
 public class CmeDetailsActivity extends AppCompatActivity {
+    private ExoPlayer player;
+    String videoURL;
     FirebaseAuth auth = FirebaseAuth.getInstance();
     FirebaseUser user = auth.getCurrentUser();
     Toolbar toolbar;
@@ -56,15 +61,13 @@ public class CmeDetailsActivity extends AppCompatActivity {
     String email;
     FirebaseFirestore dc = FirebaseFirestore.getInstance();
     String receivedDataCme;
-
     Button reservecmebtn;
-    Button reservedcmebtn ;
+    Button reservedcmebtn;
     String current = user.getPhoneNumber();
     private boolean isReserved;
-
+    LinearLayout playerlayout;
     String field4;
-    VideoView videoView;
-    String pdf=null;
+    String pdf = null;
 
     @SuppressLint("MissingInflatedId")
     @Override
@@ -72,10 +75,14 @@ public class CmeDetailsActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_cme_details);
 
+        StyledPlayerView playerView = findViewById(R.id.player_view);
+        player = new ExoPlayer.Builder(CmeDetailsActivity.this).build();
+        playerView.setPlayer(player);
+
         FirebaseFirestore db = FirebaseFirestore.getInstance();
 
         toolbar = findViewById(R.id.detailtoolbar);
-        TextView presenter3=findViewById(R.id.presenters3);
+        TextView presenter3 = findViewById(R.id.presenters3);
 
         final TextView textView = findViewById(R.id.description);
         final TextView moreButton = findViewById(R.id.moreButton);
@@ -88,9 +95,7 @@ public class CmeDetailsActivity extends AppCompatActivity {
         reservedcmebtn = findViewById(R.id.reservedcmebtn);
         Button liveendpost=findViewById(R.id.liveendpost);
         TextView addpresent=findViewById(R.id.addpresenter);
-        WebView youtube = findViewById(R.id.youtube);
         addpresent.setVisibility(View.GONE);
-
 
         String field1 = getIntent().getExtras().getString("documentid");
         String name = getIntent().getExtras().getString("name");
@@ -101,24 +106,17 @@ public class CmeDetailsActivity extends AppCompatActivity {
         TextView presenters2=findViewById(R.id.presenters1);
 
         LinearLayout reservebtn = findViewById(R.id.reservbtn);
+        LinearLayout playerlayout = findViewById(R.id.playerlayout);
         boolean isCreator = current.equals(name);
 
-
-
-        // Initialize SharedPreferences
         SharedPreferences sharedPref = getSharedPreferences("CmeDetails", Context.MODE_PRIVATE);
 
-        // Check if the button is reserved in SharedPreferences
-       isReserved = sharedPref.getBoolean("isReserved", false);
+        isReserved = sharedPref.getBoolean("isReserved", false);
         reservecmebtn.setVisibility(isReserved ? View.GONE : View.VISIBLE);
         reservedcmebtn.setVisibility(isReserved ? View.VISIBLE : View.GONE);
         presenter3.setVisibility(View.GONE);
 
-
-        // Check if the user has already reserved a seat in Firestore
         checkReservationStatusFirestore(current, field1);
-
-
 
         LinearLayout livebtn = findViewById(R.id.livebtn);
         LinearLayout pastbtn = findViewById(R.id.pastbtn);
@@ -140,58 +138,40 @@ public class CmeDetailsActivity extends AppCompatActivity {
                     for (QueryDocumentSnapshot document : task.getResult()) {
                         Map<String, Object> dataMap = document.getData();
                         field3 = ((String) dataMap.get("documentId"));
-                        if (field3!=null) {
-
-
+                        if (field3 != null) {
                             int r = field1.compareTo(field3);
                             if (r == 0) {
                                 String speciality = ((String) dataMap.get("Speciality"));
                                 String venue = ((String) dataMap.get("CME Venue"));
                                 String date1 = ((String) dataMap.get("Selected Date"));
                                 String time1 = ((String) dataMap.get("Selected Time"));
-                                String youtubeLink = (String) dataMap.get("youtubelink");
-
-                                WebView webView = findViewById(R.id.youtube);
-                                webView.getSettings().setJavaScriptEnabled(true);
-                                webView.setWebChromeClient(new WebChromeClient());
-
-                                String embedHtml = "<html><body><iframe width=\"100%\" height=\"100%\" src=\"" + youtubeLink + "\" frameborder=\"0\" allowfullscreen></iframe></body></html>";
-                                webView.loadData(embedHtml, "text/html", "utf-8");
-
-                                webView.setWebViewClient(new WebViewClient() {
-                                    @Override
-                                    public boolean shouldOverrideUrlLoading(WebView view, String url) {
-                                        view.loadUrl(url);
-                                        return true;
-                                    }
-                                });
+                                videoURL = document.getString("youtubelink");
 
                                 List<String> presenters = (List<String>) dataMap.get("CME Presenter");
-                            int count=0;
-                            String pres = null;
-                            if (presenters != null && !presenters.isEmpty()) {
-                                for (String presenter : presenters) {
-                                    if (pres==null){
-                                        pres =presenter+ "   ";
+                                int count = 0;
+                                String pres = null;
+                                if (presenters != null && !presenters.isEmpty()) {
+                                    for (String presenter : presenters) {
+                                        if (pres == null) {
+                                            pres = presenter + "   ";
+                                        } else {
+                                            pres = pres + presenter + "   ";
+                                        }
+                                        Log.d("Presenter", presenter);
+                                        count++;
                                     }
-                                    else {
-                                        pres = pres + presenter + "   ";
-                                    }
-                                    Log.d("Presenter", presenter);
-                                    count++;
                                 }
-                            }
-                            presenter3.setText(pres);
+                                presenter3.setText(pres);
 
-                            presenters2.setText(presenters.get(0));
-                                if (count>1) {
+                                presenters2.setText(presenters.get(0));
+                                if (count > 1) {
                                     addpresent.setVisibility(View.VISIBLE);
                                     addpresent.setOnClickListener(new View.OnClickListener() {
                                         @Override
                                         public void onClick(View v) {
-                                           presenter3.setVisibility(View.VISIBLE);
-                                           presenters2.setVisibility(View.GONE);
-                                           addpresent.setVisibility(View.GONE);
+                                            presenter3.setVisibility(View.VISIBLE);
+                                            presenters2.setVisibility(View.GONE);
+                                            addpresent.setVisibility(View.GONE);
 
                                         }
                                     });
@@ -209,6 +189,22 @@ public class CmeDetailsActivity extends AppCompatActivity {
                                         }
                                     });
                                 }
+                                StyledPlayerView playerView = findViewById(R.id.player_view);
+                                player = new ExoPlayer.Builder(CmeDetailsActivity.this).build();
+                                playerView.setPlayer(player);
+
+                                MediaItem mediaItem = null;
+                                if (videoURL != null) {
+                                    mediaItem = MediaItem.fromUri(videoURL);
+                                }
+
+                                if (mediaItem != null) {
+                                    player.setMediaItem(mediaItem);
+                                    player.prepare();
+                                    player.setPlayWhenReady(true);
+                                }
+
+
                                 String title = ((String) dataMap.get("CME Title"));
                                 String virtuallink = ((String) dataMap.get("Virtual Link"));
 
@@ -221,11 +217,11 @@ public class CmeDetailsActivity extends AppCompatActivity {
                             }
                         }
                     }
-                } else {
-                    Toast.makeText(CmeDetailsActivity.this, "Error fetching data from Firebase Firestore", Toast.LENGTH_SHORT).show();
+                    } else {
+                        Toast.makeText(CmeDetailsActivity.this, "Error fetching data from Firebase Firestore", Toast.LENGTH_SHORT).show();
+                    }
                 }
-            }
-        });
+            });
         long eventStartTime=convertTimeToMillis(field6);
 
         if ("UPCOMING".equals(field5)) {
@@ -264,7 +260,7 @@ public class CmeDetailsActivity extends AppCompatActivity {
                 }
             });
             reservedcmebtn.setVisibility(View.GONE);
-            youtube.setVisibility(View.GONE);
+            playerlayout.setVisibility(View.GONE);
             defaultimageofcme.setVisibility(View.VISIBLE);
             textpartforlive.setVisibility(View.INVISIBLE);
             textpartforupcoming.setVisibility(View.VISIBLE);
@@ -280,7 +276,7 @@ public class CmeDetailsActivity extends AppCompatActivity {
             if (isCreator) {
                 reservebtn.setVisibility(View.GONE);
                 pastbtn.setVisibility(View.GONE);
-                youtube.setVisibility(View.GONE);
+                playerlayout.setVisibility(View.GONE);
                 defaultimageofcme.setVisibility(View.VISIBLE);
                 textpartforlive.setVisibility(View.GONE);
                 textpartforlivecreator.setVisibility(View.VISIBLE);
@@ -333,7 +329,7 @@ public class CmeDetailsActivity extends AppCompatActivity {
 
                 livecmebtn.setVisibility(View.GONE);
                 pastbtn.setVisibility(View.GONE);
-                youtube.setVisibility(View.GONE);
+                playerlayout.setVisibility(View.GONE);
                 defaultimageofcme.setVisibility(View.VISIBLE);
                 textpartforlive.setVisibility(View.VISIBLE);
                 textpartforlive.setVisibility(View.VISIBLE);
@@ -381,7 +377,7 @@ public class CmeDetailsActivity extends AppCompatActivity {
             reservebtn.setVisibility(View.GONE);
             livebtn.setVisibility(View.GONE);
             pastbtn.setVisibility(View.VISIBLE);
-            youtube.setVisibility(View.VISIBLE);
+            playerlayout.setVisibility(View.VISIBLE);
             defaultimageofcme.setVisibility(View.GONE);
             textpartforlive.setVisibility(View.INVISIBLE);
             textpartforupcoming.setVisibility(View.GONE);
@@ -419,6 +415,13 @@ public class CmeDetailsActivity extends AppCompatActivity {
         });
 
 
+    }
+    @Override
+    protected void onStop() {
+        super.onStop();
+        player.setPlayWhenReady(false);
+        player.release();
+        player = null;
     }
     private void checkReservationStatusFirestore(String userId, String eventId) {
         dc.collection("CMEsReserved")

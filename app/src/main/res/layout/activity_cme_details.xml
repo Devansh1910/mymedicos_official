@@ -47,14 +47,18 @@
 
     </com.google.android.material.appbar.AppBarLayout>
 
-            <WebView
-                android:id="@+id/youtube"
-                android:layout_marginHorizontal="@dimen/_5ssp"
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/_150sdp"
-                android:src="@drawable/img_4"
-                android:scaleType="centerCrop"/>
+        <LinearLayout
+            android:id="@+id/playerlayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
 
+            <com.google.android.exoplayer2.ui.StyledPlayerView
+                android:id="@+id/player_view"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/_180sdp" />
+
+        </LinearLayout>
 
             <RelativeLayout
                 android:id="@+id/relativeboxnotforpast"
