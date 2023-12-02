@@ -36,6 +36,8 @@ import java.util.Map;
 
 public class PastFragment extends Fragment {
     RecyclerView recyclerView2;
+    MyAdapter4 adapter;
+    List<cmeitem2> myitem;
 
     @SuppressLint("MissingInflatedId")
     @Override
@@ -45,7 +47,25 @@ public class PastFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_past, container, false);
 
         recyclerView2 = view.findViewById(R.id.cme_recyclerview_past);
-        List<cmeitem2> myitem = new ArrayList<cmeitem2>();
+        myitem = new ArrayList<>();
+        adapter = new MyAdapter4(getContext(), myitem);
+        recyclerView2.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false));
+        recyclerView2.setAdapter(adapter);
+        fetchData();
+
+
+
+        // Query and display Today's CME events in the RecyclerView
+        // Customize your logic to query and display data for today's events.
+        // Set the appropriate adapter for the RecyclerView.
+
+        return view;
+    }
+    public void refreshData() {
+        myitem.clear();
+        fetchData();
+    }
+    public void fetchData(){
         FirebaseFirestore db = FirebaseFirestore.getInstance();
         //......
         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
@@ -136,8 +156,7 @@ public class PastFragment extends Fragment {
                                     }
 
                                 }
-                                recyclerView2.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false));
-                                recyclerView2.setAdapter(new MyAdapter4(getContext(), myitem));
+                                adapter.notifyDataSetChanged();
                             } else {
                                 Log.d(TAG, "Error getting documents: ", task.getException());
                             }
@@ -145,10 +164,5 @@ public class PastFragment extends Fragment {
                     });
         }
 
-        // Query and display Today's CME events in the RecyclerView
-        // Customize your logic to query and display data for today's events.
-        // Set the appropriate adapter for the RecyclerView.
-
-        return view;
     }
 }

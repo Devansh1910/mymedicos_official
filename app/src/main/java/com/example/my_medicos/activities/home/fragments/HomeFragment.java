@@ -18,9 +18,8 @@ import android.widget.TextView;
 import android.widget.ViewFlipper;
 
 import androidx.annotation.NonNull;
-import androidx.core.content.ContextCompat;
+import androidx.cardview.widget.CardView;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -30,7 +29,6 @@ import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.example.my_medicos.R;
 import com.example.my_medicos.activities.cme.CmeActivity;
-import com.example.my_medicos.activities.cme.CmeDetailsActivity;
 import com.example.my_medicos.activities.job.JobsActivity;
 import com.example.my_medicos.activities.memes.MemeActivity;
 import com.example.my_medicos.activities.news.NewsActivity;
@@ -41,7 +39,6 @@ import com.example.my_medicos.activities.university.activity.UniversityActivity;
 import com.example.my_medicos.activities.utils.ConstantsDashboard;
 import com.example.my_medicos.adapter.cme.MyAdapter2;
 import com.example.my_medicos.adapter.cme.MyAdapter4;
-import com.example.my_medicos.adapter.cme.items.cmeitem1;
 import com.example.my_medicos.adapter.cme.items.cmeitem2;
 import com.example.my_medicos.adapter.job.MyAdapter;
 import com.example.my_medicos.adapter.job.items.jobitem;
@@ -78,13 +75,16 @@ public class HomeFragment extends Fragment {
     ImageView jobs,cme,news,publication,update,pg_prep,ugexams,meme;
     MyAdapter adapterjob;
     MyAdapter2 adaptercme;
+    String Speciality;
+    CardView cardjobs,cardcme;
+    TextView home1,home2,home3,personname;
     RecyclerView recyclerViewjob;
     RecyclerView recyclerViewcme;
     private ExoPlayer player;
 
     String videoURL = "https://res.cloudinary.com/dmzp6notl/video/upload/v1701512080/videoforhome_gzfpen.mp4";
 
-    TextView home1,home2,home3,personname;
+
     TextView navigatetojobs, navigatetocme, navigatecmeinsider;
 
     private ViewFlipper viewFlipper;
@@ -208,6 +208,34 @@ public class HomeFragment extends Fragment {
                 startActivity(i);
             }
         });
+        cardcme=rootView.findViewById(R.id.cardcme);
+        cardjobs=rootView.findViewById(R.id.cardjobs);
+        cardcme.setVisibility(View.GONE);
+        cardjobs.setVisibility(View.GONE);
+        home1=rootView.findViewById(R.id.home1);
+        home2=rootView.findViewById(R.id.home2);
+        home3=rootView.findViewById(R.id.home3);
+        home1.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent i = new Intent(getActivity(), CmeActivity.class);
+                startActivity(i);
+            }
+        });
+        home2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent i = new Intent(getActivity(), CmeActivity.class);
+                startActivity(i);
+            }
+        });
+        home3.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent i = new Intent(getActivity(), CmeActivity.class);
+                startActivity(i);
+            }
+        });
 
         navigatetocme = rootView.findViewById(R.id.navigatecme);
 
@@ -239,6 +267,27 @@ public class HomeFragment extends Fragment {
             }
         });
 
+        FirebaseFirestore checking = FirebaseFirestore.getInstance();
+        //......
+        checking.collection("users")
+                .get()
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task ) {
+
+                        if (task.isSuccessful()) {
+                            for (QueryDocumentSnapshot document : task.getResult()) {
+
+                                Map<String, Object> dataMap = document.getData();
+
+                                Speciality=((String) dataMap.get("Interest"));
+                            }
+                        } else {
+                            Log.d(TAG, "Error getting documents: ", task.getException());
+                        }
+                    }
+                });
+
 
         List<jobitem> joblist = new ArrayList<jobitem>();
         recyclerViewjob.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.HORIZONTAL, false));
@@ -261,9 +310,12 @@ public class HomeFragment extends Fragment {
                                 String Title = ((String) dataMap.get("JOB Title"));
                                 String Category = ((String) dataMap.get("Job type"));
                                 String documentid = ((String) dataMap.get("documentId"));
+                                int a = Speciality.compareTo(speciality);
+                                if (a==0) {
 
-                                jobitem c = new jobitem(speciality, Organiser, Location, date, Title, Category, documentid);
-                                joblist.add(c);
+                                    jobitem c = new jobitem(speciality, Organiser, Location, date, Title, Category, documentid);
+                                    joblist.add(c);
+                                }
                                 Log.d("speciality2", Organiser);
                                 Log.d("speciality2", Location);
 //
@@ -275,13 +327,19 @@ public class HomeFragment extends Fragment {
                                 recyclerViewjob.setAdapter(adapterjob);
 //                                Log.d("speciality2", speciality);
                             }
+                        }
+                        Log.d("abcdef", joblist.toString());
+                        if (joblist.isEmpty()){
+                            cardjobs.setVisibility(View.VISIBLE);
+                            TextView nocontent=rootView.findViewById(R.id.descriptionTextView);
+
+
                         } else {
-                            Log.d(TAG, "Error getting documents: ", task.getException());
+//                            Log.d(TAG, "Error getting documents: ", Task.getException());
                         }
                     }
                 });
-        List<cmeitem1> cmelist = new ArrayList<cmeitem1>();
-        recyclerViewcme.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.HORIZONTAL, false));
+
         FirebaseFirestore db = FirebaseFirestore.getInstance();
         List<cmeitem2> myitem = new ArrayList<cmeitem2>();
         //......
@@ -346,10 +404,13 @@ public class HomeFragment extends Fragment {
                                         String time = ((String) dataMap.get("Selected Time"));
                                         String documentid = ((String) dataMap.get("documentId"));
                                         String end = ((String) dataMap.get("endtime"));
-                                        cmeitem2 c = new cmeitem2(field1, field2, Date, field3, field4, 5, time, field5, "PAST", documentid);
-                                        if (end != null) {
-                                            myitem.add(c);
+                                        if ((Speciality!=null)&&(field2!=null)) {
+                                            int a = Speciality.compareTo(field2);
+                                            cmeitem2 c = new cmeitem2(field1, field2, Date, field3, field4, 5, time, field5, "PAST", documentid);
+                                            if ((end != null) && (a == 0)) {
+                                                myitem.add(c);
 
+                                            }
                                         }
 
 
@@ -364,8 +425,9 @@ public class HomeFragment extends Fragment {
                                         String Date = ((String) dataMap.get("Selected Date"));
                                         String documentid = ((String) dataMap.get("documentId"));
                                         String end = ((String) dataMap.get("endtime"));
+                                        int a=Speciality.compareTo(field2);
                                         cmeitem2 c = new cmeitem2(field1, field2, Date, field3, field4, 5, time, field5, "PAST", documentid);
-                                        if (end != null) {
+                                        if ((end != null)&&(a==0) ){
                                             myitem.add(c);
 
                                         }
@@ -373,7 +435,11 @@ public class HomeFragment extends Fragment {
                                     }
 
                                 }
-                                recyclerViewcme.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false));
+                                Log.d("myitem", myitem.toString());
+                                if (myitem.isEmpty()){
+                                    cardcme.setVisibility(View.VISIBLE);
+                                }
+                                recyclerViewcme.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false));
                                 recyclerViewcme.setAdapter(new MyAdapter4(getContext(), myitem));
                             } else {
                                 Log.d(TAG, "Error getting documents: ", task.getException());
@@ -608,3 +674,4 @@ public class HomeFragment extends Fragment {
     }
 
 }
+

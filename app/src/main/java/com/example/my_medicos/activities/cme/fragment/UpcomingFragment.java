@@ -15,8 +15,8 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.my_medicos.adapter.cme.MyAdapter3;
 import com.example.my_medicos.R;
+import com.example.my_medicos.adapter.cme.MyAdapter3;
 import com.example.my_medicos.adapter.cme.items.cmeitem3;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -49,6 +49,8 @@ public class UpcomingFragment extends Fragment {
     private String mParam1;
     private String mParam2;
     RecyclerView recyclerView3;
+    MyAdapter3 adapter;
+    List<cmeitem3> item;
 
     public UpcomingFragment() {
         // Required empty public constructor
@@ -86,12 +88,27 @@ public class UpcomingFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
+
         View view = inflater.inflate(R.layout.fragment_upcoming, container, false);
+
         recyclerView3 = view.findViewById(R.id.cme_recyclerview_upcoming);
-        FirebaseFirestore db = FirebaseFirestore.getInstance();
-        List<cmeitem3> item = new ArrayList<>();
+        item = new ArrayList<>();
+        adapter = new MyAdapter3(getContext(), item);
+        recyclerView3.setLayoutManager(new LinearLayoutManager(getContext()));
+        recyclerView3.setAdapter(adapter);
+        fetchData();
 
         //.....
+
+
+        return view;
+    }
+    public void refreshData() {
+        item.clear();
+        fetchData();
+    }
+    private void fetchData() {
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
             Query query=db.collection("CME").orderBy("Time", Query.Direction.DESCENDING);
             ((Query) query)
@@ -184,15 +201,13 @@ public class UpcomingFragment extends Fragment {
                                     }
 
                                 }
-                                recyclerView3.setLayoutManager(new LinearLayoutManager(getContext()));
-                                recyclerView3.setAdapter(new MyAdapter3(getContext(), item));
+                                adapter.notifyDataSetChanged();
                             } else {
                                 Log.d(TAG, "Error getting documents: ", task.getException());
                             }
                         }
                     });
         }
-
-        return view;
     }
+
 }

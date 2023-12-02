@@ -6,6 +6,7 @@ import android.annotation.SuppressLint;
 import android.app.DatePickerDialog;
 import android.app.ProgressDialog;
 import android.app.TimePickerDialog;
+import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Color;
@@ -278,7 +279,14 @@ public class PostCmeActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                    Context context = view.getContext();
                     postCme();
+
+                    Intent i = new Intent(context, CmeActivity.class);
+                    i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+
+
+                    context.startActivity(i);
                 }
             }
         });
@@ -555,6 +563,9 @@ public class PostCmeActivity extends AppCompatActivity {
                         public void onComplete(@NonNull Task<Void> task) {
                             if (task.isSuccessful()) {
                                 Toast.makeText(PostCmeActivity.this, "Posted Successfully", Toast.LENGTH_SHORT).show();
+
+
+
                             } else {
                                 Toast.makeText(PostCmeActivity.this, "Task Failed", Toast.LENGTH_SHORT).show();
                             }

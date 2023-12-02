@@ -15,6 +15,7 @@ import android.widget.Button;
 import android.widget.Spinner;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
@@ -65,6 +66,7 @@ public class CmeActivity extends AppCompatActivity {
             @Override
             public void onRefresh() {
                 fetchData();
+                refreshFragmentsData();
                 swipeRefreshLayout.setRefreshing(false);
             }
         });
@@ -198,6 +200,10 @@ public class CmeActivity extends AppCompatActivity {
         public ViewPagerAdapter(@NonNull FragmentActivity fragmentActivity) {
             super(fragmentActivity);
         }
+        @Nullable
+        public Fragment findFragmentByPosition(int position) {
+            return getSupportFragmentManager().findFragmentByTag("f" + position);
+        }
         @NonNull
         @Override
         public Fragment createFragment(int position) {
@@ -240,5 +246,25 @@ public class CmeActivity extends AppCompatActivity {
             default:
                 return super.onOptionsItemSelected(item);
         }
+
     }
+    private void refreshFragmentsData() {
+        ViewPagerAdapter viewPagerAdapter = (ViewPagerAdapter) viewpager.getAdapter();
+
+        OngoingFragment ongoingFragment = (OngoingFragment) viewPagerAdapter.findFragmentByPosition(0);
+        if (ongoingFragment != null) {
+            ongoingFragment.refreshData();
+        }
+
+        UpcomingFragment upcomingFragment = (UpcomingFragment) viewPagerAdapter.findFragmentByPosition(1);
+        if (upcomingFragment != null) {
+            upcomingFragment.refreshData();
+        }
+//
+        PastFragment pastFragment = (PastFragment) viewPagerAdapter.findFragmentByPosition(2);
+        if (pastFragment != null) {
+            pastFragment.refreshData();
+        }
+    }
+
 }
