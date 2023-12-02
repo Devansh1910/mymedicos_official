@@ -10,7 +10,6 @@ import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
@@ -20,10 +19,8 @@ import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
 import com.example.my_medicos.R;
-import com.example.my_medicos.activities.HomeSideActivity;
 import com.example.my_medicos.activities.home.fragments.ClubFragment;
 import com.example.my_medicos.activities.home.fragments.HomeFragment;
-import com.example.my_medicos.activities.home.fragments.ProfileFragment;
 import com.example.my_medicos.activities.home.fragments.SlideshowFragment;
 import com.google.android.material.bottomappbar.BottomAppBar;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
@@ -93,10 +90,8 @@ public class HomeActivity extends AppCompatActivity {
                 replaceFragment(new HomeFragment());
             } else if (frgId == R.id.work) {
                 replaceFragment(new ClubFragment());
-            } else if (frgId == R.id.slideshare) {
-                replaceFragment(new SlideshowFragment());
             } else {
-                replaceFragment(new ProfileFragment());
+                replaceFragment(new SlideshowFragment());
             }
             return true;
         });

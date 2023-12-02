@@ -3,12 +3,45 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
+    android:background="@drawable/rectangle"
     android:layout_height="match_parent"
-    tools:context=".activities.HomeSideActivity">
+    tools:context=".activities.home.HomeSideActivity">
+
+    <!-- Add this to your layout -->
+    <LinearLayout
+        android:id="@+id/progressBar"
+        android:elevation="@dimen/_10sdp"
+        android:background="@drawable/back6"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <com.airbnb.lottie.LottieAnimationView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:elevation="10dp"
+            android:padding="@dimen/_10sdp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:lottie_autoPlay="true"
+            app:lottie_rawRes="@raw/shimmer"
+            app:lottie_loop="false"
+            app:lottie_speed="1" />
+
+
+    </LinearLayout>
+
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        tools:ignore="MissingConstraints">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginBottom="50dp"
             android:orientation="vertical"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -17,6 +50,7 @@
             <com.google.android.material.appbar.AppBarLayout
                 android:id="@+id/profiletoolbar_container"
                 android:layout_width="match_parent"
+                android:background="@drawable/flag_transparent"
                 android:layout_height="wrap_content"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -29,17 +63,17 @@
                     app:titleTextColor="@color/black"
                     app:subtitleTextColor="@color/white"
                     app:subtitleTextAppearance="@color/white"
-                    android:backgroundTint="@color/white"
                     android:layout_width="match_parent"
                     android:layout_weight="1"
                     android:layout_height="?attr/actionBarSize"
-                    android:background="@color/white">
+                    android:background="@drawable/flag_transparent">
 
                 </androidx.appcompat.widget.Toolbar>
 
             </com.google.android.material.appbar.AppBarLayout>
 
             <LinearLayout
+                android:id="@+id/intenttoaboutme"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="@dimen/_8ssp"
@@ -275,28 +309,88 @@
                     android:layout_height="match_parent"
                     android:orientation="vertical">
 
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Account Verification Required"
+                        android:textStyle="bold"
+                        android:drawableEnd="@drawable/arrowww"
+                        android:textSize="@dimen/_15ssp"
+                        android:paddingTop="@dimen/_20ssp"
+                        android:paddingHorizontal="@dimen/_20ssp"
+                        android:textColor="@color/white"/>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:paddingHorizontal="@dimen/_20ssp"
+                        android:paddingBottom="@dimen/_20ssp"
+                        android:textSize="@dimen/_10ssp"
+                        android:text="Verify your documents to get enjoy all the features of Medicos :)"
+                        android:textStyle="bold"
+                        android:textColor="#000000"/>
+
+                </LinearLayout>
+
+            </androidx.cardview.widget.CardView>
+
+            <androidx.cardview.widget.CardView
+                android:id="@+id/verified_contact_info"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:backgroundTint="@color/white"
+                app:cardCornerRadius="@dimen/_10ssp"
+                android:layout_margin="@dimen/_8ssp">
+
+                <FrameLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_gravity="center"
+                        android:layout_height="match_parent"
+                        android:orientation="vertical">
+
                         <TextView
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:text="Account Verification Required"
+                            android:layout_gravity="center"
+                            android:gravity="start"
+                            android:paddingTop="@dimen/_8sdp"
+                            android:text="Verified!"
                             android:textStyle="bold"
-                            android:drawableEnd="@drawable/arrowww"
-                            android:textSize="@dimen/_15ssp"
-                            android:paddingTop="@dimen/_20ssp"
+                            android:textSize="@dimen/_18ssp"
                             android:paddingHorizontal="@dimen/_20ssp"
-                            android:textColor="@color/white"/>
+                            android:textColor="@color/green"/>
 
                         <TextView
-                            android:layout_width="wrap_content"
+                            android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:paddingHorizontal="@dimen/_20ssp"
-                            android:paddingBottom="@dimen/_20ssp"
-                            android:textSize="@dimen/_10ssp"
-                            android:text="Verify your documents to get enjoy all the features of Medicos :)"
+                            android:paddingTop="@dimen/_2sdp"
+                            android:layout_gravity="center"
+                            android:gravity="start"
+                            android:paddingBottom="@dimen/_8sdp"
+                            android:textSize="@dimen/_12ssp"
+                            android:text="Congratulations, You are in Top 1% "
                             android:textStyle="bold"
                             android:textColor="#000000"/>
 
                     </LinearLayout>
+
+                    <com.airbnb.lottie.LottieAnimationView
+                        android:id="@+id/verifiedanime"
+                        android:layout_width="match_parent"
+                        android:layout_height="80dp"
+                        android:scaleType="centerCrop"
+                        app:lottie_autoPlay="true"
+                        app:lottie_rawRes="@raw/verifiedanime"
+                        app:lottie_loop="true"
+                        app:lottie_speed="1" />
+
+                </FrameLayout>
 
             </androidx.cardview.widget.CardView>
 
@@ -304,40 +398,246 @@
                 android:id="@+id/personal_info"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:backgroundTint="@color/black"
+                android:backgroundTint="@color/white"
+                app:cardCornerRadius="@dimen/_10ssp"
+                android:layout_marginHorizontal="@dimen/_8sdp"
+                android:layout_marginVertical="@dimen/_2ssp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingHorizontal="10dp"
+                    android:paddingVertical="8dp"
+                    android:orientation="horizontal">
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:layout_gravity="center"
+                        android:paddingHorizontal="@dimen/_5sdp"
+                        android:src="@drawable/profile"/>
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_weight="1"
+                        android:gravity="center_vertical"
+                        android:paddingHorizontal="@dimen/_5sdp"
+                        android:layout_height="match_parent"
+                        android:textSize="@dimen/_14ssp"
+                        android:text="Your Profile"
+                        android:textStyle="bold"
+                        android:textColor="@color/black"/>
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:layout_gravity="center"
+                        android:src="@drawable/arrowright"/>
+
+                </LinearLayout>
+
+            </androidx.cardview.widget.CardView>
+
+            <androidx.cardview.widget.CardView
+                android:id="@+id/more"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/rectangle"
                 app:cardCornerRadius="@dimen/_10ssp"
                 android:layout_margin="@dimen/_8ssp">
 
                 <LinearLayout
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="match_parent"
+                    android:gravity="center"
                     android:orientation="vertical">
 
-                        <TextView
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:text="About me"
-                            android:textStyle="bold"
-                            android:drawableEnd="@drawable/plus"
-                            android:textSize="@dimen/_15ssp"
-                            android:paddingTop="@dimen/_20ssp"
-                            android:paddingHorizontal="@dimen/_20ssp"
-                            android:textColor="@color/white"/>
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="More"
+                        android:textStyle="bold"
+                        android:layout_gravity="center"
+                        android:gravity="center_vertical"
+                        android:paddingVertical="@dimen/_4sdp"
+                        android:drawableEnd="@drawable/plus"
+                        android:textSize="@dimen/_15ssp"
+                        android:paddingHorizontal="@dimen/_15ssp"
+                        android:textColor="@color/black"/>
+
+                    <LinearLayout
+                        android:id="@+id/languageselect"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:paddingHorizontal="10dp"
+                        android:paddingVertical="8dp"
+                        android:orientation="horizontal">
+
+                        <ImageView
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:layout_gravity="center"
+                            android:src="@drawable/lang"/>
 
                         <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:paddingHorizontal="@dimen/_20ssp"
-                            android:paddingBottom="@dimen/_20ssp"
-                            android:textSize="@dimen/_10ssp"
-                            android:text="Express about you, Be the Charm of the Community and Tell others who you are :)"
+                            android:layout_width="0dp"
+                            android:layout_weight="1"
+                            android:gravity="center_vertical"
+                            android:paddingHorizontal="@dimen/_5sdp"
+                            android:layout_height="match_parent"
+                            android:textSize="@dimen/_14ssp"
+                            android:text="Choose Language"
                             android:textStyle="bold"
-                            android:textColor="@color/white"/>
+                            android:textColor="@color/black"/>
+
+                        <ImageView
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:layout_gravity="center"
+                            android:src="@drawable/arrowright"/>
 
                     </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/aboutus"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:paddingHorizontal="10dp"
+                        android:paddingVertical="8dp"
+                        android:orientation="horizontal">
+
+                        <ImageView
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:paddingHorizontal="@dimen/_5sdp"
+                            android:layout_gravity="center"
+                            android:src="@drawable/about"/>
+
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_weight="1"
+                            android:layout_gravity="center"
+                            android:gravity="center_vertical"
+                            android:paddingHorizontal="@dimen/_5sdp"
+                            android:layout_height="match_parent"
+                            android:textSize="@dimen/_14ssp"
+                            android:text="About Us"
+                            android:textStyle="bold"
+                            android:textColor="@color/black"/>
+
+                        <ImageView
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:layout_gravity="center"
+                            android:src="@drawable/arrowright"/>
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/whatsapp"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:paddingHorizontal="10dp"
+                        android:paddingVertical="8dp"
+                        android:orientation="horizontal">
+
+                        <ImageView
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:layout_gravity="center"
+                            android:paddingHorizontal="@dimen/_5sdp"
+                            android:src="@drawable/whatsapp"/>
+
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_weight="1"
+                            android:layout_gravity="center"
+                            android:gravity="center_vertical"
+                            android:layout_height="match_parent"
+                            android:textSize="@dimen/_14ssp"
+                            android:text="Chat with us"
+                            android:paddingHorizontal="@dimen/_5sdp"
+                            android:textStyle="bold"
+                            android:textColor="@color/black"/>
+
+                        <ImageView
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:layout_gravity="center"
+                            android:src="@drawable/arrowright"/>
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/settings"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:paddingHorizontal="10dp"
+                        android:paddingVertical="8dp"
+                        android:orientation="horizontal">
+
+                        <ImageView
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:layout_gravity="center"
+                            android:paddingHorizontal="@dimen/_5sdp"
+                            android:src="@drawable/settingsd"/>
+
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_weight="1"
+                            android:layout_gravity="center"
+                            android:gravity="center_vertical"
+                            android:paddingHorizontal="@dimen/_5sdp"
+                            android:layout_height="match_parent"
+                            android:textSize="@dimen/_14ssp"
+                            android:text="Settings"
+                            android:textStyle="bold"
+                            android:textColor="@color/black"/>
+
+                        <ImageView
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:layout_gravity="center"
+                            android:src="@drawable/arrowright"/>
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/logout"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:paddingHorizontal="10dp"
+                        android:paddingVertical="8dp"
+                        android:orientation="horizontal">
+
+                        <ImageView
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:layout_gravity="center"
+                            android:paddingHorizontal="@dimen/_5sdp"
+                            android:src="@drawable/switchoff"/>
+
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_weight="1"
+                            android:layout_gravity="center"
+                            android:gravity="center_vertical"
+                            android:paddingHorizontal="@dimen/_5sdp"
+                            android:layout_height="match_parent"
+                            android:textSize="@dimen/_14ssp"
+                            android:text="Log Out"
+                            android:textStyle="bold"
+                            android:textColor="@color/black"/>
+
+                    </LinearLayout>
+
+                </LinearLayout>
 
             </androidx.cardview.widget.CardView>
 
         </LinearLayout>
+
+    </androidx.core.widget.NestedScrollView>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -20,18 +20,24 @@
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
         android:fullBackupContent="@xml/backup_rules"
-        android:icon="@mipmap/ic_launcher"
-        android:label="Mymedicos"
-        android:roundIcon="@drawable/logo"
+        android:icon="@mipmap/ic_launcher_logo_final"
+        android:label="mymedicos"
+        android:roundIcon="@drawable/iconlogo"
         android:supportsRtl="true"
         android:theme="@style/Theme.My_medicos"
         tools:replace="android:label"
         tools:targetApi="31" >
         <activity
-            android:name=".activities.HomeSideActivity"
+            android:name=".activities.home.PrivacyActivity"
             android:exported="false" />
         <activity
-            android:name=".activities.drawer.drawercontent.settings.insiders.TermsandConditionsActivity"
+            android:name=".activities.home.SettingsActivity"
+            android:exported="false" />
+        <activity
+            android:name=".activities.home.HomeSideActivity"
+            android:exported="false" />
+        <activity
+            android:name=".activities.home.TermsandConditionsActivity"
             android:exported="false" />
         <activity
             android:name=".activities.publications.activity.UserContentActivity"
@@ -47,12 +53,11 @@
             android:exported="false" />
         <activity
             android:name=".activities.pg.activites.detailed.QuestionBankDetailedActivity"
-            android:exported="false" />
-<!--        <activity-->
-<!--            android:name=".activities.drawer.DrawerActivity"-->
-<!--            android:exported="false"-->
-<!--            android:label="@string/title_activity_drawer"-->
-<!--            android:theme="@style/Theme.My_medicos.NoActionBar" />-->
+            android:exported="false" /> <!-- <activity -->
+        <!-- android:name=".activities.drawer.DrawerActivity" -->
+        <!-- android:exported="false" -->
+        <!-- android:label="@string/title_activity_drawer" -->
+        <!-- android:theme="@style/Theme.My_medicos.NoActionBar" /> -->
         <activity
             android:name=".activities.memes.MemeActivity"
             android:exported="false" />
@@ -94,7 +99,7 @@
             android:exported="false" />
         <activity
             android:name=".activities.login.FirstActivity"
-            android:exported="false"/>
+            android:exported="false" />
         <activity
             android:name=".activities.ug.UgPostInsiderActivity"
             android:exported="false" />
