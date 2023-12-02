@@ -48,11 +48,11 @@
         <activity
             android:name=".activities.pg.activites.detailed.QuestionBankDetailedActivity"
             android:exported="false" />
-        <activity
-            android:name=".activities.drawer.DrawerActivity"
-            android:exported="false"
-            android:label="@string/title_activity_drawer"
-            android:theme="@style/Theme.My_medicos.NoActionBar" />
+<!--        <activity-->
+<!--            android:name=".activities.drawer.DrawerActivity"-->
+<!--            android:exported="false"-->
+<!--            android:label="@string/title_activity_drawer"-->
+<!--            android:theme="@style/Theme.My_medicos.NoActionBar" />-->
         <activity
             android:name=".activities.memes.MemeActivity"
             android:exported="false" />
@@ -94,8 +94,7 @@
             android:exported="false" />
         <activity
             android:name=".activities.login.FirstActivity"
-            android:exported="false"
-            android:theme="@style/AppTheme.Light" />
+            android:exported="false"/>
         <activity
             android:name=".activities.ug.UgPostInsiderActivity"
             android:exported="false" />

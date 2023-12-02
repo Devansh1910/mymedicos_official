@@ -46,51 +46,66 @@
                     android:src="@drawable/final_logo" />
 
                 <LinearLayout
-                    android:id="@+id/opensidehomedrawer"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="end"
-                    android:layout_marginEnd="10dp"
+                    android:gravity="center"
                     android:orientation="horizontal">
 
-                    <de.hdodenhof.circleimageview.CircleImageView
-                        android:id="@+id/circularImageView"
-                        android:layout_width="45dp"
-                        android:layout_height="45dp"
-                        android:layout_gravity="center"
-                        android:src="@drawable/img_10" />
-
-                    <FrameLayout
-                        android:id="@+id/verifieduser"
+                    <ImageView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_gravity="center">
+                        android:layout_marginEnd="@dimen/_8sdp"
+                        android:src="@drawable/notificationlogo" />
+
+                    <LinearLayout
+                        android:id="@+id/opensidehomedrawer"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="end"
+                        android:layout_marginEnd="10dp"
+                        android:orientation="horizontal">
 
                         <de.hdodenhof.circleimageview.CircleImageView
-                            android:id="@+id/circularImageViewVerified"
-                            android:layout_width="40dp"
-                            android:layout_height="40dp"
-                            android:src="@drawable/img_10" />
-
-                        <ImageView
-                            android:layout_width="12dp"
-                            android:layout_height="12dp"
-                            android:layout_gravity="bottom|end"
-                            android:layout_marginBottom="0dp"
-                            android:elevation="10dp"
-                            android:layout_marginEnd="0dp"
-                            android:src="@drawable/greenlogo" />
-
-                        <de.hdodenhof.circleimageview.CircleImageView
-                            android:id="@+id/verifiedprofilebehere"
+                            android:id="@+id/circularImageView"
                             android:layout_width="45dp"
                             android:layout_height="45dp"
                             android:layout_gravity="center"
-                            android:padding="1dp"
-                            android:src="@drawable/img_10"
-                            android:background="@drawable/greenbk" />
+                            android:src="@drawable/img_10" />
 
-                    </FrameLayout>
+                        <FrameLayout
+                            android:id="@+id/verifieduser"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center">
+
+                            <de.hdodenhof.circleimageview.CircleImageView
+                                android:id="@+id/circularImageViewVerified"
+                                android:layout_width="40dp"
+                                android:layout_height="40dp"
+                                android:src="@drawable/img_10" />
+
+                            <ImageView
+                                android:layout_width="14dp"
+                                android:layout_height="14dp"
+                                android:layout_gravity="bottom|end"
+                                android:layout_marginBottom="0dp"
+                                android:elevation="10dp"
+                                android:layout_marginEnd="0dp"
+                                android:src="@drawable/greenlogo" />
+
+                            <de.hdodenhof.circleimageview.CircleImageView
+                                android:id="@+id/verifiedprofilebehere"
+                                android:layout_width="45dp"
+                                android:layout_height="45dp"
+                                android:layout_gravity="center"
+                                android:padding="1dp"
+                                android:src="@drawable/img_10"
+                                android:background="@drawable/greenbk" />
+
+                        </FrameLayout>
+
+                    </LinearLayout>
 
                 </LinearLayout>
 
@@ -112,33 +127,28 @@
         <com.google.android.material.bottomappbar.BottomAppBar
             android:id="@+id/bottomappabar"
             android:layout_width="match_parent"
-            android:layout_height="@dimen/_60sdp"
+            android:layout_height="wrap_content"
             android:layout_gravity="bottom"
             android:gravity="bottom"
-            app:itemActiveIndicatorStyle="@color/blue"
+            android:backgroundTint="@color/green"
+            app:itemActiveIndicatorStyle="@color/green"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="1.0"
             tools:ignore="BottomAppBar">
 
             <com.google.android.material.bottomnavigation.BottomNavigationView
                 android:id="@+id/bottomNavigationView"
                 android:layout_width="match_parent"
-                android:layout_height="@dimen/_60sdp"
+                android:layout_height="match_parent"
+                android:background="@color/green"
                 android:layout_gravity="bottom"
+                app:itemHorizontalTranslationEnabled="true"
+                app:itemIconSize="@dimen/_25sdp"
                 app:itemActiveIndicatorStyle="@drawable/item_tint_selector"
                 app:itemIconTint="@drawable/item_tint_selector"
                 app:itemTextColor="@drawable/item_tint_selector"
-                app:labelVisibilityMode="labeled"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.0"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintVertical_bias="0.996"
+                app:labelVisibilityMode="unlabeled"
                 app:menu="@menu/bottom_menu">
 
             </com.google.android.material.bottomnavigation.BottomNavigationView>

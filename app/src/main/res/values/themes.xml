@@ -1,31 +1,18 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
     <!-- Base application theme. -->
-    <style name="Base.Theme.My_medicos" parent="Theme.Material3.DayNight.NoActionBar">
+    <style name="Base.Theme.My_medicos" parent="Theme.Material3.Light.NoActionBar">
         <!-- Customize your light theme here. -->
-        <item name="colorSecondary">#6BB7FDE5</item>
-        <!-- Other customizations -->
-        <!-- Set the status bar color to black -->
-        <item name="android:statusBarColor">@android:color/black</item>
+        <item name="colorPrimary">@color/green</item>
+        <item name="android:navigationBarColor">@color/green</item>
+        <item name="android:windowLightNavigationBar" tools:ignore="NewApi">false</item> <!-- Set to false for dark icons -->
     </style>
 
     <style name="Theme.My_medicos" parent="Base.Theme.My_medicos" />
 
-    <!-- Light Mode Theme -->
-    <style name="AppTheme.Light" parent="Theme.AppCompat.Light">
-        <!-- Customize attributes for light mode -->
-    </style>
-
-    <style name="Theme.My_medicos.NoActionBar">
-        <item name="windowActionBar">false</item>
-        <item name="windowNoTitle">true</item>
-    </style>
-
-    <!-- Add this to your styles.xml file -->
     <style name="Theme.My_medicos.ProductDetail" parent="Base.Theme.My_medicos">
         <item name="windowActionBar">true</item>
         <item name="windowNoTitle">false</item>
     </style>
-
 
     <style name="Theme.My_medicos.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
 

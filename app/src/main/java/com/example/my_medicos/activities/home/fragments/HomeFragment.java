@@ -4,6 +4,7 @@ import static android.content.ContentValues.TAG;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
@@ -17,6 +18,7 @@ import android.widget.TextView;
 import android.widget.ViewFlipper;
 
 import androidx.annotation.NonNull;
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -28,6 +30,7 @@ import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.example.my_medicos.R;
 import com.example.my_medicos.activities.cme.CmeActivity;
+import com.example.my_medicos.activities.cme.CmeDetailsActivity;
 import com.example.my_medicos.activities.job.JobsActivity;
 import com.example.my_medicos.activities.memes.MemeActivity;
 import com.example.my_medicos.activities.news.NewsActivity;
@@ -43,6 +46,9 @@ import com.example.my_medicos.adapter.cme.items.cmeitem2;
 import com.example.my_medicos.adapter.job.MyAdapter;
 import com.example.my_medicos.adapter.job.items.jobitem;
 import com.example.my_medicos.databinding.FragmentHomeBinding;
+import com.google.android.exoplayer2.ExoPlayer;
+import com.google.android.exoplayer2.MediaItem;
+import com.google.android.exoplayer2.ui.StyledPlayerView;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
@@ -74,6 +80,10 @@ public class HomeFragment extends Fragment {
     MyAdapter2 adaptercme;
     RecyclerView recyclerViewjob;
     RecyclerView recyclerViewcme;
+    private ExoPlayer player;
+
+    String videoURL = "https://res.cloudinary.com/dmzp6notl/video/upload/v1701512080/videoforhome_gzfpen.mp4";
+
     TextView home1,home2,home3,personname;
     TextView navigatetojobs, navigatetocme, navigatecmeinsider;
 
@@ -89,6 +99,9 @@ public class HomeFragment extends Fragment {
         binding = FragmentHomeBinding.inflate(inflater, container, false);
         View rootView = binding.getRoot();
 
+        StyledPlayerView playerView = rootView.findViewById(R.id.player_view_home);
+        player = new ExoPlayer.Builder(requireContext()).build();
+        playerView.setPlayer(player);
 
         recyclerViewjob = rootView.findViewById(R.id.recyclerview_job1);
 
@@ -146,9 +159,6 @@ public class HomeFragment extends Fragment {
                 startActivity(i);
             }
         });
-
-
-
         update = rootView.findViewById(R.id.university);
 
         update.setOnClickListener(new View.OnClickListener() {
@@ -379,6 +389,20 @@ public class HomeFragment extends Fragment {
                     startActivity(i);
                 }
             });
+            player = new ExoPlayer.Builder(requireContext()).build();
+            playerView.setPlayer(player);
+
+            MediaItem mediaItem = null;
+            if (videoURL != null) {
+                mediaItem = MediaItem.fromUri(videoURL);
+            }
+
+            if (mediaItem != null) {
+                player.setMediaItem(mediaItem);
+                player.prepare();
+                player.setPlayWhenReady(true);
+            }
+
             initHomeSlider();
             if (!dataLoaded) {
                 fetchdata();
@@ -387,6 +411,17 @@ public class HomeFragment extends Fragment {
         }
         return rootView;
     }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        if (player != null) {
+            player.setPlayWhenReady(false);
+            player.release();
+            player = null;
+        }
+    }
+
     void getsliderHome() {
         RequestQueue queue = Volley.newRequestQueue(requireContext()); // Use requireContext()
 
@@ -492,6 +527,7 @@ public class HomeFragment extends Fragment {
         }
     };
 
+    @SuppressLint("UseCompatLoadingForDrawables")
     private void addDots() {
         for (int i = 0; i < viewFlipper.getChildCount(); i++) {
             ImageView dot = new ImageView(requireContext());
@@ -506,8 +542,63 @@ public class HomeFragment extends Fragment {
         updateDots(0);
     }
 
+    @Override
+    public void onDetach() {
+        super.onDetach();
+        handler.removeCallbacksAndMessages(null); // Remove all callbacks and messages
+    }
+
+    // Example with AsyncTask
+    private MyAsyncTask myAsyncTask;
+
+// Your fragment methods...
+
+    private void startAsyncTask() {
+        // Check if the fragment is attached to an activity
+        if (isAdded()) {
+            // Start the AsyncTask
+            myAsyncTask = new MyAsyncTask();
+            myAsyncTask.execute();
+        }
+    }
+
+    // AsyncTask example
+    private class MyAsyncTask extends AsyncTask<Void, Void, Void> {
+
+        @Override
+        protected Void doInBackground(Void... voids) {
+            // Check if the fragment is still attached
+            if (isAdded()) {
+                // Your background task logic here
+            }
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(Void result) {
+            // Check if the fragment is still attached before updating UI
+            if (isAdded()) {
+                // Update UI or perform other tasks
+            }
+        }
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        // Cancel the AsyncTask if it's still running
+        if (myAsyncTask != null && !myAsyncTask.isCancelled()) {
+            myAsyncTask.cancel(true);
+        }
+    }
+
+
     @SuppressLint("UseCompatLoadingForDrawables")
     private void updateDots(int currentDotIndex) {
+        if (!isAdded()) {
+            return; // Fragment is not attached to a context
+        }
+
         for (int i = 0; i < dotsLayout.getChildCount(); i++) {
             ImageView dot = (ImageView) dotsLayout.getChildAt(i);
             dot.setImageDrawable(getResources().getDrawable(
@@ -515,6 +606,5 @@ public class HomeFragment extends Fragment {
             ));
         }
     }
-
 
 }

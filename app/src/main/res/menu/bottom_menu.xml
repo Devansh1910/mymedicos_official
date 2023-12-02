@@ -2,25 +2,19 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
     <item
         android:title="Home"
-        android:icon="@drawable/outline_home_24"
+        android:icon="@drawable/homelogobottom"
         android:id="@+id/home">
     </item>
 
     <item
         android:title="Club"
-        android:icon="@drawable/outline_groups_24"
+        android:icon="@drawable/messagelogobottom"
         android:id="@+id/work">
     </item>
 
     <item
-        android:title="SlideShow"
-        android:icon="@drawable/slide"
+        android:title="Slide Share"
+        android:icon="@drawable/slidesharelogo"
         android:id="@+id/slideshare">
-    </item>
-
-    <item
-        android:title="Profile"
-        android:icon="@drawable/baseline_person_outline_24"
-        android:id="@+id/network">
     </item>
 </menu>
