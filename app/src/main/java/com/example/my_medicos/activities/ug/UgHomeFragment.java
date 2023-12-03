@@ -1,6 +1,7 @@
 package com.example.my_medicos.activities.ug;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -45,6 +46,7 @@ public class UgHomeFragment extends Fragment {
 
         binding = FragmentUgHomeBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
+        Log.d("commit","commit");
 
         recyclerView = root.findViewById(R.id.ug_recycleview);
         String[] specialitiesArray = getResources().getStringArray(R.array.specialityjobs);
