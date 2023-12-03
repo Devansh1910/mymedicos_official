@@ -1,17 +1,30 @@
 package com.example.my_medicos.activities.home.fragments;
 
+import android.annotation.SuppressLint;
+import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+
+import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.example.my_medicos.R;
+import com.example.my_medicos.activities.publications.activity.PublicationActivity;
+import com.example.my_medicos.activities.publications.activity.insiders.CategoryPublicationInsiderActivity;
+import com.example.my_medicos.activities.publications.adapters.CategoryAdapter;
+import com.example.my_medicos.activities.publications.model.Category;
 import com.example.my_medicos.activities.slideshow.Slideshow;
 import com.example.my_medicos.activities.slideshow.SlideshowAdapter;
 import com.example.my_medicos.activities.utils.ConstantsDashboard;
@@ -27,6 +40,8 @@ public class SlideshowFragment extends Fragment {
 
     private FragmentSlideshowBinding binding;
     private SwipeRefreshLayout swipeRefreshLayout;
+    CategoryAdapter categoryAdapterslideshow;
+    ArrayList<Category> categoriesslideshow;
     private SlideshowAdapter slideshowAdapter;
     private ArrayList<Slideshow> slideshows;
 
@@ -39,6 +54,7 @@ public class SlideshowFragment extends Fragment {
         swipeRefreshLayout = rootView.findViewById(R.id.swipeRefreshLayout);
         swipeRefreshLayout.setOnRefreshListener(this::refreshData);
 
+        initCategoriesSlideshow();
         initSlideshowSlider();
         initSliderContent();
 
@@ -88,6 +104,89 @@ public class SlideshowFragment extends Fragment {
             }
         }, error -> {
             // Handle error
+        });
+
+        queue.add(request);
+    }
+
+    void initCategoriesSlideshow() {
+        categoriesslideshow = new ArrayList<>();
+        categoryAdapterslideshow = new CategoryAdapter(requireContext(), categoriesslideshow);
+
+        getCategoriesSlideshow();
+
+        GridLayoutManager layoutManager = new GridLayoutManager(requireContext(), 2);
+        binding.slideshowpptlistcategory.setLayoutManager(layoutManager);
+        binding.slideshowpptlistcategory.setAdapter(categoryAdapterslideshow);
+    }
+    void getCategoriesSlideshow() {
+
+        RequestQueue queue = Volley.newRequestQueue(requireContext());
+        StringRequest request = new StringRequest(Request.Method.GET, ConstantsDashboard.GET_SPECIALITY, new Response.Listener<String>() {
+            @SuppressLint("NotifyDataSetChanged")
+            @Override
+            public void onResponse(String response) {
+                try {
+                    Log.e("err", response);
+                    JSONObject mainObj = new JSONObject(response);
+                    if (mainObj.getString("status").equals("success")) {
+                        JSONArray categoriesArray = mainObj.getJSONArray("data");
+                        int categoriesCount = Math.min(categoriesArray.length(), 25);
+                        for (int i = 0; i < categoriesCount; i++) {
+                            JSONObject object = categoriesArray.getJSONObject(i);
+                            Category category = new Category(
+                                    object.getString("id"),
+                                    object.getInt("priority")
+                            );
+                            categoriesslideshow.add(category);
+                            Log.e("Something went wrong..",object.getString("priority"));
+                        }
+//                        if (categoriesArray.length() > 5) {
+//                            Category moreCategory = new Category(
+//                                    "More",
+//                                    , // Replace with the actual icon for the "More" category
+//                                    "#CCCCCC", // Replace with the color for the "More" category
+//                                    "View More Categories",
+//                                    -1 // Replace with a unique ID for the "More" category
+//                            );
+//                            categories.add(moreCategory);
+//                        }
+                        categoryAdapterslideshow.notifyDataSetChanged();
+                        binding.slideshowpptlistcategory.addOnItemTouchListener(new RecyclerView.OnItemTouchListener() {
+                            @Override
+                            public boolean onInterceptTouchEvent(@NonNull RecyclerView rv, @NonNull MotionEvent e) {
+                                View child = rv.findChildViewUnder(e.getX(), e.getY());
+                                int position = rv.getChildAdapterPosition(child);
+
+                                if (position != RecyclerView.NO_POSITION) {
+                                    if (position == categoriesslideshow.size() - 1 && categoriesslideshow.get(position).getPriority() == -1) {
+                                        // Redirect to CategoryPublicationInsiderActivity
+                                        Intent intent = new Intent(requireContext(), CategoryPublicationInsiderActivity.class);
+                                        startActivity(intent);
+                                    } else {
+
+                                    }
+                                }
+                                return false;
+                            }
+                            @Override
+                            public void onTouchEvent(@NonNull RecyclerView rv, @NonNull MotionEvent e) {}
+
+                            @Override
+                            public void onRequestDisallowInterceptTouchEvent(boolean disallowIntercept) {}
+                        });
+                        categoryAdapterslideshow.notifyDataSetChanged();
+                    } else {
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+
+            }
         });
 
         queue.add(request);

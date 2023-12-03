@@ -77,14 +77,11 @@ public class HomeFragment extends Fragment {
     MyAdapter2 adaptercme;
     String Speciality;
     CardView cardjobs,cardcme;
-    TextView home1,home2,home3,personname;
+    TextView home1,home2,home3,personname,personsuffix;
     RecyclerView recyclerViewjob;
     RecyclerView recyclerViewcme;
     private ExoPlayer player;
-
     String videoURL = "https://res.cloudinary.com/dmzp6notl/video/upload/v1701512080/videoforhome_gzfpen.mp4";
-
-
     TextView navigatetojobs, navigatetocme, navigatecmeinsider;
 
     private ViewFlipper viewFlipper;
@@ -116,6 +113,8 @@ public class HomeFragment extends Fragment {
         recyclerViewcme = rootView.findViewById(R.id.recyclerview_cme1);
 
         personname = rootView.findViewById(R.id.personnamewillbehere);
+
+        personsuffix = rootView.findViewById(R.id.personsuffix);
 
 
         ugexams = rootView.findViewById(R.id.ugexams);
@@ -575,7 +574,10 @@ public class HomeFragment extends Fragment {
             Log.d("usernaem", username);
         }
         String username = preferences.get("username", "");
+        String userPrefix = preferences.get("prefix", "");
         personname.setText(username);
+        personsuffix.setText(userPrefix);
+
     }
 
     private void initHomeSlider() {
@@ -662,7 +664,7 @@ public class HomeFragment extends Fragment {
     @SuppressLint("UseCompatLoadingForDrawables")
     private void updateDots(int currentDotIndex) {
         if (!isAdded()) {
-            return; // Fragment is not attached to a context
+            return;
         }
 
         for (int i = 0; i < dotsLayout.getChildCount(); i++) {
@@ -674,4 +676,3 @@ public class HomeFragment extends Fragment {
     }
 
 }
-

@@ -1,16 +1,17 @@
 package com.example.my_medicos.activities.publications.activity;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.GridLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.WindowManager;
+
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -35,7 +36,9 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 
-public class  PublicationActivity extends AppCompatActivity {
+public class PublicationActivity extends AppCompatActivity {
+
+    private static final int REQUEST_CODE_SCREENSHOT = 1001;
 
     ActivityPublicationBinding binding;
     CategoryAdapter categoryAdapter;
@@ -47,14 +50,14 @@ public class  PublicationActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        getWindow().setFlags(WindowManager.LayoutParams.FLAG_SECURE, WindowManager.LayoutParams.FLAG_SECURE);
+
         binding = ActivityPublicationBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
-
 
         binding.searchBar.setOnSearchActionListener(new MaterialSearchBar.OnSearchActionListener() {
             @Override
             public void onSearchStateChanged(boolean enabled) {
-
             }
 
             @Override
@@ -66,7 +69,6 @@ public class  PublicationActivity extends AppCompatActivity {
 
             @Override
             public void onButtonClicked(int buttonCode) {
-
             }
         });
 

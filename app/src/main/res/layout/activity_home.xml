@@ -148,7 +148,7 @@
                 app:itemActiveIndicatorStyle="@drawable/item_tint_selector"
                 app:itemIconTint="@drawable/item_tint_selector"
                 app:itemTextColor="@drawable/item_tint_selector"
-                app:labelVisibilityMode="unlabeled"
+                app:labelVisibilityMode="labeled"
                 app:menu="@menu/bottom_menu">
 
             </com.google.android.material.bottomnavigation.BottomNavigationView>
