@@ -102,6 +102,14 @@
                     android:textColor="@android:color/darker_gray"
                     android:paddingEnd="@dimen/_20sdp"/>
             </LinearLayout>
+            <Spinner
+                android:id="@+id/ugtype"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/_40sdp"
+                android:layout_marginTop="@dimen/_10sdp"
+                android:layout_marginStart="@dimen/_20sdp"
+                android:layout_marginEnd="@dimen/_20sdp"
+                android:background="@drawable/spinner_back" />
 
             <Spinner
                 android:id="@+id/ugspeciality"
@@ -120,6 +128,14 @@
                 android:layout_marginStart="@dimen/_20sdp"
                 android:layout_marginEnd="@dimen/_20sdp"
                 android:background="@drawable/spinner_back" />
+            <Spinner
+                android:id="@+id/ugcity"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/_40sdp"
+                android:layout_marginTop="@dimen/_10sdp"
+                android:layout_marginStart="@dimen/_20sdp"
+                android:layout_marginEnd="@dimen/_20sdp"
+                android:background="@drawable/spinner_back" />
 
             <EditText
                 android:id="@+id/ug_reference"
@@ -132,50 +148,41 @@
                 android:hint="Enter the Referece (Optional)"
                 android:paddingStart="@dimen/_10sdp" />
 
+
             <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
                 android:orientation="horizontal">
-                <androidx.cardview.widget.CardView
-                    android:id="@+id/btnAccessStorage"
-                    android:layout_width="95dp"
-                    android:layout_height="71dp"
-                    android:layout_marginTop="@dimen/_5ssp"
-                    android:backgroundTint="@color/white"
-                    android:elevation="4dp"
 
-                    android:outlineAmbientShadowColor="@color/white"
-                    android:outlineSpotShadowColor="@color/white"
-                    android:padding="8dp">
-
-
-                    <LinearLayout
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center"
-                        android:orientation="vertical">
-
-
-                        <ImageView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="center"
-                            android:src="@drawable/upload" />
-
-                    </LinearLayout>
-
-                </androidx.cardview.widget.CardView>
                 <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Upload"
+                    android:id="@+id/addPdfug"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="match_parent"
+                    android:paddingHorizontal="@dimen/_10ssp"
                     android:textStyle="bold"
+                    android:paddingVertical="@dimen/_10ssp"
+                    android:gravity="center"
+                    android:textSize="@dimen/_12ssp"
+                    android:text="Attach a Document"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    android:textColor="#BAB2B2"/>
 
-                    android:textSize="@dimen/_17sdp"
-                    android:layout_gravity="center">
+                <TextView
+                    android:id="@+id/uploadpdfbtnug"
+                    android:layout_width="0dp"
+                    android:layout_weight="0.5"
+                    android:layout_height="match_parent"
+                    android:paddingHorizontal="@dimen/_10ssp"
+                    android:textStyle="bold"
+                    android:paddingVertical="@dimen/_10ssp"
+                    android:gravity="center"
+                    android:textSize="@dimen/_12ssp"
+                    android:text="Upload"
+                    android:background="@color/green"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    android:textColor="#FFFFFF"/>
 
-                </TextView>
             </LinearLayout>
 
             <Button

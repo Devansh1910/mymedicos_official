@@ -94,6 +94,9 @@ public class AdapterforApplicants extends RecyclerView.Adapter<AdapterforApplica
             // Set destination in the external public directory
             request.setDestinationInExternalPublicDir(Environment.DIRECTORY_DOWNLOADS, "your_pdf_filename.pdf");
 
+            // Set notification visibility to show the download progress in the notification bar
+            request.setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_COMPLETED);
+
             // Get download service and enqueue file
             DownloadManager manager = (DownloadManager) context.getSystemService(Context.DOWNLOAD_SERVICE);
             if (manager != null) {
@@ -103,5 +106,6 @@ public class AdapterforApplicants extends RecyclerView.Adapter<AdapterforApplica
             // Optionally, you can show a toast or notification to indicate the download has started
             Toast.makeText(context, "Download started", Toast.LENGTH_SHORT).show();
         }
+
     }
 }

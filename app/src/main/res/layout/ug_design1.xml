@@ -70,6 +70,7 @@
                     android:maxLines="1"
                     android:textColor="#8F8D8D"/>
 
+
             </LinearLayout>
 
             <androidx.cardview.widget.CardView
@@ -90,12 +91,27 @@
                         android:id="@+id/dr_ug_title"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Hellobbbbbbbrrrrrrrrrrrrrrrrrnnbrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrr"
+                        android:text="Hellob"
                         android:lineHeight="@dimen/_14sdp"
                         android:textSize="@dimen/_14sdp"
                         android:textColor="#817E7E"
                         android:textStyle="bold"
                         android:layout_gravity="center"/>
+                    <TextView
+                        android:id="@+id/dr_pdf"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="2"
+                        android:layout_marginStart="@dimen/_5ssp"
+                        android:gravity="center"
+                        android:textStyle="bold"
+                        android:clickable="true"
+                        android:textSize="@dimen/_10sdp"
+                        android:paddingHorizontal="@dimen/_2ssp"
+                        android:paddingVertical="@dimen/_2ssp"
+                        android:text="pdfdownload"
+                        android:maxLines="1"
+                        android:textColor="#1C1C1C"/>
 
                 </LinearLayout>
             </androidx.cardview.widget.CardView>

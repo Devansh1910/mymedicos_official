@@ -131,6 +131,12 @@
         <item>Offline</item>
 
     </string-array>
+    <string-array name="ugtype">
+        <item>Select mode</item>
+        <item>TextBook</item>
+        <item>Resources</item>
+
+    </string-array>
     <string-array name="Job_type">
         <item>Select Type</item>
         <item>Regular</item>

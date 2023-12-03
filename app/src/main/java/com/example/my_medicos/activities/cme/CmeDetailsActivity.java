@@ -13,16 +13,12 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.util.Log;
 import android.view.View;
-import android.webkit.WebChromeClient;
-import android.webkit.WebView;
-import android.webkit.WebViewClient;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
-import android.widget.VideoView;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -487,13 +483,19 @@ public class CmeDetailsActivity extends AppCompatActivity {
         // Set destination in the external public directory
         request.setDestinationInExternalPublicDir(Environment.DIRECTORY_DOWNLOADS, "your_pdf_filename.pdf");
 
+        // Set notification visibility to show the download progress in the notification bar
+        request.setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_COMPLETED);
+
         // Get download service and enqueue file
         DownloadManager manager = (DownloadManager) getSystemService(Context.DOWNLOAD_SERVICE);
-        manager.enqueue(request);
+        if (manager != null) {
+            manager.enqueue(request);
+        }
 
         // Optionally, you can show a toast or notification to indicate the download has started
         Toast.makeText(this, "Download started", Toast.LENGTH_SHORT).show();
     }
+
 
     // Method to save the reservation status
     private void saveReservationStatus(String userId, String eventId, boolean isReserved) {

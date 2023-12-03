@@ -44,8 +44,6 @@ import com.example.my_medicos.adapter.job.MyAdapter;
 import com.example.my_medicos.adapter.job.items.jobitem;
 import com.example.my_medicos.databinding.FragmentHomeBinding;
 import com.google.android.exoplayer2.ExoPlayer;
-import com.google.android.exoplayer2.MediaItem;
-import com.google.android.exoplayer2.ui.StyledPlayerView;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
@@ -98,10 +96,10 @@ public class HomeFragment extends Fragment {
                              Bundle savedInstanceState) {
         binding = FragmentHomeBinding.inflate(inflater, container, false);
         View rootView = binding.getRoot();
-
-        StyledPlayerView playerView = rootView.findViewById(R.id.player_view_home);
-        player = new ExoPlayer.Builder(requireContext()).build();
-        playerView.setPlayer(player);
+//
+//        StyledPlayerView playerView = rootView.findViewById(R.id.player_view_home);
+//        player = new ExoPlayer.Builder(requireContext()).build();
+//        playerView.setPlayer(player);
 
         recyclerViewjob = rootView.findViewById(R.id.recyclerview_job1);
 
@@ -310,11 +308,13 @@ public class HomeFragment extends Fragment {
                                 String Title = ((String) dataMap.get("JOB Title"));
                                 String Category = ((String) dataMap.get("Job type"));
                                 String documentid = ((String) dataMap.get("documentId"));
-                                int a = Speciality.compareTo(speciality);
-                                if (a==0) {
+                                if ((speciality!=null)&&(Speciality!=null)) {
+                                    int a = Speciality.compareTo(speciality);
+                                    if (a == 0) {
 
-                                    jobitem c = new jobitem(speciality, Organiser, Location, date, Title, Category, documentid);
-                                    joblist.add(c);
+                                        jobitem c = new jobitem(speciality, Organiser, Location, date, Title, Category, documentid);
+                                        joblist.add(c);
+                                    }
                                 }
                                 Log.d("speciality2", Organiser);
                                 Log.d("speciality2", Location);
@@ -455,19 +455,19 @@ public class HomeFragment extends Fragment {
                     startActivity(i);
                 }
             });
-            player = new ExoPlayer.Builder(requireContext()).build();
-            playerView.setPlayer(player);
+//            player = new ExoPlayer.Builder(requireContext()).build();
+//            playerView.setPlayer(player);
 
-            MediaItem mediaItem = null;
-            if (videoURL != null) {
-                mediaItem = MediaItem.fromUri(videoURL);
-            }
-
-            if (mediaItem != null) {
-                player.setMediaItem(mediaItem);
-                player.prepare();
-                player.setPlayWhenReady(true);
-            }
+//            MediaItem mediaItem = null;
+//            if (videoURL != null) {
+//                mediaItem = MediaItem.fromUri(videoURL);
+//            }
+//
+//            if (mediaItem != null) {
+//                player.setMediaItem(mediaItem);
+//                player.prepare();
+//                player.setPlayWhenReady(true);
+//            }
 
             initHomeSlider();
             if (!dataLoaded) {

@@ -8,11 +8,14 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.my_medicos.R;
 import com.example.my_medicos.activities.ug.model.UgExamViewModel;
+import com.example.my_medicos.adapter.job.items.jobitem2;
+import com.example.my_medicos.adapter.ug.MyAdapter8;
 import com.example.my_medicos.adapter.ug.UgAdapter1;
 import com.example.my_medicos.adapter.ug.items.ugitem1;
 import com.example.my_medicos.databinding.FragmentUgHomeBinding;
@@ -24,12 +27,14 @@ import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
 public class UgHomeFragment extends Fragment {
     private FragmentUgHomeBinding binding;
     private RecyclerView recyclerView;
+    RecyclerView recyclerView2;
     private FirebaseFirestore db= FirebaseFirestore.getInstance();
     private String field1, field2, field3, field4;
 
@@ -42,6 +47,26 @@ public class UgHomeFragment extends Fragment {
         View root = binding.getRoot();
 
         recyclerView = root.findViewById(R.id.ug_recycleview);
+        String[] specialitiesArray = getResources().getStringArray(R.array.specialityjobs);
+
+// Convert the string array into a List
+        List<String> specialitiesList = Arrays.asList(specialitiesArray);
+
+// Initialize your joblist2
+        List<jobitem2> joblist2 = new ArrayList<jobitem2>();
+
+// Populate joblist2 with subspecialities
+        for (String subspeciality : specialitiesList) {
+            joblist2.add(new jobitem2(subspeciality));
+        }
+
+
+// Set up your RecyclerView
+        recyclerView2 = root.findViewById(R.id.recyclerview6);
+        int spanCount = 2; // Number of items per row
+        GridLayoutManager gridLayoutManager = new GridLayoutManager(getContext(), spanCount);
+        recyclerView2.setLayoutManager(gridLayoutManager);
+        recyclerView2.setAdapter(new MyAdapter8(getContext(), joblist2));
         // Fetch data from Firestore and populate the RecyclerView
         fetchData();
 
@@ -62,28 +87,6 @@ public class UgHomeFragment extends Fragment {
                             if (task.isSuccessful()) {
                                 for (QueryDocumentSnapshot document : task.getResult()) {
                                     Map<String, Object> dataMap = document.getData();
-//                                    String Time = document.getString("Selected Time");
-
-                                    // Check if Time is not null or empty
-//                                        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HH:mm");
-//                                        DateTimeFormatter formatter1 = DateTimeFormatter.ofPattern("yyyy-MM-dd");
-//                                        String date = document.getString("Selected Date");
-//
-//                                        LocalTime parsedTime = null;
-//                                        LocalDate parsedDate = null;
-//                                        try {
-////                                            parsedTime = LocalTime.parse(Time, formatter);
-////                                            parsedDate = LocalDate.parse(date, formatter1);
-//                                        } catch (java.time.format.DateTimeParseException e) {
-//                                            // Handle parsing error
-//                                            e.printStackTrace();
-//                                        }
-//
-//                                        LocalTime currentTime = LocalTime.now();
-//                                        LocalDate currentDate = LocalDate.now();
-//
-//                                        int r = parsedTime.compareTo(currentTime);
-//                                        int r1 = parsedDate.compareTo(currentDate);
 
 
                                     field3 = ((String) dataMap.get("UG Title"));
@@ -91,8 +94,9 @@ public class UgHomeFragment extends Fragment {
                                     field1 = (String) dataMap.get("UG Organiser");
                                     field2 = ((String) dataMap.get("Speciality"));
                                     String field5=((String) dataMap.get("Date"));
+                                    String pdf=((String) dataMap.get("pdf"));
 
-                                    ugitem1 u = new ugitem1(field1, field2, 5, field3, field4,field5);
+                                    ugitem1 u = new ugitem1(field1, field2, pdf, field3, field4,field5);
                                     items.add(u);
 
 

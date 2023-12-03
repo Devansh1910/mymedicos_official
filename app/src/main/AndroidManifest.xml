@@ -101,6 +101,9 @@
             android:name=".activities.login.FirstActivity"
             android:exported="false" />
         <activity
+            android:name=".activities.ug.uginsiderActivty"
+            android:exported="false" />
+        <activity
             android:name=".activities.ug.UgPostInsiderActivity"
             android:exported="false" />
         <activity
