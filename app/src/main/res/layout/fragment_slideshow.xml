@@ -67,7 +67,45 @@
                             android:textStyle="bold" />
 
                         <TextView
-                            android:id="@+id/navigatejobs"
+                            android:layout_width="0dp"
+                            android:layout_weight="1"
+                            android:layout_height="wrap_content"
+                            android:text="View All"
+                            android:drawablePadding="@dimen/_8ssp"
+                            android:drawableEnd="@drawable/sidearrow"
+                            android:layout_gravity="center"
+                            android:gravity="end"
+                            android:textColor="#676666"
+                            android:textSize="@dimen/_12ssp"
+                            android:textStyle="bold" />
+                    </LinearLayout>
+
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/slideshowpptlistcategory"
+                        android:layout_width="match_parent"
+                        android:layout_marginTop="@dimen/_5ssp"
+                        android:paddingHorizontal="@dimen/_10ssp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="@dimen/_5sdp"
+                        android:orientation="horizontal">
+
+                    </androidx.recyclerview.widget.RecyclerView>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:paddingTop="@dimen/_5ssp"
+                        android:paddingHorizontal="@dimen/_10ssp"
+                        android:layout_height="wrap_content">
+
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_weight="1"
+                            android:layout_height="wrap_content"
+                            android:text="Explore Popular Slides"
+                            android:textSize="@dimen/_12ssp"
+                            android:textStyle="bold" />
+
+                        <TextView
                             android:layout_width="0dp"
                             android:layout_weight="1"
                             android:layout_height="wrap_content"

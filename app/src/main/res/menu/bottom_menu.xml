@@ -7,7 +7,7 @@
     </item>
 
     <item
-        android:title="Club"
+        android:title="Community"
         android:icon="@drawable/messagelogobottom"
         android:id="@+id/work">
     </item>
