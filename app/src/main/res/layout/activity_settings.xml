@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:orientation="vertical"
     android:layout_height="match_parent"
-    tools:context=".activities.home.SettingsActivity">
+    tools:context=".activities.home.sidedrawer.SettingsActivity">
 
     <com.google.android.material.appbar.AppBarLayout
         android:id="@+id/settingstoolbar_container"

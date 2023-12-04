@@ -41,7 +41,7 @@ public class Personalinfo extends AppCompatActivity {
     EditText medicalcouncilnumber;
 
     public FirebaseDatabase db = FirebaseDatabase.getInstance();
-    public DatabaseReference medicalref = db.getReference().child("Medical_Council_Number_Request");
+    public DatabaseReference medicalref = db.getReference().child("Medical Council Number Request");
     private ProgressDialog progressDialog;
 
     @SuppressLint("MissingInflatedId")
@@ -54,10 +54,8 @@ public class Personalinfo extends AppCompatActivity {
         medicalcouncilnumber = findViewById(R.id.mcnumber);
         verificationbtnformedical = findViewById(R.id.verificationButton);
 
-        // Check if the phone number is already in the Medical Council Number Request
         checkPhoneNumberExists();
 
-        // Show the popup if verification is pending
         if (isVerificationPending()) {
             showVerificationPopup();
         }
@@ -125,7 +123,7 @@ public class Personalinfo extends AppCompatActivity {
                 if (task.isSuccessful()) {
                     String generatedDocId = medicalref.push().getKey();
                     usermap.put("documentId", generatedDocId);
-                    mcnumber.collection("Medical_Council_Number_Request").document(generatedDocId).set(usermap).addOnCompleteListener(new OnCompleteListener<Void>() {
+                    mcnumber.collection("Medical Council Number Request").document(generatedDocId).set(usermap).addOnCompleteListener(new OnCompleteListener<Void>() {
                         @Override
                         public void onComplete(@NonNull Task<Void> task) {
                             if (task.isSuccessful()) {

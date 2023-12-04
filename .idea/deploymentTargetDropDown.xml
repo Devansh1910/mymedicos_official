@@ -2,8 +2,21 @@
 <project version="4">
   <component name="deploymentTargetDropDown">
     <value>
-      <entry key="Medical">
-        <State />
+      <entry key="app">
+        <State>
+          <targetSelectedWithDropDown>
+            <Target>
+              <type value="QUICK_BOOT_TARGET" />
+              <deviceKey>
+                <Key>
+                  <type value="VIRTUAL_DEVICE_PATH" />
+                  <value value="C:\Users\devan\.android\avd\Medium_Phone_API_28.avd" />
+                </Key>
+              </deviceKey>
+            </Target>
+          </targetSelectedWithDropDown>
+          <timeTargetWasSelectedWithDropDown value="2023-12-04T16:57:28.169092500Z" />
+        </State>
       </entry>
     </value>
   </component>

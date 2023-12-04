@@ -20,6 +20,7 @@ import android.widget.ViewFlipper;
 import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
 import androidx.fragment.app.Fragment;
+import androidx.media3.common.MediaItem;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -44,6 +45,7 @@ import com.example.my_medicos.adapter.job.MyAdapter;
 import com.example.my_medicos.adapter.job.items.jobitem;
 import com.example.my_medicos.databinding.FragmentHomeBinding;
 import com.google.android.exoplayer2.ExoPlayer;
+import com.google.android.exoplayer2.ui.StyledPlayerView;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
@@ -94,9 +96,9 @@ public class HomeFragment extends Fragment {
         binding = FragmentHomeBinding.inflate(inflater, container, false);
         View rootView = binding.getRoot();
 //
-//        StyledPlayerView playerView = rootView.findViewById(R.id.player_view_home);
-//        player = new ExoPlayer.Builder(requireContext()).build();
-//        playerView.setPlayer(player);
+        StyledPlayerView playerView = rootView.findViewById(R.id.player_view_home);
+        player = new ExoPlayer.Builder(requireContext()).build();
+        playerView.setPlayer(player);
 
         recyclerViewjob = rootView.findViewById(R.id.recyclerview_job1);
 
@@ -265,19 +267,36 @@ public class HomeFragment extends Fragment {
         });
 
         FirebaseFirestore checking = FirebaseFirestore.getInstance();
-        //......
+// ......
         checking.collection("users")
                 .get()
                 .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                     @Override
-                    public void onComplete(@NonNull Task<QuerySnapshot> task ) {
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
 
                         if (task.isSuccessful()) {
+                            FirebaseAuth auth = FirebaseAuth.getInstance();
+                            FirebaseUser user = auth.getCurrentUser();
+
                             for (QueryDocumentSnapshot document : task.getResult()) {
-
                                 Map<String, Object> dataMap = document.getData();
+                                String phoneNumberFromFirestore = (String) dataMap.get("Phone Number");
 
-                                Speciality=((String) dataMap.get("Interest"));
+                                // Check if the logged-in user's phone number matches the one in Firestore
+//                                if (user != null && user.getPhoneNumber() != null
+//                                        && user.getPhoneNumber().equals(phoneNumberFromFirestore)) {
+//                                    // Skip this document as it belongs to the currently logged-in user
+//                                    continue;
+//                                }
+
+                                // Check if the Interest field matches
+                                String current = (String) dataMap.get("Phone Number");
+                                int a = current.compareTo(user.getPhoneNumber());
+
+                                if (a == 0) {
+                                    Speciality = (String) dataMap.get("Interest");
+                                    Log.d("Speciality", Speciality);
+                                }
                             }
                         } else {
                             Log.d(TAG, "Error getting documents: ", task.getException());
@@ -285,11 +304,9 @@ public class HomeFragment extends Fragment {
                     }
                 });
 
-
         List<jobitem> joblist = new ArrayList<jobitem>();
         recyclerViewjob.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.HORIZONTAL, false));
         FirebaseFirestore dc = FirebaseFirestore.getInstance();
-        //......
         dc.collection("JOB")
                 .get()
                 .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
@@ -297,6 +314,8 @@ public class HomeFragment extends Fragment {
                     public void onComplete(@NonNull Task<QuerySnapshot> task) {
 
                         if (task.isSuccessful()) {
+                            FirebaseAuth auth = FirebaseAuth.getInstance();
+                            FirebaseUser user = auth.getCurrentUser();
                             for (QueryDocumentSnapshot document : task.getResult()) {
 
                                 Map<String, Object> dataMap = document.getData();
@@ -307,35 +326,40 @@ public class HomeFragment extends Fragment {
                                 String Title = ((String) dataMap.get("JOB Title"));
                                 String Category = ((String) dataMap.get("Job type"));
                                 String documentid = ((String) dataMap.get("documentId"));
+                                Log.d("Speacility21",speciality);
+                                String User=((String) dataMap.get("User"));
+                                Log.d("user2",user.getPhoneNumber());
+
+
                                 if ((speciality!=null)&&(Speciality!=null)) {
+                                    int b=(user.getPhoneNumber()).compareTo(User);
                                     int a = Speciality.compareTo(speciality);
-                                    if (a == 0) {
+                                    Log.d("phonenumber", String.valueOf(b));
+                                    if ((a == 0)&&(b != 0)) {
+                                        Log.d("Speciality",String.valueOf(a));
+                                        Log.d("phonenumber", String.valueOf(b));
 
                                         jobitem c = new jobitem(speciality, Organiser, Location, date, Title, Category, documentid);
                                         joblist.add(c);
                                     }
                                 }
-                                Log.d("speciality2", Organiser);
-                                Log.d("speciality2", Location);
-//
-//                                // Pass the joblist to the adapter
-//                                Log.d("speciality2", speciality);
+                                Log.d("speciality2", speciality);
 
                                 recyclerViewjob.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false));
                                 adapterjob = new MyAdapter(getContext(), joblist); // Pass the joblist to the adapter
                                 recyclerViewjob.setAdapter(adapterjob);
-//                                Log.d("speciality2", speciality);
+                            }
+                            Log.d("abcdef", joblist.toString());
+                            if (joblist.isEmpty()){
+                                cardjobs.setVisibility(View.VISIBLE);
+                                TextView nocontent=rootView.findViewById(R.id.descriptionTextView);
+
+
                             }
                         }
-                        Log.d("abcdef", joblist.toString());
-                        if (joblist.isEmpty()){
-                            cardjobs.setVisibility(View.VISIBLE);
-                            TextView nocontent=rootView.findViewById(R.id.descriptionTextView);
-
-
-                        } else {
-//                            Log.d(TAG, "Error getting documents: ", Task.getException());
+                        else {
                         }
+
                     }
                 });
 
@@ -351,6 +375,8 @@ public class HomeFragment extends Fragment {
                         public void onComplete(@NonNull Task<QuerySnapshot> task) {
 
                             if (task.isSuccessful()) {
+                                FirebaseAuth auth = FirebaseAuth.getInstance();
+                                FirebaseUser user = auth.getCurrentUser();
                                 for (QueryDocumentSnapshot document : task.getResult()) {
 
                                     Map<String, Object> dataMap = document.getData();
@@ -403,10 +429,16 @@ public class HomeFragment extends Fragment {
                                         String time = ((String) dataMap.get("Selected Time"));
                                         String documentid = ((String) dataMap.get("documentId"));
                                         String end = ((String) dataMap.get("endtime"));
+                                        Log.d("user2",user.getPhoneNumber());
+
                                         if ((Speciality!=null)&&(field2!=null)) {
                                             int a = Speciality.compareTo(field2);
+                                            Log.d("user2",user.getPhoneNumber());
+                                            int b=(user.getPhoneNumber()).compareTo(field5);
+                                            Log.d("phonenumber", String.valueOf(b));
+                                            Log.d("phonenumber", String.valueOf(b));
                                             cmeitem2 c = new cmeitem2(field1, field2, Date, field3, field4, 5, time, field5, "PAST", documentid);
-                                            if ((end != null) && (a == 0)) {
+                                            if ((end != null) && (a == 0)&&(b!=0)) {
                                                 myitem.add(c);
 
                                             }
@@ -424,11 +456,19 @@ public class HomeFragment extends Fragment {
                                         String Date = ((String) dataMap.get("Selected Date"));
                                         String documentid = ((String) dataMap.get("documentId"));
                                         String end = ((String) dataMap.get("endtime"));
-                                        int a=Speciality.compareTo(field2);
-                                        cmeitem2 c = new cmeitem2(field1, field2, Date, field3, field4, 5, time, field5, "PAST", documentid);
-                                        if ((end != null)&&(a==0) ){
-                                            myitem.add(c);
+                                        Log.d("user2",user.getPhoneNumber());
 
+
+                                        if ((Speciality!=null)&&(field2!=null)) {
+                                            int a = Speciality.compareTo(field2);
+                                            int b=(user.getPhoneNumber()).compareTo(field5);
+                                            Log.d("phonenumber", String.valueOf(b));
+                                            Log.d("phonenumber", String.valueOf(b));
+                                            cmeitem2 c = new cmeitem2(field1, field2, Date, field3, field4, 5, time, field5, "PAST", documentid);
+                                            if ((end != null) && (a == 0)&&(b!=0)) {
+                                                myitem.add(c);
+
+                                            }
                                         }
 
                                     }
@@ -454,13 +494,13 @@ public class HomeFragment extends Fragment {
                     startActivity(i);
                 }
             });
-//            player = new ExoPlayer.Builder(requireContext()).build();
-//            playerView.setPlayer(player);
+            player = new ExoPlayer.Builder(requireContext()).build();
+            playerView.setPlayer(player);
 
-//            MediaItem mediaItem = null;
-//            if (videoURL != null) {
-//                mediaItem = MediaItem.fromUri(videoURL);
-//            }
+            MediaItem mediaItem = null;
+            if (videoURL != null) {
+                mediaItem = MediaItem.fromUri(videoURL);
+            }
 //
 //            if (mediaItem != null) {
 //                player.setMediaItem(mediaItem);
@@ -613,16 +653,11 @@ public class HomeFragment extends Fragment {
     @Override
     public void onDetach() {
         super.onDetach();
-        handler.removeCallbacksAndMessages(null); // Remove all callbacks and messages
+        handler.removeCallbacksAndMessages(null);
     }
 
-    // Example with AsyncTask
     private MyAsyncTask myAsyncTask;
-
-// Your fragment methods...
-
     private void startAsyncTask() {
-        // Check if the fragment is attached to an activity
         if (isAdded()) {
             // Start the AsyncTask
             myAsyncTask = new MyAsyncTask();
@@ -635,18 +670,15 @@ public class HomeFragment extends Fragment {
 
         @Override
         protected Void doInBackground(Void... voids) {
-            // Check if the fragment is still attached
             if (isAdded()) {
-                // Your background task logic here
             }
             return null;
         }
 
         @Override
         protected void onPostExecute(Void result) {
-            // Check if the fragment is still attached before updating UI
             if (isAdded()) {
-                // Update UI or perform other tasks
+
             }
         }
     }
@@ -654,12 +686,10 @@ public class HomeFragment extends Fragment {
     @Override
     public void onDestroy() {
         super.onDestroy();
-        // Cancel the AsyncTask if it's still running
         if (myAsyncTask != null && !myAsyncTask.isCancelled()) {
             myAsyncTask.cancel(true);
         }
     }
-
 
     @SuppressLint("UseCompatLoadingForDrawables")
     private void updateDots(int currentDotIndex) {
@@ -674,5 +704,4 @@ public class HomeFragment extends Fragment {
             ));
         }
     }
-
 }

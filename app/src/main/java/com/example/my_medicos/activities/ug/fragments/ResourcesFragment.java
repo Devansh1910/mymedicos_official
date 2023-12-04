@@ -56,7 +56,7 @@ public class ResourcesFragment extends Fragment {
                         if (task.isSuccessful()) {
                             for (QueryDocumentSnapshot document : task.getResult()) {
                                 Map<String, Object> dataMap = document.getData();
-                                String Category = (String) dataMap.get("ugtype");
+                                String Category = (String) dataMap.get("Type");
 
                                 // Check if the job type is "Loccum" and speciality is "YourSpeciality"
                                 if ("Resources".equalsIgnoreCase(Category)) {

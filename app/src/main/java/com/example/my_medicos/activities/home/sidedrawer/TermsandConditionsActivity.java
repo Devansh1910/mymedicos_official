@@ -1,4 +1,4 @@
-package com.example.my_medicos.activities.home;
+package com.example.my_medicos.activities.home.sidedrawer;
 
 import android.os.Bundle;
 import android.webkit.WebView;

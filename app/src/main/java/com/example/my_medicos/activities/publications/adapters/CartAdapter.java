@@ -5,6 +5,7 @@ import static android.os.Build.VERSION_CODES.R;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.graphics.drawable.ColorDrawable;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,12 +15,22 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
 import com.bumptech.glide.Glide;
+import com.example.my_medicos.activities.publications.activity.MyVolleyRequest;
 import com.example.my_medicos.activities.publications.model.Product;
+import com.example.my_medicos.activities.utils.ConstantsDashboard;
 import com.example.my_medicos.databinding.ItemCartBinding;
 import com.example.my_medicos.databinding.QuantityDialogBinding;
 import com.hishd.tinycart.model.Cart;
 import com.hishd.tinycart.util.TinyCartHelper;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 
@@ -39,7 +50,43 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.CartViewHolder
         this.context = context;
         this.products = products;
         this.cartListener = cartListener;
-        cart = TinyCartHelper.getCart();
+       RequestQueue queue = Volley.newRequestQueue(context.getApplicationContext());
+
+        String url = ConstantsDashboard.GET_CART +"/rCDX20PCXC08Rnjl7nhk"+"/get";
+        JSONObject requestBody = new JSONObject();
+        MyVolleyRequest.sendPostRequest(context.getApplicationContext(), url, requestBody, new MyVolleyRequest.VolleyCallback() {
+            @Override
+            public void onSuccess(JSONObject response) {
+                // Handle the successful response
+                try {
+                    JSONArray cart = new JSONArray(response);
+                    for (int i = 0;i<cart.length();i++){
+                        JSONObject childObj = cart.getJSONObject(i);
+                        Product product = new Product(
+                                childObj.getString("Title"),
+                                childObj.getString("thumbnail"),
+                                childObj.getString("Author"),
+                                childObj.getDouble("Price"),
+                                childObj.getString("Type"),
+                                childObj.getString("Category"),
+                                childObj.getString("id"),
+                                childObj.getString("Subject")
+                        );
+                        products.add(product);
+                        Log.d("product loaded",childObj.toString());
+                    }
+                } catch (JSONException e) {
+                    throw new RuntimeException(e);
+                }
+
+                Log.d("VolleyResponse", response.toString());
+            }
+            @Override
+            public void onError(String error) {
+                // Handle the error
+                Log.e("VolleyError", error);
+            }
+        });
     }
 
     @NonNull

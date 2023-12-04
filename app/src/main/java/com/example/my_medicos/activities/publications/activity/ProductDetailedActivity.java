@@ -11,7 +11,14 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
-
+import android.content.Context;
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.Volley;
+import org.json.JSONObject;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
@@ -29,6 +36,9 @@ import com.hishd.tinycart.util.TinyCartHelper;
 
 import org.json.JSONException;
 import org.json.JSONObject;
+
+
+
 
 
 public class ProductDetailedActivity extends AppCompatActivity {
@@ -60,15 +70,34 @@ public class ProductDetailedActivity extends AppCompatActivity {
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        Cart cart = TinyCartHelper.getCart();
+//        Cart cart = TinyCartHelper.getCart();
+
 
 
         binding.addToCartBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                cart.addItem(currentProduct,0);
-                binding.addToCartBtn.setEnabled(false);
-                binding.addToCartBtn.setText("Added in cart");
+
+                String url = ConstantsDashboard.GET_CART +"/rCDX20PCXC08Rnjl7nhk"+"/add/"+"ELQA4Dck7j4SORxsA0LR";
+
+                Log.e("function",url);
+
+                JSONObject requestBody = new JSONObject();
+                MyVolleyRequest.sendPostRequest(getApplicationContext(), url, requestBody, new MyVolleyRequest.VolleyCallback() {
+                    @Override
+                    public void onSuccess(JSONObject response) {
+                        // Handle the successful response
+                        Log.d("VolleyResponse", response.toString());
+                    }
+
+                    @Override
+                    public void onError(String error) {
+                        // Handle the error
+                        Log.e("VolleyError", error);
+                    }
+                });
+
+
             }
         });
     }
@@ -116,6 +145,7 @@ public class ProductDetailedActivity extends AppCompatActivity {
                                 object.getString("id")
 
                         );
+
 
                     }
                 } catch (JSONException e) {

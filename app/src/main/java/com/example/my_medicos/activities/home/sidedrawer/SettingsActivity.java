@@ -1,4 +1,4 @@
-package com.example.my_medicos.activities.home;
+package com.example.my_medicos.activities.home.sidedrawer;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;

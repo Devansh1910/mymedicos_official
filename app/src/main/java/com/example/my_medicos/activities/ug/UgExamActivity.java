@@ -15,8 +15,12 @@ import androidx.navigation.ui.NavigationUI;
 
 import com.example.my_medicos.databinding.ActivityUgExamBinding;
 
+import java.util.Objects;
+
 public class UgExamActivity extends AppCompatActivity {
     private ActivityUgExamBinding binding;
+
+    Toolbar ugtoolbar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -26,13 +30,13 @@ public class UgExamActivity extends AppCompatActivity {
         setContentView(binding.getRoot());
 
         // Find the Toolbar by its ID
-        Toolbar toolbar = findViewById(R.id.toolbar);
+        Toolbar ugtoolbar = findViewById(R.id.ugtoolbar);
 
         // Set the Toolbar as the ActionBar
-        setSupportActionBar(toolbar);
+        setSupportActionBar(ugtoolbar);
 
         // Enable the back arrow in the Toolbar
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
 
         BottomNavigationView navView = findViewById(R.id.nav_view);
 

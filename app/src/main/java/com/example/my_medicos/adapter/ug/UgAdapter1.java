@@ -1,5 +1,6 @@
 package com.example.my_medicos.adapter.ug;
 
+import android.annotation.SuppressLint;
 import android.app.DownloadManager;
 import android.content.Context;
 import android.net.Uri;
@@ -7,6 +8,7 @@ import android.os.Environment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -36,7 +38,7 @@ public class UgAdapter1 extends RecyclerView.Adapter<UgAdapter1.UgViewHolder1>{
     }
 
     @Override
-    public void onBindViewHolder(@NonNull UgViewHolder1 holder, int position) {
+    public void onBindViewHolder(@NonNull UgViewHolder1 holder, @SuppressLint("RecyclerView") int position) {
         holder.name.setText(item.get(position).getDocname());
         holder.description.setText(item.get(position).getDocdescripiton());
         holder.title.setText(item.get(position).getDoctitle());
@@ -59,7 +61,9 @@ public class UgAdapter1 extends RecyclerView.Adapter<UgAdapter1.UgViewHolder1>{
 
     public static class UgViewHolder1 extends RecyclerView.ViewHolder {
 
-        TextView name, title, description, date, pdf;
+        TextView name, title, description, date;
+
+        LinearLayout pdf;
 
         public UgViewHolder1(@NonNull View itemView) {
             super(itemView);
@@ -73,23 +77,17 @@ public class UgAdapter1 extends RecyclerView.Adapter<UgAdapter1.UgViewHolder1>{
         public void downloadPdf(String pdfUrl, Context context) {
             DownloadManager.Request request = new DownloadManager.Request(Uri.parse(pdfUrl));
 
-            // Title and description of the download notification
             request.setTitle("Downloading PDF");
             request.setDescription("Please wait...");
 
-            // Set destination in the external public directory
             request.setDestinationInExternalPublicDir(Environment.DIRECTORY_DOWNLOADS, "your_pdf_filename.pdf");
 
-            // Set notification visibility to show the download progress in the notification bar
             request.setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_COMPLETED);
 
-            // Get download service and enqueue file
             DownloadManager manager = (DownloadManager) context.getSystemService(Context.DOWNLOAD_SERVICE);
             if (manager != null) {
                 manager.enqueue(request);
             }
-
-            // Optionally, you can show a toast or notification to indicate the download has started
             Toast.makeText(context, "Download started", Toast.LENGTH_SHORT).show();
         }
 

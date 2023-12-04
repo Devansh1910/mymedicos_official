@@ -28,16 +28,19 @@
         tools:replace="android:label"
         tools:targetApi="31" >
         <activity
-            android:name=".activities.home.PrivacyActivity"
+            android:name=".activities.home.sidedrawer.ChooseLanguageActivity"
             android:exported="false" />
         <activity
-            android:name=".activities.home.SettingsActivity"
+            android:name=".activities.home.sidedrawer.PrivacyActivity"
             android:exported="false" />
         <activity
-            android:name=".activities.home.HomeSideActivity"
+            android:name=".activities.home.sidedrawer.SettingsActivity"
             android:exported="false" />
         <activity
-            android:name=".activities.home.TermsandConditionsActivity"
+            android:name=".activities.home.sidedrawer.HomeSideActivity"
+            android:exported="false" />
+        <activity
+            android:name=".activities.home.sidedrawer.TermsandConditionsActivity"
             android:exported="false" />
         <activity
             android:name=".activities.publications.activity.UserContentActivity"

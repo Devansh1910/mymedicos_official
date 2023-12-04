@@ -1,4 +1,4 @@
-package com.example.my_medicos.activities.home;
+package com.example.my_medicos.activities.home.sidedrawer;
 
 import android.annotation.SuppressLint;
 import android.app.AlertDialog;
@@ -11,7 +11,6 @@ import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -101,6 +100,14 @@ public class HomeSideActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Intent i = new Intent(HomeSideActivity.this, Contactinfo.class);
+                startActivity(i);
+            }
+        });
+        LinearLayout language = findViewById(R.id.languageselect);
+        language.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent i = new Intent(HomeSideActivity.this, ChooseLanguageActivity.class);
                 startActivity(i);
             }
         });

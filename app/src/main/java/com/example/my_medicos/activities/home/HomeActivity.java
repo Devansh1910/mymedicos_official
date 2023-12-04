@@ -22,6 +22,7 @@ import com.example.my_medicos.R;
 import com.example.my_medicos.activities.home.fragments.ClubFragment;
 import com.example.my_medicos.activities.home.fragments.HomeFragment;
 import com.example.my_medicos.activities.home.fragments.SlideshowFragment;
+import com.example.my_medicos.activities.home.sidedrawer.HomeSideActivity;
 import com.google.android.material.bottomappbar.BottomAppBar;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationView;
