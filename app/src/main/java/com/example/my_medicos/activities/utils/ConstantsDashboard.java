@@ -6,6 +6,9 @@ public class ConstantsDashboard {
     public static String GET_NEWS = API_BASE_URL + "api/news";
     public static String GET_SLIDESHOW = API_BASE_URL + "api/slideshow";
     public static String GET_SPECIALITY = API_BASE_URL + "/api/speciality";
+    public static String GET_STATES = API_BASE_URL + "/api/updates";
+
+    public static String GET_UNIVERSITIES = API_BASE_URL + "/api/updates/";
     public static String GET_SPECIALITY_ALL_PRODUCT = API_BASE_URL + "/api/publications/all";
     public static String GET_SPECIALITY_PRODUCT = API_BASE_URL + "api/publications/id/";
     public static String GET_CART = API_BASE_URL + "api/ecom/cart";

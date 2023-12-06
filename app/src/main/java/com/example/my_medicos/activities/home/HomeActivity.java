@@ -23,6 +23,8 @@ import com.example.my_medicos.activities.home.fragments.ClubFragment;
 import com.example.my_medicos.activities.home.fragments.HomeFragment;
 import com.example.my_medicos.activities.home.fragments.SlideshowFragment;
 import com.example.my_medicos.activities.home.sidedrawer.HomeSideActivity;
+import com.example.my_medicos.activities.home.sidedrawer.NotificationActivity;
+import com.example.my_medicos.activities.pg.activites.PgprepActivity;
 import com.google.android.material.bottomappbar.BottomAppBar;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationView;
@@ -42,7 +44,7 @@ public class HomeActivity extends AppCompatActivity {
 
     BottomNavigationView bottomNavigation;
     BottomAppBar bottomAppBar;
-    private ImageView doctorProfileImageView;
+    ImageView notificationbtn;
     DrawerLayout drawerLayout;
     NavigationView navigationView;
     Toolbar toolbar;
@@ -77,6 +79,15 @@ public class HomeActivity extends AppCompatActivity {
 
         LinearLayout openhomedrawerIcon = findViewById(R.id.opensidehomedrawer);
         openhomedrawerIcon.setOnClickListener(v -> openHomeSideActivity());
+
+        notificationbtn = findViewById(R.id.notificationbtn);
+        notificationbtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent i = new Intent(HomeActivity.this, NotificationActivity.class);
+                startActivity(i);
+            }
+        });
 
         bottomAppBar = findViewById(R.id.bottomappabar);
 

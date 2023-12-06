@@ -36,14 +36,14 @@ public class SpecialitiesPGInsiderAdapter extends RecyclerView.Adapter<Specialit
         SpecialitiesPG specialitiesPGS = specialitiespggo.get(position);
         holder.labelpg.setText(specialitiesPGS.getName());
         Glide.with(context)
-                .load(specialitiesPGS.getIcon())
+                .load(specialitiesPGS.getName())
                 .into(holder.thumbnailpg);
 
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(context, SpecialitiesPG.class);
-                intent.putExtra("pgId", specialitiesPGS.getId());
+                intent.putExtra("pgId", specialitiesPGS.getPriority());
                 intent.putExtra("pgName", specialitiesPGS.getName());
                 context.startActivity(intent);
             }

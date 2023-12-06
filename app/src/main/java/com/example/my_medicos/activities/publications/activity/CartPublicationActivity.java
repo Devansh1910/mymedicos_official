@@ -4,29 +4,21 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
-
-import com.android.volley.Request;
-import com.android.volley.RequestQueue;
-import com.android.volley.toolbox.StringRequest;
-import com.android.volley.toolbox.Volley;
 import com.example.my_medicos.activities.publications.adapters.CartAdapter;
 import com.example.my_medicos.activities.publications.model.Product;
 import com.example.my_medicos.activities.utils.ConstantsDashboard;
 import com.example.my_medicos.databinding.ActivityCartPublicationBinding;
-import com.hishd.tinycart.model.Cart;
-import com.hishd.tinycart.model.Item;
-import com.hishd.tinycart.util.TinyCartHelper;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-
 import java.util.ArrayList;
-import java.util.Map;
+import java.util.prefs.Preferences;
 
 public class CartPublicationActivity extends AppCompatActivity {
 
@@ -40,30 +32,55 @@ public class CartPublicationActivity extends AppCompatActivity {
         binding = ActivityCartPublicationBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
+        String docId = Preferences.userRoot().get("docId", "");
         products = new ArrayList<>();
 
+        String url = ConstantsDashboard.GET_CART + "/" + docId + "/get";
+        Log.e("function", url);
 
+        JSONObject requestBody = new JSONObject();
+        MyVolleyRequest.sendPostRequest(getApplicationContext(), url, requestBody, new MyVolleyRequest.VolleyCallback() {
+            @SuppressLint("NotifyDataSetChanged")
+            @Override
+            public void onSuccess(JSONObject response) {
+                try {
+                    JSONArray cartArray = response.getJSONArray("data");
 
-//        String url = ConstantsDashboard.GET_CART +"/rCDX20PCXC08Rnjl7nhk"+"/get/";
-//        Log.e("function",url);
-//
-//        JSONObject requestBody = new JSONObject();
-//        MyVolleyRequest.sendPostRequest(getApplicationContext(), url, requestBody, new MyVolleyRequest.VolleyCallback() {
-//            @Override
-//            public void onSuccess(JSONObject response) {
-//                // Handle the successful response
-//                Log.d("VolleyResponse", response.toString());
-//            }
-//            @Override
-//            public void onError(String error) {
-//                // Handle the error
-//                Log.e("VolleyError", error);
-//            }
-//        });
+                    for (int i = 0; i < cartArray.length(); i++) {
+                        JSONObject cartItem = cartArray.getJSONObject(i);
+
+                        Product product = new Product(
+                                cartItem.getString("Title"),
+                                cartItem.getString("thumbnail"),
+                                cartItem.getString("Author"),
+                                cartItem.getDouble("Price"),
+                                cartItem.getString("Type"),
+                                cartItem.getString("Category"),
+                                cartItem.getString("id"),
+                                cartItem.getString("Subject")
+                        );
+
+                        products.add(product);
+                        Log.d("product loaded", cartItem.toString());
+                    }
+
+                    adapter.notifyDataSetChanged();
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+                Log.d("VolleyResponse", response.toString());
+            }
+
+            @Override
+            public void onError(String error) {
+                Log.e("VolleyError", error);
+            }
+        });
+
         adapter = new CartAdapter(this, products, new CartAdapter.CartListener() {
             @Override
             public void onQuantityChanged() {
-//                binding.subtotal.setText(String.format("INR %.2f",cart.getTotalPrice()));
             }
         });
 
@@ -72,10 +89,6 @@ public class CartPublicationActivity extends AppCompatActivity {
         binding.cartList.setLayoutManager(layoutManager);
         binding.cartList.addItemDecoration(itemDecoration);
         binding.cartList.setAdapter(adapter);
-
-
-//        binding.subtotal.setText(String.format("INR %.2f",cart.getTotalPrice()));
-
 
         binding.continueBtn.setOnClickListener(new View.OnClickListener() {
             @Override

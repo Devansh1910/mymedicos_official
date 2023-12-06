@@ -24,6 +24,7 @@ import com.example.my_medicos.activities.news.News;
 import com.example.my_medicos.activities.news.NewsAdapter;
 import com.example.my_medicos.activities.pg.adapters.QuestionBankPGAdapter;
 import com.example.my_medicos.activities.pg.model.QuestionPG;
+import com.example.my_medicos.activities.publications.model.Category;
 import com.example.my_medicos.activities.utils.ConstantsDashboard;
 import com.example.my_medicos.activities.pg.activites.insiders.SpecialityPGInsiderActivity;
 import com.example.my_medicos.activities.pg.adapters.PerDayPGAdapter;
@@ -205,7 +206,7 @@ public class  PgprepActivity extends AppCompatActivity {
     void getSpecialityPG() {
         RequestQueue queue = Volley.newRequestQueue(this);
 
-        StringRequest request = new StringRequest(Request.Method.GET, Constants.GET_CATEGORIES_URL, new Response.Listener<String>() {
+        StringRequest request = new StringRequest(Request.Method.GET, ConstantsDashboard.GET_SPECIALITY, new Response.Listener<String>() {
             @SuppressLint("NotifyDataSetChanged")
             @Override
             public void onResponse(String response) {
@@ -213,34 +214,28 @@ public class  PgprepActivity extends AppCompatActivity {
                     Log.e("err", response);
                     JSONObject mainObj = new JSONObject(response);
                     if (mainObj.getString("status").equals("success")) {
-                        JSONArray categoriesArray = mainObj.getJSONArray("categories");
-                        int categoriesCount = Math.min(categoriesArray.length(), 5); // Limit to the first 5 categories or the actual count if less than 5
+                        JSONArray specialityArray = mainObj.getJSONArray("data");
+                        int categoriesCount = Math.min(specialityArray.length(), 25);
+
+                        // Add a condition to check if the number of categories is more than five
+                        if (categoriesCount > 5) {
+                            // Add a "more" category with a special priority, for example, -1
+                            SpecialitiesPG moreSpeciality = new SpecialitiesPG("-1", -1);
+                            specialitiespost.add(moreSpeciality);
+                            categoriesCount = 5; // Limit the displayed categories to 5
+                        }
+
                         for (int i = 0; i < categoriesCount; i++) {
-                            JSONObject object = categoriesArray.getJSONObject(i);
-                            SpecialitiesPG specialitiespostgraduate = new SpecialitiesPG(
-                                    object.getString("name"),
-                                    Constants.CATEGORIES_IMAGE_URL + object.getString("icon"),
-                                    object.getString("color"),
-                                    object.getString("brief"),
-                                    object.getInt("id")
+                            JSONObject object = specialityArray.getJSONObject(i);
+                            SpecialitiesPG speciality = new SpecialitiesPG(
+                                    object.getString("id"),
+                                    object.getInt("priority")
                             );
-                            specialitiespost.add(specialitiespostgraduate);
+                            specialitiespost.add(speciality);
+                            Log.e("Something went wrong..", object.getString("priority"));
                         }
 
-                        // If there are more than 5 categories, add a "More" category
-                        // Inside the if statement
-                        if (categoriesArray.length() > 5) {
-                            SpecialitiesPG moreSpecialitiesPG = new SpecialitiesPG(
-                                    "More",
-                                    "more_category_icon", // Replace with the actual icon for the "More" category
-                                    "#CCCCCC", // Replace with the color for the "More" category
-                                    "View More Categories",
-                                    -1 // Replace with a unique ID for the "More" category
-                            );
-                            specialitiespost.add(moreSpecialitiesPG);
-                        }
-
-                        specialitiesPGAdapter.notifyDataSetChanged();
+                        // ... (existing code)
 
                         binding.specialityList.addOnItemTouchListener(new RecyclerView.OnItemTouchListener() {
                             @Override
@@ -249,29 +244,29 @@ public class  PgprepActivity extends AppCompatActivity {
                                 int position = rv.getChildAdapterPosition(child);
 
                                 if (position != RecyclerView.NO_POSITION) {
-                                    if (position == specialitiespost.size() - 1 && specialitiespost.get(position).getId() == -1) {
+                                    if (position == specialitiespost.size() - 1 && specialitiespost.get(position).getPriority() == -1) {
+                                        // Redirect to CategoryPublicationInsiderActivity
                                         Intent intent = new Intent(PgprepActivity.this, SpecialityPGInsiderActivity.class);
                                         startActivity(intent);
                                     } else {
 
                                     }
                                 }
-
                                 return false;
                             }
 
                             @Override
-                            public void onTouchEvent(@NonNull RecyclerView rv, @NonNull MotionEvent e) {}
+                            public void onTouchEvent(@NonNull RecyclerView rv, @NonNull MotionEvent e) {
+                            }
 
                             @Override
-                            public void onRequestDisallowInterceptTouchEvent(boolean disallowIntercept) {}
+                            public void onRequestDisallowInterceptTouchEvent(boolean disallowIntercept) {
+                            }
                         });
-
-
 
                         specialitiesPGAdapter.notifyDataSetChanged();
                     } else {
-                        // DO nothing
+                        // Handle the case where the status is not success
                     }
                 } catch (JSONException e) {
                     e.printStackTrace();
@@ -280,12 +275,13 @@ public class  PgprepActivity extends AppCompatActivity {
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-
+                // Handle the error response
             }
         });
 
         queue.add(request);
     }
+
 
     // this is for the questionbank
     void initQuestionsBanks() {

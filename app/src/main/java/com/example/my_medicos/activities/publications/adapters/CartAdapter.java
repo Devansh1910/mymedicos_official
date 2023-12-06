@@ -1,6 +1,8 @@
+// CartAdapter.java
+
 package com.example.my_medicos.activities.publications.adapters;
 
-import static android.os.Build.VERSION_CODES.R;
+import static android.content.ContentValues.TAG;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
@@ -9,15 +11,12 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.android.volley.Request;
 import com.android.volley.RequestQueue;
-import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.bumptech.glide.Glide;
 import com.example.my_medicos.activities.publications.activity.MyVolleyRequest;
@@ -25,42 +24,48 @@ import com.example.my_medicos.activities.publications.model.Product;
 import com.example.my_medicos.activities.utils.ConstantsDashboard;
 import com.example.my_medicos.databinding.ItemCartBinding;
 import com.example.my_medicos.databinding.QuantityDialogBinding;
-import com.hishd.tinycart.model.Cart;
-import com.hishd.tinycart.util.TinyCartHelper;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.prefs.Preferences;
 
 public class CartAdapter extends RecyclerView.Adapter<CartAdapter.CartViewHolder> {
 
     Context context;
     ArrayList<Product> products;
     CartListener cartListener;
-    Cart cart;
 
     public interface CartListener {
-        public void onQuantityChanged();
+        void onQuantityChanged();
     }
-
 
     public CartAdapter(Context context, ArrayList<Product> products, CartListener cartListener) {
         this.context = context;
         this.products = products;
         this.cartListener = cartListener;
-       RequestQueue queue = Volley.newRequestQueue(context.getApplicationContext());
 
-        String url = ConstantsDashboard.GET_CART +"/rCDX20PCXC08Rnjl7nhk"+"/get";
+        String docId = Preferences.userRoot().get("docId", "");
+
+        RequestQueue queue = Volley.newRequestQueue(context.getApplicationContext());
+
+        String url = ConstantsDashboard.GET_CART + "/" + docId + "/get";
         JSONObject requestBody = new JSONObject();
         MyVolleyRequest.sendPostRequest(context.getApplicationContext(), url, requestBody, new MyVolleyRequest.VolleyCallback() {
             @Override
             public void onSuccess(JSONObject response) {
-                // Handle the successful response
                 try {
-                    JSONArray cart = new JSONArray(response);
-                    for (int i = 0;i<cart.length();i++){
+                    JSONArray cart = response.getJSONArray("data");
+                    for (int i = 0; i < cart.length(); i++) {
                         JSONObject childObj = cart.getJSONObject(i);
                         Product product = new Product(
                                 childObj.getString("Title"),
@@ -73,17 +78,18 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.CartViewHolder
                                 childObj.getString("Subject")
                         );
                         products.add(product);
-                        Log.d("product loaded",childObj.toString());
+                        Log.d("product loaded", childObj.toString());
                     }
+                    notifyDataSetChanged(); // Notify the adapter that the data has changed
                 } catch (JSONException e) {
-                    throw new RuntimeException(e);
+                    e.printStackTrace();
                 }
 
                 Log.d("VolleyResponse", response.toString());
             }
+
             @Override
             public void onError(String error) {
-                // Handle the error
                 Log.e("VolleyError", error);
             }
         });
@@ -92,7 +98,7 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.CartViewHolder
     @NonNull
     @Override
     public CartViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        return new CartViewHolder(LayoutInflater.from(context).inflate(com.example.my_medicos.R.layout.item_cart, parent,false));
+        return new CartViewHolder(LayoutInflater.from(context).inflate(com.example.my_medicos.R.layout.item_cart, parent, false));
     }
 
     @Override
@@ -122,19 +128,35 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.CartViewHolder
                 quantityDialogBinding.productPrice.setText("Type: " + product.getType());
                 String type = product.getType();
 
-
                 quantityDialogBinding.removeBtn.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        String quantity = product.getId();
-                        product.setId(quantity);
-                        quantityDialogBinding.removeBtn.setText(String.valueOf(quantity));
+                        getDocId();
 
-                        notifyDataSetChanged();
-                        cartListener.onQuantityChanged();
+                        String docId = Preferences.userRoot().get("docId", "");
+                        String productId = Preferences.userRoot().get("docId", "Publications");
+
+                        if (!docId.isEmpty()) {
+                            String url = ConstantsDashboard.GET_CART + "/" + docId + "/remove/" + "WIftp2mE9nDfUTsehLYo";
+                            Log.e("function", url);
+
+                            JSONObject requestBody = new JSONObject();
+                            MyVolleyRequest.sendPostRequest(context.getApplicationContext(), url, requestBody, new MyVolleyRequest.VolleyCallback() {
+                                @Override
+                                public void onSuccess(JSONObject response) {
+                                    Log.d("VolleyResponse", response.toString());
+                                }
+
+                                @Override
+                                public void onError(String error) {
+                                    Log.e("VolleyError", error);
+                                }
+                            });
+                        } else {
+                            Log.e("DocIdError", "Empty or not available");
+                        }
                     }
                 });
-
                 quantityDialogBinding.saveBtn.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
@@ -148,14 +170,44 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.CartViewHolder
         });
     }
 
+    private void getDocId() {
+        FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
+        if (currentUser != null) {
+            FirebaseFirestore db = FirebaseFirestore.getInstance();
+
+            db.collection("users")
+                    .whereEqualTo("Phone Number", currentUser.getPhoneNumber())
+                    .get()
+                    .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                        @Override
+                        public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                            if (task.isSuccessful() && task.getResult() != null) {
+                                for (QueryDocumentSnapshot document : task.getResult()) {
+                                    String docID = document.getId();
+
+                                    Preferences preferences = Preferences.userRoot();
+                                    preferences.put("docId", docID);
+
+                                    // Break out of the loop once the user is found
+                                    break;
+                                }
+                            } else {
+                                Log.e(TAG, "Error getting documents: ", task.getException());
+                            }
+                        }
+                    });
+        }
+    }
+
     @Override
     public int getItemCount() {
         return products.size();
     }
 
-    public class CartViewHolder extends RecyclerView.ViewHolder {
+    public static class CartViewHolder extends RecyclerView.ViewHolder {
 
         ItemCartBinding binding;
+
         public CartViewHolder(@NonNull View itemView) {
             super(itemView);
             binding = ItemCartBinding.bind(itemView);

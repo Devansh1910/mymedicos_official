@@ -1,54 +1,27 @@
 package com.example.my_medicos.activities.pg.model;
 
 public class SpecialitiesPG {
-    private String pgname, pgicon, pgcolor, pgbrief;
-    private int pgid;
+    private String name;
+    private int priority;
 
-    public SpecialitiesPG(String name, String icon, String color, String brief, int id) {
-        this.pgname = name;
-        this.pgicon = icon;
-        this.pgcolor = color;
-        this.pgbrief = brief;
-        this.pgid = id;
+    public SpecialitiesPG(String name, int priority) {
+        this.name = name;
+        this.priority = priority;
     }
 
     public String getName() {
-        return pgname;
+        return name;
     }
 
     public void setName(String name) {
-        this.pgname = name;
+        this.name = name;
     }
 
-    public String getIcon() {
-        return pgicon;
+    public int getPriority() {
+        return priority;
     }
 
-    public void setIcon(String icon) {
-        this.pgicon = icon;
-    }
-
-    public String getColor() {
-        return pgcolor;
-    }
-
-    public void setColor(String color) {
-        this.pgcolor = color;
-    }
-
-    public String getBrief() {
-        return pgbrief;
-    }
-
-    public void setBrief(String brief) {
-        this.pgbrief = brief;
-    }
-
-    public int getId() {
-        return pgid;
-    }
-
-    public void setId(int id) {
-        this.pgid = id;
+    public void setPriority(int priority) {
+        this.priority = priority;
     }
 }

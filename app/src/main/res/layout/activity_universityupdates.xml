@@ -104,7 +104,7 @@
         app:layout_constraintTop_toBottomOf="@+id/bottompart">
 
         <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/universitiesList"
+            android:id="@+id/statesList"
             android:layout_width="match_parent"
             android:paddingHorizontal="10dp"
             android:layout_height="wrap_content" />

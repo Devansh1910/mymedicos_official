@@ -1,5 +1,7 @@
 package com.example.my_medicos.activities.university.activity;
 
+import static android.content.ContentValues.TAG;
+
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
@@ -23,12 +25,21 @@ import com.example.my_medicos.activities.publications.adapters.ProductAdapter;
 import com.example.my_medicos.activities.publications.model.Product;
 import com.example.my_medicos.activities.publications.utils.Constants;
 import com.example.my_medicos.activities.university.activity.insiders.UniversitiesInsiderActivity;
+import com.example.my_medicos.activities.university.adapters.StatesAdapter;
 import com.example.my_medicos.activities.university.adapters.UniversitiesAdapter;
 import com.example.my_medicos.activities.university.adapters.UpdatesAdapter;
+import com.example.my_medicos.activities.university.model.States;
 import com.example.my_medicos.activities.university.model.Universities;
 import com.example.my_medicos.activities.university.model.Updates;
 import com.example.my_medicos.activities.utils.ConstantsDashboard;
 import com.example.my_medicos.databinding.ActivityUniversityupdatesBinding;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
 
 import org.imaginativeworld.whynotimagecarousel.model.CarouselItem;
 import org.json.JSONArray;
@@ -36,11 +47,15 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.Map;
+import java.util.prefs.Preferences;
 
 public class UniversityActivity extends AppCompatActivity {
     ActivityUniversityupdatesBinding binding;
     UniversitiesAdapter universitiesAdapter;
     ArrayList<Universities> universities;
+    ArrayList<States> statesofindia;
+    StatesAdapter statesAdapter;
     UpdatesAdapter updateAdapter;
     ArrayList<Updates> updates;
     Toolbar toolbar;
@@ -55,27 +70,27 @@ public class UniversityActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         initUpdates();
-        initUniversity();
+        initStates();
         initSliderUpdates();
     }
 
     private void initSliderUpdates() {
         getUpdatesSlider();
     }
-    void initUniversity() {
-        universities = new ArrayList<>();
-        universitiesAdapter = new UniversitiesAdapter(this, universities);
+    void initStates() {
+        statesofindia = new ArrayList<>();
+        statesAdapter = new StatesAdapter(this, statesofindia);
 
-        getUniversities();
+        getStates();
 
         GridLayoutManager layoutManager = new GridLayoutManager(this, 1);
-        binding.universitiesList.setLayoutManager(layoutManager);
-        binding.universitiesList.setAdapter(universitiesAdapter);
+        binding.statesList.setLayoutManager(layoutManager);
+        binding.statesList.setAdapter(statesAdapter);
     }
-    void getUniversities() {
+    void getStates() {
         RequestQueue queue = Volley.newRequestQueue(this);
 
-        StringRequest request = new StringRequest(Request.Method.GET, Constants.GET_CATEGORIES_URL, new Response.Listener<String>() {
+        StringRequest request = new StringRequest(Request.Method.GET, ConstantsDashboard.GET_STATES, new Response.Listener<String>() {
             @SuppressLint("NotifyDataSetChanged")
             @Override
             public void onResponse(String response) {
@@ -83,66 +98,14 @@ public class UniversityActivity extends AppCompatActivity {
                     Log.e("err", response);
                     JSONObject mainObj = new JSONObject(response);
                     if (mainObj.getString("status").equals("success")) {
-                        JSONArray categoriesArray = mainObj.getJSONArray("categories");
-                        int categoriesCount = Math.min(categoriesArray.length(), 5); // Limit to the first 5 categories or the actual count if less than 5
-                        for (int i = 0; i < categoriesCount; i++) {
-                            JSONObject object = categoriesArray.getJSONObject(i);
-                            Universities university = new Universities(
-                                    object.getString("name"),
-                                    Constants.CATEGORIES_IMAGE_URL + object.getString("icon"),
-                                    object.getString("color"),
-                                    object.getString("brief"),
-                                    object.getInt("id")
-                            );
-                            universities.add(university);
+                        JSONArray statesArray = mainObj.getJSONArray("data");
+                        for (int i = 0; i < statesArray.length(); i++) {
+                            String stateName = statesArray.getString(i);
+                            States state = new States(stateName);
+                            statesofindia.add(state);
                         }
-
-                        // If there are more than 5 categories, add a "More" category
-                        // Inside the if statement
-                        if (categoriesArray.length() > 5) {
-                            Universities moreUniversities = new Universities(
-                                    "More",
-                                    "more_category_icon", // Replace with the actual icon for the "More" category
-                                    "#CCCCCC", // Replace with the color for the "More" category
-                                    "View More Categories",
-                                    -1 // Replace with a unique ID for the "More" category
-                            );
-                            universities.add(moreUniversities);
-                        }
-
-                        universitiesAdapter.notifyDataSetChanged();
-
-// Add click listener to RecyclerView items
-                        binding.universitiesList.addOnItemTouchListener(new RecyclerView.OnItemTouchListener() {
-                            @Override
-                            public boolean onInterceptTouchEvent(@NonNull RecyclerView rv, @NonNull MotionEvent e) {
-                                View child = rv.findChildViewUnder(e.getX(), e.getY());
-                                int position = rv.getChildAdapterPosition(child);
-
-                                if (position != RecyclerView.NO_POSITION) {
-                                    // Check if the clicked item is the "More" category
-                                    if (position == universities.size() - 1 && universities.get(position).getId() == -1) {
-                                        // Redirect to CategoryPublicationInsiderActivity
-                                        Intent intent = new Intent(UniversityActivity.this, UniversitiesInsiderActivity.class);
-                                        startActivity(intent);
-                                    } else {
-                                    }
-                                }
-
-                                return false;
-                            }
-
-                            @Override
-                            public void onTouchEvent(@NonNull RecyclerView rv, @NonNull MotionEvent e) {}
-
-                            @Override
-                            public void onRequestDisallowInterceptTouchEvent(boolean disallowIntercept) {}
-                        });
-
-                        universitiesAdapter.notifyDataSetChanged();
-
+                        statesAdapter.notifyDataSetChanged();
                     } else {
-
                     }
                 } catch (JSONException e) {
                     e.printStackTrace();
@@ -151,12 +114,12 @@ public class UniversityActivity extends AppCompatActivity {
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-
             }
         });
 
         queue.add(request);
     }
+
     void initUpdates() {
         updates = new ArrayList<>();
         updateAdapter = new UpdatesAdapter(this, updates);
@@ -168,37 +131,74 @@ public class UniversityActivity extends AppCompatActivity {
         binding.updatesList.setAdapter(updateAdapter);
     }
     void getRecentUpdates() {
-        RequestQueue queue = Volley.newRequestQueue(this);
+        getInterest(new VolleyCallback() {
+            @Override
+            public void onSuccess(String userInterest) {
+                RequestQueue queue = Volley.newRequestQueue(UniversityActivity.this);
 
-        String url = Constants.GET_PRODUCTS_URL + "?count=8";
-        StringRequest request = new StringRequest(Request.Method.GET, url, response -> {
-            try {
-                JSONObject object = new JSONObject(response);
-                if(object.getString("status").equals("success")){
-                    JSONArray productsArray = object.getJSONArray("products");
-                    for(int i =0; i< productsArray.length(); i++) {
-                        JSONObject childObj = productsArray.getJSONObject(i);
-                        Updates update = new Updates(
-                                childObj.getString("name"),
-                                Constants.PRODUCTS_IMAGE_URL + childObj.getString("image"),
-                                childObj.getString("status"),
-                                childObj.getDouble("price"),
-                                childObj.getDouble("price_discount"),
-                                childObj.getInt("stock"),
-                                childObj.getInt("id")
-
-                        );
-                        updates.add(update);
+                StringRequest request = new StringRequest(Request.Method.GET, ConstantsDashboard.GET_UNIVERSITIES, new Response.Listener<String>() {
+                    @SuppressLint("NotifyDataSetChanged")
+                    @Override
+                    public void onResponse(String response) {
+                        try {
+                            Log.e("err", response);
+                            JSONObject mainObj = new JSONObject(response);
+                            if (mainObj.getString("status").equals("success")) {
+                                JSONArray statesArray = mainObj.getJSONArray("data");
+                                for (int i = 0; i < statesArray.length(); i++) {
+                                    String stateName = statesArray.getString(i);
+                                    States state = new States(stateName);
+                                    statesofindia.add(state);
+                                }
+                                statesAdapter.notifyDataSetChanged();
+                            } else {
+                            }
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
                     }
-                    updateAdapter.notifyDataSetChanged();
-                }
-            } catch (JSONException e) {
-                e.printStackTrace();
+                }, new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                    }
+                });
+                queue.add(request);
             }
-        }, error -> { });
-
-        queue.add(request);
+        });
     }
+
+    void getInterest(final VolleyCallback callback) {
+        FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
+        if (currentUser != null) {
+            FirebaseFirestore db = FirebaseFirestore.getInstance();
+
+            db.collection("users")
+                    .whereEqualTo("Phone Number", currentUser.getPhoneNumber())
+                    .get()
+                    .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                        @Override
+                        public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                            if (task.isSuccessful()) {
+                                for (QueryDocumentSnapshot document : task.getResult()) {
+                                    String userInterest = (String) document.get("Interest");
+                                    if (userInterest != null) {
+                                        callback.onSuccess(userInterest);
+                                    } else {
+                                        callback.onSuccess(""); // Provide a default value or handle accordingly
+                                    }
+                                }
+                            } else {
+                                Log.d(TAG, "Error getting documents: ", task.getException());
+                            }
+                        }
+                    });
+        }
+    }
+
+    interface VolleyCallback {
+        void onSuccess(String userInterest);
+    }
+
     void getUpdatesSlider() {
         RequestQueue queue = Volley.newRequestQueue(this);
 
@@ -218,7 +218,6 @@ public class UniversityActivity extends AppCompatActivity {
                 e.printStackTrace();
             }
         }, error -> {
-            // Handle error if needed
         });
         queue.add(request);
     }
@@ -226,5 +225,36 @@ public class UniversityActivity extends AppCompatActivity {
     public boolean onSupportNavigateUp() {
         finish();
         return super.onSupportNavigateUp();
+    }
+    private void fetchUserInterest() {
+        FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
+        if (currentUser != null) {
+            String userId = currentUser.getPhoneNumber();
+            FirebaseFirestore db = FirebaseFirestore.getInstance();
+
+            db.collection("users")
+                    .whereEqualTo("Phone Number", currentUser.getPhoneNumber())
+                    .get()
+                    .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                        @Override
+                        public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                            if (task.isSuccessful()) {
+                                for (QueryDocumentSnapshot document : task.getResult()) {
+                                    Log.d(TAG, document.getId() + " => " + document.getData());
+
+                                    String userInterest = (String) document.get("Interest");
+
+                                    if (userInterest != null) {
+                                        Log.d(TAG, "User Interest: " + userInterest);
+                                    } else {
+                                        Log.e(TAG, "User Interest is null");
+                                    }
+                                }
+                            } else {
+                                Log.d(TAG, "Error getting documents: ", task.getException());
+                            }
+                        }
+                    });
+        }
     }
 }

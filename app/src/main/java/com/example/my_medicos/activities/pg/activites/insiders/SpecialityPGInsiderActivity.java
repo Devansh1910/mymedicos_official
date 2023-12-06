@@ -78,11 +78,8 @@ public class SpecialityPGInsiderActivity extends AppCompatActivity {
                         for (int i = 0; i < specialityArray.length(); i++) {
                             JSONObject object = specialityArray.getJSONObject(i);
                             SpecialitiesPG specialitiesPGS = new SpecialitiesPG(
-                                    object.getString("name"),
-                                    object.getString("icon"),
-                                    object.getString("color"),
-                                    object.getString("brief"),
-                                    object.getInt("id")
+                                    object.getString("id"),
+                                    object.getInt("priority")
                             );
                             specialitiesPostGraduate.add(specialitiesPGS);
                         }

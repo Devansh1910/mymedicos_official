@@ -5,6 +5,8 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+
 import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
 import androidx.fragment.app.Fragment;
@@ -15,7 +17,7 @@ import com.example.my_medicos.databinding.FragmentUgformBinding;
 
 public class UgFormFragment extends Fragment {
 
-    CardView movetoug; // Add this line
+    Button movetoug; // Add this line
 
     private FragmentUgformBinding binding;
 

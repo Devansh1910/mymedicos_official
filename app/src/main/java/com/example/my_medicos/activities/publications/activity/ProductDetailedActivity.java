@@ -1,5 +1,7 @@
 package com.example.my_medicos.activities.publications.activity;
 
+import static android.content.ContentValues.TAG;
+
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -31,14 +33,21 @@ import com.example.my_medicos.activities.publications.model.Product;
 import com.example.my_medicos.activities.publications.utils.Constants;
 import com.example.my_medicos.activities.utils.ConstantsDashboard;
 import com.example.my_medicos.databinding.ActivityProductDetailedBinding;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
 import com.hishd.tinycart.model.Cart;
 import com.hishd.tinycart.util.TinyCartHelper;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
-
-
+import java.util.Map;
+import java.util.prefs.Preferences;
 
 
 public class ProductDetailedActivity extends AppCompatActivity {
@@ -77,27 +86,29 @@ public class ProductDetailedActivity extends AppCompatActivity {
         binding.addToCartBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                getDocId();
 
-                String url = ConstantsDashboard.GET_CART +"/rCDX20PCXC08Rnjl7nhk"+"/add/"+"ELQA4Dck7j4SORxsA0LR";
+                String docId = Preferences.userRoot().get("docId", "");
 
-                Log.e("function",url);
+                if (!docId.isEmpty()) {
+                    String url = ConstantsDashboard.GET_CART + "/" + docId + "/add/";
+                    Log.e("function", url);
 
-                JSONObject requestBody = new JSONObject();
-                MyVolleyRequest.sendPostRequest(getApplicationContext(), url, requestBody, new MyVolleyRequest.VolleyCallback() {
-                    @Override
-                    public void onSuccess(JSONObject response) {
-                        // Handle the successful response
-                        Log.d("VolleyResponse", response.toString());
-                    }
+                    JSONObject requestBody = new JSONObject();
+                    MyVolleyRequest.sendPostRequest(getApplicationContext(), url, requestBody, new MyVolleyRequest.VolleyCallback() {
+                        @Override
+                        public void onSuccess(JSONObject response) {
+                            Log.d("VolleyResponse", response.toString());
+                        }
 
-                    @Override
-                    public void onError(String error) {
-                        // Handle the error
-                        Log.e("VolleyError", error);
-                    }
-                });
-
-
+                        @Override
+                        public void onError(String error) {
+                            Log.e("VolleyError", error);
+                        }
+                    });
+                } else {
+                    Log.e("DocIdError", "Empty or not available");
+                }
             }
         });
     }
@@ -114,6 +125,34 @@ public class ProductDetailedActivity extends AppCompatActivity {
             startActivity(new Intent(this, CartPublicationActivity.class));
         }
         return super.onOptionsItemSelected(item);
+    }
+    private void getDocId() {
+        FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
+        if (currentUser != null) {
+            FirebaseFirestore db = FirebaseFirestore.getInstance();
+
+            db.collection("users")
+                    .whereEqualTo("Phone Number", currentUser.getPhoneNumber())
+                    .get()
+                    .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                        @Override
+                        public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                            if (task.isSuccessful() && task.getResult() != null) {
+                                for (QueryDocumentSnapshot document : task.getResult()) {
+                                    String docID = document.getId();
+
+                                    Preferences preferences = Preferences.userRoot();
+                                    preferences.put("docId", docID);
+
+                                    // Break out of the loop once the user is found
+                                    break;
+                                }
+                            } else {
+                                Log.e(TAG, "Error getting documents: ", task.getException());
+                            }
+                        }
+                    });
+        }
     }
 
     void getProductDetails(String id) {

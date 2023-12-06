@@ -29,23 +29,21 @@ public class UgExamActivity extends AppCompatActivity {
         binding = ActivityUgExamBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
-        // Find the Toolbar by its ID
         Toolbar ugtoolbar = findViewById(R.id.ugtoolbar);
 
-        // Set the Toolbar as the ActionBar
         setSupportActionBar(ugtoolbar);
 
         // Enable the back arrow in the Toolbar
         Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
 
-        BottomNavigationView navView = findViewById(R.id.nav_view);
+        BottomNavigationView navView = findViewById(R.id.bottomNavigationViewug);
 
         AppBarConfiguration appBarConfiguration = new AppBarConfiguration.Builder(
                 R.id.navigation_ughome, R.id.navigation_ugform)
                 .build();
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment_activity_ug);
         NavigationUI.setupActionBarWithNavController(this, navController, appBarConfiguration);
-        NavigationUI.setupWithNavController(binding.navView, navController);
+        NavigationUI.setupWithNavController(binding.bottomNavigationViewug, navController);
     }
 }
 

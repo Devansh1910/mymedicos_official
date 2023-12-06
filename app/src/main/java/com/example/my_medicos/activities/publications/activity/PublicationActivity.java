@@ -187,7 +187,7 @@ public class PublicationActivity extends AppCompatActivity {
         RequestQueue queue = Volley.newRequestQueue(this);
 
         String url = ConstantsDashboard.GET_SPECIALITY_ALL_PRODUCT;
-        StringRequest request = new StringRequest(Request.Method.GET, url, response -> {
+        @SuppressLint("NotifyDataSetChanged") StringRequest request = new StringRequest(Request.Method.GET, url, response -> {
             try {
                 JSONObject object = new JSONObject(response);
                 if(object.getString("status").equals("success")){
@@ -195,6 +195,9 @@ public class PublicationActivity extends AppCompatActivity {
                     for(int i =0; i< productsArray.length(); i++) {
                         JSONObject childObj = productsArray.getJSONObject(i);
                         JSONObject productObj = childObj.getJSONObject("data");
+
+                        String documentId = childObj.getString("id");
+
                         Product product = new Product(
                                 productObj.getString("Title"),
                                 productObj.getString("thumbnail"),
@@ -202,10 +205,10 @@ public class PublicationActivity extends AppCompatActivity {
                                 productObj.getDouble("Price"),
                                 productObj.getString("Type"),
                                 productObj.getString("Category"),
-                                childObj.getString("id"),
+                                documentId,
                                 productObj.getString("Subject")
+                        );
 
-                                );
                         products.add(product);
                     }
                     productAdapter.notifyDataSetChanged();
@@ -217,6 +220,7 @@ public class PublicationActivity extends AppCompatActivity {
 
         queue.add(request);
     }
+
 
     void getRecentOffers() {
         RequestQueue queue = Volley.newRequestQueue(this);

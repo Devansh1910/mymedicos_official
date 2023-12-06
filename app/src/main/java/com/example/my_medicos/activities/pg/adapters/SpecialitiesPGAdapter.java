@@ -52,14 +52,14 @@ public class SpecialitiesPGAdapter extends RecyclerView.Adapter<RecyclerView.Vie
             SpecialitiesPG specialitiespg = specialitiespost.get(position);
             specialitiespostViewHolder.label.setText(specialitiespg.getName());
             Glide.with(context)
-                    .load(specialitiespg.getIcon())
+                    .load(specialitiespg.getName())
                     .into(specialitiespostViewHolder.image);
 
             specialitiespostViewHolder.itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
                     Intent intent = new Intent(context, CategoryPublicationActivity.class);
-                    intent.putExtra("pgId", specialitiespg.getId());
+                    intent.putExtra("pgId", specialitiespg.getPriority());
                     intent.putExtra("specialityPgName", specialitiespg.getName());
                     context.startActivity(intent);
                 }
