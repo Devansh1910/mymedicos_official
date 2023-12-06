@@ -5,9 +5,7 @@ import android.os.Bundle;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
-
 import androidx.appcompat.app.AppCompatActivity;
-
 import com.example.my_medicos.R;
 
 public class GetstartedActivity extends AppCompatActivity {
