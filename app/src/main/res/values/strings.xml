@@ -275,6 +275,8 @@
     <string name="skip">Skip</string>
     <string name="about">You\'ll be notified once your verification is down, it\'ll gonna take 24 hrs to 48 hrs to get your Medical Council Number Verified.</string>
     <string name="pending">Verification Pending</string>
+    <string name="today_s_quiz_is_done">Today\'s Quiz is Done!</string>
+    <string name="_21_10_2003">21/10/2003</string>
 
     <string-array name="prefix_options">
         <item>Dr.</item>
