@@ -2,12 +2,16 @@ package com.example.my_medicos.activities.cme;
 
 import static com.example.my_medicos.list.subSpecialitiesData.subspecialities;
 
+import android.Manifest;
 import android.annotation.SuppressLint;
 import android.app.DatePickerDialog;
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
 import android.app.ProgressDialog;
 import android.app.TimePickerDialog;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.graphics.Color;
 import android.net.Uri;
@@ -34,6 +38,9 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
+import androidx.core.app.NotificationCompat;
+import androidx.core.app.NotificationManagerCompat;
 
 import com.example.my_medicos.R;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -44,9 +51,12 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
+import com.google.firebase.messaging.FirebaseMessaging;
+import com.google.firebase.messaging.RemoteMessage;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
@@ -55,17 +65,21 @@ import java.io.File;
 import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
+import java.util.Collections;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Locale;
 import java.util.Map;
+import java.util.Set;
 
 public class PostCmeActivity extends AppCompatActivity {
     FirebaseAuth auth = FirebaseAuth.getInstance();
     FirebaseUser user = auth.getCurrentUser();
     String current = user.getPhoneNumber();
-    String field3,field4;
+    String field3, field4;
     String selectedMode;
     EditText cmetitle, cmeorg, cmepresenter, cmevenu, virtuallink, cme_place;
     Button postcme;
@@ -88,20 +102,24 @@ public class PostCmeActivity extends AppCompatActivity {
     TextView room;
     private DatabaseReference databasereference;
     private StorageReference storageReference;
-    private TextView addPdf,uploadPdfBtn;
+    private TextView addPdf, uploadPdfBtn;
     String downloadUrl = null;
     private ProgressDialog pd;
     private String pdfName;
+    private String currentuserSpeciality;
     private ArrayAdapter<CharSequence> specialityAdapter;
     private ArrayAdapter<CharSequence> subspecialityAdapter;
+
     @SuppressLint("MissingInflatedId")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_post_cme);
         addPdf = findViewById(R.id.addPdf);
-        room=findViewById(R.id.room);
+        room = findViewById(R.id.room);
         room.setVisibility(View.GONE);
+        String current = user.getPhoneNumber();
+        Log.d("PhONE number", current);
 
         //..............
         databasereference = FirebaseDatabase.getInstance().getReference();
@@ -117,12 +135,13 @@ public class PostCmeActivity extends AppCompatActivity {
             openGallery();
         });
 
+
         uploadPdfBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(pdfData == null){
+                if (pdfData == null) {
                     Toast.makeText(PostCmeActivity.this, "Select a Document", Toast.LENGTH_SHORT).show();
-                }else{
+                } else {
                     uploadPdf();
                 }
             }
@@ -174,6 +193,7 @@ public class PostCmeActivity extends AppCompatActivity {
                             subspecialities1 = subspecialitySpinner.getSelectedItem().toString();
 
                         }
+
                         @Override
                         public void onNothingSelected(AdapterView<?> adapterView) {
 
@@ -184,6 +204,7 @@ public class PostCmeActivity extends AppCompatActivity {
                     subspecialitySpinner.setVisibility(View.GONE);
                 }
             }
+
             @Override
             public void onNothingSelected(AdapterView<?> adapterView) {
                 // Do nothing
@@ -198,16 +219,23 @@ public class PostCmeActivity extends AppCompatActivity {
                         field3 = ((String) dataMap.get("Phone Number"));
                         boolean areEqualIgnoreCase = current.equalsIgnoreCase(field3);
                         Log.d("vivek", String.valueOf(areEqualIgnoreCase));
-                        if ((current!=null)&&(field3!=null)) {
+                        if ((current != null) && (field3 != null)) {
                             int r = current.compareTo(field3);
                             if (r == 0) {
                                 field4 = ((String) dataMap.get("Name"));
+                                currentuserSpeciality = ((String) dataMap.get("Interest"));
                                 Log.d("veefe", field4);
                                 cmeorg.setText(field4);
                             }
                         }
+
+
+                        // Handle the retrieved data here
+
+                        // You can access data using document.getData() and perform necessary actions
                     }
                 } else {
+                    // Handle the error
                     Toast.makeText(PostCmeActivity.this, "Error fetching data from Firebase Firestore", Toast.LENGTH_SHORT).show();
                 }
             }
@@ -226,12 +254,19 @@ public class PostCmeActivity extends AppCompatActivity {
         cmeorg.setTextColor(Color.parseColor("#80000000"));
         cmeorg.setBackgroundResource(R.drawable.rounded_edittext_background);
         cmepresenter = findViewById(R.id.cme_presenter);
+
+
         cmevenu = findViewById(R.id.cme_venu);
         virtuallink = findViewById(R.id.cme_virtuallink);
         cme_place = findViewById(R.id.cme_place);
+
         postcme = findViewById(R.id.post_btn);
 
+
+        // Initialize the charCount TextView
         TextView charCount = findViewById(R.id.char_counter);
+
+        // Add a TextWatcher to the cmevenu EditText for character counting and button enabling/disabling
         cmevenu.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
@@ -242,6 +277,7 @@ public class PostCmeActivity extends AppCompatActivity {
                 int currentCount = charSequence.length();
                 charCount.setText(currentCount + "/" + MAX_CHARACTERS);
 
+                // You can change the color of the charCount TextView based on the character count
                 if (currentCount > MAX_CHARACTERS) {
                     charCount.setTextColor(Color.RED);
                     postcme.setEnabled(false); // Disable the "Post" button
@@ -258,6 +294,7 @@ public class PostCmeActivity extends AppCompatActivity {
             }
         });
 
+        // Disable the "Post" button initially
         postcme.setEnabled(false);
 
         postcme.setOnClickListener(new View.OnClickListener() {
@@ -265,7 +302,7 @@ public class PostCmeActivity extends AppCompatActivity {
             public void onClick(View view) {
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
                     Context context = view.getContext();
-                    postCme();
+                    postCme(currentuserSpeciality);
 
                     Intent i = new Intent(context, CmeActivity.class);
                     i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
@@ -295,6 +332,7 @@ public class PostCmeActivity extends AppCompatActivity {
                     cme_place.setVisibility(View.VISIBLE);
                 }
             }
+
             @Override
             public void onNothingSelected(AdapterView<?> adapterView) {
 
@@ -314,16 +352,17 @@ public class PostCmeActivity extends AppCompatActivity {
             }
         });
     }
+
     private void uploadPdf() {
         pd.setTitle("Please wait..");
         pd.setMessage("Uploading Pdf..");
         pd.show();
-        StorageReference reference = storageReference.child("pdf/"+pdfName+"-"+System.currentTimeMillis()+".pdf");
+        StorageReference reference = storageReference.child("pdf/" + pdfName + "-" + System.currentTimeMillis() + ".pdf");
         reference.putFile(pdfData).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
             @Override
             public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
                 Task<Uri> uriTask = taskSnapshot.getStorage().getDownloadUrl();
-                while (!uriTask.isComplete());
+                while (!uriTask.isComplete()) ;
                 Uri uri = uriTask.getResult();
                 uploadData(String.valueOf(uri));
                 downloadUrl = String.valueOf(uri);
@@ -340,7 +379,7 @@ public class PostCmeActivity extends AppCompatActivity {
     private void uploadData(String valueOf) {
         String uniqueKey = databasereference.child("pdf").push().getKey();
         HashMap data = new HashMap();
-        data.put("pdfUrl",downloadUrl);
+        data.put("pdfUrl", downloadUrl);
 
         databasereference.child("pdf").child(uniqueKey).setValue(data).addOnCompleteListener(new OnCompleteListener<Void>() {
             @Override
@@ -373,17 +412,17 @@ public class PostCmeActivity extends AppCompatActivity {
         if (requestCode == REQ && resultCode == RESULT_OK) {
             pdfData = data.getData();
 
-            if(pdfData.toString().startsWith("content://")){
+            if (pdfData.toString().startsWith("content://")) {
                 Cursor cursor = null;
                 try {
-                    cursor = PostCmeActivity.this.getContentResolver().query(pdfData,null,null,null,null);
-                    if(cursor != null && cursor.moveToFirst()){
+                    cursor = PostCmeActivity.this.getContentResolver().query(pdfData, null, null, null, null);
+                    if (cursor != null && cursor.moveToFirst()) {
                         pdfName = cursor.getString(cursor.getColumnIndex(OpenableColumns.DISPLAY_NAME));
                     }
                 } catch (Exception e) {
                     throw new RuntimeException(e);
                 }
-            }else if (pdfData.toString().startsWith("file://")){
+            } else if (pdfData.toString().startsWith("file://")) {
                 pdfName = new File(pdfData.toString()).getName();
             }
             addPdf.setText(pdfName);
@@ -438,7 +477,7 @@ public class PostCmeActivity extends AppCompatActivity {
     }
 
     @RequiresApi(api = Build.VERSION_CODES.O)
-    public void postCme() {
+    public void postCme(String currentuserSpeciality) {
         String title = cmetitle.getText().toString().trim();
         String organiser = cmeorg.getText().toString().trim();
         String presenter = cmepresenter.getText().toString().trim();
@@ -454,8 +493,7 @@ public class PostCmeActivity extends AppCompatActivity {
             } else {
                 virtuallink.setError(null); // Clear any previous error
             }
-        }
-        else{
+        } else {
             virtuallink.setError(null);
         }
 
@@ -517,15 +555,15 @@ public class PostCmeActivity extends AppCompatActivity {
         usermap.put("Virtual Link", link);
         usermap.put("CME Place", place);
         usermap.put("User", current);
-        usermap.put("Cme pdf",downloadUrl);
+        usermap.put("Cme pdf", downloadUrl);
         usermap.put("Date", formattedDate);
-        usermap.put("Time",formattedTime);
+        usermap.put("Time", formattedTime);
         usermap.put("Mode", mode);
         usermap.put("Speciality", speciality);
-        usermap.put("SubSpeciality",subspecialities1);
+        usermap.put("SubSpeciality", subspecialities1);
         usermap.put("Selected Date", selectedDate); // Add selected date
         usermap.put("Selected Time", selectedTime); // Add selected time
-        usermap.put("endtime",null);
+        usermap.put("endtime", null);
 
         progressDialog.setMessage("Posting...");
         progressDialog.show();
@@ -549,8 +587,9 @@ public class PostCmeActivity extends AppCompatActivity {
                             if (task.isSuccessful()) {
                                 Toast.makeText(PostCmeActivity.this, "Posted Successfully", Toast.LENGTH_SHORT).show();
 
-
-
+                                sendNotificationsToUsersWithSpecialty(speciality);
+                                Log.d("token2", speciality);
+                                // Missing closing brace for the inner if statement
                             } else {
                                 Toast.makeText(PostCmeActivity.this, "Task Failed", Toast.LENGTH_SHORT).show();
                             }
@@ -563,4 +602,108 @@ public class PostCmeActivity extends AppCompatActivity {
         });
 
     }
+
+    private void sendNotificationsToUsersWithSpecialty(String specialty) {
+        List<String> fcmTokenList = new ArrayList<>();
+        // Query the Firestore to get users with the specified specialty
+        dc.collection("users")
+                .whereEqualTo("Interest", specialty)
+                .get()
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        if (task.isSuccessful()) {
+
+                            for (DocumentSnapshot document : task.getResult()) {
+
+                                // Retrieve FCM token from the document
+                                String userToken = document.getString("fcmToken");
+                                String user1 = document.getString("Phone Number");
+
+                                if (userToken != null) {
+                                    Log.d("token2", userToken);
+                                    fcmTokenList.add(userToken);
+                                    // Send notification to each user
+
+
+                                }
+                            }
+                            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                                // Create the notification channel with the given ID, name, and importance
+                                String channelId = "CMEPOST";
+                                NotificationChannel channel = new NotificationChannel(channelId, "CME", NotificationManager.IMPORTANCE_DEFAULT);
+                                channel.setDescription("CME");
+
+                                // Get the notification manager
+                                NotificationManager notificationManager = getSystemService(NotificationManager.class);
+
+                                // Create the notification channel
+                                notificationManager.createNotificationChannel(channel);
+
+                                sendFCMNotification(channelId, fcmTokenList, "Your Notification ", "Your Notification ");
+                            }
+                        } else {
+                            Log.e("Firestore Query", "Error getting documents: ", task.getException());
+                        }
+                    }
+                });
+    }
+
+    private void sendFCMNotification(String channel,List token, String title, String text) {
+        int a=0;
+        while(a!=token.size()-1) {
+            // Build the FCM message with both data and notification payload
+            String token1 = (String) token.get(a);
+            RemoteMessage message = new RemoteMessage.Builder(token1)
+                    .setData(Collections.singletonMap("title", title))
+                    .setData(Collections.singletonMap("text", text))
+                    .setData(Collections.singletonMap("click_action", "HomeActivity"))
+
+                    .build();
+
+            Log.d("token2", token1);
+            Log.d("token2", channel);
+
+            try {
+                // Send the message to FCM
+                FirebaseMessaging.getInstance().send(message);
+                Log.d("FCM Notification", "Successfully sent FCM message");
+
+                // The following code is used to create and display a notification in the device's notification bar
+                NotificationCompat.Builder builder = new NotificationCompat.Builder(this, channel)
+                        .setSmallIcon(R.drawable.logo)
+                        .setContentTitle(title)
+                        .setContentText(text)
+                        .setPriority(NotificationCompat.PRIORITY_DEFAULT);
+
+                NotificationManagerCompat notificationManager = NotificationManagerCompat.from(this);
+                if (ActivityCompat.checkSelfPermission(this, Manifest.permission.POST_NOTIFICATIONS) != PackageManager.PERMISSION_GRANTED) {
+
+                    return;
+                }
+                notificationManager.notify(2, builder.build());
+            } catch (Exception e) {
+                Log.e("FCM Notification", "Error sending FCM message: " + e.getMessage());
+            }
+            a=a+1;
+        }
+    }
+
+
+
+    private void sendNotificationToUser(String token, Map<String, String> data) {
+        // Build the FCM message
+        RemoteMessage message = new RemoteMessage.Builder(token)
+                .setData(data)
+                .build();
+
+        try {
+            // Send the message to FCM
+            FirebaseMessaging.getInstance().send(message);
+            Log.d("FCM Notification", "Successfully sent FCM message");
+        } catch (Exception e) {
+            Log.e("FCM Notification", "Error sending FCM message: " + e.getMessage());
+        }
+    }
+
 }
