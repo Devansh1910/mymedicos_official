@@ -3,7 +3,10 @@ package com.example.my_medicos.activities.home;
 import static androidx.fragment.app.FragmentManager.TAG;
 
 import android.annotation.SuppressLint;
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -60,6 +63,8 @@ public class HomeActivity extends AppCompatActivity {
 
         toolbar = findViewById(R.id.toolbar);
 
+
+
         FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
         if (currentUser != null) {
             String userId = currentUser.getPhoneNumber();
@@ -75,8 +80,6 @@ public class HomeActivity extends AppCompatActivity {
             String username = preferences.get("username", null);
             Log.d("usernaem2", username);
         }
-        Log.d("iditennnew", "djnvjvdssn");
-
         LinearLayout openhomedrawerIcon = findViewById(R.id.opensidehomedrawer);
         openhomedrawerIcon.setOnClickListener(v -> openHomeSideActivity());
 

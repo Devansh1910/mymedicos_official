@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -30,10 +31,19 @@ import com.example.my_medicos.activities.cme.fragment.OngoingFragment;
 import com.example.my_medicos.activities.cme.fragment.PastFragment;
 import com.example.my_medicos.activities.cme.fragment.UpcomingFragment;
 import com.example.my_medicos.list.subSpecialitiesData;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.tabs.TabLayout;
 import com.google.android.material.tabs.TabLayoutMediator;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
+import com.google.firebase.messaging.FirebaseMessaging;
 
 public class CmeActivity extends AppCompatActivity {
     FloatingActionButton floatingActionButton;
@@ -95,6 +105,26 @@ public class CmeActivity extends AppCompatActivity {
                 R.array.speciality, android.R.layout.simple_spinner_item);
         specialityAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         specialitySpinner.setAdapter(specialityAdapter);
+
+        FirebaseMessaging.getInstance().getToken()
+                .addOnCompleteListener(new OnCompleteListener<String>() {
+                    @Override
+                    public void onComplete(@NonNull Task<String> task) {
+                        if (task.isSuccessful() && task.getResult() != null) {
+                            String fcmToken = task.getResult();
+                            // Store or use the FCM token as needed
+                            // Example: Save the token to Firebase Firestore
+                            saveFcmTokenToFirestore(fcmToken);
+                            Log.d("fcm token ",fcmToken);
+                        } else {
+                            // Handle the error
+                            Log.e("FCM Token", "Error getting FCM token", task.getException());
+                        }
+                    }
+                });
+
+
+
 
 
         subspecialityAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item);
@@ -180,6 +210,47 @@ public class CmeActivity extends AppCompatActivity {
         fetchData();
 
     }
+    private void saveFcmTokenToFirestore(String fcmToken) {
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        if (user != null) {
+            String phoneNumber = user.getPhoneNumber();
+
+            FirebaseFirestore db = FirebaseFirestore.getInstance();
+
+            // Query the "users" collection to find the document with the matching phone number
+            db.collection("users")
+                    .whereEqualTo("phoneNumber", phoneNumber)
+                    .get()
+                    .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                        @Override
+                        public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                            if (task.isSuccessful() && task.getResult() != null) {
+                                for (QueryDocumentSnapshot document : task.getResult()) {
+                                    // Update the FCM token in the found user document
+                                    db.collection("users").document(document.getId())
+                                            .update("fcmToken", fcmToken)
+                                            .addOnSuccessListener(new OnSuccessListener<Void>() {
+                                                @Override
+                                                public void onSuccess(Void aVoid) {
+                                                    Log.d("FCM Token", "FCM token stored successfully");
+                                                }
+                                            })
+                                            .addOnFailureListener(new OnFailureListener() {
+                                                @Override
+                                                public void onFailure(@NonNull Exception e) {
+                                                    Log.e("FCM Token", "Error storing FCM token", e);
+                                                }
+                                            });
+                                }
+                            } else {
+                                Log.e("FCM Token", "Error getting documents: ", task.getException());
+                            }
+                        }
+                    });
+        }
+    }
+
+
     public void fetchData() {
 
         setSupportActionBar(toolbar);
