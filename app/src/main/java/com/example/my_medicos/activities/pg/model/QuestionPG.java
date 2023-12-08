@@ -9,7 +9,6 @@ public class QuestionPG {
         this.url = url;
         this.date = date;
     }
-
     public String getLabel() {
         return label;
     }

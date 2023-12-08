@@ -6,13 +6,15 @@ import java.math.BigDecimal;
 
 public class PerDayPG implements Item, Serializable {
 
-    private String question, optiona, optionb,optionc,optiond, checkbtn;
-    public PerDayPG(String DailyQuestion, String optionA, String optionB, String optionC, String optionD, String SubmitAnswer) {
+    private String question, optiona, optionb,optionc,optiond, checkbtn,idquestion;
+
+    public PerDayPG(String DailyQuestion, String optionA, String optionB, String optionC, String optionD, String SubmitAnswer,String idQuestion) {
         this.question = DailyQuestion;
         this.optiona = optionA;
         this.optionb = optionB;
         this.optionc = optionC;
         this.optiond = optionD;
+        this.idquestion = idQuestion;
         this.checkbtn = SubmitAnswer;
     }
 
@@ -62,6 +64,14 @@ public class PerDayPG implements Item, Serializable {
 
     public void setSubmitDailyQuestion(String SubmitAnswer) {
         this.checkbtn = SubmitAnswer;
+    }
+
+    public String getidQuestion() {
+        return idquestion;
+    }
+
+    public void setidQuestion(String id) {
+        this.idquestion = id;
     }
 
     @Override

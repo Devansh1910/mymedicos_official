@@ -206,14 +206,8 @@ public class PostCmeActivity extends AppCompatActivity {
                                 cmeorg.setText(field4);
                             }
                         }
-
-
-                        // Handle the retrieved data here
-
-                        // You can access data using document.getData() and perform necessary actions
                     }
                 } else {
-                    // Handle the error
                     Toast.makeText(PostCmeActivity.this, "Error fetching data from Firebase Firestore", Toast.LENGTH_SHORT).show();
                 }
             }
@@ -232,19 +226,12 @@ public class PostCmeActivity extends AppCompatActivity {
         cmeorg.setTextColor(Color.parseColor("#80000000"));
         cmeorg.setBackgroundResource(R.drawable.rounded_edittext_background);
         cmepresenter = findViewById(R.id.cme_presenter);
-
-
         cmevenu = findViewById(R.id.cme_venu);
         virtuallink = findViewById(R.id.cme_virtuallink);
         cme_place = findViewById(R.id.cme_place);
-
         postcme = findViewById(R.id.post_btn);
 
-
-        // Initialize the charCount TextView
         TextView charCount = findViewById(R.id.char_counter);
-
-        // Add a TextWatcher to the cmevenu EditText for character counting and button enabling/disabling
         cmevenu.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
@@ -255,7 +242,6 @@ public class PostCmeActivity extends AppCompatActivity {
                 int currentCount = charSequence.length();
                 charCount.setText(currentCount + "/" + MAX_CHARACTERS);
 
-                // You can change the color of the charCount TextView based on the character count
                 if (currentCount > MAX_CHARACTERS) {
                     charCount.setTextColor(Color.RED);
                     postcme.setEnabled(false); // Disable the "Post" button
@@ -272,7 +258,6 @@ public class PostCmeActivity extends AppCompatActivity {
             }
         });
 
-        // Disable the "Post" button initially
         postcme.setEnabled(false);
 
         postcme.setOnClickListener(new View.OnClickListener() {

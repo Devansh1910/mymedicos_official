@@ -86,6 +86,9 @@
             android:name=".activities.publications.activity.PaymentPublicationActivity"
             android:theme="@style/Theme.My_medicos.ProductDetail" />
         <activity
+            android:name=".activities.university.activity.UniversitiesListActivity"
+            android:exported="false"/>
+        <activity
             android:name=".activities.publications.activity.CheckoutPublicationActivity"
             android:theme="@style/Theme.My_medicos.ProductDetail" />
         <activity

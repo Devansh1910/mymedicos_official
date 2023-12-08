@@ -7,7 +7,6 @@ public class ConstantsDashboard {
     public static String GET_SLIDESHOW = API_BASE_URL + "api/slideshow";
     public static String GET_SPECIALITY = API_BASE_URL + "/api/speciality";
     public static String GET_STATES = API_BASE_URL + "/api/updates";
-
     public static String GET_UNIVERSITIES = API_BASE_URL + "/api/updates/";
     public static String GET_SPECIALITY_ALL_PRODUCT = API_BASE_URL + "/api/publications/all";
     public static String GET_SPECIALITY_PRODUCT = API_BASE_URL + "api/publications/id/";
@@ -20,7 +19,7 @@ public class ConstantsDashboard {
     public static String GET_PG_VIDEOS_URL = API_BASE_URL + "api/videos";
     public static String GET_HOME_SLIDER_URL = API_BASE_URL + "/api/sliders/home";
     public static String GET_UPDATES_SLIDER_URL = API_BASE_URL + "/api/sliders/updates";
-    public static String GET_DAILY_QUESTIONS_URL = API_BASE_URL + "/api/quiz/today";
-
+    public static String GET_DAILY_QUESTIONS_URL = API_BASE_URL + "/api/quiz/today?q=home";
+    public static String GET_DAILY_QUESTIONS_SUBMITTION = API_BASE_URL + "/api/quiz/submit/today/as";
 
 }

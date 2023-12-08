@@ -2,6 +2,7 @@ package com.example.my_medicos.activities.profile;
 
 import static androidx.constraintlayout.helper.widget.MotionEffect.TAG;
 
+import android.annotation.SuppressLint;
 import android.app.ProgressDialog;
 import android.content.ContentValues;
 import android.content.Intent;
@@ -147,6 +148,7 @@ public class Contactinfo extends AppCompatActivity {
         location.setAdapter(locationAdapter);
 
         location.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @SuppressLint("SuspiciousIndentation")
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int position, long l) {
                 int locationIndex = location.getSelectedItemPosition();

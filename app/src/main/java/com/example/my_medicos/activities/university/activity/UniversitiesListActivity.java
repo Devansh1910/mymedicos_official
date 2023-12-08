@@ -3,6 +3,7 @@ package com.example.my_medicos.activities.university.activity;
 import android.os.Bundle;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.GridLayoutManager;
 
 import com.android.volley.Request;
@@ -30,6 +31,8 @@ public class UniversitiesListActivity extends AppCompatActivity {
     ActivityUniversityListBinding binding;
     UpdatesAdapter updateAdapter;
     ArrayList<Updates> updates;
+    Toolbar toolbar;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

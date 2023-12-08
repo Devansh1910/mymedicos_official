@@ -176,7 +176,8 @@ public class  PgprepActivity extends AppCompatActivity {
                                 childObj.getString("B"),
                                 childObj.getString("C"),
                                 childObj.getString("D"),
-                                childObj.getString("Correct")
+                                childObj.getString("Correct"),
+                                childObj.getString("id")
                         );
                         dailyquestionspg.add(perday);
                     }
@@ -217,9 +218,7 @@ public class  PgprepActivity extends AppCompatActivity {
                         JSONArray specialityArray = mainObj.getJSONArray("data");
                         int categoriesCount = Math.min(specialityArray.length(), 25);
 
-                        // Add a condition to check if the number of categories is more than five
                         if (categoriesCount > 5) {
-                            // Add a "more" category with a special priority, for example, -1
                             SpecialitiesPG moreSpeciality = new SpecialitiesPG("-1", -1);
                             specialitiespost.add(moreSpeciality);
                             categoriesCount = 5; // Limit the displayed categories to 5
@@ -234,8 +233,6 @@ public class  PgprepActivity extends AppCompatActivity {
                             specialitiespost.add(speciality);
                             Log.e("Something went wrong..", object.getString("priority"));
                         }
-
-                        // ... (existing code)
 
                         binding.specialityList.addOnItemTouchListener(new RecyclerView.OnItemTouchListener() {
                             @Override

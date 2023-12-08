@@ -16,6 +16,7 @@ import com.example.my_medicos.R;
 import com.example.my_medicos.activities.publications.activity.CategoryPublicationActivity;
 import com.example.my_medicos.activities.publications.adapters.CategoryAdapter;
 import com.example.my_medicos.activities.publications.model.Category;
+import com.example.my_medicos.activities.university.activity.UniversitiesListActivity;
 import com.example.my_medicos.activities.university.model.States;
 import com.example.my_medicos.activities.university.model.Universities;
 import com.makeramen.roundedimageview.RoundedImageView;
@@ -62,7 +63,7 @@ public class StatesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
             statesViewHolder.itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    Intent intent = new Intent(context, CategoryPublicationActivity.class);
+                    Intent intent = new Intent(context, UniversitiesListActivity.class);
                     intent.putExtra("stateName", state.getName());
                     context.startActivity(intent);
                 }

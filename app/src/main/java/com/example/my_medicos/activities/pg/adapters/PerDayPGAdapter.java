@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.Typeface;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,19 +14,29 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.android.volley.Request;
+import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
 import com.bumptech.glide.Glide;
 import com.example.my_medicos.R;
 import com.example.my_medicos.activities.pg.animations.CorrectAnswerActivity;
 import com.example.my_medicos.activities.pg.animations.WrongAnswerActivity;
 import com.example.my_medicos.activities.pg.model.PerDayPG;
+import com.example.my_medicos.activities.utils.ConstantsDashboard;
 import com.example.my_medicos.databinding.QuestionPerDayDesignBinding;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.util.ArrayList;
+import java.util.prefs.Preferences;
 
 public class PerDayPGAdapter extends RecyclerView.Adapter<PerDayPGAdapter.DailyQuestionViewHolder> {
 
     private Context context;
     private ArrayList<PerDayPG> dailyquestions;
+    PerDayPGAdapter  PerDayPGAdapter;
     private String selectedOption;
     private long lastSelectionTimestamp; // to store the timestamp when an option is selected
 
@@ -80,7 +91,6 @@ public class PerDayPGAdapter extends RecyclerView.Adapter<PerDayPGAdapter.DailyQ
             }
         });
 
-        // Add OnClickListener to the "Finish" button
         holder.binding.submitanswerbtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -93,9 +103,25 @@ public class PerDayPGAdapter extends RecyclerView.Adapter<PerDayPGAdapter.DailyQ
 
                     PerDayPG selectedQuestion = dailyquestions.get(holder.getAdapterPosition());
                     String correctAnswer = selectedQuestion.getSubmitDailyQuestion();
+                    String docId = Preferences.userRoot().get("docId", "");
 
                     if (selectedOption.equals(correctAnswer)) {
                         showCorrectAnswerPopup();
+//                        String url = ConstantsDashboard.GET_DAILY_QUESTIONS_SUBMITTION + "?id="+ docId + "&option=" + selectedOption + "&qid=" + dailyquestion.getidQuestion();
+//
+//                        StringRequest request = new StringRequest(Request.Method.GET, url, response -> {
+//                            try {
+//                                Log.d("DEBUG", "getPerDayQuestions: Response received");
+//                                JSONObject object = new JSONObject(response);
+//                            } catch (JSONException e) {
+//                                e.printStackTrace();
+//                            }
+//                        }, error -> {
+//                            // Handle error here
+//                            Log.e("ERROR", "Volley error: " + error.getMessage());
+//                        });
+//                        Volley.newRequestQueue(context).add(request);
+
                     } else {
                         showWrongAnswerPopup();
                     }
@@ -163,6 +189,9 @@ public class PerDayPGAdapter extends RecyclerView.Adapter<PerDayPGAdapter.DailyQ
         // Add FLAG_ACTIVITY_CLEAR_TOP flag
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         context.startActivity(intent);
+    }
+
+    private void  SaveAnsweroftheQuestion(){
     }
 
     private void showWrongAnswerPopup() {

@@ -176,8 +176,6 @@ public class CmeActivity extends AppCompatActivity {
             }
         });
 
-
-
         pager.setAdapter(new ViewPagerAdapter(this));
         fetchData();
 
