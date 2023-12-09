@@ -9,7 +9,6 @@
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
     <uses-permission android:name="android.permission.WAKE_LOCK" />
-
     <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
     <uses-permission android:name="android.permission.READ_PHONE_STATE" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
@@ -31,6 +30,9 @@
         android:theme="@style/Theme.My_medicos"
         tools:replace="android:label"
         tools:targetApi="31">
+        <activity
+            android:name=".activities.slideshow.SlideshowInsidernActivity"
+            android:exported="false" />
         <activity
             android:name=".activities.home.sidedrawer.NotificationActivity"
             android:exported="false" />
@@ -91,7 +93,7 @@
             android:theme="@style/Theme.My_medicos.ProductDetail" />
         <activity
             android:name=".activities.university.activity.UniversitiesListActivity"
-            android:exported="false"/>
+            android:exported="false" />
         <activity
             android:name=".activities.publications.activity.CheckoutPublicationActivity"
             android:theme="@style/Theme.My_medicos.ProductDetail" />
@@ -185,17 +187,13 @@
             android:name=".activities.job.JobsActivity"
             android:exported="false"
             android:parentActivityName=".activities.home.HomeActivity" />
-        <activity
-            android:name=".activities.home.HomeActivity">
+        <activity android:name=".activities.home.HomeActivity">
             <intent-filter>
                 <action android:name="OPEN_ACTIVITY" />
+
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
-
-
-
-
         <activity
             android:name=".activities.utils.ConstantsDashboard"
             android:exported="false" />
@@ -214,17 +212,20 @@
         <activity
             android:name=".activities.login.MainActivity"
             android:exported="false" />
-        <service android:name=".activities.notification.NotificationService" android:exported="false">
-            <intent-filter>
-                <action android:name="com.google.firebase.MESSAGING_EVENT"/>
-            </intent-filter>
 
+        <service
+            android:name=".activities.notification.NotificationService"
+            android:exported="false">
+            <intent-filter>
+                <action android:name="com.google.firebase.MESSAGING_EVENT" />
+            </intent-filter>
         </service>
-        <service android:name=".activities.cme.PostCmeActivity" android:exported="false">
+        <service
+            android:name=".activities.cme.PostCmeActivity"
+            android:exported="false">
             <intent-filter>
-                <action android:name="com.google.firebase.MESSAGING_EVENT"/>
+                <action android:name="com.google.firebase.MESSAGING_EVENT" />
             </intent-filter>
-
         </service>
 
         <meta-data

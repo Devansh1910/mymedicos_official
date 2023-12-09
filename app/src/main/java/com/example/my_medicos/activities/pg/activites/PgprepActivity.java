@@ -328,15 +328,8 @@ public class  PgprepActivity extends AppCompatActivity {
                     JSONObject mainObj = new JSONObject(response);
                     if (mainObj.getString("status").equals("success")) {
                         JSONArray specialityArray = mainObj.getJSONArray("data");
-                        int categoriesCount = Math.min(specialityArray.length(), 25);
 
-                        if (categoriesCount > 5) {
-                            SpecialitiesPG moreSpeciality = new SpecialitiesPG("-1", -1);
-                            specialitiespost.add(moreSpeciality);
-                            categoriesCount = 5; // Limit the displayed categories to 5
-                        }
-
-                        for (int i = 0; i < categoriesCount; i++) {
+                        for (int i = 0; i < specialityArray.length(); i++) {
                             JSONObject object = specialityArray.getJSONObject(i);
                             SpecialitiesPG speciality = new SpecialitiesPG(
                                     object.getString("id"),
@@ -358,7 +351,7 @@ public class  PgprepActivity extends AppCompatActivity {
                                         Intent intent = new Intent(PgprepActivity.this, SpecialityPGInsiderActivity.class);
                                         startActivity(intent);
                                     } else {
-
+                                        // Handle the click on other items if needed
                                     }
                                 }
                                 return false;
@@ -375,7 +368,7 @@ public class  PgprepActivity extends AppCompatActivity {
 
                         specialitiesPGAdapter.notifyDataSetChanged();
                     } else {
-                        // Handle the case where the status is not success
+
                     }
                 } catch (JSONException e) {
                     e.printStackTrace();

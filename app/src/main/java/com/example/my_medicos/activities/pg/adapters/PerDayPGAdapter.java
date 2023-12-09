@@ -50,12 +50,12 @@ public class PerDayPGAdapter extends RecyclerView.Adapter<PerDayPGAdapter.DailyQ
     private ArrayList<PerDayPG> dailyquestions;
     PerDayPGAdapter  PerDayPGAdapter;
     private String selectedOption;
-    private long lastSelectionTimestamp; // to store the timestamp when an option is selected
+    private long lastSelectionTimestamp;
 
     public PerDayPGAdapter(Context context, ArrayList<PerDayPG> questions) {
         this.context = context;
         this.dailyquestions = questions;
-        this.lastSelectionTimestamp = 0; // Initialize to 0
+        this.lastSelectionTimestamp = 0;
     }
 
     @NonNull

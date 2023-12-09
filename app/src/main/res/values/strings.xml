@@ -151,18 +151,35 @@
 
 
     <string-array name="indian_cities">
-        <item>Select city</item>
-        <item>New Delhi</item>
-        <item>Mumbai</item>
-        <item>Bangalore</item>
-        <item>Chennai</item>
-        <item>Kolkata</item>
-        <item>Hyderabad</item>
-        <item>Jaipur</item>
-        <item>Pune</item>
-        <item>Ahmedabad</item>
-        <item>Chandigarh</item>
-        <item>Varanasi</item>
+        <item>Select State</item>
+        <item>Andhra Pradesh</item>
+        <item>Arunachal Pradesh</item>
+        <item>Assam</item>
+        <item>Bihar</item>
+        <item>Chhattisgarh</item>
+        <item>Goa</item>
+        <item>Gujarat</item>
+        <item>Haryana</item>
+        <item>Himachal Pradesh</item>
+        <item>Jharkhand</item>
+        <item>Karnataka</item>
+        <item>Kerala</item>
+        <item>Madhya Pradesh</item>
+        <item>Maharashtra</item>
+        <item>Manipur</item>
+        <item>Meghalaya</item>
+        <item>Mizoram</item>
+        <item>Nagaland</item>
+        <item>Odisha</item>
+        <item>Punjab</item>
+        <item>Rajasthan</item>
+        <item>Sikkim</item>
+        <item>Tamil Nadu</item>
+        <item>Telangana</item>
+        <item>Tripura</item>
+        <item>Uttar Pradesh</item>
+        <item>Uttarakhand</item>
+        <item>West Bengal</item>
     </string-array>
 
 
@@ -280,14 +297,18 @@
 
     <string-array name="prefix_options">
         <item>Dr.</item>
-        <item>Lt.</item>
-        <item>Ct.</item>
+        <item>Hr.</item>
+        <item>Nr.</item>
     </string-array>
 
     <string-array name="gender">
         <item>Male</item>
         <item>Female</item>
         <item>Trans Gender</item>
+    </string-array>
+
+    <string-array name="country_codes">
+        <item>+91</item>
     </string-array>
 
 

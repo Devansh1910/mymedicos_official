@@ -9,7 +9,9 @@ import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.Spinner;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -41,6 +43,7 @@ public class MainActivity extends AppCompatActivity {
 
     Toolbar toolbar;
 
+    Spinner countryCodeSpinner;
     FirebaseAuth mauth;
     FirebaseFirestore db = FirebaseFirestore.getInstance();
 
@@ -49,6 +52,11 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        countryCodeSpinner = findViewById(R.id.countryCodeSpinner);
+        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this, R.array.country_codes, android.R.layout.simple_spinner_item);
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        countryCodeSpinner.setAdapter(adapter);
 
         phone = findViewById(R.id.phonenumberedit);
         login = findViewById(R.id.lgn_btn);
@@ -62,6 +70,7 @@ public class MainActivity extends AppCompatActivity {
         login.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                String selectedCountryCode = countryCodeSpinner.getSelectedItem().toString();
                 String phoneNumber = phone.getText().toString().trim();
 
                 if (TextUtils.isEmpty(phoneNumber)) {
@@ -69,8 +78,8 @@ public class MainActivity extends AppCompatActivity {
                     return;
                 }
 
-                if (!phoneNumber.startsWith("+91")) {
-                    phoneNumber = "+91" + phoneNumber;
+                if (!phoneNumber.startsWith(selectedCountryCode)) {
+                    phoneNumber = selectedCountryCode + phoneNumber;
                 }
 
                 checkIfUserExists(phoneNumber);

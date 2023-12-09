@@ -27,6 +27,7 @@ import com.example.my_medicos.activities.publications.adapters.CategoryAdapter;
 import com.example.my_medicos.activities.publications.model.Category;
 import com.example.my_medicos.activities.slideshow.Slideshow;
 import com.example.my_medicos.activities.slideshow.SlideshowAdapter;
+import com.example.my_medicos.activities.slideshow.SlideshowInsidernActivity;
 import com.example.my_medicos.activities.utils.ConstantsDashboard;
 import com.example.my_medicos.databinding.FragmentSlideshowBinding;
 import org.imaginativeworld.whynotimagecarousel.model.CarouselItem;
@@ -81,21 +82,26 @@ public class SlideshowFragment extends Fragment {
                     for (int i = 0; i < dataArray.length(); i++) {
                         JSONObject slideshowObj = dataArray.getJSONObject(i);
 
-                        JSONArray imagesArray = slideshowObj.getJSONArray("images");
-                        ArrayList<Slideshow.Image> images = new ArrayList<>();
-                        for (int j = 0; j < imagesArray.length(); j++) {
-                            JSONObject imageObj = imagesArray.getJSONObject(j);
-                            String imageUrl = imageObj.optString("url");
-                            String imageId = imageObj.optString("id");
-                            images.add(new Slideshow.Image(imageId, imageUrl));
-                        }
-
                         String fileUrl = slideshowObj.optString("file");
                         String title = slideshowObj.optString("title");
 
-                        // Now you can create your Slideshow object
-                        Slideshow slideshowItem = new Slideshow(title, images, fileUrl);
-                        slideshows.add(slideshowItem);
+                        if (slideshowObj.has("images")) {
+                            JSONArray imagesArray = slideshowObj.getJSONArray("images");
+                            ArrayList<Slideshow.Image> images = new ArrayList<>();
+                            for (int j = 0; j < imagesArray.length(); j++) {
+                                JSONObject imageObj = imagesArray.getJSONObject(j);
+                                String imageUrl = imageObj.optString("url");
+                                String imageId = imageObj.optString("id");
+                                images.add(new Slideshow.Image(imageId, imageUrl));
+                            }
+                            // Now you can create your Slideshow object with images
+                            Slideshow slideshowItem = new Slideshow(title, images, fileUrl);
+                            slideshows.add(slideshowItem);
+                        } else {
+                            // If "images" array does not exist, create Slideshow without images
+                            Slideshow slideshowItem = new Slideshow(title, new ArrayList<>(), fileUrl);
+                            slideshows.add(slideshowItem);
+                        }
                     }
                     slideshowAdapter.notifyDataSetChanged();
                 }
@@ -131,7 +137,7 @@ public class SlideshowFragment extends Fragment {
                     JSONObject mainObj = new JSONObject(response);
                     if (mainObj.getString("status").equals("success")) {
                         JSONArray categoriesArray = mainObj.getJSONArray("data");
-                        int categoriesCount = Math.min(categoriesArray.length(), 25);
+                        int categoriesCount = Math.min(categoriesArray.length(), 40);
                         for (int i = 0; i < categoriesCount; i++) {
                             JSONObject object = categoriesArray.getJSONObject(i);
                             Category category = new Category(
@@ -141,16 +147,6 @@ public class SlideshowFragment extends Fragment {
                             categoriesslideshow.add(category);
                             Log.e("Something went wrong..",object.getString("priority"));
                         }
-//                        if (categoriesArray.length() > 5) {
-//                            Category moreCategory = new Category(
-//                                    "More",
-//                                    , // Replace with the actual icon for the "More" category
-//                                    "#CCCCCC", // Replace with the color for the "More" category
-//                                    "View More Categories",
-//                                    -1 // Replace with a unique ID for the "More" category
-//                            );
-//                            categories.add(moreCategory);
-//                        }
                         categoryAdapterslideshow.notifyDataSetChanged();
                         binding.slideshowpptlistcategory.addOnItemTouchListener(new RecyclerView.OnItemTouchListener() {
                             @Override
@@ -160,8 +156,7 @@ public class SlideshowFragment extends Fragment {
 
                                 if (position != RecyclerView.NO_POSITION) {
                                     if (position == categoriesslideshow.size() - 1 && categoriesslideshow.get(position).getPriority() == -1) {
-                                        // Redirect to CategoryPublicationInsiderActivity
-                                        Intent intent = new Intent(requireContext(), CategoryPublicationInsiderActivity.class);
+                                        Intent intent = new Intent(requireContext(), SlideshowInsidernActivity.class);
                                         startActivity(intent);
                                     } else {
 

@@ -4,7 +4,7 @@ public class ConstantsDashboard {
     public static String API_BASE_URL = "https://mymedicos-dashboard.vercel.app/";
     public static String GET_CME_SLIDER_URL = API_BASE_URL + "/api/sliders/cme";
     public static String GET_NEWS = API_BASE_URL + "api/news";
-    public static String GET_SLIDESHOW = API_BASE_URL + "api/slideshow";
+    public static String GET_SLIDESHOW = API_BASE_URL + "/api/slideshow/home";
     public static String GET_SPECIALITY = API_BASE_URL + "/api/speciality";
     public static String GET_STATES = API_BASE_URL + "/api/updates";
     public static String GET_UNIVERSITIES = API_BASE_URL + "/api/updates/";

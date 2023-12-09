@@ -47,8 +47,8 @@ public class UniversitiesListActivity extends AppCompatActivity {
         int universityId = getIntent().getIntExtra("nuniversityId", 0);
         String universityName = getIntent().getStringExtra("universityName");
 
-        getSupportActionBar().setTitle(universityName);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+//        getSupportActionBar().setTitle(universityName);
+//        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         getUpdates(universityId);
 

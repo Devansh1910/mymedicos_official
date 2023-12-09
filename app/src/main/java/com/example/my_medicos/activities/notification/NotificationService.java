@@ -27,9 +27,7 @@ public class NotificationService extends FirebaseMessagingService {
     public void onMessageReceived(RemoteMessage remoteMessage) {
         super.onMessageReceived(remoteMessage);
 
-        // Check if the message contains data payload
         if (remoteMessage.getData().size() > 0) {
-            // Handle data payload (you can customize this part)
             Map<String, String> data = remoteMessage.getData();
             String title = data.get("title");
             String text = data.get("text");

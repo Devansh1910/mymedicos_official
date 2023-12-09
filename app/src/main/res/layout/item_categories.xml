@@ -11,7 +11,7 @@
         android:layout_height="wrap_content"
         android:layout_marginVertical="@dimen/_5ssp"
         android:layout_marginHorizontal="@dimen/_5ssp"
-        android:background="@drawable/categorynewbk"
+        android:background="#E1FAF2"
         android:gravity="start"
         android:orientation="horizontal"
         android:paddingHorizontal="@dimen/_10ssp"
@@ -23,8 +23,8 @@
 
         <com.makeramen.roundedimageview.RoundedImageView
             android:id="@+id/image"
-            android:layout_width="24dp"
-            android:layout_height="24dp"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
             android:layout_marginEnd="@dimen/_5ssp"
             android:scaleType="centerCrop"
             android:src="@drawable/placeholder"
@@ -33,13 +33,14 @@
 
         <TextView
             android:id="@+id/label"
-            android:layout_width="wrap_content"
+            android:paddingVertical="@dimen/_5sdp"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:fontFamily="@font/roboto_bold"
-            android:gravity="center"
+            android:fontFamily="@font/inter"
+            android:gravity="start"
             android:layout_gravity="center"
             android:text="TextView"
-            android:textSize="@dimen/_10ssp"
+            android:textSize="@dimen/_12ssp"
             android:textStyle="bold" />
 
     </LinearLayout>

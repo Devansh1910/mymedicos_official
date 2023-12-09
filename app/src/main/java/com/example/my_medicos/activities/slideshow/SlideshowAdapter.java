@@ -36,9 +36,13 @@ public class SlideshowAdapter extends RecyclerView.Adapter<SlideshowAdapter.Slid
     @Override
     public void onBindViewHolder(@NonNull SlideshowViewHolder holder, int position) {
         Slideshow slideshow = slideshows.get(position);
-        Glide.with(context)
-                .load(slideshow.getImages().get(0).getUrl()) // Assuming you want to load the first image
-                .into(holder.binding.thumbnailslideshow);
+
+        if (!slideshow.getImages().isEmpty()) {
+            Glide.with(context)
+                    .load(slideshow.getImages().get(0).getUrl())
+                    .into(holder.binding.thumbnailslideshow);
+        }
+
         holder.binding.slideshowlabel.setText(slideshow.getTitle());
     }
 
@@ -65,7 +69,12 @@ public class SlideshowAdapter extends RecyclerView.Adapter<SlideshowAdapter.Slid
     }
 
     private void openUrlInBrowser(String url) {
-        Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
-        context.startActivity(intent);
+        if (!url.isEmpty()) {
+            Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
+            context.startActivity(intent);
+        } else {
+
+        }
     }
+
 }

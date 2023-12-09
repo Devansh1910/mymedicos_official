@@ -26,6 +26,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:paddingHorizontal="@dimen/_12sdp"
+            android:background="@color/green"
             android:layout_gravity="bottom"
             android:paddingVertical="@dimen/_5ssp"
             android:orientation="horizontal">
@@ -42,10 +43,11 @@
                     android:layout_height="wrap_content"
                     android:text="TextView"
                     android:textSize="16dp"
+                    android:maxLength="10"
                     android:textStyle="bold"
-                    android:fontFamily="@font/roboto_bold"
+                    android:fontFamily="@font/inter"
                     android:maxLines="1"
-                    android:textColor="@color/white" />
+                    android:textColor="@color/black" />
 
                 <TextView
                     android:layout_width="match_parent"
@@ -53,9 +55,9 @@
                     android:text="Certified!"
                     android:textSize="10sp"
                     android:textStyle="bold"
-                    android:fontFamily="@font/roboto_bold"
+                    android:fontFamily="@font/inter"
                     android:maxLines="1"
-                    android:textColor="#E3D8D8" />
+                    android:textColor="#6C6969" />
 
             </LinearLayout>
 

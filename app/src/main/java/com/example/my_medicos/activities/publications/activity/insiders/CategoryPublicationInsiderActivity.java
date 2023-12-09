@@ -48,8 +48,6 @@ public class CategoryPublicationInsiderActivity extends AppCompatActivity {
 
         toolbarpublications = findViewById(R.id.publicationstoolbar);
         setSupportActionBar(toolbarpublications);
-//        tab=findViewById(R.id.tabLayout);
-//        viewPager=findViewById(R.id.view_pager);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         initCategories();

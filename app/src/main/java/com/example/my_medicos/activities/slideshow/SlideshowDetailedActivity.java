@@ -30,8 +30,6 @@ import org.json.JSONObject;
 
 
 public class SlideshowDetailedActivity extends AppCompatActivity {
-
-
     ActivityNewsDetailedBinding binding;
     News currentNews;
 
