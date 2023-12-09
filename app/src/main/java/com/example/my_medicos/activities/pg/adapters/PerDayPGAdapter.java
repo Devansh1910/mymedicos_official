@@ -1,5 +1,8 @@
 package com.example.my_medicos.activities.pg.adapters;
 
+import static androidx.media3.common.MediaLibraryInfo.TAG;
+import static com.example.my_medicos.activities.cme.CmeDetailsActivity.getCurrentTime;
+
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
@@ -12,24 +15,33 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.OptIn;
+import androidx.media3.common.util.UnstableApi;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.android.volley.Request;
-import com.android.volley.toolbox.StringRequest;
-import com.android.volley.toolbox.Volley;
 import com.bumptech.glide.Glide;
 import com.example.my_medicos.R;
 import com.example.my_medicos.activities.pg.animations.CorrectAnswerActivity;
 import com.example.my_medicos.activities.pg.animations.WrongAnswerActivity;
 import com.example.my_medicos.activities.pg.model.PerDayPG;
-import com.example.my_medicos.activities.utils.ConstantsDashboard;
 import com.example.my_medicos.databinding.QuestionPerDayDesignBinding;
-
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.FieldValue;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.Query;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.prefs.Preferences;
 
 public class PerDayPGAdapter extends RecyclerView.Adapter<PerDayPGAdapter.DailyQuestionViewHolder> {
@@ -55,6 +67,7 @@ public class PerDayPGAdapter extends RecyclerView.Adapter<PerDayPGAdapter.DailyQ
     @Override
     public void onBindViewHolder(@NonNull DailyQuestionViewHolder holder, int position) {
         PerDayPG dailyquestion = dailyquestions.get(position);
+
         Glide.with(context);
         holder.binding.questionspan.setText(dailyquestion.getDailyQuestion());
         holder.binding.optionA.setText(dailyquestion.getDailyQuestionA());
@@ -91,6 +104,11 @@ public class PerDayPGAdapter extends RecyclerView.Adapter<PerDayPGAdapter.DailyQ
             }
         });
 
+        FirebaseAuth mAuth = FirebaseAuth.getInstance();
+
+        FirebaseUser currentUser = mAuth.getCurrentUser();
+        String user=currentUser.getPhoneNumber();
+
         holder.binding.submitanswerbtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -107,6 +125,29 @@ public class PerDayPGAdapter extends RecyclerView.Adapter<PerDayPGAdapter.DailyQ
 
                     if (selectedOption.equals(correctAnswer)) {
                         showCorrectAnswerPopup();
+                        FirebaseFirestore db = FirebaseFirestore.getInstance();
+                        CollectionReference usersCollection = db.collection("users");
+
+                        Query query = usersCollection.whereEqualTo("Phone Number", user); // Replace "phoneNumber" with the actual field name
+
+                        query.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                            @OptIn(markerClass = UnstableApi.class) @Override
+                            public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                                if (task.isSuccessful()) {
+                                    for (QueryDocumentSnapshot document : task.getResult()) {
+                                        // Assuming there's only one document with the matching phone number
+                                        updateDocument(document.getId(), String.valueOf(dailyquestion.getidQuestion()));
+                                    }
+                                } else {
+                                    Log.w(TAG, "Error getting documents.", task.getException());
+                                }
+                            }
+                        });
+
+// ...
+
+
+
 //                        String url = ConstantsDashboard.GET_DAILY_QUESTIONS_SUBMITTION + "?id="+ docId + "&option=" + selectedOption + "&qid=" + dailyquestion.getidQuestion();
 //
 //                        StringRequest request = new StringRequest(Request.Method.GET, url, response -> {
@@ -124,6 +165,24 @@ public class PerDayPGAdapter extends RecyclerView.Adapter<PerDayPGAdapter.DailyQ
 
                     } else {
                         showWrongAnswerPopup();
+                        FirebaseFirestore db = FirebaseFirestore.getInstance();
+                        CollectionReference usersCollection = db.collection("users");
+
+                        Query query = usersCollection.whereEqualTo("Phone Number", user); // Replace "phoneNumber" with the actual field name
+
+                        query.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                            @OptIn(markerClass = UnstableApi.class) @Override
+                            public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                                if (task.isSuccessful()) {
+                                    for (QueryDocumentSnapshot document : task.getResult()) {
+                                        // Assuming there's only one document with the matching phone number
+                                        updateDocument1(document.getId(), String.valueOf(dailyquestion.getidQuestion()));
+                                    }
+                                } else {
+                                    Log.w(TAG, "Error getting documents.", task.getException());
+                                }
+                            }
+                        });
                     }
                 } else {
                     showToast("Please select an option");
@@ -163,6 +222,66 @@ public class PerDayPGAdapter extends RecyclerView.Adapter<PerDayPGAdapter.DailyQ
         option.setBackgroundResource(R.drawable.selectedoptionbk);
         option.setTextColor(Color.WHITE);
         option.setTypeface(null, Typeface.BOLD);
+    }
+    private void updateDocument(String documentId, String QuizToday) {
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+        DocumentReference docRef = db.collection("users").document(documentId);
+
+        // Assuming "count" is the field you want to increment
+//        Long newCount = currentCount + 1;
+
+        Map<String, Object> updates = new HashMap<>();
+        updates.put("QuizToday", QuizToday);
+        updates.put("CurrentTime", System.currentTimeMillis());
+
+        updates.put("Streak", FieldValue.increment(1)); // Increment the count field by 1
+
+        docRef.update(updates)
+                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @OptIn(markerClass = UnstableApi.class) @Override
+                    public void onSuccess(Void aVoid) {
+                        Log.d(TAG, "DocumentSnapshot successfully updated!");
+                        Toast.makeText(context.getApplicationContext(), "Successfully Ended", Toast.LENGTH_SHORT).show();
+
+                        Log.d("abc", "bcd");
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @OptIn(markerClass = UnstableApi.class) @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Log.w(TAG, "Error updating document", e);
+                    }
+                });
+    }
+    private void updateDocument1(String documentId, String QuizToday) {
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+        DocumentReference docRef = db.collection("users").document(documentId);
+
+        // Assuming "count" is the field you want to increment
+//        Long newCount = currentCount + 1;
+
+        Map<String, Object> updates = new HashMap<>();
+        updates.put("QuizToday", QuizToday);
+        updates.put("CurrentTime", System.currentTimeMillis());
+
+
+
+        docRef.update(updates)
+                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @OptIn(markerClass = UnstableApi.class) @Override
+                    public void onSuccess(Void aVoid) {
+                        Log.d(TAG, "DocumentSnapshot successfully updated!");
+                        Toast.makeText(context.getApplicationContext(), "Successfully Ended", Toast.LENGTH_SHORT).show();
+
+                        Log.d("abc", "bcd");
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @OptIn(markerClass = UnstableApi.class) @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Log.w(TAG, "Error updating document", e);
+                    }
+                });
     }
 
     private void resetOptionStyle(DailyQuestionViewHolder holder) {

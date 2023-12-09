@@ -1,14 +1,21 @@
 package com.example.my_medicos.activities.pg.activites;
 
+import static androidx.media3.common.MediaLibraryInfo.TAG;
+
 import androidx.annotation.NonNull;
+import androidx.annotation.OptIn;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.cardview.widget.CardView;
+import androidx.media3.common.util.UnstableApi;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import android.annotation.SuppressLint;
+import android.content.ContentValues;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.MotionEvent;
@@ -36,29 +43,48 @@ import com.example.my_medicos.activities.pg.model.VideoPG;
 import com.example.my_medicos.activities.publications.adapters.ProductAdapter;
 import com.example.my_medicos.activities.publications.model.Product;
 import com.example.my_medicos.activities.publications.utils.Constants;
+import com.example.my_medicos.adapter.cme.items.cmeitem4;
 import com.example.my_medicos.databinding.ActivityPgprepBinding;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.Query;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
 import com.mancj.materialsearchbar.MaterialSearchBar;
 import org.imaginativeworld.whynotimagecarousel.model.CarouselItem;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.time.LocalDate;
+import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
 import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
 
 public class  PgprepActivity extends AppCompatActivity {
 
     ActivityPgprepBinding binding;
 
     PerDayPGAdapter  PerDayPGAdapter;
+
     ArrayList<PerDayPG> dailyquestionspg;
     SpecialitiesPGAdapter specialitiesPGAdapter;
     ArrayList<SpecialitiesPG> specialitiespost;
+    CardView nocardp;
 
     QuestionBankPGAdapter questionsAdapter;
     ArrayList<QuestionPG> questionsforpg;
 
     VideoPGAdapter videosAdapter;
     ArrayList<VideoPG> videoforpg;
+    String quiztiddaya;
 
     private SwipeRefreshLayout swipeRefreshLayout;
 
@@ -68,9 +94,64 @@ public class  PgprepActivity extends AppCompatActivity {
         binding = ActivityPgprepBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
-        // Initialize SwipeRefreshLayout
-        swipeRefreshLayout = findViewById(R.id.swipeRefreshLayout);
-        swipeRefreshLayout.setOnRefreshListener(this::refreshContent);
+        FirebaseAuth mAuth = FirebaseAuth.getInstance();
+
+        FirebaseUser currentUser = mAuth.getCurrentUser();
+        String user=currentUser.getPhoneNumber();
+        nocardp=findViewById(R.id.nocardpg);
+        nocardp.setVisibility(View.GONE);
+
+//        // Initialize SwipeRefreshLayout
+//        swipeRefreshLayout = findViewById(R.id.swipeRefreshLayout);
+//        swipeRefreshLayout.setOnRefreshListener(this::refreshContent);
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+
+        Log.d("questionid","questionid");
+
+
+        String userId = currentUser.getPhoneNumber();
+
+
+        db.collection("users")
+                .get()
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @OptIn(markerClass = UnstableApi.class) @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        if (task.isSuccessful()) {
+                            for (QueryDocumentSnapshot document : task.getResult()) {
+                                Log.d(TAG, document.getId() + " => " + document.getData());
+
+                                Map<String, Object> dataMap = document.getData();
+                                String field1 = (String) dataMap.get("Phone Number");
+
+                                if (field1 != null && currentUser.getPhoneNumber() != null) {
+                                    int a = field1.compareTo(userId);
+                                    Log.d("questionid2",String.valueOf(a));
+
+                                    if (a == 0) {
+
+                                        Log.d("questionid1", String.valueOf(a));
+
+
+                                        quiztiddaya = ((String) dataMap.get("QuizToday"));
+
+                                        break;
+                                    }
+                                    else {
+                                        quiztiddaya = null;
+
+                                    }
+
+
+                                }
+                            }
+
+                        } else {
+                            Log.d(ContentValues.TAG, "Error getting documents: ", task.getException());
+                        }
+                    }
+
+                });
 
 
         binding.searchBarforpg.setOnSearchActionListener(new MaterialSearchBar.OnSearchActionListener() {
@@ -91,8 +172,12 @@ public class  PgprepActivity extends AppCompatActivity {
 
             }
         });
+        if (quiztiddaya!=null) {
+            Log.d("questionid", quiztiddaya);
 
-        initPerDayQuestions();
+
+        }
+        initPerDayQuestions(quiztiddaya);
         initSpecialities();
         initQuestionsBanks();
         initVideosBanks();
@@ -112,7 +197,7 @@ public class  PgprepActivity extends AppCompatActivity {
         videoforpg.clear();
     }
     private void fetchData() {
-        getPerDayQuestions();
+        getPerDayQuestions(quiztiddaya);
         getSpecialityPG();
         getRecentQuestions();
         getRecentVideos();
@@ -146,18 +231,18 @@ public class  PgprepActivity extends AppCompatActivity {
     }
 
     // this is for the perdayquestions
-    void initPerDayQuestions() {
+    void initPerDayQuestions(String QuiaToday) {
         dailyquestionspg = new ArrayList<>();
         PerDayPGAdapter = new PerDayPGAdapter(this, dailyquestionspg);
 
-        getPerDayQuestions();
+        getPerDayQuestions(QuiaToday);
 
         GridLayoutManager layoutManager = new GridLayoutManager(this, 1);
         binding.perdayquestions.setLayoutManager(layoutManager);
         binding.perdayquestions.setAdapter(PerDayPGAdapter);
     }
 
-    void getPerDayQuestions() {
+    void getPerDayQuestions( String quiz) {
         Log.d("DEBUG", "getPerDayQuestions: Making API request");
         RequestQueue queue = Volley.newRequestQueue(this);
 
@@ -168,6 +253,7 @@ public class  PgprepActivity extends AppCompatActivity {
                 JSONObject object = new JSONObject(response);
                 if(object.getString("status").equals("success")){
                     JSONArray perdayArray = object.getJSONArray("data");
+
                     for(int i = 0; i < perdayArray.length(); i++) {
                         JSONObject childObj = perdayArray.getJSONObject(i);
                         PerDayPG perday = new PerDayPG(
@@ -179,10 +265,36 @@ public class  PgprepActivity extends AppCompatActivity {
                                 childObj.getString("Correct"),
                                 childObj.getString("id")
                         );
-                        dailyquestionspg.add(perday);
+                        String questionId = childObj.getString("id");
+                        Log.d("questionid",questionId);
+
+                        if ((questionId!=null)&&(quiztiddaya!=null)) {
+
+                            int a = questionId.compareTo(quiztiddaya);
+                            Log.d("questionid", String.valueOf(a));
+
+                            if (a != 0) {
+                                dailyquestionspg.add(perday);
+
+                            }
+                            else{
+                                nocardp.setVisibility(View.VISIBLE);
+                            }
+
+                        }
+
                     }
-                    PerDayPGAdapter.notifyDataSetChanged();
-                    Log.d("DEBUG", "getPerDayQuestions: Data added to the list");
+                    if (dailyquestionspg != null) {
+
+                        PerDayPGAdapter.notifyDataSetChanged();
+                        Log.d("DEBUG", "getPerDayQuestions: Data added to the list");
+
+                    }
+                    else{
+                        nocardp.setVisibility(View.VISIBLE);
+
+                    }
+
                 }
             } catch (JSONException e) {
                 e.printStackTrace();
