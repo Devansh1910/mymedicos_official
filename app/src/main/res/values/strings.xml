@@ -296,9 +296,15 @@
     <string name="_21_10_2003">21/10/2003</string>
 
     <string-array name="prefix_options">
-        <item>Dr.</item>
+        <item>Dr</item>
         <item>Hr.</item>
         <item>Nr.</item>
+    </string-array>
+
+    <string-array name="prefix_icons">
+        <item>@drawable/dr</item>
+        <item>@drawable/hr</item>
+        <item>@drawable/nurse</item>
     </string-array>
 
     <string-array name="gender">
@@ -312,4 +318,12 @@
     </string-array>
 
 
+    <string name="app_name1">Onboarding Practice</string>
+    <string name="screen1"> Doctors Connect, Learn, Grow.</string>
+    <string name="screen2">Med Pros Exclusive Hub</string>
+    <string name="screen3">Recruitment Partner for Healthcare Sector</string>
+    <string name="screen1desc">It’s a transformative hub where the medical community connects, learns, and grows together.</string>
+    <string name="screen2desc"> medical professionals delve into the depths of knowledge, fostering a collective understanding that propels the field forward </string>
+    <string name="screen3desc">Our team is dedicated to identifying and connecting top-tier candidates with leading healthcare organizations, ensuring a seamless and effective recruitment process. </string>
+    <string name="startDesc">Efficient administrative support, streamlined workflows, and effective communication tools further contribute to a doctor’s professional needs, ensuring optimal patient care and overall well-being in the dynamic landscape of healthcare.</string>
 </resources>

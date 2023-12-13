@@ -2,40 +2,45 @@ package com.example.my_medicos.activities.login;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.animation.Animation;
-import android.view.animation.AnimationUtils;
-import android.widget.ImageView;
+import android.view.View;
+import android.widget.Button;
+
 import androidx.appcompat.app.AppCompatActivity;
+
+import com.example.my_medicos.NavigationActivity;
 import com.example.my_medicos.R;
+import com.example.my_medicos.activities.home.HomeActivity;
+import com.google.firebase.auth.FirebaseAuth;
 
 public class GetstartedActivity extends AppCompatActivity {
+
+    Button startButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        if (isLoggedIn()) {
+            Intent intent = new Intent(GetstartedActivity.this, HomeActivity.class);
+            startActivity(intent);
+            finish();
+            return;
+}
         setContentView(R.layout.activity_getstarted);
-
-        ImageView logo = findViewById(R.id.logo);
-
-        // Load animation
-        Animation animation = AnimationUtils.loadAnimation(this, R.anim.fade_in);
-        logo.startAnimation(animation);
-
-        animation.setAnimationListener(new Animation.AnimationListener() {
+        startButton = findViewById(R.id.startButton);
+        startButton.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onAnimationStart(Animation animation) {
-            }
-
-            @Override
-            public void onAnimationEnd(Animation animation) {
-                // Start your main activity
-                startActivity(new Intent(GetstartedActivity.this, FirstActivity.class));
+            public void onClick(View view) {
+                Intent i = new Intent(GetstartedActivity.this, NavigationActivity.class);
+                startActivity(i);
                 finish();
             }
-
-            @Override
-            public void onAnimationRepeat(Animation animation) {
-            }
         });
+    }
+
+    private boolean isLoggedIn() {
+        FirebaseAuth mAuth = FirebaseAuth.getInstance();
+        return mAuth.getCurrentUser() != null;
+
     }
 }

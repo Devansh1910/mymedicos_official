@@ -62,10 +62,10 @@ public class MainActivity extends AppCompatActivity {
         login = findViewById(R.id.lgn_btn);
         mdialog = new ProgressDialog(this);
         mauth = FirebaseAuth.getInstance();
-
-        toolbar = findViewById(R.id.logintoolbar);
-        setSupportActionBar(toolbar);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+//
+//        toolbar = findViewById(R.id.logintoolbar);
+//        setSupportActionBar(toolbar);
+//        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         login.setOnClickListener(new View.OnClickListener() {
             @Override

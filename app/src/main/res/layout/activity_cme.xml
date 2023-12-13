@@ -60,10 +60,10 @@
                     android:layout_height="@dimen/_40sdp"
                     android:layout_marginHorizontal="@dimen/_2ssp"
                     android:layout_weight="1"
-                    android:background="@drawable/white_back_using_ground" />
+                    android:background="@drawable/spinner_back" />
 
                 <Spinner
-                    android:background="@drawable/white_back_using_ground"
+                    android:background="@drawable/spinner_back"
                     android:id="@+id/speciality"
                     android:paddingHorizontal="@dimen/_25ssp"
                     android:layout_width="match_parent"
@@ -72,13 +72,14 @@
                     android:layout_height="@dimen/_40sdp"/>
 
                 <Spinner
-                    android:background="@drawable/white_back_using_ground"
+                    android:background="@drawable/spinner_back"
                     android:id="@+id/subspeciality"
                     android:paddingHorizontal="@dimen/_25ssp"
                     android:layout_width="match_parent"
                     android:layout_weight="1"
                     android:layout_marginHorizontal="@dimen/_5ssp"
                     android:layout_height="@dimen/_40sdp"/>
+
                 <Button
                     android:layout_width="match_parent"
                     android:layout_height="52.00dp"
@@ -87,7 +88,6 @@
                     android:clickable="true"/>
 
             </LinearLayout>
-
         </HorizontalScrollView>
 
         <androidx.viewpager2.widget.ViewPager2
@@ -212,7 +212,7 @@
         app:tint="@color/black"
         app:maxImageSize="@dimen/_35ssp"
         android:contentDescription="Add CME"
-        android:src="@drawable/path_svgrepo_com"
+        android:src="@drawable/add"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
 
