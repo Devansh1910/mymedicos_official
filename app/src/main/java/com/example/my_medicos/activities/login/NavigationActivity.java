@@ -1,4 +1,4 @@
-package com.example.my_medicos;
+package com.example.my_medicos.activities.login;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -9,13 +9,10 @@ import androidx.appcompat.app.AppCompatActivity;
         import android.widget.Button;
         import android.widget.LinearLayout;
         import android.widget.TextView;
-        import androidx.appcompat.app.AppCompatActivity;
-        import androidx.viewpager.widget.ViewPager;
 
-import com.example.my_medicos.activities.login.FirstActivity;
-import com.example.my_medicos.activities.login.GetstartedActivity;
-import com.example.my_medicos.activities.login.MainActivity;
-import com.example.my_medicos.activities.login.RegisterActivity;
+import androidx.viewpager.widget.ViewPager;
+
+import com.example.my_medicos.R;
 
 public class NavigationActivity extends AppCompatActivity {
 

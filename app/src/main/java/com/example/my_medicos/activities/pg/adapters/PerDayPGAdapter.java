@@ -75,7 +75,6 @@ public class PerDayPGAdapter extends RecyclerView.Adapter<PerDayPGAdapter.DailyQ
         holder.binding.optionC.setText(dailyquestion.getDailyQuestionC());
         holder.binding.optionD.setText(dailyquestion.getDailyQuestionD());
 
-        // Add OnClickListener to the options
         holder.binding.optionA.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -105,20 +104,15 @@ public class PerDayPGAdapter extends RecyclerView.Adapter<PerDayPGAdapter.DailyQ
         });
 
         FirebaseAuth mAuth = FirebaseAuth.getInstance();
-
         FirebaseUser currentUser = mAuth.getCurrentUser();
         String user=currentUser.getPhoneNumber();
-
         holder.binding.submitanswerbtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 if (selectedOption != null) {
                     // Save the current timestamp
                     lastSelectionTimestamp = System.currentTimeMillis();
-
-                    // Hide the LinearLayout
                     holder.binding.questionsbox.setVisibility(View.GONE);
-
                     PerDayPG selectedQuestion = dailyquestions.get(holder.getAdapterPosition());
                     String correctAnswer = selectedQuestion.getSubmitDailyQuestion();
                     String docId = Preferences.userRoot().get("docId", "");
@@ -128,14 +122,13 @@ public class PerDayPGAdapter extends RecyclerView.Adapter<PerDayPGAdapter.DailyQ
                         FirebaseFirestore db = FirebaseFirestore.getInstance();
                         CollectionReference usersCollection = db.collection("users");
 
-                        Query query = usersCollection.whereEqualTo("Phone Number", user); // Replace "phoneNumber" with the actual field name
+                        Query query = usersCollection.whereEqualTo("Phone Number", user);
 
                         query.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                             @OptIn(markerClass = UnstableApi.class) @Override
                             public void onComplete(@NonNull Task<QuerySnapshot> task) {
                                 if (task.isSuccessful()) {
                                     for (QueryDocumentSnapshot document : task.getResult()) {
-                                        // Assuming there's only one document with the matching phone number
                                         updateDocument(document.getId(), String.valueOf(dailyquestion.getidQuestion()));
                                     }
                                 } else {
@@ -143,25 +136,6 @@ public class PerDayPGAdapter extends RecyclerView.Adapter<PerDayPGAdapter.DailyQ
                                 }
                             }
                         });
-
-// ...
-
-
-
-//                        String url = ConstantsDashboard.GET_DAILY_QUESTIONS_SUBMITTION + "?id="+ docId + "&option=" + selectedOption + "&qid=" + dailyquestion.getidQuestion();
-//
-//                        StringRequest request = new StringRequest(Request.Method.GET, url, response -> {
-//                            try {
-//                                Log.d("DEBUG", "getPerDayQuestions: Response received");
-//                                JSONObject object = new JSONObject(response);
-//                            } catch (JSONException e) {
-//                                e.printStackTrace();
-//                            }
-//                        }, error -> {
-//                            // Handle error here
-//                            Log.e("ERROR", "Volley error: " + error.getMessage());
-//                        });
-//                        Volley.newRequestQueue(context).add(request);
 
                     } else {
                         showWrongAnswerPopup();
@@ -175,7 +149,6 @@ public class PerDayPGAdapter extends RecyclerView.Adapter<PerDayPGAdapter.DailyQ
                             public void onComplete(@NonNull Task<QuerySnapshot> task) {
                                 if (task.isSuccessful()) {
                                     for (QueryDocumentSnapshot document : task.getResult()) {
-                                        // Assuming there's only one document with the matching phone number
                                         updateDocument1(document.getId(), String.valueOf(dailyquestion.getidQuestion()));
                                     }
                                 } else {
@@ -190,7 +163,6 @@ public class PerDayPGAdapter extends RecyclerView.Adapter<PerDayPGAdapter.DailyQ
             }
         });
 
-        // Check if 24 hours have passed since the last selection
         if (System.currentTimeMillis() - lastSelectionTimestamp >= 24 * 60 * 60 * 1000) {
             holder.binding.questionsbox.setVisibility(View.VISIBLE);
         } else {
@@ -227,14 +199,11 @@ public class PerDayPGAdapter extends RecyclerView.Adapter<PerDayPGAdapter.DailyQ
         FirebaseFirestore db = FirebaseFirestore.getInstance();
         DocumentReference docRef = db.collection("users").document(documentId);
 
-        // Assuming "count" is the field you want to increment
-//        Long newCount = currentCount + 1;
-
         Map<String, Object> updates = new HashMap<>();
         updates.put("QuizToday", QuizToday);
         updates.put("CurrentTime", System.currentTimeMillis());
 
-        updates.put("Streak", FieldValue.increment(1)); // Increment the count field by 1
+        updates.put("Streak", FieldValue.increment(1));
 
         docRef.update(updates)
                 .addOnSuccessListener(new OnSuccessListener<Void>() {
@@ -257,14 +226,9 @@ public class PerDayPGAdapter extends RecyclerView.Adapter<PerDayPGAdapter.DailyQ
         FirebaseFirestore db = FirebaseFirestore.getInstance();
         DocumentReference docRef = db.collection("users").document(documentId);
 
-        // Assuming "count" is the field you want to increment
-//        Long newCount = currentCount + 1;
-
         Map<String, Object> updates = new HashMap<>();
         updates.put("QuizToday", QuizToday);
         updates.put("CurrentTime", System.currentTimeMillis());
-
-
 
         docRef.update(updates)
                 .addOnSuccessListener(new OnSuccessListener<Void>() {
@@ -303,29 +267,20 @@ public class PerDayPGAdapter extends RecyclerView.Adapter<PerDayPGAdapter.DailyQ
     }
 
     private void showCorrectAnswerPopup() {
-        // Launch the CorrectAnswerActivity using Intent
         Intent intent = new Intent(context, CorrectAnswerActivity.class);
-        // Add FLAG_ACTIVITY_CLEAR_TOP flag
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         context.startActivity(intent);
-    }
-
-    private void  SaveAnsweroftheQuestion(){
     }
 
     private void showWrongAnswerPopup() {
-        // Launch the WrongAnswerActivity using Intent
         Intent intent = new Intent(context, WrongAnswerActivity.class);
-        // Add FLAG_ACTIVITY_CLEAR_TOP flag
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         context.startActivity(intent);
     }
-
 
     private void showToast(String message) {
         Toast.makeText(context, message, Toast.LENGTH_SHORT).show();
     }
-
     @Override
     public int getItemCount() {
         return dailyquestions.size();

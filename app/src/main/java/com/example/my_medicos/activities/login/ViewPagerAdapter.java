@@ -1,4 +1,4 @@
-package com.example.my_medicos;
+package com.example.my_medicos.activities.login;
 
 
 import android.content.Context;
@@ -10,6 +10,8 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.viewpager.widget.PagerAdapter;
+
+import com.example.my_medicos.R;
 
 public class ViewPagerAdapter extends PagerAdapter {
 

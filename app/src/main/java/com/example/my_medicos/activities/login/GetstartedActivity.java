@@ -7,7 +7,6 @@ import android.widget.Button;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.example.my_medicos.NavigationActivity;
 import com.example.my_medicos.R;
 import com.example.my_medicos.activities.home.HomeActivity;
 import com.google.firebase.auth.FirebaseAuth;

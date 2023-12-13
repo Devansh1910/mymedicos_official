@@ -13,13 +13,20 @@ import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import android.annotation.SuppressLint;
+import android.app.AlertDialog;
 import android.content.ContentValues;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
+import android.widget.LinearLayout;
+import android.widget.TextView;
+
+import com.airbnb.lottie.LottieAnimationView;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
@@ -46,10 +53,13 @@ import com.example.my_medicos.activities.publications.utils.Constants;
 import com.example.my_medicos.adapter.cme.items.cmeitem4;
 import com.example.my_medicos.databinding.ActivityPgprepBinding;
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
@@ -86,6 +96,7 @@ public class  PgprepActivity extends AppCompatActivity {
     ArrayList<VideoPG> videoforpg;
     String quiztiddaya;
 
+
     private SwipeRefreshLayout swipeRefreshLayout;
 
     @Override
@@ -93,9 +104,8 @@ public class  PgprepActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         binding = ActivityPgprepBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
-
         FirebaseAuth mAuth = FirebaseAuth.getInstance();
-
+        LinearLayout toTheCart = findViewById(R.id.totheccart);
         FirebaseUser currentUser = mAuth.getCurrentUser();
         String user=currentUser.getPhoneNumber();
         nocardp=findViewById(R.id.nocardpg);
@@ -105,6 +115,14 @@ public class  PgprepActivity extends AppCompatActivity {
 //        swipeRefreshLayout = findViewById(R.id.swipeRefreshLayout);
 //        swipeRefreshLayout.setOnRefreshListener(this::refreshContent);
         FirebaseFirestore db = FirebaseFirestore.getInstance();
+
+        toTheCart.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                // Show the custom dialog with streak information
+                showStreakDialog();
+            }
+        });
 
         Log.d("questionid","questionid");
 
@@ -183,6 +201,59 @@ public class  PgprepActivity extends AppCompatActivity {
         initVideosBanks();
         initSliderPg();
 
+    }
+
+    private void showStreakDialog() {
+        View dialogView = LayoutInflater.from(this).inflate(R.layout.personstreak, null);
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setView(dialogView);
+        AlertDialog dialog = builder.create();
+
+        LottieAnimationView correctAnswer = dialogView.findViewById(R.id.correctanswer);
+        TextView userStreak = dialogView.findViewById(R.id.userstreak);
+
+        FirebaseAuth mAuth = FirebaseAuth.getInstance();
+        FirebaseUser currentUser = mAuth.getCurrentUser();
+
+        if (currentUser != null) {
+            String userId = currentUser.getUid();
+            fetchStreakData(userId, userStreak);
+            dialog.setOnDismissListener(new DialogInterface.OnDismissListener() {
+                @Override
+                public void onDismiss(DialogInterface dialogInterface) {
+                }
+            });
+
+            dialog.show();
+        } else {
+        }
+    }
+
+
+    private void fetchStreakData(String userId, TextView userStreak) {
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+        CollectionReference usersCollection = db.collection("users");
+        usersCollection.document(userId)
+                .get()
+                .addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+                    @Override
+                    public void onSuccess(DocumentSnapshot documentSnapshot) {
+                        if (documentSnapshot.exists()) {
+                            String streakValue = documentSnapshot.getString("Streak");
+
+                            userStreak.setText(streakValue);
+                        } else {
+                            userStreak.setText("N/A");
+                        }
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        userStreak.setText("Error");
+                    }
+                });
     }
 
     private void refreshContent() {
@@ -275,14 +346,11 @@ public class  PgprepActivity extends AppCompatActivity {
 
                             if (a != 0) {
                                 dailyquestionspg.add(perday);
-
                             }
                             else{
                                 nocardp.setVisibility(View.VISIBLE);
                             }
-
                         }
-
                     }
                     if (dailyquestionspg != null) {
 
@@ -383,9 +451,6 @@ public class  PgprepActivity extends AppCompatActivity {
 
         queue.add(request);
     }
-
-
-    // this is for the questionbank
     void initQuestionsBanks() {
         questionsforpg = new ArrayList<>();
         questionsAdapter = new QuestionBankPGAdapter(this, questionsforpg);
@@ -441,7 +506,7 @@ public class  PgprepActivity extends AppCompatActivity {
     void getRecentVideos() {
         RequestQueue queue = Volley.newRequestQueue(this);
 
-        String url = ConstantsDashboard.GET_PG_VIDEOS_URL;
+        String url = ConstantsDashboard.GET_PG_VIDEOS_URL_HOME;
         StringRequest request = new StringRequest(Request.Method.GET, url, response -> {
             try {
                 JSONObject object = new JSONObject(response);

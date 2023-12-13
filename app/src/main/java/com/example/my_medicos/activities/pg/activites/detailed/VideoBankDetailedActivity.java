@@ -87,7 +87,7 @@ public class VideoBankDetailedActivity extends AppCompatActivity {
     void getNewsDetails(String name) {
         RequestQueue queue = Volley.newRequestQueue(this);
 
-        String url = ConstantsDashboard.GET_PG_VIDEOS_URL + name;
+        String url = ConstantsDashboard.GET_PG_VIDEOS_URL_HOME + name;
 
         StringRequest request = new StringRequest(Request.Method.GET, url, new Response.Listener<String>() {
             @Override
