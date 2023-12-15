@@ -38,7 +38,8 @@
         app:layout_constraintBottom_toTopOf="@+id/bottomappabarug"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/specialitytoolbar_container">
+        app:layout_constraintTop_toBottomOf="@+id/specialitytoolbar_container"
+        tools:ignore="UnknownIdInLayout">
     </FrameLayout>
 
 <!--    <androidx.cardview.widget.CardView-->
@@ -57,7 +58,7 @@
 <!--    </androidx.cardview.widget.CardView>-->
 
     <com.google.android.material.bottomappbar.BottomAppBar
-        android:id="@+id/bottomappabarug"
+        android:id="@+id/bottomappabarpg"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom"
