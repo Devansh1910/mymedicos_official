@@ -32,7 +32,7 @@
     </com.google.android.material.appbar.AppBarLayout>
 
     <FrameLayout
-        android:id="@+id/frame_layout_pg"
+        android:id="@+id/frame_layout_slideshow"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         app:layout_constraintBottom_toTopOf="@+id/bottomappabarug"
@@ -58,7 +58,7 @@
 <!--    </androidx.cardview.widget.CardView>-->
 
     <com.google.android.material.bottomappbar.BottomAppBar
-        android:id="@+id/bottomappabarpg"
+        android:id="@+id/bottomappabarslideshow"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom"
@@ -71,7 +71,7 @@
         tools:ignore="BottomAppBar">
 
         <com.google.android.material.bottomnavigation.BottomNavigationView
-            android:id="@+id/bottomNavigationViewug"
+            android:id="@+id/bottomNavigationViewslideshow"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:background="@color/green"

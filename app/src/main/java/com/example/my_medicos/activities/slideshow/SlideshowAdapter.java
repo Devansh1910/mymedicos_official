@@ -2,24 +2,28 @@ package com.example.my_medicos.activities.slideshow;
 
 import android.content.Context;
 import android.content.Intent;
-import android.net.Uri;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-
+import android.widget.ImageView;
+import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
-
 import com.bumptech.glide.Glide;
 import com.example.my_medicos.R;
-import com.example.my_medicos.databinding.ItemSlideshowBinding;
+import com.example.my_medicos.activities.pg.activites.insiders.SpecialityPGInsiderActivity;
+import com.example.my_medicos.activities.pg.model.SpecialitiesPG;
+import com.example.my_medicos.activities.publications.activity.CategoryPublicationActivity;
+import com.example.my_medicos.activities.slideshow.insider.SpecialitySlideshowInsiderActivity;
+import com.makeramen.roundedimageview.RoundedImageView;
 
 import java.util.ArrayList;
 
-public class SlideshowAdapter extends RecyclerView.Adapter<SlideshowAdapter.SlideshowViewHolder> {
-
-    private final Context context;
-    private final ArrayList<Slideshow> slideshows;
+public class SlideshowAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
+    private static final int VIEW_TYPE_NORMAL = 1;
+    private static final int VIEW_TYPE_MORE = 2;
+    Context context;
+    ArrayList<Slideshow> slideshows;
 
     public SlideshowAdapter(Context context, ArrayList<Slideshow> slideshows) {
         this.context = context;
@@ -28,22 +32,36 @@ public class SlideshowAdapter extends RecyclerView.Adapter<SlideshowAdapter.Slid
 
     @NonNull
     @Override
-    public SlideshowViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        ItemSlideshowBinding binding = ItemSlideshowBinding.inflate(LayoutInflater.from(parent.getContext()), parent, false);
-        return new SlideshowViewHolder(binding);
+    public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        LayoutInflater inflater = LayoutInflater.from(context);
+        View view = inflater.inflate(R.layout.item_categories, parent, false);
+
+        return new SlideshowViewHolder(view);
     }
 
+
     @Override
-    public void onBindViewHolder(@NonNull SlideshowViewHolder holder, int position) {
-        Slideshow slideshow = slideshows.get(position);
-
-        if (!slideshow.getImages().isEmpty()) {
+    public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
+        if (holder.getItemViewType() == VIEW_TYPE_NORMAL) {
+            SlideshowViewHolder slideshowViewHolder = (SlideshowViewHolder) holder;
+            Slideshow slideshow = slideshows.get(position);
+            slideshowViewHolder.label.setText(slideshow.getName());
             Glide.with(context)
-                    .load(slideshow.getImages().get(0).getUrl())
-                    .into(holder.binding.thumbnailslideshow);
-        }
+                    .load(slideshow.getName())
+                    .into(slideshowViewHolder.image);
 
-        holder.binding.slideshowlabel.setText(slideshow.getTitle());
+            slideshowViewHolder.itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Intent intent = new Intent(context, SpecialitySlideshowInsiderActivity.class);
+                    intent.putExtra("pgId", slideshow.getPriority());
+                    intent.putExtra("specialityPgName", slideshow.getName());
+                    context.startActivity(intent);
+                }
+            });
+        } else {
+
+        }
     }
 
     @Override
@@ -51,30 +69,31 @@ public class SlideshowAdapter extends RecyclerView.Adapter<SlideshowAdapter.Slid
         return slideshows.size();
     }
 
+    @Override
+    public int getItemViewType(int position) {
+        return (position == getItemCount() - 1 && getItemCount() > 5) ? VIEW_TYPE_MORE : VIEW_TYPE_NORMAL;
+    }
+
     public class SlideshowViewHolder extends RecyclerView.ViewHolder {
-        ItemSlideshowBinding binding;
+        RoundedImageView image;
+        TextView label;
 
-        public SlideshowViewHolder(@NonNull ItemSlideshowBinding binding) {
-            super(binding.getRoot());
-            this.binding = binding;
+        public SlideshowViewHolder(@NonNull View itemView) {
+            super(itemView);
+            image = itemView.findViewById(R.id.image);
+            label = itemView.findViewById(R.id.label);
+        }
+    }
+    public class MoreSlideshowViewHolder extends RecyclerView.ViewHolder {
+        ImageView imagemore;
+        TextView labelmore;
 
-            binding.downloadpptbtn.setOnClickListener(view -> {
-                int position = getAdapterPosition();
-                if (position != RecyclerView.NO_POSITION) {
-                    Slideshow clickedSlideshow = slideshows.get(position);
-                    openUrlInBrowser(clickedSlideshow.getFile());
-                }
-            });
+        public MoreSlideshowViewHolder(@NonNull View itemView) {
+            super(itemView);
+            imagemore = itemView.findViewById(R.id.arrowformore);
+            labelmore = itemView.findViewById(R.id.moretext);
         }
     }
 
-    private void openUrlInBrowser(String url) {
-        if (!url.isEmpty()) {
-            Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
-            context.startActivity(intent);
-        } else {
-
-        }
-    }
-
+    // You can add the MoreCategoryViewHolder class here as well if needed
 }

@@ -81,7 +81,7 @@
             app:itemIconTint="@drawable/item_tint_selector"
             app:itemTextColor="@drawable/item_tint_selector"
             app:labelVisibilityMode="labeled"
-            app:menu="@menu/bottom_pg_insider">
+            app:menu="@menu/bottom_slider_insider">
 
         </com.google.android.material.bottomnavigation.BottomNavigationView>
 

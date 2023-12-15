@@ -39,6 +39,7 @@ import com.example.my_medicos.activities.news.NewsAdapter;
 import com.example.my_medicos.activities.pg.adapters.QuestionBankPGAdapter;
 import com.example.my_medicos.activities.pg.model.QuestionPG;
 import com.example.my_medicos.activities.publications.model.Category;
+import com.example.my_medicos.activities.slideshow.insider.SpecialitySlideshowInsiderActivity;
 import com.example.my_medicos.activities.utils.ConstantsDashboard;
 import com.example.my_medicos.activities.pg.activites.insiders.SpecialityPGInsiderActivity;
 import com.example.my_medicos.activities.pg.adapters.PerDayPGAdapter;
@@ -384,7 +385,7 @@ public class  PgprepActivity extends AppCompatActivity {
 
                                 if (position != RecyclerView.NO_POSITION) {
                                     if (position == specialitiespost.size() - 1 && specialitiespost.get(position).getPriority() == -1) {
-                                        Intent intent = new Intent(PgprepActivity.this, SpecialityPGInsiderActivity.class);
+                                        Intent intent = new Intent(PgprepActivity.this, SpecialitySlideshowInsiderActivity.class);
                                         startActivity(intent);
                                     } else {
                                     }
