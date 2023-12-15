@@ -156,9 +156,7 @@ public class  PgprepActivity extends AppCompatActivity {
                                     }
                                     else {
                                         quiztiddaya = null;
-
                                     }
-
 
                                 }
                             }

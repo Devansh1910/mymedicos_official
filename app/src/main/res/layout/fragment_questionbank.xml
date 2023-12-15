@@ -17,9 +17,30 @@
             app:layout_constraintTop_toBottomOf="@id/publicationtoolbar_container">
 
             <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/specialityinsidercontentListQuestion"
+                android:id="@+id/questionsListQuestion"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
         </androidx.cardview.widget.CardView>
+
+<!--        <androidx.cardview.widget.CardView-->
+<!--            android:id="@+id/nocardpgquestion"-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:backgroundTint="#B7EFE2"-->
+<!--            app:cardCornerRadius="@dimen/_100sdp"-->
+<!--            android:layout_marginTop="8dp">-->
+
+<!--            <TextView-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:text="Come Back Tomorrow!"-->
+<!--                android:textSize="16sp"-->
+<!--                android:paddingHorizontal="@dimen/_10sdp"-->
+<!--                android:paddingVertical="@dimen/_10sdp"-->
+<!--                android:fontFamily="@font/inter"-->
+<!--                android:layout_gravity="center_horizontal"-->
+<!--                android:textColor="@android:color/black"/>-->
+
+<!--        </androidx.cardview.widget.CardView>-->
 
 </FrameLayout>

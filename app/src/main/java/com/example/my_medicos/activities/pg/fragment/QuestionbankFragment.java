@@ -8,6 +8,7 @@ import android.view.ViewGroup;
 
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.android.volley.Request;
@@ -16,14 +17,15 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.example.my_medicos.activities.pg.adapters.QuestionBankPGAdapter;
 import com.example.my_medicos.activities.pg.adapters.insiders.SpecialitiesPGInsiderAdapter;
+import com.example.my_medicos.activities.pg.model.QuestionPG;
 import com.example.my_medicos.activities.pg.model.SpecialitiesPG;
 import com.example.my_medicos.activities.publications.adapters.ProductAdapter;
 import com.example.my_medicos.activities.publications.model.Product;
 import com.example.my_medicos.activities.publications.utils.Constants;
 import com.example.my_medicos.activities.utils.ConstantsDashboard;
 import com.example.my_medicos.databinding.FragmentQuestionbankBinding;
-import com.example.my_medicos.databinding.FragmentTextBooksBinding;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -34,10 +36,12 @@ import java.util.ArrayList;
 public class QuestionbankFragment extends Fragment {
 
     private FragmentQuestionbankBinding binding;
-    private ProductAdapter productAdapter;
+    private QuestionBankPGAdapter questionsAdapter;
+    private ArrayList<QuestionPG> questionsforpg;
     SpecialitiesPGInsiderAdapter specialitiesPGInsiderAdapter;
     ArrayList<SpecialitiesPG> specialitiesPostGraduate;
     private ArrayList<Product> products;
+    private ProductAdapter productAdapter;
     private int catId;
 
     public static QuestionbankFragment newInstance(int catId) {
@@ -62,66 +66,57 @@ public class QuestionbankFragment extends Fragment {
         binding = FragmentQuestionbankBinding.inflate(inflater, container, false);
         View view = binding.getRoot();
 
-        products = new ArrayList<>();
-        productAdapter = new ProductAdapter(requireContext(), products);
+        questionsforpg = new ArrayList<>();
+        questionsAdapter = new QuestionBankPGAdapter(requireContext(), questionsforpg);
 
-        RecyclerView recyclerView = binding.specialityinsidercontentListQuestion;
-        GridLayoutManager layoutManager = new GridLayoutManager(requireContext(), 1);
-        recyclerView.setLayoutManager(layoutManager);
-        recyclerView.setAdapter(productAdapter);
+        RecyclerView recyclerViewQuestions = binding.questionsListQuestion;
+        LinearLayoutManager layoutManagerQuestions = new LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false);
+        recyclerViewQuestions.setLayoutManager(layoutManagerQuestions);
+        recyclerViewQuestions.setAdapter(questionsAdapter);
 
-        initSpecialityPG();
+        initQuestionsBanks();
 
         return view;
     }
 
-    void initSpecialityPG() {
-        specialitiesPostGraduate = new ArrayList<>();
-        specialitiesPGInsiderAdapter = new SpecialitiesPGInsiderAdapter(getContext(), specialitiesPostGraduate);
+    void initQuestionsBanks() {
+        questionsforpg = new ArrayList<>();
+        questionsAdapter = new QuestionBankPGAdapter(requireContext(), questionsforpg);
 
-        getSpecialitiesPG();
+        getRecentQuestions();
 
-        GridLayoutManager layoutManager = new GridLayoutManager(getContext(), 1);
-        binding.specialityinsidercontentListQuestion.setLayoutManager(layoutManager);
-        binding.specialityinsidercontentListQuestion.setAdapter(specialitiesPGInsiderAdapter);
+        LinearLayoutManager layoutManager = new LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false);
+        binding.questionsListQuestion.setLayoutManager(layoutManager);
+        binding.questionsListQuestion.setAdapter(questionsAdapter);
     }
 
-    void getSpecialitiesPG() {
-        RequestQueue queue = Volley.newRequestQueue(getContext());
+    void getRecentQuestions() {
+        RequestQueue queue = Volley.newRequestQueue(requireContext());
 
-        StringRequest request = new StringRequest(Request.Method.GET, Constants.GET_CATEGORIES_URL, new Response.Listener<String>() {
-            @Override
-            public void onResponse(String response) {
-                try {
-                    Log.e("err", response);
-                    JSONObject mainObj = new JSONObject(response);
-                    if (mainObj.getString("status").equals("success")) {
-                        JSONArray specialityArray = mainObj.getJSONArray("categories");
-                        for (int i = 0; i < specialityArray.length(); i++) {
-                            JSONObject object = specialityArray.getJSONObject(i);
-                            SpecialitiesPG specialitiesPGS = new SpecialitiesPG(
-                                    object.getString("id"),
-                                    object.getInt("priority")
-                            );
-                            specialitiesPostGraduate.add(specialitiesPGS);
-                        }
-                        specialitiesPGInsiderAdapter.notifyDataSetChanged();
-
-                    } else {
-
+        String url = ConstantsDashboard.GET_PG_QUESTIONBANK_URL;
+        StringRequest request = new StringRequest(Request.Method.GET, url, response -> {
+            try {
+                JSONObject object = new JSONObject(response);
+                if (object.getString("status").equals("success")) {
+                    JSONArray array = object.getJSONArray("data");
+                    for (int i = 0; i < array.length(); i++) {
+                        JSONObject childObj = array.getJSONObject(i);
+                        QuestionPG questionbankItem = new QuestionPG(
+                                childObj.getString("Title"),
+                                childObj.getString("Description"),
+                                childObj.getString("Time"),
+                                childObj.getString("file")
+                        );
+                        questionsforpg.add(questionbankItem);
                     }
-                } catch (JSONException e) {
-                    e.printStackTrace();
+                    questionsAdapter.notifyDataSetChanged();
                 }
+            } catch (JSONException e) {
+                e.printStackTrace();
             }
-        }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-
-            }
+        }, error -> {
         });
 
         queue.add(request);
     }
-
 }
