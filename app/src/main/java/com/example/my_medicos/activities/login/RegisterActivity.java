@@ -66,7 +66,7 @@ public class RegisterActivity extends AppCompatActivity {
     private void setupSpinners() {
         // Prefix Spinner
         prefixAdapter = ArrayAdapter.createFromResource(this,
-                R.array.prefix_options, android.R.layout.simple_spinner_item);
+                R.array.prefix_options,android.R.layout.simple_spinner_item);
         prefixAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         prefixSpinner.setAdapter(prefixAdapter);
 

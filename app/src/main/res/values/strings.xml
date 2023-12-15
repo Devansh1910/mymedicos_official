@@ -140,7 +140,7 @@
     <string-array name="Job_type">
         <item>Select Type</item>
         <item>Regular</item>
-        <item>Loccum</item>
+        <item>Locum</item>
 
     </string-array>
     <string-array name="experience">
@@ -297,8 +297,8 @@
 
     <string-array name="prefix_options">
         <item>Dr</item>
-        <item>Hr.</item>
-        <item>Nr.</item>
+        <item>HR</item>
+        <item>Nr</item>
     </string-array>
 
     <string-array name="prefix_icons">
@@ -307,15 +307,20 @@
         <item>@drawable/nurse</item>
     </string-array>
 
+    <string-array name="prefix_full">
+        <item>Doctor</item>
+        <item>Human Resource</item>
+        <item>Nurse</item>
+    </string-array>
     <string-array name="gender">
         <item>Male</item>
         <item>Female</item>
         <item>Trans Gender</item>
     </string-array>
-
     <string-array name="country_codes">
         <item>+91</item>
     </string-array>
+
 
 
     <string name="app_name1">Onboarding Practice</string>

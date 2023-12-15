@@ -4,13 +4,12 @@ import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
-import android.view.animation.Animation;
-import android.view.animation.AnimationUtils;
-import android.widget.ImageView;
+
 import androidx.appcompat.app.AppCompatActivity;
+
 import com.airbnb.lottie.LottieAnimationView;
 import com.example.my_medicos.R;
-import com.example.my_medicos.activities.pg.activites.PgprepActivity;
+import com.google.firebase.auth.FirebaseAuth;
 
 public class SplashActivity extends AppCompatActivity {
 
@@ -27,11 +26,15 @@ public class SplashActivity extends AppCompatActivity {
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
-                Intent intent = new Intent(getApplicationContext(), FirstActivity.class);
+                Intent intent = new Intent(getApplicationContext(), GetstartedActivity.class);
                 intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
                 startActivity(intent);
                 finish();
             }
         }, 1000);
+    }
+    private boolean isLoggedIn() {
+        FirebaseAuth mAuth = FirebaseAuth.getInstance();
+        return mAuth.getCurrentUser()!=null;
     }
 }
