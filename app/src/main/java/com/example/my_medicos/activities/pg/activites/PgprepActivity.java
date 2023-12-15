@@ -96,7 +96,6 @@ public class  PgprepActivity extends AppCompatActivity {
     ArrayList<VideoPG> videoforpg;
     String quiztiddaya;
 
-
     private SwipeRefreshLayout swipeRefreshLayout;
 
     @Override
@@ -112,17 +111,16 @@ public class  PgprepActivity extends AppCompatActivity {
         nocardp.setVisibility(View.GONE);
 
 //        // Initialize SwipeRefreshLayout
-//        swipeRefreshLayout = findViewById(R.id.swipeRefreshLayout);
-//        swipeRefreshLayout.setOnRefreshListener(this::refreshContent);
+        swipeRefreshLayout = findViewById(R.id.swipeRefreshLayout);
+        swipeRefreshLayout.setOnRefreshListener(this::refreshContent);
         FirebaseFirestore db = FirebaseFirestore.getInstance();
 
-        toTheCart.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                // Show the custom dialog with streak information
-                showStreakDialog();
-            }
-        });
+//        toTheCart.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                showStreakDialog();
+//            }
+//        });
 
         Log.d("questionid","questionid");
 
