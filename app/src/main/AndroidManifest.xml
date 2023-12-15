@@ -31,6 +31,9 @@
         tools:replace="android:label"
         tools:targetApi="31">
         <activity
+            android:name=".activities.slideshow.insider.SpecialitySlideshowInsiderActivity"
+            android:exported="false" />
+        <activity
             android:name=".activities.login.SplashActivity"
             android:exported="true">
             <intent-filter>
@@ -211,7 +214,7 @@
             android:exported="false" />
         <activity
             android:name=".activities.login.GetstartedActivity"
-            android:exported="false"></activity>
+            android:exported="false" />
         <activity
             android:name=".activities.login.RegisterActivity"
             android:exported="false" />

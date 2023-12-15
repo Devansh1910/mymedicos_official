@@ -200,35 +200,6 @@ public class  PgprepActivity extends AppCompatActivity {
         initSliderPg();
 
     }
-
-    private void showStreakDialog() {
-        View dialogView = LayoutInflater.from(this).inflate(R.layout.personstreak, null);
-
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setView(dialogView);
-        AlertDialog dialog = builder.create();
-
-        LottieAnimationView correctAnswer = dialogView.findViewById(R.id.correctanswer);
-        TextView userStreak = dialogView.findViewById(R.id.userstreak);
-
-        FirebaseAuth mAuth = FirebaseAuth.getInstance();
-        FirebaseUser currentUser = mAuth.getCurrentUser();
-
-        if (currentUser != null) {
-            String userId = currentUser.getUid();
-            fetchStreakData(userId, userStreak);
-            dialog.setOnDismissListener(new DialogInterface.OnDismissListener() {
-                @Override
-                public void onDismiss(DialogInterface dialogInterface) {
-                }
-            });
-
-            dialog.show();
-        } else {
-        }
-    }
-
-
     private void fetchStreakData(String userId, TextView userStreak) {
         FirebaseFirestore db = FirebaseFirestore.getInstance();
         CollectionReference usersCollection = db.collection("users");
@@ -413,11 +384,9 @@ public class  PgprepActivity extends AppCompatActivity {
 
                                 if (position != RecyclerView.NO_POSITION) {
                                     if (position == specialitiespost.size() - 1 && specialitiespost.get(position).getPriority() == -1) {
-                                        // Redirect to CategoryPublicationInsiderActivity
                                         Intent intent = new Intent(PgprepActivity.this, SpecialityPGInsiderActivity.class);
                                         startActivity(intent);
                                     } else {
-                                        // Handle the click on other items if needed
                                     }
                                 }
                                 return false;

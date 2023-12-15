@@ -21,6 +21,7 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.example.my_medicos.R;
+import com.example.my_medicos.activities.pg.activites.insiders.SpecialityPGInsiderActivity;
 import com.example.my_medicos.activities.publications.activity.PublicationActivity;
 import com.example.my_medicos.activities.publications.activity.insiders.CategoryPublicationInsiderActivity;
 import com.example.my_medicos.activities.publications.adapters.CategoryAdapter;
@@ -94,11 +95,9 @@ public class SlideshowFragment extends Fragment {
                                 String imageId = imageObj.optString("id");
                                 images.add(new Slideshow.Image(imageId, imageUrl));
                             }
-                            // Now you can create your Slideshow object with images
                             Slideshow slideshowItem = new Slideshow(title, images, fileUrl);
                             slideshows.add(slideshowItem);
                         } else {
-                            // If "images" array does not exist, create Slideshow without images
                             Slideshow slideshowItem = new Slideshow(title, new ArrayList<>(), fileUrl);
                             slideshows.add(slideshowItem);
                         }
@@ -156,7 +155,7 @@ public class SlideshowFragment extends Fragment {
 
                                 if (position != RecyclerView.NO_POSITION) {
                                     if (position == categoriesslideshow.size() - 1 && categoriesslideshow.get(position).getPriority() == -1) {
-                                        Intent intent = new Intent(requireContext(), SlideshowInsidernActivity.class);
+                                        Intent intent = new Intent(requireContext(), SpecialityPGInsiderActivity.class);
                                         startActivity(intent);
                                     } else {
 
