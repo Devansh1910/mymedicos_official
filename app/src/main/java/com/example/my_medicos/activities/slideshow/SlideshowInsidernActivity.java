@@ -51,7 +51,7 @@ public class SlideshowInsidernActivity extends AppCompatActivity {
         setSupportActionBar(toolbarpublications);
 //        tab=findViewById(R.id.tabLayout);
 //        viewPager=findViewById(R.id.view_pager);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+//        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         initCategories();
 

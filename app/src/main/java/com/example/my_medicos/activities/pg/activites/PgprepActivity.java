@@ -39,6 +39,7 @@ import com.example.my_medicos.activities.news.NewsAdapter;
 import com.example.my_medicos.activities.pg.adapters.QuestionBankPGAdapter;
 import com.example.my_medicos.activities.pg.model.QuestionPG;
 import com.example.my_medicos.activities.publications.model.Category;
+import com.example.my_medicos.activities.slideshow.insider.SpecialitySlideshowInsiderActivity;
 import com.example.my_medicos.activities.utils.ConstantsDashboard;
 import com.example.my_medicos.activities.pg.activites.insiders.SpecialityPGInsiderActivity;
 import com.example.my_medicos.activities.pg.adapters.PerDayPGAdapter;
@@ -96,7 +97,6 @@ public class  PgprepActivity extends AppCompatActivity {
     ArrayList<VideoPG> videoforpg;
     String quiztiddaya;
 
-
     private SwipeRefreshLayout swipeRefreshLayout;
 
     @Override
@@ -112,17 +112,16 @@ public class  PgprepActivity extends AppCompatActivity {
         nocardp.setVisibility(View.GONE);
 
 //        // Initialize SwipeRefreshLayout
-//        swipeRefreshLayout = findViewById(R.id.swipeRefreshLayout);
-//        swipeRefreshLayout.setOnRefreshListener(this::refreshContent);
+        swipeRefreshLayout = findViewById(R.id.swipeRefreshLayout);
+        swipeRefreshLayout.setOnRefreshListener(this::refreshContent);
         FirebaseFirestore db = FirebaseFirestore.getInstance();
 
-        toTheCart.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                // Show the custom dialog with streak information
-                showStreakDialog();
-            }
-        });
+//        toTheCart.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                showStreakDialog();
+//            }
+//        });
 
         Log.d("questionid","questionid");
 
@@ -202,35 +201,6 @@ public class  PgprepActivity extends AppCompatActivity {
         initSliderPg();
 
     }
-
-    private void showStreakDialog() {
-        View dialogView = LayoutInflater.from(this).inflate(R.layout.personstreak, null);
-
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setView(dialogView);
-        AlertDialog dialog = builder.create();
-
-        LottieAnimationView correctAnswer = dialogView.findViewById(R.id.correctanswer);
-        TextView userStreak = dialogView.findViewById(R.id.userstreak);
-
-        FirebaseAuth mAuth = FirebaseAuth.getInstance();
-        FirebaseUser currentUser = mAuth.getCurrentUser();
-
-        if (currentUser != null) {
-            String userId = currentUser.getUid();
-            fetchStreakData(userId, userStreak);
-            dialog.setOnDismissListener(new DialogInterface.OnDismissListener() {
-                @Override
-                public void onDismiss(DialogInterface dialogInterface) {
-                }
-            });
-
-            dialog.show();
-        } else {
-        }
-    }
-
-
     private void fetchStreakData(String userId, TextView userStreak) {
         FirebaseFirestore db = FirebaseFirestore.getInstance();
         CollectionReference usersCollection = db.collection("users");
@@ -415,11 +385,9 @@ public class  PgprepActivity extends AppCompatActivity {
 
                                 if (position != RecyclerView.NO_POSITION) {
                                     if (position == specialitiespost.size() - 1 && specialitiespost.get(position).getPriority() == -1) {
-                                        // Redirect to CategoryPublicationInsiderActivity
-                                        Intent intent = new Intent(PgprepActivity.this, SpecialityPGInsiderActivity.class);
+                                        Intent intent = new Intent(PgprepActivity.this, SpecialitySlideshowInsiderActivity.class);
                                         startActivity(intent);
                                     } else {
-                                        // Handle the click on other items if needed
                                     }
                                 }
                                 return false;

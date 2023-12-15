@@ -10,10 +10,8 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.Spinner;
 import android.widget.Toast;
-
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-
 import com.example.my_medicos.R;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
@@ -24,7 +22,6 @@ import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
-
 import java.util.HashMap;
 import java.util.Map;
 import java.util.regex.Pattern;
@@ -36,6 +33,7 @@ public class RegisterActivity extends AppCompatActivity {
     private ArrayAdapter<CharSequence> prefixAdapter, locationAdapter, interestAdapter;
     private FirebaseAuth mAuth;
     private ProgressDialog progressDialog;
+
 
     HashMap<String, Object> userMap = new HashMap<>();
     private FirebaseFirestore db = FirebaseFirestore.getInstance();
@@ -55,6 +53,7 @@ public class RegisterActivity extends AppCompatActivity {
         fullName = findViewById(R.id.fullnameedit);
         phoneNumber = findViewById(R.id.phonenumberededit);
         password = findViewById(R.id.passwordedit);
+
 
         mAuth = FirebaseAuth.getInstance();
         progressDialog = new ProgressDialog(this);

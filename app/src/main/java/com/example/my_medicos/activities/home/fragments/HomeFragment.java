@@ -3,10 +3,13 @@ package com.example.my_medicos.activities.home.fragments;
 import static android.content.ContentValues.TAG;
 
 import android.annotation.SuppressLint;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.CountDownTimer;
 import android.os.Handler;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -15,6 +18,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 import android.widget.ViewFlipper;
 
 import androidx.annotation.NonNull;
@@ -163,8 +167,16 @@ public class HomeFragment extends Fragment {
         update.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent i = new Intent(getActivity(), UniversityActivity.class);
-                startActivity(i);
+                long currentTime = System.currentTimeMillis();
+                long targetTime = calculateTargetTime();
+
+                long timeDifference = targetTime - currentTime;
+
+                if (timeDifference <= 0) {
+                    showLiveFeatureDialog();
+                } else {
+                    showCountdownToastUpdates(timeDifference);
+                }
             }
         });
 
@@ -282,14 +294,6 @@ public class HomeFragment extends Fragment {
                                 Map<String, Object> dataMap = document.getData();
                                 String phoneNumberFromFirestore = (String) dataMap.get("Phone Number");
 
-                                // Check if the logged-in user's phone number matches the one in Firestore
-//                                if (user != null && user.getPhoneNumber() != null
-//                                        && user.getPhoneNumber().equals(phoneNumberFromFirestore)) {
-//                                    // Skip this document as it belongs to the currently logged-in user
-//                                    continue;
-//                                }
-
-                                // Check if the Interest field matches
                                 String current = (String) dataMap.get("Phone Number");
                                 int a = current.compareTo(user.getPhoneNumber());
 
@@ -490,8 +494,21 @@ public class HomeFragment extends Fragment {
             publication.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    Intent i = new Intent(getActivity(), PublicationActivity.class);
-                    startActivity(i);
+                    // Calculate the time remaining until the 20th of December
+                    long currentTime = System.currentTimeMillis();
+                    long targetTime = calculateTargetTime();
+
+                    // Calculate the time difference
+                    long timeDifference = targetTime - currentTime;
+
+                    // Check if the feature is already live
+                    if (timeDifference <= 0) {
+                        // The feature is live, perform your action (e.g., show the popup dialog)
+                        showLiveFeatureDialog();
+                    } else {
+                        // Show a toast with countdown
+                        showCountdownToast(timeDifference);
+                    }
                 }
             });
             player = new ExoPlayer.Builder(requireContext()).build();
@@ -525,6 +542,19 @@ public class HomeFragment extends Fragment {
             player.release();
             player = null;
         }
+    }
+
+    private void showLiveFeatureDialog() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+        builder.setTitle("Feature Live!")
+                .setMessage("The feature is now live!")
+                .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        startFeatureActivity();
+                    }
+                })
+                .setIcon(android.R.drawable.ic_dialog_info)
+                .show();
     }
 
     void getsliderHome() {
@@ -620,9 +650,59 @@ public class HomeFragment extends Fragment {
 
     }
 
+    private boolean countdownShown = false;
+
+    private void startFeatureActivity() {
+        Intent i = new Intent(getActivity(), PublicationActivity.class);
+        startActivity(i);
+    }
+    private long calculateTargetTime() {
+        java.util.Calendar targetCalendar = java.util.Calendar.getInstance();
+        targetCalendar.set(java.util.Calendar.YEAR, 2023);
+        targetCalendar.set(java.util.Calendar.MONTH, java.util.Calendar.DECEMBER);
+        targetCalendar.set(java.util.Calendar.DAY_OF_MONTH, 21);
+        targetCalendar.set(java.util.Calendar.HOUR_OF_DAY, 0);
+        targetCalendar.set(java.util.Calendar.MINUTE, 0);
+        targetCalendar.set(java.util.Calendar.SECOND, 0);
+        targetCalendar.set(java.util.Calendar.MILLISECOND, 0);
+        return targetCalendar.getTimeInMillis();
+    }
+
+    private void showCountdownToast(long timeDifference) {
+        long seconds = timeDifference / 1000;
+        long minutes = seconds / 60;
+        long hours = minutes / 60;
+        long days = hours / 24;
+
+        @SuppressLint("DefaultLocale") String countdownText = String.format("Library will be available to use in %d days, %d hours, %d minutes", days, hours % 24, minutes % 60);
+        Toast.makeText(getActivity(), countdownText, Toast.LENGTH_LONG).show();
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                Toast.makeText(getActivity(), "Be Patient..", Toast.LENGTH_SHORT).show();
+            }
+        }, 3000);
+    }
+
+    private void showCountdownToastUpdates(long timeDifference) {
+        long seconds = timeDifference / 1000;
+        long minutes = seconds / 60;
+        long hours = minutes / 60;
+        long days = hours / 24;
+
+        @SuppressLint("DefaultLocale") String countdownText = String.format("University Updates will be available to use in %d days, %d hours, %d minutes", days, hours % 24, minutes % 60);
+        Toast.makeText(getActivity(), countdownText, Toast.LENGTH_LONG).show();
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                Toast.makeText(getActivity(), "Be Patient..", Toast.LENGTH_SHORT).show();
+            }
+        }, 3000);
+    }
+
     private void initHomeSlider() {
         getsliderHome();
-    }{}
+    }
 
     private final Runnable autoScrollRunnable = new Runnable() {
         @Override
@@ -659,22 +739,17 @@ public class HomeFragment extends Fragment {
     private MyAsyncTask myAsyncTask;
     private void startAsyncTask() {
         if (isAdded()) {
-            // Start the AsyncTask
             myAsyncTask = new MyAsyncTask();
             myAsyncTask.execute();
         }
     }
-
-    // AsyncTask example
     private class MyAsyncTask extends AsyncTask<Void, Void, Void> {
-
         @Override
         protected Void doInBackground(Void... voids) {
             if (isAdded()) {
             }
             return null;
         }
-
         @Override
         protected void onPostExecute(Void result) {
             if (isAdded()) {
@@ -682,7 +757,6 @@ public class HomeFragment extends Fragment {
             }
         }
     }
-
     @Override
     public void onDestroy() {
         super.onDestroy();
@@ -696,7 +770,6 @@ public class HomeFragment extends Fragment {
         if (!isAdded()) {
             return;
         }
-
         for (int i = 0; i < dotsLayout.getChildCount(); i++) {
             ImageView dot = (ImageView) dotsLayout.getChildAt(i);
             dot.setImageDrawable(getResources().getDrawable(

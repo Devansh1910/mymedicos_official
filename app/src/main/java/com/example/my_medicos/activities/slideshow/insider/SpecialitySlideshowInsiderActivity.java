@@ -1,6 +1,5 @@
-package com.example.my_medicos.activities.pg.activites.insiders;
+package com.example.my_medicos.activities.slideshow.insider;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.MenuItem;
@@ -10,19 +9,41 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
+import androidx.recyclerview.widget.GridLayoutManager;
 
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
 import com.example.my_medicos.R;
+import com.example.my_medicos.activities.pg.adapters.insiders.SpecialitiesPGInsiderAdapter;
 import com.example.my_medicos.activities.pg.fragment.QuestionbankFragment;
 import com.example.my_medicos.activities.pg.fragment.VideoBankFragment;
 import com.example.my_medicos.activities.pg.fragment.WeeklyQuizFragment;
+import com.example.my_medicos.activities.pg.model.SpecialitiesPG;
+import com.example.my_medicos.activities.publications.activity.fragments.FreeFragment;
+import com.example.my_medicos.activities.publications.activity.fragments.PaidFragment;
+import com.example.my_medicos.activities.publications.activity.fragments.ResearchPaperFragment;
+import com.example.my_medicos.activities.publications.activity.fragments.TextBooksFragment;
+import com.example.my_medicos.activities.publications.utils.Constants;
+import com.example.my_medicos.databinding.ActivitySlideshowInsidernBinding;
 import com.example.my_medicos.databinding.ActivitySpecialityPgBinding;
+import com.example.my_medicos.databinding.ActivitySpecialitySlideshowInsiderBinding;
 import com.google.android.material.bottomappbar.BottomAppBar;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
-public class SpecialityPGInsiderActivity extends AppCompatActivity {
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
-    ActivitySpecialityPgBinding binding;
-//    ArrayList<SpecialitiesPG> specialitiesPostGraduate;
+import java.util.ArrayList;
+
+public class SpecialitySlideshowInsiderActivity extends AppCompatActivity {
+
+    ActivitySpecialitySlideshowInsiderBinding binding;
+    //    ArrayList<SpecialitiesPG> specialitiesPostGraduate;
     BottomNavigationView bottomNavigationCategoryPublication;
     BottomAppBar bottomAppBarCategoryPublication;
 
@@ -35,64 +56,33 @@ public class SpecialityPGInsiderActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        binding = ActivitySpecialityPgBinding.inflate(getLayoutInflater());
+        binding = ActivitySpecialitySlideshowInsiderBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
-        toolbarpginsider = binding.specialitytoolbar;
-        Intent intent = getIntent();
-        String extraValue = intent.getStringExtra("specialityPgName");
-        if (extraValue!=null) {
-            Log.d("Specialitypdname", extraValue);
-            Toolbar text=findViewById(R.id.specialitytoolbar);
-            text.setTitle(extraValue);
-        }
-
-        else {
-            Log.d("abcdef","ajcbaj");
-        }
-
-
-
 
         setSupportActionBar(toolbarpginsider);
 
+        bottomAppBarCategoryPublication = findViewById(R.id.bottomappabar);
 
+        bottomNavigationCategoryPublication = findViewById(R.id.bottomNavigationViewcategorypublication);
 
-        bottomAppBarCategoryPublication = findViewById(R.id.bottomappabarslideshow);
-        Log.d("abcdef","hscvh");
-        Log.d("Debug", "BottomAppBar ID: " + bottomAppBarCategoryPublication);
-
-//        bottomNavigationCategoryPublication = findViewById(R.id.bottomNavigationViewcategorypublication);
-
-        if (bottomAppBarCategoryPublication != null) {
-//            bottomAppBarCategoryPublication.replaceFragment(new QuestionbankFragment());
-//            bottomNavigationCategoryPublication.setBackground(null);
-            bottomNavigationCategoryPublication = bottomAppBarCategoryPublication.findViewById(R.id.bottomNavigationViewslideshow);
-
+        if (bottomNavigationCategoryPublication != null) {
             bottomNavigationCategoryPublication.setBackground(null);
-            Log.d("abcdef","hscvh");
 
-            replaceFragment(QuestionbankFragment.newInstance(0));
-
-//            replaceFragment(QuestionbankFragment.newInstance(catId));
+            replaceFragment(QuestionbankFragment.newInstance(catId));
 
             // Inside onCreate method
             bottomNavigationCategoryPublication.setOnItemSelectedListener(item -> {
                 int frgId = item.getItemId();
-                Log.d("abcdef","hscvh");
-                Log.d("ItemSelected", "Fragment ID: " + frgId);
+                Log.d("Something went wrong..", "Try again!");
                 if (frgId == R.id.qb) {
-                    Log.d("ItemSelected", "Selected QuestionbankFragment");
                     replaceFragment(QuestionbankFragment.newInstance(catId));
                 } else if (frgId == R.id.lc) {
-                    Log.d("ItemSelected", "Selected VideoBankFragment");
                     replaceFragment(new VideoBankFragment());
                 } else {
-                    Log.d("ItemSelected", "Selected WeeklyQuizFragment");
                     replaceFragment(new WeeklyQuizFragment());
                 }
                 return true;
             });
-
         } else {
             Log.e("Error", "bottomNavigationCategoryPublication is null");
         }
@@ -101,10 +91,9 @@ public class SpecialityPGInsiderActivity extends AppCompatActivity {
     private void replaceFragment(Fragment fragment) {
         FragmentManager fragmentManager = getSupportFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-        fragmentTransaction.replace(R.id.frame_layout_slideshow, fragment);
+        fragmentTransaction.replace(R.id.frame_layout_pg, fragment);
         fragmentTransaction.commit();
     }
-
 
     //    void initSpecialityPG() {
 //        specialitiesPostGraduate = new ArrayList<>();
