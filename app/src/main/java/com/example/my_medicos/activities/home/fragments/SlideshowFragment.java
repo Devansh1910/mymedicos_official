@@ -21,13 +21,11 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.example.my_medicos.R;
-import com.example.my_medicos.activities.publications.activity.PublicationActivity;
-import com.example.my_medicos.activities.publications.activity.insiders.CategoryPublicationInsiderActivity;
-import com.example.my_medicos.activities.publications.adapters.CategoryAdapter;
-import com.example.my_medicos.activities.publications.model.Category;
+import com.example.my_medicos.activities.slideshow.SlideshareCategoryAdapter;
 import com.example.my_medicos.activities.slideshow.Slideshow;
 import com.example.my_medicos.activities.slideshow.SlideshowAdapter;
-import com.example.my_medicos.activities.slideshow.SlideshowInsidernActivity;
+import com.example.my_medicos.activities.slideshow.insider.SpecialitySlideshowInsiderActivity;
+import com.example.my_medicos.activities.slideshow.model.SlideshareCategory;
 import com.example.my_medicos.activities.utils.ConstantsDashboard;
 import com.example.my_medicos.databinding.FragmentSlideshowBinding;
 import org.imaginativeworld.whynotimagecarousel.model.CarouselItem;
@@ -41,8 +39,8 @@ public class SlideshowFragment extends Fragment {
 
     private FragmentSlideshowBinding binding;
     private SwipeRefreshLayout swipeRefreshLayout;
-    CategoryAdapter categoryAdapterslideshow;
-    ArrayList<Category> categoriesslideshow;
+    SlideshareCategoryAdapter slideshareCategoryAdapterslideshow;
+    ArrayList<SlideshareCategory> slidesharecategoriesslideshow;
     private SlideshowAdapter slideshowAdapter;
     private ArrayList<Slideshow> slideshows;
 
@@ -116,14 +114,14 @@ public class SlideshowFragment extends Fragment {
     }
 
     void initCategoriesSlideshow() {
-        categoriesslideshow = new ArrayList<>();
-        categoryAdapterslideshow = new CategoryAdapter(requireContext(), categoriesslideshow);
+        slidesharecategoriesslideshow = new ArrayList<>();
+        slideshareCategoryAdapterslideshow = new SlideshareCategoryAdapter(requireContext(), slidesharecategoriesslideshow);
 
         getCategoriesSlideshow();
 
         GridLayoutManager layoutManager = new GridLayoutManager(requireContext(), 2);
         binding.slideshowpptlistcategory.setLayoutManager(layoutManager);
-        binding.slideshowpptlistcategory.setAdapter(categoryAdapterslideshow);
+        binding.slideshowpptlistcategory.setAdapter(slideshareCategoryAdapterslideshow);
     }
     void getCategoriesSlideshow() {
 
@@ -136,18 +134,18 @@ public class SlideshowFragment extends Fragment {
                     Log.e("err", response);
                     JSONObject mainObj = new JSONObject(response);
                     if (mainObj.getString("status").equals("success")) {
-                        JSONArray categoriesArray = mainObj.getJSONArray("data");
-                        int categoriesCount = Math.min(categoriesArray.length(), 40);
+                        JSONArray slidesharecategoriesArray = mainObj.getJSONArray("data");
+                        int categoriesCount = Math.min(slidesharecategoriesArray.length(), 40);
                         for (int i = 0; i < categoriesCount; i++) {
-                            JSONObject object = categoriesArray.getJSONObject(i);
-                            Category category = new Category(
+                            JSONObject object = slidesharecategoriesArray.getJSONObject(i);
+                            SlideshareCategory slideshowcategory = new SlideshareCategory(
                                     object.getString("id"),
                                     object.getInt("priority")
                             );
-                            categoriesslideshow.add(category);
+                            slidesharecategoriesslideshow.add(slideshowcategory);
                             Log.e("Something went wrong..",object.getString("priority"));
                         }
-                        categoryAdapterslideshow.notifyDataSetChanged();
+                        slideshareCategoryAdapterslideshow.notifyDataSetChanged();
                         binding.slideshowpptlistcategory.addOnItemTouchListener(new RecyclerView.OnItemTouchListener() {
                             @Override
                             public boolean onInterceptTouchEvent(@NonNull RecyclerView rv, @NonNull MotionEvent e) {
@@ -155,8 +153,8 @@ public class SlideshowFragment extends Fragment {
                                 int position = rv.getChildAdapterPosition(child);
 
                                 if (position != RecyclerView.NO_POSITION) {
-                                    if (position == categoriesslideshow.size() - 1 && categoriesslideshow.get(position).getPriority() == -1) {
-                                        Intent intent = new Intent(requireContext(), SlideshowInsidernActivity.class);
+                                    if (position == slidesharecategoriesslideshow.size() - 1 && slidesharecategoriesslideshow.get(position).getPriority() == -1) {
+                                        Intent intent = new Intent(requireContext(), SpecialitySlideshowInsiderActivity.class);
                                         startActivity(intent);
                                     } else {
 
@@ -170,7 +168,7 @@ public class SlideshowFragment extends Fragment {
                             @Override
                             public void onRequestDisallowInterceptTouchEvent(boolean disallowIntercept) {}
                         });
-                        categoryAdapterslideshow.notifyDataSetChanged();
+                        slideshareCategoryAdapterslideshow.notifyDataSetChanged();
                     } else {
                     }
                 } catch (JSONException e) {
@@ -186,6 +184,7 @@ public class SlideshowFragment extends Fragment {
 
         queue.add(request);
     }
+
 
     void getsliderSlideShow() {
         RequestQueue queue = Volley.newRequestQueue(requireContext()); // Use requireContext()

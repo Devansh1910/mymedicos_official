@@ -43,10 +43,6 @@ import java.util.ArrayList;
 public class SpecialitySlideshowInsiderActivity extends AppCompatActivity {
 
     ActivitySpecialitySlideshowInsiderBinding binding;
-    //    ArrayList<SpecialitiesPG> specialitiesPostGraduate;
-    BottomNavigationView bottomNavigationCategoryPublication;
-    BottomAppBar bottomAppBarCategoryPublication;
-
     Toolbar toolbarpginsider;
 
 //    SpecialitiesPGInsiderAdapter specialitiesPGInsiderAdapter;
@@ -61,41 +57,8 @@ public class SpecialitySlideshowInsiderActivity extends AppCompatActivity {
 
         setSupportActionBar(toolbarpginsider);
 
-        bottomAppBarCategoryPublication = findViewById(R.id.bottomappabar);
 
-        bottomNavigationCategoryPublication = findViewById(R.id.bottomNavigationViewcategorypublication);
-
-        if (bottomNavigationCategoryPublication != null) {
-            bottomNavigationCategoryPublication.setBackground(null);
-
-            replaceFragment(QuestionbankFragment.newInstance(catId));
-
-            // Inside onCreate method
-            bottomNavigationCategoryPublication.setOnItemSelectedListener(item -> {
-                int frgId = item.getItemId();
-                Log.d("Something went wrong..", "Try again!");
-                if (frgId == R.id.qb) {
-                    replaceFragment(QuestionbankFragment.newInstance(catId));
-                } else if (frgId == R.id.lc) {
-                    replaceFragment(new VideoBankFragment());
-                } else {
-                    replaceFragment(new WeeklyQuizFragment());
-                }
-                return true;
-            });
-        } else {
-            Log.e("Error", "bottomNavigationCategoryPublication is null");
-        }
-    }
-
-    private void replaceFragment(Fragment fragment) {
-        FragmentManager fragmentManager = getSupportFragmentManager();
-        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-        fragmentTransaction.replace(R.id.frame_layout_pg, fragment);
-        fragmentTransaction.commit();
-    }
-
-    //    void initSpecialityPG() {
+        //    void initSpecialityPG() {
 //        specialitiesPostGraduate = new ArrayList<>();
 //        specialitiesPGInsiderAdapter = new SpecialitiesPGInsiderAdapter(this, specialitiesPostGraduate);
 //
@@ -143,6 +106,7 @@ public class SpecialitySlideshowInsiderActivity extends AppCompatActivity {
 //
 //        queue.add(request);
 //    }
+    }
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case android.R.id.home:
