@@ -70,13 +70,14 @@ public class SpecialitySlideshowInsiderActivity extends AppCompatActivity {
         setSupportActionBar(toolbarpginsider);
         recyclerslideshow=findViewById(R.id.Recyclerviewslideshowinsider);
         Intent intent = getIntent();
+
         String extraValue = intent.getStringExtra("specialityPgName");
         if (extraValue!=null) {
             Log.d("specialityPgName", extraValue);
-//            Toolbar text=findViewById(R.id.specialitytoolbar);
-//            text.setTitle(extraValue);
         }
         toolbarpginsider.setTitle(extraValue);
+
+        initSliderContent();
 //        bottomAppBarCategoryPublication = findViewById(R.id.bottomappabarslideshow);
 //        bottomNavigationCategoryPublication = findViewById(R.id.bottomNavigationViewslideshow);
 //        if (bottomNavigationCategoryPublication != null) {
@@ -186,7 +187,6 @@ void getSlideshowRecent() {
                             String imageId = imageObj.optString("id");
                             images.add(new Slideshow.Image(imageId, imageUrl));
                         }
-                        // Now you can create your Slideshow object with images
                         Slideshow slideshowItem = new Slideshow(title, images, fileUrl);
                         slideshows.add(slideshowItem);
                     } else {

@@ -112,7 +112,6 @@ public class SlideshowFragment extends Fragment {
 
         queue.add(request);
     }
-
     void initCategoriesSlideshow() {
         slidesharecategoriesslideshow = new ArrayList<>();
         slideshareCategoryAdapterslideshow = new SlideshareCategoryAdapter(requireContext(), slidesharecategoriesslideshow);
@@ -184,7 +183,6 @@ public class SlideshowFragment extends Fragment {
 
         queue.add(request);
     }
-
 
     void getsliderSlideShow() {
         RequestQueue queue = Volley.newRequestQueue(requireContext()); // Use requireContext()
