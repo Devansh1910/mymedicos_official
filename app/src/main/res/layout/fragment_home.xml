@@ -311,7 +311,7 @@
                                     android:layout_height="wrap_content"
                                     android:layout_gravity="center"
                                     android:layout_marginTop="@dimen/_5sdp"
-                                    android:text="Post Graduate"
+                                    android:text="PG Neet"
                                     android:textAlignment="center"
                                     android:textSize="@dimen/_10ssp" />
                             </LinearLayout>
