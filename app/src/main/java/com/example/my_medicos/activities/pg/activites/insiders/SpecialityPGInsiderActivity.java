@@ -57,7 +57,7 @@ public class SpecialityPGInsiderActivity extends AppCompatActivity {
 
 
 
-        bottomAppBarCategoryPublication = findViewById(R.id.bottomappabarslideshow);
+        bottomAppBarCategoryPublication = findViewById(R.id.bottomappabarpg);
         Log.d("abcdef","hscvh");
         Log.d("Debug", "BottomAppBar ID: " + bottomAppBarCategoryPublication);
 
@@ -66,7 +66,7 @@ public class SpecialityPGInsiderActivity extends AppCompatActivity {
         if (bottomAppBarCategoryPublication != null) {
 //            bottomAppBarCategoryPublication.replaceFragment(new QuestionbankFragment());
 //            bottomNavigationCategoryPublication.setBackground(null);
-            bottomNavigationCategoryPublication = bottomAppBarCategoryPublication.findViewById(R.id.bottomNavigationViewslideshow);
+            bottomNavigationCategoryPublication = bottomAppBarCategoryPublication.findViewById(R.id.bottomNavigationViewpg);
 
             bottomNavigationCategoryPublication.setBackground(null);
             Log.d("abcdef","hscvh");

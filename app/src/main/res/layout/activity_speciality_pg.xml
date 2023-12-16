@@ -58,7 +58,7 @@
 <!--    </androidx.cardview.widget.CardView>-->
 
     <com.google.android.material.bottomappbar.BottomAppBar
-        android:id="@+id/bottomappabarslideshow"
+        android:id="@+id/bottomappabarpg"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom"
@@ -71,7 +71,7 @@
         tools:ignore="BottomAppBar">
 
         <com.google.android.material.bottomnavigation.BottomNavigationView
-            android:id="@+id/bottomNavigationViewslideshow"
+            android:id="@+id/bottomNavigationViewpg"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:background="@color/green"

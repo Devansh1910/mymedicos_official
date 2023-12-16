@@ -1,5 +1,6 @@
 package com.example.my_medicos.activities.slideshow.insider;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.MenuItem;
@@ -10,6 +11,7 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -28,6 +30,9 @@ import com.example.my_medicos.activities.publications.activity.fragments.PaidFra
 import com.example.my_medicos.activities.publications.activity.fragments.ResearchPaperFragment;
 import com.example.my_medicos.activities.publications.activity.fragments.TextBooksFragment;
 import com.example.my_medicos.activities.publications.utils.Constants;
+import com.example.my_medicos.activities.slideshow.Slideshow;
+import com.example.my_medicos.activities.slideshow.SlideshowAdapter;
+import com.example.my_medicos.activities.utils.ConstantsDashboard;
 import com.example.my_medicos.databinding.ActivitySlideshowInsidernBinding;
 import com.example.my_medicos.databinding.ActivitySpecialityPgBinding;
 import com.example.my_medicos.databinding.ActivitySpecialitySlideshowInsiderBinding;
@@ -43,22 +48,64 @@ import java.util.ArrayList;
 public class SpecialitySlideshowInsiderActivity extends AppCompatActivity {
 
     ActivitySpecialitySlideshowInsiderBinding binding;
+    //    ArrayList<SpecialitiesPG> specialitiesPostGraduate;
+    BottomNavigationView bottomNavigationCategoryPublication;
+    BottomAppBar bottomAppBarCategoryPublication;
+
     Toolbar toolbarpginsider;
+    private SlideshowAdapter slideshowAdapter;
+    private ArrayList<Slideshow> slideshows;
 
 //    SpecialitiesPGInsiderAdapter specialitiesPGInsiderAdapter;
 
     int catId;
+    RecyclerView recyclerslideshow;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         binding = ActivitySpecialitySlideshowInsiderBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
-
+        toolbarpginsider = binding.specialitytoolbar;
         setSupportActionBar(toolbarpginsider);
-
-
-        //    void initSpecialityPG() {
+        recyclerslideshow=findViewById(R.id.Recyclerviewslideshowinsider);
+        Intent intent = getIntent();
+        String extraValue = intent.getStringExtra("specialityPgName");
+        if (extraValue!=null) {
+            Log.d("specialityPgName", extraValue);
+//            Toolbar text=findViewById(R.id.specialitytoolbar);
+//            text.setTitle(extraValue);
+        }
+        toolbarpginsider.setTitle(extraValue);
+//        bottomAppBarCategoryPublication = findViewById(R.id.bottomappabarslideshow);
+//        bottomNavigationCategoryPublication = findViewById(R.id.bottomNavigationViewslideshow);
+//        if (bottomNavigationCategoryPublication != null) {
+//            bottomNavigationCategoryPublication.setBackground(null);
+//            replaceFragment(QuestionbankFragment.newInstance(catId));
+//            // Inside onCreate method
+//            bottomNavigationCategoryPublication.setOnItemSelectedListener(item -> {
+//                int frgId = item.getItemId();
+//                Log.d("Something went wrong..", "Try again!");
+//                if (frgId == R.id.qb) {
+//                    replaceFragment(QuestionbankFragment.newInstance(catId));
+//                } else if (frgId == R.id.lc) {
+//                    replaceFragment(new VideoBankFragment());
+//                } else {
+//                    replaceFragment(new WeeklyQuizFragment());
+//                }
+//                return true;
+//            });
+//        } else {
+//            Log.e("Error", "bottomNavigationCategoryPublication is null");
+//        }
+    }
+//    private void replaceFragment(Fragment fragment) {
+//        FragmentManager fragmentManager = getSupportFragmentManager();
+//        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+//        fragmentTransaction.replace(R.id.frame_layout_pg, fragment);
+//        fragmentTransaction.commit();
+//    }
+    //    void initSpecialityPG() {
 //        specialitiesPostGraduate = new ArrayList<>();
 //        specialitiesPGInsiderAdapter = new SpecialitiesPGInsiderAdapter(this, specialitiesPostGraduate);
 //
@@ -106,14 +153,68 @@ public class SpecialitySlideshowInsiderActivity extends AppCompatActivity {
 //
 //        queue.add(request);
 //    }
-    }
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case android.R.id.home:
-                finish();
-                return true;
-            default:
-                return super.onOptionsItemSelected(item);
+//    public boolean onOptionsItemSelected(MenuItem item) {
+//        switch (item.getItemId()) {
+//            case android.R.id.home:
+//                finish();
+//                return true;
+//            default:
+//                return super.onOptionsItemSelected(item);
+//        }
+//    }
+void getSlideshowRecent() {
+    RequestQueue queue = Volley.newRequestQueue(SpecialitySlideshowInsiderActivity.this);
+
+    String url = ConstantsDashboard.GET_SLIDESHOW;
+    StringRequest request = new StringRequest(Request.Method.GET, url, response -> {
+        try {
+            JSONObject object = new JSONObject(response);
+            if ("success".equals(object.optString("status"))) {
+                JSONArray dataArray = object.getJSONArray("data");
+                for (int i = 0; i < dataArray.length(); i++) {
+                    JSONObject slideshowObj = dataArray.getJSONObject(i);
+
+                    String fileUrl = slideshowObj.optString("file");
+                    String title = slideshowObj.optString("title");
+
+                    if (slideshowObj.has("images")) {
+                        JSONArray imagesArray = slideshowObj.getJSONArray("images");
+                        ArrayList<Slideshow.Image> images = new ArrayList<>();
+                        for (int j = 0; j < imagesArray.length(); j++) {
+                            JSONObject imageObj = imagesArray.getJSONObject(j);
+                            String imageUrl = imageObj.optString("url");
+                            String imageId = imageObj.optString("id");
+                            images.add(new Slideshow.Image(imageId, imageUrl));
+                        }
+                        // Now you can create your Slideshow object with images
+                        Slideshow slideshowItem = new Slideshow(title, images, fileUrl);
+                        slideshows.add(slideshowItem);
+                    } else {
+                        // If "images" array does not exist, create Slideshow without images
+                        Slideshow slideshowItem = new Slideshow(title, new ArrayList<>(), fileUrl);
+                        slideshows.add(slideshowItem);
+                    }
+                }
+                slideshowAdapter.notifyDataSetChanged();
+            }
+        } catch (JSONException e) {
+            e.printStackTrace();
         }
-    }
+    }, error -> {
+        // Handle error
+    });
+
+    queue.add(request);
+}
+void initSliderContent() {
+    slideshows = new ArrayList<>();
+    slideshowAdapter = new SlideshowAdapter(SpecialitySlideshowInsiderActivity.this, slideshows);
+    getSlideshowRecent();
+
+    // Use requireContext() or getContext() to get a valid context
+    GridLayoutManager layoutManager = new GridLayoutManager(SpecialitySlideshowInsiderActivity.this, 1);
+
+    binding.Recyclerviewslideshowinsider.setLayoutManager(layoutManager);
+    binding.Recyclerviewslideshowinsider.setAdapter(slideshowAdapter);
+}
 }

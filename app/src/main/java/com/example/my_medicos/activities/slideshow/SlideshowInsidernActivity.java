@@ -53,58 +53,58 @@ public class SlideshowInsidernActivity extends AppCompatActivity {
 //        viewPager=findViewById(R.id.view_pager);
 //        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        initCategories();
+//        initCategories();
 
     }
 
-    void initCategories() {
-        categories = new ArrayList<>();
-        categoryAdapterInsider = new CategoryInsiderAdapter(this, categories);
-
-        getCategories();
-
-        GridLayoutManager layoutManager = new GridLayoutManager(this, 1);
-        binding.categoriesListInsider.setLayoutManager(layoutManager);
-        binding.categoriesListInsider.setAdapter(categoryAdapterInsider);
-    }
-
-    void getCategories() {
-        RequestQueue queue = Volley.newRequestQueue(this);
-
-        StringRequest request = new StringRequest(Request.Method.GET, ConstantsDashboard.GET_SPECIALITY, new Response.Listener<String>() {
-            @SuppressLint("NotifyDataSetChanged")
-            @Override
-            public void onResponse(String response) {
-                try {
-                    Log.e("err", response);
-                    JSONObject mainObj = new JSONObject(response);
-                    if (mainObj.getString("status").equals("success")) {
-                        JSONArray categoriesArray = mainObj.getJSONArray("categories");
-                        for (int i = 0; i < categoriesArray.length(); i++) {
-                            JSONObject object = categoriesArray.getJSONObject(i);
-                            Category category = new Category(
-                                    object.getString("id"),
-                                    object.getInt("priority")
-                            );
-                            categories.add(category);
-                        }
-                        categoryAdapterInsider.notifyDataSetChanged();
-                    } else {
-                        // DO nothing
-                    }
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-            }
-        }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-
-            }
-        });
-
-        queue.add(request);
-    }
+//    void initCategories() {
+//        categories = new ArrayList<>();
+//        categoryAdapterInsider = new CategoryInsiderAdapter(this, categories);
+//
+//        getCategories();
+//
+//        GridLayoutManager layoutManager = new GridLayoutManager(this, 1);
+//        binding.categoriesListInsider.setLayoutManager(layoutManager);
+//        binding.categoriesListInsider.setAdapter(categoryAdapterInsider);
+//    }
+//
+//    void getCategories() {
+//        RequestQueue queue = Volley.newRequestQueue(this);
+//
+//        StringRequest request = new StringRequest(Request.Method.GET, ConstantsDashboard.GET_SPECIALITY, new Response.Listener<String>() {
+//            @SuppressLint("NotifyDataSetChanged")
+//            @Override
+//            public void onResponse(String response) {
+//                try {
+//                    Log.e("err", response);
+//                    JSONObject mainObj = new JSONObject(response);
+//                    if (mainObj.getString("status").equals("success")) {
+//                        JSONArray categoriesArray = mainObj.getJSONArray("categories");
+//                        for (int i = 0; i < categoriesArray.length(); i++) {
+//                            JSONObject object = categoriesArray.getJSONObject(i);
+//                            Category category = new Category(
+//                                    object.getString("id"),
+//                                    object.getInt("priority")
+//                            );
+//                            categories.add(category);
+//                        }
+//                        categoryAdapterInsider.notifyDataSetChanged();
+//                    } else {
+//                        // DO nothing
+//                    }
+//                } catch (JSONException e) {
+//                    e.printStackTrace();
+//                }
+//            }
+//        }, new Response.ErrorListener() {
+//            @Override
+//            public void onErrorResponse(VolleyError error) {
+//
+//            }
+//        });
+//
+//        queue.add(request);
+//    }
 
     public boolean onOptionsItemSelected(MenuItem item) {
         // Handle item selection
