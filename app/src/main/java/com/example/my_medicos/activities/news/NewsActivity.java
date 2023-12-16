@@ -37,9 +37,12 @@ public class  NewsActivity extends AppCompatActivity {
         swipeRefreshLayoutNews = findViewById(R.id.swipeRefreshLayoutNews);
         swipeRefreshLayoutNews.setOnRefreshListener(this::refreshContent);
 
+        binding.newsstoolbar.setNavigationOnClickListener(v -> onBackPressed());
+
         initNews();
         initNewsSlider();
     }
+
     private void refreshContent() {
         clearData();
         fetchData();

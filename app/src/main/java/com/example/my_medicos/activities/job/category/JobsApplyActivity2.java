@@ -4,9 +4,12 @@ import static android.content.ContentValues.TAG;
 
 import android.os.Bundle;
 import android.util.Log;
+import android.view.MenuItem;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -33,6 +36,19 @@ public class JobsApplyActivity2 extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_apply_jobs2);
+
+        Toolbar toolbar = findViewById(R.id.jobstoolbar);
+
+        // Set the support action bar
+        setSupportActionBar(toolbar);
+
+        // Set the navigation icon and listener
+        ActionBar actionBar = getSupportActionBar();
+        if (actionBar != null) {
+            actionBar.setDisplayHomeAsUpEnabled(true);
+            actionBar.setHomeAsUpIndicator(R.drawable.arrowbackforappbar);
+        }
+
 
 
         FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
@@ -128,6 +144,16 @@ public class JobsApplyActivity2 extends AppCompatActivity {
                         }
                     }
                 });
+    }
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                onBackPressed();
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
     }
 
 

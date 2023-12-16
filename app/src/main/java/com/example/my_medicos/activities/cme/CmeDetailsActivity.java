@@ -12,6 +12,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
 import android.util.Log;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -21,6 +22,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
@@ -71,14 +73,22 @@ public class CmeDetailsActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_cme_details);
 
+        Toolbar toolbar = findViewById(R.id.detailtoolbar);
+        setSupportActionBar(toolbar);
+
+        ActionBar actionBar = getSupportActionBar();
+        if (actionBar != null) {
+            actionBar.setDisplayHomeAsUpEnabled(true);
+            actionBar.setHomeAsUpIndicator(R.drawable.arrowbackforappbar);
+        }
+
         StyledPlayerView playerView = findViewById(R.id.player_view);
         player = new ExoPlayer.Builder(CmeDetailsActivity.this).build();
         playerView.setPlayer(player);
 
         FirebaseFirestore db = FirebaseFirestore.getInstance();
 
-        toolbar = findViewById(R.id.detailtoolbar);
-        TextView presenter3 = findViewById(R.id.presenters3);
+       TextView presenter3 = findViewById(R.id.presenters3);
 
         final TextView textView = findViewById(R.id.description);
         final TextView moreButton = findViewById(R.id.moreButton);
@@ -526,4 +536,14 @@ public class CmeDetailsActivity extends AppCompatActivity {
                     }
                 });
     }
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                onBackPressed();
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+    }
+
 }

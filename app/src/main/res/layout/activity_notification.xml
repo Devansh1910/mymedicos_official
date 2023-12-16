@@ -16,7 +16,7 @@
 
         <androidx.appcompat.widget.Toolbar
             android:id="@+id/jobstoolbar"
-            app:title="Notifications"
+            app:title="Notice"
             app:navigationIcon="@drawable/arrow_bk"
             app:titleTextColor="@color/black"
             app:subtitleTextColor="@color/white"

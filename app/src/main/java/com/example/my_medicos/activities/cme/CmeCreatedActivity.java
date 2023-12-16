@@ -2,8 +2,10 @@ package com.example.my_medicos.activities.cme;
 
 import android.annotation.SuppressLint;
 import android.os.Bundle;
+import android.view.MenuItem;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
@@ -34,13 +36,17 @@ public class CmeCreatedActivity extends AppCompatActivity {
 
 
         viewpager = findViewById(R.id.view_pager1);
-        viewpager.setAdapter(new ViewPagerAdapter(this)); // Make sure to initialize the ViewPager2 before using it
+        viewpager.setAdapter(new ViewPagerAdapter(this));
 
-
-
-
-        toolbar = findViewById(R.id.cmetoolbar);
+        Toolbar toolbar = findViewById(R.id.cmetoolbar);
         setSupportActionBar(toolbar);
+
+        ActionBar actionBar = getSupportActionBar();
+        if (actionBar != null) {
+            actionBar.setDisplayHomeAsUpEnabled(true);
+            actionBar.setHomeAsUpIndicator(R.drawable.arrowbackforappbar);
+        }
+
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         pager = findViewById(R.id.view_pager);
@@ -59,15 +65,7 @@ public class CmeCreatedActivity extends AppCompatActivity {
                     break;
             }
         }).attach();
-
-// Existing code...
-
-
-
         pager.setAdapter(new ViewPagerAdapter(this));
-
-
-
     }
     class ViewPagerAdapter extends FragmentStateAdapter {
         public ViewPagerAdapter(@NonNull FragmentActivity fragmentActivity) {
@@ -91,7 +89,15 @@ public class CmeCreatedActivity extends AppCompatActivity {
             return 3;
         }
     }
-
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                onBackPressed();
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+    }
 
 
 }

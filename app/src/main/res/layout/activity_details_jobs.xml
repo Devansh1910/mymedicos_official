@@ -24,22 +24,22 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
-        <androidx.appcompat.widget.Toolbar
-            android:id="@+id/jobsinsidertoolbar"
-            app:title="Jobs"
-            app:navigationIcon="@drawable/arrowbackforappbar"
-            app:titleTextColor="@color/black"
-            app:subtitleTextColor="@color/white"
-            app:subtitleTextAppearance="@color/white"
-            android:backgroundTint="@color/white"
-            android:layout_width="match_parent"
-            android:layout_weight="1"
-            android:layout_height="?attr/actionBarSize"
-            android:background="@color/white">
+            <androidx.appcompat.widget.Toolbar
+                android:id="@+id/jobsinsidertoolbar"
+                app:title="Jobs"
+                app:navigationIcon="@drawable/arrowbackforappbar"
+                app:titleTextColor="@color/black"
+                app:subtitleTextColor="@color/white"
+                app:subtitleTextAppearance="@color/white"
+                android:backgroundTint="@color/white"
+                android:layout_width="match_parent"
+                android:layout_weight="1"
+                android:layout_height="?attr/actionBarSize"
+                android:background="@color/white">
+            </androidx.appcompat.widget.Toolbar>
 
-        </androidx.appcompat.widget.Toolbar>
 
-    </com.google.android.material.appbar.AppBarLayout>
+        </com.google.android.material.appbar.AppBarLayout>
 
     <LinearLayout
         android:layout_width="match_parent"

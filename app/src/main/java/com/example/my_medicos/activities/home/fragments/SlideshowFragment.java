@@ -21,11 +21,13 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.example.my_medicos.R;
-import com.example.my_medicos.activities.pg.activites.insiders.SpecialityPGInsiderActivity;
+import com.example.my_medicos.activities.publications.activity.PublicationActivity;
+import com.example.my_medicos.activities.publications.activity.insiders.CategoryPublicationInsiderActivity;
+import com.example.my_medicos.activities.publications.adapters.CategoryAdapter;
+import com.example.my_medicos.activities.publications.model.Category;
 import com.example.my_medicos.activities.slideshow.Slideshow;
 import com.example.my_medicos.activities.slideshow.SlideshowAdapter;
 import com.example.my_medicos.activities.slideshow.SlideshowInsidernActivity;
-import com.example.my_medicos.activities.slideshow.insider.SpecialitySlideshowInsiderActivity;
 import com.example.my_medicos.activities.utils.ConstantsDashboard;
 import com.example.my_medicos.databinding.FragmentSlideshowBinding;
 import org.imaginativeworld.whynotimagecarousel.model.CarouselItem;
@@ -39,8 +41,8 @@ public class SlideshowFragment extends Fragment {
 
     private FragmentSlideshowBinding binding;
     private SwipeRefreshLayout swipeRefreshLayout;
-    SlideshowAdapter categoryAdapterslideshow;
-    ArrayList<Slideshow> categoriesslideshow;
+    CategoryAdapter categoryAdapterslideshow;
+    ArrayList<Category> categoriesslideshow;
     private SlideshowAdapter slideshowAdapter;
     private ArrayList<Slideshow> slideshows;
 
@@ -69,66 +71,45 @@ public class SlideshowFragment extends Fragment {
         swipeRefreshLayout.setRefreshing(false);
     }
     void getSlideshowRecent() {
-        RequestQueue queue = Volley.newRequestQueue(getContext());
+        RequestQueue queue = Volley.newRequestQueue(requireContext());
 
-        StringRequest request = new StringRequest(Request.Method.GET, ConstantsDashboard.GET_SPECIALITY, new Response.Listener<String>() {
-            @SuppressLint("NotifyDataSetChanged")
-            @Override
-            public void onResponse(String response) {
-                try {
-                    Log.e("err", response);
-                    JSONObject mainObj = new JSONObject(response);
-                    if (mainObj.getString("status").equals("success")) {
-                        JSONArray specialityArray = mainObj.getJSONArray("data");
+        String url = ConstantsDashboard.GET_SLIDESHOW;
+        StringRequest request = new StringRequest(Request.Method.GET, url, response -> {
+            try {
+                JSONObject object = new JSONObject(response);
+                if ("success".equals(object.optString("status"))) {
+                    JSONArray dataArray = object.getJSONArray("data");
+                    for (int i = 0; i < dataArray.length(); i++) {
+                        JSONObject slideshowObj = dataArray.getJSONObject(i);
 
-                        for (int i = 0; i < specialityArray.length(); i++) {
-                            JSONObject object = specialityArray.getJSONObject(i);
-                            Slideshow speciality = new Slideshow(
-                                    object.getString("id"),
-                                    object.getInt("priority")
-                            );
-                            categoriesslideshow.add(speciality);
-                            Log.e("Something went wrong..", object.getString("priority"));
+                        String fileUrl = slideshowObj.optString("file");
+                        String title = slideshowObj.optString("title");
+
+                        if (slideshowObj.has("images")) {
+                            JSONArray imagesArray = slideshowObj.getJSONArray("images");
+                            ArrayList<Slideshow.Image> images = new ArrayList<>();
+                            for (int j = 0; j < imagesArray.length(); j++) {
+                                JSONObject imageObj = imagesArray.getJSONObject(j);
+                                String imageUrl = imageObj.optString("url");
+                                String imageId = imageObj.optString("id");
+                                images.add(new Slideshow.Image(imageId, imageUrl));
+                            }
+                            // Now you can create your Slideshow object with images
+                            Slideshow slideshowItem = new Slideshow(title, images, fileUrl);
+                            slideshows.add(slideshowItem);
+                        } else {
+                            // If "images" array does not exist, create Slideshow without images
+                            Slideshow slideshowItem = new Slideshow(title, new ArrayList<>(), fileUrl);
+                            slideshows.add(slideshowItem);
                         }
-
-                        binding.slideshowpptlistcategory.addOnItemTouchListener(new RecyclerView.OnItemTouchListener() {
-                            @Override
-                            public boolean onInterceptTouchEvent(@NonNull RecyclerView rv, @NonNull MotionEvent e) {
-                                View child = rv.findChildViewUnder(e.getX(), e.getY());
-                                int position = rv.getChildAdapterPosition(child);
-
-                                if (position != RecyclerView.NO_POSITION) {
-                                    if (position == categoriesslideshow.size() - 1 && categoriesslideshow.get(position).getPriority() == -1) {
-                                        Intent intent = new Intent(requireContext(), SpecialitySlideshowInsiderActivity.class);
-                                        startActivity(intent);
-                                    } else {
-                                    }
-                                }
-                                return false;
-                            }
-
-                            @Override
-                            public void onTouchEvent(@NonNull RecyclerView rv, @NonNull MotionEvent e) {
-                            }
-
-                            @Override
-                            public void onRequestDisallowInterceptTouchEvent(boolean disallowIntercept) {
-                            }
-                        });
-
-                        categoryAdapterslideshow.notifyDataSetChanged();
-                    } else {
-
                     }
-                } catch (JSONException e) {
-                    e.printStackTrace();
+                    slideshowAdapter.notifyDataSetChanged();
                 }
+            } catch (JSONException e) {
+                e.printStackTrace();
             }
-        }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                // Handle the error response
-            }
+        }, error -> {
+            // Handle error
         });
 
         queue.add(request);
@@ -136,7 +117,7 @@ public class SlideshowFragment extends Fragment {
 
     void initCategoriesSlideshow() {
         categoriesslideshow = new ArrayList<>();
-        categoryAdapterslideshow = new SlideshowAdapter(requireContext(), categoriesslideshow);
+        categoryAdapterslideshow = new CategoryAdapter(requireContext(), categoriesslideshow);
 
         getCategoriesSlideshow();
 
@@ -159,11 +140,11 @@ public class SlideshowFragment extends Fragment {
                         int categoriesCount = Math.min(categoriesArray.length(), 40);
                         for (int i = 0; i < categoriesCount; i++) {
                             JSONObject object = categoriesArray.getJSONObject(i);
-                            Slideshow slideshow = new Slideshow(
+                            Category category = new Category(
                                     object.getString("id"),
                                     object.getInt("priority")
                             );
-                            categoriesslideshow.add(slideshow);
+                            categoriesslideshow.add(category);
                             Log.e("Something went wrong..",object.getString("priority"));
                         }
                         categoryAdapterslideshow.notifyDataSetChanged();
@@ -175,7 +156,7 @@ public class SlideshowFragment extends Fragment {
 
                                 if (position != RecyclerView.NO_POSITION) {
                                     if (position == categoriesslideshow.size() - 1 && categoriesslideshow.get(position).getPriority() == -1) {
-                                        Intent intent = new Intent(requireContext(), SpecialityPGInsiderActivity.class);
+                                        Intent intent = new Intent(requireContext(), SlideshowInsidernActivity.class);
                                         startActivity(intent);
                                     } else {
 

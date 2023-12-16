@@ -1,9 +1,12 @@
 package com.example.my_medicos.activities.home.sidedrawer;
 
+import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 
 import android.annotation.SuppressLint;
 import android.os.Bundle;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.RadioButton;
@@ -21,6 +24,15 @@ public class ChooseLanguageActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_choose_language);
+
+        Toolbar toolbar = findViewById(R.id.selectlangtoolbar);
+        setSupportActionBar(toolbar);
+
+        ActionBar actionBar = getSupportActionBar();
+        if (actionBar != null) {
+            actionBar.setDisplayHomeAsUpEnabled(true);
+            actionBar.setHomeAsUpIndicator(R.drawable.arrowbackforappbar);
+        }
 
         radioGroup = findViewById(R.id.languageradio);
         selectButton = findViewById(R.id.button2);
@@ -74,5 +86,14 @@ public class ChooseLanguageActivity extends AppCompatActivity {
         }
         RadioButton selectedRadioButton = findViewById(checkedId);
         selectedRadioButton.setTextColor(getResources().getColor(R.color.green));
+    }
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                onBackPressed();
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
     }
 }

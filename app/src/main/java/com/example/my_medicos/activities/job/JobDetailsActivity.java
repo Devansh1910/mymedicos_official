@@ -14,7 +14,9 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager2.widget.ViewPager2;
@@ -53,9 +55,12 @@ public class JobDetailsActivity extends AppCompatActivity {
     FirebaseUser user = auth.getCurrentUser();
     String current=user.getPhoneNumber();
 
+    Toolbar toolbar;
+
     @SuppressLint("MissingInflatedId")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_details_jobs);
         // Find views by their IDs
@@ -79,6 +84,25 @@ public class JobDetailsActivity extends AppCompatActivity {
 
         }
 
+        Toolbar toolbar = findViewById(R.id.jobsinsidertoolbar);
+
+        // Set the support action bar
+        setSupportActionBar(toolbar);
+
+        // Set the navigation icon and listener
+        ActionBar actionBar = getSupportActionBar();
+        if (actionBar != null) {
+            actionBar.setDisplayHomeAsUpEnabled(true);
+            actionBar.setHomeAsUpIndicator(R.drawable.arrowbackforappbar);
+        }
+
+        // Set the click listener for the navigation icon
+        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onBackPressed();
+            }
+        });
 
         Button apply=findViewById(R.id.applyButton);
         Button alreadyapply=findViewById(R.id.Alreadyapplied);
@@ -123,10 +147,6 @@ public class JobDetailsActivity extends AppCompatActivity {
                 }
             });
         }
-
-
-
-// Check if the Intent has extra data
 
         FirebaseFirestore dc = FirebaseFirestore.getInstance();
         //......
