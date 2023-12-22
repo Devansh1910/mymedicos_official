@@ -13,12 +13,9 @@ import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.medical.my_medicos.activities.pg.activites.insiders.SpecialityPGInsiderActivity;
 import com.medical.my_medicos.activities.pg.adapters.QuestionBankPGAdapter;
-import com.medical.my_medicos.activities.pg.adapters.insiders.SpecialitiesPGInsiderAdapter;
 import com.medical.my_medicos.activities.pg.model.QuestionPG;
-import com.medical.my_medicos.activities.pg.model.SpecialitiesPG;
-import com.medical.my_medicos.activities.publications.adapters.ProductAdapter;
-import com.medical.my_medicos.activities.publications.model.Product;
 import com.medical.my_medicos.activities.utils.ConstantsDashboard;
 import com.medical.my_medicos.databinding.FragmentQuestionbankBinding;
 
@@ -33,16 +30,13 @@ public class QuestionbankFragment extends Fragment {
     private FragmentQuestionbankBinding binding;
     private QuestionBankPGAdapter questionsAdapter;
     private ArrayList<QuestionPG> questionsforpg;
-    SpecialitiesPGInsiderAdapter specialitiesPGInsiderAdapter;
-    ArrayList<SpecialitiesPG> specialitiesPostGraduate;
-    private ArrayList<Product> products;
-    private ProductAdapter productAdapter;
     private int catId;
 
-    public static QuestionbankFragment newInstance(int catId) {
+    public static QuestionbankFragment newInstance(int catId, String title) {
         QuestionbankFragment fragment = new QuestionbankFragment();
         Bundle args = new Bundle();
         args.putInt("catId", catId);
+        args.putString("title", title);
         fragment.setArguments(args);
         return fragment;
     }
@@ -61,34 +55,34 @@ public class QuestionbankFragment extends Fragment {
         binding = FragmentQuestionbankBinding.inflate(inflater, container, false);
         View view = binding.getRoot();
 
+        // Retrieve the title from the arguments
+        String title = getArguments().getString("title", "");
+
+        // Update the toolbar title
+        if (getActivity() instanceof SpecialityPGInsiderActivity) {
+            ((SpecialityPGInsiderActivity) getActivity()).setToolbarTitle(title);
+        }
+
         questionsforpg = new ArrayList<>();
         questionsAdapter = new QuestionBankPGAdapter(requireContext(), questionsforpg);
 
         RecyclerView recyclerViewQuestions = binding.questionsListQuestion;
-        LinearLayoutManager layoutManagerQuestions = new LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false);
+        LinearLayoutManager layoutManagerQuestions = new LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false);
         recyclerViewQuestions.setLayoutManager(layoutManagerQuestions);
         recyclerViewQuestions.setAdapter(questionsAdapter);
 
-        initQuestionsBanks();
+        // Call the modified getRecentQuestions method with the title
+        getRecentQuestions(title);
 
         return view;
     }
 
-    void initQuestionsBanks() {
-        questionsforpg = new ArrayList<>();
-        questionsAdapter = new QuestionBankPGAdapter(requireContext(), questionsforpg);
-
-        getRecentQuestions();
-
-        LinearLayoutManager layoutManager = new LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false);
-        binding.questionsListQuestion.setLayoutManager(layoutManager);
-        binding.questionsListQuestion.setAdapter(questionsAdapter);
-    }
-
-    void getRecentQuestions() {
+    void getRecentQuestions(String title) {
         RequestQueue queue = Volley.newRequestQueue(requireContext());
 
-        String url = ConstantsDashboard.GET_PG_QUESTIONBANK_URL;
+        // Append the title to the URL
+        String url = ConstantsDashboard.GET_PG_QUESTIONBANK_URL + "/" + title;
+
         StringRequest request = new StringRequest(Request.Method.GET, url, response -> {
             try {
                 JSONObject object = new JSONObject(response);

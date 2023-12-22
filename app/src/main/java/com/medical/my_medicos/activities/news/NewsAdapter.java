@@ -2,7 +2,6 @@ package com.medical.my_medicos.activities.news;
 
 import android.content.Context;
 import android.content.Intent;
-import android.net.Uri;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,8 +16,8 @@ import java.util.ArrayList;
 
 public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.NewsViewHolder> {
 
-    Context context;
-    ArrayList<News> newses;
+    private Context context;
+    private ArrayList<News> newses;
 
     public NewsAdapter(Context context, ArrayList<News> news) {
         this.context = context;
@@ -31,54 +30,49 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.NewsViewHolder
         return new NewsViewHolder(LayoutInflater.from(context).inflate(com.medical.my_medicos.R.layout.item_news, parent, false));
     }
 
-
     @Override
     public void onBindViewHolder(@NonNull NewsViewHolder holder, int position) {
         News news = newses.get(position);
+
+        // Load thumbnail image using Glide
         Glide.with(context)
                 .load(news.getThumbnail())
                 .into(holder.binding.thumbnailnews);
-        holder.binding.newslabel.setText(news.getLabel());
-        holder.binding.newslabel.setText(news.getUrl());
 
-//        holder.itemView.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                Intent intent = new Intent(context, NewsDetailedActivity.class);
-//                intent.putExtra("Title", news.getLabel());
-//                intent.putExtra("image", news.getThumbnail());
-//                intent.putExtra("url", news.getUrl());
-//                intent.putExtra("date", news.getDate());
-//                context.startActivity(intent);
-//            }
-//        });
+        holder.binding.newslabel.setText(news.getLabel());
+        holder.binding.timeofnews.setText(news.getFormattedDate());
+        holder.binding.newsdescription.setText(news.getDescription());
+
+        holder.binding.viewentirenews.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                // Handle the "View Entire News" button click here
+                openNewsDetailedActivity(news);
+            }
+        });
     }
 
     @Override
     public int getItemCount() {
         return newses.size();
     }
+
     public class NewsViewHolder extends RecyclerView.ViewHolder {
         ItemNewsBinding binding;
 
         public NewsViewHolder(@NonNull View itemView) {
             super(itemView);
             binding = ItemNewsBinding.bind(itemView);
-
-            binding.readmoreBtn.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    int position = getAdapterPosition();
-                    if (position != RecyclerView.NO_POSITION) {
-                        News clickedNews = newses.get(position);
-                        openUrlInBrowser(clickedNews.getDate());
-                    }
-                }
-            });
         }
     }
-    private void openUrlInBrowser(String url) {
-        Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
+
+    private void openNewsDetailedActivity(News news) {
+        Intent intent = new Intent(context, NewsDetailedActivity.class);
+        intent.putExtra("Title", news.getLabel());
+        intent.putExtra("thumbnail", news.getThumbnail());
+        intent.putExtra("Description", news.getDescription());
+        intent.putExtra("Time", news.getFormattedDate());
+        intent.putExtra("URL", news.getUrl());
         context.startActivity(intent);
     }
 }

@@ -2,14 +2,19 @@ package com.medical.my_medicos.activities.news;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
+import android.annotation.SuppressLint;
 import android.os.Bundle;
+import android.util.Log;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.medical.my_medicos.R;
 import com.medical.my_medicos.activities.utils.ConstantsDashboard;
 import com.medical.my_medicos.databinding.ActivityNewsBinding;
@@ -19,13 +24,18 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.Locale;
 
 public class  NewsActivity extends AppCompatActivity {
     ActivityNewsBinding binding;
     NewsAdapter newsAdapter;
     ArrayList<News> news;
-
+    TodayNewsAdapter todayNewsAdapter;
+    ArrayList<NewsToday>  newstoday;
     private SwipeRefreshLayout swipeRefreshLayoutNews;
 
     @Override
@@ -36,12 +46,13 @@ public class  NewsActivity extends AppCompatActivity {
 
         swipeRefreshLayoutNews = findViewById(R.id.swipeRefreshLayoutNews);
         swipeRefreshLayoutNews.setOnRefreshListener(this::refreshContent);
-
         binding.newsstoolbar.setNavigationOnClickListener(v -> onBackPressed());
 
         initNews();
         initNewsSlider();
+        initTodaysSlider(); // Make sure to call this after initNewsSlider
     }
+
 
     private void refreshContent() {
         clearData();
@@ -58,36 +69,29 @@ public class  NewsActivity extends AppCompatActivity {
     private void initNews() {
         getSliderNews();
     }
+    @SuppressLint("NotifyDataSetChanged")
     void getRecentNews() {
-        RequestQueue queue = Volley.newRequestQueue(this);
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
 
-        String url = ConstantsDashboard.GET_NEWS;
-        StringRequest request = new StringRequest(Request.Method.GET, url, response -> {
-            try {
-                JSONObject object = new JSONObject(response);
-                if(object.getString("status").equals("success")){
-                    JSONArray array = object.getJSONArray("news");
-                    for (int i = 0; i < array.length(); i++) {
-                        JSONObject childObj = array.getJSONObject(i);
-                        News newsItem = new News(
-                                childObj.getString("Title"),
-                                childObj.getString("thumbnail"),
-                                childObj.getString("Description"),
-                                childObj.getString("Time"),
-                                childObj.getString("URL")
-                        );
-                        news.add(newsItem);
+        db.collection("MedicalNews")
+                .get()
+                .addOnCompleteListener(task -> {
+                    if (task.isSuccessful()) {
+                        for (QueryDocumentSnapshot document : task.getResult()) {
+                            News newsItem = new News(
+                                    document.getString("Title"),
+                                    document.getString("thumbnail"),
+                                    document.getString("Description"),
+                                    document.getString("Time"),
+                                    document.getString("URL")
+                            );
+                            news.add(newsItem);
+                        }
+                        newsAdapter.notifyDataSetChanged();
+                    } else {
                     }
-                    newsAdapter.notifyDataSetChanged();
-                }
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
-        }, error -> { });
-
-        queue.add(request);
+                });
     }
-
 
     void getSliderNews() {
         RequestQueue queue = Volley.newRequestQueue(this);
@@ -112,9 +116,52 @@ public class  NewsActivity extends AppCompatActivity {
         });
         queue.add(request);
     }
+    void getTodayNews() {
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+
+        // Calculate the time 24 hours ago
+        Calendar calendar = Calendar.getInstance();
+        calendar.add(Calendar.DAY_OF_MONTH, -1);
+        long twentyFourHoursAgo = calendar.getTimeInMillis();
+
+        db.collection("MedicalNews")
+                .get()
+                .addOnCompleteListener(task -> {
+                    if (task.isSuccessful()) {
+                        for (QueryDocumentSnapshot document : task.getResult()) {
+                            try {
+                                // Parse the timestamp string to a Date object
+                                SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSX", Locale.US);
+                                Date newsDate = dateFormat.parse(document.getString("Time"));
+
+                                // Get the timestamp as a long
+                                long newsTime = newsDate.getTime();
+
+                                // Check if the news was posted within the last 24 hours
+                                if (newsTime >= twentyFourHoursAgo) {
+                                    NewsToday newsItemToday = new NewsToday(
+                                            document.getString("Title"),
+                                            document.getString("thumbnail"),
+                                            document.getString("Description"),
+                                            document.getString("Time"),
+                                            document.getString("URL")
+                                    );
+                                    newstoday.add(newsItemToday);
+                                }
+                            } catch (Exception e) {
+                                Log.e("NewsActivity", "Error parsing timestamp", e);
+                            }
+                        }
+                        todayNewsAdapter.notifyDataSetChanged();
+                    } else {
+                        // Handle the case where the data retrieval is not successful
+                    }
+                });
+    }
+
 
     void initNewsSlider() {
-        news = new ArrayList<>();
+        news = new ArrayList<News>();
         newsAdapter = new NewsAdapter(this, news);
         getRecentNews();
         GridLayoutManager layoutManager = new GridLayoutManager(this, 1);  // Specify the number of columns
@@ -122,6 +169,20 @@ public class  NewsActivity extends AppCompatActivity {
 
         binding.newsList.setAdapter(newsAdapter);
     }
+
+    void initTodaysSlider() {
+        newstoday = new ArrayList<>();
+        todayNewsAdapter = new TodayNewsAdapter(this, newstoday);
+        getTodayNews();
+
+        // Use LinearLayoutManager with horizontal orientation
+        LinearLayoutManager layoutManager = new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false);
+
+        binding.newsListToday.setLayoutManager(layoutManager);
+        binding.newsListToday.setAdapter(todayNewsAdapter);
+    }
+
+
     @Override
     public boolean onSupportNavigateUp() {
         finish();

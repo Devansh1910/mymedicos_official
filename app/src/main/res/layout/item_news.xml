@@ -5,6 +5,7 @@
     android:layout_height="wrap_content">
 
     <androidx.cardview.widget.CardView
+        android:id="@+id/viewentirenews"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
@@ -20,92 +21,70 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:orientation="horizontal">
+            android:orientation="vertical">
 
             <ImageView
                 android:id="@+id/thumbnailnews"
-                android:layout_width="@dimen/_110sdp"
-                android:layout_height="@dimen/_90sdp"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/_120sdp"
                 android:scaleType="centerCrop"
                 app:srcCompat="@drawable/placeholder" />
 
         <LinearLayout
-            android:layout_width="0dp"
+            android:layout_width="match_parent"
             android:layout_weight="1"
             android:layout_height="match_parent"
             android:orientation="vertical">
 
-            <TextView
-                android:id="@+id/newslabel"
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="5dp"
-                android:layout_marginTop="5dp"
-                android:layout_marginRight="5dp"
-                android:text="TextView"
-                android:textSize="16dp"
-                android:textStyle="bold"
-                android:fontFamily="@font/roboto_bold"
-                android:maxLines="1"
-                android:ellipsize="end"
-                android:textColor="@color/black" />
+                android:paddingHorizontal="10dp"
+                android:orientation="horizontal">
 
-            <TextView
-                android:id="@+id/timeofnews"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="5dp"
-                android:layout_marginTop="5dp"
-                android:layout_marginRight="5dp"
-                android:text="Time"
-                android:textSize="14sp"
-                android:textStyle="bold"
-                android:fontFamily="@font/roboto_bold"
-                android:maxLines="1"
-                android:ellipsize="end"
-                android:textColor="#878383" />
+                <TextView
+                    android:id="@+id/newslabel"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="wrap_content"
+                    android:text="TextView"
+                    android:textSize="18dp"
+                    android:textStyle="bold"
+                    android:fontFamily="@font/roboto_bold"
+                    android:maxLines="1"
+                    android:ellipsize="end"
+                    android:textColor="@color/black" />
+
+                <TextView
+                    android:id="@+id/timeofnews"
+                    android:layout_width="0dp"
+                    android:layout_weight="0.25"
+                    android:layout_height="wrap_content"
+                    android:text="Time"
+                    android:gravity="end"
+                    android:textSize="16sp"
+                    android:layout_gravity="end"
+                    android:textStyle="bold"
+                    android:fontFamily="@font/roboto_bold"
+                    android:maxLines="1"
+                    android:ellipsize="end"
+                    android:textColor="#878383" />
+
+            </LinearLayout>
 
             <TextView
                 android:id="@+id/newsdescription"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="bottom"
+                android:maxEms="3"
+                android:maxLines="3"
+                android:paddingBottom="@dimen/_2sdp"
                 android:layout_marginLeft="5dp"
                 android:layout_marginRight="5dp"
                 android:layout_marginBottom="5dp"
                 android:text="This will be the description of th.."
-                android:textSize="12sp" />
-
-            <LinearLayout
-                android:id="@+id/readmoreBtn"
-                android:layout_width="wrap_content"
-                android:layout_gravity="end"
-                android:layout_marginHorizontal="@dimen/_10ssp"
-                android:paddingVertical="@dimen/_2ssp"
-                android:clickable="true"
-                android:onClick="onReadMoreClick"
-                android:paddingHorizontal="@dimen/_10ssp"
-                android:background="@drawable/categorynewbk"
-                android:gravity="center"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Read More"
-                    android:textColor="@color/black"
-                    android:textSize="@dimen/_12ssp"
-                    android:textStyle="bold"
-                    android:textAlignment="center"
-                    android:fontFamily="@font/roboto_bold"/>
-
-                <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:src="@drawable/arrowww"/>
-
-            </LinearLayout>
+                android:textSize="14sp" />
 
         </LinearLayout>
         </LinearLayout>

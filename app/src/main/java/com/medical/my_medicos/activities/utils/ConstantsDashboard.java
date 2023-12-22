@@ -16,14 +16,14 @@ public class ConstantsDashboard {
     public static String GET_NEWS_SLIDER_URL = API_BASE_URL + "/api/sliders/news";
     public static String GET_SLIDESHOW_SLIDER_URL = API_BASE_URL + "/api/sliders/slideshow";
     public static String GET_PG_QUESTIONBANK_URL_HOME = API_BASE_URL + "api/notes/home";
-    public static String GET_PG_QUESTIONBANK_URL = API_BASE_URL + "api/notes/Anatomy";
-    public static String GET_PG_VIDEOS_URL_HOME = API_BASE_URL + "api/videos/home";
+    public static String GET_PG_QUESTIONBANK_URL = API_BASE_URL + "api/notes";
+    public static String GET_PG_VIDEOS_URL_HOME = API_BASE_URL + "api/videos";
 
     public static String GET_PG_VIDEOS_URL = API_BASE_URL + "api/videos/Anatomy";
     public static String GET_HOME_SLIDER_URL = API_BASE_URL + "/api/sliders/home";
     public static String GET_UPDATES_SLIDER_URL = API_BASE_URL + "/api/sliders/updates";
     public static String GET_DAILY_QUESTIONS_URL = API_BASE_URL + "/api/quiz/today?q=home";
-    public static String GET_QUIZ_QUESTIONS_URL = API_BASE_URL + "/api/quiz/all?q=Anatomy";
+    public static String GET_QUIZ_QUESTIONS_URL = API_BASE_URL + "/api/quiz/all";
     public static String GET_DAILY_QUESTIONS_SUBMITTION = API_BASE_URL + "/api/quiz/submit/today/as";
 
 }

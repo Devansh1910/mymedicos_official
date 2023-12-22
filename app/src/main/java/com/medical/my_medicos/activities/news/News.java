@@ -1,60 +1,73 @@
 package com.medical.my_medicos.activities.news;
 
+import android.text.format.DateUtils;
+
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Locale;
+import java.util.TimeZone;
+
 public class News {
     private String label, thumbnail, description, url, date;
-    public News(String name, String image, String status,String url,String date) {
-        this.label = name;
-        this.thumbnail = image;
-        this.description = status;
-        this.url = url;
+    private static final String DATE_FORMAT_PATTERN = "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'";
+
+    public News(String label, String thumbnail, String description, String date, String url) {
+        this.label = label;
+        this.thumbnail = thumbnail;
+        this.description = description;
         this.date = date;
+        this.url = url;
     }
 
     public String getLabel() {
         return label;
     }
 
-    public void setLabel(String name) {
-        this.label = name;
-    }
-
     public String getThumbnail() {
         return thumbnail;
     }
-
-//    public void setThumbnail(String image) {
-//        this.thumbnail = image;
-//    }
 
     public String getDescription() {
         return description;
     }
 
-    public void setDescription(String status) {
-        this.description = status;
+    public String getUrl() {
+        return url;
     }
 
-    public String getUrl() {
-        // Check if the URL is not null and has at least 10 characters
-        if (url != null && url.length() > 10) {
-            // Return the first 10 characters of the URL
-            return url.substring(0, 10);
-        } else {
-            // Return the entire URL if it's null or less than 10 characters
-            return url;
+    public String getFormattedDate() {
+        long timestamp = convertStringToTimestamp(date);
+
+        // Get the current time in milliseconds
+        long currentTime = System.currentTimeMillis();
+
+        // Calculate the difference between the current time and the news timestamp
+        long timeDifference = currentTime - timestamp;
+
+        // Use DateUtils.getRelativeTimeSpanString to get a human-readable time difference
+        return DateUtils.getRelativeTimeSpanString(
+                timestamp,
+                currentTime,
+                DateUtils.MINUTE_IN_MILLIS,
+                DateUtils.FORMAT_ABBREV_RELATIVE
+        ).toString();
+    }
+
+    // Helper method to convert the string date to a timestamp
+    private long convertStringToTimestamp(String dateString) {
+        SimpleDateFormat dateFormat = new SimpleDateFormat(DATE_FORMAT_PATTERN, Locale.US);
+        dateFormat.setTimeZone(TimeZone.getTimeZone("UTC"));
+
+        try {
+            // Parse the date string to a Date object
+            Date date = dateFormat.parse(dateString);
+
+            // Return the time in milliseconds
+            return date != null ? date.getTime() : 0L;
+        } catch (ParseException e) {
+            e.printStackTrace();
+            return 0L; // Return 0 if parsing fails
         }
     }
-
-    public void setUrl(String url) {
-        this.url = url;
-    }
-
-    public String getDate() {
-        return date;
-    }
-
-    public void setDate(String date) {
-        this.date = date;
-    }
-
 }

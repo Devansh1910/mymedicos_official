@@ -68,6 +68,19 @@
 
                 </androidx.cardview.widget.CardView>
 
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Top Headlines"
+                    android:padding="@dimen/_2sdp"
+                    android:textSize="@dimen/_12ssp"
+                    android:textStyle="bold" />
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/newsListToday"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:paddingTop="@dimen/_5ssp"

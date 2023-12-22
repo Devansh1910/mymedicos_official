@@ -1,25 +1,26 @@
 package com.medical.my_medicos.activities.pg.fragment;
 
 import android.os.Bundle;
-
-import androidx.cardview.widget.CardView;
-import androidx.fragment.app.Fragment;
-import androidx.recyclerview.widget.GridLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
-import com.medical.my_medicos.activities.pg.adapters.QuizPGAdapter;
-import com.medical.my_medicos.activities.pg.model.PerDayPG;
+import com.medical.my_medicos.activities.pg.activites.insiders.SpecialityPGInsiderActivity;
+import com.medical.my_medicos.activities.pg.adapters.VideoPGAdapter;
+import com.medical.my_medicos.activities.pg.adapters.WeeklyQuizAdapter;
 import com.medical.my_medicos.activities.pg.model.QuizPG;
 import com.medical.my_medicos.activities.utils.ConstantsDashboard;
+import com.medical.my_medicos.databinding.FragmentVideoBankBinding;
 import com.medical.my_medicos.databinding.FragmentWeeklyQuizBinding;
 
 import org.json.JSONArray;
@@ -31,18 +32,15 @@ import java.util.ArrayList;
 public class WeeklyQuizFragment extends Fragment {
 
     private FragmentWeeklyQuizBinding binding;
+    private WeeklyQuizAdapter quizAdapter;
+    private ArrayList<QuizPG> quizpg;
+    private String quizTitle;
 
-    private QuizPGAdapter quizAdapter;
-
-    CardView nocardpgquestion;
-    private ArrayList<PerDayPG> dailyQuestionsPG;
-    ArrayList<QuizPG> quizpg;
-    String quiz;
-
-    public static WeeklyQuizFragment newInstance(int catId) {
+    public static WeeklyQuizFragment newInstance(int catId, String title) {
         WeeklyQuizFragment fragment = new WeeklyQuizFragment();
         Bundle args = new Bundle();
         args.putInt("catId", catId);
+        args.putString("title", title);
         fragment.setArguments(args);
         return fragment;
     }
@@ -53,44 +51,48 @@ public class WeeklyQuizFragment extends Fragment {
         binding = FragmentWeeklyQuizBinding.inflate(inflater, container, false);
         View view = binding.getRoot();
 
-        quizpg = new ArrayList<>();
-        quizAdapter = new QuizPGAdapter(requireContext(), quizpg);
+        Bundle args = getArguments();
+        if (args != null) {
+            String title = args.getString("title", "");
 
-        RecyclerView recyclerView = binding.quizList;
-        GridLayoutManager layoutManager = new GridLayoutManager(requireContext(), 1);
-        recyclerView.setLayoutManager(layoutManager);
-        recyclerView.setAdapter(quizAdapter);
+            if (getActivity() instanceof SpecialityPGInsiderActivity) {
+                ((SpecialityPGInsiderActivity) getActivity()).setToolbarTitle(title);
+            }
 
-        initQuestions(quiz);
+            quizpg = new ArrayList<>();
+            quizAdapter = new WeeklyQuizAdapter(requireContext(), quizpg);
+
+            RecyclerView recyclerViewVideos = binding.quizListWeekly;
+            LinearLayoutManager layoutManagerVideos = new LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false);
+            recyclerViewVideos.setLayoutManager(layoutManagerVideos);
+            recyclerViewVideos.setAdapter(quizAdapter);
+
+            getQuestions(title);
+        } else {
+            // Handle the case where arguments are null
+            Log.e("ERROR", "Arguments are null in WeeklyQuizFragment");
+        }
 
         return view;
     }
 
-    void initQuestions(String Quiz) {
-        quizpg = new ArrayList<>();
-        quizAdapter = new QuizPGAdapter(getContext(), quizpg);
+    void getQuestions(String title) {
+        RequestQueue queue = Volley.newRequestQueue(requireContext());
 
-        getQuestions(Quiz);
-
-        GridLayoutManager layoutManager = new GridLayoutManager(getContext(), 1);
-        binding.quizList.setLayoutManager(layoutManager);
-        binding.quizList.setAdapter(quizAdapter);
-    }
-
-    void getQuestions(String quiz) {
-        Log.d("DEBUG", "getQuestions: Making API request");
-        RequestQueue queue = Volley.newRequestQueue(getContext());
-
-        String url = ConstantsDashboard.GET_QUIZ_QUESTIONS_URL;
+        String url = ConstantsDashboard.GET_QUIZ_QUESTIONS_URL + "?q=" + title;
         StringRequest request = new StringRequest(Request.Method.GET, url, response -> {
             try {
-                Log.d("DEBUG", "getQuestions: Response received");
                 JSONObject responseObject = new JSONObject(response);
-                if (responseObject.getString("status").equals("success")) {
+                if ("success".equals(responseObject.getString("status"))) {
                     JSONArray dataArray = responseObject.getJSONArray("data");
+
+//                    quizpg.clear();
 
                     for (int i = 0; i < dataArray.length(); i++) {
                         JSONObject quizObject = dataArray.getJSONObject(i);
+                        String quizTitle = quizObject.getString("title");
+                        String speciality = quizObject.getString("speciality");
+
                         JSONArray quizDataArray = quizObject.getJSONArray("Data");
 
                         for (int j = 0; j < quizDataArray.length(); j++) {
@@ -102,25 +104,19 @@ public class WeeklyQuizFragment extends Fragment {
                                     questionObject.getString("C"),
                                     questionObject.getString("D"),
                                     questionObject.getString("Correct"),
-                                    questionObject.getString("id")
+                                    "",
+                                    quizTitle,
+                                    speciality
                             );
 
-                            String questionId = questionObject.getString("id");
-                            Log.d("questionid", questionId);
-
-                            if ((questionId != null) && (quiz != null)) {
-                                int compareResult = questionId.compareTo(quiz);
-                                Log.d("questionid", String.valueOf(compareResult));
-
-                                if (compareResult != 0) {
-                                    quizpg.add(quizday);
-                                    Log.d("DEBUG", "getQuestions: Question added to the list - " + quizday.getidQuestion());
-                                }
-                            }
+                            quizpg.add(quizday);
+                            Log.d("DEBUG", "getQuestions: Question added to the list - " + quizTitle);
                         }
                     }
 
-                    if (quizpg != null && !quizpg.isEmpty()) {
+                    Log.d("DEBUG", "getQuestions: Entire data - " + dataArray.toString());
+
+                    if (!quizpg.isEmpty()) {
                         quizAdapter.notifyDataSetChanged();
                         Log.d("DEBUG", "getQuestions: Data added to the list");
                     } else {
@@ -135,7 +131,5 @@ public class WeeklyQuizFragment extends Fragment {
         });
         queue.add(request);
     }
-
-
-
 }
+

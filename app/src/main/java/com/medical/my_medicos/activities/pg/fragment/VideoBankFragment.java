@@ -13,9 +13,13 @@ import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.medical.my_medicos.activities.pg.activites.insiders.SpecialityPGInsiderActivity;
+import com.medical.my_medicos.activities.pg.adapters.QuestionBankPGAdapter;
 import com.medical.my_medicos.activities.pg.adapters.VideoPGAdapter;
+import com.medical.my_medicos.activities.pg.model.QuestionPG;
 import com.medical.my_medicos.activities.pg.model.VideoPG;
 import com.medical.my_medicos.activities.utils.ConstantsDashboard;
+import com.medical.my_medicos.databinding.FragmentQuestionbankBinding;
 import com.medical.my_medicos.databinding.FragmentVideoBankBinding;
 
 import org.json.JSONArray;
@@ -28,14 +32,24 @@ public class VideoBankFragment extends Fragment {
 
     private FragmentVideoBankBinding binding;
     private VideoPGAdapter videosAdapter;
-    private ArrayList<VideoPG> videoforpg;
+    private ArrayList<VideoPG> videosforpg;
+    private int catId;
 
-    public VideoBankFragment() {
-        // Required empty public constructor
+    public static VideoBankFragment newInstance(int catId, String title) {
+        VideoBankFragment fragment = new VideoBankFragment();
+        Bundle args = new Bundle();
+        args.putInt("catId", catId);
+        args.putString("title", title);
+        fragment.setArguments(args);
+        return fragment;
     }
 
-    public static VideoBankFragment newInstance() {
-        return new VideoBankFragment();
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        if (getArguments() != null) {
+            catId = getArguments().getInt("catId", 0);
+        }
     }
 
     @Override
@@ -44,55 +58,56 @@ public class VideoBankFragment extends Fragment {
         binding = FragmentVideoBankBinding.inflate(inflater, container, false);
         View view = binding.getRoot();
 
-        videoforpg = new ArrayList<>();
-        videosAdapter = new VideoPGAdapter(requireContext(), videoforpg);
+        // Retrieve the title from the arguments
+        String title = getArguments().getString("title", "");
 
-        RecyclerView recyclerViewVideos = binding.videosListQuestion;
-        LinearLayoutManager layoutManagerVideos = new LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false);
-        recyclerViewVideos.setLayoutManager(layoutManagerVideos);
-        recyclerViewVideos.setAdapter(videosAdapter);
+        // Update the toolbar title
+        if (getActivity() instanceof SpecialityPGInsiderActivity) {
+            ((SpecialityPGInsiderActivity) getActivity()).setToolbarTitle(title);
+        }
 
-        initVideosBanks();
+        videosforpg = new ArrayList<>();
+        videosAdapter = new VideoPGAdapter(requireContext(), videosforpg);
+
+        RecyclerView recyclerViewQuestions = binding.videosListQuestion;
+        LinearLayoutManager layoutManagerQuestions = new LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false);
+        recyclerViewQuestions.setLayoutManager(layoutManagerQuestions);
+        recyclerViewQuestions.setAdapter(videosAdapter);
+
+        // Call the modified getRecentQuestions method with the title
+        getRecentQuestions(title);
 
         return view;
     }
 
-    void initVideosBanks() {
-        videoforpg = new ArrayList<>();
-        videosAdapter = new VideoPGAdapter(requireContext(), videoforpg);
-
-        getRecentVideos();
-
-        LinearLayoutManager layoutManager = new LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false);
-        binding.videosListQuestion.setLayoutManager(layoutManager);
-        binding.videosListQuestion.setAdapter(videosAdapter);
-    }
-
-    void getRecentVideos() {
+    void getRecentQuestions(String title) {
         RequestQueue queue = Volley.newRequestQueue(requireContext());
 
-        String url = ConstantsDashboard.GET_PG_VIDEOS_URL;
+        // Append the title to the URL
+        String url = ConstantsDashboard.GET_PG_QUESTIONBANK_URL + "/" + title;
+
         StringRequest request = new StringRequest(Request.Method.GET, url, response -> {
             try {
                 JSONObject object = new JSONObject(response);
-                if(object.getString("status").equals("success")){
+                if (object.getString("status").equals("success")) {
                     JSONArray array = object.getJSONArray("data");
                     for (int i = 0; i < array.length(); i++) {
                         JSONObject childObj = array.getJSONObject(i);
-                        VideoPG videoItem = new VideoPG(
+                        VideoPG questionbankItem = new VideoPG(
                                 childObj.getString("Title"),
-                                childObj.getString("Thumbnail"),
+                                childObj.getString("Description"),
                                 childObj.getString("Time"),
-                                childObj.getString("URL")
+                                childObj.getString("file")
                         );
-                        videoforpg.add(videoItem);
+                        videosforpg.add(questionbankItem);
                     }
                     videosAdapter.notifyDataSetChanged();
                 }
             } catch (JSONException e) {
                 e.printStackTrace();
             }
-        }, error -> { });
+        }, error -> {
+        });
 
         queue.add(request);
     }

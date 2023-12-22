@@ -1,4 +1,5 @@
 package com.medical.my_medicos.activities.pg.model;
+
 import com.hishd.tinycart.model.Item;
 
 import java.io.Serializable;
@@ -6,72 +7,98 @@ import java.math.BigDecimal;
 
 public class QuizPG implements Item, Serializable {
 
-    private String question, optiona, optionb,optionc,optiond, checkbtn,idquestion;
+    private String question, optionA, optionB, optionC, optionD, correctAnswer, idQuestion, titleOfSet, specialityQuiz, submitAnswer;
 
-    public QuizPG(String DailyQuestion, String optionA, String optionB, String optionC, String optionD, String SubmitAnswer,String idQuestion) {
-        this.question = DailyQuestion;
-        this.optiona = optionA;
-        this.optionb = optionB;
-        this.optionc = optionC;
-        this.optiond = optionD;
-        this.idquestion = idQuestion;
-        this.checkbtn = SubmitAnswer;
+    public QuizPG(String question, String optionA, String optionB, String optionC, String optionD, String correctAnswer, String idQuestion, String titleOfSet, String specialityQuiz) {
+        this.question = question;
+        this.optionA = optionA;
+        this.optionB = optionB;
+        this.optionC = optionC;
+        this.optionD = optionD;
+        this.correctAnswer = correctAnswer;
+        this.idQuestion = idQuestion;
+        this.titleOfSet = titleOfSet;
+        this.specialityQuiz = specialityQuiz;
     }
 
-    public String getDailyQuestion() {
+    public String getQuestion() {
         return question;
     }
 
-    public void setDailyQuestion(String DailyQuestion) {
-        this.question = DailyQuestion;
+    public void setQuestion(String question) {
+        this.question = question;
     }
 
-    public String getDailyQuestionA() {
-        return optiona;
+    public String getOptionA() {
+        return optionA;
     }
 
-    public void setDailyQuestionA(String optionA) {
-        this.optiona = optionA;
+    public void setOptionA(String optionA) {
+        this.optionA = optionA;
     }
 
-    public String getDailyQuestionB() {
-        return optionb;
+    public String getOptionB() {
+        return optionB;
     }
 
-    public void setDailyQuestionB(String optionB) {
-        this.optionb = optionB;
+    public void setOptionB(String optionB) {
+        this.optionB = optionB;
     }
 
-    public String getDailyQuestionC() {
-        return optionc;
+    public String getOptionC() {
+        return optionC;
     }
 
-    public void setDailyQuestionC(String optionC) {
-        this.optionc = optionC;
+    public void setOptionC(String optionC) {
+        this.optionC = optionC;
     }
 
-    public String getDailyQuestionD() {
-        return optiond;
+    public String getOptionD() {
+        return optionD;
     }
 
-    public void setDailyQuestionD(String optionD) {
-        this.optiond = optionD;
+    public void setOptionD(String optionD) {
+        this.optionD = optionD;
     }
 
-    public String getSubmitDailyQuestion() {
-        return checkbtn;
+    public String getCorrectAnswer() {
+        return correctAnswer;
     }
 
-    public void setSubmitDailyQuestion(String SubmitAnswer) {
-        this.checkbtn = SubmitAnswer;
+    public void setCorrectAnswer(String correctAnswer) {
+        this.correctAnswer = correctAnswer;
     }
 
-    public String getidQuestion() {
-        return idquestion;
+    public String getIdQuestion() {
+        return idQuestion;
     }
 
-    public void setidQuestion(String id) {
-        this.idquestion = id;
+    public void setIdQuestion(String idQuestion) {
+        this.idQuestion = idQuestion;
+    }
+
+    public String getTitleOfSet() {
+        return titleOfSet;
+    }
+
+    public void setTitleOfSet(String titleOfSet) {
+        this.titleOfSet = titleOfSet;
+    }
+
+    public String getSpecialityQuiz() {
+        return specialityQuiz;
+    }
+
+    public void setSpecialityQuiz(String specialityQuiz) {
+        this.specialityQuiz = specialityQuiz;
+    }
+
+    public String getSubmitAnswer() {
+        return submitAnswer;
+    }
+
+    public void setSubmitAnswer(String submitAnswer) {
+        this.submitAnswer = submitAnswer;
     }
 
     @Override
