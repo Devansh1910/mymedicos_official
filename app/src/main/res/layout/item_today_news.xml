@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/viewtodaysnews"
+    android:layout_width="280dp"
+    android:layout_height="wrap_content"
+    android:layout_marginStart="8dp"
+    android:layout_marginTop="8dp"
+    android:layout_marginBottom="8dp"
+    app:cardCornerRadius="10dp">
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <ImageView
+                android:id="@+id/thumbnailnewstoday"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/_90sdp"
+                android:scaleType="centerCrop"
+                app:srcCompat="@drawable/placeholder" />
+
+            <LinearLayout
+                android:elevation="@dimen/_10sdp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <com.airbnb.lottie.LottieAnimationView
+                    android:id="@+id/liveanime"
+                    android:layout_width="0dp"
+                    android:layout_weight="0.25"
+                    android:layout_height="40dp"
+                    app:lottie_autoPlay="true"
+                    app:lottie_loop="true"
+                    app:lottie_rawRes="@raw/liveanime"
+                    app:lottie_speed="1" />
+
+                <TextView
+                    android:id="@+id/newslabel"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="center_vertical"
+                    android:gravity="center_vertical"
+                    android:text="Live.."
+                    android:textSize="18dp"
+                    android:textStyle="bold"
+                    android:fontFamily="@font/roboto_bold"
+                    android:maxLines="1"
+                    android:ellipsize="end"
+                    android:textColor="@color/black" />
+
+            </LinearLayout>
+
+        </LinearLayout>
+</androidx.cardview.widget.CardView>
