@@ -4,7 +4,7 @@ plugins {
 }
 
 android {
-    namespace = "com.example.my_medicos"
+    namespace = "com.medical.my_medicos"
     compileSdk = 34
 
     buildFeatures {
@@ -12,12 +12,12 @@ android {
     }
 
     defaultConfig {
-        applicationId = "com.example.my_medicos"
+        applicationId = "com.medical.my_medicos"
         minSdk = 24
         //noinspection ExpiredTargetSdkVersion
-        targetSdk = 28
-        versionCode = 1
-        versionName = "1.0"
+        targetSdk = 34
+        versionCode = 5
+        versionName = "1.0.5"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }

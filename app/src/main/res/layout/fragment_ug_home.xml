@@ -10,7 +10,7 @@
         android:layout_height="wrap_content"
         android:orientation="vertical"
         xmlns:app="http://schemas.android.com/apk/res-auto"
-        tools:context=".activities.ug.UgHomeFragment">
+        tools:context=".activities.ug.insideractivities.UgHomeFragment">
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recyclerview6"

@@ -8,12 +8,12 @@
 
     <fragment
         android:id="@+id/navigation_ugform"
-        android:name="com.example.my_medicos.activities.ug.UgFormFragment"
+        android:name="com.medical.my_medicos.activities.ug.insideractivities.UgFormFragment"
         tools:layout="@layout/fragment_ugform" />
 
     <fragment
         android:id="@+id/navigation_ughome"
-        android:name="com.example.my_medicos.activities.ug.UgHomeFragment"
+        android:name="com.medical.my_medicos.activities.ug.insideractivities.UgHomeFragment"
         tools:layout="@layout/fragment_ug_home" />
 
 </navigation>

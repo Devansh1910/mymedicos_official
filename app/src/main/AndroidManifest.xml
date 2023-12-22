@@ -202,7 +202,9 @@
             android:name=".activities.job.JobsActivity"
             android:exported="false"
             android:parentActivityName=".activities.home.HomeActivity" />
-        <activity android:name=".activities.home.HomeActivity">
+        <activity
+            android:name=".activities.home.HomeActivity"
+            android:exported="true">
             <intent-filter>
                 <action android:name="OPEN_ACTIVITY" />
 

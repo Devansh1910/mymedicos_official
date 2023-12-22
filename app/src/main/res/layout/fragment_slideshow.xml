@@ -16,7 +16,7 @@
             android:layout_height="wrap_content"
             android:orientation="vertical"
             android:padding="@dimen/_8sdp"
-            tools:context=".activities.ug.UgHomeFragment">
+            tools:context=".activities.ug.insideractivities.UgHomeFragment">
 
             <androidx.cardview.widget.CardView
                 android:layout_width="match_parent"

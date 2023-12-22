@@ -4,6 +4,7 @@
         <!-- Customize your light theme here. -->
         <item name="colorPrimary">@color/green</item>
         <item name="android:navigationBarColor">@color/green</item>
+        <item name="android:windowIsTranslucent">true</item>
         <item name="android:windowLightNavigationBar" tools:ignore="NewApi">false</item> <!-- Set to false for dark icons -->
     </style>
 
