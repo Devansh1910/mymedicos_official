@@ -1,6 +1,7 @@
 package com.medical.my_medicos.activities.pg.adapters;
 
 import static androidx.media3.common.MediaLibraryInfo.TAG;
+import static com.medical.my_medicos.activities.cme.CmeDetailsActivity.getCurrentTime;
 
 import android.content.Context;
 import android.content.Intent;
@@ -23,6 +24,7 @@ import com.medical.my_medicos.R;
 import com.medical.my_medicos.activities.pg.animations.CorrectAnswerActivity;
 import com.medical.my_medicos.activities.pg.animations.WrongAnswerActivity;
 import com.medical.my_medicos.activities.pg.model.PerDayPG;
+import com.medical.my_medicos.databinding.QuestionPerDayDesignBinding;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -36,7 +38,6 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
-import com.medical.my_medicos.databinding.QuestionPerDayDesignBinding;
 
 import java.util.ArrayList;
 import java.util.HashMap;
