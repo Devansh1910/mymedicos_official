@@ -125,7 +125,7 @@
                            android:drawableStart="@drawable/lock"
                            android:drawablePadding="@dimen/_10sdp"
                            android:hint="Enter Password"
-                           android:inputType="text|textEmailAddress" />
+                           android:inputType="text|textPassword" />
 
                    </com.google.android.material.textfield.TextInputLayout>
 
