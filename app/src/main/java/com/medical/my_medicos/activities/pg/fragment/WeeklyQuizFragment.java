@@ -1,11 +1,14 @@
 package com.medical.my_medicos.activities.pg.fragment;
 
+import static android.content.ContentValues.TAG;
+
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -15,6 +18,13 @@ import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.Query;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
 import com.medical.my_medicos.activities.pg.activites.insiders.SpecialityPGInsiderActivity;
 import com.medical.my_medicos.activities.pg.adapters.VideoPGAdapter;
 import com.medical.my_medicos.activities.pg.adapters.WeeklyQuizAdapter;
@@ -77,59 +87,92 @@ public class WeeklyQuizFragment extends Fragment {
     }
 
     void getQuestions(String title) {
-        RequestQueue queue = Volley.newRequestQueue(requireContext());
+//        RequestQueue queue = Volley.newRequestQueue(requireContext());
+//
+//        String url = ConstantsDashboard.GET_QUIZ_QUESTIONS_URL + "?q=" + title;
+//        StringRequest request = new StringRequest(Request.Method.GET, url, response -> {
+//            try {
+//                JSONObject responseObject = new JSONObject(response);
+//                if ("success".equals(responseObject.getString("status"))) {
+//                    JSONArray dataArray = responseObject.getJSONArray("data");
+//
+////                    quizpg.clear();
+//
+//                    for (int i = 0; i < dataArray.length(); i++) {
+//                        JSONObject quizObject = dataArray.getJSONObject(i);
+//                        String quizTitle = quizObject.getString("title");
+//                        String speciality = quizObject.getString("speciality");
+//
+//                        JSONArray quizDataArray = quizObject.getJSONArray("Data");
+//
+//                        for (int j = 0; j < quizDataArray.length(); j++) {
+//                            JSONObject questionObject = quizDataArray.getJSONObject(j);
+//                            QuizPG quizday = new QuizPG(
+//                                    questionObject.getString("Question"),
+//                                    questionObject.getString("A"),
+//                                    questionObject.getString("B"),
+//                                    questionObject.getString("C"),
+//                                    questionObject.getString("D"),
+//                                    questionObject.getString("Correct"),
+//                                    "",
+//                                    quizTitle,
+//                                    speciality
+//                            );
+//
+//                            quizpg.add(quizday);
+//                            Log.d("DEBUG", "getQuestions: Question added to the list - " + quizTitle);
+//                        }
+//                    }
+//
+//                    Log.d("DEBUG", "getQuestions: Entire data - " + dataArray.toString());
+//
+//                    if (!quizpg.isEmpty()) {
+//                        quizAdapter.notifyDataSetChanged();
+//                        Log.d("DEBUG", "getQuestions: Data added to the list");
+//                    } else {
+//                        Log.d("DEBUG", "getQuestions: No data to add to the list");
+//                    }
+//                }
+//            } catch (JSONException e) {
+//                e.printStackTrace();
+//            }
+//        }, error -> {
+//            Log.e("API_ERROR", "Error in API request: " + error.getMessage());
+//        });
+//        queue.add(request);
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
 
-        String url = ConstantsDashboard.GET_QUIZ_QUESTIONS_URL + "?q=" + title;
-        StringRequest request = new StringRequest(Request.Method.GET, url, response -> {
-            try {
-                JSONObject responseObject = new JSONObject(response);
-                if ("success".equals(responseObject.getString("status"))) {
-                    JSONArray dataArray = responseObject.getJSONArray("data");
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
+            // Assuming "pg upload" is your collection, "weekly" is the document, and "quizz" is the subcollection
+            CollectionReference quizzCollection = db.collection("PGupload").document("Weekley").collection("Quiz");
 
-//                    quizpg.clear();
+            Query query = quizzCollection;
 
-                    for (int i = 0; i < dataArray.length(); i++) {
-                        JSONObject quizObject = dataArray.getJSONObject(i);
-                        String quizTitle = quizObject.getString("title");
-                        String speciality = quizObject.getString("speciality");
+            query.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                @Override
+                public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                    if (task.isSuccessful()) {
+                        for (QueryDocumentSnapshot document : task.getResult()) {
+                            // Access "title" and "description" fields
+                            String title = document.getString("title");
+//                            String description = document.getString("description");
+                            QuizPG quizday = new QuizPG(title);
+                            quizpg.add( quizday);
 
-                        JSONArray quizDataArray = quizObject.getJSONArray("Data");
 
-                        for (int j = 0; j < quizDataArray.length(); j++) {
-                            JSONObject questionObject = quizDataArray.getJSONObject(j);
-                            QuizPG quizday = new QuizPG(
-                                    questionObject.getString("Question"),
-                                    questionObject.getString("A"),
-                                    questionObject.getString("B"),
-                                    questionObject.getString("C"),
-                                    questionObject.getString("D"),
-                                    questionObject.getString("Correct"),
-                                    "",
-                                    quizTitle,
-                                    speciality
-                            );
-
-                            quizpg.add(quizday);
-                            Log.d("DEBUG", "getQuestions: Question added to the list - " + quizTitle);
+                            // Your existing code logic goes here...
+                            // You can use "title" and "description" as needed
                         }
-                    }
-
-                    Log.d("DEBUG", "getQuestions: Entire data - " + dataArray.toString());
-
-                    if (!quizpg.isEmpty()) {
                         quizAdapter.notifyDataSetChanged();
-                        Log.d("DEBUG", "getQuestions: Data added to the list");
+
+//                        adapter.notifyDataSetChanged();
                     } else {
-                        Log.d("DEBUG", "getQuestions: No data to add to the list");
+                        Log.d(TAG, "Error getting documents: ", task.getException());
                     }
                 }
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
-        }, error -> {
-            Log.e("API_ERROR", "Error in API request: " + error.getMessage());
-        });
-        queue.add(request);
+            });
+        }
+
     }
 }
 

@@ -98,6 +98,9 @@
             android:name=".activities.pg.activites.insiders.SpecialityPGInsiderActivity"
             android:exported="false" />
         <activity
+            android:name=".activities.pg.activites.insiders.WeeklyQuizInsiderActivity"
+            android:exported="false" />
+        <activity
             android:name=".activities.publications.activity.insiders.CategoryPublicationInsiderActivity"
             android:exported="false" />
         <activity
