@@ -2,6 +2,7 @@ package com.medical.my_medicos.activities.pg.adapters;
 
 import android.content.Context;
 import android.content.Intent;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -36,12 +37,14 @@ public class WeeklyQuizAdapter extends RecyclerView.Adapter<WeeklyQuizAdapter.Vi
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         QuizPG quiz = quizList.get(position);
         holder.titleTextView.setText(quiz.getTitle());
+
         holder.titleTextView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(context, WeeklyQuizInsiderActivity.class);
+                intent.putExtra("Title",quiz.getTitle1());
+//                Log.d("speciality3",quiz.getTitle1());
                 context.startActivity(intent);
-
             }
         });
 //        holder.descriptionTextView.setText(quiz.getDescription());

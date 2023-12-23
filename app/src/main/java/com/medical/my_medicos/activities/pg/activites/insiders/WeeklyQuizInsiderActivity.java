@@ -3,6 +3,7 @@ package com.medical.my_medicos.activities.pg.activites.insiders;
 import static androidx.fragment.app.FragmentManager.TAG;
 
 import android.annotation.SuppressLint;
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 
@@ -47,6 +48,9 @@ public class WeeklyQuizInsiderActivity extends AppCompatActivity {
 
         // Initialize your RecyclerView and layout manager
         recyclerView = findViewById(R.id.recycler_view); // Replace with your RecyclerView ID
+        Intent intent = getIntent();
+
+        String str = intent.getStringExtra("Title");
 
         // Initialize your ArrayList
         quizList = new ArrayList<>();
@@ -64,8 +68,17 @@ public class WeeklyQuizInsiderActivity extends AppCompatActivity {
             public void onComplete(@NonNull Task<QuerySnapshot> task) {
                 if (task.isSuccessful()) {
                     for (QueryDocumentSnapshot document : task.getResult()) {
+                        String speciality=document.getString("speciality");
+                        Log.d("speciality3",speciality);
+                        Log.d("speciality3",str);
+
                         // Access the map "Data" inside the document
                         ArrayList<Map<String, Object>> dataList = (ArrayList<Map<String, Object>>) document.get("Data");
+                        int r=speciality.compareTo(str);
+                        Log.d("abcdef",String.valueOf(r));
+                        if (r==0) {
+
+
 
                         if (dataList != null) {
                             for (Map<String, Object> entry : dataList) {
@@ -77,9 +90,15 @@ public class WeeklyQuizInsiderActivity extends AppCompatActivity {
                                 String optionC = (String) entry.get("C");
                                 String optionD = (String) entry.get("D");
                                 String description = (String) entry.get("Desciption");
-                                    QuizPGinsider quizQuestion = new QuizPGinsider(question, optionA, optionB, optionC, optionD, correctAnswer, idQuestion, titleOfSet, description);
-                                    quizList.add(quizQuestion);
-                                }
+
+
+                                QuizPGinsider quizQuestion = new QuizPGinsider(question, optionA, optionB, optionC, optionD, correctAnswer, idQuestion, titleOfSet, description);
+
+                                quizList.add(quizQuestion);
+                            }
+                        }
+
+
 
 
 

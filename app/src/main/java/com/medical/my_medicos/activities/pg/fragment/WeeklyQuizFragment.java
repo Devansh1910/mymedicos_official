@@ -44,6 +44,8 @@ public class WeeklyQuizFragment extends Fragment {
     private FragmentWeeklyQuizBinding binding;
     private WeeklyQuizAdapter quizAdapter;
     private ArrayList<QuizPG> quizpg;
+
+    String title1;
     private String quizTitle;
 
     public static WeeklyQuizFragment newInstance(int catId, String title) {
@@ -63,10 +65,10 @@ public class WeeklyQuizFragment extends Fragment {
 
         Bundle args = getArguments();
         if (args != null) {
-            String title = args.getString("title", "");
+            title1= args.getString("title", "");
 
             if (getActivity() instanceof SpecialityPGInsiderActivity) {
-                ((SpecialityPGInsiderActivity) getActivity()).setToolbarTitle(title);
+                ((SpecialityPGInsiderActivity) getActivity()).setToolbarTitle(title1);
             }
 
             quizpg = new ArrayList<>();
@@ -77,7 +79,7 @@ public class WeeklyQuizFragment extends Fragment {
             recyclerViewVideos.setLayoutManager(layoutManagerVideos);
             recyclerViewVideos.setAdapter(quizAdapter);
 
-            getQuestions(title);
+            getQuestions(title1);
         } else {
             // Handle the case where arguments are null
             Log.e("ERROR", "Arguments are null in WeeklyQuizFragment");
@@ -155,9 +157,12 @@ public class WeeklyQuizFragment extends Fragment {
                         for (QueryDocumentSnapshot document : task.getResult()) {
                             // Access "title" and "description" fields
                             String title = document.getString("title");
-//                            String description = document.getString("description");
-                            QuizPG quizday = new QuizPG(title);
-                            quizpg.add( quizday);
+                            String speciality=document.getString("speciality");
+                            int r=speciality.compareTo(title1);
+                            if (r==0) {
+                                QuizPG quizday = new QuizPG(title,title1);
+                                quizpg.add(quizday);
+                            }
 
 
                             // Your existing code logic goes here...
