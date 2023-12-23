@@ -1,35 +1,46 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
+    android:orientation="vertical"
     android:layout_height="match_parent"
     tools:context=".activities.university.activity.insiders.UniversitiesInsiderActivity">
 
-    <com.google.android.material.appbar.AppBarLayout
-        android:id="@+id/universitiestoolbar_container"
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        android:layout_height="wrap_content">
 
-        <androidx.appcompat.widget.Toolbar
-            android:id="@+id/universitiestoolbar"
-            app:title="Genres"
-            app:navigationIcon="@drawable/arrowbackforappbar"
-            app:titleTextColor="@color/black"
-            app:subtitleTextColor="@color/white"
-            app:subtitleTextAppearance="@color/white"
-            android:backgroundTint="@color/white"
+        <ImageView
             android:layout_width="match_parent"
-            android:layout_weight="1"
-            android:layout_height="?attr/actionBarSize"
-            android:background="@color/white">
+            android:src="@drawable/placeholder"
+            android:scaleType="centerCrop"
+            android:layout_height="@dimen/_150sdp"/>
 
-        </androidx.appcompat.widget.Toolbar>
+        <com.google.android.material.appbar.AppBarLayout
+            android:id="@+id/universitiestoolbar_container"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="#33FFFFFF"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
 
-    </com.google.android.material.appbar.AppBarLayout>
+            <androidx.appcompat.widget.Toolbar
+                android:id="@+id/universitiestoolbar"
+                app:title="Galgotias University"
+                app:navigationIcon="@drawable/arrow_bk"
+                app:titleTextColor="@color/black"
+                android:layout_width="match_parent"
+                android:layout_weight="1"
+                android:layout_height="?attr/actionBarSize"
+                android:background="@drawable/flag_transparent">
+
+            </androidx.appcompat.widget.Toolbar>
+
+        </com.google.android.material.appbar.AppBarLayout>
+
+    </RelativeLayout>
 
     <androidx.cardview.widget.CardView
         android:id="@+id/cardView"
@@ -46,4 +57,4 @@
             android:layout_height="wrap_content" />
     </androidx.cardview.widget.CardView>
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+</LinearLayout>

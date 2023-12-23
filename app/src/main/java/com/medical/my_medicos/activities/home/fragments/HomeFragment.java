@@ -39,6 +39,7 @@ import com.medical.my_medicos.activities.news.NewsActivity;
 import com.medical.my_medicos.activities.pg.activites.PgprepActivity;
 import com.medical.my_medicos.activities.publications.activity.PublicationActivity;
 import com.medical.my_medicos.activities.ug.UgExamActivity;
+import com.medical.my_medicos.activities.university.activity.UniversityActivity;
 import com.medical.my_medicos.activities.utils.ConstantsDashboard;
 import com.medical.my_medicos.adapter.cme.MyAdapter2;
 import com.medical.my_medicos.adapter.cme.MyAdapter4;
@@ -165,16 +166,8 @@ public class HomeFragment extends Fragment {
         update.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                long currentTime = System.currentTimeMillis();
-                long targetTime = calculateTargetTime();
-
-                long timeDifference = targetTime - currentTime;
-
-                if (timeDifference <= 0) {
-                    showLiveFeatureDialog();
-                } else {
-                    showCountdownToastUpdates(timeDifference);
-                }
+                Intent i = new Intent(getActivity(), UniversityActivity.class);
+                startActivity(i);
             }
         });
 
@@ -492,23 +485,11 @@ public class HomeFragment extends Fragment {
             publication.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    // Calculate the time remaining until the 20th of December
-                    long currentTime = System.currentTimeMillis();
-                    long targetTime = calculateTargetTime();
-
-                    // Calculate the time difference
-                    long timeDifference = targetTime - currentTime;
-
-                    // Check if the feature is already live
-                    if (timeDifference <= 0) {
-                        // The feature is live, perform your action (e.g., show the popup dialog)
-                        showLiveFeatureDialog();
-                    } else {
-                        // Show a toast with countdown
-                        showCountdownToast(timeDifference);
-                    }
+                    Intent i = new Intent(getActivity(), PublicationActivity.class);
+                    startActivity(i);
                 }
             });
+
             player = new ExoPlayer.Builder(requireContext()).build();
             playerView.setPlayer(player);
 
@@ -540,19 +521,6 @@ public class HomeFragment extends Fragment {
             player.release();
             player = null;
         }
-    }
-
-    private void showLiveFeatureDialog() {
-        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-        builder.setTitle("Feature Live!")
-                .setMessage("The feature is now live!")
-                .setPositiveButton("OK", new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int which) {
-                        startFeatureActivity();
-                    }
-                })
-                .setIcon(android.R.drawable.ic_dialog_info)
-                .show();
     }
 
     void getsliderHome() {
@@ -646,56 +614,6 @@ public class HomeFragment extends Fragment {
         personname.setText(username);
         personsuffix.setText(userPrefix);
 
-    }
-
-    private boolean countdownShown = false;
-
-    private void startFeatureActivity() {
-        Intent i = new Intent(getActivity(), PublicationActivity.class);
-        startActivity(i);
-    }
-    private long calculateTargetTime() {
-        java.util.Calendar targetCalendar = java.util.Calendar.getInstance();
-        targetCalendar.set(java.util.Calendar.YEAR, 2023);
-        targetCalendar.set(java.util.Calendar.MONTH, java.util.Calendar.DECEMBER);
-        targetCalendar.set(java.util.Calendar.DAY_OF_MONTH, 21);
-        targetCalendar.set(java.util.Calendar.HOUR_OF_DAY, 0);
-        targetCalendar.set(java.util.Calendar.MINUTE, 0);
-        targetCalendar.set(java.util.Calendar.SECOND, 0);
-        targetCalendar.set(java.util.Calendar.MILLISECOND, 0);
-        return targetCalendar.getTimeInMillis();
-    }
-
-    private void showCountdownToast(long timeDifference) {
-        long seconds = timeDifference / 1000;
-        long minutes = seconds / 60;
-        long hours = minutes / 60;
-        long days = hours / 24;
-
-        @SuppressLint("DefaultLocale") String countdownText = String.format("Library will be available to use in %d days, %d hours, %d minutes", days, hours % 24, minutes % 60);
-        Toast.makeText(getActivity(), countdownText, Toast.LENGTH_LONG).show();
-        new Handler().postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                Toast.makeText(getActivity(), "Be Patient..", Toast.LENGTH_SHORT).show();
-            }
-        }, 3000);
-    }
-
-    private void showCountdownToastUpdates(long timeDifference) {
-        long seconds = timeDifference / 1000;
-        long minutes = seconds / 60;
-        long hours = minutes / 60;
-        long days = hours / 24;
-
-        @SuppressLint("DefaultLocale") String countdownText = String.format("University Updates will be available to use in %d days, %d hours, %d minutes", days, hours % 24, minutes % 60);
-        Toast.makeText(getActivity(), countdownText, Toast.LENGTH_LONG).show();
-        new Handler().postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                Toast.makeText(getActivity(), "Be Patient..", Toast.LENGTH_SHORT).show();
-            }
-        }, 3000);
     }
 
     private void initHomeSlider() {

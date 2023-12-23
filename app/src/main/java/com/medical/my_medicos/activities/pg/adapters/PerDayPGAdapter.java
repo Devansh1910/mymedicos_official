@@ -110,7 +110,6 @@ public class PerDayPGAdapter extends RecyclerView.Adapter<PerDayPGAdapter.DailyQ
             @Override
             public void onClick(View view) {
                 if (selectedOption != null) {
-                    // Save the current timestamp
                     lastSelectionTimestamp = System.currentTimeMillis();
                     holder.binding.questionsbox.setVisibility(View.GONE);
                     PerDayPG selectedQuestion = dailyquestions.get(holder.getAdapterPosition());

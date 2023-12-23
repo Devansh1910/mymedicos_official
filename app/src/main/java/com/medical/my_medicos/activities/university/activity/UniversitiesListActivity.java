@@ -1,33 +1,31 @@
 package com.medical.my_medicos.activities.university.activity;
 
 import android.os.Bundle;
-
+import android.util.Log;
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.GridLayoutManager;
-
-import com.android.volley.Request;
-import com.android.volley.RequestQueue;
-import com.android.volley.toolbox.StringRequest;
-import com.android.volley.toolbox.Volley;
-import com.medical.my_medicos.activities.publications.utils.Constants;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
 import com.medical.my_medicos.activities.university.adapters.UpdatesAdapter;
 import com.medical.my_medicos.activities.university.model.Updates;
 import com.medical.my_medicos.databinding.ActivityUniversityListBinding;
 
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 
 public class UniversitiesListActivity extends AppCompatActivity {
-
-    ActivityUniversityListBinding binding;
-    UpdatesAdapter updateAdapter;
-    ArrayList<Updates> updates;
-    Toolbar toolbar;
-
+    private ActivityUniversityListBinding binding;
+    private UpdatesAdapter updateAdapter;
+    private ArrayList<Updates> updates;
+    private Toolbar toolbar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,14 +36,16 @@ public class UniversitiesListActivity extends AppCompatActivity {
         updates = new ArrayList<>();
         updateAdapter = new UpdatesAdapter(this, updates);
 
+        String stateName = getIntent().getStringExtra("stateName");
 
-        int universityId = getIntent().getIntExtra("nuniversityId", 0);
-        String universityName = getIntent().getStringExtra("universityName");
+        // Make sure getSupportActionBar() is not null before using it
+        ActionBar actionBar = getSupportActionBar();
+        if (actionBar != null) {
+            actionBar.setTitle(stateName);
+            actionBar.setDisplayHomeAsUpEnabled(true);
+        }
 
-//        getSupportActionBar().setTitle(universityName);
-//        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-
-        getUpdates(universityId);
+        getUniversities(stateName);
 
         GridLayoutManager layoutManager = new GridLayoutManager(this, 1);
         binding.universityList.setLayoutManager(layoutManager);
@@ -58,36 +58,39 @@ public class UniversitiesListActivity extends AppCompatActivity {
         return super.onSupportNavigateUp();
     }
 
-    void getUpdates(int universityId) {
-        RequestQueue queue = Volley.newRequestQueue(this);
+    void getUniversities(String stateName) {
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
 
-        String url = Constants.GET_PRODUCTS_URL + "?category_id=" + universityId;
-        StringRequest request = new StringRequest(Request.Method.GET, url, response -> {
-            try {
-                JSONObject object = new JSONObject(response);
-                if(object.getString("status").equals("success")){
-                    JSONArray productsArray = object.getJSONArray("products");
-                    for(int i =0; i< productsArray.length(); i++) {
-                        JSONObject childObj = productsArray.getJSONObject(i);
-                        Updates update = new Updates(
-                                childObj.getString("name"),
-                                Constants.PRODUCTS_IMAGE_URL + childObj.getString("image"),
-                                childObj.getString("status"),
-                                childObj.getDouble("price"),
-                                childObj.getDouble("price_discount"),
-                                childObj.getInt("stock"),
-                                childObj.getInt("id")
+        db.collection("Updates")
+                .document(stateName)
+                .collection("Institutions")
+                .get()
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        if (task.isSuccessful()) {
+                            for (QueryDocumentSnapshot document : task.getResult()) {
+                                // Assuming each document inside "Institutions" has a field named "data" (Array of college names)
+                                ArrayList<String> universitiesArray = (ArrayList<String>) document.get("data");
 
-                        );
-                        updates.add(update);
+                                if (universitiesArray != null) {
+                                    Log.d("UniversitiesListActivity", "Received universities data for " + stateName + ": " + universitiesArray.toString());
+                                    Log.d("UniversitiesListActivity", "Number of universities for " + stateName + ": " + universitiesArray.size());
+
+                                    for (String universityName : universitiesArray) {
+                                        Log.d("UniversitiesListActivity", "University Name: " + universityName);
+                                        Updates update = new Updates(stateName, Collections.singletonList(universityName));
+                                        updates.add(update);
+                                    }
+                                    updateAdapter.notifyDataSetChanged();
+                                } else {
+                                    Log.d("UniversitiesListActivity", "Universities data is null for " + stateName);
+                                }
+                            }
+                        } else {
+                            Log.d("UniversitiesListActivity", "Error getting documents for " + stateName + ": ", task.getException());
+                        }
                     }
-                    updateAdapter.notifyDataSetChanged();
-                }
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
-        }, error -> { });
-
-        queue.add(request);
+                });
     }
 }
