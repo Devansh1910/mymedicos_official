@@ -35,16 +35,14 @@ public class WeeklyQuizAdapter extends RecyclerView.Adapter<WeeklyQuizAdapter.Vi
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         QuizPG quiz = quizList.get(position);
-        holder.titleTextView.setText(quiz.getTitle());
-        holder.titleTextView.setOnClickListener(new View.OnClickListener() {
+        holder.titleSets.setText(quiz.getTitle());
+        holder.titleSets.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(context, WeeklyQuizInsiderActivity.class);
                 context.startActivity(intent);
-
             }
         });
-//        holder.descriptionTextView.setText(quiz.getDescription());
     }
 
     @Override
@@ -53,13 +51,10 @@ public class WeeklyQuizAdapter extends RecyclerView.Adapter<WeeklyQuizAdapter.Vi
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
-        TextView titleTextView;
-        TextView descriptionTextView;
-
+        TextView titleSets;
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
-            titleTextView = itemView.findViewById(R.id.titleTextView);
-//            descriptionTextView = itemView.findViewById(R.id.descriptionTextView);
+            titleSets = itemView.findViewById(R.id.titleSets);
         }
     }
 }

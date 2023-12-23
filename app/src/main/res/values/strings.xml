@@ -5,6 +5,11 @@
 
     <string name="OpenDrawer">Open Navigation Drawer</string>
     <string name="CloseDrawer">close Navigation Drawer</string>
+
+    <style name="ToolbarTitle">
+        <item name="android:layout_gravity">center</item>
+    </style>
+
     <!-- Specialities -->
     <string-array name="speciality">
         <item>Select Speciality</item>

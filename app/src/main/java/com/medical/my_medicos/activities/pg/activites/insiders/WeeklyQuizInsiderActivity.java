@@ -1,16 +1,13 @@
 package com.medical.my_medicos.activities.pg.activites.insiders;
 
-import static androidx.fragment.app.FragmentManager.TAG;
-
 import android.annotation.SuppressLint;
 import android.os.Bundle;
-import android.util.Log;
-
+import android.os.CountDownTimer;
+import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.CollectionReference;
@@ -19,7 +16,6 @@ import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.medical.my_medicos.R;
 import com.medical.my_medicos.activities.pg.adapters.WeeklyQuizAdapterinsider;
-import com.medical.my_medicos.activities.pg.model.QuizPG;
 import com.medical.my_medicos.activities.pg.model.QuizPGinsider;
 import java.util.ArrayList;
 import java.util.Map;
@@ -29,31 +25,21 @@ public class WeeklyQuizInsiderActivity extends AppCompatActivity {
     private RecyclerView recyclerView;
     private WeeklyQuizAdapterinsider adapter;
     private ArrayList<QuizPGinsider> quizList;
-    String question ;
-    String optionA ;
-    String optionB ;
-    String optionC ;
-    String optionD;
-    String correctAnswer;
+    private CountDownTimer countDownTimer;
+    private TextView textViewTimer;
+
     String idQuestion;
     String titleOfSet ;
-    String description;
 
-    @SuppressLint({"MissingInflatedId", "RestrictedApi"})
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_weekly_quiz_insider);
 
-        // Initialize your RecyclerView and layout manager
-        recyclerView = findViewById(R.id.recycler_view); // Replace with your RecyclerView ID
+        recyclerView = findViewById(R.id.recycler_view);
+        textViewTimer = findViewById(R.id.textViewTimer);
 
-        // Initialize your ArrayList
         quizList = new ArrayList<>();
-
-
-
-        // Create an instance of QuizPGinsider with the provided data
 
         FirebaseFirestore db = FirebaseFirestore.getInstance();
         CollectionReference quizzCollection = db.collection("PGupload").document("Weekley").collection("Quiz");
@@ -64,12 +50,10 @@ public class WeeklyQuizInsiderActivity extends AppCompatActivity {
             public void onComplete(@NonNull Task<QuerySnapshot> task) {
                 if (task.isSuccessful()) {
                     for (QueryDocumentSnapshot document : task.getResult()) {
-                        // Access the map "Data" inside the document
                         ArrayList<Map<String, Object>> dataList = (ArrayList<Map<String, Object>>) document.get("Data");
 
                         if (dataList != null) {
                             for (Map<String, Object> entry : dataList) {
-                                // Access the fields under each key (0, 1, 2, etc.)
                                 String question = (String) entry.get("Question");
                                 String correctAnswer = (String) entry.get("Correct");
                                 String optionA = (String) entry.get("A");
@@ -77,36 +61,53 @@ public class WeeklyQuizInsiderActivity extends AppCompatActivity {
                                 String optionC = (String) entry.get("C");
                                 String optionD = (String) entry.get("D");
                                 String description = (String) entry.get("Desciption");
-                                    QuizPGinsider quizQuestion = new QuizPGinsider(question, optionA, optionB, optionC, optionD, correctAnswer, idQuestion, titleOfSet, description);
-                                    quizList.add(quizQuestion);
-                                }
-
-
-
-
-                                // Now, you can use question and description as needed
-//                                QuizPG quizday = new QuizPG(question, "OptionA", "OptionB", "OptionC", "OptionD", "CorrectAnswer", "", title, description);
-//                                quizpg.add(quizday);
+                                QuizPGinsider quizQuestion = new QuizPGinsider(question, optionA, optionB, optionC, optionD, correctAnswer, idQuestion, titleOfSet, description);
+                                quizList.add(quizQuestion);
                             }
-
                         }
                     }
 
-
                     recyclerView.setLayoutManager(new LinearLayoutManager(WeeklyQuizInsiderActivity.this));
-
-                    // Initialize the adapter
                     adapter = new WeeklyQuizAdapterinsider(WeeklyQuizInsiderActivity.this, quizList);
-
-                    // Set the adapter to the RecyclerView
                     recyclerView.setAdapter(adapter);
-
-
-
+                    startTimer();
+                }
             }
         });
+    }
 
-        // Add the quizQuestion to quizList
+    private void startTimer() {
+        countDownTimer = new CountDownTimer(600000, 1000) {
+            @Override
+            public void onTick(long millisUntilFinished) {
+                // Update the UI with the remaining time
+                updateTimerUI(millisUntilFinished);
+            }
 
+            @Override
+            public void onFinish() {
+                // Handle what should happen when the timer finishes
+                // For example, you can finish the activity or show a message
+                // when the timer reaches 0.
+                // finish(); // Uncomment this line if you want to finish the activity
+            }
+        }.start();
+    }
+
+    private void updateTimerUI(long millisUntilFinished) {
+        long seconds = millisUntilFinished / 1000;
+        long minutes = seconds / 60;
+        seconds %= 60;
+
+        String timerText = String.format("%02d:%02d", minutes, seconds);
+        textViewTimer.setText("Time remaining: " + timerText);
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        if (countDownTimer != null) {
+            countDownTimer.cancel();
+        }
     }
 }
