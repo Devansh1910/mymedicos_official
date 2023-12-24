@@ -61,7 +61,7 @@ public class WeeklyQuizAdapter extends RecyclerView.Adapter<WeeklyQuizAdapter.Vi
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
-            titleTextView = itemView.findViewById(R.id.titleTextView);
+            titleTextView = itemView.findViewById(R.id.titleSets);
 //            descriptionTextView = itemView.findViewById(R.id.descriptionTextView);
         }
     }
