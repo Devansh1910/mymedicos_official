@@ -74,8 +74,11 @@ public class WeeklyQuizAdapterinsider extends RecyclerView.Adapter<WeeklyQuizAda
     private void handleOptionClick(WeeklyQuizQuestionViewHolder holder, String selectedOption) {
         resetOptionStyle(holder);
         setOptionSelectedStyle(holder, selectedOption);
-        this.selectedOption = selectedOption;
+
+        QuizPGinsider quizquestion = quizquestionsweekly.get(holder.getAdapterPosition());
+        quizquestion.setSelectedOption(selectedOption);
     }
+
 
     private void setOptionSelectedStyle(WeeklyQuizQuestionViewHolder holder, String selectedOption) {
         TextView selectedTextView = null;

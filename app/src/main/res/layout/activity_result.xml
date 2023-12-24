@@ -1,27 +1,49 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:padding="@dimen/activity_horizontal_margin">
+    android:backgroundTint="@color/green"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@drawable/btnresultbtn"
+    android:layout_height="match_parent">
 
-    <ScrollView
+    <com.google.android.material.appbar.AppBarLayout
+        android:id="@+id/resulttoolbar_container"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="wrap_content"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
 
-        <LinearLayout
+        <androidx.appcompat.widget.Toolbar
+            android:id="@+id/resulttoolbar"
+            app:title="Report"
+            app:navigationIcon="@drawable/arrow_bk"
+            app:titleTextColor="@color/black"
+            app:subtitleTextColor="@color/white"
+            app:subtitleTextAppearance="@color/white"
+            android:backgroundTint="@color/white"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical">
+            android:layout_weight="1"
+            android:layout_height="?attr/actionBarSize"
+            android:background="@color/white">
 
-            <TextView
-                android:id="@+id/resultTextView"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:textSize="@dimen/_12sdp"
-                android:text="Text"
-                android:textColor="@color/black" />
+        </androidx.appcompat.widget.Toolbar>
 
-        </LinearLayout>
-    </ScrollView>
+    </com.google.android.material.appbar.AppBarLayout>
 
-</RelativeLayout>
+    <TextView
+        android:id="@+id/resultTextView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Text"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/resulttoolbar_container"
+        android:textColor="@color/black"
+        android:textSize="@dimen/_12sdp"
+        tools:layout_editor_absoluteX="7dp"
+        tools:layout_editor_absoluteY="66dp"
+        tools:ignore="NotSibling" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
