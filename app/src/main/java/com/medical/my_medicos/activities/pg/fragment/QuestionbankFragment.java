@@ -9,6 +9,7 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.airbnb.lottie.LottieAnimationView;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.StringRequest;
@@ -29,6 +30,8 @@ public class QuestionbankFragment extends Fragment {
 
     private FragmentQuestionbankBinding binding;
     private QuestionBankPGAdapter questionsAdapter;
+
+    LottieAnimationView nodatafound;
     private ArrayList<QuestionPG> questionsforpg;
     private int catId;
 
@@ -55,10 +58,7 @@ public class QuestionbankFragment extends Fragment {
         binding = FragmentQuestionbankBinding.inflate(inflater, container, false);
         View view = binding.getRoot();
 
-        // Retrieve the title from the arguments
         String title = getArguments().getString("title", "");
-
-        // Update the toolbar title
         if (getActivity() instanceof SpecialityPGInsiderActivity) {
             ((SpecialityPGInsiderActivity) getActivity()).setToolbarTitle(title);
         }
@@ -70,8 +70,6 @@ public class QuestionbankFragment extends Fragment {
         LinearLayoutManager layoutManagerQuestions = new LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false);
         recyclerViewQuestions.setLayoutManager(layoutManagerQuestions);
         recyclerViewQuestions.setAdapter(questionsAdapter);
-
-        // Call the modified getRecentQuestions method with the title
         getRecentQuestions(title);
 
         return view;
@@ -80,9 +78,7 @@ public class QuestionbankFragment extends Fragment {
     void getRecentQuestions(String title) {
         RequestQueue queue = Volley.newRequestQueue(requireContext());
 
-        // Append the title to the URL
         String url = ConstantsDashboard.GET_PG_QUESTIONBANK_URL + "/" + title;
-
         StringRequest request = new StringRequest(Request.Method.GET, url, response -> {
             try {
                 JSONObject object = new JSONObject(response);
@@ -99,6 +95,7 @@ public class QuestionbankFragment extends Fragment {
                         questionsforpg.add(questionbankItem);
                     }
                     questionsAdapter.notifyDataSetChanged();
+                    updateNoDataVisibility();
                 }
             } catch (JSONException e) {
                 e.printStackTrace();
@@ -107,5 +104,13 @@ public class QuestionbankFragment extends Fragment {
         });
 
         queue.add(request);
+    }
+
+    private void updateNoDataVisibility() {
+        if (questionsforpg.isEmpty()) {
+            binding.nodatafound.setVisibility(View.VISIBLE);
+        } else {
+            binding.nodatafound.setVisibility(View.GONE);
+        }
     }
 }

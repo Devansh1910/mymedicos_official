@@ -7,10 +7,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
-
 import com.medical.my_medicos.R;
 import com.medical.my_medicos.activities.pg.activites.insiders.WeeklyQuizInsiderActivity;
 import com.medical.my_medicos.activities.pg.model.QuizPG;
@@ -43,11 +41,9 @@ public class WeeklyQuizAdapter extends RecyclerView.Adapter<WeeklyQuizAdapter.Vi
             public void onClick(View v) {
                 Intent intent = new Intent(context, WeeklyQuizInsiderActivity.class);
                 intent.putExtra("Title",quiz.getTitle1());
-//                Log.d("speciality3",quiz.getTitle1());
                 context.startActivity(intent);
             }
         });
-//        holder.descriptionTextView.setText(quiz.getDescription());
     }
 
     @Override
@@ -62,7 +58,6 @@ public class WeeklyQuizAdapter extends RecyclerView.Adapter<WeeklyQuizAdapter.Vi
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
             titleTextView = itemView.findViewById(R.id.titleSets);
-//            descriptionTextView = itemView.findViewById(R.id.descriptionTextView);
         }
     }
 }

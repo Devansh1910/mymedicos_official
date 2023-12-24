@@ -71,6 +71,9 @@ dependencies {
     implementation("de.hdodenhof:circleimageview:3.1.0")
     implementation("com.hbb20:ccp:2.7.3")
     implementation("com.intuit.sdp:sdp-android:1.1.0")
+    //....Image Zoom
+    implementation ("com.github.chrisbanes:PhotoView:2.3.0")
+    ///........
     implementation("com.intuit.ssp:ssp-android:1.1.0")
 //    implementation("com.google.firebase:firebase-database")
     implementation ("org.jetbrains.kotlin:kotlin-stdlib:1.8.22")

@@ -9,17 +9,23 @@ public class QuizPGinsider implements Item, Serializable {
 
     private String question, optionA, optionB, optionC, optionD, correctAnswer, idQuestion, titleOfSet, specialityQuiz;
 
-    public QuizPGinsider(String question,String optionA, String optionB, String optionC, String optionD, String correctAnswer, String idQuestion, String titleOfSet, String specialityQuiz) {
+    private String selectedOption; // Add this field
+
+    private String image;
+
+    public QuizPGinsider(String question, String optionA, String optionB, String optionC, String optionD, String correctAnswer, String idQuestion, String titleOfSet, String specialityQuiz, String image) {
         this.question = question;
         this.optionA = optionA;
         this.optionB = optionB;
         this.optionC = optionC;
         this.optionD = optionD;
         this.correctAnswer = correctAnswer;
-        this.idQuestion = idQuestion;
-        this.titleOfSet = titleOfSet;
+        this.idQuestion = idQuestion; // Initialize idQuestion
+        this.titleOfSet = titleOfSet; // Initialize titleOfSet
         this.specialityQuiz = specialityQuiz;
+        this.image = image;
     }
+
 
     public String getQuestion() {
         return question;
@@ -37,9 +43,26 @@ public class QuizPGinsider implements Item, Serializable {
         this.optionA = optionA;
     }
 
+    public String getImage() {
+        return image;
+    }
+
+    public void setImage(String image) {
+        this.image = image;
+    }
+
     public String getOptionB() {
         return optionB;
     }
+
+    public String getSelectedOption() {
+        return selectedOption;
+    }
+
+    public void setSelectedOption(String selectedOption) {
+        this.selectedOption = selectedOption;
+    }
+
 
     public void setOptionB(String optionB) {
         this.optionB = optionB;
