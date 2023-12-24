@@ -70,7 +70,7 @@ public class WeeklyQuizInsiderActivity extends AppCompatActivity {
                     for (QueryDocumentSnapshot document : task.getResult()) {
                         String speciality=document.getString("speciality");
                         Log.d("speciality3",speciality);
-                        Log.d("speciality3",str);
+                        Log.d("speciality",str);
 
                         // Access the map "Data" inside the document
                         ArrayList<Map<String, Object>> dataList = (ArrayList<Map<String, Object>>) document.get("Data");
