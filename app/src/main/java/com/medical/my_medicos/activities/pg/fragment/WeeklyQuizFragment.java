@@ -180,4 +180,3 @@ public class WeeklyQuizFragment extends Fragment {
 
     }
 }
-

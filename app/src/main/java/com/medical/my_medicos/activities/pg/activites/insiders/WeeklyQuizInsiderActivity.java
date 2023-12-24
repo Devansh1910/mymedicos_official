@@ -80,45 +80,45 @@ public class WeeklyQuizInsiderActivity extends AppCompatActivity {
 
 
 
-                        if (dataList != null) {
-                            for (Map<String, Object> entry : dataList) {
-                                // Access the fields under each key (0, 1, 2, etc.)
-                                String question = (String) entry.get("Question");
-                                String correctAnswer = (String) entry.get("Correct");
-                                String optionA = (String) entry.get("A");
-                                String optionB = (String) entry.get("B");
-                                String optionC = (String) entry.get("C");
-                                String optionD = (String) entry.get("D");
-                                String description = (String) entry.get("Desciption");
+                            if (dataList != null) {
+                                for (Map<String, Object> entry : dataList) {
+                                    // Access the fields under each key (0, 1, 2, etc.)
+                                    String question = (String) entry.get("Question");
+                                    String correctAnswer = (String) entry.get("Correct");
+                                    String optionA = (String) entry.get("A");
+                                    String optionB = (String) entry.get("B");
+                                    String optionC = (String) entry.get("C");
+                                    String optionD = (String) entry.get("D");
+                                    String description = (String) entry.get("Desciption");
 
 
-                                QuizPGinsider quizQuestion = new QuizPGinsider(question, optionA, optionB, optionC, optionD, correctAnswer, idQuestion, titleOfSet, description);
+                                    QuizPGinsider quizQuestion = new QuizPGinsider(question, optionA, optionB, optionC, optionD, correctAnswer, idQuestion, titleOfSet, description);
 
-                                quizList.add(quizQuestion);
+                                    quizList.add(quizQuestion);
+                                }
                             }
-                        }
 
 
 
 
 
 
-                                // Now, you can use question and description as needed
+                            // Now, you can use question and description as needed
 //                                QuizPG quizday = new QuizPG(question, "OptionA", "OptionB", "OptionC", "OptionD", "CorrectAnswer", "", title, description);
 //                                quizpg.add(quizday);
-                            }
-
                         }
+
                     }
+                }
 
 
-                    recyclerView.setLayoutManager(new LinearLayoutManager(WeeklyQuizInsiderActivity.this));
+                recyclerView.setLayoutManager(new LinearLayoutManager(WeeklyQuizInsiderActivity.this));
 
-                    // Initialize the adapter
-                    adapter = new WeeklyQuizAdapterinsider(WeeklyQuizInsiderActivity.this, quizList);
+                // Initialize the adapter
+                adapter = new WeeklyQuizAdapterinsider(WeeklyQuizInsiderActivity.this, quizList);
 
-                    // Set the adapter to the RecyclerView
-                    recyclerView.setAdapter(adapter);
+                // Set the adapter to the RecyclerView
+                recyclerView.setAdapter(adapter);
 
 
 
