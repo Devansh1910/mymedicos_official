@@ -44,24 +44,21 @@ public class WeeklyQuizInsiderActivity extends AppCompatActivity {
         recyclerView = findViewById(R.id.recycler_view);
         Intent intent = getIntent();
         String str = intent.getStringExtra("Title");
-
         quizList = new ArrayList<>();
-
         FirebaseFirestore db = FirebaseFirestore.getInstance();
         CollectionReference quizzCollection = db.collection("PGupload").document("Weekley").collection("Quiz");
-
         quizzCollection.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
             @Override
             public void onComplete(@NonNull Task<QuerySnapshot> task) {
                 if (task.isSuccessful()) {
                     for (QueryDocumentSnapshot document : task.getResult()) {
                         String speciality = document.getString("speciality");
-                        Log.d("speciality3", speciality);
-                        Log.d("speciality", str);
+                        Log.d("Error in Speciality", speciality);
+                        Log.d("Speciality", str);
 
                         ArrayList<Map<String, Object>> dataList = (ArrayList<Map<String, Object>>) document.get("Data");
                         int r = speciality.compareTo(str);
-                        Log.d("abcdef", String.valueOf(r));
+                        Log.d("Something went wrong", String.valueOf(r));
                         if (r == 0) {
                             if (dataList != null) {
                                 for (Map<String, Object> entry : dataList) {
@@ -71,19 +68,16 @@ public class WeeklyQuizInsiderActivity extends AppCompatActivity {
                                     String optionB = (String) entry.get("B");
                                     String optionC = (String) entry.get("C");
                                     String optionD = (String) entry.get("D");
-                                    String description = (String) entry.get("Desciption");
+                                    String description = (String) entry.get("Description");
 
-                                    // Add code to check for the image field in Firebase
                                     String imageUrl = (String) entry.get("Image");
 
                                     QuizPGinsider quizQuestion;
 
                                     if (imageUrl != null && !imageUrl.isEmpty()) {
-                                        // If there is an image, create a QuizPGinsider object with the image URL
-                                        quizQuestion = new QuizPGinsider(question, optionA, optionB, optionC, optionD, correctAnswer, "your_id_value_with_image", "your_title_value_with_image", description, imageUrl);
+                                        quizQuestion = new QuizPGinsider(question, optionA, optionB, optionC, optionD, correctAnswer,imageUrl,description);
                                     } else {
-                                        // If there is no image, create a QuizPGinsider object without the image URL
-                                        quizQuestion = new QuizPGinsider(question, optionA, optionB, optionC, optionD, correctAnswer, "your_id_value_without_image", "your_title_value_without_image", description,imageUrl);
+                                        quizQuestion = new QuizPGinsider(question, optionA, optionB, optionC, optionD, correctAnswer,imageUrl,description);
                                     }
                                     quizList.add(quizQuestion);
                                 }

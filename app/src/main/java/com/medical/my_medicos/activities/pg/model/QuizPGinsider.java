@@ -7,23 +7,23 @@ import java.math.BigDecimal;
 
 public class QuizPGinsider implements Item, Serializable {
 
-    private String question, optionA, optionB, optionC, optionD, correctAnswer, idQuestion, titleOfSet, specialityQuiz;
+    private String question, optionA, optionB, optionC, optionD, correctAnswer;
 
     private String selectedOption; // Add this field
 
+    private String description; // Added field
+
     private String image;
 
-    public QuizPGinsider(String question, String optionA, String optionB, String optionC, String optionD, String correctAnswer, String idQuestion, String titleOfSet, String specialityQuiz, String image) {
+    public QuizPGinsider(String question, String optionA, String optionB, String optionC, String optionD, String correctAnswer, String image, String description) {
         this.question = question;
         this.optionA = optionA;
         this.optionB = optionB;
         this.optionC = optionC;
         this.optionD = optionD;
         this.correctAnswer = correctAnswer;
-        this.idQuestion = idQuestion; // Initialize idQuestion
-        this.titleOfSet = titleOfSet; // Initialize titleOfSet
-        this.specialityQuiz = specialityQuiz;
         this.image = image;
+        this.description = description;
     }
 
 
@@ -55,6 +55,7 @@ public class QuizPGinsider implements Item, Serializable {
         return optionB;
     }
 
+
     public String getSelectedOption() {
         return selectedOption;
     }
@@ -63,9 +64,12 @@ public class QuizPGinsider implements Item, Serializable {
         this.selectedOption = selectedOption;
     }
 
-
     public void setOptionB(String optionB) {
         this.optionB = optionB;
+    }
+
+    public boolean isCorrect() {
+        return correctAnswer.equals(selectedOption);
     }
 
     public String getOptionC() {
@@ -88,35 +92,13 @@ public class QuizPGinsider implements Item, Serializable {
         return correctAnswer;
     }
 
-    public void setCorrectAnswer(String correctAnswer) {
-        this.correctAnswer = correctAnswer;
+    public String getDescription() {
+        return description;
     }
 
-    public String getIdQuestion() {
-        return idQuestion;
+    public void setDescription(String description) {
+        this.description = description;
     }
-
-    public void setIdQuestion(String idQuestion) {
-        this.idQuestion = idQuestion;
-    }
-
-    public String getTitleOfSet() {
-        return titleOfSet;
-    }
-
-    public void setTitleOfSet(String titleOfSet) {
-        this.titleOfSet = titleOfSet;
-    }
-
-    public String getSpecialityQuiz() {
-        return specialityQuiz;
-    }
-
-    public void setSpecialityQuiz(String specialityQuiz) {
-        this.specialityQuiz = specialityQuiz;
-    }
-
-
 
     @Override
     public BigDecimal getItemPrice() {
