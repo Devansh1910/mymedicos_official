@@ -89,63 +89,9 @@ public class WeeklyQuizFragment extends Fragment {
     }
 
     void getQuestions(String title) {
-//        RequestQueue queue = Volley.newRequestQueue(requireContext());
-//
-//        String url = ConstantsDashboard.GET_QUIZ_QUESTIONS_URL + "?q=" + title;
-//        StringRequest request = new StringRequest(Request.Method.GET, url, response -> {
-//            try {
-//                JSONObject responseObject = new JSONObject(response);
-//                if ("success".equals(responseObject.getString("status"))) {
-//                    JSONArray dataArray = responseObject.getJSONArray("data");
-//
-////                    quizpg.clear();
-//
-//                    for (int i = 0; i < dataArray.length(); i++) {
-//                        JSONObject quizObject = dataArray.getJSONObject(i);
-//                        String quizTitle = quizObject.getString("title");
-//                        String speciality = quizObject.getString("speciality");
-//
-//                        JSONArray quizDataArray = quizObject.getJSONArray("Data");
-//
-//                        for (int j = 0; j < quizDataArray.length(); j++) {
-//                            JSONObject questionObject = quizDataArray.getJSONObject(j);
-//                            QuizPG quizday = new QuizPG(
-//                                    questionObject.getString("Question"),
-//                                    questionObject.getString("A"),
-//                                    questionObject.getString("B"),
-//                                    questionObject.getString("C"),
-//                                    questionObject.getString("D"),
-//                                    questionObject.getString("Correct"),
-//                                    "",
-//                                    quizTitle,
-//                                    speciality
-//                            );
-//
-//                            quizpg.add(quizday);
-//                            Log.d("DEBUG", "getQuestions: Question added to the list - " + quizTitle);
-//                        }
-//                    }
-//
-//                    Log.d("DEBUG", "getQuestions: Entire data - " + dataArray.toString());
-//
-//                    if (!quizpg.isEmpty()) {
-//                        quizAdapter.notifyDataSetChanged();
-//                        Log.d("DEBUG", "getQuestions: Data added to the list");
-//                    } else {
-//                        Log.d("DEBUG", "getQuestions: No data to add to the list");
-//                    }
-//                }
-//            } catch (JSONException e) {
-//                e.printStackTrace();
-//            }
-//        }, error -> {
-//            Log.e("API_ERROR", "Error in API request: " + error.getMessage());
-//        });
-//        queue.add(request);
         FirebaseFirestore db = FirebaseFirestore.getInstance();
 
         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
-            // Assuming "pg upload" is your collection, "weekly" is the document, and "quizz" is the subcollection
             CollectionReference quizzCollection = db.collection("PGupload").document("Weekley").collection("Quiz");
 
             Query query = quizzCollection;
@@ -155,7 +101,6 @@ public class WeeklyQuizFragment extends Fragment {
                 public void onComplete(@NonNull Task<QuerySnapshot> task) {
                     if (task.isSuccessful()) {
                         for (QueryDocumentSnapshot document : task.getResult()) {
-                            // Access "title" and "description" fields
                             String title = document.getString("title");
                             String speciality=document.getString("speciality");
                             int r=speciality.compareTo(title1);
@@ -163,14 +108,9 @@ public class WeeklyQuizFragment extends Fragment {
                                 QuizPG quizday = new QuizPG(title,title1);
                                 quizpg.add(quizday);
                             }
-
-
-                            // Your existing code logic goes here...
-                            // You can use "title" and "description" as needed
                         }
                         quizAdapter.notifyDataSetChanged();
 
-//                        adapter.notifyDataSetChanged();
                     } else {
                         Log.d(TAG, "Error getting documents: ", task.getException());
                     }

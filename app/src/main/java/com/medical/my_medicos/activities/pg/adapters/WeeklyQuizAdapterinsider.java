@@ -151,7 +151,6 @@ public class WeeklyQuizAdapterinsider extends RecyclerView.Adapter<WeeklyQuizAda
             PhotoView photoView = popupView.findViewById(R.id.photoView);
             Glide.with(context).load(imageUrl).into(photoView);
 
-            // Set the size of the dialog
             int dialogWidth = context.getResources().getDimensionPixelSize(R.dimen.popup_width);
             int dialogHeight = context.getResources().getDimensionPixelSize(R.dimen.popup_height);
 
@@ -167,12 +166,9 @@ public class WeeklyQuizAdapterinsider extends RecyclerView.Adapter<WeeklyQuizAda
 
             dialog.show();
         } else {
-            // Handle case where there is no image to display
-            // You can display a message or handle it according to your needs
+
         }
     }
-
-
 
     private void showWrongAnswerPopup() {
         Intent intent = new Intent(context, ResultActivity.class);
