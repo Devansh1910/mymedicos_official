@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
+import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
@@ -19,6 +20,7 @@ import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.medical.my_medicos.activities.publications.adapters.CartAdapter;
 import com.medical.my_medicos.activities.publications.model.Product;
@@ -26,6 +28,7 @@ import com.medical.my_medicos.activities.publications.utils.Constants;
 import com.hishd.tinycart.model.Cart;
 import com.hishd.tinycart.model.Item;
 import com.hishd.tinycart.util.TinyCartHelper;
+import com.medical.my_medicos.activities.utils.ConstantsDashboard;
 import com.medical.my_medicos.databinding.ActivityCheckoutPublicationBinding;
 
 import org.json.JSONArray;
@@ -36,6 +39,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.prefs.Preferences;
 
 public class CheckoutPublicationActivity extends AppCompatActivity {
 
@@ -100,100 +104,51 @@ public class CheckoutPublicationActivity extends AppCompatActivity {
 
     void processOrder() {
         progressDialog.show();
+        String docId = Preferences.userRoot().get("docId", "");
+
         RequestQueue queue = Volley.newRequestQueue(this);
 
-        JSONObject productOrder = new JSONObject();
-        JSONObject dataObject = new JSONObject();
-        try {
+        String url = ConstantsDashboard.GET_ORDER_ID + docId;
+        @SuppressLint("NotifyDataSetChanged") StringRequest request = new StringRequest(Request.Method.GET, url, response -> {
+            try {
+                JSONObject requestBody = new JSONObject(response);
+                if (requestBody.getString("status").equals("success")) {
+                    Toast.makeText(CheckoutPublicationActivity.this, "Success order.", Toast.LENGTH_SHORT).show();
+                    String orderNumber = requestBody.getString("order_id");
+                    Log.e("Order ID check",orderNumber);
+                    new AlertDialog.Builder(CheckoutPublicationActivity.this)
+                            .setTitle("Order Successful")
+                            .setCancelable(false)
+                            .setMessage("Your order number is: " + orderNumber)
+                            .setPositiveButton("Pay Now", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialogInterface, int i) {
+                                    Intent intent = new Intent(CheckoutPublicationActivity.this, PaymentPublicationActivity.class);
+                                    intent.putExtra("orderCode", orderNumber);
+                                    startActivity(intent);
+                                }
+                            }).show();
+                } else {
+                    new AlertDialog.Builder(CheckoutPublicationActivity.this)
+                            .setTitle("Order Failed")
+                            .setMessage("Something went wrong, please try again.")
+                            .setCancelable(false)
+                            .setPositiveButton("Close", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialogInterface, int i) {
 
-            productOrder.put("buyer",binding.nameBox.getText().toString());
-            productOrder.put("comment", binding.commentBox.getText().toString());
-            productOrder.put("created_at", Calendar.getInstance().getTimeInMillis());
-            productOrder.put("last_update", Calendar.getInstance().getTimeInMillis());
-            productOrder.put("date_ship", Calendar.getInstance().getTimeInMillis());
-            productOrder.put("email", binding.emailBox.getText().toString());
-            productOrder.put("phone", binding.phoneBox.getText().toString());
-            productOrder.put("serial", "cab8c1a4e4421a3b");
-            productOrder.put("shipping", "");
-            productOrder.put("shipping_location", "");
-            productOrder.put("shipping_rate", "0.0");
-            productOrder.put("status", "WAITING");
-            productOrder.put("tax", tax);
-            productOrder.put("total_fees", totalPrice);
-
-            JSONArray product_order_detail = new JSONArray();
-            for(Map.Entry<Item, Integer> item : cart.getAllItemsWithQty().entrySet()) {
-                Product product = (Product) item.getKey();
-                int quantity = item.getValue();
-                product.setPrice(quantity);
-
-                JSONObject productObj = new JSONObject();
-                productObj.put("amount", quantity);
-                productObj.put("price_item", product.getPrice());
-                productObj.put("product_id", product.getId());
-                productObj.put("product_name", product.getTitle());
-                product_order_detail.put(productObj);
-            }
-
-            dataObject.put("product_order",productOrder);
-            dataObject.put("product_order_detail",product_order_detail);
-
-            Log.e("err", dataObject.toString());
-
-        } catch (JSONException e) {}
-
-        JsonObjectRequest request = new JsonObjectRequest(Request.Method.POST, Constants.POST_ORDER_URL, dataObject, new Response.Listener<JSONObject>() {
-            @Override
-            public void onResponse(JSONObject response) {
-                try {
-                    if (response.getString("status").equals("success")) {
-                        Toast.makeText(CheckoutPublicationActivity.this, "Success order.", Toast.LENGTH_SHORT).show();
-                        String orderNumber = response.getJSONObject("data").getString("code");
-                        new AlertDialog.Builder(CheckoutPublicationActivity.this)
-                                .setTitle("Order Successful")
-                                .setCancelable(false)
-                                .setMessage("Your order number is: " + orderNumber)
-                                .setPositiveButton("Pay Now", new DialogInterface.OnClickListener() {
-                                    @Override
-                                    public void onClick(DialogInterface dialogInterface, int i) {
-                                        Intent intent = new Intent(CheckoutPublicationActivity.this, PaymentPublicationActivity.class);
-                                        intent.putExtra("orderCode", orderNumber);
-                                        startActivity(intent);
-                                    }
-                                }).show();
-                    } else {
-                        new AlertDialog.Builder(CheckoutPublicationActivity.this)
-                                .setTitle("Order Failed")
-                                .setMessage("Something went wrong, please try again.")
-                                .setCancelable(false)
-                                .setPositiveButton("Close", new DialogInterface.OnClickListener() {
-                                    @Override
-                                    public void onClick(DialogInterface dialogInterface, int i) {
-
-                                    }
-                                }).show();
-                        Toast.makeText(CheckoutPublicationActivity.this, "Failed order.", Toast.LENGTH_SHORT).show();
-                    }
-                    progressDialog.dismiss();
-                    Log.e("res", response.toString());
-                } catch (Exception e) {}
-            }
-        }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-
-            }
-        }) {
-            @Override
-            public Map<String, String> getHeaders() throws AuthFailureError {
-                Map<String, String> headers = new HashMap<>();
-                headers.put("Security","secure_code");
-                return headers;
-            }
-        } ;
+                                }
+                            }).show();
+                    Toast.makeText(CheckoutPublicationActivity.this, "Failed order.", Toast.LENGTH_SHORT).show();
+                }
+                progressDialog.dismiss();
+                Log.e("res", response.toString());
+            } catch (Exception e) {}
+        }, error -> { });
 
         queue.add(request);
     }
+
 
     @Override
     public boolean onSupportNavigateUp() {

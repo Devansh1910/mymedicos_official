@@ -68,9 +68,6 @@ public class ProductDetailedActivity extends AppCompatActivity {
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-//        Cart cart = TinyCartHelper.getCart();
-
-
 
         binding.addToCartBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -80,7 +77,7 @@ public class ProductDetailedActivity extends AppCompatActivity {
                 String docId = Preferences.userRoot().get("docId", "");
 
                 if (!docId.isEmpty()) {
-                    String url = ConstantsDashboard.GET_CART + "/" + docId + "/add/";
+                    String url = ConstantsDashboard.GET_CART + "/" + docId + "/add/" + "WrCBMohrJpfOUQAEo3yJ";
                     Log.e("function", url);
 
                     JSONObject requestBody = new JSONObject();

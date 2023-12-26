@@ -9,6 +9,9 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+
+import com.android.volley.RequestQueue;
+import com.android.volley.toolbox.Volley;
 import com.medical.my_medicos.activities.publications.adapters.CartAdapter;
 import com.medical.my_medicos.activities.publications.model.Product;
 import com.medical.my_medicos.activities.utils.ConstantsDashboard;
@@ -31,52 +34,7 @@ public class CartPublicationActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         binding = ActivityCartPublicationBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
-
-        String docId = Preferences.userRoot().get("docId", "");
         products = new ArrayList<>();
-
-        String url = ConstantsDashboard.GET_CART + "/" + docId + "/get";
-        Log.e("function", url);
-
-        JSONObject requestBody = new JSONObject();
-        MyVolleyRequest.sendPostRequest(getApplicationContext(), url, requestBody, new MyVolleyRequest.VolleyCallback() {
-            @SuppressLint("NotifyDataSetChanged")
-            @Override
-            public void onSuccess(JSONObject response) {
-                try {
-                    JSONArray cartArray = response.getJSONArray("data");
-
-                    for (int i = 0; i < cartArray.length(); i++) {
-                        JSONObject cartItem = cartArray.getJSONObject(i);
-
-                        Product product = new Product(
-                                cartItem.getString("Title"),
-                                cartItem.getString("thumbnail"),
-                                cartItem.getString("Author"),
-                                cartItem.getDouble("Price"),
-                                cartItem.getString("Type"),
-                                cartItem.getString("Category"),
-                                cartItem.getString("id"),
-                                cartItem.getString("Subject")
-                        );
-
-                        products.add(product);
-                        Log.d("product loaded", cartItem.toString());
-                    }
-
-                    adapter.notifyDataSetChanged();
-
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-                Log.d("VolleyResponse", response.toString());
-            }
-
-            @Override
-            public void onError(String error) {
-                Log.e("VolleyError", error);
-            }
-        });
 
         adapter = new CartAdapter(this, products, new CartAdapter.CartListener() {
             @Override
@@ -93,6 +51,7 @@ public class CartPublicationActivity extends AppCompatActivity {
         binding.continueBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+
                 startActivity(new Intent(CartPublicationActivity.this, CheckoutPublicationActivity.class));
             }
         });

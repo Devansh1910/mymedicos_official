@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
 
 import com.medical.my_medicos.activities.publications.utils.Constants;
+import com.medical.my_medicos.activities.utils.ConstantsDashboard;
 import com.medical.my_medicos.databinding.ActivityPaymentPublicationBinding;
 
 public class PaymentPublicationActivity extends AppCompatActivity {
@@ -20,7 +21,7 @@ public class PaymentPublicationActivity extends AppCompatActivity {
         String orderCode = getIntent().getStringExtra("orderCode");
 
         binding.webview.setMixedContentAllowed(true);
-        binding.webview.loadUrl(Constants.PAYMENT_URL + orderCode);
+        binding.webview.loadUrl(ConstantsDashboard.API_BASE_URL + '/' + "checkout" + '/' + orderCode);
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
     }

@@ -1,10 +1,12 @@
 package com.medical.my_medicos.activities.pg.activites.insiders;
 
+import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -31,11 +33,9 @@ import java.util.ArrayList;
 import java.util.Map;
 
 public class WeeklyQuizInsiderActivity extends AppCompatActivity {
-
     private RecyclerView recyclerView;
     private WeeklyQuizAdapterinsider adapter;
     private ArrayList<QuizPGinsider> quizList;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -141,6 +141,10 @@ public class WeeklyQuizInsiderActivity extends AppCompatActivity {
         ArrayList<String> userSelectedOptions = new ArrayList<>();
 
         for (QuizPGinsider quizQuestion : quizList) {
+            if (quizQuestion.getSelectedOption() == null || quizQuestion.getSelectedOption().isEmpty()) {
+                showCustomToast("Respond to every question");
+                return;
+            }
             userSelectedOptions.add(quizQuestion.getSelectedOption());
         }
 
@@ -150,6 +154,21 @@ public class WeeklyQuizInsiderActivity extends AppCompatActivity {
         intent.putExtra("questions", quizList);
         startActivity(intent);
     }
+
+    private void showCustomToast(String message) {
+        LayoutInflater inflater = getLayoutInflater();
+        View layout = inflater.inflate(R.layout.custom_toast, findViewById(R.id.customToastLayout));
+
+        @SuppressLint({"MissingInflatedId", "LocalSuppress"})
+        TextView text = layout.findViewById(R.id.customToastText);
+        text.setText(message);
+
+        Toast toast = new Toast(getApplicationContext());
+        toast.setDuration(Toast.LENGTH_SHORT);
+        toast.setView(layout);
+        toast.show();
+    }
+
 
     private ArrayList<String> compareAnswers(ArrayList<String> userSelectedOptions) {
         ArrayList<String> results = new ArrayList<>();

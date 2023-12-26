@@ -29,9 +29,9 @@
                 android:background="@color/white">
 
                 <ImageView
-                    android:layout_width="@dimen/_120sdp"
-                    android:layout_height="@dimen/_35sdp"
-                    android:src="@drawable/final_logo" />
+                    android:layout_width="@dimen/_130sdp"
+                    android:layout_height="@dimen/_50sdp"
+                    android:src="@drawable/logopfthenew" />
 
                 <LinearLayout
                     android:layout_width="wrap_content"

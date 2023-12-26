@@ -74,7 +74,7 @@ import java.util.prefs.Preferences;
 
 public class HomeFragment extends Fragment {
 
-    private FragmentHomeBinding binding; // Declare binding variable
+    private FragmentHomeBinding binding;
     ImageView jobs,cme,news,publication,update,pg_prep,ugexams,meme;
     MyAdapter adapterjob;
     MyAdapter2 adaptercme;

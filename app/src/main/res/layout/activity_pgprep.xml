@@ -1,17 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+<androidx.constraintlayout.widget.ConstraintLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/swipeRefreshLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/white"
     tools:context=".activities.pg.activites.PgprepActivity">
-
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
 
         <com.google.android.material.appbar.AppBarLayout
             android:id="@+id/appBarLayout"
@@ -47,280 +41,51 @@
                         android:textSize="@dimen/_18sdp"
                         android:fontFamily="@font/roboto_bold"/>
 
-<!--                    <LinearLayout-->
-<!--                        android:id="@+id/totheccart"-->
-<!--                        android:layout_width="wrap_content"-->
-<!--                        android:layout_height="wrap_content"-->
-<!--                        android:orientation="horizontal"-->
-<!--                        android:paddingHorizontal="@dimen/_10ssp"-->
-<!--                        android:background="@drawable/cartbknew">-->
-
-<!--                        <TextView-->
-<!--                            android:id="@+id/cart_title"-->
-<!--                            android:layout_width="wrap_content"-->
-<!--                            android:layout_height="wrap_content"-->
-<!--                            android:text="Performace"-->
-<!--                            android:textStyle="bold"-->
-<!--                            android:textColor="#000"-->
-<!--                            android:gravity="center"-->
-<!--                            android:layout_gravity="center"-->
-<!--                            android:textSize="14sp"-->
-<!--                            android:layout_marginStart="8dp" />-->
-
-<!--                        <com.airbnb.lottie.LottieAnimationView-->
-<!--                            android:id="@+id/dashboardanime"-->
-<!--                            android:layout_width="40dp"-->
-<!--                            android:layout_height="40dp"-->
-<!--                            app:lottie_autoPlay="true"-->
-<!--                            app:lottie_loop="true"-->
-<!--                            app:lottie_rawRes="@raw/dashboard"-->
-<!--                            app:lottie_speed="1" />-->
-
-
-<!--                    </LinearLayout>-->
-
                 </LinearLayout>
 
             </androidx.appcompat.widget.Toolbar>
         </com.google.android.material.appbar.AppBarLayout>
 
-        <LinearLayout
-            android:id="@+id/linearLayout"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@color/green"
-            android:orientation="vertical"
-            android:paddingHorizontal="10dp"
-            android:paddingBottom="10dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/appBarLayout">
-
-            <com.mancj.materialsearchbar.MaterialSearchBar
-                android:id="@+id/searchBarforpg"
-                android:layout_width="match_parent"
-                android:outlineSpotShadowColor="@color/black"
-                android:layout_height="wrap_content"
-                app:mt_hint="Search your favorite topic :)"
-                app:mt_placeholder="Guider :)"
-                app:mt_navIconEnabled="true"
-                app:mt_maxSuggestionsCount="10"
-                app:mt_speechMode="true" />
-        </LinearLayout>
-
-        <androidx.core.widget.NestedScrollView
+        <FrameLayout
+            android:id="@+id/frame_layout_pg"
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_marginTop="8dp"
-            android:fillViewport="true"
+            app:layout_constraintBottom_toTopOf="@+id/bottomappabarpginsider"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/appBarLayout">
+        </FrameLayout>
+
+        <com.google.android.material.bottomappbar.BottomAppBar
+            android:id="@+id/bottomappabarpginsider"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom"
+            android:gravity="bottom"
+            android:backgroundTint="@color/green"
+            app:itemActiveIndicatorStyle="@color/green"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/linearLayout">
+            tools:ignore="BottomAppBar">
 
-            <LinearLayout
+            <com.google.android.material.bottomnavigation.BottomNavigationView
+                android:id="@+id/bottomNavigationViewpginsider"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:padding="10dp">
+                android:layout_height="match_parent"
+                android:background="@color/green"
+                android:layout_gravity="bottom"
+                app:itemHorizontalTranslationEnabled="true"
+                app:itemIconSize="@dimen/_25sdp"
+                app:itemActiveIndicatorStyle="@drawable/item_tint_selector"
+                app:itemIconTint="@drawable/item_tint_selector"
+                app:itemTextColor="@drawable/item_tint_selector"
+                app:labelVisibilityMode="labeled"
+                app:menu="@menu/bottom_navigation_for_pg">
 
-                <androidx.cardview.widget.CardView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    app:cardCornerRadius="10dp">
+            </com.google.android.material.bottomnavigation.BottomNavigationView>
 
-                    <FrameLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content">
+        </com.google.android.material.bottomappbar.BottomAppBar>
 
-                        <ImageView
-                            android:id="@+id/urlopener"
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:src="@drawable/justforbannerdrawable"/>
+</androidx.constraintlayout.widget.ConstraintLayout>
 
-                        <org.imaginativeworld.whynotimagecarousel.ImageCarousel
-                            android:id="@+id/carousel"
-                            android:layout_width="match_parent"
-                            android:layout_height="150dp"
-                            app:showNavigationButtons="false"
-                            app:showCaption="false"
-                            app:autoPlay="true"/>
-
-                    </FrameLayout>
-
-                </androidx.cardview.widget.CardView>
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:paddingTop="@dimen/_5ssp"
-                    android:layout_height="wrap_content">
-
-                    <TextView
-                        android:layout_width="0dp"
-                        android:layout_weight="1"
-                        android:layout_height="wrap_content"
-                        android:text="Question of the Day!"
-                        android:textSize="@dimen/_12ssp"
-                        android:textStyle="bold" />
-
-                    <TextView
-                        android:id="@+id/navigateinsidequestionsexplored"
-                        android:layout_width="0dp"
-                        android:layout_weight="1"
-                        android:layout_height="wrap_content"
-                        android:text="View All"
-                        android:drawablePadding="@dimen/_8ssp"
-                        android:drawableEnd="@drawable/sidearrow"
-                        android:layout_gravity="center"
-                        android:gravity="end"
-                        android:textColor="#676666"
-                        android:textSize="@dimen/_12ssp"
-                        android:textStyle="bold" />
-                </LinearLayout>
-
-                <androidx.cardview.widget.CardView
-                    android:id="@+id/cardView"
-                    android:outlineSpotShadowColor="@color/white"
-                    android:elevation="0dp"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="10dp"
-                    app:cardCornerRadius="10dp">
-
-                    <androidx.recyclerview.widget.RecyclerView
-                        android:id="@+id/perdayquestions"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"/>
-
-                </androidx.cardview.widget.CardView>
-
-                <androidx.cardview.widget.CardView
-                    android:id="@+id/nocardpg"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:backgroundTint="#B7EFE2"
-                    app:cardCornerRadius="@dimen/_100sdp"
-                    android:layout_marginTop="8dp">
-
-                        <TextView
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:text="Come Back Tomorrow!"
-                            android:textSize="16sp"
-                            android:paddingHorizontal="@dimen/_10sdp"
-                            android:paddingVertical="@dimen/_10sdp"
-                            android:fontFamily="@font/inter"
-                            android:layout_gravity="center_horizontal"
-                            android:textColor="@android:color/black"/>
-
-                </androidx.cardview.widget.CardView>
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:paddingTop="@dimen/_5ssp"
-                    android:layout_height="wrap_content">
-
-                    <TextView
-                        android:layout_width="0dp"
-                        android:layout_weight="1"
-                        android:layout_height="wrap_content"
-                        android:text="Most Explored Guides :)"
-                        android:textSize="@dimen/_12ssp"
-                        android:textStyle="bold" />
-
-                    <TextView
-                        android:id="@+id/navigateinsideresource"
-                        android:layout_width="0dp"
-                        android:layout_weight="1"
-                        android:layout_height="wrap_content"
-                        android:text="View All"
-                        android:drawablePadding="@dimen/_8ssp"
-                        android:drawableEnd="@drawable/sidearrow"
-                        android:layout_gravity="center"
-                        android:gravity="end"
-                        android:textColor="#676666"
-                        android:textSize="@dimen/_12ssp"
-                        android:textStyle="bold" />
-                </LinearLayout>
-
-                <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/specialityList"
-                    android:layout_width="match_parent"
-                    android:orientation="horizontal"
-                    android:layout_height="wrap_content" />
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:paddingTop="@dimen/_5ssp"
-                    android:layout_height="wrap_content">
-
-                    <TextView
-                        android:layout_width="0dp"
-                        android:layout_weight="1"
-                        android:layout_height="wrap_content"
-                        android:text="Question Banks"
-                        android:textSize="@dimen/_12ssp"
-                        android:textStyle="bold" />
-
-                    <TextView
-                        android:id="@+id/navigateinsidequestionslist"
-                        android:layout_width="0dp"
-                        android:layout_weight="1"
-                        android:layout_height="wrap_content"
-                        android:text="View All"
-                        android:drawablePadding="@dimen/_8ssp"
-                        android:drawableEnd="@drawable/sidearrow"
-                        android:layout_gravity="center"
-                        android:gravity="end"
-                        android:textColor="#676666"
-                        android:textSize="@dimen/_12ssp"
-                        android:textStyle="bold" />
-                </LinearLayout>
-
-                <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/questionbankList"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal" />
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:paddingTop="@dimen/_5ssp"
-                    android:layout_height="wrap_content">
-
-                    <TextView
-                        android:layout_width="0dp"
-                        android:layout_weight="1"
-                        android:layout_height="wrap_content"
-                        android:text="Video Lectures"
-                        android:textSize="@dimen/_12ssp"
-                        android:textStyle="bold" />
-
-                    <TextView
-                        android:id="@+id/navigateinsidevideoslist"
-                        android:layout_width="0dp"
-                        android:layout_weight="1"
-                        android:layout_height="wrap_content"
-                        android:text="View All"
-                        android:drawablePadding="@dimen/_8ssp"
-                        android:drawableEnd="@drawable/sidearrow"
-                        android:layout_gravity="center"
-                        android:gravity="end"
-                        android:textColor="#676666"
-                        android:textSize="@dimen/_12ssp"
-                        android:textStyle="bold" />
-                </LinearLayout>
-
-                <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/videobankList"
-                    android:orientation="horizontal"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content" />
-
-            </LinearLayout>
-        </androidx.core.widget.NestedScrollView>
-
-    </androidx.constraintlayout.widget.ConstraintLayout>
-
-</androidx.swiperefreshlayout.widget.SwipeRefreshLayout>

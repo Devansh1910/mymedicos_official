@@ -1,5 +1,3 @@
-// CartAdapter.java
-
 package com.medical.my_medicos.activities.publications.adapters;
 
 import static android.content.ContentValues.TAG;
@@ -61,6 +59,7 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.CartViewHolder
         String url = ConstantsDashboard.GET_CART + "/" + docId + "/get";
         JSONObject requestBody = new JSONObject();
         MyVolleyRequest.sendPostRequest(context.getApplicationContext(), url, requestBody, new MyVolleyRequest.VolleyCallback() {
+
             @Override
             public void onSuccess(JSONObject response) {
                 try {
@@ -80,7 +79,7 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.CartViewHolder
                         products.add(product);
                         Log.d("product loaded", childObj.toString());
                     }
-                    notifyDataSetChanged(); // Notify the adapter that the data has changed
+                    notifyDataSetChanged();
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
@@ -131,30 +130,25 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.CartViewHolder
                 quantityDialogBinding.removeBtn.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        getDocId();
-
                         String docId = Preferences.userRoot().get("docId", "");
-                        String productId = Preferences.userRoot().get("docId", "Publications");
 
-                        if (!docId.isEmpty()) {
-                            String url = ConstantsDashboard.GET_CART + "/" + docId + "/remove/" + "WIftp2mE9nDfUTsehLYo";
-                            Log.e("function", url);
+                        RequestQueue queue = Volley.newRequestQueue(context.getApplicationContext());
 
-                            JSONObject requestBody = new JSONObject();
-                            MyVolleyRequest.sendPostRequest(context.getApplicationContext(), url, requestBody, new MyVolleyRequest.VolleyCallback() {
-                                @Override
-                                public void onSuccess(JSONObject response) {
-                                    Log.d("VolleyResponse", response.toString());
-                                }
+                        String url = ConstantsDashboard.GET_CART + "/" + docId + "/remove" + '/' + "WrCBMohrJpfOUQAEo3yJ";
+                        JSONObject requestBody = new JSONObject();
+                        MyVolleyRequest.sendPostRequest(context.getApplicationContext(), url, requestBody, new MyVolleyRequest.VolleyCallback() {
 
-                                @Override
-                                public void onError(String error) {
-                                    Log.e("VolleyError", error);
-                                }
-                            });
-                        } else {
-                            Log.e("DocIdError", "Empty or not available");
-                        }
+                            @Override
+                            public void onSuccess(JSONObject response) {
+                                Log.d("product Removed Successfully", response.toString());
+
+                            }
+
+                            @Override
+                            public void onError(String error) {
+                                Log.e("VolleyError", error);
+                            }
+                        });
                     }
                 });
                 quantityDialogBinding.saveBtn.setOnClickListener(new View.OnClickListener() {

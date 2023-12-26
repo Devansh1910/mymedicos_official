@@ -166,38 +166,6 @@
                         android:layout_height="1dp"
                         android:background="@color/white" />
 
-                    <EditText
-                        android:id="@+id/nameBox"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_margin="10dp"
-                        android:background="@drawable/spinner_back"
-                        android:ems="10"
-                        android:hint="Full Name"
-                        android:inputType="none"
-                        android:padding="15dp" />
-
-                    <EditText
-                        android:id="@+id/emailBox"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_margin="10dp"
-                        android:background="@drawable/spinner_back"
-                        android:ems="10"
-                        android:hint="Email Address"
-                        android:inputType="none"
-                        android:padding="15dp" />
-
-                    <EditText
-                        android:id="@+id/phoneBox"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_margin="10dp"
-                        android:background="@drawable/spinner_back"
-                        android:ems="10"
-                        android:hint="Phone Number"
-                        android:inputType="none"
-                        android:padding="15dp" />
 
                     <EditText
                         android:id="@+id/commentBox"

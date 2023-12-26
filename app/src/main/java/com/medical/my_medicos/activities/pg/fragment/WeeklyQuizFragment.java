@@ -40,14 +40,11 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 
 public class WeeklyQuizFragment extends Fragment {
-
     private FragmentWeeklyQuizBinding binding;
     private WeeklyQuizAdapter quizAdapter;
     private ArrayList<QuizPG> quizpg;
-
     String title1;
     private String quizTitle;
-
     public static WeeklyQuizFragment newInstance(int catId, String title) {
         WeeklyQuizFragment fragment = new WeeklyQuizFragment();
         Bundle args = new Bundle();
