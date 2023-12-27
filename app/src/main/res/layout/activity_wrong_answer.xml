@@ -1,35 +1,44 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
     tools:context=".activities.pg.animations.WrongAnswerActivity">
-
-<!--    <com.airbnb.lottie.LottieAnimationView-->
-<!--        android:id="@+id/wronganswer"-->
-<!--        android:layout_width="match_parent"-->
-<!--        android:layout_height="match_parent"-->
-<!--        app:layout_constraintStart_toStartOf="parent"-->
-<!--        app:layout_constraintEnd_toEndOf="parent"-->
-<!--        app:layout_constraintTop_toTopOf="parent"-->
-<!--        app:lottie_autoPlay="true"-->
-<!--        app:lottie_rawRes="@raw/congrats"-->
-<!--        app:lottie_loop="false"-->
-<!--        app:lottie_speed="1" />-->
 
     <com.airbnb.lottie.LottieAnimationView
         android:id="@+id/wronganime"
-        android:layout_width="300dp"
+        android:layout_width="match_parent"
         android:layout_height="300dp"
         app:lottie_autoPlay="true"
-        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:lottie_loop="false"
         app:lottie_rawRes="@raw/wrong"
-        app:lottie_speed="1" />
+        app:lottie_speed="1"/>
 
+    <TextView
+        android:id="@+id/correctforperdayquestion"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Correct"
+        android:layout_marginBottom="@dimen/_20sdp"
+        android:textColor="@color/unselected"
+        android:textStyle="bold"
+        android:textAlignment="center"
+        android:textSize="@dimen/_20sdp"
+        android:fontFamily="@font/inter"/>
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+    <TextView
+        android:id="@+id/descriptionforperdayquestion"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Description"
+        android:textColor="@color/grey"
+        android:textStyle="bold"
+        android:textAlignment="center"
+        android:textSize="@dimen/_14sdp"
+        android:fontFamily="@font/inter"/>
+</LinearLayout>

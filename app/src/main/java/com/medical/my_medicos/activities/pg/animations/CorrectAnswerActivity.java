@@ -31,6 +31,6 @@ public class CorrectAnswerActivity extends AppCompatActivity {
                 startActivity(intent);
                 finish();
             }
-        }, 1800);
+        }, 10000);
     }
 }

@@ -35,11 +35,14 @@ import com.android.volley.toolbox.Volley;
 import com.google.android.material.bottomappbar.BottomAppBar;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.medical.my_medicos.R;
+import com.medical.my_medicos.activities.home.HomeActivity;
 import com.medical.my_medicos.activities.home.fragments.ClubFragment;
 import com.medical.my_medicos.activities.home.fragments.HomeFragment;
 import com.medical.my_medicos.activities.home.fragments.SlideshowFragment;
+import com.medical.my_medicos.activities.home.sidedrawer.HomeSideActivity;
 import com.medical.my_medicos.activities.news.News;
 import com.medical.my_medicos.activities.news.NewsAdapter;
+import com.medical.my_medicos.activities.pg.activites.coins.CreditsActivity;
 import com.medical.my_medicos.activities.pg.activites.internalfragments.HomePgFragment;
 import com.medical.my_medicos.activities.pg.activites.internalfragments.NeetExamFragment;
 import com.medical.my_medicos.activities.pg.activites.internalfragments.PreparationPgFragment;
@@ -107,6 +110,9 @@ public class  PgprepActivity extends AppCompatActivity {
 
         HomePgFragment homeFragment = HomePgFragment.newInstance();
         replaceFragment(homeFragment);
+
+        LinearLayout openpgdrawerIcon = findViewById(R.id.creditspoints);
+        openpgdrawerIcon.setOnClickListener(v -> openHomeSidePgActivity());
     }
 
 
@@ -142,6 +148,11 @@ public class  PgprepActivity extends AppCompatActivity {
         });
 
 
+    }
+
+    public void openHomeSidePgActivity() {
+        Intent settingsIntent = new Intent(PgprepActivity.this, CreditsActivity.class);
+        startActivity(settingsIntent);
     }
 
     private void replaceFragment(Fragment fragment) {
