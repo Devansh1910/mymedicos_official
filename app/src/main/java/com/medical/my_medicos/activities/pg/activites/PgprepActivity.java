@@ -23,6 +23,7 @@ import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import com.airbnb.lottie.LottieAnimationView;
@@ -111,10 +112,17 @@ public class  PgprepActivity extends AppCompatActivity {
         HomePgFragment homeFragment = HomePgFragment.newInstance();
         replaceFragment(homeFragment);
 
+        ImageView backToHomeImageView = findViewById(R.id.backtothehomefrompg);
+        backToHomeImageView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                onBackPressed();
+            }
+        });
+
         LinearLayout openpgdrawerIcon = findViewById(R.id.creditspoints);
         openpgdrawerIcon.setOnClickListener(v -> openHomeSidePgActivity());
     }
-
 
     private void setupBottomAppBar() {
         BottomAppBar bottomAppBar = binding.bottomappabarpginsider;
