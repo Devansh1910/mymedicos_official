@@ -6,9 +6,11 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
+import android.widget.ImageView;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -18,6 +20,8 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.medical.my_medicos.R;
+import com.medical.my_medicos.activities.pg.activites.internalfragments.HomePgFragment;
 import com.medical.my_medicos.activities.publications.activity.insiders.CategoryPublicationInsiderActivity;
 import com.medical.my_medicos.activities.publications.adapters.CategoryAdapter;
 import com.medical.my_medicos.activities.publications.adapters.ProductAdapter;
@@ -81,8 +85,16 @@ public class PublicationActivity extends AppCompatActivity {
                 startActivity(new Intent(PublicationActivity.this, UserContentActivity.class));
             }
         });
-    }
 
+
+        ImageView backToHomeImageView = findViewById(R.id.backtothehomefrompublication);
+        backToHomeImageView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                onBackPressed();
+            }
+        });
+    }
     private void initSlider() {
         getRecentOffers();
     }
