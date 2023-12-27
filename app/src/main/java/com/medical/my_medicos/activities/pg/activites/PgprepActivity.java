@@ -2,6 +2,7 @@ package com.medical.my_medicos.activities.pg.activites;
 
 import static androidx.media3.common.MediaLibraryInfo.TAG;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
 import androidx.fragment.app.Fragment;
@@ -19,6 +20,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.LinearLayout;
@@ -42,6 +44,9 @@ import com.medical.my_medicos.activities.pg.activites.internalfragments.HomePgFr
 import com.medical.my_medicos.activities.pg.activites.internalfragments.NeetExamFragment;
 import com.medical.my_medicos.activities.pg.activites.internalfragments.PreparationPgFragment;
 import com.medical.my_medicos.activities.pg.adapters.QuestionBankPGAdapter;
+import com.medical.my_medicos.activities.pg.fragment.QuestionbankFragment;
+import com.medical.my_medicos.activities.pg.fragment.VideoBankFragment;
+import com.medical.my_medicos.activities.pg.fragment.WeeklyQuizFragment;
 import com.medical.my_medicos.activities.pg.model.QuestionPG;
 import com.medical.my_medicos.activities.publications.model.Category;
 import com.medical.my_medicos.activities.slideshow.insider.SpecialitySlideshowInsiderActivity;
@@ -88,6 +93,8 @@ public class  PgprepActivity extends AppCompatActivity {
     BottomNavigationView bottomNavigationPg;
     BottomAppBar bottomAppBarPg;
 
+    private int lastSelectedItemId = 0;
+
     private SwipeRefreshLayout swipeRefreshLayout;
 
     @Override
@@ -96,45 +103,73 @@ public class  PgprepActivity extends AppCompatActivity {
         binding = ActivityPgprepBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
-        bottomAppBarPg = findViewById(R.id.bottomappabarpginsider);
+        setupBottomAppBar();
 
-        replaceFragmentPg(new HomePgFragment());
-        bottomNavigationPg = findViewById(R.id.bottomNavigationViewpginsider);
+        HomePgFragment homeFragment = HomePgFragment.newInstance();
+        replaceFragment(homeFragment);
+    }
+
+
+    private void setupBottomAppBar() {
+        BottomAppBar bottomAppBar = binding.bottomappabarpginsider;
+        bottomNavigationPg = bottomAppBar.findViewById(R.id.bottomNavigationViewpginsider);
         bottomNavigationPg.setBackground(null);
 
         bottomNavigationPg.setOnItemSelectedListener(item -> {
-            int frgId = item.getItemId();
-            Log.d("Something went wrong..","Code Fucked");
-            if (frgId == R.id.home) {
-                replaceFragmentPg(new HomePgFragment());
-            } else if (frgId == R.id.work) {
-                replaceFragmentPg(new NeetExamFragment());
-            } else {
-                replaceFragmentPg(new PreparationPgFragment());
+            int itemId = item.getItemId();
+
+            if (itemId == R.id.navigation_pghome) {
+                if (lastSelectedItemId != R.id.navigation_pghome) {
+                    replaceFragment(HomePgFragment.newInstance());
+                    lastSelectedItemId = R.id.navigation_pghome;
+                }
+                return true;
+            } else if (itemId == R.id.navigation_pgneet) {
+                if (lastSelectedItemId != R.id.navigation_pgneet) {
+                    replaceFragment(NeetExamFragment.newInstance());
+                    lastSelectedItemId = R.id.navigation_pgneet;
+                }
+                return true;
+            } else if (itemId == R.id.navigation_pgpreparation) {
+                if (lastSelectedItemId != R.id.navigation_pgpreparation) {
+                    replaceFragment(PreparationPgFragment.newInstance());
+                    lastSelectedItemId = R.id.navigation_pgpreparation;
+                }
+                return true;
             }
-            return true;
+
+            return false;
         });
+
 
     }
 
-    private void replaceFragmentPg(Fragment fragment) {
+    private void replaceFragment(Fragment fragment) {
         FragmentManager fragmentManager = getSupportFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
         fragmentTransaction.replace(R.id.frame_layout_pg, fragment);
         fragmentTransaction.addToBackStack(null);
         fragmentTransaction.commit();
-        Log.d("BackStackCount", String.valueOf(fragmentManager.getBackStackEntryCount()));
     }
 
     @Override
     public void onBackPressed() {
-        Log.d("BackPressed", "Back button pressed");
-        FragmentManager fragmentManager = getSupportFragmentManager();
-        if (fragmentManager.getBackStackEntryCount() > 0) {
-            fragmentManager.popBackStack(); // Pop the fragment from the back stack
-            Log.d("BackStackCount", String.valueOf(fragmentManager.getBackStackEntryCount()));
+        Fragment currentFragment = getSupportFragmentManager().findFragmentById(R.id.frame_layout_pg);
+        if (currentFragment instanceof HomePgFragment) {
+            finish();
         } else {
             super.onBackPressed();
+        }
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                finish();
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
         }
     }
 

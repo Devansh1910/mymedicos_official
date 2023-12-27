@@ -12,11 +12,12 @@ import com.medical.my_medicos.R;
 
 public class NeetExamFragment extends Fragment {
 
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-
-        }
+    public static NeetExamFragment newInstance() {
+        NeetExamFragment fragment = new NeetExamFragment();
+        Bundle args = new Bundle();
+        fragment.setArguments(args);
+        return fragment;
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,

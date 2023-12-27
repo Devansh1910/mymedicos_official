@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
+    android:background="@color/backgroundcolor"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".activities.pg.activites.internalfragments.HomePgFragment">
@@ -9,11 +10,13 @@
     <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
         android:id="@+id/swipeRefreshLayoutPg"
         android:layout_width="match_parent"
+        android:background="@color/backgroundcolor"
         android:layout_height="match_parent">
 
         <androidx.core.widget.NestedScrollView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:background="@color/backgroundcolor"
             android:fillViewport="true"
             app:layout_constraintBottom_toTopOf="@id/bottomappabarpg"
             app:layout_constraintEnd_toEndOf="parent"
@@ -22,6 +25,7 @@
 
             <LinearLayout
                 android:layout_width="match_parent"
+                android:background="@color/backgroundcolor"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
                 android:padding="10dp">
@@ -64,7 +68,7 @@
                         android:layout_width="40dp"
                         android:layout_height="40dp"
                         app:lottie_autoPlay="true"
-                        app:lottie_loop="true"
+                        app:lottie_loop="false"
                         app:lottie_rawRes="@raw/questionnn"
                         app:lottie_speed="1" />
 
@@ -72,9 +76,10 @@
                         android:layout_width="0dp"
                         android:layout_weight="1"
                         android:layout_margin="@dimen/_5sdp"
-                        android:background="@color/white"
+                        android:background="@color/backgroundcolor"
                         android:layout_height="wrap_content"
                         android:text="DAILY BRAINSTORM"
+                        android:textColor="@color/unselected"
                         android:layout_gravity="center_vertical"
                         android:gravity="start"
                         android:padding="@dimen/_8sdp"
@@ -83,21 +88,11 @@
 
                 </LinearLayout>
 
-                <androidx.cardview.widget.CardView
-                    android:id="@+id/cardView"
-                    android:outlineSpotShadowColor="@color/white"
-                    android:elevation="0dp"
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/perdayquestions"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="10dp"
-                    app:cardCornerRadius="10dp">
-
-                    <androidx.recyclerview.widget.RecyclerView
-                        android:id="@+id/perdayquestions"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"/>
-
-                </androidx.cardview.widget.CardView>
+                    android:elevation="@dimen/_2sdp"
+                    android:layout_height="wrap_content"/>
 
                 <androidx.cardview.widget.CardView
                     android:id="@+id/nocardpg"
@@ -121,10 +116,89 @@
 
                 </androidx.cardview.widget.CardView>
 
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_gravity="center"
+                    android:gravity="center_vertical"
+                    android:layout_height="wrap_content">
+
+                    <com.airbnb.lottie.LottieAnimationView
+                        android:id="@+id/exploreanime"
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        app:lottie_autoPlay="true"
+                        android:scaleX="1.2"
+                        android:scaleY="1.2"
+                        app:lottie_loop="true"
+                        app:lottie_rawRes="@raw/suggestanime"
+                        app:lottie_speed="1" />
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_weight="1"
+                        android:layout_margin="@dimen/_5sdp"
+                        android:background="@color/backgroundcolor"
+                        android:layout_height="wrap_content"
+                        android:text="SUGGESTED TEST"
+                        android:textColor="@color/unselected"
+                        android:layout_gravity="center_vertical"
+                        android:gravity="start"
+                        android:padding="@dimen/_8sdp"
+                        android:textSize="@dimen/_12ssp"
+                        android:textStyle="bold" />
+
+                </LinearLayout>
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/specialexam"
+                    android:layout_width="match_parent"
+                    android:elevation="@dimen/_2sdp"
+                    android:layout_marginBottom="@dimen/_100sdp"
+                    android:layout_height="wrap_content"/>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_gravity="center_vertical"
+                    android:gravity="center_vertical"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_weight="0.5"
+                        android:background="@drawable/sharedarkbtnforpromotion"
+                        android:layout_height="wrap_content"
+                        android:text="PROMOTE"
+                        android:layout_marginVertical="@dimen/_10sdp"
+                        android:drawableEnd="@drawable/share"
+                        android:textColor="@color/white"
+                        android:drawablePadding="@dimen/_5sdp"
+                        android:layout_gravity="center_vertical"
+                        android:gravity="center_vertical"
+                        android:padding="@dimen/_8sdp"
+                        android:textSize="@dimen/_12ssp"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_weight="1"
+                        android:layout_height="wrap_content"
+                        android:text="with Love"
+                        android:layout_marginVertical="@dimen/_10sdp"
+                        android:textColor="@color/unselected"
+                        android:drawablePadding="@dimen/_5sdp"
+                        android:layout_gravity="center_vertical"
+                        android:gravity="center_vertical"
+                        android:padding="@dimen/_8sdp"
+                        android:textSize="@dimen/_12ssp"
+                        android:textStyle="bold" />
+
+                </LinearLayout>
+
             </LinearLayout>
 
         </androidx.core.widget.NestedScrollView>
 
     </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 
-</FrameLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -58,6 +58,9 @@ public class RegisterActivity extends AppCompatActivity {
         mAuth = FirebaseAuth.getInstance();
         progressDialog = new ProgressDialog(this);
 
+        userMap.put("Streak", 0);
+        userMap.put("QuizToday", "default");
+
         setupSpinners();
         register();
     }
@@ -175,9 +178,12 @@ public class RegisterActivity extends AppCompatActivity {
                                 @Override
                                 public void onComplete(@NonNull Task<Void> task) {
                                     if (task.isSuccessful()) {
+                                        // Use Number type for Streak in createUserInFirestore
                                         createUserInFirestore(mail, name, phoneNo,
                                                 userMap.get("location").toString(),
-                                                userMap.get("interest").toString());
+                                                userMap.get("interest").toString(),
+                                                userMap.get("QuizToday").toString(),
+                                                Integer.parseInt(userMap.get("Streak").toString()));
 
                                         Intent i = new Intent(RegisterActivity.this, MainActivity.class);
                                         startActivity(i);
@@ -190,6 +196,7 @@ public class RegisterActivity extends AppCompatActivity {
                                         progressDialog.dismiss();
                                     }
                                 }
+
                             });
                         } else {
                             Toast.makeText(getApplicationContext(), "Registration Failed", Toast.LENGTH_SHORT).show();
@@ -201,12 +208,14 @@ public class RegisterActivity extends AppCompatActivity {
         });
     }
 
-    private void createUserInFirestore(String mail, String name, String phoneNo, String location, String interest) {
+    private void createUserInFirestore(String mail, String name, String phoneNo, String location, String interest, String quiztoday,int streak) {
         Map<String, Object> user = new HashMap<>();
         user.put("Email ID", mail);
         user.put("Name", name);
         user.put("Phone Number", phoneNo);
         user.put("Location", location);
+        user.put("QuizToday", quiztoday);
+        user.put("Streak", streak);
         user.put("Interest", interest);
         user.put("Prefix", userMap.get("prefix").toString());
         user.put("MCN verified", false);

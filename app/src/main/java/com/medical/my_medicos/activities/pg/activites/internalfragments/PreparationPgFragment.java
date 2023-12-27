@@ -9,14 +9,16 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.medical.my_medicos.R;
+import com.medical.my_medicos.activities.pg.fragment.WeeklyQuizFragment;
 
 public class PreparationPgFragment extends Fragment {
 
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-
-        }
+    public static PreparationPgFragment newInstance() {
+        PreparationPgFragment fragment = new PreparationPgFragment();
+        Bundle args = new Bundle();
+        fragment.setArguments(args);
+        return fragment;
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,

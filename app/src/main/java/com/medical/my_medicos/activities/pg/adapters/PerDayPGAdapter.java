@@ -52,6 +52,11 @@ public class PerDayPGAdapter extends RecyclerView.Adapter<PerDayPGAdapter.DailyQ
     private String selectedOption;
     private long lastSelectionTimestamp;
 
+    FirebaseAuth mAuth = FirebaseAuth.getInstance();
+    FirebaseUser currentUser = mAuth.getCurrentUser();
+    String user = currentUser.getPhoneNumber();
+
+
     public PerDayPGAdapter(Context context, ArrayList<PerDayPG> questions) {
         this.context = context;
         this.dailyquestions = questions;
@@ -79,6 +84,7 @@ public class PerDayPGAdapter extends RecyclerView.Adapter<PerDayPGAdapter.DailyQ
             @Override
             public void onClick(View view) {
                 handleOptionClick(holder, "A");
+                compareAndShowResult(holder, dailyquestion);
             }
         });
 
@@ -86,6 +92,7 @@ public class PerDayPGAdapter extends RecyclerView.Adapter<PerDayPGAdapter.DailyQ
             @Override
             public void onClick(View view) {
                 handleOptionClick(holder, "B");
+                compareAndShowResult(holder, dailyquestion);
             }
         });
 
@@ -93,6 +100,7 @@ public class PerDayPGAdapter extends RecyclerView.Adapter<PerDayPGAdapter.DailyQ
             @Override
             public void onClick(View view) {
                 handleOptionClick(holder, "C");
+                compareAndShowResult(holder, dailyquestion);
             }
         });
 
@@ -100,9 +108,9 @@ public class PerDayPGAdapter extends RecyclerView.Adapter<PerDayPGAdapter.DailyQ
             @Override
             public void onClick(View view) {
                 handleOptionClick(holder, "D");
+                compareAndShowResult(holder, dailyquestion);
             }
         });
-
         FirebaseAuth mAuth = FirebaseAuth.getInstance();
         FirebaseUser currentUser = mAuth.getCurrentUser();
         String user=currentUser.getPhoneNumber();
@@ -170,7 +178,6 @@ public class PerDayPGAdapter extends RecyclerView.Adapter<PerDayPGAdapter.DailyQ
     }
 
     private void handleOptionClick(DailyQuestionViewHolder holder, String selectedOption) {
-        // Set the background color for the selected option
         resetOptionStyle(holder);
         switch (selectedOption) {
             case "A":
@@ -188,6 +195,62 @@ public class PerDayPGAdapter extends RecyclerView.Adapter<PerDayPGAdapter.DailyQ
         }
         this.selectedOption = selectedOption;
     }
+
+    private void compareAndShowResult(DailyQuestionViewHolder holder, PerDayPG dailyquestion) {
+        if (selectedOption != null) {
+            lastSelectionTimestamp = System.currentTimeMillis();
+            holder.binding.questionsbox.setVisibility(View.GONE);
+
+            String correctAnswer = dailyquestion.getSubmitDailyQuestion();
+            String docId = Preferences.userRoot().get("docId", "");
+
+            if (selectedOption.equals(correctAnswer)) {
+                showCorrectAnswerPopup();
+                FirebaseFirestore db = FirebaseFirestore.getInstance();
+                CollectionReference usersCollection = db.collection("users");
+
+                Query query = usersCollection.whereEqualTo("Phone Number", user);
+
+                query.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @OptIn(markerClass = UnstableApi.class)
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        if (task.isSuccessful()) {
+                            for (QueryDocumentSnapshot document : task.getResult()) {
+                                updateDocument(document.getId(), String.valueOf(dailyquestion.getidQuestion()));
+                            }
+                        } else {
+                            Log.w(TAG, "Error getting documents.", task.getException());
+                        }
+                    }
+                });
+
+            } else {
+                showWrongAnswerPopup();
+                FirebaseFirestore db = FirebaseFirestore.getInstance();
+                CollectionReference usersCollection = db.collection("users");
+
+                Query query = usersCollection.whereEqualTo("Phone Number", user);
+
+                query.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @OptIn(markerClass = UnstableApi.class)
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        if (task.isSuccessful()) {
+                            for (QueryDocumentSnapshot document : task.getResult()) {
+                                updateDocument1(document.getId(), String.valueOf(dailyquestion.getidQuestion()));
+                            }
+                        } else {
+                            Log.w(TAG, "Error getting documents.", task.getException());
+                        }
+                    }
+                });
+            }
+        } else {
+            showToast("Please select an option");
+        }
+    }
+
 
     private void setOptionSelectedStyle(TextView option) {
         option.setBackgroundResource(R.drawable.selectedoptionbk);
@@ -248,19 +311,19 @@ public class PerDayPGAdapter extends RecyclerView.Adapter<PerDayPGAdapter.DailyQ
     }
 
     private void resetOptionStyle(DailyQuestionViewHolder holder) {
-        holder.binding.optionA.setBackgroundResource(R.drawable.categorynewbk);
+        holder.binding.optionA.setBackgroundResource(R.drawable.questionsoptionbk);
         holder.binding.optionA.setTextColor(Color.BLACK);
         holder.binding.optionA.setTypeface(null, Typeface.NORMAL);
 
-        holder.binding.optionB.setBackgroundResource(R.drawable.categorynewbk);
+        holder.binding.optionB.setBackgroundResource(R.drawable.questionsoptionbk);
         holder.binding.optionB.setTextColor(Color.BLACK);
         holder.binding.optionB.setTypeface(null, Typeface.NORMAL);
 
-        holder.binding.optionC.setBackgroundResource(R.drawable.categorynewbk);
+        holder.binding.optionC.setBackgroundResource(R.drawable.questionsoptionbk);
         holder.binding.optionC.setTextColor(Color.BLACK);
         holder.binding.optionC.setTypeface(null, Typeface.NORMAL);
 
-        holder.binding.optionD.setBackgroundResource(R.drawable.categorynewbk);
+        holder.binding.optionD.setBackgroundResource(R.drawable.questionsoptionbk);
         holder.binding.optionD.setTextColor(Color.BLACK);
         holder.binding.optionD.setTypeface(null, Typeface.NORMAL);
     }

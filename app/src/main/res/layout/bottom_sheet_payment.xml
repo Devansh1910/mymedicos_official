@@ -1,0 +1,70 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/flag_transparent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:elevation="@dimen/_5sdp"
+        android:layout_margin="@dimen/_10sdp"
+        android:background="@drawable/questionsoptionbk"
+        android:id="@+id/paymentpart"
+        android:orientation="horizontal"
+        android:padding="@dimen/_10ssp">
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="match_parent"
+            android:layout_gravity="center_vertical"
+            android:gravity="center"
+            android:textStyle="bold"
+            android:text="Purchase"
+            android:textSize="@dimen/_16ssp"
+            android:textColor="@color/unselected"
+            android:clickable="true"
+            android:focusable="true"
+            android:id="@+id/textClickMe" />
+
+        <com.airbnb.lottie.LottieAnimationView
+            android:layout_width="35dp"
+            android:layout_height="35dp"
+            app:lottie_autoPlay="true"
+            android:scaleY="1.5"
+            android:scaleX="1.5"
+            app:lottie_loop="true"
+            app:lottie_rawRes="@raw/moneynew"
+            app:lottie_speed="1" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:elevation="@dimen/_5sdp"
+        android:layout_margin="@dimen/_10sdp"
+        android:background="@drawable/categorynewbk"
+        android:id="@+id/demotest"
+        android:orientation="horizontal"
+        android:padding="@dimen/_10ssp">
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="match_parent"
+            android:layout_gravity="center_vertical"
+            android:gravity="center"
+            android:textStyle="bold"
+            android:text="Take a Demo Exam"
+            android:textSize="@dimen/_16ssp"
+            android:textColor="@color/unselected"
+            android:clickable="true"
+            android:focusable="true"
+            android:id="@+id/demoClickMe" />
+
+    </LinearLayout>
+
+</LinearLayout>

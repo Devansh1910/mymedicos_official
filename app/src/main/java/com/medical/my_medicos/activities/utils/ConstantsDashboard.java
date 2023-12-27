@@ -12,19 +12,14 @@ public class ConstantsDashboard {
     public static String GET_SPECIALITY_ALL_PRODUCT = API_BASE_URL + "/api/publications/all";
     public static String GET_SPECIALITY_PRODUCT = API_BASE_URL + "api/publications/id/";
     public static String GET_CART = API_BASE_URL + "api/ecom/cart";
-
     public static String GET_ORDER_ID = API_BASE_URL + "api/ecom/checkout/generateOrder/";
-
     public static String GET_CHECKOUT_PAGE_URL = API_BASE_URL + "checkout/generateOrder/";
-
-
     public static String GET_PG_SLIDER_URL = API_BASE_URL + "/api/sliders/pg";
     public static String GET_NEWS_SLIDER_URL = API_BASE_URL + "/api/sliders/news";
     public static String GET_SLIDESHOW_SLIDER_URL = API_BASE_URL + "/api/sliders/slideshow";
     public static String GET_PG_QUESTIONBANK_URL_HOME = API_BASE_URL + "api/notes/home";
     public static String GET_PG_QUESTIONBANK_URL = API_BASE_URL + "api/notes";
     public static String GET_PG_VIDEOS_URL_HOME = API_BASE_URL + "api/videos/home";
-
     public static String GET_PG_VIDEOS_URL = API_BASE_URL + "api/videos/Anatomy";
     public static String GET_HOME_SLIDER_URL = API_BASE_URL + "/api/sliders/home";
     public static String GET_UPDATES_SLIDER_URL = API_BASE_URL + "/api/sliders/updates";
