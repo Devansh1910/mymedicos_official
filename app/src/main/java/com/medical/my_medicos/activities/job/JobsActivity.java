@@ -2,6 +2,7 @@ package com.medical.my_medicos.activities.job;
 
 import static android.content.ContentValues.TAG;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -11,6 +12,8 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.Spinner;
 
 import androidx.annotation.NonNull;
@@ -23,6 +26,9 @@ import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager.widget.ViewPager;
 import androidx.viewpager2.widget.ViewPager2;
 
+import com.medical.my_medicos.activities.cme.CmeActivity;
+import com.medical.my_medicos.activities.guide.CmeGuideActivity;
+import com.medical.my_medicos.activities.guide.JobGuideActivity;
 import com.medical.my_medicos.activities.job.category.JobsApplyActivity2;
 import com.medical.my_medicos.activities.job.category.JobsPostedYou;
 import com.medical.my_medicos.adapter.job.MyAdapter6;
@@ -69,8 +75,11 @@ public class JobsActivity extends AppCompatActivity {
     Toolbar toolbar;
     TabLayout tab;
     ViewPager viewPager;
+
+    ImageView cart_icon;
 //    private ActivityYourActivityBinding binding;
 
+    @SuppressLint("MissingInflatedId")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -83,6 +92,15 @@ public class JobsActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
 //........................
+
+        cart_icon = findViewById(R.id.cart_icon);
+        cart_icon.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent i = new Intent(JobsActivity.this, JobGuideActivity.class);
+                startActivity(i);
+            }
+        });
 
 //.........................
         floatingActionButton=findViewById(R.id.floatingActionButton);

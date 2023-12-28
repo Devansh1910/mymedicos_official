@@ -3,6 +3,7 @@ package com.medical.my_medicos.activities.profile;
 import android.annotation.SuppressLint;
 import android.app.Dialog;
 import android.app.ProgressDialog;
+import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.text.TextUtils;
@@ -11,6 +12,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -29,6 +31,9 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.medical.my_medicos.activities.guide.UgGuideActivity;
+import com.medical.my_medicos.activities.guide.VerficationGuideActivity;
+import com.medical.my_medicos.activities.ug.UgExamActivity;
 
 import java.util.HashMap;
 
@@ -41,6 +46,8 @@ public class Personalinfo extends AppCompatActivity {
     Button verificationbtnformedical;
     FirebaseFirestore mcnumber = FirebaseFirestore.getInstance();
     EditText medicalcouncilnumber;
+
+    LinearLayout viewinstruction;
 
     public FirebaseDatabase db = FirebaseDatabase.getInstance();
     public DatabaseReference medicalref = db.getReference().child("Medical Council Number Request");
@@ -60,6 +67,15 @@ public class Personalinfo extends AppCompatActivity {
             actionBar.setDisplayHomeAsUpEnabled(true);
             actionBar.setHomeAsUpIndicator(R.drawable.arrowbackforappbar);
         }
+
+        viewinstruction = findViewById(R.id.viewinstruction);
+        viewinstruction.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent i = new Intent(Personalinfo.this, VerficationGuideActivity.class);
+                startActivity(i);
+            }
+        });
 
         progressDialog = new ProgressDialog(this);
         medicalcouncilnumber = findViewById(R.id.mcnumber);

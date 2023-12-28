@@ -30,11 +30,11 @@
                 android:scaleType="centerCrop"
                 app:srcCompat="@drawable/placeholder" />
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_weight="1"
-            android:layout_height="match_parent"
-            android:orientation="vertical">
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_weight="1"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -50,7 +50,7 @@
                     android:text="TextView"
                     android:textSize="18dp"
                     android:textStyle="bold"
-                    android:fontFamily="@font/roboto_bold"
+                    android:fontFamily="@font/inter"
                     android:maxLines="1"
                     android:ellipsize="end"
                     android:textColor="@color/black" />
@@ -65,7 +65,7 @@
                     android:textSize="16sp"
                     android:layout_gravity="end"
                     android:textStyle="bold"
-                    android:fontFamily="@font/roboto_bold"
+                    android:fontFamily="@font/inter"
                     android:maxLines="1"
                     android:ellipsize="end"
                     android:textColor="#878383" />
@@ -78,6 +78,7 @@
                 android:layout_height="wrap_content"
                 android:gravity="bottom"
                 android:maxEms="3"
+                android:fontFamily="@font/inter"
                 android:maxLines="3"
                 android:paddingBottom="@dimen/_2sdp"
                 android:layout_marginLeft="5dp"
@@ -88,5 +89,6 @@
 
         </LinearLayout>
         </LinearLayout>
+
     </androidx.cardview.widget.CardView>
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -75,14 +75,14 @@ public class NewsDetailedActivity extends AppCompatActivity {
                                 documentSnapshot.getString("thumbnail"),
                                 documentSnapshot.getString("Description"),
                                 documentSnapshot.getString("Time"),
-                                documentSnapshot.getString("URL")
+                                documentSnapshot.getString("URL"),
+                                documentSnapshot.getString("type")
+
                         );
                     } else {
-                        // Handle the case where the document does not exist
                     }
                 })
                 .addOnFailureListener(e -> {
-                    // Handle failure
                 });
     }
 

@@ -32,7 +32,37 @@
         tools:replace="android:label"
         tools:targetApi="31">
         <activity
-            android:name=".activities.pg.activites.coins.CreditsActivity"
+            android:name=".activities.guide.VerficationGuideActivity"
+            android:exported="false" />
+        <activity
+            android:name=".activities.guide.ProfileGuideActivity"
+            android:exported="false" />
+        <activity
+            android:name=".activities.guide.UniversityGuidesActivity"
+            android:exported="false" />
+        <activity
+            android:name=".activities.guide.PgGuideActivity"
+            android:exported="false" />
+        <activity
+            android:name=".activities.guide.JobGuideActivity"
+            android:exported="false" />
+        <activity
+            android:name=".activities.guide.NewsGuideActivity"
+            android:exported="false" />
+        <activity
+            android:name=".activities.guide.LibraryGuideActivity"
+            android:exported="false" />
+        <activity
+            android:name=".activities.guide.CmeGuideActivity"
+            android:exported="false" />
+        <activity
+            android:name=".activities.guide.UgGuideActivity"
+            android:exported="false" />
+        <activity
+            android:name=".activities.pg.activites.extras.RecetUpdatesNoticeActivity"
+            android:exported="false" />
+        <activity
+            android:name=".activities.pg.activites.extras.CreditsActivity"
             android:exported="false" />
         <activity
             android:name=".activities.pg.activites.ResultActivity"

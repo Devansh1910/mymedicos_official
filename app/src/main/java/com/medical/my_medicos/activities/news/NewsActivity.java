@@ -6,8 +6,11 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import android.annotation.SuppressLint;
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
+import android.widget.LinearLayout;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -16,6 +19,9 @@ import com.android.volley.toolbox.Volley;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.medical.my_medicos.R;
+import com.medical.my_medicos.activities.guide.JobGuideActivity;
+import com.medical.my_medicos.activities.guide.NewsGuideActivity;
+import com.medical.my_medicos.activities.job.JobsActivity;
 import com.medical.my_medicos.activities.utils.ConstantsDashboard;
 import com.medical.my_medicos.databinding.ActivityNewsBinding;
 
@@ -34,6 +40,8 @@ public class  NewsActivity extends AppCompatActivity {
     ActivityNewsBinding binding;
     NewsAdapter newsAdapter;
     ArrayList<News> news;
+
+    LinearLayout totheguide;
     TodayNewsAdapter todayNewsAdapter;
     ArrayList<NewsToday>  newstoday;
     private SwipeRefreshLayout swipeRefreshLayoutNews;
@@ -46,7 +54,16 @@ public class  NewsActivity extends AppCompatActivity {
 
         swipeRefreshLayoutNews = findViewById(R.id.swipeRefreshLayoutNews);
         swipeRefreshLayoutNews.setOnRefreshListener(this::refreshContent);
-        binding.newsstoolbar.setNavigationOnClickListener(v -> onBackPressed());
+        binding.newstoolbar.setNavigationOnClickListener(v -> onBackPressed());
+
+        totheguide = findViewById(R.id.totheguide);
+        totheguide.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent i = new Intent(NewsActivity.this, NewsGuideActivity.class);
+                startActivity(i);
+            }
+        });
 
         initNews();
         initNewsSlider();
@@ -78,17 +95,24 @@ public class  NewsActivity extends AppCompatActivity {
                 .addOnCompleteListener(task -> {
                     if (task.isSuccessful()) {
                         for (QueryDocumentSnapshot document : task.getResult()) {
-                            News newsItem = new News(
-                                    document.getString("Title"),
-                                    document.getString("thumbnail"),
-                                    document.getString("Description"),
-                                    document.getString("Time"),
-                                    document.getString("URL")
-                            );
-                            news.add(newsItem);
+                            String newsType = document.getString("type");
+
+                            // Check if the news type is "News"
+                            if ("News".equals(newsType)) {
+                                News newsItem = new News(
+                                        document.getString("Title"),
+                                        document.getString("thumbnail"),
+                                        document.getString("Description"),
+                                        document.getString("Time"),
+                                        document.getString("URL"),
+                                        newsType
+                                );
+                                news.add(newsItem);
+                            }
                         }
                         newsAdapter.notifyDataSetChanged();
                     } else {
+                        // Handle the case where data retrieval is not successful
                     }
                 });
     }
@@ -137,8 +161,8 @@ public class  NewsActivity extends AppCompatActivity {
                                 // Get the timestamp as a long
                                 long newsTime = newsDate.getTime();
 
-                                // Check if the news was posted within the last 24 hours
-                                if (newsTime >= twentyFourHoursAgo) {
+                                // Check if the news was posted within the last 24 hours and has the type "News"
+                                if (newsTime >= twentyFourHoursAgo && "News".equals(document.getString("type"))) {
                                     NewsToday newsItemToday = new NewsToday(
                                             document.getString("Title"),
                                             document.getString("thumbnail"),
@@ -158,7 +182,6 @@ public class  NewsActivity extends AppCompatActivity {
                     }
                 });
     }
-
 
     void initNewsSlider() {
         news = new ArrayList<News>();
@@ -181,7 +204,6 @@ public class  NewsActivity extends AppCompatActivity {
         binding.newsListToday.setLayoutManager(layoutManager);
         binding.newsListToday.setAdapter(todayNewsAdapter);
     }
-
 
     @Override
     public boolean onSupportNavigateUp() {

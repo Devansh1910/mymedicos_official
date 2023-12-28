@@ -53,11 +53,11 @@ dependencies {
     implementation(platform("com.google.firebase:firebase-bom:32.6.0"))
     implementation("com.google.firebase:firebase-analytics")
 //    implementation("com.google.firebase:firebase-auth")
-    implementation("com.google.android.material:material:1.10.0")
+    implementation("com.google.android.material:material:1.11.0")
     implementation("androidx.constraintlayout:constraintlayout:2.1.4")
     implementation("androidx.lifecycle:lifecycle-livedata-ktx:2.6.2")
     implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:2.6.2")
-    implementation("androidx.navigation:navigation-fragment:2.7.5")
+    implementation("androidx.navigation:navigation-fragment:2.7.6")
     implementation("androidx.navigation:navigation-ui:2.7.5")
     implementation("androidx.legacy:legacy-support-v4:1.0.0")
     implementation("com.google.firebase:firebase-sessions:1.2.0")
@@ -76,8 +76,8 @@ dependencies {
     ///........
     implementation("com.intuit.ssp:ssp-android:1.1.0")
 //    implementation("com.google.firebase:firebase-database")
-    implementation ("org.jetbrains.kotlin:kotlin-stdlib:1.8.22")
-    implementation ("org.jetbrains.kotlin:kotlin-stdlib-jdk8:1.8.22")
+    implementation ("org.jetbrains.kotlin:kotlin-stdlib:1.9.0")
+    implementation ("org.jetbrains.kotlin:kotlin-stdlib-jdk8:1.9.0")
     implementation("com.google.firebase:firebase-auth:22.3.0")
     implementation("com.google.firebase:firebase-database:20.3.0")
     implementation("com.firebaseui:firebase-ui-database:8.0.2")
@@ -86,10 +86,10 @@ dependencies {
     // Additional dependencies from the first code block
     implementation("com.google.firebase:firebase-storage:20.3.0")
     implementation("com.google.firebase:firebase-core:21.1.1")
-    implementation("com.google.firebase:firebase-firestore:24.9.1")
+    implementation("com.google.firebase:firebase-firestore:24.10.0")
     implementation ("com.squareup.picasso:picasso:2.71828")
     //....
-    implementation ("com.github.bumptech.glide:glide:4.13.0")
+    implementation ("com.github.bumptech.glide:glide:4.13.1")
     annotationProcessor ("com.github.bumptech.glide:compiler:4.13.0")
     /* For Slider - End */
 

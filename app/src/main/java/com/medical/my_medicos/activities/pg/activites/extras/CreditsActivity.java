@@ -1,4 +1,4 @@
-package com.medical.my_medicos.activities.pg.activites.coins;
+package com.medical.my_medicos.activities.pg.activites.extras;
 
 import androidx.appcompat.app.AppCompatActivity;
 

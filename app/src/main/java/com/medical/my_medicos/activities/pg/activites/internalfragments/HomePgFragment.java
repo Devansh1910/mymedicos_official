@@ -3,11 +3,13 @@ package com.medical.my_medicos.activities.pg.activites.internalfragments;
 import static androidx.fragment.app.FragmentManager.TAG;
 import android.annotation.SuppressLint;
 import android.content.ContentValues;
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -19,6 +21,8 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
+
+import com.airbnb.lottie.LottieAnimationView;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.StringRequest;
@@ -33,10 +37,15 @@ import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.medical.my_medicos.R;
+import com.medical.my_medicos.activities.home.HomeActivity;
+import com.medical.my_medicos.activities.home.sidedrawer.NotificationActivity;
+import com.medical.my_medicos.activities.pg.activites.extras.RecetUpdatesNoticeActivity;
 import com.medical.my_medicos.activities.pg.activites.insiders.SpecialityPGInsiderActivity;
 import com.medical.my_medicos.activities.pg.adapters.PerDayPGAdapter;
+import com.medical.my_medicos.activities.pg.adapters.QuestionBankPGAdapter;
 import com.medical.my_medicos.activities.pg.adapters.WeeklyQuizAdapter;
 import com.medical.my_medicos.activities.pg.model.PerDayPG;
+import com.medical.my_medicos.activities.pg.model.QuestionPG;
 import com.medical.my_medicos.activities.pg.model.QuizPG;
 import com.medical.my_medicos.activities.utils.ConstantsDashboard;
 import com.mancj.materialsearchbar.MaterialSearchBar;
@@ -47,9 +56,11 @@ import org.json.JSONException;
 import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.Map;
+import java.util.Objects;
 
 public class HomePgFragment extends Fragment {
 
+    LottieAnimationView timer;
     FragmentHomePgBinding binding;
     PerDayPGAdapter perDayPGAdapter;
     ArrayList<PerDayPG> dailyquestionspg;
@@ -57,8 +68,10 @@ public class HomePgFragment extends Fragment {
     String quiztiddaya;
     CardView nocardp;
     FirebaseUser currentUser;
-
+    QuestionBankPGAdapter questionsAdapter;
+    ArrayList<QuestionPG> questionsforpg;
     private WeeklyQuizAdapter quizAdapter;
+    CardView gotoupdatesofpg;
     private ArrayList<QuizPG> quizpg;
     String title1;
     public static HomePgFragment newInstance() {
@@ -89,6 +102,15 @@ public class HomePgFragment extends Fragment {
             Log.e("ERROR", "Arguments are null in WeeklyQuizFragment");
         }
 
+        gotoupdatesofpg = view.findViewById(R.id.gotoupdatesofpg);
+        gotoupdatesofpg.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent i = new Intent(getActivity(), RecetUpdatesNoticeActivity.class);
+                startActivity(i);
+            }
+        });
+
         return view;
     }
 
@@ -112,6 +134,10 @@ public class HomePgFragment extends Fragment {
         }
 
         nocardp = binding.getRoot().findViewById(R.id.nocardpg);
+        timer = binding.getRoot().findViewById(R.id.timer);
+
+        showShimmer(true);
+
         FirebaseFirestore db = FirebaseFirestore.getInstance();
         String userId = currentUser.getPhoneNumber();
         db.collection("users")
@@ -120,6 +146,7 @@ public class HomePgFragment extends Fragment {
                     @SuppressLint("RestrictedApi")
                     @Override
                     public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        showShimmer(false);
                         if (task.isSuccessful()) {
                             for (QueryDocumentSnapshot document : task.getResult()) {
                                 Log.d(TAG, document.getId() + " => " + document.getData());
@@ -146,9 +173,14 @@ public class HomePgFragment extends Fragment {
                     }
                 });
 
+        // Call getPerDayQuestions directly when the fragment is created
         initPerDayQuestions(quiztiddaya);
         initSliderPg();
+        initQuestionsBanks();
+        getPerDayQuestions(quiztiddaya); // Add this line to fetch data
     }
+
+
 
     // For the Slider
     private void initSliderPg() {
@@ -204,6 +236,8 @@ public class HomePgFragment extends Fragment {
                 if (object.getString("status").equals("success")) {
                     JSONArray perdayArray = object.getJSONArray("data");
 
+                    boolean questionFound = false;
+
                     for (int i = 0; i < perdayArray.length(); i++) {
                         JSONObject childObj = perdayArray.getJSONObject(i);
                         PerDayPG perday = new PerDayPG(
@@ -213,27 +247,36 @@ public class HomePgFragment extends Fragment {
                                 childObj.getString("C"),
                                 childObj.getString("D"),
                                 childObj.getString("Correct"),
-                                childObj.getString("id")
+                                childObj.getString("id"),
+                                childObj.getString("Description")
                         );
                         String questionId = childObj.getString("id");
                         Log.d("questionid", questionId);
 
                         if ((questionId != null) && (quiztiddaya != null)) {
-                            int a = questionId.compareTo(quiztiddaya);
-                            Log.d("questionid", String.valueOf(a));
+                            if (!containsQuestionId(dailyquestionspg, questionId)) {
+                                int a = questionId.compareTo(quiztiddaya);
 
-                            if (a != 0) {
-                                dailyquestionspg.add(perday);
+                                if(a != 0){
+                                    dailyquestionspg.add(perday);
+                                    questionFound = true;
+                                }
+
                             } else {
-                                nocardp.setVisibility(View.VISIBLE);
+                                questionFound = true;
                             }
                         }
                     }
-                    if (dailyquestionspg != null) {
-                        perDayPGAdapter.notifyDataSetChanged();
-                        Log.d("DEBUG", "getPerDayQuestions: Data added to the list");
+
+                    if (questionFound) {
+                        nocardp.setVisibility(View.GONE);
                     } else {
                         nocardp.setVisibility(View.VISIBLE);
+                    }
+
+                    if (!dailyquestionspg.isEmpty()) {
+                        perDayPGAdapter.notifyDataSetChanged();
+                        Log.d("DEBUG", "getPerDayQuestions: Data added to the list");
                     }
                 }
             } catch (JSONException e) {
@@ -243,6 +286,15 @@ public class HomePgFragment extends Fragment {
             Log.e("VolleyError", "Error: " + error.getMessage());
         });
         queue.add(request);
+    }
+
+    private boolean containsQuestionId(ArrayList<PerDayPG> list, String questionId) {
+        for (PerDayPG question : list) {
+            if (question.getidQuestion().equals(questionId)) {
+                return true;
+            }
+        }
+        return false;
     }
 
     // For the Suggested Exam
@@ -288,12 +340,62 @@ public class HomePgFragment extends Fragment {
         }
     });
 }
+    void initQuestionsBanks() {
+        questionsforpg = new ArrayList<>();
+        questionsAdapter = new QuestionBankPGAdapter(getActivity(), questionsforpg);
+
+        getRecentQuestions();
+
+        LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity(), LinearLayoutManager.HORIZONTAL, false);
+        binding.QB.setLayoutManager(layoutManager);
+        binding.QB.setAdapter(questionsAdapter);
+    }
+
+    void getRecentQuestions() {
+        RequestQueue queue = Volley.newRequestQueue(requireActivity());
+
+        String url = ConstantsDashboard.GET_PG_QUESTIONBANK_URL_HOME;
+        StringRequest request = new StringRequest(Request.Method.GET, url, response -> {
+            try {
+                JSONObject object = new JSONObject(response);
+                if(object.getString("status").equals("success")){
+                    JSONArray array = object.getJSONArray("data");
+                    for (int i = 0; i < array.length(); i++) {
+                        JSONObject childObj = array.getJSONObject(i);
+                        QuestionPG questionbankItem = new QuestionPG(
+                                childObj.getString("Title"),
+                                childObj.getString("Description"),
+                                childObj.getString("Time"),
+                                childObj.getString("file")
+                        );
+                        questionsforpg.add(questionbankItem);
+                    }
+                    questionsAdapter.notifyDataSetChanged();
+                }
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        }, error -> { });
+
+        queue.add(request);
+    }
 
     private void refreshContent() {
         clearData();
         fetchData();
         swipeRefreshLayout.setRefreshing(false);
     }
+
+    private void showShimmer(boolean show) {
+        if (show) {
+            binding.shimmercomeup.setVisibility(View.VISIBLE);
+            binding.shimmercomeup.playAnimation();
+        } else {
+            binding.shimmercomeup.setVisibility(View.GONE);
+            binding.shimmercomeup.cancelAnimation();
+        }
+    }
+
 
     private void clearData() {
         dailyquestionspg.clear();

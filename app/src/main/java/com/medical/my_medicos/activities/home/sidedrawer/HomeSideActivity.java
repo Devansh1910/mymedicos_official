@@ -21,6 +21,7 @@ import androidx.cardview.widget.CardView;
 
 import com.airbnb.lottie.LottieAnimationView;
 import com.medical.my_medicos.R;
+import com.medical.my_medicos.activities.guide.ProfileGuideActivity;
 import com.medical.my_medicos.activities.login.FirstActivity;
 import com.medical.my_medicos.activities.profile.Contactinfo;
 import com.medical.my_medicos.activities.profile.Personalinfo;
@@ -53,7 +54,7 @@ public class HomeSideActivity extends AppCompatActivity {
     ImageView profileImageView, verifiedprofilebehere;
     FrameLayout verifiedUser, circularImageView;
 
-    LinearLayout intenttoaboutme;
+    LinearLayout intenttoaboutme, totheguide;
     Toolbar toolbar;
 
     private boolean dataLoaded = false;
@@ -82,6 +83,15 @@ public class HomeSideActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Intent i = new Intent(HomeSideActivity.this, Personalinfo.class);
+                startActivity(i);
+            }
+        });
+
+        totheguide = findViewById(R.id.totheguide);
+        totheguide.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent i = new Intent(HomeSideActivity.this, ProfileGuideActivity.class);
                 startActivity(i);
             }
         });

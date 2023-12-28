@@ -3,8 +3,11 @@ package com.medical.my_medicos.activities.university.activity;
 import static android.content.ContentValues.TAG;
 
 import android.annotation.SuppressLint;
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
+import android.widget.LinearLayout;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -20,6 +23,9 @@ import com.android.volley.toolbox.Volley;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.medical.my_medicos.R;
+import com.medical.my_medicos.activities.guide.UgGuideActivity;
+import com.medical.my_medicos.activities.guide.UniversityGuidesActivity;
+import com.medical.my_medicos.activities.ug.UgExamActivity;
 import com.medical.my_medicos.activities.university.adapters.StatesAdapter;
 import com.medical.my_medicos.activities.university.adapters.UniversitiesAdapter;
 import com.medical.my_medicos.activities.university.adapters.UpdatesAdapter;
@@ -53,6 +59,8 @@ public class UniversityActivity extends AppCompatActivity {
     ArrayList<Updates> updates;
     Toolbar toolbar;
 
+    LinearLayout totheguide;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -62,6 +70,15 @@ public class UniversityActivity extends AppCompatActivity {
         toolbar = findViewById(R.id.universitytoolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
+        totheguide = findViewById(R.id.totheguide);
+        totheguide.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent i = new Intent(UniversityActivity.this, UniversityGuidesActivity.class);
+                startActivity(i);
+            }
+        });
 
         initStates();
         initSliderUpdates();

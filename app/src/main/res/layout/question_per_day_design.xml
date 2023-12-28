@@ -20,6 +20,25 @@
             android:layout_height="wrap_content">
 
             <TextView
+                android:layout_width="match_parent"
+                android:layout_weight="1"
+                android:textSize="@dimen/_10sdp"
+                android:fontFamily="@font/inter"
+                android:textAllCaps="true"
+                android:textColor="@color/unselected"
+                android:textStyle="bold"
+                android:textAlignment="center"
+                android:layout_height="wrap_content"
+                android:text="MCQ Based on NEET Pattern 2023"/>
+
+            <com.google.android.material.divider.MaterialDivider
+                android:layout_width="match_parent"
+                android:layout_margin="@dimen/_5sdp"
+                app:dividerThickness="@dimen/_2sdp"
+                app:dividerColor="@color/green"
+                android:layout_height="wrap_content"/>
+
+            <TextView
                 android:id="@+id/questionspan"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"

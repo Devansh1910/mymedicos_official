@@ -7,7 +7,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:background="@color/white"
-    tools:context=".activities.pg.activites.coins.CreditsActivity">
+    tools:context=".activities.pg.activites.extras.CreditsActivity">
 
     <androidx.cardview.widget.CardView
         android:layout_width="match_parent"

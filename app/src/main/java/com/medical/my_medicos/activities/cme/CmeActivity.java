@@ -13,6 +13,8 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.Spinner;
 
 import androidx.annotation.NonNull;
@@ -30,6 +32,9 @@ import com.medical.my_medicos.R;
 import com.medical.my_medicos.activities.cme.fragment.OngoingFragment;
 import com.medical.my_medicos.activities.cme.fragment.PastFragment;
 import com.medical.my_medicos.activities.cme.fragment.UpcomingFragment;
+import com.medical.my_medicos.activities.guide.CmeGuideActivity;
+import com.medical.my_medicos.activities.guide.ProfileGuideActivity;
+import com.medical.my_medicos.activities.home.sidedrawer.HomeSideActivity;
 import com.medical.my_medicos.list.subSpecialitiesData;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
@@ -51,6 +56,8 @@ public class CmeActivity extends AppCompatActivity {
     RecyclerView recyclerView;
     private ViewPager2 pager,viewpager;
     private TabLayout tabLayout;
+
+    ImageView cart_icon;
     private Spinner specialitySpinner;
     String selectedMode1,selectedMode2,selectedMode;
     private FirebaseFirestore db;
@@ -72,6 +79,15 @@ public class CmeActivity extends AppCompatActivity {
         viewpager = findViewById(R.id.view_pager1);
         viewpager.setAdapter(new ViewPagerAdapter(this));
         swipeRefreshLayout = findViewById(R.id.swipe_refresh_layout);
+
+        cart_icon = findViewById(R.id.cart_icon);
+        cart_icon.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent i = new Intent(CmeActivity.this, CmeGuideActivity.class);
+                startActivity(i);
+            }
+        });
         swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
@@ -82,7 +98,7 @@ public class CmeActivity extends AppCompatActivity {
         });
         toolbar = findViewById(R.id.cmetoolbar);
         setSupportActionBar(toolbar);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(false);
         pager = findViewById(R.id.view_pager);
         tabLayout = findViewById(R.id.tablayout);
         new TabLayoutMediator(tabLayout, viewpager, (tab, position) -> {

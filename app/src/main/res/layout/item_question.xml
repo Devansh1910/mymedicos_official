@@ -29,7 +29,7 @@
                 android:text="TextView"
                 android:textSize="16dp"
                 android:textStyle="bold"
-                android:fontFamily="@font/roboto_bold"
+                android:fontFamily="@font/inter_extrabold"
                 android:maxLines="1"
                 android:ellipsize="end"
                 android:textColor="@color/black" />
@@ -45,51 +45,24 @@
                 android:textSize="14sp"
                 android:layout_marginVertical="@dimen/_5ssp"
                 android:textStyle="bold"
-                android:fontFamily="@font/roboto_bold"
+                android:fontFamily="@font/inter"
                 android:maxLines="1"
                 android:ellipsize="end"
-                android:textColor="#878383" />
+                android:textColor="@color/grey" />
 
-            <!--                <TextView-->
-            <!--                    android:id="@+id/newsdescription"-->
-            <!--                    android:layout_width="match_parent"-->
-            <!--                    android:layout_height="wrap_content"-->
-            <!--                    android:gravity="bottom"-->
-            <!--                    android:layout_marginLeft="5dp"-->
-            <!--                    android:layout_marginRight="5dp"-->
-            <!--                    android:layout_marginBottom="5dp"-->
-            <!--                    android:text="This will be the description of th.."-->
-            <!--                    android:textSize="12sp" />-->
-
-            <LinearLayout
+            <TextView
                 android:id="@+id/DownloadbtnQuestion"
                 android:layout_width="match_parent"
-                android:layout_gravity="end"
-                android:paddingVertical="@dimen/_8ssp"
-                android:clickable="true"
-                android:onClick="onReadMoreClick"
-                android:background="@color/green"
-                android:gravity="center"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Download"
-                    android:textColor="#FFFFFF"
-                    android:layout_marginEnd="@dimen/_10ssp"
-                    android:textSize="@dimen/_12ssp"
-                    android:textStyle="bold"
-                    android:textAlignment="center"
-                    android:fontFamily="@font/roboto_bold"/>
-
-                <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:src="@drawable/savee"/>
-
-            </LinearLayout>
+                android:text="Learn"
+                android:padding="@dimen/_8sdp"
+                android:textColor="@color/unselected"
+                android:background="#E6E5E5"
+                android:textSize="@dimen/_14ssp"
+                android:textStyle="bold"
+                android:layout_gravity="end"
+                android:gravity="end"
+                android:fontFamily="@font/inter_extrabold"/>
 
         </LinearLayout>
 

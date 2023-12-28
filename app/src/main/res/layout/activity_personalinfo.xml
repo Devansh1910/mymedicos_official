@@ -62,6 +62,7 @@
             android:paddingStart="@dimen/_10sdp" />
 
         <LinearLayout
+            android:id="@+id/viewinstruction"
             android:layout_width="wrap_content"
             android:layout_gravity="end"
             android:background="@drawable/back6"

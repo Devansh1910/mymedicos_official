@@ -114,61 +114,6 @@ public class PerDayPGAdapter extends RecyclerView.Adapter<PerDayPGAdapter.DailyQ
         FirebaseAuth mAuth = FirebaseAuth.getInstance();
         FirebaseUser currentUser = mAuth.getCurrentUser();
         String user=currentUser.getPhoneNumber();
-//        holder.binding.submitanswerbtn.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                if (selectedOption != null) {
-//                    lastSelectionTimestamp = System.currentTimeMillis();
-//                    holder.binding.questionsbox.setVisibility(View.GONE);
-//                    PerDayPG selectedQuestion = dailyquestions.get(holder.getAdapterPosition());
-//                    String correctAnswer = selectedQuestion.getSubmitDailyQuestion();
-//                    String docId = Preferences.userRoot().get("docId", "");
-//
-//                    if (selectedOption.equals(correctAnswer)) {
-//                        showCorrectAnswerPopup();
-//                        FirebaseFirestore db = FirebaseFirestore.getInstance();
-//                        CollectionReference usersCollection = db.collection("users");
-//
-//                        Query query = usersCollection.whereEqualTo("Phone Number", user);
-//
-//                        query.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-//                            @OptIn(markerClass = UnstableApi.class) @Override
-//                            public void onComplete(@NonNull Task<QuerySnapshot> task) {
-//                                if (task.isSuccessful()) {
-//                                    for (QueryDocumentSnapshot document : task.getResult()) {
-//                                        updateDocument(document.getId(), String.valueOf(dailyquestion.getidQuestion()));
-//                                    }
-//                                } else {
-//                                    Log.w(TAG, "Error getting documents.", task.getException());
-//                                }
-//                            }
-//                        });
-//
-//                    } else {
-//                        showWrongAnswerPopup();
-//                        FirebaseFirestore db = FirebaseFirestore.getInstance();
-//                        CollectionReference usersCollection = db.collection("users");
-//
-//                        Query query = usersCollection.whereEqualTo("Phone Number", user); // Replace "phoneNumber" with the actual field name
-//
-//                        query.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-//                            @OptIn(markerClass = UnstableApi.class) @Override
-//                            public void onComplete(@NonNull Task<QuerySnapshot> task) {
-//                                if (task.isSuccessful()) {
-//                                    for (QueryDocumentSnapshot document : task.getResult()) {
-//                                        updateDocument1(document.getId(), String.valueOf(dailyquestion.getidQuestion()));
-//                                    }
-//                                } else {
-//                                    Log.w(TAG, "Error getting documents.", task.getException());
-//                                }
-//                            }
-//                        });
-//                    }
-//                } else {
-//                    showToast("Please select an option");
-//                }
-//            }
-//        });
 
         if (System.currentTimeMillis() - lastSelectionTimestamp >= 24 * 60 * 60 * 1000) {
             holder.binding.questionsbox.setVisibility(View.VISIBLE);
@@ -205,7 +150,7 @@ public class PerDayPGAdapter extends RecyclerView.Adapter<PerDayPGAdapter.DailyQ
             String docId = Preferences.userRoot().get("docId", "");
 
             if (selectedOption.equals(correctAnswer)) {
-                showCorrectAnswerPopup();
+                showCorrectAnswerPopup(dailyquestion.getSubmitDailyQuestion(), dailyquestion.getDescription());
                 FirebaseFirestore db = FirebaseFirestore.getInstance();
                 CollectionReference usersCollection = db.collection("users");
 
@@ -226,7 +171,7 @@ public class PerDayPGAdapter extends RecyclerView.Adapter<PerDayPGAdapter.DailyQ
                 });
 
             } else {
-                showWrongAnswerPopup();
+                showWrongAnswerPopup(dailyquestion.getSubmitDailyQuestion(), dailyquestion.getDescription());
                 FirebaseFirestore db = FirebaseFirestore.getInstance();
                 CollectionReference usersCollection = db.collection("users");
 
@@ -328,17 +273,22 @@ public class PerDayPGAdapter extends RecyclerView.Adapter<PerDayPGAdapter.DailyQ
         holder.binding.optionD.setTypeface(null, Typeface.NORMAL);
     }
 
-    private void showCorrectAnswerPopup() {
+    private void showCorrectAnswerPopup(String correctOption, String description) {
         Intent intent = new Intent(context, CorrectAnswerActivity.class);
-        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        intent.putExtra("correctOption", correctOption);
+        intent.putExtra("description", description);
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
         context.startActivity(intent);
     }
 
-    private void showWrongAnswerPopup() {
+    private void showWrongAnswerPopup(String correctOption, String description) {
         Intent intent = new Intent(context, WrongAnswerActivity.class);
-        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        intent.putExtra("correctOption", correctOption);
+        intent.putExtra("description", description);
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
         context.startActivity(intent);
     }
+
 
     private void showToast(String message) {
         Toast.makeText(context, message, Toast.LENGTH_SHORT).show();

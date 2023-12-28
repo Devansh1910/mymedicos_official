@@ -9,15 +9,16 @@ import java.util.Locale;
 import java.util.TimeZone;
 
 public class News {
-    private String label, thumbnail, description, url, date;
+    private String label, thumbnail, description, url, date, type;
     private static final String DATE_FORMAT_PATTERN = "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'";
 
-    public News(String label, String thumbnail, String description, String date, String url) {
+    public News(String label, String thumbnail, String description, String date, String url,String type) {
         this.label = label;
         this.thumbnail = thumbnail;
         this.description = description;
         this.date = date;
         this.url = url;
+        this.type = type;
     }
 
     public String getLabel() {
@@ -35,6 +36,11 @@ public class News {
     public String getUrl() {
         return url;
     }
+
+    public String getType() {
+        return type;
+    }
+
 
     public String getFormattedDate() {
         long timestamp = convertStringToTimestamp(date);
@@ -60,14 +66,12 @@ public class News {
         dateFormat.setTimeZone(TimeZone.getTimeZone("UTC"));
 
         try {
-            // Parse the date string to a Date object
             Date date = dateFormat.parse(dateString);
 
-            // Return the time in milliseconds
             return date != null ? date.getTime() : 0L;
         } catch (ParseException e) {
             e.printStackTrace();
-            return 0L; // Return 0 if parsing fails
+            return 0L;
         }
     }
 }
