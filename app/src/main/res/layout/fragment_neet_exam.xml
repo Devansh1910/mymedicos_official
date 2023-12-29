@@ -38,46 +38,46 @@
                     app:lottie_speed="1" />
 
                 <ViewFlipper
-        android:id="@+id/viewFlipperpg"
-        android:autoStart="true"
-        android:paddingVertical="0dp"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+                    android:id="@+id/viewFlipperpg"
+                    android:autoStart="true"
+                    android:paddingVertical="0dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
 
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:paddingVertical="8dp"
-            android:paddingHorizontal="15dp"
-            android:textColor="#595656"
-            android:fontFamily="@font/inter"
-            android:text="To the healer weaving hope: positive vibes, dear doctor!"
-            android:textSize="13sp"
-            android:textStyle="bold" />
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:paddingVertical="8dp"
+                        android:paddingHorizontal="15dp"
+                        android:textColor="#595656"
+                        android:fontFamily="@font/inter"
+                        android:text="To the healer weaving hope: positive vibes, dear doctor!"
+                        android:textSize="13sp"
+                        android:textStyle="bold" />
 
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="In the world of health, your dedication stands out. Good thoughts to you, doctor!"
-            android:fontFamily="@font/inter"
-            android:textSize="13sp"
-            android:textStyle="bold"
-            android:textColor="#595656"
-            android:paddingVertical="8dp"
-            android:paddingHorizontal="15dp" />
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="In the world of health, your dedication stands out. Good thoughts to you, doctor!"
+                        android:fontFamily="@font/inter"
+                        android:textSize="13sp"
+                        android:textStyle="bold"
+                        android:textColor="#595656"
+                        android:paddingVertical="8dp"
+                        android:paddingHorizontal="15dp" />
 
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Amid challenges, your commitment shines. Positive energy, amazing doctor!"
-            android:textSize="13sp"
-            android:fontFamily="@font/inter"
-            android:textStyle="bold"
-            android:paddingVertical="8dp"
-            android:paddingHorizontal="15dp"
-            android:textColor="#595656"/>
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Amid challenges, your commitment shines. Positive energy, amazing doctor!"
+                        android:textSize="13sp"
+                        android:fontFamily="@font/inter"
+                        android:textStyle="bold"
+                        android:paddingVertical="8dp"
+                        android:paddingHorizontal="15dp"
+                        android:textColor="#595656"/>
 
-    </ViewFlipper>
+                </ViewFlipper>
 
                 <LinearLayout
                     android:id="@+id/dotsLayoutpg"

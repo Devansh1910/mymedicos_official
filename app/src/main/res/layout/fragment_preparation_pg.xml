@@ -1,13 +1,264 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
+    android:orientation="vertical"
+    android:id="@+id/swipeRefreshLayoutPreparation"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@color/backgroundcolor"
+    android:padding="@dimen/_5sdp"
     android:layout_height="match_parent"
     tools:context=".activities.pg.activites.internalfragments.PreparationPgFragment">
 
-    <TextView
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="Preparation" />
+        android:orientation="vertical"
+        android:background="@color/backgroundcolor"
+        android:layout_height="wrap_content">
 
-</FrameLayout>
+        <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <RelativeLayout
+            android:id="@+id/progress_layout"
+            android:layout_width="150dp"
+            android:layout_gravity="start"
+            android:layout_height="150dp">
+
+            <ProgressBar
+                android:id="@+id/progress_bar"
+                style="?android:attr/progressBarStyleHorizontal"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@drawable/circular_shape"
+                android:indeterminate="false"
+                android:progressDrawable="@drawable/circular_progress_bar"
+                android:textAlignment="center" />
+
+            <TextView
+                android:id="@+id/progress_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentStart="true"
+                android:layout_alignParentEnd="true"
+                android:layout_centerVertical="true"
+                android:gravity="center"
+                android:text="---"
+                android:textColor="@color/black"
+                android:textSize="28sp"
+                android:textStyle="bold" />
+        </RelativeLayout>
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_weight="1"
+                android:layout_margin="@dimen/_5sdp"
+                android:layout_height="wrap_content"
+                android:text="LEADERBOARD"
+                android:textColor="@color/unselected"
+                android:layout_gravity="center_vertical"
+                android:gravity="start"
+                android:textSize="@dimen/_12ssp"
+                android:textStyle="bold" />
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:background="@drawable/rankbk"
+                android:layout_height="wrap_content"
+                android:paddingHorizontal="@dimen/_10sdp"
+                android:paddingVertical="@dimen/_5sdp"
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:id="@+id/correctanswer"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:src="@drawable/badgh"/>
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_weight="1"
+                    android:layout_height="wrap_content"
+                    android:text="Rank"
+                    android:textColor="@color/white"
+                    android:layout_gravity="center_vertical"
+                    android:gravity="start"
+                    android:textSize="@dimen/_12ssp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/rankingdisplayedhere"
+                    android:layout_width="match_parent"
+                    android:layout_weight="1"
+                    android:layout_height="wrap_content"
+                    android:text="#3453"
+                    android:layout_marginHorizontal="@dimen/_5sdp"
+                    android:textColor="@color/white"
+                    android:layout_gravity="center_vertical"
+                    android:gravity="start"
+                    android:textSize="@dimen/_12ssp"
+                    android:textStyle="bold" />
+
+            </LinearLayout>
+
+            <ViewFlipper
+                android:id="@+id/viewFlipperPrepration"
+                android:autoStart="true"
+                android:paddingVertical="0dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingVertical="8dp"
+                    android:paddingHorizontal="15dp"
+                    android:textColor="#595656"
+                    android:fontFamily="@font/inter"
+                    android:text="To the healer weaving hope: positive vibes, dear doctor!"
+                    android:textSize="13sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="In the world of health, your dedication stands out. Good thoughts to you, doctor!"
+                    android:fontFamily="@font/inter"
+                    android:textSize="13sp"
+                    android:textStyle="bold"
+                    android:textColor="#595656"
+                    android:paddingVertical="8dp"
+                    android:paddingHorizontal="15dp" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Amid challenges, your commitment shines. Positive energy, amazing doctor!"
+                    android:textSize="13sp"
+                    android:fontFamily="@font/inter"
+                    android:textStyle="bold"
+                    android:paddingVertical="8dp"
+                    android:paddingHorizontal="15dp"
+                    android:textColor="#595656"/>
+
+            </ViewFlipper>
+
+            <LinearLayout
+                android:id="@+id/dotsLayoutPrepration"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="12dp"
+                android:orientation="horizontal"
+                android:gravity="center"/>
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+        <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/practivemcq"
+            android:layout_width="0dp"
+            android:layout_margin="@dimen/_5sdp"
+            android:layout_weight="1"
+            android:elevation="@dimen/_10sdp"
+            android:layout_height="wrap_content"
+            app:cardCornerRadius="@dimen/_10sdp"
+            android:background="@color/green">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_margin="@dimen/_5sdp"
+                android:layout_height="wrap_content"
+                android:text="PRACTICE MCQs"
+                android:textColor="@color/unselected"
+                android:elevation="@dimen/_10sdp"
+                android:layout_gravity="center_vertical"
+                android:gravity="center"
+                android:padding="@dimen/_12sdp"
+                android:textSize="@dimen/_12ssp"
+                android:textStyle="bold" />
+
+        </androidx.cardview.widget.CardView>
+
+        <androidx.cardview.widget.CardView
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_margin="@dimen/_5sdp"
+            android:layout_height="wrap_content"
+            android:elevation="@dimen/_10sdp"
+            app:cardCornerRadius="@dimen/_10sdp"
+            android:background="@color/green">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_margin="@dimen/_5sdp"
+                android:layout_height="wrap_content"
+                android:text="MATERIAL"
+                android:textColor="@color/unselected"
+                android:elevation="@dimen/_10sdp"
+                android:layout_gravity="center_vertical"
+                android:gravity="center"
+                android:padding="@dimen/_12sdp"
+                android:textSize="@dimen/_12ssp"
+                android:textStyle="bold" />
+
+        </androidx.cardview.widget.CardView>
+
+    </LinearLayout>
+
+        <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_gravity="center"
+        android:gravity="center_vertical"
+        android:layout_height="wrap_content">
+
+        <com.airbnb.lottie.LottieAnimationView
+            android:id="@+id/exploreanime"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            app:lottie_autoPlay="true"
+            android:scaleX="1.2"
+            android:scaleY="1.2"
+            app:lottie_loop="true"
+            app:lottie_rawRes="@raw/suggestanime"
+            app:lottie_speed="1" />
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_margin="@dimen/_5sdp"
+            android:background="@color/backgroundcolor"
+            android:layout_height="wrap_content"
+            android:text="OFFICIAL NOTICE"
+            android:textColor="@color/unselected"
+            android:layout_gravity="center_vertical"
+            android:gravity="start"
+            android:padding="@dimen/_8sdp"
+            android:textSize="@dimen/_12ssp"
+            android:textStyle="bold" />
+
+    </LinearLayout>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/noticesexam"
+        android:layout_width="match_parent"
+        android:elevation="@dimen/_2sdp"
+        android:layout_height="wrap_content"/>
+
+    </LinearLayout>
+
+</androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
