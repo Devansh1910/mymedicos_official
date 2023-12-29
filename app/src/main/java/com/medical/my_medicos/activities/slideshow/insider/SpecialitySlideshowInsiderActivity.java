@@ -50,101 +50,17 @@ public class SpecialitySlideshowInsiderActivity extends AppCompatActivity {
         setContentView(binding.getRoot());
         toolbarpginsider = binding.specialitytoolbar;
         setSupportActionBar(toolbarpginsider);
-        recyclerslideshow=findViewById(R.id.Recyclerviewslideshowinsider);
+        recyclerslideshow = findViewById(R.id.Recyclerviewslideshowinsider);
         Intent intent = getIntent();
 
         String extraValue = intent.getStringExtra("specialityPgName");
-        if (extraValue!=null) {
+        if (extraValue != null) {
             Log.d("specialityPgName", extraValue);
         }
         toolbarpginsider.setTitle(extraValue);
 
         initSliderContent();
-//        bottomAppBarCategoryPublication = findViewById(R.id.bottomappabarslideshow);
-//        bottomNavigationCategoryPublication = findViewById(R.id.bottomNavigationViewslideshow);
-//        if (bottomNavigationCategoryPublication != null) {
-//            bottomNavigationCategoryPublication.setBackground(null);
-//            replaceFragment(QuestionbankFragment.newInstance(catId));
-//            // Inside onCreate method
-//            bottomNavigationCategoryPublication.setOnItemSelectedListener(item -> {
-//                int frgId = item.getItemId();
-//                Log.d("Something went wrong..", "Try again!");
-//                if (frgId == R.id.qb) {
-//                    replaceFragment(QuestionbankFragment.newInstance(catId));
-//                } else if (frgId == R.id.lc) {
-//                    replaceFragment(new VideoBankFragment());
-//                } else {
-//                    replaceFragment(new WeeklyQuizFragment());
-//                }
-//                return true;
-//            });
-//        } else {
-//            Log.e("Error", "bottomNavigationCategoryPublication is null");
-//        }
     }
-//    private void replaceFragment(Fragment fragment) {
-//        FragmentManager fragmentManager = getSupportFragmentManager();
-//        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-//        fragmentTransaction.replace(R.id.frame_layout_pg, fragment);
-//        fragmentTransaction.commit();
-//    }
-    //    void initSpecialityPG() {
-//        specialitiesPostGraduate = new ArrayList<>();
-//        specialitiesPGInsiderAdapter = new SpecialitiesPGInsiderAdapter(this, specialitiesPostGraduate);
-//
-//        getSpecialitiesPG();
-//
-//        GridLayoutManager layoutManager = new GridLayoutManager(this, 1);
-//        binding.specialityinsidercontentList.setLayoutManager(layoutManager);
-//        binding.specialityinsidercontentList.setAdapter(specialitiesPGInsiderAdapter);
-//    }
-//
-//    void getSpecialitiesPG() {
-//        RequestQueue queue = Volley.newRequestQueue(this);
-//
-//        StringRequest request = new StringRequest(Request.Method.GET, Constants.GET_CATEGORIES_URL, new Response.Listener<String>() {
-//            @Override
-//            public void onResponse(String response) {
-//                try {
-//                    Log.e("err", response);
-//                    JSONObject mainObj = new JSONObject(response);
-//                    if (mainObj.getString("status").equals("success")) {
-//                        JSONArray specialityArray = mainObj.getJSONArray("categories");
-//                        for (int i = 0; i < specialityArray.length(); i++) {
-//                            JSONObject object = specialityArray.getJSONObject(i);
-//                            SpecialitiesPG specialitiesPGS = new SpecialitiesPG(
-//                                    object.getString("id"),
-//                                    object.getInt("priority")
-//                            );
-//                            specialitiesPostGraduate.add(specialitiesPGS);
-//                        }
-//                        specialitiesPGInsiderAdapter.notifyDataSetChanged();
-//
-//                    } else {
-//                        // DO nothing
-//                    }
-//                } catch (JSONException e) {
-//                    e.printStackTrace();
-//                }
-//            }
-//        }, new Response.ErrorListener() {
-//            @Override
-//            public void onErrorResponse(VolleyError error) {
-//
-//            }
-//        });
-//
-//        queue.add(request);
-//    }
-//    public boolean onOptionsItemSelected(MenuItem item) {
-//        switch (item.getItemId()) {
-//            case android.R.id.home:
-//                finish();
-//                return true;
-//            default:
-//                return super.onOptionsItemSelected(item);
-//        }
-//    }
 void getSlideshowRecent() {
     RequestQueue queue = Volley.newRequestQueue(SpecialitySlideshowInsiderActivity.this);
 

@@ -27,6 +27,7 @@ import com.medical.my_medicos.R;
 import com.medical.my_medicos.activities.news.News;
 import com.medical.my_medicos.activities.pg.activites.PgprepActivity;
 import com.medical.my_medicos.activities.pg.activites.extras.PreparationCategoryDisplayActivity;
+import com.medical.my_medicos.activities.pg.activites.extras.PreparationCategoryMaterialDisplayActivity;
 import com.medical.my_medicos.activities.pg.activites.extras.adapter.ImportantPreprationAdapter;
 import com.medical.my_medicos.activities.pg.activites.extras.adapter.RecentUpdatesAdapter;
 import com.medical.my_medicos.activities.pg.activites.internalfragments.intwernaladapters.ExamQuizAdapter;
@@ -52,7 +53,7 @@ public class PreparationPgFragment extends Fragment {
     ArrayList<News> newsprepration;
     private final int AUTO_SCROLL_DELAY = 3000;
 
-    CardView practivemcq;
+    CardView practivemcq,material;
 
 
     int i = 0;
@@ -105,6 +106,16 @@ public class PreparationPgFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 Intent i = new Intent(getActivity(), PreparationCategoryDisplayActivity.class);
+                startActivity(i);
+            }
+        });
+
+
+        material = rootView.findViewById(R.id.material);
+        material.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent i = new Intent(getActivity(), PreparationCategoryMaterialDisplayActivity.class);
                 startActivity(i);
             }
         });

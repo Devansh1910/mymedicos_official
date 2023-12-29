@@ -11,10 +11,4 @@
         android:icon="@drawable/lectures"
         android:id="@+id/lc">
     </item>
-
-    <item
-        android:title="Quiz"
-        android:icon="@drawable/quizicon"
-        android:id="@+id/qui">
-    </item>
 </menu>

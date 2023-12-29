@@ -56,13 +56,9 @@ public class SpecialityPGInsiderActivity extends AppCompatActivity {
                 String title = getTitleFromIntent();
                 QuestionbankFragment fragment = QuestionbankFragment.newInstance(0, title);
                 replaceFragment(fragment);
-            } else if (frgId == R.id.lc) {
-                String title = getTitleFromIntent();
-                VideoBankFragment fragment = VideoBankFragment.newInstance(0, title);
-                replaceFragment(fragment);
             } else {
                 String title = getTitleFromIntent();
-                WeeklyQuizFragment fragment = WeeklyQuizFragment.newInstance(0, title);
+                VideoBankFragment fragment = VideoBankFragment.newInstance(0, title);
                 replaceFragment(fragment);
             }
             return true;

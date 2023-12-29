@@ -4,12 +4,14 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/backgroundcolor"
     tools:context=".activities.pg.activites.insiders.SpecialityPGInsiderActivity">
 
     <com.google.android.material.appbar.AppBarLayout
         android:id="@+id/specialitytoolbar_container"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:background="@color/backgroundcolor"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
@@ -21,7 +23,7 @@
             app:titleTextColor="@color/black"
             app:subtitleTextColor="@color/white"
             app:subtitleTextAppearance="@color/white"
-            android:backgroundTint="@color/white"
+            android:backgroundTint="@color/backgroundcolor"
             android:layout_width="match_parent"
             android:layout_weight="1"
             android:layout_height="?attr/actionBarSize"
