@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/container"
-    android:background="@color/white"
+    android:background="@color/backgroundcolor"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".activities.cme.CmeActivity">
@@ -21,7 +21,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:layout_constraintEnd_toEndOf="parent"
-            android:background="@color/white"
+            android:background="@color/backgroundcolor"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent">
 
@@ -33,7 +33,7 @@
                 app:navigationIcon="@drawable/arrow_bk"
                 android:layout_width="match_parent"
                 android:layout_height="?attr/actionBarSize"
-                android:background="@color/white"
+                android:background="@color/backgroundcolor"
                 app:menu="@menu/home_menu">
 
                 <LinearLayout
@@ -178,6 +178,7 @@
                         android:layout_margin="@dimen/_10ssp"
                         android:layout_height="match_parent"
                         android:id="@+id/tablayout"
+                        android:background="@color/backgroundcolor"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent">
 
