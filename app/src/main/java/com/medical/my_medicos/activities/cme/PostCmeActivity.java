@@ -670,7 +670,7 @@ public class PostCmeActivity extends AppCompatActivity {
 
                 // The following code is used to create and display a notification in the device's notification bar
                 NotificationCompat.Builder builder = new NotificationCompat.Builder(this, channel)
-                        .setSmallIcon(R.drawable.logo)
+                        .setSmallIcon(R.drawable.iconlogo)
                         .setContentTitle(title)
                         .setContentText(text)
                         .setPriority(NotificationCompat.PRIORITY_DEFAULT);

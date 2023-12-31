@@ -16,15 +16,16 @@ android {
         minSdk = 24
         //noinspection ExpiredTargetSdkVersion
         targetSdk = 34
-        versionCode = 5
-        versionName = "1.0.5"
+        versionCode = 7
+        versionName = "1.0.7"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
 
     buildTypes {
         release {
-            isMinifyEnabled = false
+            isMinifyEnabled = true
+            isShrinkResources = true
             proguardFiles(
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro"
@@ -89,8 +90,8 @@ dependencies {
     implementation("com.google.firebase:firebase-firestore:24.10.0")
     implementation ("com.squareup.picasso:picasso:2.71828")
     //....
-    implementation ("com.github.bumptech.glide:glide:4.13.1")
-    annotationProcessor ("com.github.bumptech.glide:compiler:4.13.0")
+    implementation ("com.github.bumptech.glide:glide:4.14.2")
+    annotationProcessor ("com.github.bumptech.glide:compiler:4.14.2")
     /* For Slider - End */
 
     /* For Rounded Image View */

@@ -51,11 +51,11 @@ public class NotificationService extends FirebaseMessagingService {
         // Create an intent to open your main activity when the notification is clicked
         Intent intent = new Intent(this, HomeActivity.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-        PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, intent, PendingIntent.FLAG_ONE_SHOT);
+        PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, intent, PendingIntent.FLAG_ONE_SHOT | PendingIntent.FLAG_IMMUTABLE);
 
         // Create the notification
         NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder(this, "your_channel_id")
-                .setSmallIcon(R.drawable.logo)
+                .setSmallIcon(R.drawable.iconlogo)
                 .setContentTitle(title)
                 .setContentText(text)
                 .setAutoCancel(true)

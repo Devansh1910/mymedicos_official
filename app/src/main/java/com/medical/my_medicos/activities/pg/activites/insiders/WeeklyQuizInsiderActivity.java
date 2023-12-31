@@ -45,12 +45,16 @@ public class WeeklyQuizInsiderActivity extends AppCompatActivity {
         Intent intent = getIntent();
         String str = intent.getStringExtra("Title");
         quizList = new ArrayList<>();
+
+        // Clear existing questions before adding new one
+
         FirebaseFirestore db = FirebaseFirestore.getInstance();
         CollectionReference quizzCollection = db.collection("PGupload").document("Weekley").collection("Quiz");
         quizzCollection.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
             @Override
             public void onComplete(@NonNull Task<QuerySnapshot> task) {
                 if (task.isSuccessful()) {
+                    quizList.clear();
                     for (QueryDocumentSnapshot document : task.getResult()) {
                         String speciality = document.getString("speciality");
                         Log.d("Error in Speciality", speciality);
