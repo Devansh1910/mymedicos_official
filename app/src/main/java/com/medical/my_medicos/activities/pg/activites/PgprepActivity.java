@@ -1,20 +1,36 @@
 package com.medical.my_medicos.activities.pg.activites;
 
+import static androidx.fragment.app.FragmentManager.TAG;
+
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.android.material.bottomappbar.BottomAppBar;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
 import com.medical.my_medicos.R;
 import com.medical.my_medicos.activities.guide.NewsGuideActivity;
 import com.medical.my_medicos.activities.guide.PgGuideActivity;
@@ -25,14 +41,13 @@ import com.medical.my_medicos.activities.pg.activites.internalfragments.NeetExam
 import com.medical.my_medicos.activities.pg.activites.internalfragments.PreparationPgFragment;
 import com.medical.my_medicos.databinding.ActivityPgprepBinding;
 
+import java.util.Map;
+
 public class  PgprepActivity extends AppCompatActivity {
     ActivityPgprepBinding binding;
     BottomNavigationView bottomNavigationPg;
     BottomAppBar bottomAppBarPg;
-
     private int lastSelectedItemId = 0;
-
-    ImageView cart_icon;
 
     private SwipeRefreshLayout swipeRefreshLayout;
 
@@ -42,6 +57,32 @@ public class  PgprepActivity extends AppCompatActivity {
         binding = ActivityPgprepBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
+        FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
+        if (currentUser != null) {
+            String currentUid = currentUser.getUid();
+            FirebaseDatabase database = FirebaseDatabase.getInstance();
+
+            database.getReference().child("profiles")
+                    .child(currentUid)
+                    .child("coins")
+                    .addValueEventListener(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(@NonNull DataSnapshot snapshot) {
+                            Integer coinsValue = snapshot.getValue(Integer.class);
+                            if (coinsValue != null) {
+                                binding.currentcoinspg.setText(String.valueOf(coinsValue));
+                            } else {
+                                binding.currentcoinspg.setText("0");
+                            }
+                        }
+
+                        @SuppressLint("RestrictedApi")
+                        @Override
+                        public void onCancelled(@NonNull DatabaseError error) {
+                            Log.e(TAG, "Error loading coins from database: " + error.getMessage());
+                        }
+                    });
+        }
         setupBottomAppBar();
 
         HomePgFragment homeFragment = HomePgFragment.newInstance();
@@ -55,17 +96,10 @@ public class  PgprepActivity extends AppCompatActivity {
             }
         });
 
-        cart_icon = findViewById(R.id.cart_icon);
-        cart_icon.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent i = new Intent(PgprepActivity.this, PgGuideActivity.class);
-                startActivity(i);
-            }
-        });
-
-        LinearLayout openpgdrawerIcon = findViewById(R.id.creditspoints);
+        LinearLayout openpgdrawerIcon = findViewById(R.id.creditscreen);
         openpgdrawerIcon.setOnClickListener(v -> openHomeSidePgActivity());
+
+
     }
 
     private void setupBottomAppBar() {

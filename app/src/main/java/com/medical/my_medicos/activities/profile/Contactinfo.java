@@ -268,7 +268,7 @@ public class Contactinfo extends AppCompatActivity {
                         public void run() {
                             Toast.makeText(Contactinfo.this, "Uploaded successfully", Toast.LENGTH_SHORT).show();
                         }
-                    }, 1000); // Show for 1 second
+                    }, 1000);
                 }).addOnFailureListener(e -> {
                     progressDialog.dismiss();
                 });
@@ -284,27 +284,16 @@ public class Contactinfo extends AppCompatActivity {
         }
     }
     private void postinfo() {
-
         currentaddress = presentaddress.getText().toString().trim();
         fulladdress= permanentaddress.getText().toString().trim();
 
         drage = agedr.getText().toString().trim();
-
-
-
-
-
-
-
-
         FirebaseFirestore db = FirebaseFirestore.getInstance();
-        Log.d("somethinf ",currentaddress);
-        Log.d("somthinf",documentid);
+        Log.d("Something went wrong ",currentaddress);
+        Log.d("Something went wrong",documentid);
 
-// Reference to the document you want to update
         DocumentReference docRef = db.collection("users").document(documentid);
 
-// Update the document with a new field
         docRef.update("present", currentaddress,
                         "permanent", fulladdress,
                         "Age", drage,
@@ -314,8 +303,6 @@ public class Contactinfo extends AppCompatActivity {
                     public void onSuccess(Void aVoid) {
                         Log.d(ContentValues.TAG, "DocumentSnapshot successfully updated!");
                         Toast.makeText(Contactinfo.this, "Successfully Ended", Toast.LENGTH_SHORT).show();
-
-
                     }
                 })
                 .addOnFailureListener(new OnFailureListener() {
@@ -324,8 +311,6 @@ public class Contactinfo extends AppCompatActivity {
                         Log.w(ContentValues.TAG, "Error updating document", e);
                     }
                 });
-
-
     }
 
 }

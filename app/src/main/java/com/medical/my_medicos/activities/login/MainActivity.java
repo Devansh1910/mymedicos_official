@@ -18,6 +18,9 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
+import com.google.android.gms.ads.MobileAds;
+import com.google.android.gms.ads.initialization.InitializationStatus;
+import com.google.android.gms.ads.initialization.OnInitializationCompleteListener;
 import com.medical.my_medicos.R;
 import com.medical.my_medicos.activities.home.HomeActivity;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -51,6 +54,16 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        // Ad Mob Content...
+
+        MobileAds.initialize(this, new OnInitializationCompleteListener() {
+            @Override
+            public void onInitializationComplete(InitializationStatus initializationStatus) {
+            }
+        });
+
+        // Ad mob Content Over....
+
         countryCodeSpinner = findViewById(R.id.countryCodeSpinner);
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this, R.array.country_codes, android.R.layout.simple_spinner_item);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
@@ -60,10 +73,6 @@ public class MainActivity extends AppCompatActivity {
         login = findViewById(R.id.lgn_btn);
         mdialog = new ProgressDialog(this);
         mauth = FirebaseAuth.getInstance();
-//
-//        toolbar = findViewById(R.id.logintoolbar);
-//        setSupportActionBar(toolbar);
-//        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         login.setOnClickListener(new View.OnClickListener() {
             @Override

@@ -12,7 +12,6 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
-
 import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.medical.my_medicos.R;
 import com.medical.my_medicos.activities.pg.activites.insiders.WeeklyQuizInsiderActivity;
@@ -62,7 +61,6 @@ public class ExamQuizAdapter extends RecyclerView.Adapter<ExamQuizAdapter.ExamVi
         TextView titleTextView;
         LinearLayout payforsets;
         LinearLayout demo;
-
         CardView pay;
 
         public ExamViewHolder(@NonNull View itemView) {
@@ -82,7 +80,7 @@ public class ExamQuizAdapter extends RecyclerView.Adapter<ExamQuizAdapter.ExamVi
             LinearLayout textClickMe = bottomSheetView.findViewById(R.id.paymentpart);
             LinearLayout demoClickMe = bottomSheetView.findViewById(R.id.demotest);
 
-            final QuizPG finalQuiz = quiz; // Declare a final variable
+            final QuizPG finalQuiz = quiz;
 
             textClickMe.setOnClickListener(v -> {
                 Intent intent = new Intent(context, PaymentPublicationActivity.class);

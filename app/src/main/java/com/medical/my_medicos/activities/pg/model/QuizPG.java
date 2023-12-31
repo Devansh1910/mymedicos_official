@@ -15,7 +15,6 @@ public class QuizPG {
     public String getTitle1() {
         return title1;
     }
-
     public String getDescription() {
         return description;
     }

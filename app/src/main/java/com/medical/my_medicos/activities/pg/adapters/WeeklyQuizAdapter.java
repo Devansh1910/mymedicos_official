@@ -8,11 +8,15 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
+import android.widget.SeekBar;
 import android.widget.TextView;
+import android.widget.Toast;
+
 import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.esafirm.stubutton.StuButton;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.medical.my_medicos.R;
 import com.medical.my_medicos.activities.pg.activites.insiders.WeeklyQuizInsiderActivity;
@@ -74,26 +78,41 @@ public class WeeklyQuizAdapter extends RecyclerView.Adapter<WeeklyQuizAdapter.Vi
         }
 
         private void showBottomSheet(QuizPG quiz) {
-            View bottomSheetView = LayoutInflater.from(context).inflate(R.layout.bottom_sheet_payment, null);
+            View bottomSheetView = LayoutInflater.from(context).inflate(R.layout.bottom_sheet_for_prep, null);
             BottomSheetDialog bottomSheetDialog = new BottomSheetDialog(context);
             bottomSheetDialog.setContentView(bottomSheetView);
 
-            @SuppressLint({"MissingInflatedId", "LocalSuppress"})
-            LinearLayout textClickMe = bottomSheetView.findViewById(R.id.paymentpart);
-            LinearLayout demoClickMe = bottomSheetView.findViewById(R.id.demotest);
+            SeekBar swipeSeekBar = bottomSheetView.findViewById(R.id.swipeSeekBar);
+            swipeSeekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+                @Override
+                public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+                    // Handle progress change
+                }
 
-            final QuizPG finalQuiz = quiz; // Declare a final variable
+                @Override
+                public void onStartTrackingTouch(SeekBar seekBar) {
+                    // Handle tracking touch start
+                }
 
-            textClickMe.setOnClickListener(v -> {
-                Intent intent = new Intent(context, PaymentPublicationActivity.class);
-                context.startActivity(intent);
-            });
+                @Override
+                public void onStopTrackingTouch(SeekBar seekBar) {
+                    int progress = seekBar.getProgress();
+                    int max = seekBar.getMax();
 
-            demoClickMe.setOnClickListener(v -> {
-                showQuizInsiderActivity(finalQuiz);
+                    if (progress <= max * 0.75) {
+                        // If thumb is scrolled to 75% or below, reset to 0
+                        seekBar.setProgress(0);
+                    } else {
+                        // If it is more than 75%, proceed with the action
+                        showQuizInsiderActivity(quiz);
+                        bottomSheetDialog.dismiss();
+                    }
+                }
             });
 
             bottomSheetDialog.show();
         }
+
+
     }
 }

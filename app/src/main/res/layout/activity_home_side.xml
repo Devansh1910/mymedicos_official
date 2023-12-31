@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:background="@drawable/rectangle"
+    android:background="@color/backgroundcolor"
     android:layout_height="match_parent"
     tools:context=".activities.home.sidedrawer.HomeSideActivity">
 
@@ -114,6 +114,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="@dimen/_8ssp"
+                android:elevation="@dimen/_10sdp"
                 android:background="@drawable/back6"
                 android:orientation="horizontal"
                 android:padding="@dimen/_10ssp">
@@ -134,6 +135,7 @@
                         android:id="@+id/verifieduser"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:visibility="gone"
                         android:layout_gravity="center">
 
                         <de.hdodenhof.circleimageview.CircleImageView
@@ -332,6 +334,71 @@
                 </LinearLayout>
 
             </LinearLayout>
+
+            <androidx.cardview.widget.CardView
+                android:id="@+id/intenttocredit"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="10dp"
+                app:cardCornerRadius="10dp"
+                android:background="@color/white"
+                tools:ignore="MissingConstraints"
+                tools:layout_editor_absoluteX="10dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@color/white"
+                    android:orientation="horizontal"
+                    android:padding="10dp">
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_weight="1"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/inter_extrabold"
+                        android:paddingHorizontal="20dp"
+                        android:paddingVertical="8dp"
+                        android:text="Your Credit Score"
+                        android:textColor="#595656"
+                        android:textSize="16sp"
+                        android:textStyle="bold" />
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:gravity="center"
+                        android:paddingVertical="5dp"
+                        android:paddingHorizontal="5dp"
+                        android:background="@drawable/darkcartbk"
+                        android:layout_weight="0.5"
+                        android:orientation="horizontal">
+
+                        <ImageView
+                            android:layout_width="30dp"
+                            android:layout_height="30dp"
+                            android:src="@drawable/brpurchase"/>
+
+                        <TextView
+                            android:id="@+id/currentcoinsprofile"
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:fontFamily="@font/inter_extrabold"
+                            android:layout_gravity="center"
+                            android:gravity="center"
+                            android:text="0"
+                            android:textAlignment="center"
+                            android:paddingHorizontal="5dp"
+                            android:textColor="@color/white"
+                            android:textSize="18sp"
+                            android:textStyle="bold" />
+
+                    </LinearLayout>
+
+                </LinearLayout>
+
+            </androidx.cardview.widget.CardView>
 
             <androidx.cardview.widget.CardView
                 android:id="@+id/contact_info"

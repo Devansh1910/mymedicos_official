@@ -1,5 +1,7 @@
 package com.medical.my_medicos.activities.home.sidedrawer;
 
+import static androidx.fragment.app.FragmentManager.TAG;
+
 import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
@@ -20,9 +22,15 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.cardview.widget.CardView;
 
 import com.airbnb.lottie.LottieAnimationView;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.medical.my_medicos.R;
 import com.medical.my_medicos.activities.guide.ProfileGuideActivity;
 import com.medical.my_medicos.activities.login.FirstActivity;
+import com.medical.my_medicos.activities.pg.activites.extras.CreditsActivity;
 import com.medical.my_medicos.activities.profile.Contactinfo;
 import com.medical.my_medicos.activities.profile.Personalinfo;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -42,29 +50,49 @@ import java.util.prefs.Preferences;
 public class HomeSideActivity extends AppCompatActivity {
 
     private static final String TAG = "ProfileActivity";
-
     LottieAnimationView verified;
-
     private LinearLayout progressBar;
     private static final String DATA_LOADED_KEY = "data_loaded";
-
-    CardView personalinfo, contactinfo,verified_contact_info;
-
-    TextView user_name_dr, user_email_dr, user_phone_dr, user_location_dr, user_interest_dr, user_prefix;
+    CardView personalinfo, contactinfo, verified_contact_info,intenttocredit;
+    TextView user_name_dr, user_email_dr, user_phone_dr, user_location_dr, user_interest_dr, user_prefix, user_credit;
     ImageView profileImageView, verifiedprofilebehere;
     FrameLayout verifiedUser, circularImageView;
-
     LinearLayout intenttoaboutme, totheguide;
     Toolbar toolbar;
-
     private boolean dataLoaded = false;
-
 
     @SuppressLint("MissingInflatedId")
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home_side);
+
+        FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
+        if (currentUser != null) {
+            String currentUid = currentUser.getUid();
+            FirebaseDatabase database = FirebaseDatabase.getInstance();
+
+            database.getReference().child("profiles")
+                    .child(currentUid)
+                    .child("coins")
+                    .addValueEventListener(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(@NonNull DataSnapshot snapshot) {
+                            Integer coinsValue = snapshot.getValue(Integer.class);
+                            TextView currentCoinsTextView = findViewById(R.id.currentcoinsprofile);
+                            if (coinsValue != null) {
+                                currentCoinsTextView.setText(String.valueOf(coinsValue));
+                            } else {
+                                currentCoinsTextView.setText("0");
+                            }
+                        }
+                        @SuppressLint("RestrictedApi")
+                        @Override
+                        public void onCancelled(@NonNull DatabaseError error) {
+                            Log.e(TAG, "Error loading coins from database: " + error.getMessage());
+                        }
+                    });
+        }
 
         toolbar = findViewById(R.id.profiletoolbar);
         setSupportActionBar(toolbar);
@@ -83,6 +111,15 @@ public class HomeSideActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Intent i = new Intent(HomeSideActivity.this, Personalinfo.class);
+                startActivity(i);
+            }
+        });
+
+        intenttocredit = findViewById(R.id.intenttocredit);
+        intenttocredit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent i = new Intent(HomeSideActivity.this, CreditsActivity.class);
                 startActivity(i);
             }
         });
@@ -146,7 +183,6 @@ public class HomeSideActivity extends AppCompatActivity {
             }
         });
 
-
         user_name_dr = findViewById(R.id.user_name_dr);
         user_email_dr = findViewById(R.id.user_email_dr);
         user_phone_dr = findViewById(R.id.user_phone_dr);
@@ -154,6 +190,7 @@ public class HomeSideActivity extends AppCompatActivity {
         user_interest_dr = findViewById(R.id.user_interest_dr);
         profileImageView = findViewById(R.id.circularImageView);
         user_prefix = findViewById(R.id.prefixselecterfromuser);
+        user_credit = findViewById(R.id.currentcoinsprofile);
         verifiedprofilebehere = findViewById(R.id.verifiedprofilebehere);
         verifiedUser = findViewById(R.id.verifieduser);
         verified = findViewById(R.id.verifiedanime);
@@ -161,6 +198,7 @@ public class HomeSideActivity extends AppCompatActivity {
         if (!dataLoaded) {
             fetchdata();
             fetchUserData();
+            fetchMedCoins();
         }
     }
 
@@ -185,17 +223,10 @@ public class HomeSideActivity extends AppCompatActivity {
     }
 
     private void logoutUser() {
-        // Use Firebase Auth or your authentication mechanism to sign out the user
         FirebaseAuth.getInstance().signOut();
-
-        // Clear any user session data if needed
-
-        // Navigate to FirstActivity
         Intent intent = new Intent(HomeSideActivity.this, FirstActivity.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
         startActivity(intent);
-
-        // Finish the current activity to prevent going back
         finish();
     }
 
@@ -226,8 +257,6 @@ public class HomeSideActivity extends AppCompatActivity {
         user_prefix.setText(prefix);
         showProgressBar();
         new DataFetchTask().execute();
-
-
     }
 
     private void fetchUserData() {
@@ -306,6 +335,11 @@ public class HomeSideActivity extends AppCompatActivity {
         }
     }
 
+    private void fetchMedCoins() {
+
+    }
+
+
     private void fetchUserProfileImage(String userId) {
         FirebaseStorage storage = FirebaseStorage.getInstance();
         StorageReference storageRef = storage.getReference().child("users").child(userId).child("profile_image.jpg");
@@ -331,6 +365,7 @@ public class HomeSideActivity extends AppCompatActivity {
         finish();
         return super.onSupportNavigateUp();
     }
+
     private void showProgressBar() {
         progressBar.setVisibility(View.VISIBLE);
     }
@@ -344,7 +379,7 @@ public class HomeSideActivity extends AppCompatActivity {
         @Override
         protected Void doInBackground(Void... voids) {
             try {
-                Thread.sleep(2000); // Simulate a delay of 2 seconds
+                Thread.sleep(2000);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }

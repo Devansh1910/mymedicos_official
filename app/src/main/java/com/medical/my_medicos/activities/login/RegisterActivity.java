@@ -24,13 +24,15 @@ import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
 import java.util.regex.Pattern;
 
 public class RegisterActivity extends AppCompatActivity {
 
     Button register;
     private Spinner prefixSpinner, locationSpinner, interestSpinner;
-    private ArrayAdapter<CharSequence> prefixAdapter, locationAdapter, interestAdapter;
+    private ArrayAdapter<CharSequence> locationAdapter;
+    private ArrayAdapter<CharSequence> interestAdapter;
     private FirebaseAuth mAuth;
     private ProgressDialog progressDialog;
 
@@ -58,6 +60,7 @@ public class RegisterActivity extends AppCompatActivity {
         mAuth = FirebaseAuth.getInstance();
         progressDialog = new ProgressDialog(this);
 
+        userMap.put("MedCoins", 50);
         userMap.put("Streak", 0);
         userMap.put("QuizToday", "default");
 
@@ -67,8 +70,8 @@ public class RegisterActivity extends AppCompatActivity {
 
     private void setupSpinners() {
         // Prefix Spinner
-        prefixAdapter = ArrayAdapter.createFromResource(this,
-                R.array.prefix_options,android.R.layout.simple_spinner_item);
+        ArrayAdapter<CharSequence> prefixAdapter = ArrayAdapter.createFromResource(this,
+                R.array.prefix_options, android.R.layout.simple_spinner_item);
         prefixAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         prefixSpinner.setAdapter(prefixAdapter);
 
@@ -128,15 +131,15 @@ public class RegisterActivity extends AppCompatActivity {
         register.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                String mail = email.getText().toString().trim();
+                String mail = Objects.requireNonNull(email.getText()).toString().trim();
                 if (!isValidEmail(mail)) {
                     email.setError("Invalid Email Address");
                     return;
                 }
 
-                String name = fullName.getText().toString().trim();
-                String enteredPhone = phoneNumber.getText().toString().trim();
-                String pass = password.getText().toString().trim();
+                String name = Objects.requireNonNull(fullName.getText()).toString().trim();
+                String enteredPhone = Objects.requireNonNull(phoneNumber.getText()).toString().trim();
+                String pass = Objects.requireNonNull(password.getText()).toString().trim();
 
                 String phoneNo;
                 if (!enteredPhone.startsWith("+91")) {
@@ -174,16 +177,17 @@ public class RegisterActivity extends AppCompatActivity {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful()) {
-                            mAuth.getCurrentUser().sendEmailVerification().addOnCompleteListener(new OnCompleteListener<Void>() {
+                            Objects.requireNonNull(mAuth.getCurrentUser()).sendEmailVerification().addOnCompleteListener(new OnCompleteListener<Void>() {
                                 @Override
                                 public void onComplete(@NonNull Task<Void> task) {
                                     if (task.isSuccessful()) {
                                         // Use Number type for Streak in createUserInFirestore
                                         createUserInFirestore(mail, name, phoneNo,
-                                                userMap.get("location").toString(),
-                                                userMap.get("interest").toString(),
-                                                userMap.get("QuizToday").toString(),
-                                                Integer.parseInt(userMap.get("Streak").toString()));
+                                                Objects.requireNonNull(userMap.get("location")).toString(),
+                                                Objects.requireNonNull(userMap.get("interest")).toString(),
+                                                Objects.requireNonNull(userMap.get("QuizToday")).toString(),
+                                                Integer.parseInt(Objects.requireNonNull(userMap.get("MedCoins")).toString()),
+                                                Integer.parseInt(Objects.requireNonNull(userMap.get("Streak")).toString()));
 
                                         Intent i = new Intent(RegisterActivity.this, MainActivity.class);
                                         startActivity(i);
@@ -208,13 +212,14 @@ public class RegisterActivity extends AppCompatActivity {
         });
     }
 
-    private void createUserInFirestore(String mail, String name, String phoneNo, String location, String interest, String quiztoday,int streak) {
+    private void createUserInFirestore(String mail, String name, String phoneNo, String location, String interest, String quiztoday,int medcoins,int streak) {
         Map<String, Object> user = new HashMap<>();
         user.put("Email ID", mail);
         user.put("Name", name);
         user.put("Phone Number", phoneNo);
         user.put("Location", location);
         user.put("QuizToday", quiztoday);
+        user.put("MedCoins", medcoins);
         user.put("Streak", streak);
         user.put("Interest", interest);
         user.put("Prefix", userMap.get("prefix").toString());
@@ -266,8 +271,6 @@ public class RegisterActivity extends AppCompatActivity {
                     }
                 });
     }
-
-
 
     public static boolean isPasswordValid(String password) {
         // Implement password validation logic as needed
