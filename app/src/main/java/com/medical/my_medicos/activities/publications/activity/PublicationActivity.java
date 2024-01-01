@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.ImageView;
 
 import androidx.annotation.NonNull;
@@ -111,7 +112,6 @@ public class PublicationActivity extends AppCompatActivity {
     }
     void getCategories() {
         RequestQueue queue = Volley.newRequestQueue(this);
-
         StringRequest request = new StringRequest(Request.Method.GET, ConstantsDashboard.GET_SPECIALITY, new Response.Listener<String>() {
             @SuppressLint("NotifyDataSetChanged")
             @Override
@@ -121,27 +121,20 @@ public class PublicationActivity extends AppCompatActivity {
                     JSONObject mainObj = new JSONObject(response);
                     if (mainObj.getString("status").equals("success")) {
                         JSONArray categoriesArray = mainObj.getJSONArray("data");
-                        int categoriesCount = Math.min(categoriesArray.length(), 25);
-                        for (int i = 0; i < categoriesCount; i++) {
+
+                        for (int i = 0; i < categoriesArray.length(); i++) {
                             JSONObject object = categoriesArray.getJSONObject(i);
-                            Category category = new Category(
-                                    object.getString("id"),
-                                    object.getInt("priority")
-                            );
-                            categories.add(category);
-                            Log.e("Something went wrong..",object.getString("priority"));
+                            int priority = object.getInt("priority");
+                            if (priority >= 1 && priority <= 3) {
+                                Category category = new Category(
+                                        object.getString("id"),
+                                        priority
+                                );
+                                categories.add(category);
+                                Log.e("Something went wrong..", String.valueOf(priority));
+                            }
                         }
 
-//                        if (categoriesArray.length() > 5) {
-//                            Category moreCategory = new Category(
-//                                    "More",
-//                                    , // Replace with the actual icon for the "More" category
-//                                    "#CCCCCC", // Replace with the color for the "More" category
-//                                    "View More Categories",
-//                                    -1 // Replace with a unique ID for the "More" category
-//                            );
-//                            categories.add(moreCategory);
-//                        }
                         categoryAdapter.notifyDataSetChanged();
 
                         binding.categoriesList.addOnItemTouchListener(new RecyclerView.OnItemTouchListener() {
@@ -152,15 +145,14 @@ public class PublicationActivity extends AppCompatActivity {
 
                                 if (position != RecyclerView.NO_POSITION) {
                                     if (position == categories.size() - 1 && categories.get(position).getPriority() == -1) {
-                                        // Redirect to CategoryPublicationInsiderActivity
                                         Intent intent = new Intent(PublicationActivity.this, CategoryPublicationInsiderActivity.class);
                                         startActivity(intent);
                                     } else {
-
                                     }
                                 }
                                 return false;
                             }
+
                             @Override
                             public void onTouchEvent(@NonNull RecyclerView rv, @NonNull MotionEvent e) {}
 
@@ -169,6 +161,7 @@ public class PublicationActivity extends AppCompatActivity {
                         });
                         categoryAdapter.notifyDataSetChanged();
                     } else {
+
                     }
                 } catch (JSONException e) {
                     e.printStackTrace();
@@ -177,12 +170,13 @@ public class PublicationActivity extends AppCompatActivity {
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-
+                // Handle errors here
             }
         });
 
         queue.add(request);
     }
+
 
     void initProducts() {
         products = new ArrayList<>();
