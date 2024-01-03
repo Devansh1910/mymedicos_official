@@ -64,9 +64,7 @@ public class JobsActivity extends AppCompatActivity {
     private ArrayAdapter<CharSequence> subspecialityAdapter;
     private final String[][] subspecialities = subSpecialitiesData.subspecialities;
     MyAdapter6 adapter1;
-
     FloatingActionButton floatingActionButton;
-
     private ViewPager2 pager;
     private TabLayout tabLayout;
     RecyclerView recyclerView2;
@@ -75,9 +73,7 @@ public class JobsActivity extends AppCompatActivity {
     Toolbar toolbar;
     TabLayout tab;
     ViewPager viewPager;
-
     ImageView cart_icon;
-//    private ActivityYourActivityBinding binding;
 
     @SuppressLint("MissingInflatedId")
     @Override
@@ -87,11 +83,7 @@ public class JobsActivity extends AppCompatActivity {
 
         toolbar = findViewById(R.id.jobstoolbar);
         setSupportActionBar(toolbar);
-//        tab=findViewById(R.id.tabLayout);
-//        viewPager=findViewById(R.id.view_pager);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-
-//........................
 
         cart_icon = findViewById(R.id.cart_icon);
         cart_icon.setOnClickListener(new View.OnClickListener() {
@@ -102,7 +94,6 @@ public class JobsActivity extends AppCompatActivity {
             }
         });
 
-//.........................
         floatingActionButton=findViewById(R.id.floatingActionButton);
         floatingActionButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -113,31 +104,21 @@ public class JobsActivity extends AppCompatActivity {
         });
 
         String[] specialitiesArray = getResources().getStringArray(R.array.specialityjobs);
-
-// Convert the string array into a List
         List<String> specialitiesList = Arrays.asList(specialitiesArray);
-
-// Initialize your joblist2
         List<jobitem2> joblist2 = new ArrayList<jobitem2>();
-
-// Populate joblist2 with subspecialities
         for (String subspeciality : specialitiesList) {
             joblist2.add(new jobitem2(subspeciality));
         }
 
-// Set up your RecyclerView
         recyclerView2 = findViewById(R.id.recyclerview6);
-        int spanCount = 2; // Number of items per row
+        int spanCount = 2;
         GridLayoutManager gridLayoutManager = new GridLayoutManager(this, spanCount);
         recyclerView2.setLayoutManager(gridLayoutManager);
         recyclerView2.setAdapter(new MyAdapter7(this, joblist2));
-
         recyclerView1 = findViewById(R.id.recyclerview5);
         List<jobitem1> joblist = new ArrayList<jobitem1>();
 
-
         FirebaseFirestore dc = FirebaseFirestore.getInstance();
-        //......
         dc.collection("JOB")
                 .get()
                 .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
@@ -149,7 +130,6 @@ public class JobsActivity extends AppCompatActivity {
 
                                 Map<String, Object> dataMap = document.getData();
                                 String speciality = "";
-
                                 String Organiser = (String) dataMap.get("JOB Organiser");
                                 String Location = (String) dataMap.get("Location");
                                 String date = (String) dataMap.get("date");
@@ -160,9 +140,6 @@ public class JobsActivity extends AppCompatActivity {
 
                                 jobitem1 c = new jobitem1(speciality, Organiser, Location, date, user,Title , Category,documentid);
                                 joblist.add(c);
-
-//                                // Pass the joblist to the adapter
-//                                Log.d("speciality2", speciality);
                                 recyclerView1.setLayoutManager(new LinearLayoutManager(getApplication(),LinearLayoutManager.HORIZONTAL, false));
                                 recyclerView1.setAdapter( new MyAdapter6(getApplication(),joblist));
                                 Log.d("speciality2", speciality);
@@ -185,20 +162,16 @@ public class JobsActivity extends AppCompatActivity {
         int itemId = item.getItemId();
 
         if (itemId == R.id.drawer_jobsposted) {
-//            Toast.makeText(this, "Chat clicked", Toast.LENGTH_SHORT).show();
             Intent i = new Intent(this, JobsPostedYou.class);
             startActivity(i);
         } else if (itemId == R.id.drawer_jobsapplied) {
             Intent i = new Intent(this, JobsApplyActivity2.class);
             startActivity(i);
         }
-        switch (item.getItemId()) {
-            case android.R.id.home:
-                // Handle the back arrow click, finish the current activity
-                finish();
-                return true;
-            default:
-                return super.onOptionsItemSelected(item);
+        if (item.getItemId() == android.R.id.home) {
+            finish();
+            return true;
         }
+        return super.onOptionsItemSelected(item);
     }
 }
