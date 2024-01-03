@@ -18,9 +18,9 @@ public class ViewPagerAdapter extends PagerAdapter {
     Context context;
 
     int sliderAllImages[] = {
-            R.drawable.cme11,
             R.drawable.libgirl,
-            R.drawable.cme11,
+            R.drawable.ggg,
+            R.drawable.ddd,
     };
 
     int sliderAllTitle[] = {

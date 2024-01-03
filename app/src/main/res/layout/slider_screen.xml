@@ -10,12 +10,11 @@
     <ImageView
         android:id="@+id/sliderImage"
         android:layout_width="match_parent"
-        android:layout_height="252dp"
-        android:layout_marginHorizontal="50dp"
+        android:layout_height="@dimen/_250sdp"
+        android:layout_marginHorizontal="30dp"
         android:layout_marginTop="10dp"
-        android:background="@drawable/bg"
         android:scaleType="centerCrop"
-        android:src="@drawable/cme11" />
+        android:src="@drawable/libgirl" />
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -29,7 +28,7 @@
             android:id="@+id/sliderTitle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="50dp"
+            android:layout_marginTop="20dp"
             android:text="@string/screen1"
             android:textAlignment="center"
             android:textColor="@color/black"

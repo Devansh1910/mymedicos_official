@@ -7,6 +7,14 @@
     android:background="@drawable/rectangle1"
     android:layout_height="match_parent"
     tools:context=".activities.login.NavigationActivity">
+    <com.airbnb.lottie.LottieAnimationView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:lottie_autoPlay="true"
+        android:scaleType="centerCrop"
+        app:lottie_loop="true"
+        app:lottie_rawRes="@raw/topbk"
+        app:lottie_speed="1" />
 
     <Button
         android:id="@+id/skipButton"
@@ -28,7 +36,7 @@
         android:id="@+id/slideViewPager"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginVertical="@dimen/_120sdp"
+        android:layout_marginVertical="@dimen/_80sdp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

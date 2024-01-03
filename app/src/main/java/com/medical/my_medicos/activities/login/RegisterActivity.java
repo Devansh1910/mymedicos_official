@@ -1,5 +1,6 @@
 package com.medical.my_medicos.activities.login;
 
+import android.annotation.SuppressLint;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
@@ -42,6 +43,7 @@ public class RegisterActivity extends AppCompatActivity {
 
     TextInputEditText email, fullName, phoneNumber, password;
 
+    @SuppressLint("MissingInflatedId")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -50,7 +52,8 @@ public class RegisterActivity extends AppCompatActivity {
         register = findViewById(R.id.register);
         prefixSpinner = findViewById(R.id.prefixSpinner);
         locationSpinner = findViewById(R.id.city);
-        interestSpinner = findViewById(R.id.interest);
+        interestSpinner = findViewById(R.id.interest1);
+        interestSpinner = findViewById(R.id.interest2);
         email = findViewById(R.id.emailedit);
         fullName = findViewById(R.id.fullnameedit);
         phoneNumber = findViewById(R.id.phonenumberededit);
