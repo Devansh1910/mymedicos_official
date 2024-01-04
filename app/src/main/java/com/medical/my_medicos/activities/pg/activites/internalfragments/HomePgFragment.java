@@ -182,8 +182,6 @@ public class HomePgFragment extends Fragment {
         getPerDayQuestions(quiztiddaya); // Add this line to fetch data
     }
 
-
-
     // For the Slider
     private void initSliderPg() {
         getRecentPgSlider();

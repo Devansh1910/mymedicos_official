@@ -12,6 +12,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -49,23 +50,19 @@ public class neetexampadapter extends RecyclerView.Adapter<neetexampadapter.Neet
     @Override
     public NeetQuizQuestionViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(context).inflate(R.layout.question_quiz_design_weekly1, parent, false);
-//        textViewTimer = view.findViewById(R.id.textViewTimer);
         return new NeetQuizQuestionViewHolder(view);
     }
 
     @Override
     public void onBindViewHolder(@NonNull NeetQuizQuestionViewHolder holder, int position) {
         Neetpg quizquestion = quizquestionsweekly.get(holder.getAdapterPosition());
-
         currentQuestionIndex = holder.getAdapterPosition();
-
         holder.questionspan.setText(quizquestion.getQuestion());
         holder.optionA.setText(quizquestion.getOptionA());
         holder.optionB.setText(quizquestion.getOptionB());
         holder.optionC.setText(quizquestion.getOptionC());
         holder.optionD.setText(quizquestion.getOptionD());
         resetOptionStyle(holder);
-//        disableOptionSelection();
         isOptionSelectionEnabled = true;
 
         if (quizquestion.getImage() != null && !quizquestion.getImage().isEmpty()) {
@@ -75,7 +72,6 @@ public class neetexampadapter extends RecyclerView.Adapter<neetexampadapter.Neet
         } else {
             holder.ifthequestionhavethumbnail.setVisibility(View.GONE);
         }
-
         setOptionClickListeners(holder);
     }
 
@@ -88,19 +84,10 @@ public class neetexampadapter extends RecyclerView.Adapter<neetexampadapter.Neet
 
     private void handleOptionClick(NeetQuizQuestionViewHolder holder, String selectedOption) {
         if (isOptionSelectionEnabled) {
-//            if (selectedOption == null || selectedOption.isEmpty()) {
-//                showNoOptionSelectedDialog(holder);
-//                return;  // Do not proceed further
-//            }
             resetOptionStyle(holder);
             setOptionSelectedStyle(holder, selectedOption);
-
             Neetpg quizquestion = quizquestionsweekly.get(holder.getAdapterPosition());
             quizquestion.setSelectedOption(selectedOption);
-
-
-            // Show correct and selected options along with the description
-//            showOptionsAndDescription(quizquestion, holder);
         }
     }
 
@@ -110,66 +97,11 @@ public class neetexampadapter extends RecyclerView.Adapter<neetexampadapter.Neet
 
     public void setQuizQuestions(List<Neetpg> quizQuestions) {
         this.quizquestionsweekly = new ArrayList<>(quizQuestions);
-        notifyDataSetChanged(); // Notify the adapter that the data has changed
-    }
-
-    private void showNoOptionSelectedDialog(NeetQuizQuestionViewHolder holder) {
-        if (context instanceof Activity && !((Activity) context).isFinishing()) {
-            AlertDialog.Builder builder = new AlertDialog.Builder(context);
-            Neetpg quizquestion = quizquestionsweekly.get(currentQuestionIndex);
-
-            String correctOption = quizquestion.getCorrectAnswer();
-            String description = quizquestion.getDescription();
-
-            String message = "Correct Option: " + correctOption + "\n";
-            message += "You did not select any option.\n";
-            message += "Description: " + description;
-
-            builder.setTitle("No Option Selected");
-            builder.setMessage(message);
-
-            AlertDialog dialog = builder.create();
-            if (context instanceof Activity && !((Activity) context).isFinishing()) {
-                dialog.show();
-                dialog.setOnDismissListener(dialogInterface -> {
-                    resetOptionStyle(holder);
-                    if (onOptionSelectedListener != null) {
-                        onOptionSelectedListener.onOptionSelected();
-                    }
-                });
-            }
-        }
-    }
-
-    private void showOptionsAndDescription(Neetpg quizQuestion, NeetQuizQuestionViewHolder holder) {
-        String correctOption = quizQuestion.getCorrectAnswer();
-        String selectedOption = quizQuestion.getSelectedOption();
-        String description = quizQuestion.getDescription();
-
-        String message = "Correct Option: " + correctOption + "\n";
-        message += "Your Selected Option: " + selectedOption + "\n";
-        message += "Description: " + description;
-
-        AlertDialog.Builder builder = new AlertDialog.Builder(context);
-        builder.setTitle("Options and Description");
-        builder.setMessage(message);
-        builder.setPositiveButton("OK", (dialog, which) -> {
-            resetOptionStyle(holder);
-            dialog.dismiss();
-            if (onOptionSelectedListener != null) {
-                onOptionSelectedListener.onOptionSelected();
-            }
-        });
-        builder.show();
-        disableOptionSelection();
+        notifyDataSetChanged();
     }
 
     public interface OnOptionSelectedListener {
         void onOptionSelected();
-    }
-
-    public void setOnOptionSelectedListener(OnOptionSelectedListener listener) {
-        this.onOptionSelectedListener = listener;
     }
 
     private void setOptionSelectedStyle(NeetQuizQuestionViewHolder holder, String selectedOption) {
@@ -263,14 +195,7 @@ public class neetexampadapter extends RecyclerView.Adapter<neetexampadapter.Neet
 
             dialog.show();
         } else {
-            // Handle case where imageUrl is null or empty
+            Toast.makeText(context, "Something went wrong", Toast.LENGTH_SHORT).show();
         }
-    }
-
-    private void showWrongAnswerPopup() {
-        Intent intent = new Intent(context, ResultActivityNeet.class);
-        intent.putExtra("SELECTED_OPTION", selectedOption);
-        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-        context.startActivity(intent);
     }
 }

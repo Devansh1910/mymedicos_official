@@ -31,8 +31,7 @@
             android:background="@drawable/getstartedbk"
             android:gravity="center"
             android:elevation="@dimen/_10ssp"
-            android:orientation="vertical"
-          >
+            android:orientation="vertical">
 
             <ImageView
                 android:layout_width="wrap_content"
@@ -66,6 +65,7 @@
                 android:textColor="@color/unselected"
                 android:textSize="@dimen/_16ssp"
                 android:textStyle="normal" />
+
         </LinearLayout>
 
     </RelativeLayout>

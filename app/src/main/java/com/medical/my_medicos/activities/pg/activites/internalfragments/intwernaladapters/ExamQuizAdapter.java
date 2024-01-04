@@ -7,6 +7,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import androidx.annotation.NonNull;
@@ -71,8 +72,7 @@ public class ExamQuizAdapter extends RecyclerView.Adapter<ExamQuizAdapter.ExamVi
 
     public class ExamViewHolder extends RecyclerView.ViewHolder {
         TextView titleTextView,time;
-        LinearLayout payforsets;
-        LinearLayout demo;
+        Button payforsets;
         CardView pay;
 
         public ExamViewHolder(@NonNull View itemView) {
@@ -80,7 +80,6 @@ public class ExamQuizAdapter extends RecyclerView.Adapter<ExamQuizAdapter.ExamVi
             titleTextView = itemView.findViewById(R.id.titleSets);
             time = itemView.findViewById(R.id.availabletilltime);
             payforsets = itemView.findViewById(R.id.paymentpart);
-            demo = itemView.findViewById(R.id.demotest);
             pay = itemView.findViewById(R.id.payfortheexam);
         }
 
@@ -89,18 +88,11 @@ public class ExamQuizAdapter extends RecyclerView.Adapter<ExamQuizAdapter.ExamVi
             BottomSheetDialog bottomSheetDialog = new BottomSheetDialog(context);
             bottomSheetDialog.setContentView(bottomSheetView);
 
-            @SuppressLint({"MissingInflatedId", "LocalSuppress"})
-            LinearLayout textClickMe = bottomSheetView.findViewById(R.id.paymentpart);
-            LinearLayout demoClickMe = bottomSheetView.findViewById(R.id.demotest);
+            Button click = bottomSheetView.findViewById(R.id.paymentpart);
 
             final QuizPG finalQuiz = quiz;
 
-            textClickMe.setOnClickListener(v -> {
-                Intent intent = new Intent(context, PaymentPublicationActivity.class);
-                context.startActivity(intent);
-            });
-
-            demoClickMe.setOnClickListener(v -> {
+            click.setOnClickListener(v -> {
                 showQuizInsiderActivity(finalQuiz);
             });
 

@@ -40,7 +40,7 @@ public class WeeklyQuizAdapterinsider extends RecyclerView.Adapter<WeeklyQuizAda
     private OnOptionSelectedListener onOptionSelectedListener;
     private CountDownTimer countDownTimer;
     private int currentQuestionIndex = 0;
-    private static final long TIME_LIMIT_MILLIS = 10000;
+    private static final long TIME_LIMIT_MILLIS = 30000;
     public WeeklyQuizAdapterinsider(Context context, ArrayList<QuizPGinsider> quiz) {
         this.context = context;
         this.quizquestionsweekly = quiz;
@@ -58,7 +58,7 @@ public class WeeklyQuizAdapterinsider extends RecyclerView.Adapter<WeeklyQuizAda
     }
 
     @Override
-    public void onBindViewHolder(@NonNull WeeklyQuizQuestionViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull WeeklyQuizQuestionViewHolder holder, @SuppressLint("RecyclerView") int position) {
         QuizPGinsider quizquestion = quizquestionsweekly.get(position);
         currentQuestionIndex = position;
 
@@ -98,9 +98,6 @@ public class WeeklyQuizAdapterinsider extends RecyclerView.Adapter<WeeklyQuizAda
             public void onTick(long millisUntilFinished) {
                 long secondsRemaining = millisUntilFinished / 1000;
                 textViewTimer.setText(String.valueOf(secondsRemaining));
-
-                // Update the UI with the remaining time
-                // Example: updateTextViewWithRemainingTime(secondsRemaining);
             }
 
             @Override
@@ -118,15 +115,13 @@ public class WeeklyQuizAdapterinsider extends RecyclerView.Adapter<WeeklyQuizAda
             }
             if (selectedOption == null || selectedOption.isEmpty()) {
                 showNoOptionSelectedDialog(holder);
-                return;  // Do not proceed further
+                return;
             }
             resetOptionStyle(holder);
             setOptionSelectedStyle(holder, selectedOption);
 
             QuizPGinsider quizquestion = quizquestionsweekly.get(holder.getAdapterPosition());
             quizquestion.setSelectedOption(selectedOption);
-
-            // Show correct and selected options along with the description
             showOptionsAndDescription(quizquestion,holder);
 
         }
@@ -134,14 +129,14 @@ public class WeeklyQuizAdapterinsider extends RecyclerView.Adapter<WeeklyQuizAda
     public void disableOptionSelection() {
         isOptionSelectionEnabled = false;
     }
+    @SuppressLint("NotifyDataSetChanged")
     public void setQuizQuestions(List<QuizPGinsider> quizQuestions) {
         this.quizquestionsweekly = new ArrayList<>(quizQuestions);
-        notifyDataSetChanged(); // Notify the adapter that the data has changed
+        notifyDataSetChanged();
     }
 
     private void showNoOptionSelectedDialog(WeeklyQuizQuestionViewHolder holder) {
         if (context instanceof Activity && !((Activity) context).isFinishing()) {
-            // Use the activity context instead of the application context
             AlertDialog.Builder builder = new AlertDialog.Builder(context);
             QuizPGinsider quizquestion = quizquestionsweekly.get(currentQuestionIndex);
 
@@ -162,7 +157,6 @@ public class WeeklyQuizAdapterinsider extends RecyclerView.Adapter<WeeklyQuizAda
                 dialog.show();
                 dialog.setOnDismissListener(dialogInterface -> {
                     resetOptionStyle(holder);
-                    // Notify the adapter to load the next question
                     if (onOptionSelectedListener != null) {
                         onOptionSelectedListener.onOptionSelected();
                     }

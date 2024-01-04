@@ -7,6 +7,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.SeekBar;
 import android.widget.TextView;
@@ -70,9 +71,7 @@ public class WeeklyQuizAdapter extends RecyclerView.Adapter<WeeklyQuizAdapter.Vi
 
     public class ViewHolder extends RecyclerView.ViewHolder {
         TextView titleTextView,time;
-        LinearLayout payforsets;
-        LinearLayout demo;
-
+        Button payforsets;
         CardView pay;
 
         public ViewHolder(@NonNull View itemView) {
@@ -80,7 +79,6 @@ public class WeeklyQuizAdapter extends RecyclerView.Adapter<WeeklyQuizAdapter.Vi
             titleTextView = itemView.findViewById(R.id.titleSets);
             time=itemView.findViewById(R.id.availabletilltime);
             payforsets = itemView.findViewById(R.id.paymentpart);
-            demo = itemView.findViewById(R.id.demotest);
             pay = itemView.findViewById(R.id.payfortheexam);
         }
 
@@ -93,12 +91,10 @@ public class WeeklyQuizAdapter extends RecyclerView.Adapter<WeeklyQuizAdapter.Vi
             swipeSeekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
                 @Override
                 public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-                    // Handle progress change
                 }
 
                 @Override
                 public void onStartTrackingTouch(SeekBar seekBar) {
-                    // Handle tracking touch start
                 }
 
                 @Override
@@ -107,10 +103,8 @@ public class WeeklyQuizAdapter extends RecyclerView.Adapter<WeeklyQuizAdapter.Vi
                     int max = seekBar.getMax();
 
                     if (progress <= max * 0.75) {
-                        // If thumb is scrolled to 75% or below, reset to 0
                         seekBar.setProgress(0);
                     } else {
-                        // If it is more than 75%, proceed with the action
                         showQuizInsiderActivity(quiz);
                         bottomSheetDialog.dismiss();
                     }
@@ -123,14 +117,8 @@ public class WeeklyQuizAdapter extends RecyclerView.Adapter<WeeklyQuizAdapter.Vi
 
     }
     private String formatTimestamp(Timestamp timestamp) {
-        // Format the Firebase Timestamp to a string
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         Log.d("date",dateFormat.format(timestamp.toDate()));
         return dateFormat.format(timestamp.toDate());
     }
-//    private String formatTimestamp(Timestamp timestamp) {
-//        // Format the timestamp to a string
-//        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-//        return dateFormat.format(timestamp);
-//    }
 }
