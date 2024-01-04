@@ -15,6 +15,12 @@ import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.google.firebase.Timestamp;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.database.annotations.NotNull;
 import com.medical.my_medicos.R;
 import com.medical.my_medicos.activities.pg.activites.Neetexaminsider;
 import com.medical.my_medicos.activities.pg.activites.insiders.WeeklyQuizInsiderActivity;
@@ -74,6 +80,10 @@ public class ExamQuizAdapter extends RecyclerView.Adapter<ExamQuizAdapter.ExamVi
         TextView titleTextView,time;
         Button payforsets;
         CardView pay;
+        FirebaseDatabase database;
+        String currentUid;
+        int coins= 50;
+
 
         public ExamViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -84,8 +94,11 @@ public class ExamQuizAdapter extends RecyclerView.Adapter<ExamQuizAdapter.ExamVi
         }
 
         private void showBottomSheet(QuizPG quiz) {
+
             View bottomSheetView = LayoutInflater.from(context).inflate(R.layout.bottom_sheet_payment, null);
             BottomSheetDialog bottomSheetDialog = new BottomSheetDialog(context);
+            database = FirebaseDatabase.getInstance();
+            currentUid = FirebaseAuth.getInstance().getUid();
             bottomSheetDialog.setContentView(bottomSheetView);
 
             Button click = bottomSheetView.findViewById(R.id.paymentpart);
@@ -94,6 +107,42 @@ public class ExamQuizAdapter extends RecyclerView.Adapter<ExamQuizAdapter.ExamVi
 
             click.setOnClickListener(v -> {
                 showQuizInsiderActivity(finalQuiz);
+                database.getReference().child("profiles")
+                        .child(currentUid)
+                        .child("coins")
+                        .addListenerForSingleValueEvent(new ValueEventListener() {
+                            @Override
+                            public void onDataChange(@NonNull @NotNull DataSnapshot snapshot) {
+                                Integer coinsValue = snapshot.getValue(Integer.class);
+                                if (coinsValue != null) {
+                                    // Subtract 30 coins
+                                    int newCoinsValue = coinsValue - 30;
+
+                                    // Ensure the result is non-negative
+                                    if (newCoinsValue < 0) {
+                                        newCoinsValue = 0;
+                                    }
+
+                                    // Update the database with the new value
+                                    database.getReference().child("profiles")
+                                            .child(currentUid)
+                                            .child("coins")
+                                            .setValue(newCoinsValue);
+
+                                    // Now update your local variable 'coins' if needed
+                                    coins = newCoinsValue;
+
+                                    // Update your UI or perform any other actions with the new value
+                                    // binding.currentcoins.setText(String.valueOf(coins));
+                                }
+                            }
+
+                            @Override
+                            public void onCancelled(@NonNull @NotNull DatabaseError error) {
+                                // Handle onCancelled if needed
+                            }
+                        });
+
             });
 
             bottomSheetDialog.show();
