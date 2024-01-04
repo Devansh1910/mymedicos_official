@@ -25,6 +25,7 @@ import android.widget.ViewFlipper;
 import com.airbnb.lottie.LottieAnimationView;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.Timestamp;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.CollectionReference;
@@ -148,11 +149,12 @@ public class NeetExamFragment extends Fragment {
                     for (QueryDocumentSnapshot document : task.getResult()) {
                         String quizTitle = document.getString("title");
                         String speciality = document.getString("speciality");
+                        Timestamp To = document.getTimestamp("to");
 
                         if (finalTitle.isEmpty() || finalTitle.equals("Home")) {
                             int r = speciality.compareTo(title2);
                             if (r == 0) {
-                                QuizPG quizday = new QuizPG(quizTitle, title2);
+                                QuizPG quizday = new QuizPG(quizTitle, title2,To);
                                 quizpgneet.add(quizday);
                             }
 
@@ -160,7 +162,7 @@ public class NeetExamFragment extends Fragment {
                         } else {
                             int r = speciality.compareTo(finalTitle);
                             if (r == 0) {
-                                QuizPG quizday = new QuizPG(quizTitle, finalTitle);
+                                QuizPG quizday = new QuizPG(quizTitle, finalTitle,To);
                                 quizpgneet.add(quizday);
                             }
                         }

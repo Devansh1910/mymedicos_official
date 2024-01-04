@@ -78,6 +78,12 @@
             android:name=".activities.news.NewsDetailedActivity"
             android:exported="false" />
         <activity
+            android:name=".activities.pg.activites.ResultActivityNeet"
+            android:label="Result Activity Neet"/>
+        <activity
+            android:name="com.medical.my_medicos.activities.pg.activites.Neetexaminsider"
+           />
+        <activity
             android:name=".activities.slideshow.insider.SpecialitySlideshowInsiderActivity"
             android:exported="false" />
         <activity

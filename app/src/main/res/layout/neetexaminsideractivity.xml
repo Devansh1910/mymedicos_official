@@ -50,7 +50,7 @@
                         android:fontFamily="@font/roboto_bold"/>
 
                     <LinearLayout
-                        android:id="@+id/totheback"
+                        android:id="@+id/totheback1"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:orientation="horizontal"
@@ -59,7 +59,7 @@
                         android:background="@drawable/endbutton">
 
                         <ImageView
-                            android:id="@+id/cart_icon"
+                            android:id="@+id/cart_icon1"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:gravity="center"
@@ -87,24 +87,46 @@
         </com.google.android.material.appbar.AppBarLayout>
 
         <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/recycler_view"
+            android:id="@+id/recycler_view1"
             android:layout_width="match_parent"
             android:paddingBottom="@dimen/_50sdp"
             android:layout_height="wrap_content" />
-        <Button
-            android:id="@+id/nextButton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Next"
-            android:layout_gravity="end"
+        <LinearLayout
+
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_gravity="start"
             android:layout_marginTop="16dp"
-            android:layout_marginEnd="16dp"/>
+            android:orientation="horizontal">
+
+            <Button
+                android:id="@+id/prevButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Previous"
+                android:layout_marginTop="16dp"/>
+
+            <Button
+                android:id="@+id/nextButton1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+
+
+                android:layout_gravity="end"
+                android:layout_marginTop="16dp"
+                android:layout_marginEnd="16dp"
+                android:gravity="end"
+                android:text="Next" />
+
+        </LinearLayout>
+
+
 
 
     </LinearLayout>
 
     <TextView
-        android:id="@+id/endenabled"
+        android:id="@+id/endenabled1"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@drawable/bottomuploadbtnbkforug"

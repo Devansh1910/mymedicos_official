@@ -13,11 +13,14 @@ import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
+import com.google.firebase.Timestamp;
 import com.medical.my_medicos.R;
+import com.medical.my_medicos.activities.pg.activites.Neetexaminsider;
 import com.medical.my_medicos.activities.pg.activites.insiders.WeeklyQuizInsiderActivity;
 import com.medical.my_medicos.activities.pg.model.QuizPG;
 import com.medical.my_medicos.activities.publications.activity.PaymentPublicationActivity;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 
 public class ExamQuizAdapter extends RecyclerView.Adapter<ExamQuizAdapter.ExamViewHolder> {
@@ -40,15 +43,24 @@ public class ExamQuizAdapter extends RecyclerView.Adapter<ExamQuizAdapter.ExamVi
     public void onBindViewHolder(@NonNull ExamViewHolder holder, int position) {
         QuizPG quiz = quizList.get(position);
         holder.titleTextView.setText(quiz.getTitle());
+        holder.time.setText(formatTimestamp(quiz.getTo()));
+
 
         holder.pay.setOnClickListener(v -> {
             holder.showBottomSheet(quiz);
         });
     }
+    private String formatTimestamp(Timestamp timestamp) {
+        // Format the Firebase Timestamp to a string
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        Log.d("date",dateFormat.format(timestamp.toDate()));
+        return dateFormat.format(timestamp.toDate());
+    }
 
     private void showQuizInsiderActivity(QuizPG quiz) {
-        Intent intent = new Intent(context, WeeklyQuizInsiderActivity.class);
-        intent.putExtra("Title", quiz.getTitle1());
+        Intent intent = new Intent(context, Neetexaminsider.class);
+        intent.putExtra("Title1", quiz.getTitle1());
+        intent.putExtra("Title", quiz.getTitle());
         context.startActivity(intent);
     }
 
@@ -58,7 +70,7 @@ public class ExamQuizAdapter extends RecyclerView.Adapter<ExamQuizAdapter.ExamVi
     }
 
     public class ExamViewHolder extends RecyclerView.ViewHolder {
-        TextView titleTextView;
+        TextView titleTextView,time;
         LinearLayout payforsets;
         LinearLayout demo;
         CardView pay;
@@ -66,6 +78,7 @@ public class ExamQuizAdapter extends RecyclerView.Adapter<ExamQuizAdapter.ExamVi
         public ExamViewHolder(@NonNull View itemView) {
             super(itemView);
             titleTextView = itemView.findViewById(R.id.titleSets);
+            time = itemView.findViewById(R.id.availabletilltime);
             payforsets = itemView.findViewById(R.id.paymentpart);
             demo = itemView.findViewById(R.id.demotest);
             pay = itemView.findViewById(R.id.payfortheexam);
@@ -93,5 +106,6 @@ public class ExamQuizAdapter extends RecyclerView.Adapter<ExamQuizAdapter.ExamVi
 
             bottomSheetDialog.show();
         }
+
     }
 }
