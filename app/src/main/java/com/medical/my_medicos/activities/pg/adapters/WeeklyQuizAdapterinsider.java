@@ -1,5 +1,3 @@
-// WeeklyQuizAdapterinsider.java
-
 package com.medical.my_medicos.activities.pg.adapters;
 
 import android.annotation.SuppressLint;
@@ -9,19 +7,23 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.Typeface;
+import android.media.MediaPlayer;
 import android.os.CountDownTimer;
+import android.speech.tts.TextToSpeech;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.github.chrisbanes.photoview.PhotoView;
 import com.medical.my_medicos.R;
 import com.medical.my_medicos.activities.pg.activites.ResultActivity;
+import com.medical.my_medicos.activities.pg.activites.extras.InsiderDataBottomSheet;
 import com.medical.my_medicos.activities.pg.model.QuizPGinsider;
 import com.medical.my_medicos.databinding.QuestionQuizDesignWeeklyBinding;
 
@@ -38,14 +40,30 @@ public class WeeklyQuizAdapterinsider extends RecyclerView.Adapter<WeeklyQuizAda
     private String selectedOption;
 
     private OnOptionSelectedListener onOptionSelectedListener;
-    private CountDownTimer countDownTimer;
+
     private int currentQuestionIndex = 0;
+    private CountDownTimer countDownTimer;
     private static final long TIME_LIMIT_MILLIS = 30000;
+
+    private MediaPlayer mediaPlayer;
+
+    private TextToSpeech textToSpeech;
     public WeeklyQuizAdapterinsider(Context context, ArrayList<QuizPGinsider> quiz) {
         this.context = context;
         this.quizquestionsweekly = quiz;
         this.selectedOption = null;
         this.currentQuestionIndex = 0;
+
+        textToSpeech = new TextToSpeech(context, status -> {
+            if (status == TextToSpeech.SUCCESS) {
+                // TTS initialization successful
+            } else {
+                // Handle TTS initialization failure
+            }
+        });
+
+        mediaPlayer = MediaPlayer.create(context, R.raw.tictac); // Replace with your ticking sound resource
+        mediaPlayer.setLooping(true);
     }
 
     @NonNull
@@ -88,6 +106,7 @@ public class WeeklyQuizAdapterinsider extends RecyclerView.Adapter<WeeklyQuizAda
         holder.binding.optionC.setOnClickListener(view -> handleOptionClick(holder, "C"));
         holder.binding.optionD.setOnClickListener(view -> handleOptionClick(holder, "D"));
     }
+
     private void startTimer() {
         if (countDownTimer != null) {
             countDownTimer.cancel();
@@ -98,14 +117,61 @@ public class WeeklyQuizAdapterinsider extends RecyclerView.Adapter<WeeklyQuizAda
             public void onTick(long millisUntilFinished) {
                 long secondsRemaining = millisUntilFinished / 1000;
                 textViewTimer.setText(String.valueOf(secondsRemaining));
+
+                if (secondsRemaining <= 16 && secondsRemaining > 10) {
+                    textViewTimer.setBackgroundResource(R.drawable.counterbkfor16);
+                } else if (secondsRemaining <= 10) {
+                    textViewTimer.setBackgroundResource(R.drawable.counterforbk10);
+
+                    // Announce remaining time
+                    announceRemainingTime(secondsRemaining);
+
+                    // Play ticking sound
+                    if (!mediaPlayer.isPlaying()) {
+                        mediaPlayer.start();
+                    }
+                }
             }
 
             @Override
             public void onFinish() {
-                handleOptionClick(null, null);
+                showInsiderDataBottomSheet();
                 disableOptionSelection();
+                announceTimeUp();
+                // Stop ticking sound when time is up
+                if (mediaPlayer.isPlaying()) {
+                    mediaPlayer.pause();
+                }
             }
         }.start();
+    }
+
+    private void announceRemainingTime(long secondsRemaining) {
+        if (secondsRemaining > 0) {
+            String announcement = String.valueOf(secondsRemaining);
+            textToSpeech.speak(announcement, TextToSpeech.QUEUE_FLUSH, null, null);
+        } else {
+            announceTimeUp();
+        }
+    }
+
+    private void announceTimeUp() {
+        String announcement = "Time is up!";
+        textToSpeech.speak(announcement, TextToSpeech.QUEUE_FLUSH, null, null);
+    }
+
+    @Override
+    public void onDetachedFromRecyclerView(@NonNull RecyclerView recyclerView) {
+        super.onDetachedFromRecyclerView(recyclerView);
+        if (textToSpeech != null) {
+            textToSpeech.stop();
+            textToSpeech.shutdown();
+        }
+        // Release MediaPlayer resources
+        if (mediaPlayer != null) {
+            mediaPlayer.release();
+            mediaPlayer = null;
+        }
     }
 
     private void handleOptionClick(WeeklyQuizQuestionViewHolder holder, String selectedOption) {
@@ -165,8 +231,6 @@ public class WeeklyQuizAdapterinsider extends RecyclerView.Adapter<WeeklyQuizAda
         }
     }
 
-
-
     private void showOptionsAndDescription(QuizPGinsider quizQuestion,WeeklyQuizQuestionViewHolder holder) {
         String correctOption = quizQuestion.getCorrectAnswer();
         String selectedOption = quizQuestion.getSelectedOption();
@@ -182,7 +246,6 @@ public class WeeklyQuizAdapterinsider extends RecyclerView.Adapter<WeeklyQuizAda
         builder.setPositiveButton("OK", (dialog, which) -> {
             resetOptionStyle(holder);
             dialog.dismiss();
-            // Notify the adapter to load the next question
             if (onOptionSelectedListener != null) {
                 onOptionSelectedListener.onOptionSelected();
             }
@@ -190,15 +253,14 @@ public class WeeklyQuizAdapterinsider extends RecyclerView.Adapter<WeeklyQuizAda
         builder.show();
         disableOptionSelection();
     }
+
     public interface OnOptionSelectedListener {
         void onOptionSelected();
     }
 
-    // Provide a method to set the listener
     public void setOnOptionSelectedListener(OnOptionSelectedListener listener) {
         this.onOptionSelectedListener = listener;
     }
-
 
     private void setOptionSelectedStyle(WeeklyQuizQuestionViewHolder holder, String selectedOption) {
         TextView selectedTextView = null;
@@ -245,11 +307,6 @@ public class WeeklyQuizAdapterinsider extends RecyclerView.Adapter<WeeklyQuizAda
         }
     }
 
-
-//    public interface OnOptionSelectedListener {
-//        void onOptionSelected();
-//    }
-
     @Override
     public int getItemCount() {
         return quizquestionsweekly.size();
@@ -264,6 +321,7 @@ public class WeeklyQuizAdapterinsider extends RecyclerView.Adapter<WeeklyQuizAda
             binding = QuestionQuizDesignWeeklyBinding.bind(itemView);
         }
     }
+
     private void showCorrectAnswerPopup() {
         Intent intent = new Intent(context, ResultActivity.class);
         intent.putExtra("SELECTED_OPTION", selectedOption);
@@ -305,4 +363,8 @@ public class WeeklyQuizAdapterinsider extends RecyclerView.Adapter<WeeklyQuizAda
         context.startActivity(intent);
     }
 
+    private void showInsiderDataBottomSheet() {
+        InsiderDataBottomSheet bottomSheet = new InsiderDataBottomSheet();
+        bottomSheet.show(((AppCompatActivity) context).getSupportFragmentManager(), bottomSheet.getTag());
+    }
 }

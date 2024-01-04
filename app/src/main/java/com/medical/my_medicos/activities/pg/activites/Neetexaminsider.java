@@ -37,6 +37,8 @@ public class Neetexaminsider extends AppCompatActivity {
 
     private RecyclerView recyclerView;
     private neetexampadapter adapter;
+
+    private TextView currentquestion;
     private ArrayList<Neetpg> quizList1;
 
     private int currentQuestionIndex = 0;
@@ -47,6 +49,7 @@ public class Neetexaminsider extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.neetexaminsideractivity);
 
+        currentquestion= findViewById(R.id.currentquestion);
         recyclerView = findViewById(R.id.recycler_view1);
         quizList1 = new ArrayList<>();
 
@@ -140,7 +143,6 @@ public class Neetexaminsider extends AppCompatActivity {
     private void loadNextQuestion() {
         if (currentQuestionIndex < quizList1.size()) {
 
-
             adapter.setQuizQuestions(Collections.singletonList(quizList1.get(currentQuestionIndex)));
             recyclerView.smoothScrollToPosition(currentQuestionIndex);
             updateQuestionNumber();
@@ -157,17 +159,15 @@ public class Neetexaminsider extends AppCompatActivity {
             recyclerView.smoothScrollToPosition(currentQuestionIndex);
             updateQuestionNumber();
         } else {
-            // Show a message indicating that this is the first question
             Toast.makeText(this, "This is the first question", Toast.LENGTH_SHORT).show();
         }
     }
     private void updateQuestionNumber() {
         int totalQuestions = quizList1.size();
-
         String questionNumberText =  (currentQuestionIndex + 1) + " / " + totalQuestions;
         Log.d("Currentquestion Number", String.valueOf(currentQuestionIndex+1));
         Log.d("Currentquestion Number",String.valueOf(totalQuestions));
-//        questionNumberTextView.setText(questionNumberText);
+        currentquestion.setText(questionNumberText);
     }
 
 
@@ -175,7 +175,6 @@ public class Neetexaminsider extends AppCompatActivity {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setTitle("End Quiz");
         builder.setMessage("Are you sure you want to end the quiz?");
-
         builder.setPositiveButton("Confirm", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {

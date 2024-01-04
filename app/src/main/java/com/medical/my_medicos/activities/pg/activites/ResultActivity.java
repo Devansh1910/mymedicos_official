@@ -23,15 +23,14 @@ public class ResultActivity extends AppCompatActivity {
     private TextView correctAnswersTextView;
     private TextView totalQuestionsTextView;
 
-    @SuppressLint("MissingInflatedId")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_result);
 
         resultRecyclerView = findViewById(R.id.resultRecyclerView);
-//        correctAnswersTextView = findViewById(R.id.correctAnswersTextView);
-//        totalQuestionsTextView = findViewById(R.id.totalQuestionsTextView);
+        correctAnswersTextView = findViewById(R.id.correctanswercounter);
+        totalQuestionsTextView = findViewById(R.id.totalanswwercounter);
 
         LinearLayoutManager layoutManager = new LinearLayoutManager(this);
         resultRecyclerView.setLayoutManager(layoutManager);
@@ -42,15 +41,14 @@ public class ResultActivity extends AppCompatActivity {
         resultAdapter = new ResultReportAdapter(this, questions);
         resultRecyclerView.setAdapter(resultAdapter);
 
-        // Calculate and display the number of correct answers and total questions
         int correctAnswers = calculateCorrectAnswers(questions);
         int totalQuestions = questions.size();
         Log.d("Correct Answer", String.valueOf(correctAnswers));
         Log.d("Correct Answer", String.valueOf(totalQuestions));
 
-//
-//        correctAnswersTextView.setText("Correct Answers: " + correctAnswers);
-//        totalQuestionsTextView.setText("Total Questions: " + totalQuestions);
+
+        correctAnswersTextView.setText("Correct Answers: " + correctAnswers);
+        totalQuestionsTextView.setText("Total Questions: " + totalQuestions);
     }
 
     private int calculateCorrectAnswers(ArrayList<QuizPGinsider> questions) {
@@ -61,7 +59,6 @@ public class ResultActivity extends AppCompatActivity {
                 correctAnswers++;
             }
         }
-
         return correctAnswers;
     }
 }

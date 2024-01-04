@@ -10,6 +10,8 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
+
 import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
@@ -106,7 +108,6 @@ public class ExamQuizAdapter extends RecyclerView.Adapter<ExamQuizAdapter.ExamVi
             final QuizPG finalQuiz = quiz;
 
             click.setOnClickListener(v -> {
-                showQuizInsiderActivity(finalQuiz);
                 database.getReference().child("profiles")
                         .child(currentUid)
                         .child("coins")
@@ -116,16 +117,20 @@ public class ExamQuizAdapter extends RecyclerView.Adapter<ExamQuizAdapter.ExamVi
                                 Integer coinsValue = snapshot.getValue(Integer.class);
                                 if (coinsValue != null) {
                                     int newCoinsValue = coinsValue - 30;
-                                    if (newCoinsValue < 0) {
-                                        newCoinsValue = 0;
+                                    if (newCoinsValue >= 0) {
+                                        showQuizInsiderActivity(finalQuiz);
+                                        database.getReference().child("profiles")
+                                                .child(currentUid)
+                                                .child("coins")
+                                                .setValue(newCoinsValue);
+                                        coins = newCoinsValue;
+                                    }else{
+                                        Toast.makeText(context, "Insufficient Credits", Toast.LENGTH_SHORT).show();
+                                        database.getReference().child("profiles")
+                                                .child(currentUid)
+                                                .child("coins")
+                                                .setValue(coinsValue);
                                     }
-
-                                    // Update the database with the new value
-                                    database.getReference().child("profiles")
-                                            .child(currentUid)
-                                            .child("coins")
-                                            .setValue(newCoinsValue);
-                                    coins = newCoinsValue;
                                 }
                             }
 

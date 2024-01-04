@@ -31,8 +31,8 @@ public class ResultActivityNeet extends AppCompatActivity {
         setContentView(R.layout.activity_result);
 
         resultRecyclerView = findViewById(R.id.resultRecyclerView);
-//        correctAnswersTextView = findViewById(R.id.correctAnswersTextView);
-//        totalQuestionsTextView = findViewById(R.id.totalQuestionsTextView);
+        correctAnswersTextView = findViewById(R.id.correctanswercounter);
+        totalQuestionsTextView = findViewById(R.id.totalanswwercounter);
 
         LinearLayoutManager layoutManager = new LinearLayoutManager(this);
         resultRecyclerView.setLayoutManager(layoutManager);
@@ -48,9 +48,9 @@ public class ResultActivityNeet extends AppCompatActivity {
         int totalQuestions = questions.size();
         Log.d("Correct Answer", String.valueOf(correctAnswers));
         Log.d("Correct Answer", String.valueOf(totalQuestions));
-//
-//        correctAnswersTextView.setText("Correct Answers: " + correctAnswers);
-//        totalQuestionsTextView.setText("Total Questions: " + totalQuestions);
+
+        correctAnswersTextView.setText("Correct Answers: " + correctAnswers);
+        totalQuestionsTextView.setText("Total Questions: " + totalQuestions);
     }
 
     private int calculateCorrectAnswers(ArrayList<Neetpg> questions) {
