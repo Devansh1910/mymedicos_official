@@ -135,7 +135,6 @@ public class WeeklyQuizAdapterinsider extends RecyclerView.Adapter<WeeklyQuizAda
 
             @Override
             public void onFinish() {
-                showInsiderDataBottomSheet();
                 disableOptionSelection();
                 announceTimeUp();
                 // Stop ticking sound when time is up
@@ -363,8 +362,8 @@ public class WeeklyQuizAdapterinsider extends RecyclerView.Adapter<WeeklyQuizAda
         context.startActivity(intent);
     }
 
-    private void showInsiderDataBottomSheet() {
-        InsiderDataBottomSheet bottomSheet = new InsiderDataBottomSheet();
-        bottomSheet.show(((AppCompatActivity) context).getSupportFragmentManager(), bottomSheet.getTag());
-    }
+//    private void showInsiderDataBottomSheet() {
+//        InsiderDataBottomSheet bottomSheet = new InsiderDataBottomSheet();
+//        bottomSheet.show(((AppCompatActivity) context).getSupportFragmentManager(), bottomSheet.getTag());
+//    }
 }

@@ -31,7 +31,7 @@ import java.util.regex.Pattern;
 public class RegisterActivity extends AppCompatActivity {
 
     Button register;
-    private Spinner prefixSpinner, locationSpinner, interestSpinner;
+    private Spinner prefixSpinner, locationSpinner, interestSpinner,interestSpinner2;
     private ArrayAdapter<CharSequence> locationAdapter;
     private ArrayAdapter<CharSequence> interestAdapter;
     private FirebaseAuth mAuth;
@@ -43,7 +43,7 @@ public class RegisterActivity extends AppCompatActivity {
 
     TextInputEditText email, fullName, phoneNumber, password;
 
-    @SuppressLint("MissingInflatedId")
+    @SuppressLint({"MissingInflatedId", "WrongViewCast"})
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -53,7 +53,7 @@ public class RegisterActivity extends AppCompatActivity {
         prefixSpinner = findViewById(R.id.prefixSpinner);
         locationSpinner = findViewById(R.id.city);
         interestSpinner = findViewById(R.id.interest1);
-        interestSpinner = findViewById(R.id.interest2);
+        interestSpinner2 = findViewById(R.id.interest2);
         email = findViewById(R.id.emailedit);
         fullName = findViewById(R.id.fullnameedit);
         phoneNumber = findViewById(R.id.phonenumberededit);
@@ -115,12 +115,25 @@ public class RegisterActivity extends AppCompatActivity {
                 R.array.speciality, android.R.layout.simple_spinner_item);
         interestAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         interestSpinner.setAdapter(interestAdapter);
+        interestSpinner2.setAdapter(interestAdapter);
 
         interestSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int position, long id) {
                 String selectedInterest = adapterView.getItemAtPosition(position).toString();
                 userMap.put("interest", selectedInterest);
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+                // Do nothing
+            }
+        });
+        interestSpinner2.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int position, long id) {
+                String selectedInterest = adapterView.getItemAtPosition(position).toString();
+                userMap.put("interest2", selectedInterest);
             }
 
             @Override
@@ -225,6 +238,7 @@ public class RegisterActivity extends AppCompatActivity {
         user.put("MedCoins", medcoins);
         user.put("Streak", streak);
         user.put("Interest", interest);
+        user.put("Interest2", interest);
         user.put("Prefix", userMap.get("prefix").toString());
         user.put("MCN verified", false);
 
@@ -247,8 +261,6 @@ public class RegisterActivity extends AppCompatActivity {
                                         // Log failure if needed
                                     }
                                 });
-
-                        // Continue with the rest of the registration logic
                         mAuth.getCurrentUser().sendEmailVerification().addOnCompleteListener(new OnCompleteListener<Void>() {
                             @Override
                             public void onComplete(@NonNull Task<Void> task) {
@@ -256,11 +268,10 @@ public class RegisterActivity extends AppCompatActivity {
                                     Intent i = new Intent(RegisterActivity.this, MainActivity.class);
                                     startActivity(i);
                                     finish();
-
                                     Toast.makeText(getApplicationContext(), "Registration Successful, please verify your Email ID", Toast.LENGTH_SHORT).show();
                                     progressDialog.dismiss();
                                 } else {
-                                    Toast.makeText(getApplicationContext(), "Registration Failed", Toast.LENGTH_SHORT).show();
+//                                    Toast.makeText(getApplicationContext(), "Registration Failed", Toast.LENGTH_SHORT).show();
                                     progressDialog.dismiss();
                                 }
                             }
@@ -270,13 +281,12 @@ public class RegisterActivity extends AppCompatActivity {
                 .addOnFailureListener(new OnFailureListener() {
                     @Override
                     public void onFailure(@NonNull Exception e) {
-                        // Log failure if needed
+                        Toast.makeText(RegisterActivity.this, "Error", Toast.LENGTH_SHORT).show();
                     }
                 });
     }
 
     public static boolean isPasswordValid(String password) {
-        // Implement password validation logic as needed
         return password.length() >= 6 &&
                 Pattern.compile("[A-Z]").matcher(password).find() &&
                 Pattern.compile("[^a-zA-Z0-9]").matcher(password).find() &&
@@ -284,7 +294,6 @@ public class RegisterActivity extends AppCompatActivity {
     }
 
     private boolean isValidEmail(String email) {
-        // Implement email validation logic as needed
         return email.toLowerCase().endsWith("@gmail.com");
     }
 }

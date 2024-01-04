@@ -21,7 +21,6 @@ public class InsiderDataBottomSheet extends BottomSheetDialogFragment {
                              Bundle savedInstanceState) {
         return inflater.inflate(R.layout.bottom_sheet_insider_data, container, false);
 
-
     }
 
     @Override
