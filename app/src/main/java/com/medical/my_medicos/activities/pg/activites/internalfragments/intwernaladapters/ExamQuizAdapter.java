@@ -115,10 +115,7 @@ public class ExamQuizAdapter extends RecyclerView.Adapter<ExamQuizAdapter.ExamVi
                             public void onDataChange(@NonNull @NotNull DataSnapshot snapshot) {
                                 Integer coinsValue = snapshot.getValue(Integer.class);
                                 if (coinsValue != null) {
-                                    // Subtract 30 coins
                                     int newCoinsValue = coinsValue - 30;
-
-                                    // Ensure the result is non-negative
                                     if (newCoinsValue < 0) {
                                         newCoinsValue = 0;
                                     }
@@ -128,18 +125,12 @@ public class ExamQuizAdapter extends RecyclerView.Adapter<ExamQuizAdapter.ExamVi
                                             .child(currentUid)
                                             .child("coins")
                                             .setValue(newCoinsValue);
-
-                                    // Now update your local variable 'coins' if needed
                                     coins = newCoinsValue;
-
-                                    // Update your UI or perform any other actions with the new value
-                                    // binding.currentcoins.setText(String.valueOf(coins));
                                 }
                             }
 
                             @Override
                             public void onCancelled(@NonNull @NotNull DatabaseError error) {
-                                // Handle onCancelled if needed
                             }
                         });
 

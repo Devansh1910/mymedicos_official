@@ -140,8 +140,10 @@ public class Neetexaminsider extends AppCompatActivity {
     private void loadNextQuestion() {
         if (currentQuestionIndex < quizList1.size()) {
 
+
             adapter.setQuizQuestions(Collections.singletonList(quizList1.get(currentQuestionIndex)));
             recyclerView.smoothScrollToPosition(currentQuestionIndex);
+            updateQuestionNumber();
             currentQuestionIndex++;
 
         } else {
@@ -153,10 +155,19 @@ public class Neetexaminsider extends AppCompatActivity {
             currentQuestionIndex--;
             adapter.setQuizQuestions(Collections.singletonList(quizList1.get(currentQuestionIndex)));
             recyclerView.smoothScrollToPosition(currentQuestionIndex);
+            updateQuestionNumber();
         } else {
             // Show a message indicating that this is the first question
             Toast.makeText(this, "This is the first question", Toast.LENGTH_SHORT).show();
         }
+    }
+    private void updateQuestionNumber() {
+        int totalQuestions = quizList1.size();
+
+        String questionNumberText =  (currentQuestionIndex + 1) + " / " + totalQuestions;
+        Log.d("Currentquestion Number", String.valueOf(currentQuestionIndex+1));
+        Log.d("Currentquestion Number",String.valueOf(totalQuestions));
+//        questionNumberTextView.setText(questionNumberText);
     }
 
 
@@ -217,8 +228,9 @@ public class Neetexaminsider extends AppCompatActivity {
 
         for (Neetpg quizQuestion : quizList1) {
             if (quizQuestion.getSelectedOption() == null || quizQuestion.getSelectedOption().isEmpty()) {
-                showCustomToast("Respond to every question");
-                return;
+               userSelectedOptions.add("Skip");
+//                showCustomToast("Respond to every question");
+//                return;
             }
             userSelectedOptions.add(quizQuestion.getSelectedOption());
         }

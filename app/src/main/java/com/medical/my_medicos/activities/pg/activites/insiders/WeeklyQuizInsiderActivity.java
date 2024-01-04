@@ -201,8 +201,9 @@ public class WeeklyQuizInsiderActivity extends AppCompatActivity {
 
         for (QuizPGinsider quizQuestion : quizList) {
             if (quizQuestion.getSelectedOption() == null || quizQuestion.getSelectedOption().isEmpty()) {
-                showCustomToast("Respond to every question");
-                return;
+//                showCustomToast("Respond to every question");
+                userSelectedOptions.add("Skip");
+//                return;
             }
             userSelectedOptions.add(quizQuestion.getSelectedOption());
         }
