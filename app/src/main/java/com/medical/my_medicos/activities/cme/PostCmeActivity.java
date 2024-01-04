@@ -92,7 +92,6 @@ public class PostCmeActivity extends AppCompatActivity {
     private static final int MAX_CHARACTERS = 1000;
     private EditText etName, etClass, etPhoneNumber;
     private Button btnDatePicker, btnTimePicker;
-
     private TextView tvDate, tvTime;
     private Calendar calendar;
     private SimpleDateFormat dateFormat, timeFormat;

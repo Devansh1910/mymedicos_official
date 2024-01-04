@@ -20,7 +20,7 @@ import java.util.List;
 
 public class MyAdapter7 extends RecyclerView.Adapter<MyAdapter7.MyViewHolder7> {
 
-    Context context; // Change to Context
+    Context context;
     List<jobitem2> joblist;
 
     public MyAdapter7(Context context, List<jobitem2> joblist) { // Change to Context
@@ -50,7 +50,6 @@ public class MyAdapter7 extends RecyclerView.Adapter<MyAdapter7.MyViewHolder7> {
                 context.startActivity(i);
             }
         });
-
     }
 
     @Override
@@ -66,15 +65,6 @@ public class MyAdapter7 extends RecyclerView.Adapter<MyAdapter7.MyViewHolder7> {
             super(itemView);
             title=itemView.findViewById(R.id.job_pos2);
 
-//            apply.setOnClickListener(new View.OnClickListener() {
-//                @Override
-//                public void onClick(View view) {
-//                    Context context = view.getContext();
-//                    Intent j=new Intent(context, JobsApplyActivity.class);
-//                    j.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-//                    context.startActivity(j);
-//                }
-//            });
         }
     }
 }

@@ -10,7 +10,6 @@ public class jobitem2 {
     public jobitem2(String title  ){
 
         this.title=title;
-
     }
 
     public String getPosition() {
@@ -19,18 +18,15 @@ public class jobitem2 {
     public String getTitle() {
         return title;
     }
-
     public void setPosition(String position) {
         this.position = position;
     }
-
     public String getHospital() {
         return hospital;
     }
     public String getDate() {
         return date;
     }
-
     public void setHospital(String hospital) {
         this.hospital = hospital;
     }
@@ -42,8 +38,4 @@ public class jobitem2 {
     public void setLocation(String location) {
         this.location = location;
     }
-
-
-
-
 }

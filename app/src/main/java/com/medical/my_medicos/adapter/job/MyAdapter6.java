@@ -20,13 +20,10 @@ import com.medical.my_medicos.adapter.job.items.jobitem1;
 import java.util.List;
 
 public class MyAdapter6 extends RecyclerView.Adapter<MyAdapter6.MyViewHolder6> {
-
-
-
-    Context context; // Change to Context
+    Context context;
     List<jobitem1> joblist;
 
-    public MyAdapter6(Context context, List<jobitem1> joblist) { // Change to Context
+    public MyAdapter6(Context context, List<jobitem1> joblist) {
         this.context = context;
         this.joblist = joblist;
     }
@@ -92,13 +89,10 @@ public class MyAdapter6 extends RecyclerView.Adapter<MyAdapter6.MyViewHolder6> {
                     Intent j=new Intent(context, JobsApplyActivity.class);
                     j.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                     j.putExtra("user", joblist.get(getAdapterPosition()).getuser());
-                    Log.d( "abcdef",joblist.get(getAdapterPosition()).getuser());
+                    Log.d( "Something went wrong..",joblist.get(getAdapterPosition()).getuser());
                     context.startActivity(j);
                 }
             });
         }
     }
-
-
-
 }
