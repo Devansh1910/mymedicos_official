@@ -1,0 +1,144 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_marginTop="@dimen/_10sdp"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_height="match_parent">
+
+    <androidx.cardview.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/_10sdp"
+        android:elevation="@dimen/_5sdp"
+        android:layout_marginHorizontal="@dimen/_10sdp"
+        app:cardCornerRadius="20dp"
+        android:background="@color/white">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="@dimen/_12sdp"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/questionspan1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="@dimen/_14ssp"
+                android:textAllCaps="true"
+                android:textColor="#848C8A"
+                android:layout_marginBottom="@dimen/_5ssp"
+                android:fontFamily="@font/roboto_bold"
+                android:textStyle="bold"
+                android:textAlignment="gravity"
+                android:layout_gravity="start"
+                android:gravity="start"
+                android:text="Updating.."/>
+
+            <ImageView
+                android:id="@+id/ifthequestionhavethumbnail"
+                android:layout_width="wrap_content"
+                android:layout_height="100dp"
+                android:layout_gravity="start"
+                android:visibility="gone"
+                android:src="@drawable/placeholder"/>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/optionA1"
+                    android:layout_width="match_parent"
+                    android:background="@drawable/questionsoptionbk"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="@dimen/_1sdp"
+                    android:drawableStart="@drawable/optiona"
+                    android:layout_marginVertical="@dimen/_5ssp"
+                    android:elevation="@dimen/_2sdp"
+                    android:textAllCaps="true"
+                    android:textSize="@dimen/_14ssp"
+                    android:paddingVertical="@dimen/_10ssp"
+                    android:paddingHorizontal="@dimen/_10ssp"
+                    android:textColor="@color/black"
+                    android:textAlignment="gravity"
+                    android:clickable="true"
+                    android:drawablePadding="@dimen/_10sdp"
+                    android:layout_gravity="center"
+                    android:gravity="center_vertical"
+                    android:text="Option A"/>
+
+                <TextView
+                    android:id="@+id/optionB1"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/questionsoptionbk"
+                    android:drawableStart="@drawable/optionb"
+                    android:layout_marginHorizontal="@dimen/_1sdp"
+                    android:layout_marginVertical="@dimen/_5ssp"
+                    android:textSize="@dimen/_14ssp"
+                    android:elevation="@dimen/_2sdp"
+                    android:textAllCaps="true"
+                    android:paddingVertical="@dimen/_10ssp"
+                    android:paddingHorizontal="@dimen/_10ssp"
+                    android:textColor="@color/black"
+                    android:textAlignment="gravity"
+                    android:clickable="true"
+                    android:drawablePadding="@dimen/_10sdp"
+                    android:layout_gravity="center"
+                    android:gravity="center_vertical"
+                    android:text="Option B"/>
+
+                <TextView
+                    android:id="@+id/optionC1"
+                    android:layout_width="match_parent"
+                    android:background="@drawable/questionsoptionbk"
+                    android:layout_height="wrap_content"
+                    android:drawableStart="@drawable/optionc"
+                    android:layout_marginHorizontal="@dimen/_1sdp"
+                    android:layout_marginVertical="@dimen/_5ssp"
+                    android:textSize="@dimen/_14ssp"
+                    android:elevation="@dimen/_2sdp"
+                    android:paddingVertical="@dimen/_10ssp"
+                    android:textAllCaps="true"
+                    android:paddingHorizontal="@dimen/_10ssp"
+                    android:textColor="@color/black"
+                    android:textAlignment="gravity"
+                    android:clickable="true"
+                    android:drawablePadding="@dimen/_10sdp"
+                    android:layout_gravity="center"
+                    android:gravity="center_vertical"
+                    android:text="Option C"/>
+
+                <TextView
+                    android:id="@+id/optionD1"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/questionsoptionbk"
+                    android:drawableStart="@drawable/optiond"
+                    android:layout_marginVertical="@dimen/_5ssp"
+                    android:textSize="@dimen/_14ssp"
+                    android:layout_marginHorizontal="@dimen/_1sdp"
+                    android:elevation="@dimen/_2sdp"
+                    android:paddingVertical="@dimen/_10ssp"
+                    android:textAllCaps="true"
+                    android:paddingHorizontal="@dimen/_10ssp"
+                    android:textColor="@color/black"
+                    android:textAlignment="gravity"
+                    android:clickable="true"
+                    android:drawablePadding="@dimen/_10sdp"
+                    android:layout_gravity="center"
+                    android:gravity="center_vertical"
+                    android:text="Option D"/>
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+    </androidx.cardview.widget.CardView>
+
+
+</LinearLayout>

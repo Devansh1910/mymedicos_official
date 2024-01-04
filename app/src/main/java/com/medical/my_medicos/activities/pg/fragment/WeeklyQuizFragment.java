@@ -20,6 +20,7 @@ import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.Timestamp;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
@@ -100,9 +101,10 @@ public class WeeklyQuizFragment extends Fragment {
                         for (QueryDocumentSnapshot document : task.getResult()) {
                             String title = document.getString("title");
                             String speciality=document.getString("speciality");
+                            Timestamp to=document.getTimestamp("to");
                             int r=speciality.compareTo(title1);
                             if (r==0) {
-                                QuizPG quizday = new QuizPG(title,title1);
+                                QuizPG quizday = new QuizPG(title,title1,to);
                                 quizpg.add(quizday);
                             }
                         }

@@ -47,7 +47,6 @@ public class PublicationActivity extends AppCompatActivity {
     ActivityPublicationBinding binding;
     CategoryAdapter categoryAdapter;
     ArrayList<Category> categories;
-
     ProductAdapter productAdapter;
     ArrayList<Product> products;
 
@@ -106,10 +105,19 @@ public class PublicationActivity extends AppCompatActivity {
 
         getCategories();
 
+        // Initialize the RecyclerView with a GridLayoutManager
         GridLayoutManager layoutManager = new GridLayoutManager(this, 2);
         binding.categoriesList.setLayoutManager(layoutManager);
         binding.categoriesList.setAdapter(categoryAdapter);
     }
+
+    void updateCategoryGridLayout() {
+        // Update the GridLayoutManager based on the number of words in the category name
+        GridLayoutManager layoutManager = new GridLayoutManager(this, 2);
+        binding.categoriesList.setLayoutManager(layoutManager);
+        binding.categoriesList.setAdapter(categoryAdapter);
+    }
+
     void getCategories() {
         RequestQueue queue = Volley.newRequestQueue(this);
         StringRequest request = new StringRequest(Request.Method.GET, ConstantsDashboard.GET_SPECIALITY, new Response.Listener<String>() {

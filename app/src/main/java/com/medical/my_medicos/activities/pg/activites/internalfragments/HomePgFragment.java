@@ -29,6 +29,7 @@ import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.Timestamp;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.CollectionReference;
@@ -41,6 +42,7 @@ import com.medical.my_medicos.activities.home.HomeActivity;
 import com.medical.my_medicos.activities.home.sidedrawer.NotificationActivity;
 import com.medical.my_medicos.activities.pg.activites.extras.RecetUpdatesNoticeActivity;
 import com.medical.my_medicos.activities.pg.activites.insiders.SpecialityPGInsiderActivity;
+import com.medical.my_medicos.activities.pg.activites.internalfragments.intwernaladapters.ExamQuizAdapter;
 import com.medical.my_medicos.activities.pg.adapters.PerDayPGAdapter;
 import com.medical.my_medicos.activities.pg.adapters.QuestionBankPGAdapter;
 import com.medical.my_medicos.activities.pg.adapters.WeeklyQuizAdapter;
@@ -70,7 +72,7 @@ public class HomePgFragment extends Fragment {
     FirebaseUser currentUser;
     QuestionBankPGAdapter questionsAdapter;
     ArrayList<QuestionPG> questionsforpg;
-    private WeeklyQuizAdapter quizAdapter;
+    private ExamQuizAdapter quizAdapter;
     CardView gotoupdatesofpg;
     private ArrayList<QuizPG> quizpg;
     String title1;
@@ -90,7 +92,7 @@ public class HomePgFragment extends Fragment {
         if (args != null) {
 
             quizpg = new ArrayList<>();
-            quizAdapter = new WeeklyQuizAdapter(requireContext(), quizpg);
+            quizAdapter = new ExamQuizAdapter(requireContext(), quizpg);
 
             RecyclerView recyclerViewVideos = binding.specialexam;
             LinearLayoutManager layoutManagerVideos = new LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false);
@@ -179,8 +181,6 @@ public class HomePgFragment extends Fragment {
         initQuestionsBanks();
         getPerDayQuestions(quiztiddaya); // Add this line to fetch data
     }
-
-
 
     // For the Slider
     private void initSliderPg() {
@@ -315,11 +315,12 @@ public class HomePgFragment extends Fragment {
                     for (QueryDocumentSnapshot document : task.getResult()) {
                         String quizTitle = document.getString("title");
                         String speciality = document.getString("speciality");
+                        Timestamp To = document.getTimestamp("to");
 
                         if (finalTitle.isEmpty() || finalTitle.equals("Home")) {
                             int r = speciality.compareTo(title1);
                             if (r == 0) {
-                                QuizPG quizday = new QuizPG(quizTitle, title1);
+                                QuizPG quizday = new QuizPG(quizTitle, title1,To);
                                 quizpg.add(quizday);
                             }
 
@@ -327,7 +328,7 @@ public class HomePgFragment extends Fragment {
                         } else {
                         int r = speciality.compareTo(finalTitle);
                         if (r == 0) {
-                            QuizPG quizday = new QuizPG(quizTitle, finalTitle);
+                            QuizPG quizday = new QuizPG(quizTitle, finalTitle,To);
                             quizpg.add(quizday);
                         }
                     }

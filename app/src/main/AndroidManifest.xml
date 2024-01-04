@@ -7,6 +7,7 @@
         android:required="false" />
 
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.WAKE_LOCK" />
     <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
     <uses-permission android:name="android.permission.READ_PHONE_STATE" />
@@ -77,6 +78,12 @@
         <activity
             android:name=".activities.news.NewsDetailedActivity"
             android:exported="false" />
+        <activity
+            android:name=".activities.pg.activites.ResultActivityNeet"
+            android:label="Result Activity Neet"/>
+        <activity
+            android:name="com.medical.my_medicos.activities.pg.activites.Neetexaminsider"
+           />
         <activity
             android:name=".activities.slideshow.insider.SpecialitySlideshowInsiderActivity"
             android:exported="false" />

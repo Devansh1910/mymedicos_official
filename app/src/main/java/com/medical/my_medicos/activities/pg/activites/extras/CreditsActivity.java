@@ -54,7 +54,7 @@ public class CreditsActivity extends AppCompatActivity {
     private static final String PREFS_NAME = "MyPrefs";
     private static final String LAST_CLICK_TIME_VIDEO_1 = "lastClickTimeVideo1";
     private static final String LAST_CLICK_TIME_VIDEO_2 = "lastClickTimeVideo2";
-    private static final long COOLDOWN_PERIOD = 00 * 00 * 60 * 1000; // 24 hours in milliseconds
+    private static final long COOLDOWN_PERIOD = 24 * 60 * 60 * 1000; // 24 hours in milliseconds
 
     ActivityCreditsBinding binding;
     private RewardedAd mRewardedAd;

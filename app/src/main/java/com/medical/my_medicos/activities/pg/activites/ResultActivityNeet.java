@@ -11,18 +11,20 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.medical.my_medicos.R;
-import com.medical.my_medicos.activities.pg.adapters.ResultReportAdapter;
+import com.medical.my_medicos.activities.pg.adapters.ResultReportNeetAdapter;
+import com.medical.my_medicos.activities.pg.model.Neetpg;
 import com.medical.my_medicos.activities.pg.model.QuizPGinsider;
 
 import java.util.ArrayList;
 
-public class ResultActivity extends AppCompatActivity {
+public class ResultActivityNeet extends AppCompatActivity {
 
     private RecyclerView resultRecyclerView;
-    private ResultReportAdapter resultAdapter;
+    private ResultReportNeetAdapter resultAdapter;
     private TextView correctAnswersTextView;
     private TextView totalQuestionsTextView;
 
+    @SuppressLint("MissingInflatedId")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -36,29 +38,30 @@ public class ResultActivity extends AppCompatActivity {
         resultRecyclerView.setLayoutManager(layoutManager);
 
         Intent intent = getIntent();
-        ArrayList<QuizPGinsider> questions = (ArrayList<QuizPGinsider>) intent.getSerializableExtra("questions");
+        ArrayList<Neetpg> questions = (ArrayList<Neetpg>) intent.getSerializableExtra("questions");
 
-        resultAdapter = new ResultReportAdapter(this, questions);
+        resultAdapter = new ResultReportNeetAdapter(this, questions);
         resultRecyclerView.setAdapter(resultAdapter);
 
+        // Calculate and display the number of correct answers and total questions
         int correctAnswers = calculateCorrectAnswers(questions);
         int totalQuestions = questions.size();
         Log.d("Correct Answer", String.valueOf(correctAnswers));
         Log.d("Correct Answer", String.valueOf(totalQuestions));
 
-
         correctAnswersTextView.setText("Correct Answers: " + correctAnswers);
         totalQuestionsTextView.setText("Total Questions: " + totalQuestions);
     }
 
-    private int calculateCorrectAnswers(ArrayList<QuizPGinsider> questions) {
+    private int calculateCorrectAnswers(ArrayList<Neetpg> questions) {
         int correctAnswers = 0;
 
-        for (QuizPGinsider question : questions) {
+        for (Neetpg question : questions) {
             if (question.isCorrect()) {
                 correctAnswers++;
             }
         }
+
         return correctAnswers;
     }
 }

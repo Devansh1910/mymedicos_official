@@ -50,7 +50,7 @@
                         android:fontFamily="@font/roboto_bold"/>
 
                     <LinearLayout
-                        android:id="@+id/totheback"
+                        android:id="@+id/totheback1"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:orientation="horizontal"
@@ -59,7 +59,7 @@
                         android:background="@drawable/endbutton">
 
                         <ImageView
-                            android:id="@+id/cart_icon"
+                            android:id="@+id/cart_icon1"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:gravity="center"
@@ -84,30 +84,106 @@
                 </LinearLayout>
 
             </androidx.appcompat.widget.Toolbar>
-
         </com.google.android.material.appbar.AppBarLayout>
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/recycler_view"
+
+        <LinearLayout
             android:layout_width="match_parent"
+            android:layout_margin="@dimen/_10sdp"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_weight="0.75"
+                android:layout_height="wrap_content"
+                android:elevation="@dimen/_5sdp"
+                android:layout_gravity="center_horizontal"
+                android:background="@drawable/timecounter"
+                android:fontFamily="@font/inter"
+                android:gravity="center"
+                android:paddingVertical="@dimen/_5sdp"
+                android:paddingHorizontal="@dimen/_16sdp"
+                android:text="3 hrs 30 mins"
+                android:textAllCaps="true"
+                android:textColor="@color/backgroundcolor"
+                android:textSize="@dimen/_16sdp"
+                android:textStyle="bold"/>
+
+           <com.google.android.material.divider.MaterialDivider
+               android:layout_width="0dp"
+               app:dividerColor="@color/backgroundcolor"
+               android:layout_height="wrap_content"
+               android:layout_weight="0.1"/>
+
+            <TextView
+                android:id="@+id/currentquestion"
+                android:layout_width="0dp"
+                android:layout_weight="0.5"
+                android:layout_height="wrap_content"
+                android:elevation="@dimen/_5sdp"
+                android:layout_gravity="center_horizontal"
+                android:background="@drawable/questioncounter"
+                android:fontFamily="@font/inter"
+                android:gravity="center"
+                android:paddingVertical="@dimen/_5sdp"
+                android:paddingHorizontal="@dimen/_16sdp"
+                android:text="18"
+                android:textAllCaps="true"
+                android:textColor="@color/backgroundcolor"
+                android:textSize="@dimen/_16sdp"
+                android:textStyle="bold"/>
+
+        </LinearLayout>
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recycler_view1"
+            android:layout_width="match_parent"
+            android:paddingBottom="@dimen/_10sdp"
             android:layout_height="wrap_content" />
 
-        <Button
-            android:id="@+id/nextButton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Next"
-            android:paddingVertical="@dimen/_5sdp"
-            android:paddingHorizontal="@dimen/_16sdp"
-            android:textSize="@dimen/_16sdp"
-            android:layout_margin="@dimen/_10sdp"
-            android:layout_gravity="end"/>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_gravity="start"
+            android:gravity="center"
+            android:layout_margin="@dimen/_8sdp"
+            android:layout_marginTop="16dp"
+            android:orientation="horizontal">
+
+            <Button
+                android:id="@+id/prevButton"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:backgroundTint="#FF0000"
+                android:layout_height="wrap_content"
+                android:textSize="@dimen/_16sdp"
+                android:text="Previous" />
+
+            <com.google.android.material.divider.MaterialDivider
+                android:layout_width="0dp"
+                app:dividerColor="@color/backgroundcolor"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.5"/>
+
+            <Button
+                android:id="@+id/nextButton1"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="wrap_content"
+                android:layout_gravity="end"
+                android:textSize="@dimen/_16sdp"
+                android:text="Next" />
+
+        </LinearLayout>
+
+
 
 
     </LinearLayout>
 
     <TextView
-        android:id="@+id/endenabled"
+        android:id="@+id/endenabled1"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@drawable/bottomuploadbtnbkforug"
