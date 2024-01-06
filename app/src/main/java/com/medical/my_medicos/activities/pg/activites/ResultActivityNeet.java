@@ -54,6 +54,8 @@ public class ResultActivityNeet extends AppCompatActivity {
         ArrayList<Neetpg> questions = (ArrayList<Neetpg>) intent.getSerializableExtra("questions");
         long remainingTimeInMillis = intent.getLongExtra("remainingTime", 0);
         String id = intent.getStringExtra("id");
+        Log.d("document id 1",id);
+
 
         resultAdapter = new ResultReportNeetAdapter(this, questions);
         resultRecyclerView.setAdapter(resultAdapter);

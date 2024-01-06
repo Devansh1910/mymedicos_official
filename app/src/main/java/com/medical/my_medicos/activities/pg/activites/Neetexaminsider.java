@@ -73,7 +73,7 @@ public class Neetexaminsider extends AppCompatActivity {
                 if (task.isSuccessful()) {
                     quizList1.clear();
                     for (QueryDocumentSnapshot document : task.getResult()) {
-                        id=document.getId();
+
                         String speciality = document.getString("speciality");
                         String Title = document.getString("title");
                         Log.d("Error in Speciality", speciality);
@@ -96,6 +96,8 @@ public class Neetexaminsider extends AppCompatActivity {
                                     String optionD = (String) entry.get("D");
                                     String description = (String) entry.get("Description");
                                     String imageUrl = (String) entry.get("Image");
+                                    id=document.getId();
+                                    Log.d("document id ",id);
 
                                     Neetpg quizQuestion;
 
