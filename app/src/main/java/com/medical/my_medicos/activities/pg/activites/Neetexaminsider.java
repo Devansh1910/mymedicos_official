@@ -5,6 +5,7 @@ import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.CountDownTimer;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -31,6 +32,7 @@ import com.medical.my_medicos.activities.pg.model.QuizPGinsider;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Locale;
 import java.util.Map;
 
 public class Neetexaminsider extends AppCompatActivity {
@@ -39,9 +41,16 @@ public class Neetexaminsider extends AppCompatActivity {
     private neetexampadapter adapter;
 
     private TextView currentquestion;
+    String id;
     private ArrayList<Neetpg> quizList1;
+    private TextView timerTextView;
 
     private int currentQuestionIndex = 0;
+    private CountDownTimer countDownTimer;
+    private long timeLeftInMillis = 210 * 60 * 1000; // 210 minutes in milliseconds
+    private boolean timerRunning = true;
+    private long remainingTimeInMillis;
+
 
     @SuppressLint("MissingInflatedId")
     @Override
@@ -52,6 +61,8 @@ public class Neetexaminsider extends AppCompatActivity {
         currentquestion= findViewById(R.id.currentquestion);
         recyclerView = findViewById(R.id.recycler_view1);
         quizList1 = new ArrayList<>();
+        timerTextView = findViewById(R.id.timerTextView);
+        startTimer();
 
         FirebaseFirestore db = FirebaseFirestore.getInstance();
         CollectionReference quizzCollection = db.collection("PGupload").document("Weekley").collection("Quiz");
@@ -62,6 +73,7 @@ public class Neetexaminsider extends AppCompatActivity {
                 if (task.isSuccessful()) {
                     quizList1.clear();
                     for (QueryDocumentSnapshot document : task.getResult()) {
+                        id=document.getId();
                         String speciality = document.getString("speciality");
                         String Title = document.getString("title");
                         Log.d("Error in Speciality", speciality);
@@ -178,7 +190,7 @@ public class Neetexaminsider extends AppCompatActivity {
         builder.setPositiveButton("Confirm", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                navigateToPrepareActivity();
+                handleEndButtonClick();
             }
         });
 
@@ -201,7 +213,7 @@ public class Neetexaminsider extends AppCompatActivity {
         builder.setPositiveButton("Confirm", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                navigateToPrepareActivity();
+                handleEndButtonClick();
             }
         });
 
@@ -216,11 +228,11 @@ public class Neetexaminsider extends AppCompatActivity {
         dialog.show();
     }
 
-    private void navigateToPrepareActivity() {
-        Intent intent = new Intent(Neetexaminsider.this, PgprepActivity.class);
-        startActivity(intent);
-        finish();
-    }
+//    private void navigateToPrepareActivity() {
+//        Intent intent = new Intent(Neetexaminsider.this, PgprepActivity.class);
+//        startActivity(intent);
+//        finish();
+//    }
 
     private void handleEndButtonClick() {
         ArrayList<String> userSelectedOptions = new ArrayList<>();
@@ -233,11 +245,17 @@ public class Neetexaminsider extends AppCompatActivity {
             }
             userSelectedOptions.add(quizQuestion.getSelectedOption());
         }
+        remainingTimeInMillis = timeLeftInMillis;
 
         ArrayList<String> results = compareAnswers(userSelectedOptions);
+        countDownTimer.cancel();
+//        handleQuizEnd();
 
         Intent intent = new Intent(Neetexaminsider.this, ResultActivityNeet.class);
         intent.putExtra("questions", quizList1);
+        intent.putExtra("remainingTime", remainingTimeInMillis);
+        intent.putExtra("id", id);
+        Log.d("time left", String.valueOf(remainingTimeInMillis));
         startActivity(intent);
     }
 
@@ -252,6 +270,61 @@ public class Neetexaminsider extends AppCompatActivity {
         toast.setDuration(Toast.LENGTH_SHORT);
         toast.setView(layout);
         toast.show();
+    }
+    private void startTimer() {
+        countDownTimer = new CountDownTimer(timeLeftInMillis, 1000) {
+            @Override
+            public void onTick(long millisUntilFinished) {
+                timeLeftInMillis = millisUntilFinished;
+                updateTimerText();
+            }
+
+            @Override
+            public void onFinish() {
+                timerRunning = false;
+                showCustomToast("Time's up!");
+                handleQuizEnd();
+//                handleEndButtonClick();
+            }
+        }.start();
+    }
+    private void handleQuizEnd() {
+        if (countDownTimer != null) {
+            countDownTimer.cancel();
+        }
+        remainingTimeInMillis = timeLeftInMillis;
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("Time's Up!");
+        builder.setMessage("Sorry, you've run out of time. The quiz will be ended.");
+
+        builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                navigateToResultActivity();
+            }
+        });
+
+        builder.setCancelable(false);
+        AlertDialog dialog = builder.create();
+        dialog.show();
+    }
+    private void navigateToResultActivity() {
+        Intent intent = new Intent(Neetexaminsider.this, ResultActivityNeet.class);
+        intent.putExtra("questions", quizList1);
+        intent.putExtra("remainingTime", remainingTimeInMillis);
+        intent.putExtra("id", id);
+        Log.d("time left", String.valueOf(remainingTimeInMillis));
+        startActivity(intent);
+        finish();
+    }
+
+
+    private void updateTimerText() {
+        int minutes = (int) (timeLeftInMillis / 1000) / 60;
+        int seconds = (int) (timeLeftInMillis / 1000) % 60;
+
+        String timeFormatted = String.format(Locale.getDefault(), "%02d:%02d", minutes, seconds);
+        timerTextView.setText(timeFormatted);
     }
 
     private ArrayList<String> compareAnswers(ArrayList<String> userSelectedOptions) {
@@ -270,3 +343,19 @@ public class Neetexaminsider extends AppCompatActivity {
         return results;
     }
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -40,6 +40,7 @@ public class WeeklyQuizInsiderActivity extends AppCompatActivity {
     private WeeklyQuizAdapterinsider adapter;
     private ArrayList<QuizPGinsider> quizList;
     private int currentQuestionIndex = 0;
+    String id;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -72,6 +73,7 @@ public class WeeklyQuizInsiderActivity extends AppCompatActivity {
                         if ((r == 0)&&(r1==0) ){
                             if (dataList != null) {
                                 for (Map<String, Object> entry : dataList) {
+                                    id=document.getId();
                                     String question = (String) entry.get("Question");
                                     String correctAnswer = (String) entry.get("Correct");
                                     String optionA = (String) entry.get("A");
@@ -152,7 +154,7 @@ public class WeeklyQuizInsiderActivity extends AppCompatActivity {
         builder.setPositiveButton("Confirm", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                navigateToPrepareActivity();
+                handleEndButtonClick();
             }
         });
 
@@ -175,7 +177,7 @@ public class WeeklyQuizInsiderActivity extends AppCompatActivity {
         builder.setPositiveButton("Confirm", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                navigateToPrepareActivity();
+                handleEndButtonClick();
             }
         });
 
@@ -212,6 +214,7 @@ public class WeeklyQuizInsiderActivity extends AppCompatActivity {
 
         Intent intent = new Intent(WeeklyQuizInsiderActivity.this, ResultActivity.class);
         intent.putExtra("questions", quizList);
+        intent.putExtra("id", id);
         startActivity(intent);
     }
 

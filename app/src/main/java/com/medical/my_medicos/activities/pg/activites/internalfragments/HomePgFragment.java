@@ -57,8 +57,10 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 import java.util.Objects;
+import java.util.Set;
 
 public class HomePgFragment extends Fragment {
 
@@ -300,6 +302,40 @@ public class HomePgFragment extends Fragment {
     // For the Suggested Exam
     void getPaidExam(String title) {
         FirebaseFirestore db = FirebaseFirestore.getInstance();
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        List<String> subcollectionIds = new ArrayList<>();
+
+        if (user != null) {
+            String userId = user.getUid();
+
+            CollectionReference quizResultsCollection = db.collection("QuizResults").document(userId).collection("Exam");
+
+            // Array to store subcollection IDs
+
+
+            // Fetch subcollections for the current user
+            quizResultsCollection.get()
+                    .addOnCompleteListener(subcollectionTask -> {
+                        if (subcollectionTask.isSuccessful()) {
+                            for (QueryDocumentSnapshot subdocument : subcollectionTask.getResult()) {
+                                // Access each subcollection inside the document
+                                String subcollectionId = subdocument.getId();
+                                subcollectionIds.add(subcollectionId);
+                                Log.d("Subcollection ID", subcollectionId);
+                            }
+
+                            // Now you can use the subcollectionIds array outside this block
+                            for (String id : subcollectionIds) {
+                                Log.d("All Subcollection IDs", id);
+                            }
+                        } else {
+                            // Handle failure
+                            Log.e("Subcollection ID", "Error fetching subcollections", subcollectionTask.getException());
+                        }
+                    });
+        }
+
+
 
         if (title == null || title.isEmpty()) {
             title = "home";
@@ -308,39 +344,46 @@ public class HomePgFragment extends Fragment {
         CollectionReference quizzCollection = db.collection("PGupload").document("Weekley").collection("Quiz");
         Query query = quizzCollection;
         String finalTitle = title;
+
+
         query.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
             @Override
             public void onComplete(@NonNull Task<QuerySnapshot> task) {
                 if (task.isSuccessful()) {
                     for (QueryDocumentSnapshot document : task.getResult()) {
-                        String quizTitle = document.getString("title");
-                        String speciality = document.getString("speciality");
-                        Timestamp To = document.getTimestamp("to");
+                        String id = document.getId();
 
-                        if (finalTitle.isEmpty() || finalTitle.equals("Home")) {
-                            int r = speciality.compareTo(title1);
-                            if (r == 0) {
-                                QuizPG quizday = new QuizPG(quizTitle, title1,To);
-                                quizpg.add(quizday);
+                        // Check if the document ID is present in the subcollectionIds array
+                        if (!subcollectionIds.contains(id)) {
+                            String quizTitle = document.getString("title");
+                            String speciality = document.getString("speciality");
+                            Timestamp To = document.getTimestamp("to");
+
+                            if (finalTitle.isEmpty() || finalTitle.equals("Home")) {
+                                int r = speciality.compareTo(title1);
+                                if (r == 0) {
+                                    QuizPG quizday = new QuizPG(quizTitle, title1, To);
+                                    quizpg.add(quizday);
+                                }
+                            } else {
+                                int r = speciality.compareTo(finalTitle);
+                                if (r == 0) {
+                                    QuizPG quizday = new QuizPG(quizTitle, finalTitle, To);
+                                    quizpg.add(quizday);
+                                }
                             }
-
-                            quizAdapter.notifyDataSetChanged();
-                        } else {
-                        int r = speciality.compareTo(finalTitle);
-                        if (r == 0) {
-                            QuizPG quizday = new QuizPG(quizTitle, finalTitle,To);
-                            quizpg.add(quizday);
                         }
                     }
-                }
-                quizAdapter.notifyDataSetChanged();
 
-            } else {
-                Log.d(ContentValues.TAG, "Error getting documents: ", task.getException());
+                    quizAdapter.notifyDataSetChanged();
+
+                } else {
+                    Log.d(ContentValues.TAG, "Error getting documents: ", task.getException());
+                }
             }
-        }
-    });
-}
+        });
+
+    }
     void initQuestionsBanks() {
         questionsforpg = new ArrayList<>();
         questionsAdapter = new QuestionBankPGAdapter(getActivity(), questionsforpg);

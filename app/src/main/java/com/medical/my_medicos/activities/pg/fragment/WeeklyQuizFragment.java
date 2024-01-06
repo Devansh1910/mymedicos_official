@@ -21,6 +21,8 @@ import com.android.volley.toolbox.Volley;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.Timestamp;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
@@ -39,6 +41,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class WeeklyQuizFragment extends Fragment {
     private FragmentWeeklyQuizBinding binding;
@@ -88,6 +91,38 @@ public class WeeklyQuizFragment extends Fragment {
 
     void getQuestions(String title) {
         FirebaseFirestore db = FirebaseFirestore.getInstance();
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        List<String> subcollectionIds = new ArrayList<>();
+
+        if (user != null) {
+            String userId = user.getUid();
+
+            CollectionReference quizResultsCollection = db.collection("QuizResults").document(userId).collection("Weekley");
+
+            // Array to store subcollection IDs
+
+
+            // Fetch subcollections for the current user
+            quizResultsCollection.get()
+                    .addOnCompleteListener(subcollectionTask -> {
+                        if (subcollectionTask.isSuccessful()) {
+                            for (QueryDocumentSnapshot subdocument : subcollectionTask.getResult()) {
+                                // Access each subcollection inside the document
+                                String subcollectionId = subdocument.getId();
+                                subcollectionIds.add(subcollectionId);
+                                Log.d("Subcollection ID", subcollectionId);
+                            }
+
+                            // Now you can use the subcollectionIds array outside this block
+                            for (String id : subcollectionIds) {
+                                Log.d("All Subcollection IDs", id);
+                            }
+                        } else {
+                            // Handle failure
+                            Log.e("Subcollection ID", "Error fetching subcollections", subcollectionTask.getException());
+                        }
+                    });
+        }
 
         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
             CollectionReference quizzCollection = db.collection("PGupload").document("Weekley").collection("Quiz");
@@ -99,13 +134,18 @@ public class WeeklyQuizFragment extends Fragment {
                 public void onComplete(@NonNull Task<QuerySnapshot> task) {
                     if (task.isSuccessful()) {
                         for (QueryDocumentSnapshot document : task.getResult()) {
-                            String title = document.getString("title");
-                            String speciality=document.getString("speciality");
-                            Timestamp to=document.getTimestamp("to");
-                            int r=speciality.compareTo(title1);
-                            if (r==0) {
-                                QuizPG quizday = new QuizPG(title,title1,to);
-                                quizpg.add(quizday);
+                            String id = document.getId();
+
+                            // Check if the document ID is present in the subcollectionIds array
+                            if (!subcollectionIds.contains(id)) {
+                                String title = document.getString("title");
+                                String speciality = document.getString("speciality");
+                                Timestamp to = document.getTimestamp("to");
+                                int r = speciality.compareTo(title1);
+                                if (r == 0) {
+                                    QuizPG quizday = new QuizPG(title, title1, to);
+                                    quizpg.add(quizday);
+                                }
                             }
                         }
                         quizAdapter.notifyDataSetChanged();
