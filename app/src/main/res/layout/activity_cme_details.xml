@@ -361,12 +361,13 @@
                 android:layout_marginStart="@dimen/_10sdp"
                 android:layout_marginEnd="@dimen/_5sdp"
                 android:text="Schedule meet"/>
+
             <Button
                 android:id="@+id/deletemeet"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:backgroundTint="@color/green"
+                android:backgroundTint="#FF0000"
                 android:textStyle="bold"
                 android:textColor="@color/white"
                 android:layout_marginStart="@dimen/_10sdp"
@@ -387,15 +388,6 @@
                 android:layout_marginEnd="@dimen/_5sdp"
                 android:text="Researved"/>
 
-            <Button
-                android:layout_width="0dp"
-                android:layout_weight="0.75"
-                android:backgroundTint="@color/black"
-                android:drawableLeft="@drawable/baseline_share_24"
-                android:layout_marginStart="@dimen/_5sdp"
-                android:layout_marginEnd="@dimen/_10sdp"
-                android:layout_height="wrap_content"
-                android:text="SHARE"/>
         </LinearLayout>
 
         <LinearLayout
