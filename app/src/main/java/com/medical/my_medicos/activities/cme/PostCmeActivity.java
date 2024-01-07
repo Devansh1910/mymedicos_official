@@ -585,7 +585,7 @@ public class PostCmeActivity extends AppCompatActivity {
                             if (task.isSuccessful()) {
                                 Toast.makeText(PostCmeActivity.this, "Posted Successfully", Toast.LENGTH_SHORT).show();
 
-                                sendNotificationsToUsersWithSpecialty(speciality);
+//                                sendNotificationsToUsersWithSpecialty(speciality);
                                 Log.d("token2", speciality);
                                 // Missing closing brace for the inner if statement
                             } else {
@@ -638,7 +638,7 @@ public class PostCmeActivity extends AppCompatActivity {
                                 // Create the notification channel
                                 notificationManager.createNotificationChannel(channel);
 
-                                sendFCMNotification(channelId, fcmTokenList, "Your Notification ", "Your Notification ");
+//                                sendFCMNotification(channelId, fcmTokenList, "Your Notification ", "Your Notification ");
                             }
                         } else {
                             Log.e("Firestore Query", "Error getting documents: ", task.getException());
@@ -647,47 +647,46 @@ public class PostCmeActivity extends AppCompatActivity {
                 });
     }
 
-    private void sendFCMNotification(String channel,List token, String title, String text) {
-        int a=0;
-        while(a!=token.size()-1) {
-            // Build the FCM message with both data and notification payload
-            String token1 = (String) token.get(a);
-            RemoteMessage message = new RemoteMessage.Builder(token1)
-                    .setData(Collections.singletonMap("title", title))
-                    .setData(Collections.singletonMap("text", text))
-                    .setData(Collections.singletonMap("click_action", "HomeActivity"))
-
-                    .build();
-
-            Log.d("token2", token1);
-            Log.d("token2", channel);
-
-            try {
-                // Send the message to FCM
-                FirebaseMessaging.getInstance().send(message);
-                Log.d("FCM Notification", "Successfully sent FCM message");
-
-                // The following code is used to create and display a notification in the device's notification bar
-                NotificationCompat.Builder builder = new NotificationCompat.Builder(this, channel)
-                        .setSmallIcon(R.drawable.iconlogo)
-                        .setContentTitle(title)
-                        .setContentText(text)
-                        .setPriority(NotificationCompat.PRIORITY_DEFAULT);
-
-                NotificationManagerCompat notificationManager = NotificationManagerCompat.from(this);
-                if (ActivityCompat.checkSelfPermission(this, Manifest.permission.POST_NOTIFICATIONS) != PackageManager.PERMISSION_GRANTED) {
-
-                    return;
-                }
-                notificationManager.notify(2, builder.build());
-            } catch (Exception e) {
-                Log.e("FCM Notification", "Error sending FCM message: " + e.getMessage());
-            }
-            a=a+1;
-        }
-    }
-
-
+//    private void sendFCMNotification(String channel,List token, String title, String text) {
+//        int a=0;
+//        while(a!=token.size()-1) {
+//            // Build the FCM message with both data and notification payload
+//            String token1 = (String) token.get(a);
+//            RemoteMessage message = new RemoteMessage.Builder(token1)
+//                    .setData(Collections.singletonMap("title", title))
+//                    .setData(Collections.singletonMap("text", text))
+//                    .setData(Collections.singletonMap("click_action", "HomeActivity"))
+//                    .build();
+//
+//            Log.d("token2", token1);
+//            Log.d("token2", channel);
+//
+//            try {
+//                // Send the message to FCM
+//                FirebaseMessaging.getInstance().send(message);
+//                Log.d("FCM Notification", "Successfully sent FCM message");
+//
+//                // The following code is used to create and display a notification in the device's notification bar
+//                NotificationCompat.Builder builder = new NotificationCompat.Builder(this, channel)
+//                        .setSmallIcon(R.drawable.iconlogo)
+//                        .setContentTitle(title)
+//                        .setContentText(text)
+//                        .setPriority(NotificationCompat.PRIORITY_DEFAULT);
+//
+//                NotificationManagerCompat notificationManager = NotificationManagerCompat.from(this);
+//                if (ActivityCompat.checkSelfPermission(this, Manifest.permission.POST_NOTIFICATIONS) != PackageManager.PERMISSION_GRANTED) {
+//                    return;
+//                }
+//                notificationManager.notify(2, builder.build());
+//            } catch (Exception e) {
+//                Log.e("FCM Notification", "Error sending FCM message: " + e.getMessage());
+//            }
+//            a=a+1;
+//        }
+//
+//    }
+//
+//
 
     private void sendNotificationToUser(String token, Map<String, String> data) {
         // Build the FCM message

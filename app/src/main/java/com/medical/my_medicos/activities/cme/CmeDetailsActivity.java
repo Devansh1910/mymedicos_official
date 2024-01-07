@@ -3,9 +3,11 @@ package com.medical.my_medicos.activities.cme;
 import static android.content.ContentValues.TAG;
 
 import android.annotation.SuppressLint;
+import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.DownloadManager;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.Uri;
@@ -65,6 +67,7 @@ public class CmeDetailsActivity extends AppCompatActivity {
     private boolean isReserved;
     LinearLayout playerlayout;
     String field4;
+    String documentid ;
     String pdf = null;
 
     @SuppressLint("MissingInflatedId")
@@ -137,13 +140,19 @@ public class CmeDetailsActivity extends AppCompatActivity {
         LinearLayout textpartforupcoming = findViewById(R.id.textpartforupcoming);
         RelativeLayout relativeboxnotforpast = findViewById(R.id.relativeboxnotforpast);
         Query query = db.collection("CME");
+
         query.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
             @Override
             public void onComplete(Task<QuerySnapshot> task) {
                 if (task.isSuccessful()) {
                     for (QueryDocumentSnapshot document : task.getResult()) {
                         Map<String, Object> dataMap = document.getData();
+                        String User=((String) dataMap.get("User"));
                         field3 = ((String) dataMap.get("documentId"));
+                        documentid = ((String) dataMap.get("documentId"));
+//
+
+
                         if (field3 != null) {
                             int r = field1.compareTo(field3);
                             if (r == 0) {
@@ -242,10 +251,22 @@ public class CmeDetailsActivity extends AppCompatActivity {
             if (isCreator){
                 reservecmebtn.setVisibility(View.GONE);
                 Schedule.setVisibility(View.VISIBLE);
+                Button deleteButton = findViewById(R.id.deletemeet);
+                deleteButton.setVisibility(View.VISIBLE);
+                deleteButton.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+
+                        showDeleteConfirmationDialog(documentid);
+                    }
+                });
+
             }
             else{
                 reservecmebtn.setVisibility(View.VISIBLE);
                 Schedule.setVisibility(View.GONE);
+                Button deleteButton = findViewById(R.id.deletemeet);
+                deleteButton.setVisibility(View.GONE);
 
             }
 
@@ -429,6 +450,57 @@ public class CmeDetailsActivity extends AppCompatActivity {
         player.release();
         player = null;
     }
+    private void showDeleteConfirmationDialog(final String documentId) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("Confirm Delete")
+                .setMessage("Are you sure you want to delete this item?")
+                .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+
+                        deleteCmeItem(documentId);
+                    }
+                })
+                .setNegativeButton("No", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                    }
+                })
+                .show();
+    }
+
+    private void deleteCmeItem(String documentId) {
+
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+
+
+        DocumentReference documentReference = db.collection("CME").document(documentId);
+        Log.d("document id 2",documentId);
+
+        // Delete the document
+        documentReference.delete()
+                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void aVoid) {
+                        // Document successfully deleted
+                        Toast.makeText(CmeDetailsActivity.this, "Item deleted successfully", Toast.LENGTH_SHORT).show();
+                        Intent intent = new Intent(CmeDetailsActivity.this, CmeActivity.class);
+                        startActivity(intent);
+                        finish();
+
+
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        // Handle errors during deletion
+                        Toast.makeText(CmeDetailsActivity.this, "Error deleting item", Toast.LENGTH_SHORT).show();
+                    }
+                });
+    }
+
     private void checkReservationStatusFirestore(String userId, String eventId) {
         dc.collection("CMEsReserved")
                 .whereEqualTo("User", userId)

@@ -361,6 +361,18 @@
                 android:layout_marginStart="@dimen/_10sdp"
                 android:layout_marginEnd="@dimen/_5sdp"
                 android:text="Schedule meet"/>
+            <Button
+                android:id="@+id/deletemeet"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:backgroundTint="@color/green"
+                android:textStyle="bold"
+                android:textColor="@color/white"
+                android:layout_marginStart="@dimen/_10sdp"
+                android:layout_marginEnd="@dimen/_5sdp"
+                android:text="Delete"/>
+
 
             <Button
                 android:id="@+id/reservedcmebtn"
