@@ -5,6 +5,8 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -18,6 +20,7 @@ import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.medical.my_medicos.R;
+import com.medical.my_medicos.activities.pg.activites.extras.RecetUpdatesNoticeActivity;
 import com.medical.my_medicos.activities.pg.adapters.ResultReportNeetAdapter;
 import com.medical.my_medicos.activities.pg.model.Neetpg;
 
@@ -32,6 +35,7 @@ public class ResultActivityNeet extends AppCompatActivity {
     private TextView correctAnswersTextView;
     private TextView totalQuestionsTextView;
     private TextView remainingTimeTextView;
+    private Button gotopghome;
     private FirebaseFirestore db;
     private FirebaseAuth auth; // Initialize FirebaseAuth
 
@@ -40,6 +44,16 @@ public class ResultActivityNeet extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_result);
+
+
+        gotopghome = findViewById(R.id.gotopghome);
+        gotopghome.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent i = new Intent(ResultActivityNeet.this, PgprepActivity.class);
+                startActivity(i);
+            }
+        });
 
         View decorView = getWindow().getDecorView();
         int uiOptions = View.SYSTEM_UI_FLAG_HIDE_NAVIGATION | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY;
