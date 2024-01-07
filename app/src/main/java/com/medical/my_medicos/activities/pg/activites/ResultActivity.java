@@ -60,8 +60,8 @@ public class ResultActivity extends AppCompatActivity {
         Log.d("Correct Answer", String.valueOf(totalQuestions));
 
 
-        correctAnswersTextView.setText("Correct Answers: " + correctAnswers);
-        totalQuestionsTextView.setText("Total Questions: " + totalQuestions);
+        correctAnswersTextView.setText("" + correctAnswers);
+        totalQuestionsTextView.setText("" + totalQuestions);
         uploadResultsToFirestore(correctAnswers, totalQuestions, null,id);
     }
 
