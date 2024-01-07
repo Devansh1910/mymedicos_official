@@ -96,7 +96,6 @@ public class ExamQuizAdapter extends RecyclerView.Adapter<ExamQuizAdapter.ExamVi
         }
 
         private void showBottomSheet(QuizPG quiz) {
-
             View bottomSheetView = LayoutInflater.from(context).inflate(R.layout.bottom_sheet_payment, null);
             BottomSheetDialog bottomSheetDialog = new BottomSheetDialog(context);
             database = FirebaseDatabase.getInstance();
@@ -104,6 +103,9 @@ public class ExamQuizAdapter extends RecyclerView.Adapter<ExamQuizAdapter.ExamVi
             bottomSheetDialog.setContentView(bottomSheetView);
 
             Button click = bottomSheetView.findViewById(R.id.paymentpart);
+
+            String customButtonText = "Pay 50 MedCoins to Attend";
+            click.setText(customButtonText);
 
             final QuizPG finalQuiz = quiz;
 
@@ -119,12 +121,13 @@ public class ExamQuizAdapter extends RecyclerView.Adapter<ExamQuizAdapter.ExamVi
                                     int newCoinsValue = coinsValue - 30;
                                     if (newCoinsValue >= 0) {
                                         showQuizInsiderActivity(finalQuiz);
+                                        Toast.makeText(context, "Welcome", Toast.LENGTH_SHORT).show();
                                         database.getReference().child("profiles")
                                                 .child(currentUid)
                                                 .child("coins")
                                                 .setValue(newCoinsValue);
                                         coins = newCoinsValue;
-                                    }else{
+                                    } else {
                                         Toast.makeText(context, "Insufficient Credits", Toast.LENGTH_SHORT).show();
                                         database.getReference().child("profiles")
                                                 .child(currentUid)
@@ -138,11 +141,11 @@ public class ExamQuizAdapter extends RecyclerView.Adapter<ExamQuizAdapter.ExamVi
                             public void onCancelled(@NonNull @NotNull DatabaseError error) {
                             }
                         });
-
             });
 
             bottomSheetDialog.show();
         }
+
 
     }
 }

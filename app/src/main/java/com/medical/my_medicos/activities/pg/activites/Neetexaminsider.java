@@ -7,7 +7,9 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.LinearLayout;
@@ -26,6 +28,7 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.medical.my_medicos.R;
+import com.medical.my_medicos.activities.pg.activites.extras.CreditsActivity;
 import com.medical.my_medicos.activities.pg.adapters.neetexampadapter;
 import com.medical.my_medicos.activities.pg.model.Neetpg;
 import com.medical.my_medicos.activities.pg.model.QuizPGinsider;
@@ -39,24 +42,27 @@ public class Neetexaminsider extends AppCompatActivity {
 
     private RecyclerView recyclerView;
     private neetexampadapter adapter;
-
     private TextView currentquestion;
     String id;
+    AlertDialog alertDialog;
     private ArrayList<Neetpg> quizList1;
+    private LinearLayout instructionguide;
     private TextView timerTextView;
-
     private int currentQuestionIndex = 0;
     private CountDownTimer countDownTimer;
     private long timeLeftInMillis = 210 * 60 * 1000; // 210 minutes in milliseconds
     private boolean timerRunning = true;
     private long remainingTimeInMillis;
 
-
     @SuppressLint("MissingInflatedId")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.neetexaminsideractivity);
+
+        View decorView = getWindow().getDecorView();
+        int uiOptions = View.SYSTEM_UI_FLAG_HIDE_NAVIGATION | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY;
+        decorView.setSystemUiVisibility(uiOptions);
 
         currentquestion= findViewById(R.id.currentquestion);
         recyclerView = findViewById(R.id.recycler_view1);
@@ -111,7 +117,6 @@ public class Neetexaminsider extends AppCompatActivity {
                             }
                         }
                     }
-//                    adapter.setQuizQuestions(quizList1);
                     loadNextQuestion();
                 }
             }
@@ -137,7 +142,7 @@ public class Neetexaminsider extends AppCompatActivity {
         adapter = new neetexampadapter(Neetexaminsider.this, quizList1);
         recyclerView.setAdapter(adapter);
 
-        TextView endButton = findViewById(R.id.endenabled1);
+        Button endButton = findViewById(R.id.endenabled1);
         endButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -152,6 +157,37 @@ public class Neetexaminsider extends AppCompatActivity {
                 showConfirmationDialog();
             }
         });
+        instructionguide = findViewById(R.id.instructionguide);
+        instructionguide.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showInstructionDialog();
+            }
+        });
+    }
+    private void showInstructionDialog() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(Neetexaminsider.this, R.style.CustomAlertDialog);
+        LayoutInflater inflater = getLayoutInflater();
+        View view = inflater.inflate(R.layout.custom_instruction_dialog, null);
+        builder.setView(view);
+
+        Button okButton = view.findViewById(R.id.instuction_understand);
+        okButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                alertDialog.dismiss();
+            }
+        });
+
+        builder.setCancelable(false);
+        AlertDialog dialog = builder.create();
+        dialog.show();
+        alertDialog = dialog;
+    }
+
+    @Override
+    public void onBackPressed(){
+        Toast.makeText(Neetexaminsider.this, "Can't navigate back", Toast.LENGTH_SHORT).show();
     }
 
     private void loadNextQuestion() {
@@ -186,16 +222,15 @@ public class Neetexaminsider extends AppCompatActivity {
 
 
     private void showEndQuizConfirmation() {
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setTitle("End Quiz");
-        builder.setMessage("Are you sure you want to end the quiz?");
-        builder.setPositiveButton("Confirm", new DialogInterface.OnClickListener() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(Neetexaminsider.this, R.style.CustomAlertDialog);
+        builder.setTitle("That's all");
+        builder.setMessage("Would you like to proceed towards the result?");
+        builder.setPositiveButton("Go to Result", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 handleEndButtonClick();
             }
         });
-
         builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
@@ -208,7 +243,7 @@ public class Neetexaminsider extends AppCompatActivity {
     }
 
     private void showConfirmationDialog() {
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        AlertDialog.Builder builder = new AlertDialog.Builder(Neetexaminsider.this, R.style.CustomAlertDialog);
         builder.setTitle("End Quiz");
         builder.setMessage("Are you sure you want to end the quiz?");
 
@@ -230,20 +265,17 @@ public class Neetexaminsider extends AppCompatActivity {
         dialog.show();
     }
 
-//    private void navigateToPrepareActivity() {
-//        Intent intent = new Intent(Neetexaminsider.this, PgprepActivity.class);
-//        startActivity(intent);
-//        finish();
-//    }
 
     private void handleEndButtonClick() {
+        showConfirmationDialogForFinal();
+    }
+
+    private void proceedWithQuizEnd() {
         ArrayList<String> userSelectedOptions = new ArrayList<>();
 
         for (Neetpg quizQuestion : quizList1) {
             if (quizQuestion.getSelectedOption() == null || quizQuestion.getSelectedOption().isEmpty()) {
-               userSelectedOptions.add("Skip");
-//                showCustomToast("Respond to every question");
-//                return;
+                userSelectedOptions.add("Skip");
             }
             userSelectedOptions.add(quizQuestion.getSelectedOption());
         }
@@ -251,7 +283,6 @@ public class Neetexaminsider extends AppCompatActivity {
 
         ArrayList<String> results = compareAnswers(userSelectedOptions);
         countDownTimer.cancel();
-//        handleQuizEnd();
 
         Intent intent = new Intent(Neetexaminsider.this, ResultActivityNeet.class);
         intent.putExtra("questions", quizList1);
@@ -260,6 +291,30 @@ public class Neetexaminsider extends AppCompatActivity {
         Log.d("time left", String.valueOf(remainingTimeInMillis));
         startActivity(intent);
     }
+
+    private void showConfirmationDialogForFinal() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(Neetexaminsider.this, R.style.CustomAlertDialog);
+        builder.setTitle("End Quiz");
+        builder.setMessage("Are you sure you want to end the quiz?");
+
+        builder.setPositiveButton("Confirm", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                proceedWithQuizEnd();
+            }
+        });
+
+        builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.dismiss();
+            }
+        });
+
+        AlertDialog dialog = builder.create();
+        dialog.show();
+    }
+
 
     private void showCustomToast(String message) {
         LayoutInflater inflater = getLayoutInflater();
@@ -286,7 +341,6 @@ public class Neetexaminsider extends AppCompatActivity {
                 timerRunning = false;
                 showCustomToast("Time's up!");
                 handleQuizEnd();
-//                handleEndButtonClick();
             }
         }.start();
     }

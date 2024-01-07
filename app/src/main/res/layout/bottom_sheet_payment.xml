@@ -2,7 +2,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:padding="@dimen/_10sdp"
-    android:background="@drawable/flag_transparent"
+    android:background="@drawable/upperforpayment"
     android:orientation="vertical">
 
     <Button
@@ -10,8 +10,10 @@
         android:layout_height="wrap_content"
         android:text="Payment"
         android:textStyle="bold"
+        android:fontFamily="@font/inter"
         android:textSize="@dimen/_16sdp"
-        android:backgroundTint="@color/blue"
+        android:textColor="@color/unselected"
+        android:backgroundTint="@color/backgroundcolor"
         android:id="@+id/paymentpart"
         android:padding="@dimen/_12sdp"/>
 

@@ -94,9 +94,6 @@ public class NeetExamFragment extends Fragment {
         addDotspg();
 
         handlerpg.postDelayed(autoScrollRunnable, AUTO_SCROLL_DELAY);
-
-
-
         return rootView;
     }
 
@@ -132,7 +129,6 @@ public class NeetExamFragment extends Fragment {
                     }
                 });
     }
-
     void getPaidExamNeet(String title) {
         FirebaseFirestore db = FirebaseFirestore.getInstance();
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
@@ -143,26 +139,18 @@ public class NeetExamFragment extends Fragment {
 
             CollectionReference quizResultsCollection = db.collection("QuizResults").document(userId).collection("Exam");
 
-            // Array to store subcollection IDs
-
-
-            // Fetch subcollections for the current user
             quizResultsCollection.get()
                     .addOnCompleteListener(subcollectionTask -> {
                         if (subcollectionTask.isSuccessful()) {
                             for (QueryDocumentSnapshot subdocument : subcollectionTask.getResult()) {
-                                // Access each subcollection inside the document
                                 String subcollectionId = subdocument.getId();
                                 subcollectionIds.add(subcollectionId);
                                 Log.d("Subcollection ID", subcollectionId);
                             }
-
-                            // Now you can use the subcollectionIds array outside this block
                             for (String id : subcollectionIds) {
                                 Log.d("All Subcollection IDs", id);
                             }
                         } else {
-                            // Handle failure
                             Log.e("Subcollection ID", "Error fetching subcollections", subcollectionTask.getException());
                         }
                     });
@@ -171,7 +159,6 @@ public class NeetExamFragment extends Fragment {
         if (title == null || title.isEmpty()) {
             title = "Exam";
         }
-
         CollectionReference quizzCollection = db.collection("PGupload").document("Weekley").collection("Quiz");
         Query query = quizzCollection;
         String finalTitle = title;
@@ -214,52 +201,6 @@ public class NeetExamFragment extends Fragment {
             }
         });
     }
-
-
-//    }
-//
-//    CollectionReference quizzCollection = db.collection("PGupload").document("Weekley").collection("Quiz");
-//    Query query = quizzCollection;
-//    String finalTitle = title;
-//
-//        query.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-//        @Override
-//        public void onComplete(@NonNull Task<QuerySnapshot> task) {
-//            if (task.isSuccessful()) {
-//                for (QueryDocumentSnapshot document : task.getResult()) {
-//                    String id = document.getId();
-//
-//                    // Check if the document ID is present in the subcollectionIds array
-//                    if (!subcollectionIds.contains(id)) {
-//                        String quizTitle = document.getString("title");
-//                        String speciality = document.getString("speciality");
-//                        Timestamp To = document.getTimestamp("to");
-//
-//                        if (finalTitle.isEmpty() || finalTitle.equals("Home")) {
-//                            int r = speciality.compareTo(title1);
-//                            if (r == 0) {
-//                                QuizPG quizday = new QuizPG(quizTitle, title1, To);
-//                                quizpg.add(quizday);
-//                            }
-//                        } else {
-//                            int r = speciality.compareTo(finalTitle);
-//                            if (r == 0) {
-//                                QuizPG quizday = new QuizPG(quizTitle, finalTitle, To);
-//                                quizpg.add(quizday);
-//                            }
-//                        }
-//                    }
-//                }
-//
-//                quizAdapter.notifyDataSetChanged();
-//
-//            } else {
-//                Log.d(ContentValues.TAG, "Error getting documents: ", task.getException());
-//            }
-//        }
-//    });
-
-
     private final Runnable autoScrollRunnable = new Runnable() {
         @Override
         public void run() {
@@ -270,7 +211,6 @@ public class NeetExamFragment extends Fragment {
             handlerpg.postDelayed(this, AUTO_SCROLL_DELAY);
         }
     };
-
     private void addDotspg() {
         for (int i = 0; i < viewFlipperPg.getChildCount(); i++) {
             ImageView dot = new ImageView(requireContext());
@@ -284,12 +224,12 @@ public class NeetExamFragment extends Fragment {
         }
         updateDotspg(0);
     }
-
     @Override
     public void onDetach() {
         super.onDetach();
         handlerpg.removeCallbacksAndMessages(null);
     }
+    @SuppressLint("UseCompatLoadingForDrawables")
     private void updateDotspg(int currentDotIndex) {
         if (!isAdded()) {
             return;
@@ -301,7 +241,6 @@ public class NeetExamFragment extends Fragment {
             ));
         }
     }
-
     private void showShimmer(boolean show) {
         if (show) {
             binding.shimmercomeup.setVisibility(View.VISIBLE);

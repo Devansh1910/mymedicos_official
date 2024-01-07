@@ -100,7 +100,7 @@
                     android:layout_width="match_parent"
                     android:layout_weight="1"
                     android:layout_height="wrap_content"
-                    android:text="#3453"
+                    android:text="N/A"
                     android:layout_marginHorizontal="@dimen/_5sdp"
                     android:textColor="@color/white"
                     android:layout_gravity="center_vertical"

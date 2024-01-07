@@ -56,13 +56,11 @@ public class WeeklyQuizAdapterinsider extends RecyclerView.Adapter<WeeklyQuizAda
 
         textToSpeech = new TextToSpeech(context, status -> {
             if (status == TextToSpeech.SUCCESS) {
-                // TTS initialization successful
             } else {
-                // Handle TTS initialization failure
             }
         });
 
-        mediaPlayer = MediaPlayer.create(context, R.raw.tictac); // Replace with your ticking sound resource
+        mediaPlayer = MediaPlayer.create(context, R.raw.tictac);
         mediaPlayer.setLooping(true);
     }
 
@@ -123,10 +121,8 @@ public class WeeklyQuizAdapterinsider extends RecyclerView.Adapter<WeeklyQuizAda
                 } else if (secondsRemaining <= 10) {
                     textViewTimer.setBackgroundResource(R.drawable.counterforbk10);
 
-                    // Announce remaining time
                     announceRemainingTime(secondsRemaining);
 
-                    // Play ticking sound
                     if (!mediaPlayer.isPlaying()) {
                         mediaPlayer.start();
                     }
@@ -137,7 +133,6 @@ public class WeeklyQuizAdapterinsider extends RecyclerView.Adapter<WeeklyQuizAda
             public void onFinish() {
                 disableOptionSelection();
                 announceTimeUp();
-                // Stop ticking sound when time is up
                 if (mediaPlayer.isPlaying()) {
                     mediaPlayer.pause();
                 }
@@ -166,7 +161,6 @@ public class WeeklyQuizAdapterinsider extends RecyclerView.Adapter<WeeklyQuizAda
             textToSpeech.stop();
             textToSpeech.shutdown();
         }
-        // Release MediaPlayer resources
         if (mediaPlayer != null) {
             mediaPlayer.release();
             mediaPlayer = null;
@@ -217,7 +211,6 @@ public class WeeklyQuizAdapterinsider extends RecyclerView.Adapter<WeeklyQuizAda
 
             AlertDialog dialog = builder.create();
 
-            // Check if the activity is still running before showing the dialog
             if (context instanceof Activity && !((Activity) context).isFinishing()) {
                 dialog.show();
                 dialog.setOnDismissListener(dialogInterface -> {

@@ -4,7 +4,9 @@ import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -39,6 +41,10 @@ public class ResultActivityNeet extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_result);
 
+        View decorView = getWindow().getDecorView();
+        int uiOptions = View.SYSTEM_UI_FLAG_HIDE_NAVIGATION | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY;
+        decorView.setSystemUiVisibility(uiOptions);
+
         resultRecyclerView = findViewById(R.id.resultRecyclerView);
         correctAnswersTextView = findViewById(R.id.correctanswercounter);
         totalQuestionsTextView = findViewById(R.id.totalanswwercounter);
@@ -60,20 +66,68 @@ public class ResultActivityNeet extends AppCompatActivity {
         resultAdapter = new ResultReportNeetAdapter(this, questions);
         resultRecyclerView.setAdapter(resultAdapter);
 
-        // Calculate and display the number of correct answers and total questions
         int correctAnswers = calculateCorrectAnswers(questions);
         int totalQuestions = questions.size();
         Log.d("Correct Answer", String.valueOf(correctAnswers));
         Log.d("Correct Answer", String.valueOf(totalQuestions));
 
-        correctAnswersTextView.setText("Correct Answers: " + correctAnswers);
-        totalQuestionsTextView.setText("Total Questions: " + totalQuestions);
+        correctAnswersTextView.setText(""+ correctAnswers);
+        totalQuestionsTextView.setText("" + totalQuestions);
 
-        // Display remaining time
         String remainingTimeFormatted = formatTime(remainingTimeInMillis);
         Log.d("Formatted Remaining Time", remainingTimeFormatted);
         uploadResultsToFirestore(correctAnswers, totalQuestions, remainingTimeFormatted,id);
-//      tted remaining time
+
+        int score = calculateScore(questions);
+
+        correctAnswersTextView.setText("" + score);
+
+        TextView resultScoreTextView = findViewById(R.id.result_score);
+        resultScoreTextView.setText(String.valueOf(score));
+
+        Log.d("Score", "Score: " + score);
+
+        correctAnswersTextView.setText("" + score);
+        totalQuestionsTextView.setText("" + totalQuestions);
+
+        double percentage = ((double) score / (totalQuestions * 4)) * 100;
+
+        String greetingText;
+        if (percentage < 50) {
+            greetingText = "Don't worry, Keep Going";
+        } else if (percentage <= 60) {
+            greetingText = "Keep Practicing";
+        } else if (percentage <= 75) {
+            greetingText = "Keep it up";
+        } else if (percentage <= 85) {
+            greetingText = "Good";
+        } else if (percentage <= 90) {
+            greetingText = "Very Good";
+        } else {
+            greetingText = "Excellent";
+        }
+
+        TextView greetingTextView = findViewById(R.id.greeting);
+        greetingTextView.setText(greetingText);
+
+    }
+
+    private int calculateScore(ArrayList<Neetpg> questions) {
+        int score = 0;
+
+        for (Neetpg question : questions) {
+            if (question.isCorrect()) {
+                score += 4;
+            } else {
+                score -= 1;
+            }
+        }
+        return Math.max(0, score);
+    }
+
+    @Override
+    public void onBackPressed(){
+        Toast.makeText(ResultActivityNeet.this, "", Toast.LENGTH_SHORT).show();
     }
 
     private int calculateCorrectAnswers(ArrayList<Neetpg> questions) {
@@ -91,29 +145,21 @@ public class ResultActivityNeet extends AppCompatActivity {
     private String formatTime(long millis) {
         int seconds = (int) (millis / 1000) % 60;
         int minutes = (int) ((millis / (1000 * 60)) );
-        return String.format("%03d:%02d", minutes, seconds); // Update the format
+        return String.format("%03d:%02d", minutes, seconds);
     }
 
     private void uploadResultsToFirestore(int correctAnswers, int totalQuestions, String remainingTime, String id) {
         FirebaseUser user = auth.getCurrentUser();
         if (user != null) {
             String userId = user.getUid();
-
-            // Create a reference to the user's document
             DocumentReference userDocumentRef = db.collection("QuizResults").document(userId);
-
-            // Create a reference to the subcollection with the id parameter
             CollectionReference idSubcollectionRef = userDocumentRef.collection("Exam");
-
-            // Create a map with the result data
             Map<String, Object> resultData = new HashMap<>();
             resultData.put("correctAnswers", correctAnswers);
             resultData.put("totalQuestions", totalQuestions);
             resultData.put("remainingTime", remainingTime);
-
-            // Add the data to the subcollection
             idSubcollectionRef
-                    .document(id) // Auto-generated document ID
+                    .document(id)
                     .set(resultData)
                     .addOnSuccessListener(aVoid -> Log.d("Result Upload", "Results uploaded successfully"))
                     .addOnFailureListener(e -> Log.e("Result Upload", "Error uploading results", e));
