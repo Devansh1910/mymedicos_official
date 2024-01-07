@@ -117,11 +117,15 @@ public class ResultActivityNeet extends AppCompatActivity {
 
         for (Neetpg question : questions) {
             if (question.isCorrect()) {
+                // Correct answer, add +4 to the score
                 score += 4;
             } else {
+                // Wrong answer, subtract -1 from the score
                 score -= 1;
             }
         }
+
+        // Ensure the score is not negative
         return Math.max(0, score);
     }
 
