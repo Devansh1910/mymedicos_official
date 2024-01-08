@@ -37,7 +37,6 @@ import java.util.ArrayList;
 public class PreparationSubCategoryActivity extends AppCompatActivity {
 
     ActivityPreparationSubCategoryBinding binding;
-
     SwipeRefreshLayout swipeRefreshLayoutPreparationCategory;
     SpecialitiesPGAdapter specialitiesPGAdapter;
     ArrayList<SpecialitiesPG> specialitiespost;
@@ -87,8 +86,6 @@ public class PreparationSubCategoryActivity extends AppCompatActivity {
             return -1; // Invalid priority
         }
     }
-
-
 
     void initSpecialities(int priority) {
         specialitiespost = new ArrayList<>();
