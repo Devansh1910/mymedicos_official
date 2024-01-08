@@ -15,6 +15,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 
@@ -34,6 +35,8 @@ import com.google.firebase.firestore.QuerySnapshot;
 import com.medical.my_medicos.R;
 import com.medical.my_medicos.activities.guide.NewsGuideActivity;
 import com.medical.my_medicos.activities.guide.PgGuideActivity;
+import com.medical.my_medicos.activities.home.HomeActivity;
+import com.medical.my_medicos.activities.home.fragments.HomeFragment;
 import com.medical.my_medicos.activities.news.NewsActivity;
 import com.medical.my_medicos.activities.pg.activites.extras.CreditsActivity;
 import com.medical.my_medicos.activities.pg.activites.internalfragments.HomePgFragment;
@@ -47,6 +50,9 @@ public class  PgprepActivity extends AppCompatActivity {
     ActivityPgprepBinding binding;
     BottomNavigationView bottomNavigationPg;
     BottomAppBar bottomAppBarPg;
+
+    private ImageView backtothehomefrompg;
+
     private int lastSelectedItemId = 0;
 
     private SwipeRefreshLayout swipeRefreshLayout;
@@ -56,6 +62,19 @@ public class  PgprepActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         binding = ActivityPgprepBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
+
+        backtothehomefrompg = findViewById(R.id.backtothehomefrompg);
+        backtothehomefrompg.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent i = new Intent(PgprepActivity.this, HomeActivity.class);
+                startActivity(i);
+            }
+        });
+
+        View decorView = getWindow().getDecorView();
+        int uiOptions = View.SYSTEM_UI_FLAG_HIDE_NAVIGATION | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY;
+        decorView.setSystemUiVisibility(uiOptions);
 
         FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
         if (currentUser != null) {
@@ -87,19 +106,8 @@ public class  PgprepActivity extends AppCompatActivity {
 
         HomePgFragment homeFragment = HomePgFragment.newInstance();
         replaceFragment(homeFragment);
-
-        ImageView backToHomeImageView = findViewById(R.id.backtothehomefrompg);
-        backToHomeImageView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                onBackPressed();
-            }
-        });
-
         LinearLayout openpgdrawerIcon = findViewById(R.id.creditscreen);
         openpgdrawerIcon.setOnClickListener(v -> openHomeSidePgActivity());
-
-
     }
 
     private void setupBottomAppBar() {
@@ -150,15 +158,9 @@ public class  PgprepActivity extends AppCompatActivity {
     }
 
     @Override
-    public void onBackPressed() {
-        Fragment currentFragment = getSupportFragmentManager().findFragmentById(R.id.frame_layout_pg);
-        if (currentFragment instanceof HomePgFragment) {
-            finish();
-        } else {
-            super.onBackPressed();
-        }
+    public void onBackPressed(){
+//        Toast.makeText(ResultActivity.this, "", Toast.LENGTH_SHORT).show();
     }
-
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {

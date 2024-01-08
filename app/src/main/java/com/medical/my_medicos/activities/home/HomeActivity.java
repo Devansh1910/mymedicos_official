@@ -10,6 +10,7 @@ import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
@@ -49,6 +50,9 @@ public class HomeActivity extends AppCompatActivity {
     Toolbar toolbar;
 
     ImageView profileImageView, verifiedprofilebehere;
+
+    private static final long DOUBLE_PRESS_EXIT_INTERVAL = 2000; // Time interval for double press in milliseconds
+    private long lastPressTime;
     FrameLayout verifiedUser, circularImageView;
 
     @SuppressLint("MissingInflatedId")
@@ -105,6 +109,28 @@ public class HomeActivity extends AppCompatActivity {
             return true;
         });
     }
+    @Override
+    public void onBackPressed() {
+        Fragment currentFragment = getSupportFragmentManager().findFragmentById(R.id.frame_layout);
+
+        if (currentFragment instanceof HomeFragment && getSupportFragmentManager().getBackStackEntryCount() == 0) {
+            long currentTime = System.currentTimeMillis();
+
+            if (currentTime - lastPressTime > DOUBLE_PRESS_EXIT_INTERVAL) {
+                showToast("Press again to exit");
+                lastPressTime = currentTime;
+            } else {
+                finishAffinity();
+            }
+        } else {
+            super.onBackPressed();
+        }
+    }
+
+    private void showToast(String message) {
+        Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
+    }
+
 
     public void openHomeSideActivity() {
         Intent settingsIntent = new Intent(HomeActivity.this, HomeSideActivity.class);
