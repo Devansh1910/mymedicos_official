@@ -11,7 +11,7 @@ public class QuizPGinsider implements Item, Serializable {
 
     private String selectedOption; // Add this field
 
-    private String description; // Added field
+    private String description;
 
     private String image;
 

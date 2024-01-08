@@ -68,7 +68,7 @@ public class ResultActivityNeet extends AppCompatActivity {
         resultRecyclerView.setLayoutManager(layoutManager);
 
         db = FirebaseFirestore.getInstance();
-        auth = FirebaseAuth.getInstance(); // Initialize FirebaseAuth
+        auth = FirebaseAuth.getInstance();
 
         Intent intent = getIntent();
         ArrayList<Neetpg> questions = (ArrayList<Neetpg>) intent.getSerializableExtra("questions");
@@ -94,14 +94,14 @@ public class ResultActivityNeet extends AppCompatActivity {
 
         int score = calculateScore(questions);
 
-        correctAnswersTextView.setText("" + score);
+//        correctAnswersTextView.setText("" + score);
 
         TextView resultScoreTextView = findViewById(R.id.result_score);
         resultScoreTextView.setText(String.valueOf(score));
 
         Log.d("Score", "Score: " + score);
 
-        correctAnswersTextView.setText("" + score);
+//        correctAnswersTextView.setText("" + score);
         totalQuestionsTextView.setText("" + totalQuestions);
 
         double percentage = ((double) score / (totalQuestions * 4)) * 100;

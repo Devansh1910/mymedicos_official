@@ -26,7 +26,7 @@
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="@dimen/_200sdp"
+                android:layout_height="wrap_content"
                 android:background="@drawable/upper_result"
                 android:paddingBottom="@dimen/_50sdp"
                 android:orientation="vertical">
@@ -68,12 +68,13 @@
                             android:orientation="vertical">
 
                             <LinearLayout
-                                android:layout_width="match_parent"
+                                android:layout_width="wrap_content"
                                 android:padding="@dimen/_5sdp"
                                 android:elevation="@dimen/_5sdp"
+                                android:layout_gravity="center"
+                                android:gravity="center"
                                 android:layout_height="wrap_content"
                                 android:background="@drawable/categorynewbk"
-                                android:layout_marginHorizontal="@dimen/_60sdp"
                                 android:orientation="horizontal">
 
                                 <ImageView
@@ -97,7 +98,7 @@
 
                             <LinearLayout
                                 android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
+                                android:layout_height="match_parent"
                                 android:orientation="horizontal">
 
                                 <TextView

@@ -4,6 +4,8 @@ import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -17,6 +19,7 @@ import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.medical.my_medicos.R;
 import com.medical.my_medicos.activities.pg.adapters.ResultReportAdapter;
+import com.medical.my_medicos.activities.pg.model.Neetpg;
 import com.medical.my_medicos.activities.pg.model.QuizPGinsider;
 
 import java.util.ArrayList;
@@ -29,6 +32,8 @@ public class ResultActivity extends AppCompatActivity {
     private FirebaseFirestore db;
     private FirebaseAuth auth;
     private ResultReportAdapter resultAdapter;
+
+    private Button gotopghome;
     private TextView correctAnswersTextView;
     private TextView totalQuestionsTextView;
 
@@ -36,6 +41,15 @@ public class ResultActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_result);
+
+        gotopghome = findViewById(R.id.gotopghome);
+        gotopghome.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent i = new Intent(ResultActivity.this, PgprepActivity.class);
+                startActivity(i);
+            }
+        });
 
         resultRecyclerView = findViewById(R.id.resultRecyclerView);
         correctAnswersTextView = findViewById(R.id.correctanswercounter);
@@ -59,10 +73,45 @@ public class ResultActivity extends AppCompatActivity {
         Log.d("Correct Answer", String.valueOf(correctAnswers));
         Log.d("Correct Answer", String.valueOf(totalQuestions));
 
+        int score = calculateScore(questions);
 
         correctAnswersTextView.setText("" + correctAnswers);
         totalQuestionsTextView.setText("" + totalQuestions);
         uploadResultsToFirestore(correctAnswers, totalQuestions, null,id);
+
+        double percentage = ((double) score / (totalQuestions * 4)) * 100;
+
+        String greetingText;
+        if (percentage < 50) {
+            greetingText = "Don't worry, Keep Going";
+        } else if (percentage <= 60) {
+            greetingText = "Keep Practicing";
+        } else if (percentage <= 75) {
+            greetingText = "Keep it up";
+        } else if (percentage <= 85) {
+            greetingText = "Good";
+        } else if (percentage <= 90) {
+            greetingText = "Very Good";
+        } else {
+            greetingText = "Excellent";
+        }
+
+        TextView greetingTextView = findViewById(R.id.greeting);
+        greetingTextView.setText(greetingText);
+    }
+
+    private int calculateScore(ArrayList<QuizPGinsider> questions) {
+        int score = 0;
+
+        for (QuizPGinsider question : questions) {
+            if (question.isCorrect()) {
+                score += 1;
+            } else {
+                score -= 1;
+            }
+        }
+
+        return Math.max(0, score);
     }
 
     private int calculateCorrectAnswers(ArrayList<QuizPGinsider> questions) {
