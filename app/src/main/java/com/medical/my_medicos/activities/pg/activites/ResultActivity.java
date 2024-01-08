@@ -7,6 +7,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -32,7 +33,6 @@ public class ResultActivity extends AppCompatActivity {
     private FirebaseFirestore db;
     private FirebaseAuth auth;
     private ResultReportAdapter resultAdapter;
-
     private Button gotopghome;
     private TextView correctAnswersTextView;
     private TextView totalQuestionsTextView;
@@ -51,6 +51,10 @@ public class ResultActivity extends AppCompatActivity {
             }
         });
 
+        View decorView = getWindow().getDecorView();
+        int uiOptions = View.SYSTEM_UI_FLAG_HIDE_NAVIGATION | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY;
+        decorView.setSystemUiVisibility(uiOptions);
+
         resultRecyclerView = findViewById(R.id.resultRecyclerView);
         correctAnswersTextView = findViewById(R.id.correctanswercounter);
         totalQuestionsTextView = findViewById(R.id.totalanswwercounter);
@@ -63,7 +67,6 @@ public class ResultActivity extends AppCompatActivity {
         Intent intent = getIntent();
         ArrayList<QuizPGinsider> questions = (ArrayList<QuizPGinsider>) intent.getSerializableExtra("questions");
         String id = intent.getStringExtra("id");
-
 
         resultAdapter = new ResultReportAdapter(this, questions);
         resultRecyclerView.setAdapter(resultAdapter);
@@ -113,6 +116,12 @@ public class ResultActivity extends AppCompatActivity {
 
         return Math.max(0, score);
     }
+
+    @Override
+    public void onBackPressed(){
+//        Toast.makeText(ResultActivity.this, "", Toast.LENGTH_SHORT).show();
+    }
+
 
     private int calculateCorrectAnswers(ArrayList<QuizPGinsider> questions) {
         int correctAnswers = 0;

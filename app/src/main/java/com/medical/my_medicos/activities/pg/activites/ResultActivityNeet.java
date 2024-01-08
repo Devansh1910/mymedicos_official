@@ -131,21 +131,17 @@ public class ResultActivityNeet extends AppCompatActivity {
 
         for (Neetpg question : questions) {
             if (question.isCorrect()) {
-                // Correct answer, add +4 to the score
                 score += 4;
             } else {
-                // Wrong answer, subtract -1 from the score
                 score -= 1;
             }
         }
-
-        // Ensure the score is not negative
         return Math.max(0, score);
     }
 
     @Override
     public void onBackPressed(){
-        Toast.makeText(ResultActivityNeet.this, "", Toast.LENGTH_SHORT).show();
+//        Toast.makeText(ResultActivityNeet.this, "", Toast.LENGTH_SHORT).show();
     }
 
     private int calculateCorrectAnswers(ArrayList<Neetpg> questions) {

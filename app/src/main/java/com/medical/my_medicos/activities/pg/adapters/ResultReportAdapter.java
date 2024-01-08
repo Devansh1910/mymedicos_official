@@ -34,14 +34,23 @@ public class ResultReportAdapter extends RecyclerView.Adapter<ResultReportAdapte
         return new ResultViewHolder(view);
     }
 
-    @SuppressLint("SetTextI18n")
     @Override
     public void onBindViewHolder(@NonNull ResultViewHolder holder, int position) {
         QuizPGinsider quizQuestion = quizList.get(position);
 
         holder.resultQuestion.setText(quizQuestion.getQuestion());
-        holder.resultCorrectOption.setText("Correct: " + quizQuestion.getCorrectAnswer());
-        holder.resultSelectedOption.setText("Selected: " + quizQuestion.getSelectedOption());
+        holder.resultCorrectOption.setText("" + quizQuestion.getCorrectAnswer());
+
+        if (quizQuestion.getSelectedOption().equals(quizQuestion.getCorrectAnswer())) {
+            holder.resultSelectedOption.setText("" + quizQuestion.getSelectedOption());
+            holder.resultSelectedOption.setBackgroundResource(R.drawable.correct_option_selected);
+            holder.resultCorrectOption.setVisibility(View.GONE);
+        } else {
+            holder.resultSelectedOption.setText("" + quizQuestion.getSelectedOption());
+            holder.resultSelectedOption.setBackgroundResource(R.drawable.wrong_option_selected);
+            holder.resultCorrectOption.setVisibility(View.VISIBLE);
+        }
+
         holder.resultStatus.setText("Result: " + (quizQuestion.isCorrect() ? "Correct" : "Wrong"));
         holder.resultDescription.setText("Description: " + quizQuestion.getDescription());
 
@@ -49,6 +58,7 @@ public class ResultReportAdapter extends RecyclerView.Adapter<ResultReportAdapte
             correctCount++;
         }
     }
+
 
     @Override
     public int getItemCount() {
