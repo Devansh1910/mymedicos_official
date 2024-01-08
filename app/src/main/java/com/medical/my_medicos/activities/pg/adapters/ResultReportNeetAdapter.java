@@ -62,7 +62,6 @@ public class  ResultReportNeetAdapter extends RecyclerView.Adapter< ResultReport
         holder.resultQuestion.setText(quizQuestion.getQuestion());
         holder.resultCorrectOption.setText("Correct: " + quizQuestion.getCorrectAnswer());
         holder.resultSelectedOption.setText("Selected: " + quizQuestion.getSelectedOption());
-        holder.resultStatus.setText("Result: " + (quizQuestion.isCorrect() ? "Correct" : "Wrong"));
         holder.resultDescription.setText("Description: " + quizQuestion.getDescription());
 
         if (quizQuestion.isCorrect()) {
@@ -79,8 +78,6 @@ public class  ResultReportNeetAdapter extends RecyclerView.Adapter< ResultReport
         TextView resultQuestion;
         TextView resultCorrectOption;
         TextView resultSelectedOption;
-        TextView resultStatus;
-
         TextView resultDescription;
 
         public ResultViewHolder(@NonNull View itemView) {

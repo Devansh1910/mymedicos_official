@@ -29,20 +29,15 @@ import java.util.Objects;
 import java.util.regex.Pattern;
 
 public class RegisterActivity extends AppCompatActivity {
-
     Button register;
     private Spinner prefixSpinner, locationSpinner, interestSpinner,interestSpinner2;
     private ArrayAdapter<CharSequence> locationAdapter;
     private ArrayAdapter<CharSequence> interestAdapter;
     private FirebaseAuth mAuth;
     private ProgressDialog progressDialog;
-
-
     HashMap<String, Object> userMap = new HashMap<>();
     private FirebaseFirestore db = FirebaseFirestore.getInstance();
-
     TextInputEditText email, fullName, phoneNumber, password;
-
     @SuppressLint({"MissingInflatedId", "WrongViewCast"})
     @Override
     protected void onCreate(Bundle savedInstanceState) {
