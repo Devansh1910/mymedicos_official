@@ -88,7 +88,6 @@ public class  ResultReportNeetAdapter extends RecyclerView.Adapter< ResultReport
             resultQuestion = itemView.findViewById(R.id.resultQuestion);
             resultCorrectOption = itemView.findViewById(R.id.resultCorrectOption);
             resultSelectedOption = itemView.findViewById(R.id.resultSelectedOption);
-            resultStatus = itemView.findViewById(R.id.resultstatus);
             resultDescription = itemView.findViewById(R.id.resultdescription);
         }
     }

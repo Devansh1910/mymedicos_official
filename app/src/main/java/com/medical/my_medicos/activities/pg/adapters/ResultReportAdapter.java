@@ -78,7 +78,6 @@ public class ResultReportAdapter extends RecyclerView.Adapter<ResultReportAdapte
             resultQuestion = itemView.findViewById(R.id.resultQuestion);
             resultCorrectOption = itemView.findViewById(R.id.resultCorrectOption);
             resultSelectedOption = itemView.findViewById(R.id.resultSelectedOption);
-            resultStatus = itemView.findViewById(R.id.resultstatus);
             resultDescription = itemView.findViewById(R.id.resultdescription);
         }
     }
