@@ -134,7 +134,7 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.CartViewHolder
 
                         RequestQueue queue = Volley.newRequestQueue(context.getApplicationContext());
 
-                        String url = ConstantsDashboard.GET_CART + "/" + docId + "/remove" + '/' + "WrCBMohrJpfOUQAEo3yJ";
+                        String url = ConstantsDashboard.GET_CART + "/" + docId + "/remove" + '/' + "0ACmQESDsQQUZ8CduPYf";
                         JSONObject requestBody = new JSONObject();
                         MyVolleyRequest.sendPostRequest(context.getApplicationContext(), url, requestBody, new MyVolleyRequest.VolleyCallback() {
 

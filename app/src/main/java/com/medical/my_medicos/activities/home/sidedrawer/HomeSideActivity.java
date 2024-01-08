@@ -30,6 +30,7 @@ import com.google.firebase.database.ValueEventListener;
 import com.medical.my_medicos.R;
 import com.medical.my_medicos.activities.guide.ProfileGuideActivity;
 import com.medical.my_medicos.activities.login.FirstActivity;
+import com.medical.my_medicos.activities.login.GetstartedActivity;
 import com.medical.my_medicos.activities.pg.activites.extras.CreditsActivity;
 import com.medical.my_medicos.activities.profile.Contactinfo;
 import com.medical.my_medicos.activities.profile.Personalinfo;
@@ -198,7 +199,6 @@ public class HomeSideActivity extends AppCompatActivity {
         if (!dataLoaded) {
             fetchdata();
             fetchUserData();
-            fetchMedCoins();
         }
     }
 
@@ -224,7 +224,7 @@ public class HomeSideActivity extends AppCompatActivity {
 
     private void logoutUser() {
         FirebaseAuth.getInstance().signOut();
-        Intent intent = new Intent(HomeSideActivity.this, FirstActivity.class);
+        Intent intent = new Intent(HomeSideActivity.this, GetstartedActivity.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
         startActivity(intent);
         finish();
@@ -333,10 +333,6 @@ public class HomeSideActivity extends AppCompatActivity {
                         }
                     });
         }
-    }
-
-    private void fetchMedCoins() {
-
     }
 
 

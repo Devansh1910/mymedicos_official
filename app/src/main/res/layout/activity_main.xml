@@ -52,9 +52,9 @@
 
     <LinearLayout
         android:id="@+id/linearLayout2"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="48dp"
+        android:layout_width="404dp"
+        android:layout_height="275dp"
+        android:background="@drawable/getstartedbk"
         android:orientation="vertical"
         android:paddingHorizontal="@dimen/_15ssp"
         android:paddingVertical="@dimen/_20sdp"
@@ -113,4 +113,3 @@
 
     </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>
-

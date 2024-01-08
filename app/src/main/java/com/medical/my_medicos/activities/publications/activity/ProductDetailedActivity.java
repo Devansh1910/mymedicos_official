@@ -77,7 +77,7 @@ public class ProductDetailedActivity extends AppCompatActivity {
                 String docId = Preferences.userRoot().get("docId", "");
 
                 if (!docId.isEmpty()) {
-                    String url = ConstantsDashboard.GET_CART + "/" + docId + "/add/" + "WrCBMohrJpfOUQAEo3yJ";
+                    String url = ConstantsDashboard.GET_CART + "/" + docId + "/add/" + "0ACmQESDsQQUZ8CduPYf";
                     Log.e("function", url);
 
                     JSONObject requestBody = new JSONObject();

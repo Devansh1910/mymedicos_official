@@ -27,7 +27,6 @@
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:paddingBottom="100dp"
                     android:layout_marginTop="@dimen/_5sdp"
                     android:orientation="vertical">
 
@@ -468,6 +467,7 @@
                         android:orientation="horizontal">
 
                     </androidx.recyclerview.widget.RecyclerView>
+
                     <androidx.cardview.widget.CardView
                         android:id="@+id/cardjobs"
                         xmlns:android="http://schemas.android.com/apk/res/android"
@@ -614,6 +614,7 @@
                         android:orientation="horizontal">
 
                     </androidx.recyclerview.widget.RecyclerView>
+
                     <androidx.cardview.widget.CardView
                         android:id="@+id/cardcme"
                         xmlns:android="http://schemas.android.com/apk/res/android"
@@ -646,18 +647,20 @@
 
                     <LinearLayout
                         android:layout_width="match_parent"
-                        android:paddingBottom="20dp"
-                        android:paddingHorizontal="@dimen/_10ssp"
-                        android:elevation="@dimen/_8sdp"
+                        android:paddingBottom="2dp"
+                        android:paddingHorizontal="@dimen/_5ssp"
+                        android:elevation="@dimen/_1sdp"
                         android:layout_margin="10dp"
                         android:orientation="vertical"
                         android:background="@drawable/newdrawableforvideo"
                         android:layout_height="wrap_content">
 
                         <TextView
-                            android:layout_width="wrap_content"
+                            android:layout_width="match_parent"
                             android:layout_weight="1"
+                            android:fontFamily="@font/inter"
                             android:paddingVertical="@dimen/_5sdp"
+                            android:paddingHorizontal="@dimen/_5sdp"
                             android:layout_height="wrap_content"
                             android:text="Know us More"
                             android:textSize="@dimen/_12ssp"
@@ -676,11 +679,18 @@
                             <com.google.android.exoplayer2.ui.StyledPlayerView
                                 android:id="@+id/player_view_home"
                                 android:layout_width="match_parent"
-                                android:layout_height="580dp" />
+                                android:layout_height="200dp" />
 
                         </FrameLayout>
 
                     </LinearLayout>
+
+                    <ImageView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="-150dp"
+                        android:scaleType="centerCrop"
+                        android:src="@drawable/wd"/>
 
                 </LinearLayout>
             </ScrollView>
