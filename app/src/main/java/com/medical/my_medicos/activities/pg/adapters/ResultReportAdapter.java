@@ -51,7 +51,6 @@ public class ResultReportAdapter extends RecyclerView.Adapter<ResultReportAdapte
             holder.resultCorrectOption.setVisibility(View.VISIBLE);
         }
 
-        holder.resultStatus.setText("Result: " + (quizQuestion.isCorrect() ? "Correct" : "Wrong"));
         holder.resultDescription.setText("Description: " + quizQuestion.getDescription());
 
         if (quizQuestion.isCorrect()) {
@@ -69,8 +68,6 @@ public class ResultReportAdapter extends RecyclerView.Adapter<ResultReportAdapte
         TextView resultQuestion;
         TextView resultCorrectOption;
         TextView resultSelectedOption;
-        TextView resultStatus;
-
         TextView resultDescription;
 
         public ResultViewHolder(@NonNull View itemView) {
