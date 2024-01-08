@@ -300,11 +300,13 @@ public class HomePgFragment extends Fragment {
 
     // For the Suggested Exam
     void getPaidExam(String title) {
+        showShimmer(true);
         FirebaseFirestore db = FirebaseFirestore.getInstance();
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
         List<String> subcollectionIds = new ArrayList<>();
 
         if (user != null) {
+            showShimmer(false);
             String userId = user.getUid();
 
             CollectionReference quizResultsCollection = db.collection("QuizResults").document(userId).collection("Exam");
