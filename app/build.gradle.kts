@@ -14,7 +14,6 @@ android {
     defaultConfig {
         applicationId = "com.medical.my_medicos"
         minSdk = 24
-        //noinspection ExpiredTargetSdkVersion
         targetSdk = 34
         versionCode = 9
         versionName = "1.0.9"
@@ -118,5 +117,6 @@ dependencies {
     implementation ("com.google.android.gms:play-services-ads:22.6.0")
     //...Swipe in....
     implementation ("com.github.esafirm:android-stubutton:1.1.0")
+    implementation ("com.google.android.recaptcha:recaptcha:18.4.0")
     //.. Shimmer....for Score....
 }

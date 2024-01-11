@@ -30,21 +30,21 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:fontFamily="@font/inter"
-            android:text="from"
+            android:text="powered by"
             android:gravity="center_horizontal"
             android:textColor="@color/unselected"
-            android:textSize="@dimen/_14sdp"
+            android:textSize="@dimen/_12sdp"
             android:textStyle="bold" />
 
         <TextView
             android:layout_width="match_parent"
             android:id="@+id/broverg"
             android:gravity="center_horizontal"
-            android:text="Broverg "
+            android:text="Broverg Corporation"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
             android:textColor="@color/unselected"
-            android:textSize="@dimen/_16sdp"
+            android:textSize="@dimen/_14sdp"
             android:textStyle="bold" />
 
     </LinearLayout>
