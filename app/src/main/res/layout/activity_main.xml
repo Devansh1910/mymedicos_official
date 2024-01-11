@@ -1,115 +1,108 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/bkloginbackground"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:background="@color/backgroundcolor"
     tools:context=".activities.login.MainActivity">
 
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:background="@color/backgroundcolor">
 
-    <androidx.cardview.widget.CardView
-        android:id="@+id/cardView2"
+        <ImageView
+            android:id="@+id/toolbar_back_arrow"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/arrow_bk"
+            android:layout_gravity="start"
+            android:padding="@dimen/_10ssp"/>
+
+    </androidx.appcompat.widget.Toolbar>
+
+    <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginHorizontal="@dimen/_10sdp"
-        android:layout_marginVertical="@dimen/_20sdp"
-        app:cardBackgroundColor="#ABFDE8"
-        app:cardCornerRadius="@dimen/_10sdp"
-        app:layout_constraintBottom_toTopOf="@+id/linearLayout2"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
-
-        <ViewFlipper
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/_170sdp"
-            android:autoStart="true"
-            android:flipInterval="2000">
-
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:scaleType="centerCrop"
-                android:src="@drawable/ss1" />
-
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:scaleType="centerCrop"
-                android:src="@drawable/ss2" />
-
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:scaleType="centerCrop"
-                android:src="@drawable/ss3" />
-
-        </ViewFlipper>
-
-    </androidx.cardview.widget.CardView>
+        android:paddingHorizontal="@dimen/_15ssp"
+        android:paddingVertical="@dimen/_5sdp"
+        android:textSize="@dimen/_19sdp"
+        android:textColor="@color/unselected"
+        android:textStyle="bold"
+        android:fontFamily="@font/inter_extrabold"
+        android:text="Enter your mobile number to get OTP"/>
 
     <LinearLayout
-        android:id="@+id/linearLayout2"
-        android:layout_width="404dp"
-        android:layout_height="275dp"
-        android:background="@drawable/getstartedbk"
-        android:orientation="vertical"
-        android:paddingHorizontal="@dimen/_15ssp"
-        android:paddingVertical="@dimen/_20sdp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent">
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="15dp"
+        android:layout_marginHorizontal="@dimen/_10ssp"
+        android:layout_marginTop="20dp"
+        android:layout_marginVertical="@dimen/_10sdp"
+        android:background="@drawable/circularbordersolid"
+        android:id="@+id/phonenumberll"
+        android:gravity="center_vertical">
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
-
-            <Spinner
-                android:id="@+id/countryCodeSpinner"
-                android:layout_width="0dp"
+            <LinearLayout
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_marginEnd="@dimen/_4sdp"
-                android:layout_weight="0.25"
-                android:background="@drawable/spinner_back"
-                android:gravity="center"
-                android:paddingVertical="@dimen/_15sdp"
-                android:textAlignment="center" />
+                android:orientation="horizontal">
 
-            <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/phonenumber"
-                android:layout_width="0dp"
+                <ImageView
+                    android:layout_width="25dp"
+                    android:layout_height="25dp"
+                    android:src="@drawable/indianflag"/>
+
+                <Spinner
+                    android:id="@+id/countryCodeSpinner"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:padding="4dp"
+                    android:textStyle="bold"
+                    android:text="+91"
+                    android:layout_marginLeft="10dp"
+                    android:background="@drawable/maincircularborderring"
+                    android:textSize="14sp" />
+
+
+            </LinearLayout>
+
+            <EditText
+                android:id="@+id/phonenumberedit"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginVertical="@dimen/_10ssp"
-                android:layout_weight="1">
-
-                <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/phonenumberedit"
-                    android:layout_width="match_parent"
-                    android:layout_height="53dp"
-                    android:drawablePadding="@dimen/_10sdp"
-                    android:hint="Enter your mobile number"
-                    android:inputType="number"
-                    android:maxLength="10" />
-
-            </com.google.android.material.textfield.TextInputLayout>
-
+                android:hint="10 digit mobile number"
+                android:textSize="@dimen/_14sdp"
+                android:maxLength="10"
+                android:fontFamily="@font/inter"
+                android:layout_marginLeft="10dp"
+                android:background="@drawable/maincircularborderring"
+                android:inputType="phone" />
         </LinearLayout>
 
-        <Button
-            android:id="@+id/lgn_btn"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:backgroundTint="#468A79"
-            android:paddingVertical="@dimen/_10ssp"
-            android:text="Login"
-            android:textColor="@color/white"
-            android:textSize="@dimen/_16ssp"
-            android:textStyle="bold" />
+    <Button
+        android:id="@+id/lgn_btn"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:backgroundTint="@color/blue"
+        android:paddingVertical="@dimen/_10ssp"
+        android:text="Login"
+        android:layout_marginHorizontal="@dimen/_10ssp"
+        android:textColor="@color/white"
+        android:textSize="@dimen/_16ssp"
+        android:textStyle="bold" />
 
-    </LinearLayout>
-</androidx.constraintlayout.widget.ConstraintLayout>
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingHorizontal="@dimen/_15ssp"
+        android:paddingVertical="@dimen/_5sdp"
+        android:textSize="@dimen/_11sdp"
+        android:textColor="@color/unselected"
+        android:fontFamily="@font/inter"
+        android:text="By Clicking, I accept the terms of service and privacy policy"/>
+
+</LinearLayout>

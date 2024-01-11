@@ -98,7 +98,8 @@ public class Personalinfo extends AppCompatActivity {
     }
 
     private boolean isVerificationPending() {
-        return true;
+        // Have to Create Function here
+        return false;
     }
 
     private void showVerificationPopup() {

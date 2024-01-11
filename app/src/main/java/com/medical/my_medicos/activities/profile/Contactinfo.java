@@ -121,7 +121,7 @@ public class Contactinfo extends AppCompatActivity {
 
                             if (r == 0) {
                                 String field4 = ((String) dataMap.get("Email ID"));
-                                Log.d("veefe", field4);
+                                Log.d("Something went wrong", field4);
                                 phone.setText(field4);
                                 break;
                             }

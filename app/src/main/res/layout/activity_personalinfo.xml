@@ -4,6 +4,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
+    android:background="@color/backgroundcolor"
     android:layout_height="match_parent"
     tools:context=".activities.profile.Personalinfo">
 
@@ -22,7 +23,7 @@
             app:titleTextColor="@color/black"
             app:subtitleTextColor="@color/white"
             app:subtitleTextAppearance="@color/white"
-            android:backgroundTint="@color/white"
+            android:backgroundTint="@color/backgroundcolor"
             android:layout_width="match_parent"
             android:layout_weight="1"
             android:layout_height="?attr/actionBarSize"
@@ -111,7 +112,8 @@
             android:id="@+id/verificationButton"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:padding="@dimen/_5ssp"
+            android:paddingHorizontal="@dimen/_5ssp"
+            android:paddingVertical="@dimen/_12sdp"
             android:backgroundTint="@color/green"
             android:text="Get Verified"
             android:textStyle="normal"

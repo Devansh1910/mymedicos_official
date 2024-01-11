@@ -12,6 +12,29 @@
         android:layout_height="match_parent">
 
         <LinearLayout
+            android:id="@+id/progressBar"
+            android:elevation="@dimen/_10sdp"
+            android:visibility="gone"
+            android:background="@drawable/back6"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <com.airbnb.lottie.LottieAnimationView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:elevation="10dp"
+                android:padding="@dimen/_10sdp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:lottie_autoPlay="true"
+                app:lottie_rawRes="@raw/shimmer"
+                app:lottie_loop="false"
+                app:lottie_speed="1" />
+        </LinearLayout>
+
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
@@ -695,5 +718,6 @@
                 </LinearLayout>
             </ScrollView>
         </LinearLayout>
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 </FrameLayout>

@@ -28,16 +28,17 @@
             android:layout_gravity="center"
             android:paddingHorizontal="@dimen/_16sdp"
             android:paddingBottom="@dimen/_40sdp"
-            android:background="@drawable/getstartedbk"
+            android:background="@drawable/getstartedmain"
             android:gravity="center"
             android:elevation="@dimen/_10ssp"
             android:orientation="vertical">
 
             <ImageView
                 android:layout_width="wrap_content"
-                android:layout_height="165dp"
+                android:layout_height="100dp"
+                android:padding="@dimen/_5sdp"
                 android:layout_gravity="center"
-                android:src="@drawable/logooooooooo" />
+                android:src="@drawable/logopfthenew" />
 
 
             <TextView
@@ -51,18 +52,20 @@
                 android:textStyle="bold" />
 
 
-            <Button
+            <TextView
                 android:id="@+id/startButton"
                 android:layout_width="match_parent"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:background="@drawable/categorydark"
                 android:layout_height="wrap_content"
-                android:background="@drawable/cmeicon1"
                 android:orientation="horizontal"
                 android:padding="@dimen/_14sdp"
                 android:shadowColor="#00DCE1E0"
                 android:text="Get Started"
                 android:fontFamily="@font/inter_extrabold"
                 android:textAllCaps="false"
-                android:textColor="@color/unselected"
+                android:textColor="@color/backgroundcolor"
                 android:textSize="@dimen/_16ssp"
                 android:textStyle="normal" />
 

@@ -3,8 +3,6 @@ package com.medical.my_medicos.activities.home.fragments;
 import static android.content.ContentValues.TAG;
 
 import android.annotation.SuppressLint;
-import android.app.AlertDialog;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Build;
@@ -17,7 +15,6 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 import android.widget.ViewFlipper;
 
 import androidx.annotation.NonNull;
@@ -75,6 +72,8 @@ import java.util.prefs.Preferences;
 public class HomeFragment extends Fragment {
 
     private FragmentHomeBinding binding;
+
+    private LinearLayout progressBar;
     ImageView jobs,cme,news,publication,update,pg_prep,ugexams,meme;
     MyAdapter adapterjob;
     MyAdapter2 adaptercme;
@@ -87,6 +86,9 @@ public class HomeFragment extends Fragment {
     String videoURL = "https://res.cloudinary.com/dmzp6notl/video/upload/v1701512080/videoforhome_gzfpen.mp4";
     TextView navigatetojobs, navigatetocme, navigatecmeinsider;
 
+    public static final String INTENT_KEY_SPECIALITY = "speciality";
+    public static final String INTENT_KEY_USER_PHONE = "user_phone";
+
     private ViewFlipper viewFlipper;
     private boolean dataLoaded = false;
     private Handler handler;
@@ -98,7 +100,11 @@ public class HomeFragment extends Fragment {
                              Bundle savedInstanceState) {
         binding = FragmentHomeBinding.inflate(inflater, container, false);
         View rootView = binding.getRoot();
-//
+
+        progressBar = rootView.findViewById(R.id.progressBar);
+
+        showProgressBar(progressBar);
+
         StyledPlayerView playerView = rootView.findViewById(R.id.player_view_home);
         player = new ExoPlayer.Builder(requireContext()).build();
         playerView.setPlayer(player);
@@ -108,6 +114,7 @@ public class HomeFragment extends Fragment {
         viewFlipper = rootView.findViewById(R.id.viewFlipper);
         dotsLayout = rootView.findViewById(R.id.dotsLayout);
         handler = new Handler();
+
 
         addDots();
 
@@ -511,6 +518,16 @@ public class HomeFragment extends Fragment {
             }
         }
         return rootView;
+    }
+
+    private void showProgressBar(LinearLayout progressBar) {
+        this.progressBar.setVisibility(View.VISIBLE);
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                HomeFragment.this.progressBar.setVisibility(View.GONE);
+            }
+        }, 3000);
     }
 
     @Override

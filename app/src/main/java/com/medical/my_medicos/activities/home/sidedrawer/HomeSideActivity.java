@@ -151,14 +151,7 @@ public class HomeSideActivity extends AppCompatActivity {
                 startActivity(i);
             }
         });
-        LinearLayout language = findViewById(R.id.languageselect);
-        language.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent i = new Intent(HomeSideActivity.this, ChooseLanguageActivity.class);
-                startActivity(i);
-            }
-        });
+
         LinearLayout logout = findViewById(R.id.logout);
         logout.setOnClickListener(new View.OnClickListener() {
             @Override
