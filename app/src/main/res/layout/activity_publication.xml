@@ -139,34 +139,93 @@
                     app:showNavigationButtons="false"
                     app:showCaption="false"
                     app:autoPlay="true"/>
+
             </androidx.cardview.widget.CardView>
+
+            <!-- For Recent uploaded -->
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:paddingTop="@dimen/_5ssp"
                 android:layout_height="wrap_content">
 
-                <TextView
+                <com.google.android.material.divider.MaterialDivider
                     android:layout_width="0dp"
-                    android:layout_weight="1"
                     android:layout_height="wrap_content"
-                    android:text="Top Explored"
-                    android:textSize="@dimen/_12ssp"
-                    android:textStyle="bold" />
+                    android:layout_weight="0.35"
+                    app:dividerThickness="@dimen/_2sdp"
+                    android:layout_gravity="center_vertical"/>
 
                 <TextView
-                    android:id="@+id/navigateinsidepublicationsexplored"
                     android:layout_width="0dp"
                     android:layout_weight="1"
                     android:layout_height="wrap_content"
-                    android:text="View All"
-                    android:drawablePadding="@dimen/_8ssp"
-                    android:drawableEnd="@drawable/sidearrow"
+                    android:text="Top Explored Readables"
+                    android:fontFamily="@font/inter"
                     android:layout_gravity="center"
-                    android:gravity="end"
-                    android:textColor="#676666"
-                    android:textSize="@dimen/_12ssp"
+                    android:gravity="center"
+                    android:paddingHorizontal="@dimen/_5sdp"
+                    android:textSize="@dimen/_13ssp"
                     android:textStyle="bold" />
+
+                <com.google.android.material.divider.MaterialDivider
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="0.35"
+                    app:dividerThickness="@dimen/_2sdp"
+                    android:layout_gravity="center_vertical"/>
+
+            </LinearLayout>
+
+            <androidx.cardview.widget.CardView
+                android:id="@+id/cardViewfortop"
+                android:outlineSpotShadowColor="@color/white"
+                android:elevation="0dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                app:cardCornerRadius="10dp">
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/recentaddedbooksList"
+                    android:layout_width="match_parent"
+                    android:orientation="horizontal"
+                    android:layout_height="wrap_content"/>
+            </androidx.cardview.widget.CardView>
+
+            <!-- For Category -->
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:paddingTop="@dimen/_5ssp"
+                android:layout_height="wrap_content">
+
+                <com.google.android.material.divider.MaterialDivider
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="0.5"
+                    app:dividerThickness="@dimen/_2sdp"
+                    android:layout_gravity="center_vertical"/>
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="wrap_content"
+                    android:text="Filter your Niche"
+                    android:fontFamily="@font/inter"
+                    android:layout_gravity="center"
+                    android:gravity="center"
+                    android:paddingHorizontal="@dimen/_5sdp"
+                    android:textSize="@dimen/_13ssp"
+                    android:textStyle="bold" />
+
+                <com.google.android.material.divider.MaterialDivider
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="0.5"
+                    app:dividerThickness="@dimen/_2sdp"
+                    android:layout_gravity="center_vertical"/>
+
             </LinearLayout>
 
             <androidx.cardview.widget.CardView
@@ -184,38 +243,193 @@
                     android:layout_height="wrap_content"/>
             </androidx.cardview.widget.CardView>
 
+            <!-- For Promotions -->
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:paddingTop="@dimen/_5ssp"
+                android:paddingBottom="@dimen/_5sdp"
                 android:layout_height="wrap_content">
 
-                <TextView
+                <com.google.android.material.divider.MaterialDivider
                     android:layout_width="0dp"
-                    android:layout_weight="1"
                     android:layout_height="wrap_content"
-                    android:text="Recommended for you"
-                    android:textSize="@dimen/_12ssp"
-                    android:textStyle="bold" />
+                    android:layout_weight="0.25"
+                    app:dividerThickness="@dimen/_2sdp"
+                    android:layout_gravity="center_vertical"/>
 
                 <TextView
-                    android:id="@+id/navigateinsidepublication"
                     android:layout_width="0dp"
                     android:layout_weight="1"
                     android:layout_height="wrap_content"
-                    android:text="View All"
-                    android:drawablePadding="@dimen/_8ssp"
-                    android:drawableEnd="@drawable/sidearrow"
+                    android:text="Promotions Corner (Offers)"
+                    android:fontFamily="@font/inter"
                     android:layout_gravity="center"
-                    android:gravity="end"
-                    android:textColor="#676666"
-                    android:textSize="@dimen/_12ssp"
+                    android:gravity="center"
+                    android:paddingHorizontal="@dimen/_5sdp"
+                    android:textSize="@dimen/_13ssp"
                     android:textStyle="bold" />
+
+                <com.google.android.material.divider.MaterialDivider
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="0.25"
+                    app:dividerThickness="@dimen/_2sdp"
+                    android:layout_gravity="center_vertical"/>
+
+            </LinearLayout>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/_260sdp">
+
+                <androidx.cardview.widget.CardView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    app:cardCornerRadius="10dp">
+
+                    <org.imaginativeworld.whynotimagecarousel.ImageCarousel
+                        android:id="@+id/carouselsponsor"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        app:showNavigationButtons="false"
+                        app:showCaption="false"
+                        app:autoPlay="false"/>
+
+                </androidx.cardview.widget.CardView>
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/specialproductList"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"
+                    android:layout_alignParentBottom="true"
+                    android:elevation="@dimen/_10sdp" />
+
+            </RelativeLayout>
+
+            <!-- For TextBooks -->
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:paddingTop="@dimen/_5ssp"
+                android:paddingBottom="@dimen/_5sdp"
+                android:layout_height="wrap_content">
+
+                <com.google.android.material.divider.MaterialDivider
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="0.25"
+                    app:dividerThickness="@dimen/_2sdp"
+                    android:layout_gravity="center_vertical"/>
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="wrap_content"
+                    android:text="TextBooks &amp; Research"
+                    android:fontFamily="@font/inter"
+                    android:layout_gravity="center"
+                    android:gravity="center"
+                    android:paddingHorizontal="@dimen/_5sdp"
+                    android:textSize="@dimen/_13ssp"
+                    android:textStyle="bold" />
+
+                <com.google.android.material.divider.MaterialDivider
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="0.25"
+                    app:dividerThickness="@dimen/_2sdp"
+                    android:layout_gravity="center_vertical"/>
+
             </LinearLayout>
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/productList"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
+
+            <!-- Promotion Video -->
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:paddingTop="@dimen/_5ssp"
+                android:paddingBottom="@dimen/_5sdp"
+                android:layout_height="wrap_content">
+
+                <com.google.android.material.divider.MaterialDivider
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="0.5"
+                    app:dividerThickness="@dimen/_2sdp"
+                    android:layout_gravity="center_vertical"/>
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="wrap_content"
+                    android:text="Watch &amp; Shop, Live"
+                    android:fontFamily="@font/inter"
+                    android:layout_gravity="center"
+                    android:gravity="center"
+                    android:paddingHorizontal="@dimen/_5sdp"
+                    android:textSize="@dimen/_13ssp"
+                    android:textStyle="bold" />
+
+                <com.google.android.material.divider.MaterialDivider
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="0.5"
+                    app:dividerThickness="@dimen/_2sdp"
+                    android:layout_gravity="center_vertical"/>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:paddingBottom="200dp"
+                android:paddingHorizontal="@dimen/_5ssp"
+                android:elevation="@dimen/_1sdp"
+                android:orientation="vertical"
+                android:layout_height="wrap_content">
+
+                <com.google.android.exoplayer2.ui.StyledPlayerView
+                    android:id="@+id/player_view_library"
+                    android:layout_width="match_parent"
+                    android:layout_height="200dp" />
+
+            </LinearLayout>
+
+            <!-- Need Help -->
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingVertical="@dimen/_10sdp"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Need Help ? "
+                    android:fontFamily="@font/inter"
+                    android:layout_gravity="start"
+                    android:gravity="start"
+                    android:textSize="@dimen/_13ssp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Contact Us"
+                    android:textColor="@color/blue"
+                    android:fontFamily="@font/inter_extrabold"
+                    android:layout_gravity="start"
+                    android:gravity="start"
+                    android:textSize="@dimen/_13ssp"
+                    android:textStyle="bold" />
+
+            </LinearLayout>
         </LinearLayout>
     </androidx.core.widget.NestedScrollView>
 

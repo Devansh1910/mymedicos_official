@@ -14,6 +14,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
 import com.medical.my_medicos.R;
 import com.medical.my_medicos.activities.publications.activity.CategoryPublicationActivity;
+import com.medical.my_medicos.activities.publications.activity.insiders.CategoryPublicationInsiderActivity;
 import com.medical.my_medicos.activities.publications.model.Category;
 import com.makeramen.roundedimageview.RoundedImageView;
 
@@ -35,9 +36,14 @@ public class CategoryAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         LayoutInflater inflater = LayoutInflater.from(context);
-        View view = inflater.inflate(R.layout.item_category_new, parent, false);
 
-        return new CategoryViewHolder(view);
+        if (viewType == VIEW_TYPE_NORMAL) {
+            View view = inflater.inflate(R.layout.item_category_new, parent, false);
+            return new CategoryViewHolder(view);
+        } else {
+            View view = inflater.inflate(R.layout.more_item, parent, false);
+            return new MoreCategoryViewHolder(view);
+        }
     }
 
     @Override
@@ -60,7 +66,17 @@ public class CategoryAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
                 }
             });
         } else {
+            MoreCategoryViewHolder moreCategoryViewHolder = (MoreCategoryViewHolder) holder;
             // Handle "More" category if needed
+            moreCategoryViewHolder.labelmore.setText("More");
+            moreCategoryViewHolder.itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    // Handle "More" item click
+                    Intent intent = new Intent(context, CategoryPublicationInsiderActivity.class);
+                    context.startActivity(intent);
+                }
+            });
         }
     }
 
@@ -84,6 +100,7 @@ public class CategoryAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
             label = itemView.findViewById(R.id.label);
         }
     }
+
     public class MoreCategoryViewHolder extends RecyclerView.ViewHolder {
         ImageView imagemore;
         TextView labelmore;
@@ -94,6 +111,4 @@ public class CategoryAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
             labelmore = itemView.findViewById(R.id.moretext);
         }
     }
-
-    // You can add the MoreCategoryViewHolder class here as well if needed
 }

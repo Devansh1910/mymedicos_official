@@ -98,6 +98,4 @@ public class TextBooksFragment extends Fragment {
 
         queue.add(request);
     }
-
-    //... (other methods)
 }

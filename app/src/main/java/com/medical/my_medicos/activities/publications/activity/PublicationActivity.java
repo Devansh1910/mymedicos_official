@@ -13,6 +13,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.android.volley.Request;
@@ -21,11 +22,17 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.medical.my_medicos.R;
+import com.medical.my_medicos.activities.news.News;
+import com.medical.my_medicos.activities.news.NewsAdapter;
 import com.medical.my_medicos.activities.pg.activites.internalfragments.HomePgFragment;
 import com.medical.my_medicos.activities.publications.activity.insiders.CategoryPublicationInsiderActivity;
 import com.medical.my_medicos.activities.publications.adapters.CategoryAdapter;
 import com.medical.my_medicos.activities.publications.adapters.ProductAdapter;
+import com.medical.my_medicos.activities.publications.adapters.RecentHomeProductsAdapter;
+import com.medical.my_medicos.activities.publications.adapters.SponsoredProductAdapter;
 import com.medical.my_medicos.activities.publications.model.Category;
 import com.medical.my_medicos.activities.publications.model.Product;
 import com.medical.my_medicos.activities.publications.utils.Constants;
@@ -48,7 +55,11 @@ public class PublicationActivity extends AppCompatActivity {
     CategoryAdapter categoryAdapter;
     ArrayList<Category> categories;
     ProductAdapter productAdapter;
+    RecentHomeProductsAdapter recentHomeProductsAdapter;
+    SponsoredProductAdapter sponsoredProductsAdapter;
     ArrayList<Product> products;
+    ArrayList<Product> recenthomeproducts;
+    ArrayList<Product> sponsoredProduct;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -77,7 +88,10 @@ public class PublicationActivity extends AppCompatActivity {
 
         initCategories();
         initProducts();
+        initTopExploredReadables();
         initSlider();
+        initSponsorSlider();
+        initSponsorProduct();
 
         binding.totheccart.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -95,24 +109,20 @@ public class PublicationActivity extends AppCompatActivity {
             }
         });
     }
+
     private void initSlider() {
         getRecentOffers();
     }
 
+    private void initSponsorSlider() {
+        getRecentSlidersSponsored();
+    }
     void initCategories() {
         categories = new ArrayList<>();
         categoryAdapter = new CategoryAdapter(this, categories);
 
         getCategories();
 
-        // Initialize the RecyclerView with a GridLayoutManager
-        GridLayoutManager layoutManager = new GridLayoutManager(this, 2);
-        binding.categoriesList.setLayoutManager(layoutManager);
-        binding.categoriesList.setAdapter(categoryAdapter);
-    }
-
-    void updateCategoryGridLayout() {
-        // Update the GridLayoutManager based on the number of words in the category name
         GridLayoutManager layoutManager = new GridLayoutManager(this, 2);
         binding.categoriesList.setLayoutManager(layoutManager);
         binding.categoriesList.setAdapter(categoryAdapter);
@@ -133,7 +143,7 @@ public class PublicationActivity extends AppCompatActivity {
                         for (int i = 0; i < categoriesArray.length(); i++) {
                             JSONObject object = categoriesArray.getJSONObject(i);
                             int priority = object.getInt("priority");
-                            if (priority >= 1 && priority <= 3) {
+                            if (priority == 1 || priority == 2) {
                                 Category category = new Category(
                                         object.getString("id"),
                                         priority
@@ -142,6 +152,10 @@ public class PublicationActivity extends AppCompatActivity {
                                 Log.e("Something went wrong..", String.valueOf(priority));
                             }
                         }
+
+                        // Add the "More" item
+                        Category moreItem = new Category("-1", -1);
+                        categories.add(moreItem);
 
                         categoryAdapter.notifyDataSetChanged();
 
@@ -156,6 +170,7 @@ public class PublicationActivity extends AppCompatActivity {
                                         Intent intent = new Intent(PublicationActivity.this, CategoryPublicationInsiderActivity.class);
                                         startActivity(intent);
                                     } else {
+                                        Log.e("Error","Error Here");
                                     }
                                 }
                                 return false;
@@ -167,9 +182,10 @@ public class PublicationActivity extends AppCompatActivity {
                             @Override
                             public void onRequestDisallowInterceptTouchEvent(boolean disallowIntercept) {}
                         });
+
                         categoryAdapter.notifyDataSetChanged();
                     } else {
-
+                        Log.e("Error","Error Here");
                     }
                 } catch (JSONException e) {
                     e.printStackTrace();
@@ -185,6 +201,108 @@ public class PublicationActivity extends AppCompatActivity {
         queue.add(request);
     }
 
+    // Top Explored Readables
+
+    void initTopExploredReadables() {
+        recenthomeproducts = new ArrayList<>();
+        recentHomeProductsAdapter = new RecentHomeProductsAdapter(this, recenthomeproducts);
+
+        getTopExploredReadables();
+
+        LinearLayoutManager layoutManager = new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false);
+        binding.recentaddedbooksList.setLayoutManager(layoutManager);
+        binding.recentaddedbooksList.setAdapter(recentHomeProductsAdapter);
+    }
+
+    void getTopExploredReadables() {
+        RequestQueue queue = Volley.newRequestQueue(this);
+
+        String url = ConstantsDashboard.GET_SPECIALITY_ALL_PRODUCT_HOME;
+        @SuppressLint("NotifyDataSetChanged") StringRequest request = new StringRequest(Request.Method.GET, url, response -> {
+            try {
+                JSONObject object = new JSONObject(response);
+                if(object.getString("status").equals("success")){
+                    JSONArray recenthomeproductsArray = object.getJSONArray("data");
+                    for(int i =0; i< recenthomeproductsArray.length(); i++) {
+                        JSONObject childObj = recenthomeproductsArray.getJSONObject(i);
+                        JSONObject recenthomeproductObj = childObj.getJSONObject("data");
+
+                        String documentId = childObj.getString("id");
+
+                        Product recenthomeproduct = new Product(
+                                recenthomeproductObj.getString("Title"),
+                                recenthomeproductObj.getString("thumbnail"),
+                                recenthomeproductObj.getString("Author"),
+                                recenthomeproductObj.getDouble("Price"),
+                                recenthomeproductObj.getString("Type"),
+                                recenthomeproductObj.getString("Category"),
+                                documentId,
+                                recenthomeproductObj.getString("Subject")
+                        );
+
+                        recenthomeproducts.add(recenthomeproduct);
+                    }
+                    recentHomeProductsAdapter.notifyDataSetChanged();
+                }
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        }, error -> { });
+
+        queue.add(request);
+    }
+    //.....For the Sponsor
+
+    void initSponsorProduct() {
+        sponsoredProduct = new ArrayList<>();
+        sponsoredProductsAdapter = new SponsoredProductAdapter(this, sponsoredProduct);
+
+        getSponsorProduct();
+
+        LinearLayoutManager layoutManager = new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false);
+        binding.specialproductList.setLayoutManager(layoutManager);
+        binding.specialproductList.setAdapter(sponsoredProductsAdapter);
+    }
+
+    void getSponsorProduct() {
+        RequestQueue queue = Volley.newRequestQueue(this);
+
+        String url = ConstantsDashboard.GET_SPECIALITY_ALL_PRODUCT_SPONSORED;
+        @SuppressLint("NotifyDataSetChanged") StringRequest request = new StringRequest(Request.Method.GET, url, response -> {
+            try {
+                JSONObject object = new JSONObject(response);
+                if(object.getString("status").equals("success")){
+                    JSONArray sponsoredproductsArray = object.getJSONArray("data");
+                    for(int i =0; i< sponsoredproductsArray.length(); i++) {
+                        JSONObject childObj = sponsoredproductsArray.getJSONObject(i);
+                        JSONObject sponsorproductObj = childObj.getJSONObject("data");
+
+                        String documentId = childObj.getString("id");
+
+                        Product sponsoredproduct = new Product(
+                                sponsorproductObj.getString("Title"),
+                                sponsorproductObj.getString("thumbnail"),
+                                sponsorproductObj.getString("Author"),
+                                sponsorproductObj.getDouble("Price"),
+                                sponsorproductObj.getString("Type"),
+                                sponsorproductObj.getString("Category"),
+                                documentId,
+                                sponsorproductObj.getString("Subject")
+                        );
+
+                        sponsoredProduct.add(sponsoredproduct);
+                    }
+                    sponsoredProductsAdapter.notifyDataSetChanged();
+                }
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        }, error -> { });
+
+        queue.add(request);
+    }
+
+    //.......................
 
     void initProducts() {
         products = new ArrayList<>();
@@ -196,6 +314,7 @@ public class PublicationActivity extends AppCompatActivity {
         binding.productList.setLayoutManager(layoutManager);
         binding.productList.setAdapter(productAdapter);
     }
+
     void getRecentProducts() {
         RequestQueue queue = Volley.newRequestQueue(this);
 
@@ -234,7 +353,6 @@ public class PublicationActivity extends AppCompatActivity {
         queue.add(request);
     }
 
-
     void getRecentOffers() {
         RequestQueue queue = Volley.newRequestQueue(this);
 
@@ -260,6 +378,29 @@ public class PublicationActivity extends AppCompatActivity {
         queue.add(request);
     }
 
+    void getRecentSlidersSponsored() {
+        RequestQueue queue = Volley.newRequestQueue(this);
+
+        StringRequest request = new StringRequest(Request.Method.GET, ConstantsDashboard.GET_SPONSORS_SLIDER_URL, response -> {
+            try {
+                JSONArray newssliderArray = new JSONArray(response);
+                for (int i = 0; i < newssliderArray.length(); i++) {
+                    JSONObject childObj = newssliderArray.getJSONObject(i);
+                    binding.carouselsponsor.addData(
+                            new CarouselItem(
+                                    childObj.getString("url"),
+                                    childObj.getString("action")
+                            )
+                    );
+                }
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        }, error -> {
+            // Handle error if needed
+        });
+        queue.add(request);
+    }
     @Override
     public boolean onSupportNavigateUp() {
         finish();
