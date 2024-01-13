@@ -1,6 +1,6 @@
 package com.medical.my_medicos.activities.publications.adapters;
 
-import static android.content.ContentValues.TAG;
+import static androidx.fragment.app.FragmentManager.TAG;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
@@ -17,9 +17,6 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.Volley;
 import com.bumptech.glide.Glide;
-import com.medical.my_medicos.activities.publications.activity.MyVolleyRequest;
-import com.medical.my_medicos.activities.publications.model.Product;
-import com.medical.my_medicos.activities.utils.ConstantsDashboard;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
@@ -27,6 +24,9 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
+import com.medical.my_medicos.activities.publications.activity.MyVolleyRequest;
+import com.medical.my_medicos.activities.publications.model.Product;
+import com.medical.my_medicos.activities.utils.ConstantsDashboard;
 import com.medical.my_medicos.databinding.ItemCartBinding;
 import com.medical.my_medicos.databinding.QuantityDialogBinding;
 
@@ -173,6 +173,7 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.CartViewHolder
                     .whereEqualTo("Phone Number", currentUser.getPhoneNumber())
                     .get()
                     .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                        @SuppressLint("RestrictedApi")
                         @Override
                         public void onComplete(@NonNull Task<QuerySnapshot> task) {
                             if (task.isSuccessful() && task.getResult() != null) {

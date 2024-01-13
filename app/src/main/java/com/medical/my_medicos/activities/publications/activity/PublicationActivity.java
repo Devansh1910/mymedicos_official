@@ -81,7 +81,7 @@ public class PublicationActivity extends AppCompatActivity {
 
         //..... Security (Restricted for Screenshot or Recording).....
 
-        getWindow().setFlags(WindowManager.LayoutParams.FLAG_SECURE, WindowManager.LayoutParams.FLAG_SECURE);
+//        getWindow().setFlags(WindowManager.LayoutParams.FLAG_SECURE, WindowManager.LayoutParams.FLAG_SECURE);
 
         //... Binding Statement.....
 

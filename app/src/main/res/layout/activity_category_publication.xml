@@ -6,6 +6,37 @@
     android:layout_height="match_parent"
     tools:context=".activities.publications.activity.CategoryPublicationActivity">
 
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolbar"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:background="@color/blue">
+
+        <ImageView
+            android:id="@+id/backtothepublicationactivity"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/arrow_bkwhite"
+            android:layout_marginEnd="@dimen/_5sdp"
+            android:padding="@dimen/_8sdp"/>
+
+        <com.mancj.materialsearchbar.MaterialSearchBar
+            android:id="@+id/searchBar"
+            android:layout_width="match_parent"
+            android:outlineSpotShadowColor="@color/black"
+            android:layout_height="wrap_content"
+            app:mt_hint="Search your favorite book"
+            android:layout_marginEnd="@dimen/_5sdp"
+            app:mt_placeholder="Medicos hub"
+            app:mt_navIconEnabled="true"
+            app:mt_maxSuggestionsCount="10"
+            app:mt_speechMode="false" />
+
+    </androidx.appcompat.widget.Toolbar>
+
     <FrameLayout
         android:id="@+id/frame_layout"
         android:layout_width="match_parent"
@@ -13,7 +44,7 @@
         app:layout_constraintBottom_toTopOf="@+id/bottomappabarcategorypublication"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        app:layout_constraintTop_toBottomOf="@id/toolbar">
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/productList"
@@ -28,33 +59,28 @@
     <com.google.android.material.bottomappbar.BottomAppBar
         android:id="@+id/bottomappabarcategorypublication"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/_60sdp"
+        android:layout_height="wrap_content"
         android:layout_gravity="bottom"
         android:gravity="bottom"
-        app:itemActiveIndicatorStyle="@color/blue"
+        android:backgroundTint="@color/green"
+        app:itemActiveIndicatorStyle="@color/green"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="1.0"
         tools:ignore="BottomAppBar">
 
         <com.google.android.material.bottomnavigation.BottomNavigationView
             android:id="@+id/bottomNavigationViewcategorypublication"
             android:layout_width="match_parent"
-            android:layout_height="@dimen/_60sdp"
+            android:layout_height="match_parent"
+            android:background="@color/green"
             android:layout_gravity="bottom"
+            app:itemHorizontalTranslationEnabled="true"
+            app:itemIconSize="@dimen/_25sdp"
             app:itemActiveIndicatorStyle="@drawable/item_tint_selector"
             app:itemIconTint="@drawable/item_tint_selector"
             app:itemTextColor="@drawable/item_tint_selector"
             app:labelVisibilityMode="labeled"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.0"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.996"
             app:menu="@menu/bottom_menu_category_publications">
 
         </com.google.android.material.bottomnavigation.BottomNavigationView>

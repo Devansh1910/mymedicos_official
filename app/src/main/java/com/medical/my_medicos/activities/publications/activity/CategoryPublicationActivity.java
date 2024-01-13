@@ -35,7 +35,6 @@ public class CategoryPublicationActivity extends AppCompatActivity {
 
     BottomNavigationView bottomNavigationCategoryPublication;
     BottomAppBar bottomAppBarCategoryPublication;
-
     ActivityCategoryPublicationBinding binding;
     ProductAdapter productAdapter;
     ArrayList<Product> products;
@@ -52,9 +51,6 @@ public class CategoryPublicationActivity extends AppCompatActivity {
 
         catId = getIntent().getIntExtra("catId", 0);
         String categoryName = getIntent().getStringExtra("categoryName");
-
-        getSupportActionBar().setTitle(categoryName);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         getProducts(catId);
 

@@ -3,39 +3,243 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
+    android:background="@color/backgroundcolor"
     android:layout_height="match_parent"
     tools:context=".activities.publications.activity.ProductDetailedActivity">
 
-    <ImageView
-        android:id="@+id/productImage"
-        android:layout_width="0dp"
-        android:layout_height="250dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="8dp"
-        android:scaleType="fitCenter"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolbar"
         app:layout_constraintTop_toTopOf="parent"
-        tools:srcCompat="@drawable/placeholder" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:background="@color/blue">
 
-    <TextView
-        android:id="@+id/productDescription"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:text="Loading details..."
-        app:layout_constraintEnd_toEndOf="@+id/productImage"
-        app:layout_constraintStart_toStartOf="@+id/productImage"
-        app:layout_constraintTop_toBottomOf="@+id/productImage" />
+        <ImageView
+            android:id="@+id/backtothepublicationactivity"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/arrow_bkwhite"
+            android:layout_marginEnd="@dimen/_5sdp"
+            android:padding="@dimen/_8sdp"/>
 
-    <Button
-        android:id="@+id/addToCartBtn"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:backgroundTint="@color/green"
-        android:text="Add to Cart"
+        <com.mancj.materialsearchbar.MaterialSearchBar
+            android:id="@+id/searchBar"
+            android:layout_width="match_parent"
+            android:outlineSpotShadowColor="@color/black"
+            android:layout_height="wrap_content"
+            app:mt_hint="Search your favorite book"
+            android:layout_marginEnd="@dimen/_5sdp"
+            app:mt_placeholder="Medicos hub"
+            app:mt_navIconEnabled="true"
+            app:mt_maxSuggestionsCount="10"
+            app:mt_speechMode="false" />
+
+    </androidx.appcompat.widget.Toolbar>
+
+    <RelativeLayout
+        android:id="@+id/loaderforlib"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        android:visibility="gone"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/toolbar"
+        android:background="#F5F5F5"
+        android:elevation="@dimen/_10sdp">
+
+        <com.airbnb.lottie.LottieAnimationView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:elevation="@dimen/_100sdp"
+            app:lottie_autoPlay="true"
+            app:lottie_loop="false"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:lottie_rawRes="@raw/loaderforlib"
+            app:lottie_speed="1" />
+
+    </RelativeLayout>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:id="@+id/contentfull"
+        app:layout_constraintTop_toBottomOf="@id/toolbar"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_height="0dp"
+        app:layout_constraintHorizontal_weight="1">
+
+        <com.airbnb.lottie.LottieAnimationView
+            android:id="@+id/loader"
+            android:layout_width="match_parent"
+            android:layout_height="8dp"
+            app:lottie_autoPlay="true"
+            android:scaleType="center"
+            android:elevation="@dimen/_10sdp"
+            app:layout_constraintTop_toTopOf="parent"
+            app:lottie_loop="false"
+            app:lottie_rawRes="@raw/pgpgp"
+            app:lottie_speed="1" />
+
+        <TextView
+            android:id="@+id/titleoftheproduct"
+            android:layout_width="match_parent"
+            android:layout_marginHorizontal="@dimen/_10sdp"
+            android:textSize="@dimen/_16sdp"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toBottomOf="@id/loader"
+            android:textColor="@color/unselected"
+            android:fontFamily="@font/inter"
+            android:text="Product Name"/>
+
+        <LinearLayout
+            android:id="@+id/authorlayout"
+            android:layout_width="match_parent"
+            android:layout_marginHorizontal="@dimen/_10sdp"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toBottomOf="@id/titleoftheproduct"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/productauthor"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:paddingVertical="@dimen/_5sdp"
+                android:layout_height="wrap_content"
+                android:textColor="@color/grey"
+                android:fontFamily="@font/inter"
+                android:text="Author Name" />
+
+            <TextView
+                android:id="@+id/producttype"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/categoryblackkkkkk"
+                android:paddingHorizontal="@dimen/_15sdp"
+                android:paddingVertical="@dimen/_5sdp"
+                android:textColor="@color/unselected"
+                android:fontFamily="@font/inter"
+                android:text="Type"/>
+
+        </LinearLayout>
+
+        <ImageView
+            android:id="@+id/productImage"
+            android:layout_width="match_parent"
+            android:layout_height="200dp"
+            android:scaleType="centerCrop"
+            android:layout_marginVertical="@dimen/_5sdp"
+            android:layout_marginHorizontal="@dimen/_10sdp"
+            app:layout_constraintTop_toBottomOf="@id/authorlayout"
+            tools:srcCompat="@drawable/placeholder" />
+
+        <LinearLayout
+            android:id="@+id/linearlayoutprice"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="@dimen/_10sdp"
+            android:layout_marginTop="8dp"
+            app:layout_constraintEnd_toEndOf="@+id/productImage"
+            app:layout_constraintStart_toStartOf="@+id/productImage"
+            app:layout_constraintTop_toBottomOf="@+id/productImage"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/productprice"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="@dimen/_16sdp"
+                android:text="₹100"
+                android:textColor="@color/unselected"
+                android:fontFamily="@font/inter_extrabold"/>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColor="@color/grey"
+                android:layout_marginHorizontal="@dimen/_5sdp"
+                android:fontFamily="@font/inter"
+                android:layout_gravity="bottom"
+                android:text="(Inclusive of all Taxes)"/>
+
+        </LinearLayout>
+
+        <com.google.android.material.divider.MaterialDivider
+            android:layout_width="match_parent"
+            android:id="@+id/dividerline"
+            android:layout_height="wrap_content"
+            app:dividerThickness="@dimen/_2sdp"
+            android:layout_marginVertical="@dimen/_5sdp"
+            android:layout_marginHorizontal="@dimen/_10sdp"
+            app:layout_constraintTop_toBottomOf="@id/linearlayoutprice"
+            app:dividerColor="#E6E3E3"/>
+
+        <TextView
+            android:id="@+id/desc"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:textColor="#8C8C8C"
+            android:textSize="@dimen/_12sdp"
+            android:fontFamily="@font/inter"
+            android:text="Product Details"
+            app:layout_constraintEnd_toEndOf="@+id/productImage"
+            app:layout_constraintStart_toStartOf="@+id/productImage"
+            app:layout_constraintTop_toBottomOf="@+id/dividerline" />
+
+        <TextView
+            android:id="@+id/productDescription"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:textColor="#A3A3A3"
+            android:padding="@dimen/_4sdp"
+            android:background="@drawable/categoryblackkkkkk"
+            android:text="Descriptions"
+            app:layout_constraintEnd_toEndOf="@+id/productImage"
+            app:layout_constraintStart_toStartOf="@+id/productImage"
+            app:layout_constraintTop_toBottomOf="@+id/desc" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:orientation="horizontal"
+            app:layout_constraintBottom_toBottomOf="parent"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:id="@+id/addToCartBtn"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="wrap_content"
+                android:textColor="@color/backgroundcolor"
+                android:textSize="@dimen/_16sdp"
+                android:padding="@dimen/_10sdp"
+                android:background="@color/blue"
+                android:fontFamily="@font/inter_extrabold"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:text="Add to Cart"/>
+
+            <TextView
+                android:id="@+id/tocartgo"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="wrap_content"
+                android:textColor="@color/backgroundcolor"
+                android:textSize="@dimen/_16sdp"
+                android:padding="@dimen/_10sdp"
+                android:background="@color/grey"
+                android:fontFamily="@font/inter"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:text="Go to Cart"/>
+
+        </LinearLayout>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
 </androidx.constraintlayout.widget.ConstraintLayout>

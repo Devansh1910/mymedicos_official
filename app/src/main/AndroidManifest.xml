@@ -13,8 +13,6 @@
     <uses-permission android:name="android.permission.RECEIVE_SMS" />
     <uses-permission android:name="android.permission.READ_SMS" />
     <uses-permission android:name="android.permission.READ_PHONE_STATE" />
-    <uses-permission android:name="android.permission.RECORD_AUDIO" />
-
 
     <application
         android:allowBackup="true"
@@ -177,16 +175,16 @@
             android:theme="@style/Theme.My_medicos.ProductDetail" />
         <activity
             android:name=".activities.publications.activity.CategoryPublicationActivity"
-            android:theme="@style/Theme.My_medicos.ProductDetail" />
+            android:theme="@style/Theme.My_medicos"/>
         <activity
             android:name=".activities.publications.activity.CartPublicationActivity"
-            android:theme="@style/Theme.My_medicos.ProductDetail" />
+            android:theme="@style/Theme.My_medicos"/>
         <activity
             android:name=".activities.publications.activity.SearchPublicationActivity"
             android:theme="@style/Theme.My_medicos"/>
         <activity
             android:name=".activities.publications.activity.ProductDetailedActivity"
-            android:theme="@style/Theme.My_medicos.ProductDetail" />
+            android:theme="@style/Theme.My_medicos"/>
         <activity
             android:name=".activities.cme.CmeCreatedActivity"
             android:exported="false" />

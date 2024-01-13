@@ -42,8 +42,6 @@ import java.util.Map;
 import java.util.prefs.Preferences;
 
 public class CheckoutPublicationActivity extends AppCompatActivity {
-
-
     ActivityCheckoutPublicationBinding binding;
     CartAdapter adapter;
     ArrayList<Product> products;
@@ -148,7 +146,6 @@ public class CheckoutPublicationActivity extends AppCompatActivity {
 
         queue.add(request);
     }
-
 
     @Override
     public boolean onSupportNavigateUp() {

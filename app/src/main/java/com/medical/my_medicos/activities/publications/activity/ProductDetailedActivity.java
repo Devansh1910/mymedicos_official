@@ -4,14 +4,31 @@ import static android.content.ContentValues.TAG;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
+import android.text.Editable;
 import android.text.Html;
+import android.text.Layout;
+import android.text.TextUtils;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
+import android.widget.Button;
+import android.widget.FrameLayout;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -22,7 +39,13 @@ import org.json.JSONObject;
 
 import com.android.volley.toolbox.StringRequest;
 import com.bumptech.glide.Glide;
+import com.mancj.materialsearchbar.MaterialSearchBar;
 import com.medical.my_medicos.R;
+import com.medical.my_medicos.activities.home.fragments.HomeFragment;
+import com.medical.my_medicos.activities.login.MainActivity;
+import com.medical.my_medicos.activities.login.NavigationActivity;
+import com.medical.my_medicos.activities.pg.activites.PgprepActivity;
+import com.medical.my_medicos.activities.pg.animations.CorrectAnswerActivity;
 import com.medical.my_medicos.activities.publications.model.Product;
 import com.medical.my_medicos.activities.utils.ConstantsDashboard;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -44,7 +67,7 @@ public class ProductDetailedActivity extends AppCompatActivity {
 
     ActivityProductDetailedBinding binding;
     Product currentProduct;
-
+    TextView  tocartgo;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,6 +75,49 @@ public class ProductDetailedActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         binding = ActivityProductDetailedBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
+
+        showLoadForLib();
+
+        binding.searchBar.addTextChangeListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                // Not needed for now
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                // Not needed for now
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+                // Not needed for now
+            }
+        });
+
+        binding.searchBar.setOnSearchActionListener(new MaterialSearchBar.OnSearchActionListener() {
+            @Override
+            public void onSearchStateChanged(boolean enabled) {
+                // Not needed for now
+            }
+
+            @Override
+            public void onSearchConfirmed(CharSequence text) {
+                String query = text.toString();
+                if (!TextUtils.isEmpty(query)) {
+                    Intent intent = new Intent(ProductDetailedActivity.this, SearchPublicationActivity.class);
+                    intent.putExtra("query", query);
+                    startActivity(intent);
+                }
+            }
+
+            @Override
+            public void onButtonClicked(int buttonCode) {
+                if (buttonCode == MaterialSearchBar.BUTTON_BACK) {
+                    // Handle back button click
+                }
+            }
+        });
 
         String name = getIntent().getStringExtra("Title");
         String image = getIntent().getStringExtra("thumbnail");
@@ -62,12 +128,18 @@ public class ProductDetailedActivity extends AppCompatActivity {
                 .load(image)
                 .into(binding.productImage);
 
+
         getProductDetails(id);
 
-        getSupportActionBar().setTitle(name);
+        String query = getIntent().getStringExtra("Title");
 
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        TextView titleTextView = findViewById(R.id.titleoftheproduct);
+        titleTextView.setText(query);
 
+        ImageView backToPublicationActivity = findViewById(R.id.backtothepublicationactivity);
+        backToPublicationActivity.setOnClickListener(v -> {
+            finish();
+        });
 
         binding.addToCartBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -97,21 +169,27 @@ public class ProductDetailedActivity extends AppCompatActivity {
                 }
             }
         });
+        tocartgo = findViewById(R.id.tocartgo);
+        tocartgo.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent i = new Intent(ProductDetailedActivity.this, CartPublicationActivity.class);
+                startActivity(i);
+            }
+        });
     }
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.cart, menu);
-        return super.onCreateOptionsMenu(menu);
+    private void showLoadForLib() {
+        binding.loaderforlib.setVisibility(View.VISIBLE);
+
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                binding.loaderforlib.setVisibility(View.GONE);
+            }
+        }, 2000);
     }
 
-    @Override
-    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-        if(item.getItemId() == R.id.cart) {
-            startActivity(new Intent(this, CartPublicationActivity.class));
-        }
-        return super.onOptionsItemSelected(item);
-    }
     private void getDocId() {
         FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
         if (currentUser != null) {
@@ -153,25 +231,31 @@ public class ProductDetailedActivity extends AppCompatActivity {
                     JSONObject object = new JSONObject(response);
                     if(object.getString("status").equals("success")) {
                         JSONObject product = object.getJSONObject("data");
-                        String description = product.getString("id");
-                        binding.productDescription.setText(
-                                Html.fromHtml(description)
-                        );
-                        Log.e("Something Went wrong..",product.getString("Title"));
+
+                        // Extract product details
+                        String title = product.getString("Title");
+                        String author = product.getString("Author");
+                        String type = product.getString("Type");
+                        String description = product.getString("Description");
+                        double price = product.getDouble("Price");
+
+                        // Set the UI elements with product details
+                        binding.titleoftheproduct.setText(title);
+                        binding.productauthor.setText(author);
+                        binding.producttype.setText(type);
+                        binding.productDescription.setText(Html.fromHtml(description));
+                        binding.productprice.setText("₹" + String.valueOf(price));
 
                         currentProduct = new Product(
-                                product.getString("Title"),
+                                title,
                                 product.getString("thumbnail"),
-                                product.getString("Author"),
-                                product.getDouble("Price"),
+                                author,
+                                price,
                                 product.getString("Type"),
                                 product.getString("Category"),
                                 product.getString("Subject"),
                                 object.getString("id")
-
                         );
-
-
                     }
                 } catch (JSONException e) {
                     e.printStackTrace();
@@ -180,12 +264,14 @@ public class ProductDetailedActivity extends AppCompatActivity {
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-
+                // Handle error if needed
             }
         });
 
         queue.add(request);
     }
+
+
 
     @Override
     public boolean onSupportNavigateUp() {

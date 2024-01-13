@@ -48,9 +48,7 @@ public class HomeActivity extends AppCompatActivity {
     DrawerLayout drawerLayout;
     NavigationView navigationView;
     Toolbar toolbar;
-
     ImageView profileImageView, verifiedprofilebehere;
-
     private static final long DOUBLE_PRESS_EXIT_INTERVAL = 2000; // Time interval for double press in milliseconds
     private long lastPressTime;
     FrameLayout verifiedUser, circularImageView;
