@@ -92,7 +92,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/green"
-        android:orientation="vertical"
+        android:orientation="horizontal"
         android:paddingHorizontal="10dp"
         android:paddingBottom="10dp"
         app:layout_constraintEnd_toEndOf="parent"
@@ -108,8 +108,21 @@
             app:mt_placeholder="Medicos hub"
             app:mt_navIconEnabled="true"
             app:mt_maxSuggestionsCount="10"
-            app:mt_speechMode="true" />
+            app:mt_speechMode="false" />
+
     </LinearLayout>
+
+    <com.airbnb.lottie.LottieAnimationView
+        android:id="@+id/loader"
+        android:layout_width="match_parent"
+        android:layout_height="8dp"
+        app:lottie_autoPlay="true"
+        android:scaleType="center"
+        android:elevation="@dimen/_10sdp"
+        app:layout_constraintTop_toBottomOf="@id/linearLayout"
+        app:lottie_loop="false"
+        app:lottie_rawRes="@raw/pgpgp"
+        app:lottie_speed="1" />
 
     <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"

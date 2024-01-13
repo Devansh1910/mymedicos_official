@@ -40,7 +40,6 @@ public class  NewsActivity extends AppCompatActivity {
     ActivityNewsBinding binding;
     NewsAdapter newsAdapter;
     ArrayList<News> news;
-
     LinearLayout totheguide;
     TodayNewsAdapter todayNewsAdapter;
     ArrayList<NewsToday>  newstoday;

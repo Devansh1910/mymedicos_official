@@ -3,6 +3,9 @@ package com.medical.my_medicos.activities.publications.activity;
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextUtils;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
@@ -16,6 +19,7 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.airbnb.lottie.LottieAnimationView;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
@@ -46,45 +50,89 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
-
 public class PublicationActivity extends AppCompatActivity {
 
-    private static final int REQUEST_CODE_SCREENSHOT = 1001;
-
+    //.. Binding Initiate...
     ActivityPublicationBinding binding;
+
+    //... For Categories.....
     CategoryAdapter categoryAdapter;
     ArrayList<Category> categories;
+
+    //... For ShowCase Products.....
     ProductAdapter productAdapter;
-    RecentHomeProductsAdapter recentHomeProductsAdapter;
-    SponsoredProductAdapter sponsoredProductsAdapter;
     ArrayList<Product> products;
+
+    //.... For Recent Products ......
+    RecentHomeProductsAdapter recentHomeProductsAdapter;
     ArrayList<Product> recenthomeproducts;
+
+    //.... For Sponsored Products....
+    SponsoredProductAdapter sponsoredProductsAdapter;
     ArrayList<Product> sponsoredProduct;
+
+    //... Loader....
+
+    LottieAnimationView loader;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-//        getWindow().setFlags(WindowManager.LayoutParams.FLAG_SECURE, WindowManager.LayoutParams.FLAG_SECURE);
+
+        //..... Security (Restricted for Screenshot or Recording).....
+
+        getWindow().setFlags(WindowManager.LayoutParams.FLAG_SECURE, WindowManager.LayoutParams.FLAG_SECURE);
+
+        //... Binding Statement.....
 
         binding = ActivityPublicationBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
+        //..........Search Bar......
+
+
+        binding.searchBar.addTextChangeListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                // Not needed for now
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                // Not needed for now
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+                // Not needed for now
+            }
+        });
+
         binding.searchBar.setOnSearchActionListener(new MaterialSearchBar.OnSearchActionListener() {
             @Override
             public void onSearchStateChanged(boolean enabled) {
+                // Not needed for now
             }
 
             @Override
             public void onSearchConfirmed(CharSequence text) {
-                Intent intent = new Intent(PublicationActivity.this, SearchPublicationActivity.class);
-                intent.putExtra("query", text.toString());
-                startActivity(intent);
+                String query = text.toString();
+                if (!TextUtils.isEmpty(query)) {
+                    Intent intent = new Intent(PublicationActivity.this, SearchPublicationActivity.class);
+                    intent.putExtra("query", query);
+                    startActivity(intent);
+                }
             }
 
             @Override
             public void onButtonClicked(int buttonCode) {
+                if (buttonCode == MaterialSearchBar.BUTTON_BACK) {
+                    // Handle back button click
+                }
             }
         });
+
+        //..... Init Statements......
 
         initCategories();
         initProducts();
@@ -93,6 +141,8 @@ public class PublicationActivity extends AppCompatActivity {
         initSponsorSlider();
         initSponsorProduct();
 
+        //......To the Content Page Purchased by the Person....
+
         binding.totheccart.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -100,6 +150,7 @@ public class PublicationActivity extends AppCompatActivity {
             }
         });
 
+        //.... Back to the Previous Activity....
 
         ImageView backToHomeImageView = findViewById(R.id.backtothehomefrompublication);
         backToHomeImageView.setOnClickListener(new View.OnClickListener() {
@@ -108,15 +159,73 @@ public class PublicationActivity extends AppCompatActivity {
                 onBackPressed();
             }
         });
+
+        // Loader.....
+        loader = findViewById(R.id.loader);
+        loader.setVisibility(View.VISIBLE);
+        loader.playAnimation();
     }
 
+    //... Normal Slider.....
     private void initSlider() {
         getRecentOffers();
     }
 
+    void getRecentOffers() {
+        RequestQueue queue = Volley.newRequestQueue(this);
+
+        StringRequest request = new StringRequest(Request.Method.GET, Constants.GET_OFFERS_URL, response -> {
+            try {
+                JSONObject object = new JSONObject(response);
+                if(object.getString("status").equals("success")) {
+                    JSONArray offerArray = object.getJSONArray("news_infos");
+                    for(int i =0; i < offerArray.length(); i++) {
+                        JSONObject childObj =  offerArray.getJSONObject(i);
+                        binding.carousel.addData(
+                                new CarouselItem(
+                                        Constants.NEWS_IMAGE_URL + childObj.getString("image"),
+                                        childObj.getString("title")
+                                )
+                        );
+                    }
+                }
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        }, error -> {});
+        queue.add(request);
+    }
+
+    //....... Sponsored Slider.....
     private void initSponsorSlider() {
         getRecentSlidersSponsored();
     }
+
+    void getRecentSlidersSponsored() {
+        RequestQueue queue = Volley.newRequestQueue(this);
+
+        StringRequest request = new StringRequest(Request.Method.GET, ConstantsDashboard.GET_SPONSORS_SLIDER_URL, response -> {
+            try {
+                JSONArray newssliderArray = new JSONArray(response);
+                for (int i = 0; i < newssliderArray.length(); i++) {
+                    JSONObject childObj = newssliderArray.getJSONObject(i);
+                    binding.carouselsponsor.addData(
+                            new CarouselItem(
+                                    childObj.getString("url"),
+                                    childObj.getString("action")
+                            )
+                    );
+                }
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        }, error -> {
+            // Handle error if needed
+        });
+        queue.add(request);
+    }
+
+    //....Categories.....
     void initCategories() {
         categories = new ArrayList<>();
         categoryAdapter = new CategoryAdapter(this, categories);
@@ -251,6 +360,7 @@ public class PublicationActivity extends AppCompatActivity {
 
         queue.add(request);
     }
+
     //.....For the Sponsor
 
     void initSponsorProduct() {
@@ -302,7 +412,7 @@ public class PublicationActivity extends AppCompatActivity {
         queue.add(request);
     }
 
-    //.......................
+    //....ShowCase Products.....
 
     void initProducts() {
         products = new ArrayList<>();
@@ -353,58 +463,14 @@ public class PublicationActivity extends AppCompatActivity {
         queue.add(request);
     }
 
-    void getRecentOffers() {
-        RequestQueue queue = Volley.newRequestQueue(this);
+    //....Navigate Back Statement...
 
-        StringRequest request = new StringRequest(Request.Method.GET, Constants.GET_OFFERS_URL, response -> {
-            try {
-                JSONObject object = new JSONObject(response);
-                if(object.getString("status").equals("success")) {
-                    JSONArray offerArray = object.getJSONArray("news_infos");
-                    for(int i =0; i < offerArray.length(); i++) {
-                        JSONObject childObj =  offerArray.getJSONObject(i);
-                        binding.carousel.addData(
-                                new CarouselItem(
-                                        Constants.NEWS_IMAGE_URL + childObj.getString("image"),
-                                        childObj.getString("title")
-                                )
-                        );
-                    }
-                }
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
-        }, error -> {});
-        queue.add(request);
-    }
-
-    void getRecentSlidersSponsored() {
-        RequestQueue queue = Volley.newRequestQueue(this);
-
-        StringRequest request = new StringRequest(Request.Method.GET, ConstantsDashboard.GET_SPONSORS_SLIDER_URL, response -> {
-            try {
-                JSONArray newssliderArray = new JSONArray(response);
-                for (int i = 0; i < newssliderArray.length(); i++) {
-                    JSONObject childObj = newssliderArray.getJSONObject(i);
-                    binding.carouselsponsor.addData(
-                            new CarouselItem(
-                                    childObj.getString("url"),
-                                    childObj.getString("action")
-                            )
-                    );
-                }
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
-        }, error -> {
-            // Handle error if needed
-        });
-        queue.add(request);
-    }
     @Override
     public boolean onSupportNavigateUp() {
         finish();
         return super.onSupportNavigateUp();
     }
+
+    //...........................
 
 }

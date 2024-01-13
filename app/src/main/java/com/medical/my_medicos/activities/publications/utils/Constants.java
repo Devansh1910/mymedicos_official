@@ -2,7 +2,7 @@ package com.medical.my_medicos.activities.publications.utils;
 public class Constants {
     public static String API_BASE_URL = "https://galgotiascafe.000webhostapp.com/";
     public static String GET_CATEGORIES_URL = API_BASE_URL + "/services/listCategory";
-    public static String GET_PRODUCTS_URL = API_BASE_URL + "/services/listProduct";
+    public static String GET_PRODUCTS_URL = API_BASE_URL + " ";
     public static String GET_OFFERS_URL = API_BASE_URL + "/services/listFeaturedNews";
     public static String GET_PRODUCT_DETAILS_URL = API_BASE_URL + "/services/getProductDetails?id=";
     public static String POST_ORDER_URL = API_BASE_URL + "/services/submitProductOrder";
