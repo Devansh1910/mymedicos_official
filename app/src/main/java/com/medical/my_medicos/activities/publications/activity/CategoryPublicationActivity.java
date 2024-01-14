@@ -9,6 +9,7 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.ImageView;
 
 import com.android.volley.Request;
@@ -47,6 +48,9 @@ public class CategoryPublicationActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         binding = ActivityCategoryPublicationBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
+
+        getWindow().setFlags(WindowManager.LayoutParams.FLAG_SECURE, WindowManager.LayoutParams.FLAG_SECURE);
+
 
         products = new ArrayList<>();
         productAdapter = new ProductAdapter(this, products);

@@ -12,6 +12,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
@@ -55,6 +56,8 @@ public class CheckoutPublicationActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         binding = ActivityCheckoutPublicationBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
+
+        getWindow().setFlags(WindowManager.LayoutParams.FLAG_SECURE, WindowManager.LayoutParams.FLAG_SECURE);
 
 
         progressDialog = new ProgressDialog(this);

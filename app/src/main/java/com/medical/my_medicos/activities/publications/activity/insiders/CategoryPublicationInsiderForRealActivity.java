@@ -16,6 +16,7 @@ import android.util.Log;
 import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.ImageView;
 
 import com.android.volley.Request;
@@ -54,6 +55,9 @@ public class CategoryPublicationInsiderForRealActivity extends AppCompatActivity
         super.onCreate(savedInstanceState);
         binding = ActivityCategoryPublicationInsiderForRealBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
+
+        getWindow().setFlags(WindowManager.LayoutParams.FLAG_SECURE, WindowManager.LayoutParams.FLAG_SECURE);
+
 
         //..........Search Bar......
 

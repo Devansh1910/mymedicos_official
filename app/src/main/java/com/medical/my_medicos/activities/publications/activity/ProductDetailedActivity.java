@@ -76,6 +76,8 @@ public class ProductDetailedActivity extends AppCompatActivity {
         binding = ActivityProductDetailedBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
+        getWindow().setFlags(WindowManager.LayoutParams.FLAG_SECURE, WindowManager.LayoutParams.FLAG_SECURE);
+
         showLoadForLib();
 
         binding.searchBar.addTextChangeListener(new TextWatcher() {

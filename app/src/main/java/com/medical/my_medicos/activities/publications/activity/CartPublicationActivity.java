@@ -15,6 +15,7 @@ import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -49,6 +50,8 @@ public class CartPublicationActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         binding = ActivityCartPublicationBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
+
+        getWindow().setFlags(WindowManager.LayoutParams.FLAG_SECURE, WindowManager.LayoutParams.FLAG_SECURE);
 
 
         progressDialog = new ProgressDialog(this);

@@ -3,6 +3,7 @@ package com.medical.my_medicos.activities.publications.activity;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
+import android.view.WindowManager;
 
 import com.medical.my_medicos.activities.publications.utils.Constants;
 import com.medical.my_medicos.activities.utils.ConstantsDashboard;
@@ -17,6 +18,8 @@ public class PaymentPublicationActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         binding = ActivityPaymentPublicationBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
+
+        getWindow().setFlags(WindowManager.LayoutParams.FLAG_SECURE, WindowManager.LayoutParams.FLAG_SECURE);
 
         String orderCode = getIntent().getStringExtra("orderCode");
 
