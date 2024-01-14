@@ -32,7 +32,7 @@
             android:fontFamily="@font/inter"
             android:gravity="center"
             android:textColor="@color/unselected"
-            android:text="TextView"
+            android:text=""
             android:layout_gravity="center"
             android:textSize="@dimen/_14ssp"
             android:textStyle="bold" />

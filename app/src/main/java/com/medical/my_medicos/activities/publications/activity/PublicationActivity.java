@@ -14,7 +14,6 @@ import android.widget.ImageView;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -26,13 +25,9 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
-import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.medical.my_medicos.R;
-import com.medical.my_medicos.activities.news.News;
-import com.medical.my_medicos.activities.news.NewsAdapter;
-import com.medical.my_medicos.activities.pg.activites.internalfragments.HomePgFragment;
 import com.medical.my_medicos.activities.publications.activity.insiders.CategoryPublicationInsiderActivity;
+import com.medical.my_medicos.activities.publications.activity.insiders.CategoryPublicationInsiderForRealActivity;
 import com.medical.my_medicos.activities.publications.adapters.CategoryAdapter;
 import com.medical.my_medicos.activities.publications.adapters.ProductAdapter;
 import com.medical.my_medicos.activities.publications.adapters.RecentHomeProductsAdapter;
@@ -81,7 +76,7 @@ public class PublicationActivity extends AppCompatActivity {
 
         //..... Security (Restricted for Screenshot or Recording).....
 
-//        getWindow().setFlags(WindowManager.LayoutParams.FLAG_SECURE, WindowManager.LayoutParams.FLAG_SECURE);
+        getWindow().setFlags(WindowManager.LayoutParams.FLAG_SECURE, WindowManager.LayoutParams.FLAG_SECURE);
 
         //... Binding Statement.....
 
@@ -276,7 +271,7 @@ public class PublicationActivity extends AppCompatActivity {
 
                                 if (position != RecyclerView.NO_POSITION) {
                                     if (position == categories.size() - 1 && categories.get(position).getPriority() == -1) {
-                                        Intent intent = new Intent(PublicationActivity.this, CategoryPublicationInsiderActivity.class);
+                                        Intent intent = new Intent(PublicationActivity.this, CategoryPublicationInsiderForRealActivity.class);
                                         startActivity(intent);
                                     } else {
                                         Log.e("Error","Error Here");

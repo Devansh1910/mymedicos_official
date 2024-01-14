@@ -9,10 +9,14 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextUtils;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
+import android.widget.ImageView;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -20,13 +24,16 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.mancj.materialsearchbar.MaterialSearchBar;
 import com.medical.my_medicos.R;
 import com.medical.my_medicos.activities.publications.activity.PublicationActivity;
+import com.medical.my_medicos.activities.publications.activity.SearchPublicationActivity;
 import com.medical.my_medicos.activities.publications.adapters.CategoryAdapter;
 import com.medical.my_medicos.activities.publications.adapters.insiders.CategoryInsiderAdapter;
 import com.medical.my_medicos.activities.publications.model.Category;
 import com.medical.my_medicos.activities.utils.ConstantsDashboard;
 import com.medical.my_medicos.databinding.ActivityCategoryPublicationInsiderBinding;
+import com.medical.my_medicos.databinding.ActivityCategoryPublicationInsiderForRealBinding;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -34,24 +41,73 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 
-public class CategoryPublicationInsiderActivity extends AppCompatActivity {
+public class CategoryPublicationInsiderForRealActivity extends AppCompatActivity {
 
-    ActivityCategoryPublicationInsiderBinding binding;
+    ActivityCategoryPublicationInsiderForRealBinding binding;
     ArrayList<Category> categories;
     CategoryInsiderAdapter categoryInsiderAdapter;
-    Toolbar toolbarpublications;
     CategoryInsiderAdapter categoryAdapterInsider;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        binding = ActivityCategoryPublicationInsiderBinding.inflate(getLayoutInflater());
+        binding = ActivityCategoryPublicationInsiderForRealBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
-        toolbarpublications = findViewById(R.id.publicationstoolbar);
-        setSupportActionBar(toolbarpublications);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        //..........Search Bar......
+
+
+        binding.searchBar.addTextChangeListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                // Not needed for now
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                // Not needed for now
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+                // Not needed for now
+            }
+        });
+
+        binding.searchBar.setOnSearchActionListener(new MaterialSearchBar.OnSearchActionListener() {
+            @Override
+            public void onSearchStateChanged(boolean enabled) {
+                // Not needed for now
+            }
+
+            @Override
+            public void onSearchConfirmed(CharSequence text) {
+                String query = text.toString();
+                if (!TextUtils.isEmpty(query)) {
+                    Intent intent = new Intent(CategoryPublicationInsiderForRealActivity.this, SearchPublicationActivity.class);
+                    intent.putExtra("query", query);
+                    startActivity(intent);
+                }
+            }
+
+            @Override
+            public void onButtonClicked(int buttonCode) {
+                if (buttonCode == MaterialSearchBar.BUTTON_BACK) {
+                    // Handle back button click
+                }
+            }
+        });
+
+        //.... Back to the Previous Activity....
+
+        ImageView backToHomeImageView = findViewById(R.id.backtothemoreactivity);
+        backToHomeImageView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                onBackPressed();
+            }
+        });
 
         initCategories();
 

@@ -8,6 +8,8 @@ import androidx.recyclerview.widget.GridLayoutManager;
 
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
+import android.widget.ImageView;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -78,6 +80,17 @@ public class CategoryPublicationActivity extends AppCompatActivity {
             }
             return true;
         });
+
+        //.... Back to the Previous Activity....
+
+        ImageView backToHomeImageView = findViewById(R.id.backtothemoreactivity);
+        backToHomeImageView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                onBackPressed();
+            }
+        });
+
     }
 
     @Override

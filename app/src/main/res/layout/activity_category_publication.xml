@@ -16,7 +16,7 @@
         android:background="@color/blue">
 
         <ImageView
-            android:id="@+id/backtothepublicationactivity"
+            android:id="@+id/backtothemoreactivity"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:src="@drawable/arrow_bkwhite"

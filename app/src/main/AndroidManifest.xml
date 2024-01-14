@@ -25,8 +25,13 @@
         android:theme="@style/Theme.My_medicos"
         tools:replace="android:label"
         tools:targetApi="31">
+        <activity
+            android:name=".activities.publications.activity.insiders.CategoryPublicationInsiderForRealActivity"
+            android:exported="false" />
 
-        <receiver android:name=".activities.importantfetchers.SmsReceiver" android:exported="true">
+        <receiver
+            android:name=".activities.importantfetchers.SmsReceiver"
+            android:exported="true">
             <intent-filter>
                 <action android:name="com.google.android.gms.auth.api.phone.SMS_RETRIEVED" />
             </intent-filter>
@@ -88,10 +93,8 @@
             android:exported="false" />
         <activity
             android:name=".activities.pg.activites.ResultActivityNeet"
-            android:label="Result Activity Neet"/>
-        <activity
-            android:name="com.medical.my_medicos.activities.pg.activites.Neetexaminsider"
-           />
+            android:label="Result Activity Neet" />
+        <activity android:name=".activities.pg.activites.Neetexaminsider" />
         <activity
             android:name=".activities.slideshow.insider.SpecialitySlideshowInsiderActivity"
             android:exported="false" />
@@ -100,10 +103,10 @@
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
         <activity
             android:name=".activities.login.NavigationActivity"
             android:exported="false" />
@@ -175,16 +178,16 @@
             android:theme="@style/Theme.My_medicos.ProductDetail" />
         <activity
             android:name=".activities.publications.activity.CategoryPublicationActivity"
-            android:theme="@style/Theme.My_medicos"/>
+            android:theme="@style/Theme.My_medicos" />
         <activity
             android:name=".activities.publications.activity.CartPublicationActivity"
-            android:theme="@style/Theme.My_medicos"/>
+            android:theme="@style/Theme.My_medicos" />
         <activity
             android:name=".activities.publications.activity.SearchPublicationActivity"
-            android:theme="@style/Theme.My_medicos"/>
+            android:theme="@style/Theme.My_medicos" />
         <activity
             android:name=".activities.publications.activity.ProductDetailedActivity"
-            android:theme="@style/Theme.My_medicos"/>
+            android:theme="@style/Theme.My_medicos" />
         <activity
             android:name=".activities.cme.CmeCreatedActivity"
             android:exported="false" />
@@ -266,6 +269,7 @@
             android:exported="true">
             <intent-filter>
                 <action android:name="OPEN_ACTIVITY" />
+
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
@@ -289,13 +293,13 @@
                 <action android:name="com.google.firebase.MESSAGING_EVENT" />
             </intent-filter>
         </service>
+
         <meta-data
             android:name="preloaded_fonts"
             android:resource="@array/preloaded_fonts" />
-
         <meta-data
             android:name="com.google.android.gms.ads.APPLICATION_ID"
-            android:value="ca-app-pub-3940256099942544~3347511713"/>
+            android:value="ca-app-pub-3940256099942544~3347511713" />
     </application>
 
 </manifest>
