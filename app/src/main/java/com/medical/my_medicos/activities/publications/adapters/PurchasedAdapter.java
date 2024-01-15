@@ -84,12 +84,9 @@ public class PurchasedAdapter extends RecyclerView.Adapter<PurchasedAdapter.Prod
         }
     }
 
-    // Setter method for the click listener
     public void setOnItemClickListener(OnItemClickListener listener) {
         this.onItemClickListener = listener;
     }
-
-    // Interface for item click listener
     public interface OnItemClickListener {
         void onItemClick(Product product);
     }

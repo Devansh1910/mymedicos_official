@@ -4,6 +4,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
+    android:background="@color/backgroundcolor"
     android:layout_height="match_parent">
 
     <androidx.core.widget.NestedScrollView
@@ -16,7 +17,7 @@
         android:layout_width="match_parent"
         android:orientation="vertical"
         android:layout_height="match_parent"
-        android:background="@color/white"
+        android:background="@color/backgroundcolor"
         tools:context=".activities.job.JobDetailsActivity">
 
         <com.google.android.material.appbar.AppBarLayout
@@ -31,7 +32,7 @@
                 app:titleTextColor="@color/black"
                 app:subtitleTextColor="@color/white"
                 app:subtitleTextAppearance="@color/white"
-                android:backgroundTint="@color/white"
+                android:backgroundTint="@color/backgroundcolor"
                 android:layout_width="match_parent"
                 android:layout_weight="1"
                 android:layout_height="?attr/actionBarSize"
