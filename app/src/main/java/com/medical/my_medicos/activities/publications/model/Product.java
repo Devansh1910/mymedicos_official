@@ -1,4 +1,5 @@
 package com.medical.my_medicos.activities.publications.model;
+
 import com.hishd.tinycart.model.Item;
 
 import java.io.Serializable;
@@ -8,6 +9,7 @@ public class Product implements Item, Serializable {
 
     private String Title, thumbnail, Author, Type, Category, id, Subject;
     private double Price;
+
     public Product(String title, String thumbnail, String author, double price, String type, String category, String id, String subject) {
         this.Title = title;
         this.thumbnail = thumbnail;
@@ -31,7 +33,7 @@ public class Product implements Item, Serializable {
         return thumbnail;
     }
 
-    public void setThumbnail (String thumbnail) {
+    public void setThumbnail(String thumbnail) {
         this.thumbnail = thumbnail;
     }
 
@@ -91,5 +93,9 @@ public class Product implements Item, Serializable {
     @Override
     public String getItemName() {
         return Title;
+    }
+
+    public String getItemId() {
+        return id;
     }
 }

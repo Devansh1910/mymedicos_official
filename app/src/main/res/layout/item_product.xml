@@ -45,7 +45,7 @@
                 android:text="TextView"
                 android:textSize="16dp"
                 android:textStyle="bold"
-                android:fontFamily="@font/roboto_bold"
+                android:fontFamily="@font/inter"
                 android:maxLines="1"
                 android:ellipsize="end"
                 android:textColor="@color/black" />
@@ -55,12 +55,11 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="5dp"
-                android:layout_marginTop="5dp"
                 android:layout_marginRight="5dp"
                 android:text="Author"
                 android:textSize="14sp"
                 android:textStyle="bold"
-                android:fontFamily="@font/roboto_bold"
+                android:fontFamily="@font/inter"
                 android:maxLines="1"
                 android:ellipsize="end"
                 android:textColor="#878383" />
@@ -71,24 +70,27 @@
                 android:layout_height="wrap_content"
                 android:gravity="bottom"
                 android:layout_marginLeft="5dp"
-                android:layout_marginTop="5dp"
                 android:layout_marginRight="5dp"
-                android:layout_marginBottom="5dp"
-                android:fontFamily="@font/roboto_bold"
+                android:fontFamily="@font/inter"
                 android:text="₹ 34000"
                 android:textColor="@color/black"
                 android:textSize="20sp" />
 
             <TextView
-                android:id="@+id/description"
+                android:id="@+id/addToCartBtn"
                 android:layout_width="match_parent"
+                android:background="@color/blue"
+                android:padding="@dimen/_5sdp"
+                android:drawableStart="@drawable/heartbtn"
+                android:layout_weight="1"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:drawablePadding="@dimen/_2sdp"
                 android:layout_height="wrap_content"
-                android:gravity="bottom"
-                android:layout_marginLeft="5dp"
-                android:layout_marginRight="5dp"
-                android:layout_marginBottom="5dp"
-                android:text="This will be the description of th.."
-                android:textSize="12sp" />
+                android:fontFamily="@font/inter"
+                android:text="Wishlist"
+                android:textColor="@color/white"
+                android:textSize="@dimen/_14ssp" />
 
         </LinearLayout>
         </LinearLayout>

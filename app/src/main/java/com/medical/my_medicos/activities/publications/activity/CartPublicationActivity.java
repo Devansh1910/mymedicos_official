@@ -51,7 +51,7 @@ public class CartPublicationActivity extends AppCompatActivity {
         binding = ActivityCartPublicationBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
-        getWindow().setFlags(WindowManager.LayoutParams.FLAG_SECURE, WindowManager.LayoutParams.FLAG_SECURE);
+//        getWindow().setFlags(WindowManager.LayoutParams.FLAG_SECURE, WindowManager.LayoutParams.FLAG_SECURE);
 
 
         progressDialog = new ProgressDialog(this);

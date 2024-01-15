@@ -41,6 +41,7 @@ public class RecentHomeProductsAdapter extends RecyclerView.Adapter<RecentHomePr
                 .load(recenthomeproducts.getThumbnail())
                 .into(holder.binding.image);
         holder.binding.label.setText(recenthomeproducts.getTitle());
+        holder.binding.author.setText(recenthomeproducts.getAuthor()); // Set the author
         holder.binding.price.setText("INR " + recenthomeproducts.getPrice());
 
         holder.itemView.setOnClickListener(new View.OnClickListener() {
@@ -50,12 +51,14 @@ public class RecentHomeProductsAdapter extends RecyclerView.Adapter<RecentHomePr
                 intent.putExtra("Title", recenthomeproducts.getTitle());
                 intent.putExtra("thumbnail", recenthomeproducts.getThumbnail());
                 intent.putExtra("id", recenthomeproducts.getId());
-                intent.putExtra("Subject",recenthomeproducts.getSubject());
+                intent.putExtra("Subject", recenthomeproducts.getSubject());
                 intent.putExtra("Price", recenthomeproducts.getPrice());
+                intent.putExtra("Author", recenthomeproducts.getAuthor()); // Add the author to the intent
                 context.startActivity(intent);
             }
         });
     }
+
 
     @Override
     public int getItemCount() {

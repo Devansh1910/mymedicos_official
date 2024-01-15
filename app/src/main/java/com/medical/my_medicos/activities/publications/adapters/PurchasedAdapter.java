@@ -8,18 +8,19 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
+import com.medical.my_medicos.R;
 import com.medical.my_medicos.activities.publications.activity.ProductDetailedActivity;
 import com.medical.my_medicos.activities.publications.model.Product;
 import com.medical.my_medicos.databinding.ItemProductBinding;
 import java.util.ArrayList;
 
-public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductViewHolder> {
+public class PurchasedAdapter extends RecyclerView.Adapter<PurchasedAdapter.ProductViewHolder> {
 
     Context context;
     ArrayList<Product> products;
     private OnItemClickListener onItemClickListener; // Listener for item click
 
-    public ProductAdapter(Context context, ArrayList<Product> products) {
+    public PurchasedAdapter(Context context, ArrayList<Product> products) {
         this.context = context;
         this.products = products;
     }
@@ -27,7 +28,7 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductV
     @NonNull
     @Override
     public ProductViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        return new ProductViewHolder(LayoutInflater.from(context).inflate(com.medical.my_medicos.R.layout.item_product, parent, false));
+        return new ProductViewHolder(LayoutInflater.from(context).inflate(R.layout.item_purchased_product, parent, false));
     }
 
     @Override
@@ -37,8 +38,7 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductV
                 .load(product.getThumbnail())
                 .into(holder.binding.image);
         holder.binding.label.setText(product.getTitle());
-        holder.binding.author.setText(product.getAuthor()); // Set the author
-        holder.binding.price.setText("INR " + product.getPrice());
+        holder.binding.author.setText(product.getAuthor());
 
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override

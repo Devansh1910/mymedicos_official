@@ -339,31 +339,12 @@ public class Neetexaminsider extends AppCompatActivity {
             @Override
             public void onFinish() {
                 timerRunning = false;
-                showCustomToast("Time's up!");
-                handleQuizEnd();
+                // Remove the following line to prevent the sound and AlertDialog
+                // handleQuizEnd();
             }
         }.start();
     }
-    private void handleQuizEnd() {
-        if (countDownTimer != null) {
-            countDownTimer.cancel();
-        }
-        remainingTimeInMillis = timeLeftInMillis;
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setTitle("Time's Up!");
-        builder.setMessage("Sorry, you've run out of time. The quiz will be ended.");
 
-        builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                navigateToResultActivity();
-            }
-        });
-
-        builder.setCancelable(false);
-        AlertDialog dialog = builder.create();
-        dialog.show();
-    }
     private void navigateToResultActivity() {
         Intent intent = new Intent(Neetexaminsider.this, ResultActivityNeet.class);
         intent.putExtra("questions", quizList1);

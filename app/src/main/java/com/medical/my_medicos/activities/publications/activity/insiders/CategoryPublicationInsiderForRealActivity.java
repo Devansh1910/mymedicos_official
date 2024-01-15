@@ -56,7 +56,7 @@ public class CategoryPublicationInsiderForRealActivity extends AppCompatActivity
         binding = ActivityCategoryPublicationInsiderForRealBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
-        getWindow().setFlags(WindowManager.LayoutParams.FLAG_SECURE, WindowManager.LayoutParams.FLAG_SECURE);
+//        getWindow().setFlags(WindowManager.LayoutParams.FLAG_SECURE, WindowManager.LayoutParams.FLAG_SECURE);
 
 
         //..........Search Bar......

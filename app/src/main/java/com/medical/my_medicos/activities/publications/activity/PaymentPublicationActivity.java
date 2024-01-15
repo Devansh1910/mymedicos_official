@@ -19,7 +19,7 @@ public class PaymentPublicationActivity extends AppCompatActivity {
         binding = ActivityPaymentPublicationBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
-        getWindow().setFlags(WindowManager.LayoutParams.FLAG_SECURE, WindowManager.LayoutParams.FLAG_SECURE);
+//        getWindow().setFlags(WindowManager.LayoutParams.FLAG_SECURE, WindowManager.LayoutParams.FLAG_SECURE);
 
         String orderCode = getIntent().getStringExtra("orderCode");
 

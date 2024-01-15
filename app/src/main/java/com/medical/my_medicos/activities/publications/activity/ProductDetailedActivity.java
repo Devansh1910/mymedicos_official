@@ -76,7 +76,7 @@ public class ProductDetailedActivity extends AppCompatActivity {
         binding = ActivityProductDetailedBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
-        getWindow().setFlags(WindowManager.LayoutParams.FLAG_SECURE, WindowManager.LayoutParams.FLAG_SECURE);
+//        getWindow().setFlags(WindowManager.LayoutParams.FLAG_SECURE, WindowManager.LayoutParams.FLAG_SECURE);
 
         showLoadForLib();
 
@@ -151,7 +151,7 @@ public class ProductDetailedActivity extends AppCompatActivity {
                 String docId = Preferences.userRoot().get("docId", "");
 
                 if (!docId.isEmpty()) {
-                    String url = ConstantsDashboard.GET_CART + "/" + docId + "/add/" + "0ACmQESDsQQUZ8CduPYf";
+                    String url = ConstantsDashboard.GET_CART + "/" + docId + "/add/" + id;
                     Log.e("function", url);
 
                     JSONObject requestBody = new JSONObject();

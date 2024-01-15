@@ -42,6 +42,7 @@ public class CategoryPublicationActivity extends AppCompatActivity {
     ProductAdapter productAdapter;
     ArrayList<Product> products;
     int catId;
+    String categoryName;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,14 +50,13 @@ public class CategoryPublicationActivity extends AppCompatActivity {
         binding = ActivityCategoryPublicationBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
-        getWindow().setFlags(WindowManager.LayoutParams.FLAG_SECURE, WindowManager.LayoutParams.FLAG_SECURE);
-
+//        getWindow().setFlags(WindowManager.LayoutParams.FLAG_SECURE, WindowManager.LayoutParams.FLAG_SECURE);
 
         products = new ArrayList<>();
         productAdapter = new ProductAdapter(this, products);
 
         catId = getIntent().getIntExtra("catId", 0);
-        String categoryName = getIntent().getStringExtra("categoryName");
+        categoryName = getIntent().getStringExtra("categoryName");
 
         getProducts(catId);
 
@@ -66,7 +66,7 @@ public class CategoryPublicationActivity extends AppCompatActivity {
 
         bottomAppBarCategoryPublication = findViewById(R.id.bottomappabar);
 
-        replaceFragment(TextBooksFragment.newInstance(catId));
+        replaceFragment(TextBooksFragment.newInstance(catId, categoryName));
         bottomNavigationCategoryPublication = findViewById(R.id.bottomNavigationViewcategorypublication);
         bottomNavigationCategoryPublication.setBackground(null);
 
@@ -74,13 +74,9 @@ public class CategoryPublicationActivity extends AppCompatActivity {
             int frgId = item.getItemId();
             Log.d("Something went wrong..", "Try again!");
             if (frgId == R.id.textbooks) {
-                replaceFragment(TextBooksFragment.newInstance(catId));
+                replaceFragment(TextBooksFragment.newInstance(catId, categoryName));
             } else if (frgId == R.id.research) {
-                replaceFragment(new ResearchPaperFragment());
-            } else if (frgId == R.id.paidbooks) {
-                replaceFragment(new PaidFragment());
-            } else {
-                replaceFragment(new FreeFragment());
+                replaceFragment(ResearchPaperFragment.newInstance(catId, categoryName));
             }
             return true;
         });
@@ -94,7 +90,6 @@ public class CategoryPublicationActivity extends AppCompatActivity {
                 onBackPressed();
             }
         });
-
     }
 
     @Override
@@ -117,9 +112,9 @@ public class CategoryPublicationActivity extends AppCompatActivity {
         StringRequest request = new StringRequest(Request.Method.GET, url, response -> {
             try {
                 JSONObject object = new JSONObject(response);
-                if(object.getString("status").equals("success")){
+                if (object.getString("status").equals("success")) {
                     JSONArray productsArray = object.getJSONArray("data");
-                    for(int i =0; i< productsArray.length(); i++) {
+                    for (int i = 0; i < productsArray.length(); i++) {
                         JSONObject childObj = productsArray.getJSONObject(i);
                         Product product = new Product(
                                 childObj.getString("Title"),
@@ -139,7 +134,8 @@ public class CategoryPublicationActivity extends AppCompatActivity {
             } catch (JSONException e) {
                 e.printStackTrace();
             }
-        }, error -> { });
+        }, error -> {
+        });
 
         queue.add(request);
     }

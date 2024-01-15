@@ -10,6 +10,7 @@ public class ConstantsDashboard {
     public static String GET_STATES = API_BASE_URL + "/api/updates";
     public static String GET_UNIVERSITIES = API_BASE_URL + "/api/updates/";
     public static String GET_SPECIALITY_ALL_PRODUCT = API_BASE_URL + "/api/publications/all";
+    public static String GET_SPECIALITY_INSIDER = API_BASE_URL + "/api/publications";
     public static String GET_SPECIALITY_ALL_PRODUCT_HOME = API_BASE_URL + "/api/publications/home";
     public static String GET_SPECIALITY_ALL_PRODUCT_SPONSORED = API_BASE_URL + "/api/publications/Sponsor";
     public static String GET_SPECIALITY_PRODUCT = API_BASE_URL + "api/publications/id/";

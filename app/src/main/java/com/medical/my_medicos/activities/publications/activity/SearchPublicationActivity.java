@@ -40,7 +40,7 @@ public class SearchPublicationActivity extends AppCompatActivity {
         binding = ActivitySearchPublicationBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
-        getWindow().setFlags(WindowManager.LayoutParams.FLAG_SECURE, WindowManager.LayoutParams.FLAG_SECURE);
+//        getWindow().setFlags(WindowManager.LayoutParams.FLAG_SECURE, WindowManager.LayoutParams.FLAG_SECURE);
 
         products = new ArrayList<>();
         productAdapter = new ProductAdapter(this, products);

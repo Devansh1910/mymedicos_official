@@ -150,13 +150,13 @@
                                 android:orientation="vertical">
 
                                 <LinearLayout
+                                    android:id="@+id/cme_img1"
                                     android:layout_width="@dimen/_40sdp"
                                     android:layout_height="@dimen/_40sdp"
                                     android:layout_gravity="center"
                                     android:background="@drawable/back1">
 
                                     <ImageView
-                                        android:id="@+id/cme_img1"
                                         android:layout_width="@dimen/_25sdp"
                                         android:layout_height="@dimen/_25sdp"
                                         android:layout_gravity="center"
@@ -182,13 +182,13 @@
                                 android:orientation="vertical">
 
                                 <LinearLayout
+                                    android:id="@+id/pub_image"
                                     android:layout_width="@dimen/_40sdp"
                                     android:layout_height="@dimen/_40sdp"
                                     android:layout_gravity="center"
                                     android:background="@drawable/back2">
 
                                     <ImageView
-                                        android:id="@+id/pub_image"
                                         android:layout_width="@dimen/_25sdp"
                                         android:layout_height="@dimen/_25sdp"
                                         android:layout_gravity="center"
@@ -212,13 +212,13 @@
                                 android:orientation="vertical">
 
                                 <LinearLayout
+                                    android:id="@+id/news_home"
                                     android:layout_width="@dimen/_40sdp"
                                     android:layout_height="@dimen/_40sdp"
                                     android:layout_gravity="center"
                                     android:background="@drawable/back1">
 
                                     <ImageView
-                                        android:id="@+id/news_home"
                                         android:layout_width="@dimen/_25sdp"
                                         android:layout_height="@dimen/_25sdp"
                                         android:layout_gravity="center"
@@ -242,13 +242,13 @@
                                 android:orientation="vertical">
 
                                 <LinearLayout
+                                    android:id="@+id/jobs_img"
                                     android:layout_width="@dimen/_40sdp"
                                     android:layout_height="@dimen/_40sdp"
                                     android:layout_gravity="center"
                                     android:background="@drawable/back2">
 
                                     <ImageView
-                                        android:id="@+id/jobs_img"
                                         android:layout_width="@dimen/_25sdp"
                                         android:layout_height="@dimen/_25sdp"
                                         android:layout_gravity="center"
@@ -281,14 +281,13 @@
                                 android:orientation="vertical">
 
                                 <LinearLayout
+                                    android:id="@+id/ugexams"
                                     android:layout_width="@dimen/_40sdp"
                                     android:layout_height="@dimen/_40sdp"
                                     android:layout_gravity="center"
                                     android:background="@drawable/back1">
 
-
                                     <ImageView
-                                        android:id="@+id/ugexams"
                                         android:layout_width="wrap_content"
                                         android:layout_height="wrap_content"
                                         android:layout_gravity="center"
@@ -313,13 +312,13 @@
                                 android:orientation="vertical">
 
                                 <LinearLayout
+                                    android:id="@+id/pg_prep"
                                     android:layout_width="@dimen/_40sdp"
                                     android:layout_height="@dimen/_40sdp"
                                     android:layout_gravity="center"
                                     android:background="@drawable/back2">
 
                                     <ImageView
-                                        android:id="@+id/pg_prep"
                                         android:layout_width="wrap_content"
                                         android:layout_height="wrap_content"
                                         android:layout_gravity="center"
@@ -343,13 +342,13 @@
                                 android:orientation="vertical">
 
                                 <LinearLayout
+                                    android:id="@+id/university"
                                     android:layout_width="@dimen/_40sdp"
                                     android:layout_height="@dimen/_40sdp"
                                     android:layout_gravity="center"
                                     android:background="@drawable/back1">
 
                                     <ImageView
-                                        android:id="@+id/university"
                                         android:layout_width="wrap_content"
                                         android:layout_height="wrap_content"
                                         android:layout_gravity="center"
@@ -373,13 +372,13 @@
                                 android:orientation="vertical">
 
                                 <LinearLayout
+                                    android:id="@+id/meme"
                                     android:layout_width="@dimen/_40sdp"
                                     android:layout_gravity="center"
                                     android:layout_height="@dimen/_40sdp"
                                     android:background="@drawable/back2">
 
                                     <ImageView
-                                        android:id="@+id/meme"
                                         android:layout_width="wrap_content"
                                         android:layout_height="wrap_content"
                                         android:layout_gravity="center"

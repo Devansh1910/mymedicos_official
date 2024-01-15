@@ -74,7 +74,7 @@ public class HomeFragment extends Fragment {
     private FragmentHomeBinding binding;
 
     private LinearLayout progressBar;
-    ImageView jobs,cme,news,publication,update,pg_prep,ugexams,meme;
+    LinearLayout jobs,cme,news,publication,update,pg_prep,ugexams,meme;
     MyAdapter adapterjob;
     MyAdapter2 adaptercme;
     String Speciality;

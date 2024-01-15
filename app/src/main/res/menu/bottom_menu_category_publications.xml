@@ -11,16 +11,4 @@
         android:icon="@drawable/research"
         android:id="@+id/research">
     </item>
-
-    <item
-        android:title="Paid"
-        android:icon="@drawable/paid"
-        android:id="@+id/paidbooks">
-    </item>
-
-    <item
-        android:title="Free"
-        android:icon="@drawable/free"
-        android:id="@+id/freebooks">
-    </item>
 </menu>
