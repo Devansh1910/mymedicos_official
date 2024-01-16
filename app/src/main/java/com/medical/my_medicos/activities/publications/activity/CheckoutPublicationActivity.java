@@ -70,7 +70,7 @@ public class CheckoutPublicationActivity extends AppCompatActivity {
 
         for(Map.Entry<Item, Integer> item : cart.getAllItemsWithQty().entrySet()) {
             Product product = (Product) item.getKey();
-            int quantity = item.getValue();
+            Double quantity = Double.valueOf(item.getValue());
             product.setPrice(quantity);
 
             products.add(product);

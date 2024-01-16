@@ -8,9 +8,9 @@ import java.math.BigDecimal;
 public class Product implements Item, Serializable {
 
     private String Title, thumbnail, Author, Type, Category, id, Subject;
-    private double Price;
+    private Double Price;
 
-    public Product(String title, String thumbnail, String author, double price, String type, String category, String id, String subject) {
+    public Product(String title, String thumbnail, String author, Double price, String type, String category, String id, String subject) {
         this.Title = title;
         this.thumbnail = thumbnail;
         this.Author = author;
@@ -49,7 +49,7 @@ public class Product implements Item, Serializable {
         return Price;
     }
 
-    public void setPrice(double price) {
+    public void setPrice(Double price) {
         this.Price = price;
     }
 
@@ -68,6 +68,12 @@ public class Product implements Item, Serializable {
     public void setCategory(String category) {
         this.Category = category;
     }
+    public interface Item {
+        // Other methods
+
+        String getItemId();
+    }
+
 
     public String getSubject() {
         return Subject;
@@ -87,7 +93,7 @@ public class Product implements Item, Serializable {
 
     @Override
     public BigDecimal getItemPrice() {
-        return new BigDecimal(Price);
+        return BigDecimal.valueOf(Price);
     }
 
     @Override
@@ -95,7 +101,6 @@ public class Product implements Item, Serializable {
         return Title;
     }
 
-    public String getItemId() {
-        return id;
-    }
+
+
 }

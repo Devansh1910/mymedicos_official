@@ -2,25 +2,32 @@ package com.medical.my_medicos.activities.publications.adapters;
 
 import android.content.Context;
 import android.content.Intent;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.TextView;
+
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
+
 import com.bumptech.glide.Glide;
 import com.medical.my_medicos.R;
 import com.medical.my_medicos.activities.publications.activity.ProductDetailedActivity;
 import com.medical.my_medicos.activities.publications.model.Product;
-import com.medical.my_medicos.databinding.ItemProductBinding;
+
 import java.util.ArrayList;
+import java.util.List;
 
 public class PurchasedAdapter extends RecyclerView.Adapter<PurchasedAdapter.ProductViewHolder> {
 
-    Context context;
-    ArrayList<Product> products;
+    private Context context;
+    private List<Product> products;
     private OnItemClickListener onItemClickListener; // Listener for item click
 
-    public PurchasedAdapter(Context context, ArrayList<Product> products) {
+    public PurchasedAdapter(Context context, List<Product> products) {
         this.context = context;
         this.products = products;
     }
@@ -28,17 +35,22 @@ public class PurchasedAdapter extends RecyclerView.Adapter<PurchasedAdapter.Prod
     @NonNull
     @Override
     public ProductViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        return new ProductViewHolder(LayoutInflater.from(context).inflate(R.layout.item_purchased_product, parent, false));
+        View view = LayoutInflater.from(context).inflate(R.layout.item_purchased_product, parent, false);
+        return new ProductViewHolder(view);
     }
 
     @Override
     public void onBindViewHolder(@NonNull ProductViewHolder holder, int position) {
         Product product = products.get(position);
+        Log.d("PurchasedAdapter", "Title: " + product.getTitle() +
+                ", Author: " + product.getAuthor() +
+                ", Price: " + product.getPrice() +
+                ", Thumbnail: " + product.getThumbnail());
         Glide.with(context)
                 .load(product.getThumbnail())
-                .into(holder.binding.image);
-        holder.binding.label.setText(product.getTitle());
-        holder.binding.author.setText(product.getAuthor());
+                .into(holder.imageView);
+        holder.labelTextView.setText(product.getTitle());
+        holder.authorTextView.setText(product.getAuthor());
 
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -47,7 +59,7 @@ public class PurchasedAdapter extends RecyclerView.Adapter<PurchasedAdapter.Prod
                 intent.putExtra("Title", product.getTitle());
                 intent.putExtra("thumbnail", product.getThumbnail());
                 intent.putExtra("id", product.getId());
-                intent.putExtra("Subject",product.getSubject());
+                intent.putExtra("Subject", product.getSubject());
                 intent.putExtra("Price", product.getPrice());
                 intent.putExtra("Author", product.getAuthor());
                 context.startActivity(intent);
@@ -62,11 +74,15 @@ public class PurchasedAdapter extends RecyclerView.Adapter<PurchasedAdapter.Prod
 
     public class ProductViewHolder extends RecyclerView.ViewHolder {
 
-        ItemProductBinding binding;
+        ImageView imageView;
+        TextView labelTextView;
+        TextView authorTextView;
 
         public ProductViewHolder(@NonNull View itemView) {
             super(itemView);
-            binding = ItemProductBinding.bind(itemView);
+            imageView = itemView.findViewById(R.id.image1);
+            labelTextView = itemView.findViewById(R.id.label1);
+            authorTextView = itemView.findViewById(R.id.author1);
 
             // Add click listener to the itemView
             itemView.setOnClickListener(new View.OnClickListener() {
@@ -87,6 +103,7 @@ public class PurchasedAdapter extends RecyclerView.Adapter<PurchasedAdapter.Prod
     public void setOnItemClickListener(OnItemClickListener listener) {
         this.onItemClickListener = listener;
     }
+
     public interface OnItemClickListener {
         void onItemClick(Product product);
     }

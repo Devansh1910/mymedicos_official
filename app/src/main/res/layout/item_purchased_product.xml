@@ -21,7 +21,7 @@
             android:orientation="vertical">
 
             <ImageView
-                android:id="@+id/image"
+                android:id="@+id/image1"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/_80sdp"
                 android:scaleType="centerCrop"
@@ -41,7 +41,7 @@
                     android:orientation="horizontal">
 
                     <TextView
-                        android:id="@+id/label"
+                        android:id="@+id/label1"
                         android:layout_width="0dp"
                         android:layout_weight="1"
                         android:layout_height="wrap_content"
@@ -54,7 +54,7 @@
                         android:textColor="@color/black" />
 
                     <TextView
-                        android:id="@+id/author"
+                        android:id="@+id/author1"
                         android:layout_width="0dp"
                         android:layout_weight="1"
                         android:layout_height="match_parent"
