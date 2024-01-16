@@ -15,8 +15,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:padding="@dimen/_8sdp"
-            tools:context=".activities.ug.insideractivities.UgHomeFragment">
+            android:padding="@dimen/_8sdp">
 
             <androidx.cardview.widget.CardView
                 android:layout_width="match_parent"
@@ -35,6 +34,24 @@
 
             <TextView
                 android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:paddingHorizontal="@dimen/_10ssp"
+                android:paddingVertical="@dimen/_10ssp"
+                android:text="Top Downloads"
+                android:textSize="@dimen/_12ssp"
+                android:textStyle="bold" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/slidetopdownlaod"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="@dimen/_8sdp"
+                android:layout_marginVertical="@dimen/_5ssp"
+                android:elevation="@dimen/_10sdp" />
+
+            <TextView
+                android:layout_width="match_parent"
                 android:layout_weight="1"
                 android:paddingHorizontal="@dimen/_10ssp"
                 android:paddingVertical="@dimen/_5ssp"
@@ -47,18 +64,20 @@
                 android:id="@+id/slideshowpptlistcategory"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginHorizontal="@dimen/_8sdp"
+                android:elevation="@dimen/_5sdp"
                 app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                 app:layout_constraintTop_toTopOf="parent"
                 tools:ignore="MissingConstraints"
+                android:layout_marginHorizontal="@dimen/_8sdp"
+                android:layout_marginVertical="@dimen/_5ssp"
                 tools:layout_editor_absoluteX="0dp" />
 
             <TextView
                 android:layout_width="match_parent"
+                android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:paddingHorizontal="@dimen/_10ssp"
-                android:paddingVertical="@dimen/_5ssp"
-                android:layout_height="match_parent"
+                android:paddingVertical="@dimen/_10ssp"
                 android:text="Recent Slides"
                 android:textSize="@dimen/_12ssp"
                 android:textStyle="bold" />
@@ -66,9 +85,18 @@
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/slideshowpptlist"
                 android:layout_width="match_parent"
-                android:layout_marginHorizontal="@dimen/_8sdp"
                 android:layout_height="wrap_content"
-                android:layout_marginVertical="@dimen/_5ssp"/>
+                android:elevation="@dimen/_10sdp"
+                android:layout_marginHorizontal="@dimen/_8sdp"
+                android:layout_marginVertical="@dimen/_5ssp" />
+
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="-150dp"
+                android:scaleType="centerCrop"
+                android:src="@drawable/wd"/>
+            
         </LinearLayout>
 
     </androidx.core.widget.NestedScrollView>

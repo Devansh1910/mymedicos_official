@@ -68,7 +68,7 @@
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/inter_extrabold"
                     android:paddingHorizontal="20dp"
-                    android:text="Health in Wealth, Care with Stealth."
+                    android:text="Health is Wealth, Care with Stealth."
                     android:textAlignment="center"
                     android:textColor="#595656"
                     android:textSize="15sp"
