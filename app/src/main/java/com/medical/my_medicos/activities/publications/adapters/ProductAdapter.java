@@ -2,6 +2,7 @@ package com.medical.my_medicos.activities.publications.adapters;
 
 import android.content.Context;
 import android.content.Intent;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,15 +12,16 @@ import com.bumptech.glide.Glide;
 import com.medical.my_medicos.activities.publications.activity.ProductDetailedActivity;
 import com.medical.my_medicos.activities.publications.model.Product;
 import com.medical.my_medicos.databinding.ItemProductBinding;
-import java.util.ArrayList;
+
+import java.util.List;
 
 public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductViewHolder> {
 
-    Context context;
-    ArrayList<Product> products;
+    private final Context context;
+    private final List<Product> products;
     private OnItemClickListener onItemClickListener; // Listener for item click
 
-    public ProductAdapter(Context context, ArrayList<Product> products) {
+    public ProductAdapter(Context context, List<Product> products) {
         this.context = context;
         this.products = products;
     }
@@ -33,25 +35,26 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductV
     @Override
     public void onBindViewHolder(@NonNull ProductViewHolder holder, int position) {
         Product product = products.get(position);
-        Glide.with(context)
-                .load(product.getThumbnail())
-                .into(holder.binding.image);
-        holder.binding.label.setText(product.getTitle());
-        holder.binding.author.setText(product.getAuthor()); // Set the author
-        holder.binding.price.setText("INR " + product.getPrice());
+        Log.d("ProductAdapter", "Title: " + product.getTitle() +
+                ", Author: " + product.getAuthor() +
+                ", Price: " + product.getPrice() +
+                ", Thumbnail: " + product.getThumbnail());
 
-        holder.itemView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(context, ProductDetailedActivity.class);
-                intent.putExtra("Title", product.getTitle());
-                intent.putExtra("thumbnail", product.getThumbnail());
-                intent.putExtra("id", product.getId());
-                intent.putExtra("Subject",product.getSubject());
-                intent.putExtra("Price", product.getPrice());
-                intent.putExtra("Author", product.getAuthor());
-                context.startActivity(intent);
-            }
+        Glide.with(context).load(product.getThumbnail()).into(holder.binding.image);
+        holder.binding.label.setText(product.getTitle());
+        holder.binding.author.setText(product.getAuthor());
+        holder.binding.price.setText(String.format("INR %.2f", product.getPrice()));
+
+
+        holder.itemView.setOnClickListener(view -> {
+            Intent intent = new Intent(context, ProductDetailedActivity.class);
+            intent.putExtra("Title", product.getTitle())
+                    .putExtra("thumbnail", product.getThumbnail())
+                    .putExtra("id", product.getId())
+                    .putExtra("Subject", product.getSubject())
+                    .putExtra("Price", product.getPrice())
+                    .putExtra("Author", product.getAuthor());
+            context.startActivity(intent);
         });
     }
 
@@ -69,15 +72,12 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductV
             binding = ItemProductBinding.bind(itemView);
 
             // Add click listener to the itemView
-            itemView.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    // Notify the listener on item click
-                    if (onItemClickListener != null) {
-                        int position = getAdapterPosition();
-                        if (position != RecyclerView.NO_POSITION) {
-                            onItemClickListener.onItemClick(products.get(position));
-                        }
+            itemView.setOnClickListener(view -> {
+                // Notify the listener on item click
+                if (onItemClickListener != null) {
+                    int position = getAdapterPosition();
+                    if (position != RecyclerView.NO_POSITION) {
+                        onItemClickListener.onItemClick(products.get(position));
                     }
                 }
             });
