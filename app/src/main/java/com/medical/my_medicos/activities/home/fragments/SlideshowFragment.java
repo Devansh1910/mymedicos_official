@@ -1,17 +1,24 @@
 package com.medical.my_medicos.activities.home.fragments;
 
 import android.annotation.SuppressLint;
+import android.app.AlertDialog;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
+import android.text.Editable;
+import android.text.TextUtils;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 import com.android.volley.Request;
@@ -20,7 +27,13 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.mancj.materialsearchbar.MaterialSearchBar;
 import com.medical.my_medicos.R;
+import com.medical.my_medicos.activities.publications.activity.PublicationActivity;
+import com.medical.my_medicos.activities.publications.activity.SearchPublicationActivity;
+import com.medical.my_medicos.activities.publications.model.Category;
+import com.medical.my_medicos.activities.slideshow.PaidSlideshowAdapter;
+import com.medical.my_medicos.activities.slideshow.SearchSlideshowActivity;
 import com.medical.my_medicos.activities.slideshow.SlideshareCategoryAdapter;
 import com.medical.my_medicos.activities.slideshow.Slideshow;
 import com.medical.my_medicos.activities.slideshow.SlideshowAdapter;
@@ -37,7 +50,6 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 
 public class SlideshowFragment extends Fragment {
-
     private FragmentSlideshowBinding binding;
     private SwipeRefreshLayout swipeRefreshLayout;
     SlideshareCategoryAdapter slideshareCategoryAdapterslideshow;
@@ -45,11 +57,62 @@ public class SlideshowFragment extends Fragment {
     private SlideshowAdapter slideshowAdapter;
     private ArrayList<Slideshow> slideshows;
 
+    //.......Paid....
+    private PaidSlideshowAdapter paidslideshowAdapter;
+    private ArrayList<Slideshow> paidslideshows;
+
+//    private LinearLayout progressBar;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         binding = FragmentSlideshowBinding.inflate(inflater, container, false);
         View rootView = binding.getRoot();
+
+//        progressBar = rootView.findViewById(R.id.progressBar);
+
+//        showProgressBar(progressBar);
+
+        binding.searchBar.addTextChangeListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                // Not needed for now
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                // Not needed for now
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+                // Not needed for now
+            }
+        });
+
+        binding.searchBar.setOnSearchActionListener(new MaterialSearchBar.OnSearchActionListener() {
+            @Override
+            public void onSearchStateChanged(boolean enabled) {
+                // Not needed for now
+            }
+
+            @Override
+            public void onSearchConfirmed(CharSequence text) {
+                String query = text.toString();
+                if (!TextUtils.isEmpty(query)) {
+                    Intent intent = new Intent(getContext(), SearchSlideshowActivity.class);
+                    intent.putExtra("query", query);
+                    startActivity(intent);
+                }
+            }
+
+            @Override
+            public void onButtonClicked(int buttonCode) {
+                if (buttonCode == MaterialSearchBar.BUTTON_BACK) {
+                    // Handle back button click
+                }
+            }
+        });
 
         swipeRefreshLayout = rootView.findViewById(R.id.swipeRefreshLayout);
         swipeRefreshLayout.setOnRefreshListener(this::refreshData);
@@ -57,69 +120,40 @@ public class SlideshowFragment extends Fragment {
         initCategoriesSlideshow();
         initSlideshowSlider();
         initSliderContent();
-
+        initSliderFormeContent();
         return rootView;
     }
+//    private void showProgressBar(LinearLayout progressBar) {
+//        this.progressBar.setVisibility(View.VISIBLE);
+//        new Handler().postDelayed(new Runnable() {
+//            @Override
+//            public void run() {
+//                SlideshowFragment.this.progressBar.setVisibility(View.GONE);
+//            }
+//        }, 3000);
+//    }
 
+    @SuppressLint("NotifyDataSetChanged")
     private void refreshData() {
         slideshows.clear();
+        paidslideshows.clear();
         slideshowAdapter.notifyDataSetChanged();
+        paidslideshowAdapter.notifyDataSetChanged();
 
         getSlideshowRecent();
+        getSlideshowFormeRecent();
 
         swipeRefreshLayout.setRefreshing(false);
     }
-    void getSlideshowRecent() {
-        RequestQueue queue = Volley.newRequestQueue(requireContext());
 
-        String url = ConstantsDashboard.GET_SLIDESHOW;
-        StringRequest request = new StringRequest(Request.Method.GET, url, response -> {
-            try {
-                JSONObject object = new JSONObject(response);
-                if ("success".equals(object.optString("status"))) {
-                    JSONArray dataArray = object.getJSONArray("data");
-                    for (int i = 0; i < dataArray.length(); i++) {
-                        JSONObject slideshowObj = dataArray.getJSONObject(i);
-
-                        String fileUrl = slideshowObj.optString("file");
-                        String title = slideshowObj.optString("title");
-
-                        if (slideshowObj.has("images")) {
-                            JSONArray imagesArray = slideshowObj.getJSONArray("images");
-                            ArrayList<Slideshow.Image> images = new ArrayList<>();
-                            for (int j = 0; j < imagesArray.length(); j++) {
-                                JSONObject imageObj = imagesArray.getJSONObject(j);
-                                String imageUrl = imageObj.optString("url");
-                                String imageId = imageObj.optString("id");
-                                images.add(new Slideshow.Image(imageId, imageUrl));
-                            }
-                            // Now you can create your Slideshow object with images
-                            Slideshow slideshowItem = new Slideshow(title, images, fileUrl);
-                            slideshows.add(slideshowItem);
-                        } else {
-                            // If "images" array does not exist, create Slideshow without images
-                            Slideshow slideshowItem = new Slideshow(title, new ArrayList<>(), fileUrl);
-                            slideshows.add(slideshowItem);
-                        }
-                    }
-                    slideshowAdapter.notifyDataSetChanged();
-                }
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
-        }, error -> {
-            // Handle error
-        });
-
-        queue.add(request);
-    }
+    //......Category.....
     void initCategoriesSlideshow() {
         slidesharecategoriesslideshow = new ArrayList<>();
         slideshareCategoryAdapterslideshow = new SlideshareCategoryAdapter(requireContext(), slidesharecategoriesslideshow);
 
         getCategoriesSlideshow();
 
-        GridLayoutManager layoutManager = new GridLayoutManager(requireContext(), 2);
+        LinearLayoutManager layoutManager = new LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false);
         binding.slideshowpptlistcategory.setLayoutManager(layoutManager);
         binding.slideshowpptlistcategory.setAdapter(slideshareCategoryAdapterslideshow);
     }
@@ -138,13 +172,20 @@ public class SlideshowFragment extends Fragment {
                         int categoriesCount = Math.min(slidesharecategoriesArray.length(), 40);
                         for (int i = 0; i < categoriesCount; i++) {
                             JSONObject object = slidesharecategoriesArray.getJSONObject(i);
-                            SlideshareCategory slideshowcategory = new SlideshareCategory(
-                                    object.getString("id"),
-                                    object.getInt("priority")
-                            );
-                            slidesharecategoriesslideshow.add(slideshowcategory);
-                            Log.e("Something went wrong..",object.getString("priority"));
+
+                            // Add categories with priority 1, 2, and 3
+                            int priority = object.getInt("priority");
+                            if (priority >= 1 && priority <= 3) {
+                                SlideshareCategory slideshowcategory = new SlideshareCategory(
+                                        object.getString("id"),
+                                        priority // Set the priority
+                                );
+                                slidesharecategoriesslideshow.add(slideshowcategory);
+                                Log.e("Priority", String.valueOf(priority));
+                            }
                         }
+
+
                         slideshareCategoryAdapterslideshow.notifyDataSetChanged();
                         binding.slideshowpptlistcategory.addOnItemTouchListener(new RecyclerView.OnItemTouchListener() {
                             @Override
@@ -185,6 +226,7 @@ public class SlideshowFragment extends Fragment {
         queue.add(request);
     }
 
+    //.....Slider for slideshow.....
     void getsliderSlideShow() {
         RequestQueue queue = Volley.newRequestQueue(requireContext()); // Use requireContext()
 
@@ -209,22 +251,127 @@ public class SlideshowFragment extends Fragment {
 
         queue.add(request);
     }
-
     private void initSlideshowSlider() {
         getsliderSlideShow();
     }
 
+    //.....Paid...
     void initSliderContent() {
-        slideshows = new ArrayList<>();
-        slideshowAdapter = new SlideshowAdapter(getActivity(), slideshows);
+        paidslideshows = new ArrayList<>();
+        paidslideshowAdapter = new PaidSlideshowAdapter(getActivity(), paidslideshows);
         getSlideshowRecent();
 
         // Use requireContext() or getContext() to get a valid context
         GridLayoutManager layoutManager = new GridLayoutManager(getContext(), 1);
 
         binding.slideshowpptlist.setLayoutManager(layoutManager);
-        binding.slideshowpptlist.setAdapter(slideshowAdapter);
+        binding.slideshowpptlist.setAdapter(paidslideshowAdapter);
     }
+    void getSlideshowRecent() {
+        RequestQueue queue = Volley.newRequestQueue(requireContext());
+
+        String url = ConstantsDashboard.GET_SLIDESHOW_HOME;
+        StringRequest request = new StringRequest(Request.Method.GET, url, response -> {
+            try {
+                JSONObject object = new JSONObject(response);
+                if ("success".equals(object.optString("status"))) {
+                    JSONArray dataArray = object.getJSONArray("data");
+                    for (int i = 0; i < dataArray.length(); i++) {
+                        JSONObject slideshowObj = dataArray.getJSONObject(i);
+
+                        String fileUrl = slideshowObj.optString("file");
+                        String title = slideshowObj.optString("title");
+                        String type = slideshowObj.optString("type");
+
+                        if (slideshowObj.has("images")) {
+                            JSONArray imagesArray = slideshowObj.getJSONArray("images");
+                            ArrayList<Slideshow.Image> images = new ArrayList<>();
+                            for (int j = 0; j < imagesArray.length(); j++) {
+                                JSONObject imageObj = imagesArray.getJSONObject(j);
+                                String imageUrl = imageObj.optString("url");
+                                String imageId = imageObj.optString("id");
+                                images.add(new Slideshow.Image(imageId, imageUrl));
+                            }
+                            // Now you can create your Slideshow object with images
+                            Slideshow slideshowItem = new Slideshow(title, images, fileUrl,type);
+                            paidslideshows.add(slideshowItem);
+                        } else {
+                            // If "images" array does not exist, create Slideshow without images
+                            Slideshow slideshowItem = new Slideshow(title, new ArrayList<>(), fileUrl,type);
+                            paidslideshows.add(slideshowItem);
+                        }
+                    }
+                    paidslideshowAdapter.notifyDataSetChanged();
+                }
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        }, error -> {
+            // Handle error
+        });
+
+        queue.add(request);
+    }
+
+    //.....For me...
+    void initSliderFormeContent() {
+        slideshows = new ArrayList<>();
+        slideshowAdapter = new SlideshowAdapter(getActivity(), slideshows);
+
+        getSlideshowFormeRecent();
+
+        // Use requireContext() or getContext() to get a valid context
+        LinearLayoutManager layoutManager = new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false);
+
+        binding.featured.setLayoutManager(layoutManager);
+        binding.featured.setAdapter(slideshowAdapter);
+    }
+    void getSlideshowFormeRecent() {
+        RequestQueue queue = Volley.newRequestQueue(requireContext());
+
+        String url = ConstantsDashboard.GET_SLIDESHOW_FEATURED;
+        StringRequest request = new StringRequest(Request.Method.GET, url, response -> {
+            try {
+                JSONObject object = new JSONObject(response);
+                if ("success".equals(object.optString("status"))) {
+                    JSONArray dataArray = object.getJSONArray("data");
+                    for (int i = 0; i < dataArray.length(); i++) {
+                        JSONObject slideshowObj = dataArray.getJSONObject(i);
+
+                        String fileUrl = slideshowObj.optString("file");
+                        String title = slideshowObj.optString("title");
+                        String type = slideshowObj.optString("type");
+
+                        if (slideshowObj.has("images")) {
+                            JSONArray imagesArray = slideshowObj.getJSONArray("images");
+                            ArrayList<Slideshow.Image> images = new ArrayList<>();
+                            for (int j = 0; j < imagesArray.length(); j++) {
+                                JSONObject imageObj = imagesArray.getJSONObject(j);
+                                String imageUrl = imageObj.optString("url");
+                                String imageId = imageObj.optString("id");
+                                images.add(new Slideshow.Image(imageId, imageUrl));
+                            }
+                            // Now you can create your Slideshow object with images
+                            Slideshow slideshowItem = new Slideshow(title, images, fileUrl,type);
+                            slideshows.add(slideshowItem);
+                        } else {
+                            // If "images" array does not exist, create Slideshow without images
+                            Slideshow slideshowItem = new Slideshow(title, new ArrayList<>(), fileUrl,type);
+                            slideshows.add(slideshowItem);
+                        }
+                    }
+                    slideshowAdapter.notifyDataSetChanged();
+                }
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        }, error -> {
+            // Handle error
+        });
+
+        queue.add(request);
+    }
+
 
 
 }

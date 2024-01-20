@@ -175,7 +175,13 @@ public class JobDetailsActivity extends AppCompatActivity {
                                     dateofpost.setText((String) dataMap.get("date"));
                                     locationTextView.setText((String) dataMap.get("Location"));
                                     authorSpecialityTextView.setText((String) dataMap.get("Speciality"));
-                                    authorSubSpecialityTextView.setText((String) dataMap.get("SubSpeciality"));
+                                    String subSpeciality = (String) dataMap.get("SubSpeciality");
+                                    if (subSpeciality != null && !subSpeciality.isEmpty()) {
+                                        authorSubSpecialityTextView.setVisibility(View.VISIBLE);
+                                        authorSubSpecialityTextView.setText(subSpeciality);
+                                    } else {
+                                        authorSubSpecialityTextView.setVisibility(View.GONE);
+                                    }
                                     companyNameTextView.setText((String) dataMap.get("Hospital"));
                                     jobtype.setText((String) dataMap.get("Job type"));
 

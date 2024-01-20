@@ -145,7 +145,5 @@ public class ExamQuizAdapter extends RecyclerView.Adapter<ExamQuizAdapter.ExamVi
 
             bottomSheetDialog.show();
         }
-
-
     }
 }

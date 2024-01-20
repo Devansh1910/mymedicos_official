@@ -2,22 +2,28 @@ package com.medical.my_medicos.activities.job;
 
 import static com.medical.my_medicos.list.subSpecialitiesData.subspecialities;
 import android.app.DatePickerDialog;
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
+
 import com.medical.my_medicos.R;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -28,6 +34,9 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
+import com.medical.my_medicos.activities.login.MainActivity;
+import com.medical.my_medicos.activities.login.RegisterActivity;
+
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.HashMap;
@@ -44,7 +53,7 @@ public class PostJobActivity extends AppCompatActivity {
     private Spinner subspecialitySpinner;
     private Spinner specialitySpinner;
     String subspecialities1;
-    private Button btnDatePicker;
+    private TextView btnDatePicker;
     private TextView tvDate;
     private Calendar calendar;
     private SimpleDateFormat dateFormat;
@@ -58,6 +67,34 @@ public class PostJobActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_post_job);
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            View decorView = getWindow().getDecorView();
+            decorView.setSystemUiVisibility(decorView.getSystemUiVisibility() | View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);
+        }
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            Window window = getWindow();
+            window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
+            window.setStatusBarColor(ContextCompat.getColor(this, R.color.backgroundcolor));
+            window.setNavigationBarColor(ContextCompat.getColor(this, R.color.backgroundcolor));
+        }
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            View decorView = getWindow().getDecorView();
+            decorView.setSystemUiVisibility(decorView.getSystemUiVisibility() | View.SYSTEM_UI_FLAG_LIGHT_NAVIGATION_BAR);
+        }
+
+        ImageView backArrow = findViewById(R.id.backbtn);
+        backArrow.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent i = new Intent(PostJobActivity.this, JobsActivity.class);
+                startActivity(i);
+                finish();
+            }
+        });
+
         btnDatePicker = findViewById(R.id.btnDatePicker);
         tvDate = findViewById(R.id.tvDate);
         calendar = Calendar.getInstance();
@@ -216,8 +253,7 @@ public class PostJobActivity extends AppCompatActivity {
         datePickerDialog.show();
     }
 
-    public void post(){
-
+    public void post() {
         String Title = title.getText().toString().trim();
         String organiser = Organiser.getText().toString().trim();
         String Salary = salary.getText().toString().trim();
@@ -225,6 +261,8 @@ public class PostJobActivity extends AppCompatActivity {
         String Position = jobposition.getText().toString().trim();
         String Desciption = description.getText().toString().trim();
         String Duration = duration.getText().toString().trim();
+        String selectedDate = tvDate.getText().toString();
+        String Hospital = hospital.getText().toString().trim();
 
         if (TextUtils.isEmpty(Title)) {
             title.setError("Title Required");
@@ -242,11 +280,28 @@ public class PostJobActivity extends AppCompatActivity {
             jobposition.setError("Position Required");
             return;
         }
+        if (TextUtils.isEmpty(selectedDate)) {
+            // Handle date not selected
+            Toast.makeText(PostJobActivity.this, "Please select a date", Toast.LENGTH_SHORT).show();
+            return;
+        }
+        if (TextUtils.isEmpty(Hospital)) {
+            hospital.setError("Hospital Required");
+            return;
+        }
 
-        String selectedDate = tvDate.getText().toString();
-        Log.d("viveknew",speciality);
-        Log.d("viveknew",speciality);
-        String Hospital=hospital.getText().toString().trim();
+        if (specialitySpinner.getSelectedItemPosition() == 0) {
+            // Handle speciality not selected
+            Toast.makeText(PostJobActivity.this, "Please select a speciality", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        if (subspecialitySpinner.getVisibility() == View.VISIBLE &&
+                subspecialitySpinner.getSelectedItemPosition() == 0) {
+            // Handle subspeciality not selected (if applicable)
+            Toast.makeText(PostJobActivity.this, "Please select a subspeciality", Toast.LENGTH_SHORT).show();
+            return;
+        }
 
         HashMap<String, Object> usermap = new HashMap<>();
         usermap.put("JOB Title", Title);
@@ -256,20 +311,17 @@ public class PostJobActivity extends AppCompatActivity {
         usermap.put("Job Duration", Duration);
         usermap.put("JOB Opening", opening);
         usermap.put("User", current);
-        usermap.put("Location",selectedMode);
-        usermap.put("Job type",selectedMode2);
+        usermap.put("Location", selectedMode);
+        usermap.put("Job type", selectedMode2);
         usermap.put("Speciality", speciality);
-        usermap.put("SubSpeciality",subspecialities1);
+        usermap.put("SubSpeciality", subspecialities1);
         usermap.put("date", selectedDate);
-        usermap.put("Hospital",Hospital);
+        usermap.put("Hospital", Hospital);
 
         cmeref.push().setValue(usermap).addOnCompleteListener(new OnCompleteListener<Void>() {
             @Override
             public void onComplete(@NonNull Task<Void> task) {
-
-
                 if (task.isSuccessful()) {
-
                     if (task.isSuccessful()) {
                         String generatedDocId = cmeref.push().getKey();
                         usermap.put("documentId", generatedDocId);

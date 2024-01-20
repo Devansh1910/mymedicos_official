@@ -11,16 +11,17 @@ import androidx.media3.common.util.Log;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
+import com.medical.my_medicos.databinding.ItemSlideshareForSpecBinding;
 import com.medical.my_medicos.databinding.ItemSlideshowBinding;
 
 import java.util.ArrayList;
 
-public class SlideshowAdapter extends RecyclerView.Adapter<SlideshowAdapter.SlideshowViewHolder> {
+public class SlideshareAdapterForSpec extends RecyclerView.Adapter<SlideshareAdapterForSpec.SlideshowViewHolder> {
 
     private final Context context;
     private final ArrayList<Slideshow> slideshows;
 
-    public SlideshowAdapter(Context context, ArrayList<Slideshow> slideshows) {
+    public SlideshareAdapterForSpec(Context context, ArrayList<Slideshow> slideshows) {
         this.context = context;
         this.slideshows = slideshows;
     }
@@ -28,7 +29,7 @@ public class SlideshowAdapter extends RecyclerView.Adapter<SlideshowAdapter.Slid
     @NonNull
     @Override
     public SlideshowViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        ItemSlideshowBinding binding = ItemSlideshowBinding.inflate(LayoutInflater.from(parent.getContext()), parent, false);
+        ItemSlideshareForSpecBinding binding = ItemSlideshareForSpecBinding.inflate(LayoutInflater.from(parent.getContext()), parent, false);
         return new SlideshowViewHolder(binding);
     }
 
@@ -53,9 +54,9 @@ public class SlideshowAdapter extends RecyclerView.Adapter<SlideshowAdapter.Slid
     }
 
     public class SlideshowViewHolder extends RecyclerView.ViewHolder {
-        ItemSlideshowBinding binding;
+        ItemSlideshareForSpecBinding binding;
 
-        public SlideshowViewHolder(@NonNull ItemSlideshowBinding binding) {
+        public SlideshowViewHolder(@NonNull ItemSlideshareForSpecBinding binding) {
             super(binding.getRoot());
             this.binding = binding;
 

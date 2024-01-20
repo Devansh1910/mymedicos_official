@@ -328,7 +328,7 @@ public class HomeFragment extends Fragment {
                                 String Title = ((String) dataMap.get("JOB Title"));
                                 String Category = ((String) dataMap.get("Job type"));
                                 String documentid = ((String) dataMap.get("documentId"));
-                                Log.d("Speacility21",speciality);
+                                Log.d("Error in Speciality",speciality);
                                 String User=((String) dataMap.get("User"));
                                 Log.d("user2",user.getPhoneNumber());
 
@@ -355,8 +355,6 @@ public class HomeFragment extends Fragment {
                             if (joblist.isEmpty()){
                                 cardjobs.setVisibility(View.VISIBLE);
                                 TextView nocontent=rootView.findViewById(R.id.descriptionTextView);
-
-
                             }
                         }
                         else {

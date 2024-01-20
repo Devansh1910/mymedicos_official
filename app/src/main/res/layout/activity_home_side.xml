@@ -711,7 +711,7 @@
                     </LinearLayout>
 
                     <LinearLayout
-                        android:id="@+id/logout"
+                        android:id="@+id/refer"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:paddingHorizontal="10dp"
@@ -723,7 +723,7 @@
                             android:layout_height="match_parent"
                             android:layout_gravity="center"
                             android:paddingHorizontal="@dimen/_5sdp"
-                            android:src="@drawable/switchoff"/>
+                            android:src="@drawable/sharedark"/>
 
                         <TextView
                             android:layout_width="0dp"
@@ -733,11 +733,57 @@
                             android:paddingHorizontal="@dimen/_5sdp"
                             android:layout_height="match_parent"
                             android:textSize="@dimen/_14ssp"
-                            android:text="Log Out"
+                            android:text="Refer to a Friend"
                             android:textStyle="bold"
                             android:textColor="@color/black"/>
 
+                        <ImageView
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:layout_gravity="center"
+                            android:src="@drawable/arrowright"/>
+
                     </LinearLayout>
+
+
+                </LinearLayout>
+
+            </androidx.cardview.widget.CardView>
+
+            <androidx.cardview.widget.CardView
+                android:id="@+id/logout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/rectangle"
+                app:cardCornerRadius="@dimen/_10ssp"
+                android:layout_marginBottom="@dimen/_20ssp"
+                android:layout_marginHorizontal="@dimen/_8sdp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingHorizontal="10dp"
+                    android:paddingVertical="8dp"
+                    android:orientation="horizontal">
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:layout_gravity="center"
+                        android:paddingHorizontal="@dimen/_5sdp"
+                        android:src="@drawable/switchoff"/>
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_weight="1"
+                        android:layout_gravity="center"
+                        android:gravity="center_vertical"
+                        android:paddingHorizontal="@dimen/_5sdp"
+                        android:layout_height="match_parent"
+                        android:textSize="@dimen/_14ssp"
+                        android:text="Log Out"
+                        android:textStyle="bold"
+                        android:textColor="@color/black"/>
 
                 </LinearLayout>
 

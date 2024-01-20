@@ -3,6 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
+    android:background="@color/backgroundcolor"
     android:layout_height="match_parent"
     tools:context=".activities.cme.CmeDetailsActivity">
 
@@ -31,11 +32,15 @@
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
             android:background="@color/white">
+
             <TextView
                 android:id="@+id/type"
                 android:layout_width="wrap_content"
+                android:background="@drawable/categorywhite"
+                android:paddingHorizontal="@dimen/_10sdp"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/textView"
+                android:paddingVertical="@dimen/_5sdp"
                 android:layout_gravity="end"
                 android:layout_marginEnd="@dimen/_10sdp"
                 android:text="LIVE/UPCOMING/PAST"
@@ -56,6 +61,7 @@
             <com.google.android.exoplayer2.ui.StyledPlayerView
                 android:id="@+id/player_view"
                 android:layout_width="match_parent"
+                android:visibility="visible"
                 android:layout_height="@dimen/_180sdp" />
 
         </LinearLayout>
@@ -400,7 +406,9 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
+                android:padding="@dimen/_10sdp"
                 android:backgroundTint="#FF0000"
+                android:fontFamily="@font/inter"
                 android:textStyle="bold"
                 android:textColor="@color/white"
                 android:layout_marginStart="@dimen/_10sdp"
@@ -411,7 +419,9 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
+                android:padding="@dimen/_10sdp"
                 android:backgroundTint="#FF0000"
+                android:fontFamily="@font/inter"
                 android:textStyle="bold"
                 android:textColor="@color/white"
                 android:layout_marginStart="@dimen/_10sdp"
@@ -423,7 +433,9 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
+                android:padding="@dimen/_10sdp"
                 android:backgroundTint="#FF0000"
+                android:fontFamily="@font/inter"
                 android:textStyle="bold"
                 android:textColor="@color/white"
                 android:layout_marginStart="@dimen/_10sdp"
@@ -433,9 +445,11 @@
             <Button
                 android:layout_width="0dp"
                 android:layout_weight="0.75"
-                android:backgroundTint="@color/black"
-                android:drawableLeft="@drawable/baseline_share_24"
+                android:backgroundTint="@color/backgroundcolor"
+                android:drawableLeft="@drawable/shareicon"
                 android:layout_marginStart="@dimen/_5sdp"
+                android:textColor="@color/unselected"
+                android:fontFamily="@font/inter"
                 android:layout_marginEnd="@dimen/_10sdp"
                 android:layout_height="wrap_content"
                 android:text="SHARE"/>

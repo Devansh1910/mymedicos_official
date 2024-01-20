@@ -3,12 +3,13 @@ package com.medical.my_medicos.activities.slideshow;
 import java.util.ArrayList;
 
 public class Slideshow {
-    private String title;
+    private String title,type;
     private ArrayList<Image> images;
     private String file;
 
-    public Slideshow(String title, ArrayList<Image> images, String file) {
+    public Slideshow(String title, ArrayList<Image> images, String file,String type) {
         this.title = title;
+        this.type = type;
         this.images = images;
         this.file = file;
     }
@@ -19,6 +20,14 @@ public class Slideshow {
 
     public void setTitle(String title) {
         this.title = title;
+    }
+
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
     }
 
     public ArrayList<Image> getImages() {

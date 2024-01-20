@@ -28,7 +28,7 @@
         <com.mancj.materialsearchbar.MaterialSearchBar
             android:id="@+id/searchBar"
             android:layout_width="match_parent"
-            android:outlineSpotShadowColor="@color/black"
+            android:outlineSpotShadowColor="@color/unselected"
             android:layout_height="wrap_content"
             app:mt_hint="Search your favorite book"
             android:layout_marginEnd="@dimen/_5sdp"

@@ -32,7 +32,7 @@ public class SlideshareCategoryAdapter extends RecyclerView.Adapter<RecyclerView
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         LayoutInflater inflater = LayoutInflater.from(context);
-        View view = inflater.inflate(R.layout.item_categories, parent, false);
+        View view = inflater.inflate(R.layout.item_more_category_slideshow, parent, false);
 
         return new SlideshowViewHolder(view);
     }

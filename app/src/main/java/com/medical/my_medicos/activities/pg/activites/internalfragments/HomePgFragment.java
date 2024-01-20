@@ -4,6 +4,10 @@ import static androidx.fragment.app.FragmentManager.TAG;
 import android.annotation.SuppressLint;
 import android.content.ContentValues;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.Canvas;
+import android.graphics.drawable.Drawable;
+import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -11,6 +15,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.TextView;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.annotation.OptIn;
@@ -29,6 +35,7 @@ import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
 import com.google.firebase.Timestamp;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -56,6 +63,10 @@ import org.imaginativeworld.whynotimagecarousel.model.CarouselItem;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -112,6 +123,26 @@ public class HomePgFragment extends Fragment {
             public void onClick(View view) {
                 Intent i = new Intent(getActivity(), RecetUpdatesNoticeActivity.class);
                 startActivity(i);
+            }
+        });
+
+        TextView promoteBtn = view.findViewById(R.id.promotebtn);
+        promoteBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // Customize the content to share
+                String appLink = "https://play.google.com/store/apps/details?id=com.medical.my_medicos";
+                String message = "Check out our medical app!\nDownload now: " + appLink;
+
+                // Create an Intent with ACTION_SEND
+                Intent shareIntent = new Intent(Intent.ACTION_SEND);
+                shareIntent.setType("text/plain");
+                shareIntent.putExtra(Intent.EXTRA_TEXT, message);
+
+                // Check if there's an app to handle the Intent
+                if (shareIntent.resolveActivity(requireContext().getPackageManager()) != null) {
+                    startActivity(Intent.createChooser(shareIntent, "Share via"));
+                }
             }
         });
 
@@ -182,6 +213,7 @@ public class HomePgFragment extends Fragment {
         initQuestionsBanks();
         getPerDayQuestions(quiztiddaya);
     }
+
 
     // For the Slider
     private void initSliderPg() {
@@ -328,8 +360,6 @@ public class HomePgFragment extends Fragment {
                         }
                     });
         }
-
-
 
         if (title == null || title.isEmpty()) {
             title = "home";

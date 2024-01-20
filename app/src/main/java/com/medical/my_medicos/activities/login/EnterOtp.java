@@ -41,9 +41,6 @@ public class EnterOtp extends AppCompatActivity {
     ProgressBar progressBar;
     String getotpbackend;
 
-    public static final String AUTO_FILL_OTP_ACTION = "com.medical.my_medicos.AUTO_FILL_OTP";
-    public static final String EXTRA_AUTO_FILL_OTP = "com.medical.my_medicos.AUTO_FILL_OTP_EXTRA";
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -88,9 +85,6 @@ public class EnterOtp extends AppCompatActivity {
         });
 
         numberOtpMove();
-
-        // Check if OTP is received automatically
-        autoFillOtpIfAvailable();
     }
 
     private void verifyOtp() {
@@ -160,27 +154,6 @@ public class EnterOtp extends AppCompatActivity {
             public void afterTextChanged(Editable editable) {
             }
         });
-    }
-
-    private void autoFillOtpIfAvailable() {
-        new Handler().postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                String autoFilledOtp = "123456";
-                fillOtpFields(autoFilledOtp);
-            }
-        }, 2000);
-    }
-
-    private void fillOtpFields(String otp) {
-        if (otp.length() == 6) {
-            input1.setText(String.valueOf(otp.charAt(0)));
-            input2.setText(String.valueOf(otp.charAt(1)));
-            input3.setText(String.valueOf(otp.charAt(2)));
-            input4.setText(String.valueOf(otp.charAt(3)));
-            input5.setText(String.valueOf(otp.charAt(4)));
-            input6.setText(String.valueOf(otp.charAt(5)));
-        }
     }
 
     private class OtpTextWatcher implements TextWatcher {

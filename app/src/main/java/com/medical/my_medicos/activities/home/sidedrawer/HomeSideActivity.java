@@ -7,9 +7,12 @@ import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.AsyncTask;
+import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -20,8 +23,10 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.cardview.widget.CardView;
+import androidx.core.content.ContextCompat;
 
 import com.airbnb.lottie.LottieAnimationView;
+import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -29,6 +34,8 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.medical.my_medicos.R;
 import com.medical.my_medicos.activities.guide.ProfileGuideActivity;
+import com.medical.my_medicos.activities.home.sidedrawer.extras.BottomSheetForChatWithUs;
+import com.medical.my_medicos.activities.home.sidedrawer.extras.BottomSheetForCommunity;
 import com.medical.my_medicos.activities.login.FirstActivity;
 import com.medical.my_medicos.activities.login.GetstartedActivity;
 import com.medical.my_medicos.activities.pg.activites.extras.CreditsActivity;
@@ -67,6 +74,23 @@ public class HomeSideActivity extends AppCompatActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home_side);
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            View decorView = getWindow().getDecorView();
+            decorView.setSystemUiVisibility(decorView.getSystemUiVisibility() | View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);
+        }
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            Window window = getWindow();
+            window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
+            window.setStatusBarColor(ContextCompat.getColor(this, R.color.backgroundcolor));
+            window.setNavigationBarColor(ContextCompat.getColor(this, R.color.backgroundcolor));
+        }
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            View decorView = getWindow().getDecorView();
+            decorView.setSystemUiVisibility(decorView.getSystemUiVisibility() | View.SYSTEM_UI_FLAG_LIGHT_NAVIGATION_BAR);
+        }
 
         FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
         if (currentUser != null) {
@@ -152,7 +176,7 @@ public class HomeSideActivity extends AppCompatActivity {
             }
         });
 
-        LinearLayout logout = findViewById(R.id.logout);
+        CardView logout = findViewById(R.id.logout);
         logout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -168,12 +192,48 @@ public class HomeSideActivity extends AppCompatActivity {
             }
         });
 
+        LinearLayout sharebtn = findViewById(R.id.refer);
+        sharebtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // Customize the content to share
+                String appLink = "https://play.google.com/store/apps/details?id=com.medical.my_medicos";
+                String message = "Check out our medical app!\nDownload now: " + appLink;
+
+                // Create an Intent with ACTION_SEND
+                Intent shareIntent = new Intent(Intent.ACTION_SEND);
+                shareIntent.setType("text/plain");
+                shareIntent.putExtra(Intent.EXTRA_TEXT, message);
+
+                // Check if there's an app to handle the Intent
+                if (shareIntent.resolveActivity(HomeSideActivity.this.getPackageManager()) != null) {
+                    startActivity(Intent.createChooser(shareIntent, "Share via"));
+                }
+            }
+        });
+
         LinearLayout aboutus = findViewById(R.id.aboutus);
         aboutus.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent i = new Intent(HomeSideActivity.this, PrivacyActivity.class);
                 startActivity(i);
+            }
+        });
+
+        LinearLayout whatsappLayout = findViewById(R.id.whatsapp);
+        whatsappLayout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                openBottomSheet();
+            }
+        });
+
+        LinearLayout communityjoinLayout = findViewById(R.id.communityjoin);
+        communityjoinLayout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                openBottomSheetCommunity();
             }
         });
 
@@ -213,6 +273,18 @@ public class HomeSideActivity extends AppCompatActivity {
         });
         AlertDialog dialog = builder.create();
         dialog.show();
+    }
+
+    private void openBottomSheet() {
+        BottomSheetDialogFragment bottomSheetFragment = new BottomSheetForChatWithUs();
+
+        bottomSheetFragment.show(getSupportFragmentManager(), bottomSheetFragment.getTag());
+    }
+
+    private void openBottomSheetCommunity() {
+        BottomSheetDialogFragment bottomSheetFragment = new BottomSheetForCommunity();
+
+        bottomSheetFragment.show(getSupportFragmentManager(), bottomSheetFragment.getTag());
     }
 
     private void logoutUser() {

@@ -3,7 +3,6 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_margin="@dimen/_10sdp"
     android:background="@color/backgroundcolor"
     android:layout_height="wrap_content">
 
@@ -26,8 +25,8 @@
             <ImageView
                 android:id="@+id/image1"
                 android:layout_width="0dp"
-                android:layout_weight="0.25"
-                android:layout_height="@dimen/_60sdp"
+                android:layout_weight="0.5"
+                android:layout_height="@dimen/_80sdp"
                 android:scaleType="centerCrop"
                 app:srcCompat="@drawable/placeholder" />
 
@@ -41,14 +40,14 @@
                     android:layout_width="match_parent"
                     android:layout_gravity="center"
                     android:gravity="center"
+                    android:paddingVertical="@dimen/_5sdp"
                     android:paddingHorizontal="@dimen/_5sdp"
                     android:layout_height="wrap_content"
-                    android:orientation="horizontal">
+                    android:orientation="vertical">
 
                     <TextView
                         android:id="@+id/label1"
-                        android:layout_width="0dp"
-                        android:layout_weight="1"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:text="TextView"
                         android:textSize="20dp"
@@ -60,13 +59,10 @@
 
                     <TextView
                         android:id="@+id/author1"
-                        android:layout_width="0dp"
-                        android:layout_weight="1"
+                        android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:text="Author"
                         android:textSize="14sp"
-                        android:layout_gravity="center"
-                        android:gravity="center"
                         android:textStyle="bold"
                         android:fontFamily="@font/inter"
                         android:maxLines="1"
@@ -86,7 +82,7 @@
                     android:drawablePadding="@dimen/_2sdp"
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/inter"
-                    android:text="View Document"
+                    android:text="Read Document"
                     android:textColor="@color/white"
                     android:textSize="@dimen/_14ssp" />
 
