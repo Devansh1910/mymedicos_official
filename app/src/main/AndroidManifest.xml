@@ -26,10 +26,10 @@
         tools:replace="android:label"
         tools:targetApi="31">
         <activity
-            android:name=".activities.slideshow.SearchSlideshowActivity"
+            android:name=".activities.slideshow.SlideshareFormActivity"
             android:exported="false" />
         <activity
-            android:name=".activities.slideshow.insider.SlideshareInsiderActivity"
+            android:name=".activities.slideshow.SearchSlideshowActivity"
             android:exported="false" />
         <activity
             android:name=".activities.publications.activity.insiders.CategoryPublicationInsiderForRealActivity"

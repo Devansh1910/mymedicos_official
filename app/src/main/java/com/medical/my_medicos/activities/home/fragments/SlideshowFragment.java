@@ -14,6 +14,7 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
@@ -29,16 +30,19 @@ import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.mancj.materialsearchbar.MaterialSearchBar;
 import com.medical.my_medicos.R;
+import com.medical.my_medicos.activities.job.JobsActivity;
 import com.medical.my_medicos.activities.publications.activity.PublicationActivity;
 import com.medical.my_medicos.activities.publications.activity.SearchPublicationActivity;
 import com.medical.my_medicos.activities.publications.model.Category;
 import com.medical.my_medicos.activities.slideshow.PaidSlideshowAdapter;
 import com.medical.my_medicos.activities.slideshow.SearchSlideshowActivity;
 import com.medical.my_medicos.activities.slideshow.SlideshareCategoryAdapter;
+import com.medical.my_medicos.activities.slideshow.SlideshareFormActivity;
 import com.medical.my_medicos.activities.slideshow.Slideshow;
 import com.medical.my_medicos.activities.slideshow.SlideshowAdapter;
 import com.medical.my_medicos.activities.slideshow.insider.SpecialitySlideshowInsiderActivity;
 import com.medical.my_medicos.activities.slideshow.model.SlideshareCategory;
+import com.medical.my_medicos.activities.ug.UgPostInsiderActivity;
 import com.medical.my_medicos.activities.utils.ConstantsDashboard;
 import com.medical.my_medicos.databinding.FragmentSlideshowBinding;
 
@@ -62,6 +66,8 @@ public class SlideshowFragment extends Fragment {
     private ArrayList<Slideshow> paidslideshows;
 
 //    private LinearLayout progressBar;
+
+    TextView opentheuserupload;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -111,6 +117,16 @@ public class SlideshowFragment extends Fragment {
                 if (buttonCode == MaterialSearchBar.BUTTON_BACK) {
                     // Handle back button click
                 }
+            }
+        });
+
+        opentheuserupload = rootView.findViewById(R.id.opentheuserupload);
+
+        opentheuserupload.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent i = new Intent(getActivity(), SlideshareFormActivity.class);
+                startActivity(i);
             }
         });
 
