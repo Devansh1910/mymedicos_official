@@ -1,8 +1,14 @@
 package com.medical.my_medicos.activities.job;
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.Button;
+import android.widget.Spinner;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
@@ -22,6 +28,7 @@ import com.google.firebase.firestore.FirebaseFirestore;
 
 public class JobsActivity2 extends AppCompatActivity {
     String Title1;
+    Button OK;
 
     private ViewPager2 pagerjobs, viewpagerjobs;
     private TabLayout tabLayoutjobs;
@@ -34,6 +41,40 @@ public class JobsActivity2 extends AppCompatActivity {
         setContentView(R.layout.activity_jobs2);
 
         Toolbar toolbar = findViewById(R.id.jobstoolbar);
+        OK = findViewById(R.id.okButton);
+        OK.setBackgroundColor(Color.GRAY);
+        Spinner specialitySpinner = findViewById(R.id.specialitySpinner);
+
+// Add the speciality options to the spinner
+        ArrayAdapter<CharSequence> specialityAdapter = ArrayAdapter.createFromResource(
+                this,
+                R.array.indian_cities,  // Add a string array resource in your strings.xml file
+                android.R.layout.simple_spinner_item
+        );
+        specialityAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        specialitySpinner.setAdapter(specialityAdapter);
+
+// Set a listener to handle speciality spinner item selection
+        specialitySpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parentView, View selectedItemView, int position, long id) {
+                String selectedSpeciality = parentView.getItemAtPosition(position).toString();
+
+                // Update the OK button clickability based on the selected speciality
+                if (selectedSpeciality.equals("Select Speciality")) {
+                    OK.setClickable(false);
+                    OK.setBackgroundColor(Color.GRAY);
+                } else {
+                    OK.setClickable(true);
+                    OK.setBackgroundColor(Color.BLUE); // You can set your desired color
+                }
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parentView) {
+                // Do nothing here if no speciality is selected
+            }
+        });
 
         // Set the support action bar
         setSupportActionBar(toolbar);
@@ -70,6 +111,19 @@ public class JobsActivity2 extends AppCompatActivity {
                     break;
             }
         }).attach();
+        OK.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // Get the selected speciality
+                String selectedSpeciality = specialitySpinner.getSelectedItem().toString();
+
+                // Start the next activity with the selected speciality as an intent extra
+                Intent nextActivityIntent = new Intent(JobsActivity2.this, JobsSearchActivity.class); // Replace NextActivity with the actual next activity
+                nextActivityIntent.putExtra("selectedSpeciality", selectedSpeciality);
+                nextActivityIntent.putExtra("Title", Title1);
+                startActivity(nextActivityIntent);
+            }
+        });
     }
 
     class ViewPagerAdapterJobs extends FragmentStateAdapter {

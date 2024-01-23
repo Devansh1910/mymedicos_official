@@ -9,8 +9,11 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.LinearLayout;
+import android.widget.Spinner;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -21,6 +24,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager2.widget.ViewPager2;
 
+import com.medical.my_medicos.adapter.job.Adapter8;
 import com.medical.my_medicos.adapter.job.MyAdapter6;
 import com.medical.my_medicos.R;
 import com.medical.my_medicos.adapter.job.items.jobitem1;
@@ -33,6 +37,7 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
+import com.medical.my_medicos.adapter.ug.MyAdapter8;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -42,7 +47,7 @@ public class JobDetailsActivity extends AppCompatActivity {
 
     Button shareButton;
     RecyclerView recyclerView1;
-    MyAdapter6 adapter1;
+    MyAdapter8 adapter1;
     FloatingActionButton floatingActionButton;
     private ViewPager2 pager;
     private TabLayout tabLayout;
@@ -56,6 +61,7 @@ public class JobDetailsActivity extends AppCompatActivity {
     String current=user.getPhoneNumber();
 
     Toolbar toolbar;
+    String documentid1;
 
     @SuppressLint("MissingInflatedId")
     @Override
@@ -77,12 +83,16 @@ public class JobDetailsActivity extends AppCompatActivity {
         TextView jobDescriptionContentTextView = findViewById(R.id.jobDescriptionContentTextView);
         TextView jobtype = findViewById(R.id.Job_type);
         Intent intent = getIntent();
-        if (intent != null && intent.hasExtra("user")) {
+
+        if (intent != null && intent.hasExtra("user")&&(intent.hasExtra("documentid"))) {
             // Retrieve the extra data
             receivedData = intent.getStringExtra("user");
             documentid=intent.getStringExtra("documentid");
+            documentid1=intent.getStringExtra("documentid");
 
         }
+
+
 
         Toolbar toolbar = findViewById(R.id.jobsinsidertoolbar);
 
@@ -162,8 +172,12 @@ public class JobDetailsActivity extends AppCompatActivity {
 
                                 Map<String, Object> dataMap = document.getData();
                                 String user = ((String) dataMap.get("documentId"));
-                                int r=documentid.compareTo(user);
-                                Log.d("vivekpalnew", String.valueOf(r));
+
+                                int r=0;
+                                if (documentid1!=null) {
+                                    r = documentid1.compareTo(user);
+                                    Log.d("vivekpalnew", String.valueOf(r));
+                                }
                                 if (r==0) {
 
 //
