@@ -26,6 +26,8 @@ import androidx.cardview.widget.CardView;
 import androidx.core.content.ContextCompat;
 
 import com.airbnb.lottie.LottieAnimationView;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -95,8 +97,10 @@ public class HomeSideActivity extends AppCompatActivity {
         FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
         if (currentUser != null) {
             String currentUid = currentUser.getUid();
+            String phoneNumber = currentUser.getPhoneNumber();
             FirebaseDatabase database = FirebaseDatabase.getInstance();
 
+            // Retrieve coins
             database.getReference().child("profiles")
                     .child(currentUid)
                     .child("coins")
@@ -111,13 +115,35 @@ public class HomeSideActivity extends AppCompatActivity {
                                 currentCoinsTextView.setText("0");
                             }
                         }
-                        @SuppressLint("RestrictedApi")
+
                         @Override
                         public void onCancelled(@NonNull DatabaseError error) {
                             Log.e(TAG, "Error loading coins from database: " + error.getMessage());
                         }
                     });
-        }
+
+            // Update phone number
+            database.getReference().child("profiles")
+                    .child(currentUid)
+                    .child("phoneNumber")
+                    .setValue(phoneNumber)
+                    .addOnSuccessListener(new OnSuccessListener<Void>() {
+                        @Override
+                        public void onSuccess(Void aVoid) {
+                            Log.d(TAG, "Phone number updated successfully");
+                        }
+                    })
+                    .addOnFailureListener(new OnFailureListener() {
+                        @Override
+                        public void onFailure(@NonNull Exception e) {
+                            Log.e(TAG, "Error updating phone number: " + e.getMessage());
+                        }
+                    });
+
+
+
+
+    }
 
         toolbar = findViewById(R.id.profiletoolbar);
         setSupportActionBar(toolbar);
