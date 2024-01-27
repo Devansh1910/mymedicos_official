@@ -32,7 +32,7 @@
                 app:titleTextColor="@color/black"
                 app:subtitleTextColor="@color/white"
                 app:subtitleTextAppearance="@color/white"
-                android:backgroundTint="@color/white"
+                android:backgroundTint="@color/backgroundcolor"
                 android:layout_width="match_parent"
                 android:layout_weight="1"
                 android:layout_height="?attr/actionBarSize"
@@ -64,25 +64,27 @@
 
                 <LinearLayout
                     android:layout_width="match_parent"
+                    android:background="@color/backgroundcolor"
                     android:layout_height="wrap_content"
                     android:orientation="vertical">
-
-
 
                     <com.google.android.material.tabs.TabLayout
                         android:id="@+id/tablayout"
                         android:layout_width="match_parent"
+                        android:background="@color/backgroundcolor"
                         android:layout_marginVertical="@dimen/_10ssp"
                         android:layout_height="wrap_content">
 
                         <com.google.android.material.tabs.TabItem
                             android:id="@+id/ongoing"
+                            android:background="@color/backgroundcolor"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="Ongoing" />
 
                         <com.google.android.material.tabs.TabItem
                             android:id="@+id/past"
+                            android:background="@color/backgroundcolor"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="Past" />
@@ -90,6 +92,7 @@
                         <com.google.android.material.tabs.TabItem
                             android:id="@+id/upcoming"
                             android:layout_width="wrap_content"
+                            android:background="@color/backgroundcolor"
                             android:layout_height="wrap_content"
                             android:text="Upcoming" />
                     </com.google.android.material.tabs.TabLayout>

@@ -42,6 +42,7 @@ public class MyAdapter3 extends RecyclerView.Adapter<MyAdapter3.MyViewHolder3>{
         holder.name.setText(item.get(position).getDocname());
         holder.position.setText(item.get(position).getDocpos());
         holder.title.setText(item.get(position).getDoctitle());
+        holder.mode.setText(item.get(position).getMode());
         holder.presenters.setText(item.get(position).getDocpresenter());
         holder.date.setText(item.get(position).getDate());
         holder.time.setText(item.get(position).getTime());
@@ -54,6 +55,7 @@ public class MyAdapter3 extends RecyclerView.Adapter<MyAdapter3.MyViewHolder3>{
                 i.putExtra("documentid",item.get(position).getDocumentid());
                 i.putExtra("name",item.get(position).getEmail());
                 i.putExtra("type",item.get(position).getType());
+                i.putExtra("Mode",item.get(position).getMode());
                 i.putExtra("time",item.get(position).getTime());
                 context.startActivity(i);
             }
@@ -68,7 +70,7 @@ public class MyAdapter3 extends RecyclerView.Adapter<MyAdapter3.MyViewHolder3>{
 
     public static class MyViewHolder3 extends  RecyclerView.ViewHolder{
 
-        TextView date,time,title,name,position,presenters;
+        TextView date,time,title,name,position,presenters,mode;
 
         ImageView imageview;
         public MyViewHolder3(@NonNull View itemView) {
@@ -76,6 +78,7 @@ public class MyAdapter3 extends RecyclerView.Adapter<MyAdapter3.MyViewHolder3>{
             name=itemView.findViewById(R.id.dr_name);
             position=itemView.findViewById(R.id.dr_pos);
             title=itemView.findViewById(R.id.dr_title);
+            mode=itemView.findViewById(R.id.dr_mode);
             presenters=itemView.findViewById(R.id.dr_presenters);
             date=itemView.findViewById(R.id.dr_date);
             time=itemView.findViewById(R.id.dr_time);

@@ -40,6 +40,7 @@ public class MyAdapter1 extends RecyclerView.Adapter<MyAdapter1.MyViewHolder2>{
         holder.name.setText(item.get(position).getDocname());
         holder.position.setText(item.get(position).getDocpos());
         holder.title.setText(item.get(position).getDoctitle());
+        holder.mode.setText(item.get(position).getMode());
         holder.presenters.setText(item.get(position).getDocpresenter());
         holder.date.setText(item.get(position).getDate());
         holder.time.setText(item.get(position).getTime());
@@ -51,6 +52,7 @@ public class MyAdapter1 extends RecyclerView.Adapter<MyAdapter1.MyViewHolder2>{
                 i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);// Add this line
                 i.putExtra("documentid",item.get(position).getDocumentid());
                 i.putExtra("name",item.get(position).getEmail());
+                i.putExtra("Mode",item.get(position).getMode());
                 i.putExtra("time",item.get(position).getTime());
                 i.putExtra("type",item.get(position).getType());
                 context.startActivity(i);
@@ -66,7 +68,7 @@ public class MyAdapter1 extends RecyclerView.Adapter<MyAdapter1.MyViewHolder2>{
     }
     public static class MyViewHolder2 extends  RecyclerView.ViewHolder {
 
-        TextView name,position,title,presenters,date,time;
+        TextView name,position,title,presenters,date,time,mode;
 
         public MyViewHolder2(@NonNull View itemView) {
             super(itemView);
@@ -75,6 +77,7 @@ public class MyAdapter1 extends RecyclerView.Adapter<MyAdapter1.MyViewHolder2>{
             name=itemView.findViewById(R.id.dr_name);
             position=itemView.findViewById(R.id.dr_pos);
             title=itemView.findViewById(R.id.dr_title);
+            mode=itemView.findViewById(R.id.dr_mode);
             presenters=itemView.findViewById(R.id.dr_presenters);
             date=itemView.findViewById(R.id.dr_date);
             time=itemView.findViewById(R.id.dr_time);

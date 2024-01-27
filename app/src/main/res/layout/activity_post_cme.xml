@@ -211,6 +211,7 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:id="@+id/cmevirtuallinkholder"
                 android:layout_marginTop="10dp"
                 android:background="@drawable/onlyforzoom"
                 android:gravity="center">
@@ -232,6 +233,17 @@
                     android:textSize="14sp" />
 
             </LinearLayout>
+
+            <TextView
+                android:id="@+id/offlineroom"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:drawablePadding="@dimen/_5ssp"
+                android:text="Enter the location where the event will going to be organised"
+                android:fontFamily="@font/inter"
+                android:textColor="@color/unselected"
+                android:textStyle="bold" />
 
             <LinearLayout
                 android:layout_width="match_parent"

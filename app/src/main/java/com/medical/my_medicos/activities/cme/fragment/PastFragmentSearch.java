@@ -114,6 +114,7 @@ public class PastFragmentSearch extends Fragment {
                                     int r1 = parsedDate.compareTo(currentDate);
                                     if ((r1 <= 0)) {
                                         String field3 = ((String) dataMap.get("CME Title"));
+                                        String field6 = ((String) dataMap.get("Mode"));
                                         List<String> presenters = (List<String>) dataMap.get("CME Presenter");
                                         String field4=presenters.get(0);
                                         String field1 = (String) dataMap.get("CME Organiser");
@@ -126,7 +127,7 @@ public class PastFragmentSearch extends Fragment {
                                         String end=((String) dataMap.get("endtime"));
                                         String subspeciality=((String) dataMap.get("SubSpeciality"));
                                         String mode=((String) dataMap.get("Mode"));
-                                        cmeitem2 c = new cmeitem2(field1, field2, Date, field3, field4,5,time,field5,"PAST",documentid);
+                                        cmeitem2 c = new cmeitem2(field1, field2, Date, field3, field4,5,time,field5,"PAST",documentid,field6);
                                         int r4=Speciality.compareTo(field2);
                                         int r3=SubSpeciality.compareTo(subspeciality);
                                         int r2=Mode.compareTo(mode);
@@ -141,6 +142,7 @@ public class PastFragmentSearch extends Fragment {
 
                                     } else if ((r < 0)&& (r1 == 0)){
                                         String field3 = ((String) dataMap.get("CME Title"));
+                                        String field6 = ((String) dataMap.get("Mode"));
                                         String field4 = ((String) dataMap.get("CME Presenter"));
                                         String field1 = (String) dataMap.get("CME Organiser");
                                         String field2;
@@ -152,7 +154,7 @@ public class PastFragmentSearch extends Fragment {
                                         String end=((String) dataMap.get("endtime"));
                                         String subspeciality=((String) dataMap.get("SubSpeciality"));
                                         String mode=((String) dataMap.get("Mode"));
-                                        cmeitem2 c = new cmeitem2(field1, field2, Date, field3, field4,5,time,field5,"PAST",documentid);
+                                        cmeitem2 c = new cmeitem2(field1, field2, Date, field3, field4,5,time,field5,"PAST",documentid,field6);
                                         int r4=Speciality.compareTo(field2);
                                         int r3=SubSpeciality.compareTo(subspeciality);
                                         int r2=Mode.compareTo(mode);

@@ -103,6 +103,7 @@ public class OngoingFragmentCreated extends Fragment {
                                     int r1 = parsedDate.compareTo(currentDate);
                                     if ((r <= 0) && (r1 == 0)) {
                                         String field3 = ((String) dataMap.get("CME Title"));
+                                        String field6 = ((String) dataMap.get("Mode"));
                                         List<String> presenters = (List<String>) dataMap.get("CME Presenter");
                                         String field4=presenters.get(0);
                                         String end=((String) dataMap.get("endtime"));
@@ -116,7 +117,7 @@ public class OngoingFragmentCreated extends Fragment {
                                         int r2=field5.compareTo(userPhoneNumber);
                                         if (end==null) {
                                             if (r2==0) {
-                                                cmeitem4 c = new cmeitem4(field1, field2, Date, field3, field4, 5, time, field5, "LIVE", documentid);
+                                                cmeitem4 c = new cmeitem4(field1, field2, Date, field3, field4, 5, time, field5, "LIVE", documentid,field6);
                                                 items1.add(c);
                                             }
                                         }

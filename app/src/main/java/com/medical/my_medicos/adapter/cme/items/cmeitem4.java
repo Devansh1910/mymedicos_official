@@ -1,18 +1,19 @@
 package com.medical.my_medicos.adapter.cme.items;
 public class cmeitem4 {
 
-    String docname,docpos,doctitle,docpresenter,date,time,email,type,documentid;
+    String docname,docpos,doctitle,docpresenter,date,time,email,type,documentid,mode;
     int imageview;
 
 
 
-    public cmeitem4(String docname, String docpos, String date, String doctitle, String docpresenter,int imageview,String time,String email,String type,String documentid) {
+    public cmeitem4(String docname, String docpos, String date, String doctitle, String docpresenter,int imageview,String time,String email,String type,String documentid,String mode) {
         this.docname = docname;
         this.docpos = docpos;
 //        this.imageview = imageview;
         this.doctitle=doctitle;
         this.email=email;
         this.type=type;
+        this.mode=mode;
         this.date=date;
         this.time=time;
         this.docpresenter=docpresenter;
@@ -38,9 +39,9 @@ public class cmeitem4 {
     public String getType() {
         return type;
     }
-
-
-
+    public String getMode() {
+        return mode;
+    }
 
     public void setDocname(String docname) {
         this.docname = docname;

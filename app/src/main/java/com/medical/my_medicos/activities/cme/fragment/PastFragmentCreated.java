@@ -108,6 +108,7 @@ public class PastFragmentCreated extends Fragment {
                                     int r1 = parsedDate.compareTo(currentDate);
                                     if ((r1 <= 0)) {
                                         String field3 = ((String) dataMap.get("CME Title"));
+                                        String field6 = ((String) dataMap.get("Mode"));
                                         List<String> presenters = (List<String>) dataMap.get("CME Presenter");
                                         String field4=presenters.get(0);
                                         String field1 = (String) dataMap.get("CME Organiser");
@@ -122,7 +123,7 @@ public class PastFragmentCreated extends Fragment {
 
                                         if (end!=null) {
                                             if (r2==0) {
-                                                cmeitem2 c = new cmeitem2(field1, field2, Date, field3, field4, 5, time, field5, "PAST", documentid);
+                                                cmeitem2 c = new cmeitem2(field1, field2, Date, field3, field4, 5, time, field5, "PAST", documentid,field6);
 
                                                 myitem.add(c);
                                             }
@@ -132,6 +133,7 @@ public class PastFragmentCreated extends Fragment {
 
                                     } else if ((r < 0)&& (r1 == 0)){
                                         String field3 = ((String) dataMap.get("CME Title"));
+                                        String field6 = ((String) dataMap.get("Mode"));
                                         String field4 = ((String) dataMap.get("CME Presenter"));
                                         String field1 = (String) dataMap.get("CME Organiser");
                                         String field2;
@@ -141,7 +143,7 @@ public class PastFragmentCreated extends Fragment {
                                         String Date=((String) dataMap.get("Selected Date"));
                                         String documentid=((String) dataMap.get("documentId"));
                                         String end=((String) dataMap.get("endtime"));
-                                        cmeitem2 c = new cmeitem2(field1, field2, Date, field3, field4,5,time,field5,"PAST",documentid);
+                                        cmeitem2 c = new cmeitem2(field1, field2, Date, field3, field4,5,time,field5,"PAST",documentid,field6);
                                         if (end!=null) {
                                             myitem.add(c);
 

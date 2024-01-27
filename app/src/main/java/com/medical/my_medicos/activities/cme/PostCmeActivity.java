@@ -107,12 +107,12 @@ public class PostCmeActivity extends AppCompatActivity {
     private SimpleDateFormat dateFormat, timeFormat;
     static final int REQ = 1;
     private Uri pdfData;
-    TextView room;
+    TextView room,offlineroom;
     private DatabaseReference databasereference;
     private StorageReference storageReference;
     private TextView addPdf, uploadPdfBtn;
     String downloadUrl = null;
-    LinearLayout cmeholderplace;
+    LinearLayout cmeholderplace,cmevirtuallinkholder;
     private ProgressDialog pd;
     private String pdfName;
     private String currentuserSpeciality;
@@ -154,7 +154,9 @@ public class PostCmeActivity extends AppCompatActivity {
 
         addPdf = findViewById(R.id.addPdf);
         room = findViewById(R.id.room);
+        offlineroom = findViewById(R.id.offlineroom);
         room.setVisibility(View.GONE);
+        offlineroom.setVisibility(View.GONE);
         String current = user.getPhoneNumber();
         Log.d("PhONE number", current);
 
@@ -291,6 +293,7 @@ public class PostCmeActivity extends AppCompatActivity {
 
         cmevenu = findViewById(R.id.cme_venu);
         virtuallink = findViewById(R.id.cme_virtuallink);
+        cmevirtuallinkholder = findViewById(R.id.cmevirtuallinkholder);
         cme_place = findViewById(R.id.cme_place);
         cmeholderplace = findViewById(R.id.cmeholderplace);
 
@@ -362,13 +365,17 @@ public class PostCmeActivity extends AppCompatActivity {
                 if (selectedMode.equals("Online")) {
                     // Show the virtual link EditText and hide the place EditText
                     virtuallink.setVisibility(View.VISIBLE);
+                    cmevirtuallinkholder.setVisibility(View.VISIBLE);
                     room.setVisibility(View.VISIBLE);
+                    offlineroom.setVisibility(View.GONE);
                     cmeholderplace.setVisibility(View.GONE);
                     cme_place.setVisibility(View.GONE);
                 } else if (selectedMode.equals("Offline")) {
                     // Show the place EditText and hide the virtual link EditText
                     virtuallink.setVisibility(View.GONE);
+                    cmevirtuallinkholder.setVisibility(View.GONE);
                     room.setVisibility(View.GONE);
+                    offlineroom.setVisibility(View.VISIBLE);
                     cme_place.setVisibility(View.VISIBLE);
                     cmeholderplace.setVisibility(View.VISIBLE);
                 }
