@@ -37,11 +37,11 @@
         android:id="@+id/frame_layout_slideshow"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        app:layout_constraintBottom_toTopOf="@+id/bottomappabarug"
+        app:layout_constraintBottom_toTopOf="@+id/bottomappabarpg"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/specialitytoolbar_container"
-        tools:ignore="UnknownIdInLayout">
+        app:layout_constraintTop_toBottomOf="@+id/specialitytoolbar_container">
+
     </FrameLayout>
 
 <!--    <androidx.cardview.widget.CardView-->

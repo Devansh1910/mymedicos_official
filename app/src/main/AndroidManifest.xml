@@ -26,6 +26,9 @@
         tools:replace="android:label"
         tools:targetApi="31">
         <activity
+            android:name=".activities.ug.SearchUGActivity"
+            android:exported="false" />
+        <activity
             android:name=".activities.slideshow.SlideshareFormActivity"
             android:exported="false" />
         <activity
@@ -284,9 +287,6 @@
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
-        <activity
-            android:name=".activities.utils.ConstantsDashboard"
-            android:exported="false" />
         <activity
             android:name=".activities.login.GetstartedActivity"
             android:exported="false" />

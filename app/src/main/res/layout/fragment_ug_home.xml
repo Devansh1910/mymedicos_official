@@ -24,29 +24,25 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:paddingVertical="@dimen/_5ssp"
-            android:paddingHorizontal="@dimen/_10ssp"
+            android:paddingHorizontal="@dimen/_5ssp"
             android:layout_height="wrap_content">
 
             <TextView
-                android:layout_width="0dp"
-                android:layout_weight="1"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Popular Resourses"
+                android:text="Published Resources"
                 android:textSize="@dimen/_12ssp"
+                android:paddingRight="@dimen/_5sdp"
                 android:textStyle="bold" />
 
-            <TextView
+            <com.google.android.material.divider.MaterialDivider
                 android:layout_width="0dp"
-                android:layout_weight="1"
                 android:layout_height="wrap_content"
-                android:text="@string/view_all"
-                android:drawablePadding="@dimen/_8ssp"
-                android:layout_gravity="center"
-                android:gravity="end"
-                android:textColor="#676666"
-                android:textSize="@dimen/_12ssp"
-                android:textStyle="bold"
-                app:drawableEndCompat="@drawable/sidearrow" />
+                app:dividerThickness="@dimen/_2sdp"
+                android:layout_gravity="center_vertical"
+                android:layout_weight="1"/>
+
+
         </LinearLayout>
 
         <androidx.recyclerview.widget.RecyclerView

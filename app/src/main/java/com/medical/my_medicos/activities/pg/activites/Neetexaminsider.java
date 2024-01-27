@@ -92,6 +92,7 @@ public class Neetexaminsider extends AppCompatActivity {
 
                         if (r==0 && speciality.equals(str1)) {
                             ArrayList<Map<String, Object>> dataList = (ArrayList<Map<String, Object>>) document.get("Data");
+                            quizList1.clear();
                             if (dataList != null) {
                                 for (Map<String, Object> entry : dataList) {
                                     String question = (String) entry.get("Question");
@@ -380,19 +381,3 @@ public class Neetexaminsider extends AppCompatActivity {
         return results;
     }
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

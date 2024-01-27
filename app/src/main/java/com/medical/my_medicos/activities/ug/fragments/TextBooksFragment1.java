@@ -29,7 +29,7 @@ public class TextBooksFragment1 extends Fragment {
     RecyclerView recyclerView;
     String title;
     String pdf;
-    private String field1, field2, field3, field4;
+    private String field1, field2, field3, field4,field6,field7;
 
     @SuppressLint("MissingInflatedId")
     @Override
@@ -39,10 +39,14 @@ public class TextBooksFragment1 extends Fragment {
         Bundle args = getArguments();
         if (args != null) {
             title = args.getString("Title");
-            Log.d("Title",title);
-            // Use the 'title' as needed in RegularFragment
+            Log.d("Title", title);
         }
 
+        refreshData();
+        return view;
+    }
+
+    public void refreshData() {
         List<ugitem1> items = new ArrayList<>();
 
         FirebaseFirestore dc = FirebaseFirestore.getInstance();
@@ -55,35 +59,33 @@ public class TextBooksFragment1 extends Fragment {
                         if (task.isSuccessful()) {
                             for (QueryDocumentSnapshot document : task.getResult()) {
                                 Map<String, Object> dataMap = document.getData();
-                                String Category = (String) dataMap.get("Type");
+                                String category = (String) dataMap.get("Type");
 
-                                // Check if the job type is "Loccum" and speciality is "YourSpeciality"
-                                if ("TextBook".equalsIgnoreCase(Category)) {
+                                if ("TextBook".equalsIgnoreCase(category)) {
                                     field3 = ((String) dataMap.get("UG Title"));
                                     field4 = ((String) dataMap.get("UG Description"));
                                     field1 = (String) dataMap.get("UG Organiser");
                                     field2 = ((String) dataMap.get("Speciality"));
-                                    String field5=((String) dataMap.get("Date"));
-                                    pdf=((String) dataMap.get("pdf"));
+                                    field6 = ((String) dataMap.get("User"));
+                                    Long downloadsValue = (Long) dataMap.get("Downloads");
+                                    field7 = String.valueOf(downloadsValue);
+                                    String field5 = ((String) dataMap.get("Date"));
+                                    pdf = ((String) dataMap.get("pdf"));
 
-                                    int a=field2.compareTo(title);
-                                    if (a==0) {
-
-                                        ugitem1 u = new ugitem1(field1, field2, pdf, field3, field4, field5);
+                                    int a = field2.compareTo(title);
+                                    if (a == 0) {
+                                        ugitem1 u = new ugitem1(field1, field2, pdf, field3, field4, field5,field6,field7);
                                         items.add(u);
                                     }
-
                                 }
                             }
                             recyclerView.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false));
-
                             recyclerView.setAdapter(new UgAdapter1(getContext(), items));
                         } else {
-                            Log.d("LocumFragment", "Error getting documents: ", task.getException());
+                            Log.d("TextBooksFragment1", "Error getting documents: ", task.getException());
                         }
                     }
                 });
-
-        return view;
     }
 }
+

@@ -16,10 +16,13 @@ import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -29,14 +32,16 @@ import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
+import androidx.core.content.ContextCompat;
 
-import com.medical.my_medicos.R;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
+import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -45,6 +50,8 @@ import com.google.firebase.firestore.QuerySnapshot;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
+import com.medical.my_medicos.R;
+import com.medical.my_medicos.activities.home.sidedrawer.extras.BottomSheetForChatWithUs;
 
 import java.io.File;
 import java.text.SimpleDateFormat;
@@ -52,7 +59,6 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Calendar;
 import java.util.HashMap;
-import java.util.Locale;
 import java.util.Map;
 
 public class UgPostInsiderActivity extends AppCompatActivity {
@@ -62,14 +68,14 @@ public class UgPostInsiderActivity extends AppCompatActivity {
     static final int REQ = 1;
     private Uri pdfData;
     private String pdfName;
-    String field3,field4;
+    String field3, field4;
     String downloadUrl;
     EditText ugtitle, ugorg, ugvenu;
     Button postug;
     public FirebaseDatabase db = FirebaseDatabase.getInstance();
     FirebaseFirestore dc = FirebaseFirestore.getInstance();
     private Spinner subspecialitySpinner;
-    private Spinner specialitySpinner,ugtypeSpinner,ugcitySpinner;
+    private Spinner specialitySpinner, ugtypeSpinner, ugcitySpinner;
     String subspecialities1;
     public DatabaseReference ugref = db.getReference().child("UG's");
     private ProgressDialog progressDialog;
@@ -84,7 +90,7 @@ public class UgPostInsiderActivity extends AppCompatActivity {
     private ArrayAdapter<CharSequence> subspecialityAdapter;
     private CardView btnAccessStorage;
     private Button uploadpdfbtnjobs;
-    private TextView addPdf,uploadPdfBtn;
+    private TextView addPdf, uploadPdfBtn;
     private DatabaseReference databasereference;
     private StorageReference storageReference;
 
@@ -93,12 +99,45 @@ public class UgPostInsiderActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_ug_post_insider);
-//        uploadpdfbtnjobs = findViewById(R.id.uploadpdfbtnug);
         addPdf = findViewById(R.id.addPdfjobs);
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            View decorView = getWindow().getDecorView();
+            decorView.setSystemUiVisibility(decorView.getSystemUiVisibility() | View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);
+        }
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            Window window = getWindow();
+            window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
+            window.setStatusBarColor(ContextCompat.getColor(this, R.color.backgroundcolor));
+            window.setNavigationBarColor(ContextCompat.getColor(this, R.color.backgroundcolor));
+        }
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            View decorView = getWindow().getDecorView();
+            decorView.setSystemUiVisibility(decorView.getSystemUiVisibility() | View.SYSTEM_UI_FLAG_LIGHT_NAVIGATION_BAR);
+        }
+
+        ImageView backArrow = findViewById(R.id.backbtn);
+        backArrow.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent i = new Intent(UgPostInsiderActivity.this, UgExamActivity.class);
+                startActivity(i);
+                finish();
+            }
+        });
+
+        TextView whatsappLayout = findViewById(R.id.connectwithus);
+        whatsappLayout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                openBottomSheet();
+            }
+        });
+
         databasereference = FirebaseDatabase.getInstance().getReference();
         storageReference = FirebaseStorage.getInstance().getReference();
-
-
 
         addPdf = findViewById(R.id.addPdfug);
 
@@ -109,28 +148,24 @@ public class UgPostInsiderActivity extends AppCompatActivity {
         });
         pd = new ProgressDialog(this);
 
-
-
         calendar = Calendar.getInstance();
-        dateFormat = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
-        timeFormat = new SimpleDateFormat("HH:mm", Locale.getDefault());
+        dateFormat = new SimpleDateFormat("yyyy-MM-dd", java.util.Locale.getDefault());
+        timeFormat = new SimpleDateFormat("HH:mm:ss", java.util.Locale.getDefault());
 
         progressDialog = new ProgressDialog(this);
 
         specialitySpinner = findViewById(R.id.ugspeciality);
         subspecialitySpinner = findViewById(R.id.ugsubspeciality);
-        ugtypeSpinner=findViewById(R.id.ugtype);
+        ugtypeSpinner = findViewById(R.id.ugtype);
         ugAdapter = ArrayAdapter.createFromResource(this,
                 R.array.ugtype, android.R.layout.simple_spinner_item);
         ugAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         ugtypeSpinner.setAdapter(ugAdapter);
-        ugcitySpinner=findViewById(R.id.ugcity);
+        ugcitySpinner = findViewById(R.id.ugcity);
         ArrayAdapter<CharSequence> myadapter = ArrayAdapter.createFromResource(this,
                 R.array.indian_cities, android.R.layout.simple_spinner_item);
         myadapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         ugcitySpinner.setAdapter(myadapter);
-
-
 
         specialityAdapter = ArrayAdapter.createFromResource(this,
                 R.array.speciality, android.R.layout.simple_spinner_item);
@@ -140,12 +175,10 @@ public class UgPostInsiderActivity extends AppCompatActivity {
         subspecialityAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item);
         subspecialityAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         subspecialitySpinner.setAdapter(subspecialityAdapter);
-        // Initially, hide the subspeciality spinner
         subspecialitySpinner.setVisibility(View.GONE);
         specialitySpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int position, long l) {
-                // Check if the selected speciality has subspecialities
                 int specialityIndex = specialitySpinner.getSelectedItemPosition();
                 if (specialityIndex >= 0 && specialityIndex < subspecialities.length && subspecialities[specialityIndex].length > 0) {
                     String[] subspecialityArray = subspecialities[specialityIndex];
@@ -154,7 +187,6 @@ public class UgPostInsiderActivity extends AppCompatActivity {
                     for (String subspeciality : subspecialityArray) {
                         subspecialityAdapter.add(subspeciality);
                     }
-                    // Show the subspeciality spinner
                     subspecialitySpinner.setVisibility(View.VISIBLE);
                     subspecialitySpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
                         @Override
@@ -162,19 +194,19 @@ public class UgPostInsiderActivity extends AppCompatActivity {
                             subspecialities1 = subspecialitySpinner.getSelectedItem().toString();
 
                         }
+
                         @Override
                         public void onNothingSelected(AdapterView<?> adapterView) {
 
                         }
                     });
                 } else {
-                    // Hide the subspeciality spinner
                     subspecialitySpinner.setVisibility(View.GONE);
                 }
             }
+
             @Override
             public void onNothingSelected(AdapterView<?> adapterView) {
-                // Do nothing
             }
         });
         dc.collection("users").get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
@@ -186,16 +218,15 @@ public class UgPostInsiderActivity extends AppCompatActivity {
                         field3 = ((String) dataMap.get("Phone Number"));
                         boolean areEqualIgnoreCase = current.equalsIgnoreCase(field3);
                         Log.d("vivek", String.valueOf(areEqualIgnoreCase));
-                        int r=current.compareTo(field3);
-                        if (r==0){
+                        int r = current.compareTo(field3);
+                        if (r == 0) {
                             field4 = ((String) dataMap.get("Name"));
-                            Log.d("veefe",field4);
+                            Log.d("veefe", field4);
                             ugorg.setText(field4);
                         }
 
                     }
                 } else {
-                    // Handle the error
                     Toast.makeText(UgPostInsiderActivity.this, "Error fetching data from Firebase Firestore", Toast.LENGTH_SHORT).show();
                 }
             }
@@ -213,22 +244,19 @@ public class UgPostInsiderActivity extends AppCompatActivity {
         uploadPdfBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(pdfData == null){
+                if (pdfData == null) {
                     Toast.makeText(UgPostInsiderActivity.this, "Select a Document", Toast.LENGTH_SHORT).show();
-                }else{
+                } else {
                     uploadPdf();
                 }
             }
         });
 
-
-        // Initialize the charCount TextView
         TextView charCount = findViewById(R.id.char_counter);
-
-        // Add a TextWatcher to the cmevenu EditText for character counting and button enabling/disabling
         ugvenu.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
             }
 
             @Override
@@ -236,15 +264,13 @@ public class UgPostInsiderActivity extends AppCompatActivity {
                 int currentCount = charSequence.length();
                 charCount.setText(currentCount + "/" + MAX_CHARACTERS);
 
-                // You can change the color of the charCount TextView based on the character count
                 if (currentCount > MAX_CHARACTERS) {
                     charCount.setTextColor(Color.RED);
-                    postug.setEnabled(false); // Disable the "Post" button
-                    // Add a Toast message to notify the user
+                    postug.setEnabled(false);
                     Toast.makeText(UgPostInsiderActivity.this, "Character limit exceeded (2000 characters max)", Toast.LENGTH_SHORT).show();
                 } else {
                     charCount.setTextColor(Color.DKGRAY);
-                    postug.setEnabled(true); // Enable the "Post" button
+                    postug.setEnabled(true);
                 }
             }
 
@@ -253,7 +279,6 @@ public class UgPostInsiderActivity extends AppCompatActivity {
             }
         });
 
-        // Disable the "Post" button initially
         postug.setEnabled(false);
 
         postug.setOnClickListener(new View.OnClickListener() {
@@ -266,13 +291,11 @@ public class UgPostInsiderActivity extends AppCompatActivity {
         });
     }
 
+    private void openBottomSheet() {
+        BottomSheetDialogFragment bottomSheetFragment = new BottomSheetForChatWithUs();
 
-
-
-
-
-
-
+        bottomSheetFragment.show(getSupportFragmentManager(), bottomSheetFragment.getTag());
+    }
 
     @RequiresApi(api = Build.VERSION_CODES.O)
     public void postUG() {
@@ -294,11 +317,10 @@ public class UgPostInsiderActivity extends AppCompatActivity {
         }
 
         if (venu.length() > MAX_CHARACTERS) {
-            // Display an error message if the content exceeds the limit
             ugvenu.setError("Character limit exceeded");
             return;
         } else {
-            ugvenu.setError(null); // Clear any previous error
+            ugvenu.setError(null);
         }
 
         Spinner ugspecialitySpinner = findViewById(R.id.ugspeciality);
@@ -306,13 +328,14 @@ public class UgPostInsiderActivity extends AppCompatActivity {
         String type = ugtypeSpinner.getSelectedItem().toString();
         String city = ugcitySpinner.getSelectedItem().toString();
 
-
         LocalDateTime currentDateTime = LocalDateTime.now();
         DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
         DateTimeFormatter timeFormatter = DateTimeFormatter.ofPattern("HH:mm:ss");
         String formattedDate = currentDateTime.format(dateFormatter);
         String formattedTime = currentDateTime.format(timeFormatter);
 
+        // Add this line to initialize downloads count to 0
+        int initialDownloads = 0;
 
         HashMap<String, Object> usermap = new HashMap<>();
         usermap.put("UG Title", title);
@@ -320,12 +343,14 @@ public class UgPostInsiderActivity extends AppCompatActivity {
         usermap.put("UG Description", venu);
         usermap.put("User", current);
         usermap.put("Date", formattedDate);
-        usermap.put("Time",formattedTime);
+        usermap.put("Time", formattedTime);
         usermap.put("Speciality", speciality);
-        usermap.put("SubSpeciality",subspecialities1);
-        usermap.put("Type",type);
-        usermap.put("City",city);
-        usermap.put("pdf",downloadUrl);
+        usermap.put("SubSpeciality", subspecialities1);
+        usermap.put("Type", type);
+        usermap.put("City", city);
+        usermap.put("pdf", downloadUrl);
+        // Add this line to set the initial Downloads count
+        usermap.put("Downloads", initialDownloads);
 
         progressDialog.setMessage("Posting...");
         progressDialog.show();
@@ -344,22 +369,36 @@ public class UgPostInsiderActivity extends AppCompatActivity {
             }
         });
     }
+
+    private void incrementDownloadsCount() {
+        ugref.orderByChild("pdf").equalTo(downloadUrl).get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<DataSnapshot> task) {
+                if (task.isSuccessful()) {
+                    for (DataSnapshot dataSnapshot : task.getResult().getChildren()) {
+                        int currentDownloads = dataSnapshot.child("Downloads").getValue(Integer.class);
+                        currentDownloads++;
+                        dataSnapshot.getRef().child("Downloads").setValue(currentDownloads);
+                    }
+                }
+            }
+        });
+    }
+
     private void uploadData(String valueOf) {
         String uniqueKey = databasereference.child("pdf").push().getKey();
         HashMap data = new HashMap();
-        data.put("pdfUrl",downloadUrl);
+        data.put("pdfUrl", downloadUrl);
 
         databasereference.child("pdf").child(uniqueKey).setValue(data).addOnCompleteListener(new OnCompleteListener<Void>() {
             @Override
             public void onComplete(@NonNull Task<Void> task) {
-
                 Toast.makeText(UgPostInsiderActivity.this, "Pdf Uploaded Successfully", Toast.LENGTH_SHORT).show();
                 ugtitle.setText("");
             }
         }).addOnFailureListener(new OnFailureListener() {
             @Override
             public void onFailure(@NonNull Exception e) {
-
                 Toast.makeText(UgPostInsiderActivity.this, "Failed to upload!", Toast.LENGTH_SHORT).show();
             }
         });
@@ -370,6 +409,7 @@ public class UgPostInsiderActivity extends AppCompatActivity {
         intent.setType("*/*");
         startActivityForResult(Intent.createChooser(intent, "Select File"), REQ);
     }
+
     @SuppressLint("Range")
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
@@ -411,9 +451,6 @@ public class UgPostInsiderActivity extends AppCompatActivity {
                         downloadUrl = String.valueOf(uri);
                         uploadData(String.valueOf(uri));
                         pd.dismiss();
-
-                        // Call postUG() after successful upload and getting downloadUrl
-
                     }
                 });
             }
@@ -425,7 +462,4 @@ public class UgPostInsiderActivity extends AppCompatActivity {
             }
         });
     }
-
-
-
 }

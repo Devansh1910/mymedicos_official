@@ -61,14 +61,14 @@
 
                     </LinearLayout>
 
-                    <ImageView
-                        android:id="@+id/cart_icon"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:gravity="center"
-                        android:layout_gravity="center"
-                        android:src="@drawable/questionpart"
-                        android:contentDescription="@null"/>
+<!--                    <ImageView-->
+<!--                        android:id="@+id/cart_icon"-->
+<!--                        android:layout_width="wrap_content"-->
+<!--                        android:layout_height="wrap_content"-->
+<!--                        android:gravity="center"-->
+<!--                        android:layout_gravity="center"-->
+<!--                        android:src="@drawable/questionpart"-->
+<!--                        android:contentDescription="@null"/>-->
 
                     </LinearLayout>
             </androidx.appcompat.widget.Toolbar>
@@ -82,8 +82,8 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:paddingVertical="@dimen/_10ssp"
-                android:layout_marginBottom="@dimen/_5ssp"
+                android:paddingHorizontal="@dimen/_5sdp"
+                android:paddingVertical="@dimen/_8ssp"
                 android:orientation="horizontal">
 
                 <Spinner
@@ -146,32 +146,29 @@
                     android:layout_height="wrap_content"
                     android:orientation="vertical">
 
-                    <ViewFlipper
+                    <androidx.cardview.widget.CardView
                         android:layout_width="match_parent"
-                        android:layout_height="@dimen/_140sdp"
-                        android:autoStart="true"
-                        android:layout_marginHorizontal="@dimen/_5ssp"
-                        android:flipInterval="5000">
+                        android:layout_height="wrap_content"
+                        android:layout_marginHorizontal="8dp"
+                        app:cardCornerRadius="@dimen/_15ssp">
 
-                        <ImageView
-                            android:layout_width="wrap_content"
+                        <androidx.cardview.widget.CardView
+                            android:layout_width="match_parent"
+                            android:paddingVertical="4dp"
                             android:layout_height="wrap_content"
-                            android:src="@drawable/dc2"
-                            android:scaleType="centerCrop"/>
+                            app:cardCornerRadius="10dp">
 
-                        <ImageView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:src="@drawable/dc3"
-                            android:scaleType="centerCrop"/>
+                            <org.imaginativeworld.whynotimagecarousel.ImageCarousel
+                                android:id="@+id/cmecarousel"
+                                android:layout_width="match_parent"
+                                android:layout_height="150dp"
+                                app:showNavigationButtons="false"
+                                app:showCaption="false"
+                                app:autoPlay="true"/>
 
-                        <ImageView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:src="@drawable/doctorimg1"
-                            android:scaleType="centerCrop"/>
+                        </androidx.cardview.widget.CardView>
 
-                    </ViewFlipper>
+                    </androidx.cardview.widget.CardView>
 
                     <com.google.android.material.tabs.TabLayout
                         android:layout_width="match_parent"

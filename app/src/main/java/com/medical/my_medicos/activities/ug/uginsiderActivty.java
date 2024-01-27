@@ -14,12 +14,12 @@ import androidx.fragment.app.FragmentActivity;
 import androidx.viewpager2.adapter.FragmentStateAdapter;
 import androidx.viewpager2.widget.ViewPager2;
 
-import com.medical.my_medicos.R;
-import com.medical.my_medicos.activities.ug.fragments.ResourcesFragment;
-import com.medical.my_medicos.activities.ug.fragments.TextBooksFragment1;
 import com.google.android.material.tabs.TabLayout;
 import com.google.android.material.tabs.TabLayoutMediator;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.medical.my_medicos.R;
+import com.medical.my_medicos.activities.ug.fragments.ResourcesFragment;
+import com.medical.my_medicos.activities.ug.fragments.TextBooksFragment1;
 
 public class uginsiderActivty extends AppCompatActivity {
     String Title1;
@@ -44,7 +44,6 @@ public class uginsiderActivty extends AppCompatActivity {
             actionBar.setHomeAsUpIndicator(R.drawable.arrowbackforappbar);
         }
 
-
         // Get the title from the intent
         Intent intent = getIntent();
         if (intent != null) {
@@ -56,7 +55,7 @@ public class uginsiderActivty extends AppCompatActivity {
         }
 
         viewpagerjobs = findViewById(R.id.view_pager_jobs);
-        viewpagerjobs.setAdapter(new com.medical.my_medicos.activities.ug.uginsiderActivty.ViewPagerAdapterJobs(this, Title1)); // Pass Title1 to the adapter
+        viewpagerjobs.setAdapter(new ViewPagerAdapterJobs(this, Title1)); // Pass Title1 to the adapter
 
         pagerjobs = findViewById(R.id.view_pager_jobs);
         tabLayoutjobs = findViewById(R.id.tablayout);
@@ -70,6 +69,44 @@ public class uginsiderActivty extends AppCompatActivity {
                     break;
             }
         }).attach();
+
+        // Add a listener to the TabLayout to refresh data when a tab is selected
+        tabLayoutjobs.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
+            @Override
+            public void onTabSelected(TabLayout.Tab tab) {
+                // Refresh data for the selected tab when it is selected
+                refreshDataForTab(tab.getPosition());
+            }
+
+            @Override
+            public void onTabUnselected(TabLayout.Tab tab) {
+                // Do nothing when a tab is unselected
+            }
+
+            @Override
+            public void onTabReselected(TabLayout.Tab tab) {
+                // Do nothing when a tab is reselected
+            }
+        });
+    }
+
+    private void refreshDataForTab(int tabPosition) {
+        // Refresh data based on the selected tab position
+        // You may need to modify this based on how your data is fetched
+        switch (tabPosition) {
+            case 0:
+                TextBooksFragment1 textBooksFragment = (TextBooksFragment1) getSupportFragmentManager().findFragmentByTag("f0");
+                if (textBooksFragment != null) {
+                    textBooksFragment.refreshData();
+                }
+                break;
+            case 1:
+                ResourcesFragment resourcesFragment = (ResourcesFragment) getSupportFragmentManager().findFragmentByTag("f1");
+                if (resourcesFragment != null) {
+                    resourcesFragment.refreshData();
+                }
+                break;
+        }
     }
 
     class ViewPagerAdapterJobs extends FragmentStateAdapter {
@@ -105,6 +142,8 @@ public class uginsiderActivty extends AppCompatActivity {
             return 2;
         }
     }
+
+    @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case android.R.id.home:
@@ -114,5 +153,4 @@ public class uginsiderActivty extends AppCompatActivity {
                 return super.onOptionsItemSelected(item);
         }
     }
-
 }

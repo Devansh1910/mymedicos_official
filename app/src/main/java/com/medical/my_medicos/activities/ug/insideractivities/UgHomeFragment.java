@@ -37,7 +37,7 @@ public class UgHomeFragment extends Fragment {
     private RecyclerView recyclerView;
     RecyclerView recyclerView2;
     private FirebaseFirestore db= FirebaseFirestore.getInstance();
-    private String field1, field2, field3, field4;
+    private String field1, field2, field3, field4,field6,field7;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
@@ -67,10 +67,10 @@ public class UgHomeFragment extends Fragment {
     }
 
     private void fetchData() {
+
         List<ugitem1> items = new ArrayList<>();
         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
             Query query = db.collection("UGConfirm");
-
             query.get()
                     .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                         @Override
@@ -79,15 +79,17 @@ public class UgHomeFragment extends Fragment {
                                 for (QueryDocumentSnapshot document : task.getResult()) {
                                     Map<String, Object> dataMap = document.getData();
 
-
                                     field3 = ((String) dataMap.get("UG Title"));
                                     field4 = ((String) dataMap.get("UG Description"));
                                     field1 = (String) dataMap.get("UG Organiser");
                                     field2 = ((String) dataMap.get("Speciality"));
+                                    field6 = ((String) dataMap.get("User"));
+                                    Long downloadsValue = (Long) dataMap.get("Downloads");
+                                    field7 = String.valueOf(downloadsValue);
                                     String field5=((String) dataMap.get("Date"));
                                     String pdf=((String) dataMap.get("pdf"));
 
-                                    ugitem1 u = new ugitem1(field1, field2, pdf, field3, field4,field5);
+                                    ugitem1 u = new ugitem1(field1, field2, pdf, field3, field4,field5,field6,field7);
                                     items.add(u);
 
 

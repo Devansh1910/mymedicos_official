@@ -4,12 +4,15 @@ import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
+import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -21,6 +24,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
 import androidx.recyclerview.widget.RecyclerView;
@@ -28,6 +32,10 @@ import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 import androidx.viewpager2.adapter.FragmentStateAdapter;
 import androidx.viewpager2.widget.ViewPager2;
 
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
 import com.medical.my_medicos.R;
 import com.medical.my_medicos.activities.cme.fragment.OngoingFragment;
 import com.medical.my_medicos.activities.cme.fragment.PastFragment;
@@ -35,6 +43,9 @@ import com.medical.my_medicos.activities.cme.fragment.UpcomingFragment;
 import com.medical.my_medicos.activities.guide.CmeGuideActivity;
 import com.medical.my_medicos.activities.guide.ProfileGuideActivity;
 import com.medical.my_medicos.activities.home.sidedrawer.HomeSideActivity;
+import com.medical.my_medicos.activities.utils.ConstantsDashboard;
+import com.medical.my_medicos.databinding.ActivityCmeBinding;
+import com.medical.my_medicos.databinding.ActivityNewsBinding;
 import com.medical.my_medicos.list.subSpecialitiesData;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
@@ -50,8 +61,18 @@ import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.google.firebase.messaging.FirebaseMessaging;
 
+import org.imaginativeworld.whynotimagecarousel.ImageCarousel;
+import org.imaginativeworld.whynotimagecarousel.model.CarouselItem;
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.util.List;
+import java.util.Map;
+
 public class CmeActivity extends AppCompatActivity {
     FloatingActionButton floatingActionButton;
+    ActivityCmeBinding binding;
     Button OK;
     RecyclerView recyclerView;
     private ViewPager2 pager,viewpager;
@@ -72,6 +93,25 @@ public class CmeActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_cme);
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            View decorView = getWindow().getDecorView();
+            decorView.setSystemUiVisibility(decorView.getSystemUiVisibility() | View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);
+        }
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            Window window = getWindow();
+            window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
+            window.setStatusBarColor(ContextCompat.getColor(this, R.color.backgroundcolor));
+            window.setNavigationBarColor(ContextCompat.getColor(this, R.color.backgroundcolor));
+        }
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            View decorView = getWindow().getDecorView();
+            decorView.setSystemUiVisibility(decorView.getSystemUiVisibility() | View.SYSTEM_UI_FLAG_LIGHT_NAVIGATION_BAR);
+        }
+
+
         OK = findViewById(R.id.ok);
         OK.setBackgroundColor(Color.GRAY);
 
@@ -80,14 +120,14 @@ public class CmeActivity extends AppCompatActivity {
         viewpager.setAdapter(new ViewPagerAdapter(this));
         swipeRefreshLayout = findViewById(R.id.swipe_refresh_layout);
 
-        cart_icon = findViewById(R.id.cart_icon);
-        cart_icon.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent i = new Intent(CmeActivity.this, CmeGuideActivity.class);
-                startActivity(i);
-            }
-        });
+//        cart_icon = findViewById(R.id.cart_icon);
+//        cart_icon.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                Intent i = new Intent(CmeActivity.this, CmeGuideActivity.class);
+//                startActivity(i);
+//            }
+//        });
         swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
@@ -225,7 +265,41 @@ public class CmeActivity extends AppCompatActivity {
         pager.setAdapter(new ViewPagerAdapter(this));
         fetchData();
 
+        ImageCarousel homecarousel = findViewById(R.id.cmecarousel);
+        initCmeSlider(homecarousel);
     }
+
+    private void initCmeSlider(ImageCarousel homecarousel) {
+        getsliderCme(homecarousel);
+    }
+
+    void getsliderCme(ImageCarousel homecarousel) {
+        RequestQueue queue = Volley.newRequestQueue(this);
+
+        StringRequest request = new StringRequest(Request.Method.GET, ConstantsDashboard.GET_CME_SLIDER_URL, response -> {
+            try {
+                JSONArray newssliderArray = new JSONArray(response);
+
+                for (int i = 0; i < newssliderArray.length(); i++) {
+                    JSONObject childObj = newssliderArray.getJSONObject(i);
+
+                    CarouselItem carouselItem = new CarouselItem(
+                            childObj.getString("url"),
+                            childObj.getString("action")
+                    );
+
+                    homecarousel.addData(carouselItem);
+                }
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        }, error -> {
+
+        });
+
+        queue.add(request);
+    }
+
     private void saveFcmTokenToFirestore(String fcmToken) {
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
         if (user != null) {

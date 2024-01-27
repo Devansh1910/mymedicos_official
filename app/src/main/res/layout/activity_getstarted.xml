@@ -3,74 +3,53 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:elevation="@dimen/_8sdp"
     android:orientation="vertical"
-    android:layout_gravity="center_vertical"
-    android:gravity="center">
+    android:background="@color/backgroundcolor"
+    android:paddingHorizontal="@dimen/_20sdp"
+    android:layout_gravity="center_vertical">
 
-    <RelativeLayout
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="100dp"
+        android:layout_gravity="center"
+        android:layout_marginVertical="@dimen/_20sdp"
+        android:padding="@dimen/_5sdp"
+        android:src="@drawable/logopfthenew"
+        app:layout_constraintBottom_toTopOf="@id/textforcoats"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="wrap_content"
+        android:layout_margin="16sp"
+        android:text="Connecting white coats"
+        android:layout_marginVertical="@dimen/_20sdp"
+        android:id="@+id/textforcoats"
+        app:layout_constraintBottom_toTopOf="@id/startButton"
+        android:fontFamily="@font/inter"
+        android:textAlignment="center"
+        android:textSize="@dimen/_20sdp"
+        android:textStyle="bold" />
 
-        <com.airbnb.lottie.LottieAnimationView
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            app:lottie_autoPlay="true"
-            android:scaleType="centerCrop"
-            app:lottie_loop="true"
-            app:lottie_rawRes="@raw/getstartedanime1"
-            app:lottie_speed="1" />
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
-            android:layout_gravity="center"
-            android:paddingHorizontal="@dimen/_16sdp"
-            android:paddingBottom="@dimen/_40sdp"
-            android:background="@drawable/getstartedmain"
-            android:gravity="center"
-            android:elevation="@dimen/_10ssp"
-            android:orientation="vertical">
-
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="100dp"
-                android:padding="@dimen/_5sdp"
-                android:layout_gravity="center"
-                android:src="@drawable/logopfthenew" />
-
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_margin="16sp"
-                android:text="Connecting white coats"
-                android:fontFamily="@font/inter"
-                android:textAlignment="center"
-                android:textSize="@dimen/_20sdp"
-                android:textStyle="bold" />
-
-
-            <TextView
-                android:id="@+id/startButton"
-                android:layout_width="match_parent"
-                android:layout_gravity="center"
-                android:gravity="center"
-                android:background="@drawable/categorydark"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:padding="@dimen/_14sdp"
-                android:shadowColor="#00DCE1E0"
-                android:text="Get Started"
-                android:fontFamily="@font/inter_extrabold"
-                android:textAllCaps="false"
-                android:textColor="@color/backgroundcolor"
-                android:textSize="@dimen/_16ssp"
-                android:textStyle="normal" />
-
-        </LinearLayout>
-
-    </RelativeLayout>
+    <TextView
+        android:id="@+id/startButton"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginVertical="@dimen/_20sdp"
+        android:fontFamily="@font/inter_extrabold"
+        android:gravity="center"
+        android:background="@drawable/bkforthelogo"
+        android:orientation="horizontal"
+        android:padding="@dimen/_14sdp"
+        android:shadowColor="#00DCE1E0"
+        android:text="Get Started"
+        android:textAllCaps="false"
+        android:textColor="@color/unselected"
+        android:textSize="@dimen/_16ssp"
+        android:textStyle="normal"
+        app:layout_constraintBottom_toBottomOf="parent" />
 
 </LinearLayout>

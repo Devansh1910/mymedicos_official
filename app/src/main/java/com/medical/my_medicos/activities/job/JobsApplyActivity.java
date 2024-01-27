@@ -8,14 +8,18 @@ import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Color;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.provider.OpenableColumns;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -23,7 +27,9 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
 
+import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
 import com.medical.my_medicos.R;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
@@ -40,6 +46,7 @@ import com.google.firebase.firestore.QuerySnapshot;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
+import com.medical.my_medicos.activities.home.sidedrawer.extras.BottomSheetForChatWithUs;
 
 import java.io.File;
 import java.util.HashMap;
@@ -78,12 +85,40 @@ public class JobsApplyActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_apply_jobs1);
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            View decorView = getWindow().getDecorView();
+            decorView.setSystemUiVisibility(decorView.getSystemUiVisibility() | View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);
+        }
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            Window window = getWindow();
+            window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
+            window.setStatusBarColor(ContextCompat.getColor(this, R.color.backgroundcolor));
+            window.setNavigationBarColor(ContextCompat.getColor(this, R.color.backgroundcolor));
+        }
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            View decorView = getWindow().getDecorView();
+            decorView.setSystemUiVisibility(decorView.getSystemUiVisibility() | View.SYSTEM_UI_FLAG_LIGHT_NAVIGATION_BAR);
+        }
+
+
+        ImageView backArrow = findViewById(R.id.backbtn);
+        backArrow.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent i = new Intent(JobsApplyActivity.this, JobsActivity.class);
+                startActivity(i);
+                finish();
+            }
+        });
+
         applicantname = findViewById(R.id.name);
         jobage = findViewById(R.id.Age);
         jobgender = findViewById(R.id.genderapplicant);
         jobcover = findViewById(R.id.cover);
         uploadpdfbtnjobs = findViewById(R.id.uploadpdfbtnjobs);
-
         addPdf = findViewById(R.id.addPdfjobs);
         //..............
         databasereference = FirebaseDatabase.getInstance().getReference();
@@ -151,7 +186,7 @@ public class JobsApplyActivity extends AppCompatActivity {
 
 
         applyjob = findViewById(R.id.post_btn2);
-        Log.d(receivedData,"abcdef");
+        Log.d(receivedData,"Something went wrong..");
 
         applyjob.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -161,10 +196,23 @@ public class JobsApplyActivity extends AppCompatActivity {
 
                 } catch (Exception e) {
                     e.printStackTrace();
-                    Log.d("abcdefg", String.valueOf(e));
+                    Log.d("Something went wrong...", String.valueOf(e));
                 }
             }
         });
+
+        TextView whatsappLayout = findViewById(R.id.connectwithus);
+        whatsappLayout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                openBottomSheet();
+            }
+        });
+    }
+    private void openBottomSheet() {
+        BottomSheetDialogFragment bottomSheetFragment = new BottomSheetForChatWithUs();
+
+        bottomSheetFragment.show(getSupportFragmentManager(), bottomSheetFragment.getTag());
     }
 
     private void uploadPdf() {
@@ -193,14 +241,13 @@ public class JobsApplyActivity extends AppCompatActivity {
     private void uploadData(String valueOf) {
         String uniqueKey = databasereference.child("pdf").push().getKey();
         HashMap data = new HashMap();
-        data.put("pdfUrl",downloadUrl);
+        data.put("pdfUrl", downloadUrl);
 
         databasereference.child("pdf").child(uniqueKey).setValue(data).addOnCompleteListener(new OnCompleteListener<Void>() {
             @Override
             public void onComplete(@NonNull Task<Void> task) {
                 pd.dismiss();
                 Toast.makeText(JobsApplyActivity.this, "Pdf Uploaded Successfully", Toast.LENGTH_SHORT).show();
-                applicantname.setText("");
             }
         }).addOnFailureListener(new OnFailureListener() {
             @Override
@@ -247,7 +294,6 @@ public class JobsApplyActivity extends AppCompatActivity {
             return;
         }
 
-
         String age = jobage.getText().toString().trim();
         String gender = jobgender.getSelectedItem().toString().trim();
         String cover = jobcover.getText().toString().trim();
@@ -275,7 +321,7 @@ public class JobsApplyActivity extends AppCompatActivity {
         usermap.put("Job pdf",downloadUrl);
         usermap.put("Jobid", Jobid);
 
-        Log.d(receivedData, "abcdef");
+        Log.d(receivedData, "Something went wrong..");
         dc.collection("JOBsApply")
                 .add(usermap)
                 .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
@@ -283,6 +329,10 @@ public class JobsApplyActivity extends AppCompatActivity {
                     public void onSuccess(DocumentReference documentReference) {
                         Toast.makeText(JobsApplyActivity.this, "Applied Successfully!", Toast.LENGTH_SHORT).show();
                         Log.d(TAG, "DocumentSnapshot written with ID: " + documentReference.getId());
+
+                        Intent intent = new Intent(JobsApplyActivity.this, JobsActivity.class);
+                        startActivity(intent);
+                        finish();
                     }
                 })
                 .addOnFailureListener(new OnFailureListener() {

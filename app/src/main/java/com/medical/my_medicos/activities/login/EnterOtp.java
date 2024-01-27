@@ -2,6 +2,7 @@
 
 package com.medical.my_medicos.activities.login;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
@@ -14,6 +15,7 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -39,6 +41,8 @@ public class EnterOtp extends AppCompatActivity {
     EditText input1, input2, input3, input4, input5, input6;
     Button submit;
     ProgressBar progressBar;
+
+    ImageView backtothephone;
     String getotpbackend;
 
     @Override
@@ -54,14 +58,24 @@ public class EnterOtp extends AppCompatActivity {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             Window window = getWindow();
             window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
-            window.setStatusBarColor(ContextCompat.getColor(this, R.color.blue));
-            window.setNavigationBarColor(ContextCompat.getColor(this, R.color.white));
+            window.setStatusBarColor(ContextCompat.getColor(this, R.color.backgroundcolor));
+            window.setNavigationBarColor(ContextCompat.getColor(this, R.color.backgroundcolor));
         }
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             View decorView = getWindow().getDecorView();
             decorView.setSystemUiVisibility(decorView.getSystemUiVisibility() | View.SYSTEM_UI_FLAG_LIGHT_NAVIGATION_BAR);
         }
+
+        @SuppressLint({"MissingInflatedId", "LocalSuppress"}) ImageView backtothephone = findViewById(R.id.backbtnotp);
+        backtothephone.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent i = new Intent(EnterOtp.this, MainActivity.class);
+                startActivity(i);
+                finish();
+            }
+        });
 
         input1 = findViewById(R.id.inputotp1);
         input2 = findViewById(R.id.inputotp2);

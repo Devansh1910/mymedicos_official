@@ -10,6 +10,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 
 import com.android.volley.Request;
@@ -21,7 +22,9 @@ import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.medical.my_medicos.R;
 import com.medical.my_medicos.activities.guide.JobGuideActivity;
 import com.medical.my_medicos.activities.guide.NewsGuideActivity;
+import com.medical.my_medicos.activities.home.HomeActivity;
 import com.medical.my_medicos.activities.job.JobsActivity;
+import com.medical.my_medicos.activities.pg.activites.PgprepActivity;
 import com.medical.my_medicos.activities.utils.ConstantsDashboard;
 import com.medical.my_medicos.databinding.ActivityNewsBinding;
 
@@ -43,6 +46,8 @@ public class  NewsActivity extends AppCompatActivity {
     LinearLayout totheguide;
     TodayNewsAdapter todayNewsAdapter;
     ArrayList<NewsToday>  newstoday;
+
+    private ImageView backtothehomefrompg;
     private SwipeRefreshLayout swipeRefreshLayoutNews;
 
     @Override
@@ -50,6 +55,16 @@ public class  NewsActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         binding = ActivityNewsBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
+
+
+        backtothehomefrompg = findViewById(R.id.backtothehomefrompg);
+        backtothehomefrompg.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent i = new Intent(NewsActivity.this, HomeActivity.class);
+                startActivity(i);
+            }
+        });
 
         swipeRefreshLayoutNews = findViewById(R.id.swipeRefreshLayoutNews);
         swipeRefreshLayoutNews.setOnRefreshListener(this::refreshContent);

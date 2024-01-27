@@ -15,8 +15,8 @@ android {
         applicationId = "com.medical.my_medicos"
         minSdk = 24
         targetSdk = 34
-        versionCode = 9
-        versionName = "1.0.9"
+        versionCode = 10
+        versionName = "1.1.0"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
@@ -120,5 +120,5 @@ dependencies {
     implementation ("com.google.android.recaptcha:recaptcha:18.4.0")
     //.. Tap Target...
     implementation ("uk.co.samuelwall:material-tap-target-prompt:3.3.2")
-
+    // Swipe Refresh Layout.....
 }

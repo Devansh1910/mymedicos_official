@@ -20,7 +20,7 @@ import com.medical.my_medicos.adapter.ug.items.ugitem1;
 
 import java.util.List;
 
-public class UgAdapter1 extends RecyclerView.Adapter<UgAdapter1.UgViewHolder1>{
+public class UgAdapter1 extends RecyclerView.Adapter<UgAdapter1.UgViewHolder1> {
 
     Context context;
     List<ugitem1> item;
@@ -43,12 +43,18 @@ public class UgAdapter1 extends RecyclerView.Adapter<UgAdapter1.UgViewHolder1>{
         holder.description.setText(item.get(position).getDocdescripiton());
         holder.title.setText(item.get(position).getDoctitle());
         holder.date.setText(item.get(position).getdate());
-
-        // Set a click listener for the pdf TextView
         holder.pdf.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // Call the downloadPdf method with the PDF link associated with the clicked item
+                // Increase the downloads count by 1
+                int currentDownloads = Integer.parseInt(item.get(position).getDocdownloads());
+                int newDownloads = currentDownloads + 1;
+                item.get(position).setDocdownloads(String.valueOf(newDownloads));
+
+                // Notify the adapter that the data has changed
+                notifyDataSetChanged();
+
+                // Start the download
                 holder.downloadPdf(item.get(position).getPdf(), context);
             }
         });
@@ -60,9 +66,7 @@ public class UgAdapter1 extends RecyclerView.Adapter<UgAdapter1.UgViewHolder1>{
     }
 
     public static class UgViewHolder1 extends RecyclerView.ViewHolder {
-
-        TextView name, title, description, date;
-
+        TextView name, title, description, date, downloads;
         LinearLayout pdf;
 
         public UgViewHolder1(@NonNull View itemView) {
@@ -90,6 +94,5 @@ public class UgAdapter1 extends RecyclerView.Adapter<UgAdapter1.UgViewHolder1>{
             }
             Toast.makeText(context, "Download started", Toast.LENGTH_SHORT).show();
         }
-
     }
 }

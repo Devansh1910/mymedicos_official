@@ -24,11 +24,15 @@ import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.TimePicker;
@@ -41,7 +45,9 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.app.NotificationCompat;
 import androidx.core.app.NotificationManagerCompat;
+import androidx.core.content.ContextCompat;
 
+import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
 import com.medical.my_medicos.R;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
@@ -60,6 +66,9 @@ import com.google.firebase.messaging.RemoteMessage;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
+import com.medical.my_medicos.activities.home.sidedrawer.extras.BottomSheetForChatWithUs;
+import com.medical.my_medicos.activities.job.JobsActivity;
+import com.medical.my_medicos.activities.job.PostJobActivity;
 
 import java.io.File;
 import java.text.SimpleDateFormat;
@@ -82,6 +91,7 @@ public class PostCmeActivity extends AppCompatActivity {
     String selectedMode;
     EditText cmetitle, cmeorg, cmepresenter, cmevenu, virtuallink, cme_place;
     Button postcme;
+
     public FirebaseDatabase db = FirebaseDatabase.getInstance();
     FirebaseFirestore dc = FirebaseFirestore.getInstance();
     private Spinner subspecialitySpinner;
@@ -91,7 +101,7 @@ public class PostCmeActivity extends AppCompatActivity {
     private ProgressDialog progressDialog;
     private static final int MAX_CHARACTERS = 1000;
     private EditText etName, etClass, etPhoneNumber;
-    private Button btnDatePicker, btnTimePicker;
+    private TextView btnDatePicker, btnTimePicker;
     private TextView tvDate, tvTime;
     private Calendar calendar;
     private SimpleDateFormat dateFormat, timeFormat;
@@ -102,6 +112,7 @@ public class PostCmeActivity extends AppCompatActivity {
     private StorageReference storageReference;
     private TextView addPdf, uploadPdfBtn;
     String downloadUrl = null;
+    LinearLayout cmeholderplace;
     private ProgressDialog pd;
     private String pdfName;
     private String currentuserSpeciality;
@@ -113,6 +124,34 @@ public class PostCmeActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_post_cme);
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            View decorView = getWindow().getDecorView();
+            decorView.setSystemUiVisibility(decorView.getSystemUiVisibility() | View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);
+        }
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            Window window = getWindow();
+            window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
+            window.setStatusBarColor(ContextCompat.getColor(this, R.color.backgroundcolor));
+            window.setNavigationBarColor(ContextCompat.getColor(this, R.color.backgroundcolor));
+        }
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            View decorView = getWindow().getDecorView();
+            decorView.setSystemUiVisibility(decorView.getSystemUiVisibility() | View.SYSTEM_UI_FLAG_LIGHT_NAVIGATION_BAR);
+        }
+
+        ImageView backArrow = findViewById(R.id.backbtn);
+        backArrow.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent i = new Intent(PostCmeActivity.this, CmeActivity.class);
+                startActivity(i);
+                finish();
+            }
+        });
+
         addPdf = findViewById(R.id.addPdf);
         room = findViewById(R.id.room);
         room.setVisibility(View.GONE);
@@ -227,10 +266,6 @@ public class PostCmeActivity extends AppCompatActivity {
                             }
                         }
 
-
-                        // Handle the retrieved data here
-
-                        // You can access data using document.getData() and perform necessary actions
                     }
                 } else {
                     // Handle the error
@@ -257,6 +292,7 @@ public class PostCmeActivity extends AppCompatActivity {
         cmevenu = findViewById(R.id.cme_venu);
         virtuallink = findViewById(R.id.cme_virtuallink);
         cme_place = findViewById(R.id.cme_place);
+        cmeholderplace = findViewById(R.id.cmeholderplace);
 
         postcme = findViewById(R.id.post_btn);
 
@@ -300,16 +336,21 @@ public class PostCmeActivity extends AppCompatActivity {
             public void onClick(View view) {
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
                     Context context = view.getContext();
-                    postCme(currentuserSpeciality);
 
-                    Intent i = new Intent(context, CmeActivity.class);
-                    i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                    // Check if all mandatory data is filled
+                    if (isDataValid()) {
+                        postCme(currentuserSpeciality);
 
-
-                    context.startActivity(i);
+                        Intent i = new Intent(context, CmeActivity.class);
+                        i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                        context.startActivity(i);
+                    } else {
+                        Toast.makeText(PostCmeActivity.this, "Please fill in all mandatory fields", Toast.LENGTH_SHORT).show();
+                    }
                 }
             }
         });
+
 
         // Set up the OnItemSelectedListener for cmemode Spinner
         Spinner cmemodeSpinner = findViewById(R.id.cmemode);
@@ -322,12 +363,14 @@ public class PostCmeActivity extends AppCompatActivity {
                     // Show the virtual link EditText and hide the place EditText
                     virtuallink.setVisibility(View.VISIBLE);
                     room.setVisibility(View.VISIBLE);
+                    cmeholderplace.setVisibility(View.GONE);
                     cme_place.setVisibility(View.GONE);
                 } else if (selectedMode.equals("Offline")) {
                     // Show the place EditText and hide the virtual link EditText
                     virtuallink.setVisibility(View.GONE);
                     room.setVisibility(View.GONE);
                     cme_place.setVisibility(View.VISIBLE);
+                    cmeholderplace.setVisibility(View.VISIBLE);
                 }
             }
 
@@ -349,6 +392,31 @@ public class PostCmeActivity extends AppCompatActivity {
                 showTimePicker();
             }
         });
+        TextView whatsappLayout = findViewById(R.id.connectwithus);
+        whatsappLayout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                openBottomSheet();
+            }
+        });
+    }
+
+    private void openBottomSheet() {
+        BottomSheetDialogFragment bottomSheetFragment = new BottomSheetForChatWithUs();
+
+        bottomSheetFragment.show(getSupportFragmentManager(), bottomSheetFragment.getTag());
+    }
+
+    private boolean isDataValid() {
+        String title = cmetitle.getText().toString().trim();
+        String organiser = cmeorg.getText().toString().trim();
+        String presenter = cmepresenter.getText().toString().trim();
+        String venu = cmevenu.getText().toString().trim();
+
+        return !TextUtils.isEmpty(title)
+                && !TextUtils.isEmpty(organiser)
+                && !TextUtils.isEmpty(presenter)
+                && !TextUtils.isEmpty(venu);
     }
 
     private void uploadPdf() {
@@ -384,7 +452,6 @@ public class PostCmeActivity extends AppCompatActivity {
             public void onComplete(@NonNull Task<Void> task) {
                 pd.dismiss();
                 Toast.makeText(PostCmeActivity.this, "Pdf Uploaded Successfully", Toast.LENGTH_SHORT).show();
-                cmetitle.setText("");
             }
         }).addOnFailureListener(new OnFailureListener() {
             @Override
@@ -394,8 +461,6 @@ public class PostCmeActivity extends AppCompatActivity {
             }
         });
     }
-
-    //.................................
 
     private void openGallery() {
         Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
@@ -425,14 +490,6 @@ public class PostCmeActivity extends AppCompatActivity {
             }
             addPdf.setText(pdfName);
         }
-    }
-
-
-    //................................
-
-    private void listFilesInDirectory(Uri treeUri) {
-        String treeDocumentId = DocumentsContract.getTreeDocumentId(treeUri);
-        Uri docUri = DocumentsContract.buildDocumentUriUsingTree(treeUri, treeDocumentId);
     }
 
     private void showDatePicker() {
@@ -469,7 +526,7 @@ public class PostCmeActivity extends AppCompatActivity {
                 },
                 calendar.get(Calendar.HOUR_OF_DAY),
                 calendar.get(Calendar.MINUTE),
-                true // 24-hour format
+                true
         );
         timePickerDialog.show();
     }
@@ -489,7 +546,7 @@ public class PostCmeActivity extends AppCompatActivity {
                 virtuallink.setError("Invalid link format");
                 return;
             } else {
-                virtuallink.setError(null); // Clear any previous error
+                virtuallink.setError(null);
             }
         } else {
             virtuallink.setError(null);
@@ -502,7 +559,7 @@ public class PostCmeActivity extends AppCompatActivity {
             cmetitle.setError("Title must be 50 characters or less");
             return;
         } else {
-            cmetitle.setError(null); // Clear any previous error
+            cmetitle.setError(null);
         }
         if (TextUtils.isEmpty(organiser)) {
             cmeorg.setError("Organizer Required");
@@ -559,8 +616,8 @@ public class PostCmeActivity extends AppCompatActivity {
         usermap.put("Mode", mode);
         usermap.put("Speciality", speciality);
         usermap.put("SubSpeciality", subspecialities1);
-        usermap.put("Selected Date", selectedDate); // Add selected date
-        usermap.put("Selected Time", selectedTime); // Add selected time
+        usermap.put("Selected Date", selectedDate);
+        usermap.put("Selected Time", selectedTime);
         usermap.put("endtime", null);
 
         progressDialog.setMessage("Posting...");
@@ -572,22 +629,14 @@ public class PostCmeActivity extends AppCompatActivity {
                 progressDialog.dismiss();
 
                 if (task.isSuccessful()) {
-                    // Get the generated document ID
                     String generatedDocId = cmeref.push().getKey();
-
-                    // Add the document ID to the usermap
                     usermap.put("documentId", generatedDocId);
-
-                    // Add the data to the "CME" collection along with the document ID
                     dc.collection("CME").document(generatedDocId).set(usermap).addOnCompleteListener(new OnCompleteListener<Void>() {
                         @Override
                         public void onComplete(@NonNull Task<Void> task) {
                             if (task.isSuccessful()) {
                                 Toast.makeText(PostCmeActivity.this, "Posted Successfully", Toast.LENGTH_SHORT).show();
-
-//                                sendNotificationsToUsersWithSpecialty(speciality);
                                 Log.d("token2", speciality);
-                                // Missing closing brace for the inner if statement
                             } else {
                                 Toast.makeText(PostCmeActivity.this, "Task Failed", Toast.LENGTH_SHORT).show();
                             }
@@ -600,107 +649,4 @@ public class PostCmeActivity extends AppCompatActivity {
         });
 
     }
-
-    private void sendNotificationsToUsersWithSpecialty(String specialty) {
-        List<String> fcmTokenList = new ArrayList<>();
-        // Query the Firestore to get users with the specified specialty
-        dc.collection("users")
-                .whereEqualTo("Interest", specialty)
-                .get()
-                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                    @Override
-                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                        if (task.isSuccessful()) {
-
-                            for (DocumentSnapshot document : task.getResult()) {
-
-                                // Retrieve FCM token from the document
-                                String userToken = document.getString("fcmToken");
-                                String user1 = document.getString("Phone Number");
-
-                                if (userToken != null) {
-                                    Log.d("token2", userToken);
-                                    fcmTokenList.add(userToken);
-                                    // Send notification to each user
-
-
-                                }
-                            }
-                            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                                // Create the notification channel with the given ID, name, and importance
-                                String channelId = "CMEPOST";
-                                NotificationChannel channel = new NotificationChannel(channelId, "CME", NotificationManager.IMPORTANCE_DEFAULT);
-                                channel.setDescription("CME");
-
-                                // Get the notification manager
-                                NotificationManager notificationManager = getSystemService(NotificationManager.class);
-
-                                // Create the notification channel
-                                notificationManager.createNotificationChannel(channel);
-
-//                                sendFCMNotification(channelId, fcmTokenList, "Your Notification ", "Your Notification ");
-                            }
-                        } else {
-                            Log.e("Firestore Query", "Error getting documents: ", task.getException());
-                        }
-                    }
-                });
-    }
-
-//    private void sendFCMNotification(String channel,List token, String title, String text) {
-//        int a=0;
-//        while(a!=token.size()-1) {
-//            // Build the FCM message with both data and notification payload
-//            String token1 = (String) token.get(a);
-//            RemoteMessage message = new RemoteMessage.Builder(token1)
-//                    .setData(Collections.singletonMap("title", title))
-//                    .setData(Collections.singletonMap("text", text))
-//                    .setData(Collections.singletonMap("click_action", "HomeActivity"))
-//                    .build();
-//
-//            Log.d("token2", token1);
-//            Log.d("token2", channel);
-//
-//            try {
-//                // Send the message to FCM
-//                FirebaseMessaging.getInstance().send(message);
-//                Log.d("FCM Notification", "Successfully sent FCM message");
-//
-//                // The following code is used to create and display a notification in the device's notification bar
-//                NotificationCompat.Builder builder = new NotificationCompat.Builder(this, channel)
-//                        .setSmallIcon(R.drawable.iconlogo)
-//                        .setContentTitle(title)
-//                        .setContentText(text)
-//                        .setPriority(NotificationCompat.PRIORITY_DEFAULT);
-//
-//                NotificationManagerCompat notificationManager = NotificationManagerCompat.from(this);
-//                if (ActivityCompat.checkSelfPermission(this, Manifest.permission.POST_NOTIFICATIONS) != PackageManager.PERMISSION_GRANTED) {
-//                    return;
-//                }
-//                notificationManager.notify(2, builder.build());
-//            } catch (Exception e) {
-//                Log.e("FCM Notification", "Error sending FCM message: " + e.getMessage());
-//            }
-//            a=a+1;
-//        }
-//
-//    }
-//
-//
-
-    private void sendNotificationToUser(String token, Map<String, String> data) {
-        // Build the FCM message
-        RemoteMessage message = new RemoteMessage.Builder(token)
-                .setData(data)
-                .build();
-
-        try {
-            // Send the message to FCM
-            FirebaseMessaging.getInstance().send(message);
-            Log.d("FCM Notification", "Successfully sent FCM message");
-        } catch (Exception e) {
-            Log.e("FCM Notification", "Error sending FCM message: " + e.getMessage());
-        }
-    }
-
 }

@@ -4,6 +4,7 @@ import static android.content.ContentValues.TAG;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
+import android.media.MediaPlayer;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
@@ -12,17 +13,23 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.ViewFlipper;
 
 import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.media3.common.MediaItem;
+import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -33,8 +40,12 @@ import com.medical.my_medicos.activities.cme.CmeActivity;
 import com.medical.my_medicos.activities.job.JobsActivity;
 import com.medical.my_medicos.activities.memes.MemeActivity;
 import com.medical.my_medicos.activities.news.NewsActivity;
+import com.medical.my_medicos.activities.news.NewsToday;
+import com.medical.my_medicos.activities.news.TodayNewsAdapter;
 import com.medical.my_medicos.activities.pg.activites.PgprepActivity;
 import com.medical.my_medicos.activities.publications.activity.PublicationActivity;
+import com.medical.my_medicos.activities.slideshow.PaidSlideshowAdapter;
+import com.medical.my_medicos.activities.slideshow.Slideshow;
 import com.medical.my_medicos.activities.ug.UgExamActivity;
 import com.medical.my_medicos.activities.university.activity.UniversityActivity;
 import com.medical.my_medicos.activities.utils.ConstantsDashboard;
@@ -60,20 +71,25 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 import java.util.prefs.Preferences;
 
 public class HomeFragment extends Fragment {
 
     private FragmentHomeBinding binding;
-
     private LinearLayout progressBar;
+    private SwipeRefreshLayout swipeRefreshLayout;
+
     LinearLayout jobs,cme,news,publication,update,pg_prep,ugexams,meme;
     MyAdapter adapterjob;
     MyAdapter2 adaptercme;
@@ -83,14 +99,20 @@ public class HomeFragment extends Fragment {
     RecyclerView recyclerViewjob;
     RecyclerView recyclerViewcme;
     private ExoPlayer player;
+
+    TodayNewsAdapter todayNewsAdapter;
+    ArrayList<NewsToday>  newstoday;
     String videoURL = "https://res.cloudinary.com/dmzp6notl/video/upload/v1701512080/videoforhome_gzfpen.mp4";
-    TextView navigatetojobs, navigatetocme, navigatecmeinsider;
+    TextView navigatetojobs, navigatetocme, navigatecmeinsider,navigateslideshare;
 
     public static final String INTENT_KEY_SPECIALITY = "speciality";
     public static final String INTENT_KEY_USER_PHONE = "user_phone";
 
     private ViewFlipper viewFlipper;
     private boolean dataLoaded = false;
+
+    private PaidSlideshowAdapter paidslideshowAdapter;
+    private ArrayList<Slideshow> paidslideshows;
     private Handler handler;
     private LinearLayout dotsLayout;
     private final int AUTO_SCROLL_DELAY = 3000;
@@ -100,6 +122,12 @@ public class HomeFragment extends Fragment {
                              Bundle savedInstanceState) {
         binding = FragmentHomeBinding.inflate(inflater, container, false);
         View rootView = binding.getRoot();
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            Window window = requireActivity().getWindow();
+            window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
+            window.setStatusBarColor(ContextCompat.getColor(requireContext(), R.color.blue));
+        }
 
         progressBar = rootView.findViewById(R.id.progressBar);
 
@@ -115,6 +143,20 @@ public class HomeFragment extends Fragment {
         dotsLayout = rootView.findViewById(R.id.dotsLayout);
         handler = new Handler();
 
+
+        ScrollView scrollView = rootView.findViewById(R.id.scrollerforthehome);
+        swipeRefreshLayout = rootView.findViewById(R.id.swipeRefreshLayout);
+        MediaPlayer mediaPlayer = MediaPlayer.create(getContext(), R.raw.beepsound);
+        mediaPlayer.setVolume(0.1f, 0.1f);
+        scrollView.getViewTreeObserver().addOnScrollChangedListener(() -> {
+            boolean isAtTop = scrollView.getScrollY() == 0;
+            swipeRefreshLayout.setEnabled(isAtTop);
+        });
+
+        swipeRefreshLayout.setOnRefreshListener(() -> {
+            mediaPlayer.start();
+            refreshData();
+        });
 
         addDots();
 
@@ -259,6 +301,16 @@ public class HomeFragment extends Fragment {
         navigatecmeinsider = rootView.findViewById(R.id.navigatecmeinsider);
 
         navigatecmeinsider.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent i = new Intent(getActivity(), CmeActivity.class);
+                startActivity(i);
+            }
+        });
+
+        navigateslideshare = rootView.findViewById(R.id.navigateslideshow);
+
+        navigateslideshare.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent i = new Intent(getActivity(), CmeActivity.class);
@@ -514,9 +566,138 @@ public class HomeFragment extends Fragment {
                 fetchdata();
                 fetchUserData();
             }
+            initSliderContent();
+            initTodaysSlider();
         }
         return rootView;
     }
+
+    private void refreshData() {
+        paidslideshows.clear();
+        newstoday.clear();
+        paidslideshowAdapter.notifyDataSetChanged();
+        todayNewsAdapter.notifyDataSetChanged();
+
+        getSlideshowRecent();
+        getTodayNews();
+        swipeRefreshLayout.setRefreshing(false);
+    }
+
+    //.......
+    void initSliderContent() {
+        paidslideshows = new ArrayList<>();
+        paidslideshowAdapter = new PaidSlideshowAdapter(getActivity(), paidslideshows);
+        getSlideshowRecent();
+
+        // Use requireContext() or getContext() to get a valid context
+        GridLayoutManager layoutManager = new GridLayoutManager(getContext(), 1);
+
+        binding.recyclerviewSlideshare1.setLayoutManager(layoutManager);
+        binding.recyclerviewSlideshare1.setAdapter(paidslideshowAdapter);
+    }
+    void getSlideshowRecent() {
+        RequestQueue queue = Volley.newRequestQueue(requireContext());
+
+        String url = ConstantsDashboard.GET_SLIDESHOW_HOME;
+        StringRequest request = new StringRequest(Request.Method.GET, url, response -> {
+            try {
+                JSONObject object = new JSONObject(response);
+                if ("success".equals(object.optString("status"))) {
+                    JSONArray dataArray = object.getJSONArray("data");
+                    for (int i = 0; i < dataArray.length(); i++) {
+                        JSONObject slideshowObj = dataArray.getJSONObject(i);
+
+                        String fileUrl = slideshowObj.optString("file");
+                        String title = slideshowObj.optString("title");
+                        String type = slideshowObj.optString("type");
+
+                        if (slideshowObj.has("images")) {
+                            JSONArray imagesArray = slideshowObj.getJSONArray("images");
+                            ArrayList<Slideshow.Image> images = new ArrayList<>();
+                            for (int j = 0; j < imagesArray.length(); j++) {
+                                JSONObject imageObj = imagesArray.getJSONObject(j);
+                                String imageUrl = imageObj.optString("url");
+                                String imageId = imageObj.optString("id");
+                                images.add(new Slideshow.Image(imageId, imageUrl));
+                            }
+                            // Now you can create your Slideshow object with images
+                            Slideshow slideshowItem = new Slideshow(title, images, fileUrl,type);
+                            paidslideshows.add(slideshowItem);
+                        } else {
+                            // If "images" array does not exist, create Slideshow without images
+                            Slideshow slideshowItem = new Slideshow(title, new ArrayList<>(), fileUrl,type);
+                            paidslideshows.add(slideshowItem);
+                        }
+                    }
+                    paidslideshowAdapter.notifyDataSetChanged();
+                }
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        }, error -> {
+            // Handle error
+        });
+
+        queue.add(request);
+    }
+    //.......
+
+    void initTodaysSlider() {
+        newstoday = new ArrayList<>();
+        todayNewsAdapter = new TodayNewsAdapter(getContext(), newstoday);
+        getTodayNews();
+
+        // Use LinearLayoutManager with horizontal orientation
+        LinearLayoutManager layoutManager = new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false);
+
+        binding.recyclerviewNews.setLayoutManager(layoutManager);
+        binding.recyclerviewNews.setAdapter(todayNewsAdapter);
+    }
+
+    void getTodayNews() {
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+
+        // Calculate the time 24 hours ago
+        Calendar calendar = Calendar.getInstance();
+        calendar.add(Calendar.DAY_OF_MONTH, -1);
+        long twentyFourHoursAgo = calendar.getTimeInMillis();
+
+        db.collection("MedicalNews")
+                .get()
+                .addOnCompleteListener(task -> {
+                    if (task.isSuccessful()) {
+                        for (QueryDocumentSnapshot document : task.getResult()) {
+                            try {
+                                // Parse the timestamp string to a Date object
+                                SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSX", Locale.US);
+                                Date newsDate = dateFormat.parse(document.getString("Time"));
+
+                                // Get the timestamp as a long
+                                long newsTime = newsDate.getTime();
+
+                                // Check if the news was posted within the last 24 hours and has the type "News"
+                                if (newsTime >= twentyFourHoursAgo && "News".equals(document.getString("type"))) {
+                                    NewsToday newsItemToday = new NewsToday(
+                                            document.getString("Title"),
+                                            document.getString("thumbnail"),
+                                            document.getString("Description"),
+                                            document.getString("Time"),
+                                            document.getString("URL")
+                                    );
+                                    newstoday.add(newsItemToday);
+                                }
+                            } catch (Exception e) {
+                                Log.e("NewsActivity", "Error parsing timestamp", e);
+                            }
+                        }
+                        todayNewsAdapter.notifyDataSetChanged();
+                    } else {
+                        // Handle the case where the data retrieval is not successful
+                    }
+                });
+    }
+
+    //.....
 
     private void showProgressBar(LinearLayout progressBar) {
         this.progressBar.setVisibility(View.VISIBLE);

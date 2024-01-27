@@ -2,14 +2,22 @@ package com.medical.my_medicos.activities.ug;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextUtils;
+import android.text.TextWatcher;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 
+import com.mancj.materialsearchbar.MaterialSearchBar;
 import com.medical.my_medicos.R;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.medical.my_medicos.activities.guide.PgGuideActivity;
 import com.medical.my_medicos.activities.guide.UgGuideActivity;
+import com.medical.my_medicos.activities.home.HomeActivity;
+import com.medical.my_medicos.activities.news.NewsActivity;
 import com.medical.my_medicos.activities.pg.activites.PgprepActivity;
+import com.medical.my_medicos.activities.slideshow.SearchSlideshowActivity;
 import com.medical.my_medicos.databinding.ActivityUgExamBinding;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -25,6 +33,8 @@ public class UgExamActivity extends AppCompatActivity {
     private ActivityUgExamBinding binding;
 
     Toolbar ugtoolbar;
+
+    private ImageView backtothehomefrompg;
 
     LinearLayout totheguide;
 
@@ -45,6 +55,56 @@ public class UgExamActivity extends AppCompatActivity {
             public void onClick(View view) {
                 Intent i = new Intent(UgExamActivity.this, UgGuideActivity.class);
                 startActivity(i);
+            }
+        });
+
+        backtothehomefrompg = findViewById(R.id.backtothehomefrompg);
+        backtothehomefrompg.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent i = new Intent(UgExamActivity.this, HomeActivity.class);
+                startActivity(i);
+            }
+        });
+
+        binding.searchBarUG.addTextChangeListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                // Not needed for now
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                // Not needed for now
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+                // Not needed for now
+            }
+        });
+
+        binding.searchBarUG.setOnSearchActionListener(new MaterialSearchBar.OnSearchActionListener() {
+            @Override
+            public void onSearchStateChanged(boolean enabled) {
+                // Not needed for now
+            }
+
+            @Override
+            public void onSearchConfirmed(CharSequence text) {
+                String query = text.toString();
+                if (!TextUtils.isEmpty(query)) {
+                    Intent intent = new Intent(UgExamActivity.this, SearchUGActivity.class);
+                    intent.putExtra("query", query);
+                    startActivity(intent);
+                }
+            }
+
+            @Override
+            public void onButtonClicked(int buttonCode) {
+                if (buttonCode == MaterialSearchBar.BUTTON_BACK) {
+                    // Handle back button click
+                }
             }
         });
 

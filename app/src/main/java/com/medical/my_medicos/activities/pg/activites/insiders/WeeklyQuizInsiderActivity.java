@@ -70,6 +70,7 @@ public class WeeklyQuizInsiderActivity extends AppCompatActivity {
                         int r = speciality.compareTo(str);
                         int r1=title1.compareTo(str1);
                         Log.d("Something went wrong", String.valueOf(r));
+                        quizList.clear();
                         if ((r == 0)&&(r1==0) ){
                             if (dataList != null) {
                                 for (Map<String, Object> entry : dataList) {

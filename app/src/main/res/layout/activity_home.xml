@@ -27,12 +27,19 @@
                 android:id="@+id/toolbar"
                 android:layout_width="match_parent"
                 android:layout_height="?attr/actionBarSize"
-                android:background="@color/backgroundcolor">
+                android:background="@color/blue">
 
-                <ImageView
-                    android:layout_width="@dimen/_130sdp"
-                    android:layout_height="@dimen/_50sdp"
-                    android:src="@drawable/logooooooooo" />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="mymedicos"
+                    android:drawablePadding="@dimen/_4sdp"
+                    android:paddingEnd="@dimen/_10sdp"
+                    android:textColor="@color/unselected"
+                    android:drawableStart="@drawable/logoooooooofor"
+                    android:textSize="@dimen/_20ssp"
+                    android:fontFamily="@font/inter"
+                    android:textStyle="bold" />
 
                 <LinearLayout
                     android:layout_width="wrap_content"
@@ -121,8 +128,8 @@
             android:layout_height="wrap_content"
             android:layout_gravity="bottom"
             android:gravity="bottom"
-            android:backgroundTint="@color/green"
-            app:itemActiveIndicatorStyle="@color/green"
+            android:backgroundTint="@color/blue"
+            app:itemActiveIndicatorStyle="@color/blue"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -132,7 +139,7 @@
                 android:id="@+id/bottomNavigationView"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:background="@color/green"
+                android:background="@color/blue"
                 android:layout_gravity="bottom"
                 app:itemHorizontalTranslationEnabled="true"
                 app:itemIconSize="@dimen/_25sdp"

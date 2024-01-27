@@ -43,30 +43,36 @@
     </androidx.appcompat.widget.Toolbar>
 
     </com.google.android.material.appbar.AppBarLayout>
+
         <LinearLayout
+            android:id="@+id/spinnerstate"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:paddingVertical="@dimen/_10ssp"
+            android:paddingHorizontal="@dimen/_5sdp"
             android:layout_marginBottom="@dimen/_5ssp"
             android:orientation="horizontal">
 
-
-
             <Spinner
                 android:background="@drawable/spinner_back"
-                android:id="@+id/specialitySpinner"
+                android:id="@+id/statespeciality"
                 android:paddingHorizontal="@dimen/_25ssp"
                 android:layout_width="wrap_content"
+                android:paddingVertical="@dimen/_10sdp"
                 android:layout_marginHorizontal="@dimen/_2ssp"
                 android:layout_weight="1"
-                android:layout_height="@dimen/_40sdp"/>
+                android:layout_height="wrap_content"/>
 
-                <Button
+            <Button
                 android:layout_width="wrap_content"
-                android:layout_height="52.00dp"
+                android:paddingHorizontal="@dimen/_20sdp"
+                android:paddingVertical="@dimen/_10sdp"
+                android:background="@drawable/categoryblackkkkkk"
+                android:layout_height="wrap_content"
                 android:id="@+id/okButton"
-                android:text="OK"
+                android:text="Search"
                 android:clickable="true"/>
+
         </LinearLayout>
 
         <com.google.android.material.tabs.TabLayout

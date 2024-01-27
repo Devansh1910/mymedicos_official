@@ -17,6 +17,7 @@ import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -24,6 +25,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
 
+import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
 import com.medical.my_medicos.R;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -34,6 +36,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
+import com.medical.my_medicos.activities.home.sidedrawer.extras.BottomSheetForChatWithUs;
 import com.medical.my_medicos.activities.login.MainActivity;
 import com.medical.my_medicos.activities.login.RegisterActivity;
 
@@ -232,6 +235,14 @@ public class PostJobActivity extends AppCompatActivity {
                 showDatePicker();
             }
         });
+
+        TextView whatsappLayout = findViewById(R.id.connectwithus);
+        whatsappLayout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                openBottomSheet();
+            }
+        });
     }
     private void showDatePicker() {
         DatePickerDialog datePickerDialog = new DatePickerDialog(
@@ -251,6 +262,12 @@ public class PostJobActivity extends AppCompatActivity {
                 calendar.get(Calendar.DAY_OF_MONTH)
         );
         datePickerDialog.show();
+    }
+
+    private void openBottomSheet() {
+        BottomSheetDialogFragment bottomSheetFragment = new BottomSheetForChatWithUs();
+
+        bottomSheetFragment.show(getSupportFragmentManager(), bottomSheetFragment.getTag());
     }
 
     public void post() {

@@ -137,7 +137,7 @@
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Top Headlines"
+                    android:text="Live News Headlines"
                     android:padding="@dimen/_2sdp"
                     android:textSize="@dimen/_12ssp"
                     android:textStyle="bold" />

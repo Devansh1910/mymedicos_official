@@ -9,6 +9,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.Spinner;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
@@ -43,30 +44,27 @@ public class JobsActivity2 extends AppCompatActivity {
         Toolbar toolbar = findViewById(R.id.jobstoolbar);
         OK = findViewById(R.id.okButton);
         OK.setBackgroundColor(Color.GRAY);
-        Spinner specialitySpinner = findViewById(R.id.specialitySpinner);
+        Spinner specialitySpinner = findViewById(R.id.statespeciality);
 
-// Add the speciality options to the spinner
         ArrayAdapter<CharSequence> specialityAdapter = ArrayAdapter.createFromResource(
                 this,
-                R.array.indian_cities,  // Add a string array resource in your strings.xml file
+                R.array.indian_cities,
                 android.R.layout.simple_spinner_item
         );
         specialityAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         specialitySpinner.setAdapter(specialityAdapter);
 
-// Set a listener to handle speciality spinner item selection
         specialitySpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parentView, View selectedItemView, int position, long id) {
                 String selectedSpeciality = parentView.getItemAtPosition(position).toString();
 
-                // Update the OK button clickability based on the selected speciality
                 if (selectedSpeciality.equals("Select Speciality")) {
                     OK.setClickable(false);
                     OK.setBackgroundColor(Color.GRAY);
                 } else {
                     OK.setClickable(true);
-                    OK.setBackgroundColor(Color.BLUE); // You can set your desired color
+                    OK.setBackgroundColor(Color.BLUE);
                 }
             }
 

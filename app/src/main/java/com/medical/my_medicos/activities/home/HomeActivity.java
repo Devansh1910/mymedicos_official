@@ -4,9 +4,12 @@ import static androidx.fragment.app.FragmentManager.TAG;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -14,6 +17,7 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.core.content.ContextCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
@@ -41,7 +45,6 @@ import java.util.Objects;
 import java.util.prefs.Preferences;
 
 public class HomeActivity extends AppCompatActivity {
-
     BottomNavigationView bottomNavigation;
     BottomAppBar bottomAppBar;
     ImageView notificationbtn;
@@ -49,7 +52,7 @@ public class HomeActivity extends AppCompatActivity {
     NavigationView navigationView;
     Toolbar toolbar;
     ImageView profileImageView, verifiedprofilebehere;
-    private static final long DOUBLE_PRESS_EXIT_INTERVAL = 2000; // Time interval for double press in milliseconds
+    private static final long DOUBLE_PRESS_EXIT_INTERVAL = 2000;
     private long lastPressTime;
     FrameLayout verifiedUser, circularImageView;
 
@@ -58,6 +61,23 @@ public class HomeActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            View decorView = getWindow().getDecorView();
+            decorView.setSystemUiVisibility(decorView.getSystemUiVisibility() | View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);
+        }
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            Window window = getWindow();
+            window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
+            window.setStatusBarColor(ContextCompat.getColor(this, R.color.blue));
+            window.setNavigationBarColor(ContextCompat.getColor(this, R.color.blue));
+        }
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            View decorView = getWindow().getDecorView();
+            decorView.setSystemUiVisibility(decorView.getSystemUiVisibility() | View.SYSTEM_UI_FLAG_LIGHT_NAVIGATION_BAR);
+        }
 
         toolbar = findViewById(R.id.toolbar);
 
@@ -96,14 +116,19 @@ public class HomeActivity extends AppCompatActivity {
 
         bottomNavigation.setOnItemSelectedListener(item -> {
             int frgId = item.getItemId();
-            Log.d("nsjnjsn","hcisb");
+            Log.d("Something went wrong","Report to the Developer");
+            Fragment selectedFragment = null;
             if (frgId == R.id.home) {
-                replaceFragment(new HomeFragment());
+                selectedFragment = new HomeFragment();
             } else if (frgId == R.id.work) {
-                replaceFragment(new ClubFragment());
+                selectedFragment = new ClubFragment();
             } else {
-                replaceFragment(new SlideshowFragment());
+                selectedFragment = new SlideshowFragment();
             }
+
+            replaceFragment(selectedFragment);
+            updateToolbarColor(selectedFragment); // Update toolbar color based on the selected fragment
+
             return true;
         });
     }
@@ -129,6 +154,14 @@ public class HomeActivity extends AppCompatActivity {
         Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
     }
 
+    private void updateToolbarColor(Fragment fragment) {
+        Toolbar toolbar = findViewById(R.id.toolbar);
+        if (fragment instanceof SlideshowFragment || fragment instanceof ClubFragment) {
+            toolbar.setBackgroundColor(ContextCompat.getColor(this, R.color.backgroundcolor));
+        } else {
+            toolbar.setBackgroundColor(ContextCompat.getColor(this, R.color.blue));
+        }
+    }
 
     public void openHomeSideActivity() {
         Intent settingsIntent = new Intent(HomeActivity.this, HomeSideActivity.class);
