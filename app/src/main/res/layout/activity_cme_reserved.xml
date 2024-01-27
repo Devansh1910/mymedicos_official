@@ -4,7 +4,7 @@
         xmlns:app="http://schemas.android.com/apk/res-auto"
         xmlns:tools="http://schemas.android.com/tools"
         android:id="@+id/container"
-        android:background="@color/white"
+        android:background="@color/backgroundcolor"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         tools:context=".activities.cme.CmeReservedActivity">
@@ -28,10 +28,10 @@
                     android:id="@+id/cmetoolbar"
                     app:title="CME Reserved"
                     app:navigationIcon="@drawable/arrowbackforappbar"
-                    app:titleTextColor="@color/black"
+                    app:titleTextColor="@color/unselected"
                     app:subtitleTextColor="@color/white"
                     app:subtitleTextAppearance="@color/white"
-                    android:backgroundTint="@color/white"
+                    android:backgroundTint="@color/backgroundcolor"
                     android:layout_width="match_parent"
                     android:layout_weight="1"
                     android:layout_height="?attr/actionBarSize"
@@ -66,10 +66,9 @@
                         android:layout_height="wrap_content"
                         android:orientation="vertical">
 
-
-
                         <com.google.android.material.tabs.TabLayout
                             android:id="@+id/tablayout"
+                            android:background="@color/backgroundcolor"
                             android:layout_width="match_parent"
                             android:layout_marginVertical="@dimen/_10ssp"
                             android:layout_height="wrap_content">

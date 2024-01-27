@@ -4,7 +4,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/container"
-    android:background="@color/white"
+    android:background="@color/backgroundcolor"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".activities.cme.CmeActivity">
@@ -27,9 +27,9 @@
 
             <androidx.appcompat.widget.Toolbar
                 android:id="@+id/cmetoolbar"
-                app:title="CME"
+                app:title="CME Created"
                 app:navigationIcon="@drawable/arrowbackforappbar"
-                app:titleTextColor="@color/black"
+                app:titleTextColor="@color/unselected"
                 app:subtitleTextColor="@color/white"
                 app:subtitleTextAppearance="@color/white"
                 android:backgroundTint="@color/backgroundcolor"

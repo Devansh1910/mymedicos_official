@@ -1,5 +1,6 @@
 package com.medical.my_medicos.activities.slideshow;
 
+import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
@@ -7,90 +8,31 @@ import android.os.Bundle;
 import android.view.MenuItem;
 
 import com.medical.my_medicos.R;
-import com.medical.my_medicos.activities.publications.adapters.insiders.CategoryInsiderAdapter;
-import com.medical.my_medicos.activities.publications.model.Category;
 import com.medical.my_medicos.databinding.ActivitySlideshowInsidernBinding;
-
-import java.util.ArrayList;
+import com.medical.my_medicos.databinding.ActivitySpecialitySlideshowInsiderBinding;
 
 public class SlideshowInsidernActivity extends AppCompatActivity {
 
-    ActivitySlideshowInsidernBinding binding;
-
-    ArrayList<Category> categories;
-
-    Toolbar toolbarpublications;
-
-    CategoryInsiderAdapter categoryAdapterInsider;
-
+    ActivitySpecialitySlideshowInsiderBinding binding;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        binding = ActivitySlideshowInsidernBinding.inflate(getLayoutInflater());
+        binding = ActivitySpecialitySlideshowInsiderBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
-        toolbarpublications = findViewById(R.id.publicationstoolbar);
-        setSupportActionBar(toolbarpublications);
-//        tab=findViewById(R.id.tabLayout);
-//        viewPager=findViewById(R.id.view_pager);
-//        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        Toolbar toolbar = findViewById(R.id.specialitytoolbar);
+        setSupportActionBar(toolbar);
 
-//        initCategories();
-
+        ActionBar actionBar = getSupportActionBar();
+        if (actionBar != null) {
+            actionBar.setDisplayHomeAsUpEnabled(true);
+            actionBar.setHomeAsUpIndicator(R.drawable.arrow_bk);
+        }
     }
 
-//    void initCategories() {
-//        categories = new ArrayList<>();
-//        categoryAdapterInsider = new CategoryInsiderAdapter(this, categories);
-//
-//        getCategories();
-//
-//        GridLayoutManager layoutManager = new GridLayoutManager(this, 1);
-//        binding.categoriesListInsider.setLayoutManager(layoutManager);
-//        binding.categoriesListInsider.setAdapter(categoryAdapterInsider);
-//    }
-//
-//    void getCategories() {
-//        RequestQueue queue = Volley.newRequestQueue(this);
-//
-//        StringRequest request = new StringRequest(Request.Method.GET, ConstantsDashboard.GET_SPECIALITY, new Response.Listener<String>() {
-//            @SuppressLint("NotifyDataSetChanged")
-//            @Override
-//            public void onResponse(String response) {
-//                try {
-//                    Log.e("err", response);
-//                    JSONObject mainObj = new JSONObject(response);
-//                    if (mainObj.getString("status").equals("success")) {
-//                        JSONArray categoriesArray = mainObj.getJSONArray("categories");
-//                        for (int i = 0; i < categoriesArray.length(); i++) {
-//                            JSONObject object = categoriesArray.getJSONObject(i);
-//                            Category category = new Category(
-//                                    object.getString("id"),
-//                                    object.getInt("priority")
-//                            );
-//                            categories.add(category);
-//                        }
-//                        categoryAdapterInsider.notifyDataSetChanged();
-//                    } else {
-//                        // DO nothing
-//                    }
-//                } catch (JSONException e) {
-//                    e.printStackTrace();
-//                }
-//            }
-//        }, new Response.ErrorListener() {
-//            @Override
-//            public void onErrorResponse(VolleyError error) {
-//
-//            }
-//        });
-//
-//        queue.add(request);
-//    }
-
+    @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle item selection
         switch (item.getItemId()) {
             case android.R.id.home:
                 // Handle the back arrow click, finish the current activity

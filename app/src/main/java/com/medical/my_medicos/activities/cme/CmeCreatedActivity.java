@@ -2,6 +2,8 @@ package com.medical.my_medicos.activities.cme;
 
 import android.annotation.SuppressLint;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
 import android.view.MenuItem;
 
 import androidx.annotation.NonNull;
@@ -10,6 +12,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 import androidx.viewpager2.adapter.FragmentStateAdapter;
 import androidx.viewpager2.widget.ViewPager2;
 
@@ -22,18 +25,15 @@ import com.google.android.material.tabs.TabLayoutMediator;
 
 public class CmeCreatedActivity extends AppCompatActivity {
 
-
-    private ViewPager2 pager,viewpager;
+    private ViewPager2 pager, viewpager;
     private TabLayout tabLayout;
-
-    Toolbar toolbar;
+    private SwipeRefreshLayout swipeRefreshLayout;
 
     @SuppressLint("MissingInflatedId")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_cme_created);
-
 
         viewpager = findViewById(R.id.view_pager1);
         viewpager.setAdapter(new ViewPagerAdapter(this));
@@ -65,12 +65,22 @@ public class CmeCreatedActivity extends AppCompatActivity {
                     break;
             }
         }).attach();
+
         pager.setAdapter(new ViewPagerAdapter(this));
+
+        swipeRefreshLayout = findViewById(R.id.swipe_refresh_layout);
+        swipeRefreshLayout.setOnRefreshListener(() -> {
+            new Handler(Looper.getMainLooper()).postDelayed(() -> {
+                swipeRefreshLayout.setRefreshing(false);
+            }, 3000);
+        });
     }
+
     class ViewPagerAdapter extends FragmentStateAdapter {
         public ViewPagerAdapter(@NonNull FragmentActivity fragmentActivity) {
             super(fragmentActivity);
         }
+
         @NonNull
         @Override
         public Fragment createFragment(int position) {
@@ -84,11 +94,13 @@ public class CmeCreatedActivity extends AppCompatActivity {
             }
             return null;
         }
+
         @Override
         public int getItemCount() {
             return 3;
         }
     }
+
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case android.R.id.home:
@@ -98,7 +110,4 @@ public class CmeCreatedActivity extends AppCompatActivity {
                 return super.onOptionsItemSelected(item);
         }
     }
-
-
 }
-

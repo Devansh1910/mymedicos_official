@@ -10,8 +10,8 @@
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="center"
         android:orientation="vertical"
+        android:gravity="center"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -26,7 +26,7 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:lottie_autoPlay="true"
-            app:lottie_loop="true"
+            app:lottie_loop="false"
             app:lottie_rawRes="@raw/loaderheart"
             app:lottie_speed="1" />
 
@@ -35,13 +35,37 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:gravity="center"
-            android:text="Coming Soon.."
+            android:padding="@dimen/_12sdp"
+            android:text="Our Official Community will gonna be live soon"
             android:textAlignment="center"
-            android:textSize="@dimen/_16ssp"
+            android:fontFamily="@font/inter"
+            android:textSize="@dimen/_12ssp"
             android:textStyle="bold" />
 
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:padding="@dimen/_12sdp"
+            android:text=" Till then join our Telegram Community, Join our community to be up-to-date for any new feature and updates related to our mymedicos."
+            android:textAlignment="center"
+            android:fontFamily="@font/inter"/>
 
     </LinearLayout>
 
+    <Button
+        android:id="@+id/communityjoinopener"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/bottomuploadbtnbkforug"
+        android:elevation="10dp"
+        android:layout_gravity="bottom"
+        android:fontFamily="@font/inter"
+        android:paddingVertical="15dp"
+        android:text="Join Community"
+        android:textColor="@color/white"
+        android:textSize="18dp"
+        android:textStyle="bold"/>
 
 </FrameLayout>

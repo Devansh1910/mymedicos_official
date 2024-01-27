@@ -35,33 +35,6 @@
     </com.google.android.material.appbar.AppBarLayout>
 
     <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:paddingVertical="@dimen/_15ssp"
-        android:paddingHorizontal="@dimen/_15ssp"
-        android:orientation="horizontal">
-
-        <TextView
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="Theme"
-            android:textColor="#5C6160"
-            android:textSize="@dimen/_16sdp"
-            android:textStyle="bold"
-            android:fontFamily="@font/inter"/>
-
-        <Switch
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:thumbTint="@color/green"
-            android:trackTint="@color/black"
-            android:layout_weight="1"
-            tools:ignore="UseSwitchCompatOrMaterialXml" />
-
-    </LinearLayout>
-
-    <LinearLayout
         android:id="@+id/termsandconditions"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -75,14 +48,13 @@
             android:layout_weight="1"
             android:text="Terms &amp; Conditions"
             android:textColor="#5C6160"
-            android:textSize="@dimen/_16sdp"
-            android:textStyle="bold"
+            android:textSize="@dimen/_14sdp"
             android:fontFamily="@font/inter"/>
 
         <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@drawable/arrowww"
+            android:src="@drawable/arrowright"
             android:layout_gravity="end"/>
 
     </LinearLayout>
@@ -102,8 +74,7 @@
             android:layout_weight="1"
             android:text="Privacy Policies"
             android:textColor="#5C6160"
-            android:textSize="@dimen/_16sdp"
-            android:textStyle="bold"
+            android:textSize="@dimen/_14sdp"
             android:fontFamily="@font/inter"/>
 
         <TextView
@@ -112,7 +83,7 @@
             android:textAlignment="gravity"
             android:paddingVertical="@dimen/_2ssp"
             android:gravity="center"
-            android:background="@drawable/bkofjobs"
+            android:background="@drawable/categoryblackkkkkk"
             android:fontFamily="@font/inter"
             android:textSize="@dimen/_14ssp"
             android:layout_height="wrap_content"
@@ -135,8 +106,7 @@
             android:layout_weight="1"
             android:text="App Version"
             android:textColor="#5C6160"
-            android:textSize="@dimen/_16sdp"
-            android:textStyle="bold"
+            android:textSize="@dimen/_14sdp"
             android:fontFamily="@font/inter"/>
 
         <TextView
@@ -148,7 +118,7 @@
             android:fontFamily="@font/inter"
             android:textSize="@dimen/_14ssp"
             android:layout_height="wrap_content"
-            android:text="0.0.1"
+            android:text="1.0.0"
             android:textColor="@color/unselected"
             android:layout_gravity="end"/>
 

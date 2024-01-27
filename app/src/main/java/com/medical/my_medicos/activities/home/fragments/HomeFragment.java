@@ -103,7 +103,7 @@ public class HomeFragment extends Fragment {
     TodayNewsAdapter todayNewsAdapter;
     ArrayList<NewsToday>  newstoday;
     String videoURL = "https://res.cloudinary.com/dmzp6notl/video/upload/v1701512080/videoforhome_gzfpen.mp4";
-    TextView navigatetojobs, navigatetocme, navigatecmeinsider,navigateslideshare;
+    TextView navigatetojobs, navigatetocme, navigatecmeinsider,navigatenews;
 
     public static final String INTENT_KEY_SPECIALITY = "speciality";
     public static final String INTENT_KEY_USER_PHONE = "user_phone";
@@ -132,10 +132,6 @@ public class HomeFragment extends Fragment {
         progressBar = rootView.findViewById(R.id.progressBar);
 
         showProgressBar(progressBar);
-
-        StyledPlayerView playerView = rootView.findViewById(R.id.player_view_home);
-        player = new ExoPlayer.Builder(requireContext()).build();
-        playerView.setPlayer(player);
 
         recyclerViewjob = rootView.findViewById(R.id.recyclerview_job1);
 
@@ -301,16 +297,6 @@ public class HomeFragment extends Fragment {
         navigatecmeinsider = rootView.findViewById(R.id.navigatecmeinsider);
 
         navigatecmeinsider.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent i = new Intent(getActivity(), CmeActivity.class);
-                startActivity(i);
-            }
-        });
-
-        navigateslideshare = rootView.findViewById(R.id.navigateslideshow);
-
-        navigateslideshare.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent i = new Intent(getActivity(), CmeActivity.class);
@@ -548,19 +534,14 @@ public class HomeFragment extends Fragment {
                 }
             });
 
-            player = new ExoPlayer.Builder(requireContext()).build();
-            playerView.setPlayer(player);
-
-            MediaItem mediaItem = null;
-            if (videoURL != null) {
-                mediaItem = MediaItem.fromUri(videoURL);
-            }
-//
-//            if (mediaItem != null) {
-//                player.setMediaItem(mediaItem);
-//                player.prepare();
-//                player.setPlayWhenReady(true);
-//            }
+            navigatenews = rootView.findViewById(R.id.navigatenews);
+            navigatenews.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Intent i = new Intent(getActivity(), NewsActivity.class);
+                    startActivity(i);
+                }
+            });
 
             initHomeSlider();
             if (!dataLoaded) {

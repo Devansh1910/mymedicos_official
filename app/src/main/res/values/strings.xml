@@ -341,10 +341,6 @@
 
     <string-array name="country_codes">
         <item>+91</item> <!-- India -->
-        <item>+1</item>  <!-- United States -->
-        <item>+44</item> <!-- United Kingdom -->
-        <item>+86</item> <!-- China -->
-        <item>+81</item> <!-- Japan -->
     </string-array>
 
 

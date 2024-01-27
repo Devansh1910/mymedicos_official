@@ -74,7 +74,7 @@ public class SearchSlideshowActivity extends AppCompatActivity {
     void getSlideshow(String query) {
         RequestQueue queue = Volley.newRequestQueue(SearchSlideshowActivity.this);
 
-        String url = ConstantsDashboard.GET_SLIDESHOW_HOME;
+        String url = ConstantsDashboard.GET_ALL_SLIDESHOW;
         StringRequest request = new StringRequest(Request.Method.GET, url, response -> {
             try {
                 JSONObject object = new JSONObject(response);

@@ -7,9 +7,36 @@
     android:layout_height="match_parent"
     tools:context=".activities.profile.Contactinfo">
 
+    <com.google.android.material.appbar.AppBarLayout
+        android:id="@+id/contactinfotoolbar_container"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <androidx.appcompat.widget.Toolbar
+            android:id="@+id/contactsstoolbar"
+            app:title="Your Profile"
+            app:navigationIcon="@drawable/arrow_bk"
+            app:titleTextColor="@color/unselected"
+            app:subtitleTextColor="@color/white"
+            app:subtitleTextAppearance="@color/white"
+            android:backgroundTint="@color/backgroundcolor"
+            android:layout_width="match_parent"
+            android:layout_weight="1"
+            android:layout_height="?attr/actionBarSize"
+            android:background="@color/white">
+
+        </androidx.appcompat.widget.Toolbar>
+
+    </com.google.android.material.appbar.AppBarLayout>
+
     <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingBottom="@dimen/_60sdp"
+        app:layout_constraintTop_toBottomOf="@+id/contactinfotoolbar_container"
         android:orientation="vertical">
 
         <LinearLayout
@@ -323,8 +350,12 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/_5ssp"
+                android:paddingVertical="@dimen/_15sdp"
                 android:backgroundTint="@color/green"
-                android:hint="Submit"
+                android:text="Update Profile"
+                android:textSize="@dimen/_12sdp"
+                android:textStyle="bold"
+                android:fontFamily="@font/inter"
                 android:onClick="submitButton"
                 android:textColorHint="#FFFFFF" />
 

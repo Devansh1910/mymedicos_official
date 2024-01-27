@@ -31,6 +31,7 @@ public class ConstantsDashboard {
     public static String GET_UPDATES_SLIDER_URL = API_BASE_URL + "/api/sliders/updates";
     public static String GET_DAILY_QUESTIONS_URL = API_BASE_URL + "/api/quiz/today?q=home";
     public static String GET_QUIZ_QUESTIONS_URL = API_BASE_URL + "/api/quiz/all";
+    public static String GET_ALL_SLIDESHOW = API_BASE_URL + "/api/slideshow/all";
     public static String GET_DAILY_QUESTIONS_SUBMITTION = API_BASE_URL + "/api/quiz/submit/today/as";
 
 }
