@@ -11,8 +11,6 @@ import android.widget.TextView;
 
 import com.airbnb.lottie.LottieAnimationView;
 import com.medical.my_medicos.R;
-import com.medical.my_medicos.activities.home.HomeActivity;
-import com.medical.my_medicos.activities.home.sidedrawer.NotificationActivity;
 import com.medical.my_medicos.activities.pg.activites.PgprepActivity;
 
 public class CorrectAnswerActivity extends AppCompatActivity {

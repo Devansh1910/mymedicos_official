@@ -28,7 +28,6 @@ import com.medical.my_medicos.activities.home.fragments.ClubFragment;
 import com.medical.my_medicos.activities.home.fragments.HomeFragment;
 import com.medical.my_medicos.activities.home.fragments.SlideshowFragment;
 import com.medical.my_medicos.activities.home.sidedrawer.HomeSideActivity;
-import com.medical.my_medicos.activities.home.sidedrawer.NotificationActivity;
 import com.google.android.material.bottomappbar.BottomAppBar;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationView;
@@ -38,6 +37,7 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
+import com.medical.my_medicos.activities.notification.NotificationActivity;
 import com.squareup.picasso.Picasso;
 
 import java.util.Map;

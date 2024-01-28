@@ -60,8 +60,9 @@
                             android:layout_height="wrap_content"
                             android:text="NEWS"
                             android:layout_weight="1"
+                            android:textColor="@color/unselected"
                             android:textSize="@dimen/_18sdp"
-                            android:fontFamily="@font/roboto_bold"/>
+                            android:fontFamily="@font/inter_extrabold"/>
 
                     </LinearLayout>
 
