@@ -14,6 +14,7 @@ public class Neetpg implements Item, Serializable {
     private String description; // Added field
 
     private String image;
+    private long remainingTimeInMillis;
 
     public Neetpg(String question, String optionA, String optionB, String optionC, String optionD, String correctAnswer, String image, String description) {
         this.question = question;
@@ -24,10 +25,19 @@ public class Neetpg implements Item, Serializable {
         this.correctAnswer = correctAnswer;
         this.image = image;
         this.description = description;
+        this.remainingTimeInMillis = -1;
     }
 
     public String getQuestion() {
         return question;
+    }
+    // Getter and setter for remainingTimeInMillis
+    public long getRemainingTimeInMillis() {
+        return remainingTimeInMillis;
+    }
+
+    public void setRemainingTimeInMillis(long remainingTimeInMillis) {
+        this.remainingTimeInMillis = remainingTimeInMillis;
     }
 
     public void setQuestion(String question) {

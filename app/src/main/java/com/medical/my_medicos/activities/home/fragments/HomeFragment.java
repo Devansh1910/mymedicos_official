@@ -329,13 +329,17 @@ public class HomeFragment extends Fragment {
                             for (QueryDocumentSnapshot document : task.getResult()) {
                                 Map<String, Object> dataMap = document.getData();
                                 String phoneNumberFromFirestore = (String) dataMap.get("Phone Number");
-
                                 String current = (String) dataMap.get("Phone Number");
-                                int a = current.compareTo(user.getPhoneNumber());
+                                if (current!=null) {
 
-                                if (a == 0) {
-                                    Speciality = (String) dataMap.get("Interest");
-                                    Log.d("Speciality", Speciality);
+
+                                    int a = current.compareTo(user.getPhoneNumber());
+
+
+                                    if (a == 0) {
+                                        Speciality = (String) dataMap.get("Interest");
+                                        Log.d("Speciality", Speciality);
+                                    }
                                 }
                             }
                         } else {

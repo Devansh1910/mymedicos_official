@@ -15,6 +15,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.content.ContextCompat;
@@ -23,6 +24,13 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.Query;
+import com.google.firebase.firestore.QuerySnapshot;
 import com.medical.my_medicos.R;
 import com.medical.my_medicos.activities.home.fragments.ClubFragment;
 import com.medical.my_medicos.activities.home.fragments.HomeFragment;
@@ -40,6 +48,7 @@ import com.google.firebase.storage.StorageReference;
 import com.medical.my_medicos.activities.notification.NotificationActivity;
 import com.squareup.picasso.Picasso;
 
+import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
 import java.util.prefs.Preferences;
@@ -131,6 +140,7 @@ public class HomeActivity extends AppCompatActivity {
 
             return true;
         });
+
     }
     @Override
     public void onBackPressed() {
@@ -181,6 +191,8 @@ public class HomeActivity extends AppCompatActivity {
         if (currentUser != null) {
             String userId = currentUser.getPhoneNumber();
             FirebaseFirestore db = FirebaseFirestore.getInstance();
+            putUserData(userId);
+
 
             db.collection("users")
                     .get()
@@ -237,6 +249,43 @@ public class HomeActivity extends AppCompatActivity {
         ImageView verifiedprofilebehere = findViewById(R.id.verifiedprofilebehere); // Add this line
 
     }
+    private void putUserData(String phoneNumber) {
+        FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
+        if (currentUser != null) {
+            FirebaseFirestore db = FirebaseFirestore.getInstance();
+
+            // Query to find the document with the matching phone number
+            Query query = db.collection("users").whereEqualTo("phoneNumber", phoneNumber);
+
+            query.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                @Override
+                public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                    if (task.isSuccessful()) {
+                        for (QueryDocumentSnapshot document : task.getResult()) {
+                            // Update the found document with the new user data
+                            db.collection("users").document(document.getId())
+                                    .update("realtimeid", currentUser.getUid())
+                                    .addOnSuccessListener(new OnSuccessListener<Void>() {
+                                        @Override
+                                        public void onSuccess(Void aVoid) {
+                                            Log.d("Firestore", "DocumentSnapshot updated successfully!");
+                                        }
+                                    })
+                                    .addOnFailureListener(new OnFailureListener() {
+                                        @Override
+                                        public void onFailure(@NonNull Exception e) {
+                                            Log.w("Firestore", "Error updating document", e);
+                                        }
+                                    });
+                        }
+                    } else {
+                        Log.w("Firestore", "Error getting documents.", task.getException());
+                    }
+                }
+            });
+        }
+    }
+
 
     @SuppressLint("RestrictedApi")
     private void fetchUserProfileImage(String userId) {

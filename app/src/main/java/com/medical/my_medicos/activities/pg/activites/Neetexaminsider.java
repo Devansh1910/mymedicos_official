@@ -38,7 +38,7 @@ import java.util.Collections;
 import java.util.Locale;
 import java.util.Map;
 
-public class Neetexaminsider extends AppCompatActivity {
+public class Neetexaminsider extends AppCompatActivity  implements neetexampadapter.OnOptionSelectedListener  {
 
     private RecyclerView recyclerView;
     private neetexampadapter adapter;
@@ -68,7 +68,7 @@ public class Neetexaminsider extends AppCompatActivity {
         recyclerView = findViewById(R.id.recycler_view1);
         quizList1 = new ArrayList<>();
         timerTextView = findViewById(R.id.timerTextView);
-        startTimer();
+
 
         FirebaseFirestore db = FirebaseFirestore.getInstance();
         CollectionReference quizzCollection = db.collection("PGupload").document("Weekley").collection("Quiz");
@@ -119,16 +119,17 @@ public class Neetexaminsider extends AppCompatActivity {
                         }
                     }
                     loadNextQuestion();
+                    startTimer();
                 }
             }
         });
         Button prevButton = findViewById(R.id.prevButton);
-        prevButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                loadPreviousQuestion();
-            }
-        });
+//        prevButton.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                loadPreviousQuestion();
+//            }
+//        });
 
 
         Button nextButton = findViewById(R.id.nextButton1);
@@ -136,6 +137,7 @@ public class Neetexaminsider extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 loadNextQuestion();
+                startTimer();
             }
         });
 
@@ -165,6 +167,7 @@ public class Neetexaminsider extends AppCompatActivity {
                 showInstructionDialog();
             }
         });
+        adapter.setOnOptionSelectedListener(this);
     }
     private void showInstructionDialog() {
         AlertDialog.Builder builder = new AlertDialog.Builder(Neetexaminsider.this, R.style.CustomAlertDialog);
@@ -187,32 +190,47 @@ public class Neetexaminsider extends AppCompatActivity {
     }
 
     @Override
-    public void onBackPressed(){
+    public void onBackPressed() {
+        super.onBackPressed();
         Toast.makeText(Neetexaminsider.this, "Can't navigate back", Toast.LENGTH_SHORT).show();
+    }
+
+    private void pauseTimer() {
+        if (countDownTimer != null) {
+            countDownTimer.cancel();
+        }
     }
 
     private void loadNextQuestion() {
         if (currentQuestionIndex < quizList1.size()) {
+            Neetpg currentQuestion = quizList1.get(currentQuestionIndex);
+            adapter.setQuizQuestions(Collections.singletonList(currentQuestion));
 
-            adapter.setQuizQuestions(Collections.singletonList(quizList1.get(currentQuestionIndex)));
+            // Update the time left based on the remaining time stored when an option was selected
+            if (currentQuestion.getRemainingTimeInMillis() != -1) {
+                timeLeftInMillis = currentQuestion.getRemainingTimeInMillis();
+                currentQuestion.setRemainingTimeInMillis(-1); // Reset to default value after using
+            }
+
+
             recyclerView.smoothScrollToPosition(currentQuestionIndex);
             updateQuestionNumber();
             currentQuestionIndex++;
-
         } else {
             showEndQuizConfirmation();
         }
     }
-    private void loadPreviousQuestion() {
-        if (currentQuestionIndex > 0) {
-            currentQuestionIndex--;
-            adapter.setQuizQuestions(Collections.singletonList(quizList1.get(currentQuestionIndex)));
-            recyclerView.smoothScrollToPosition(currentQuestionIndex);
-            updateQuestionNumber();
-        } else {
-            Toast.makeText(this, "This is the first question", Toast.LENGTH_SHORT).show();
-        }
-    }
+
+//    private void loadPreviousQuestion() {
+//        if (currentQuestionIndex > 0) {
+//            currentQuestionIndex--;
+//            adapter.setQuizQuestions(Collections.singletonList(quizList1.get(currentQuestionIndex)));
+//            recyclerView.smoothScrollToPosition(currentQuestionIndex);
+//            updateQuestionNumber();
+//        } else {
+//            Toast.makeText(this, "This is the first question", Toast.LENGTH_SHORT).show();
+//        }
+//    }
     private void updateQuestionNumber() {
         int totalQuestions = quizList1.size();
         String questionNumberText =  (currentQuestionIndex + 1) + " / " + totalQuestions;
@@ -380,4 +398,34 @@ public class Neetexaminsider extends AppCompatActivity {
 
         return results;
     }
+
+//    @Override
+//    public void onOptionSelected(String selectedOption, int position) {
+//
+//    }
+
+    @Override
+    public void onOptionSelected(String selectedOption, int position) {
+        // Handle option selected event, and pause the timer if needed
+        if (selectedOption != null && !selectedOption.isEmpty()) {
+            pauseTimer();
+            boolean isOptionSelected = true;
+        }
+    }
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

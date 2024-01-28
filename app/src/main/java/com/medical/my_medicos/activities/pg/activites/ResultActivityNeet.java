@@ -140,8 +140,10 @@ public class ResultActivityNeet extends AppCompatActivity {
     }
 
     @Override
-    public void onBackPressed(){
-//        Toast.makeText(ResultActivityNeet.this, "", Toast.LENGTH_SHORT).show();
+    public void onBackPressed() {
+        super.onBackPressed();
+
+        Toast.makeText(ResultActivityNeet.this, "", Toast.LENGTH_SHORT).show();
     }
 
     private int calculateCorrectAnswers(ArrayList<Neetpg> questions) {
