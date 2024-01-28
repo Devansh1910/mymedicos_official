@@ -60,8 +60,8 @@ public class  ResultReportNeetAdapter extends RecyclerView.Adapter< ResultReport
         Neetpg quizQuestion = quizList.get(position);
 
         holder.resultQuestion.setText(quizQuestion.getQuestion());
-        holder.resultCorrectOption.setText("Correct: " + quizQuestion.getCorrectAnswer());
-        holder.resultSelectedOption.setText("Selected: " + quizQuestion.getSelectedOption());
+        holder.resultCorrectOption.setText(quizQuestion.getCorrectAnswer());
+        holder.resultSelectedOption.setText(quizQuestion.getSelectedOption());
         holder.resultDescription.setText("Description: " + quizQuestion.getDescription());
 
         if (quizQuestion.isCorrect()) {

@@ -51,7 +51,6 @@ public class MainActivity extends AppCompatActivity {
     Spinner countryCodeSpinner;
     FirebaseAuth mauth;
     FirebaseFirestore db = FirebaseFirestore.getInstance();
-    private View customProgressDialog;
 
     @SuppressLint("MissingInflatedId")
     @Override
@@ -77,6 +76,7 @@ public class MainActivity extends AppCompatActivity {
         }
 
         // Toolbar
+
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
@@ -92,6 +92,7 @@ public class MainActivity extends AppCompatActivity {
         });
 
         // Ad Mob Content...
+
         MobileAds.initialize(this, new OnInitializationCompleteListener() {
             @Override
             public void onInitializationComplete(InitializationStatus initializationStatus) {
@@ -99,6 +100,7 @@ public class MainActivity extends AppCompatActivity {
         });
 
         // Ad mob Content Over....
+
         countryCodeSpinner = findViewById(R.id.countryCodeSpinner);
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this, R.array.country_codes, android.R.layout.simple_spinner_item);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
@@ -106,10 +108,8 @@ public class MainActivity extends AppCompatActivity {
 
         phone = findViewById(R.id.phonenumberedit);
         login = findViewById(R.id.lgn_btn);
+        mdialog = new ProgressDialog(this);
         mauth = FirebaseAuth.getInstance();
-
-        // Load custom progress dialog layout
-        customProgressDialog = getLayoutInflater().inflate(R.layout.custom_progress_loader, null);
 
         login.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -126,22 +126,10 @@ public class MainActivity extends AppCompatActivity {
                     phoneNumber = selectedCountryCode + phoneNumber;
                 }
 
-                // Replace default loading message with custom progress loader
-                showCustomProgressDialog();
-
                 checkIfUserExists(phoneNumber);
             }
         });
     }
-
-    private void showCustomProgressDialog() {
-        // Show custom progress loader
-        mdialog = new ProgressDialog(this, R.style.CustomProgressDialog);
-        mdialog.setMessage("");
-        mdialog.show();
-        mdialog.setContentView(customProgressDialog);
-    }
-
 
     private void checkIfUserExists(String phoneNumber) {
         db.collection("users")
@@ -230,6 +218,12 @@ public class MainActivity extends AppCompatActivity {
         editor.apply();
     }
 
+    // Helper method to check if the user is already logged in
+    private boolean isLoggedIn() {
+        SharedPreferences preferences = getSharedPreferences("user_data", Context.MODE_PRIVATE);
+        return preferences.getBoolean("is_logged_in", false);
+    }
+
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
 
         switch (item.getItemId()) {
@@ -241,6 +235,4 @@ public class MainActivity extends AppCompatActivity {
                 return super.onOptionsItemSelected(item);
         }
     }
-
-    // Other methods and overrides
 }

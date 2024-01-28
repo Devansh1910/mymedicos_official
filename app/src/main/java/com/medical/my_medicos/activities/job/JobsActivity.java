@@ -4,6 +4,7 @@ import static android.content.ContentValues.TAG;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
@@ -50,29 +51,17 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
+import uk.co.samuelwall.materialtaptargetprompt.MaterialTapTargetPrompt;
+
 
 public class JobsActivity extends AppCompatActivity {
 
     RecyclerView recyclerView1;
-    Button OK;
-    private Spinner specialitySpinner;
-    String selectedMode1,selectedMode2,selectedMode;
-
-    private SearchView searchview;
-    private Spinner subspecialitySpinner;
-    private ArrayAdapter<CharSequence> specialityAdapter;
-    private ArrayAdapter<CharSequence> subspecialityAdapter;
     private final String[][] subspecialities = subSpecialitiesData.subspecialities;
-    MyAdapter6 adapter1;
     FloatingActionButton floatingActionButton;
-    private ViewPager2 pager;
-    private TabLayout tabLayout;
     RecyclerView recyclerView2;
     FirebaseFirestore db = FirebaseFirestore.getInstance();
-    String speciality,Organiser,Location;
     Toolbar toolbar;
-    TabLayout tab;
-    ViewPager viewPager;
     ImageView cart_icon;
 
     @SuppressLint("MissingInflatedId")
@@ -93,6 +82,16 @@ public class JobsActivity extends AppCompatActivity {
                 startActivity(i);
             }
         });
+
+        SharedPreferences preferences = getSharedPreferences("user_data", MODE_PRIVATE);
+        boolean isFirstTimeUser = preferences.getBoolean("firstTimeUser", true);
+
+        if (isFirstTimeUser) {
+            showTapTargetOnFab();
+            SharedPreferences.Editor editor = preferences.edit();
+            editor.putBoolean("firstTimeUser", false);
+            editor.apply();
+        }
 
         floatingActionButton=findViewById(R.id.floatingActionButton);
         floatingActionButton.setOnClickListener(new View.OnClickListener() {
@@ -155,6 +154,15 @@ public class JobsActivity extends AppCompatActivity {
     public boolean onCreateOptionsMenu(Menu menu) {
         new MenuInflater(this).inflate(R.menu.jobs_menu, menu);
         return super.onCreateOptionsMenu(menu);
+    }
+
+    private void showTapTargetOnFab() {
+        new MaterialTapTargetPrompt.Builder(JobsActivity.this)
+                .setTarget(floatingActionButton)
+                .setPrimaryText("Welcome!")
+                .setSecondaryText("Tap here to create and post a job.")
+                .setBackButtonDismissEnabled(true) // Allow dismissing by tapping the back button
+                .show();
     }
 
     @Override
