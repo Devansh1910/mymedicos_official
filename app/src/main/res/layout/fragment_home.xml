@@ -60,7 +60,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginBottom="5dp"
                         android:paddingVertical="@dimen/_5sdp"
-                        android:elevation="5dp"
+                        android:elevation="10dp"
                         android:background="@drawable/uptodownforhome"
                         android:paddingHorizontal="@dimen/_5sdp"
                         android:orientation="vertical">
@@ -109,6 +109,7 @@
                         <androidx.cardview.widget.CardView
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
+                            android:layout_marginVertical="@dimen/_10ssp"
                             android:layout_marginHorizontal="8dp"
                             app:cardCornerRadius="@dimen/_10ssp">
 
@@ -116,15 +117,15 @@
                                 android:layout_width="match_parent"
                                 android:paddingVertical="4dp"
                                 android:layout_height="wrap_content"
-                                app:cardCornerRadius="10dp">
+                                app:cardCornerRadius="8dp">
 
                                 <org.imaginativeworld.whynotimagecarousel.ImageCarousel
                                     android:id="@+id/homecarousel"
                                     android:layout_width="match_parent"
                                     android:layout_height="150dp"
-                                    app:showNavigationButtons="false"
+                                    app:autoPlay="true"
                                     app:showCaption="false"
-                                    app:autoPlay="true"/>
+                                    app:showNavigationButtons="false" />
 
                             </androidx.cardview.widget.CardView>
 
