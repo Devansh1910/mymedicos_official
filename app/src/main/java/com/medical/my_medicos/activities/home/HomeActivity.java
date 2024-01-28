@@ -254,8 +254,7 @@ public class HomeActivity extends AppCompatActivity {
         if (currentUser != null) {
             FirebaseFirestore db = FirebaseFirestore.getInstance();
 
-            // Query to find the document with the matching phone number
-            Query query = db.collection("users").whereEqualTo("phoneNumber", phoneNumber);
+            Query query = db.collection("users").whereEqualTo("Phone Number", phoneNumber);
 
             query.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                 @Override
