@@ -89,7 +89,6 @@ public class HomeFragment extends Fragment {
     private FragmentHomeBinding binding;
     private LinearLayout progressBar;
     private SwipeRefreshLayout swipeRefreshLayout;
-
     LinearLayout jobs,cme,news,publication,update,pg_prep,ugexams,meme;
     MyAdapter adapterjob;
     MyAdapter2 adaptercme;
@@ -99,12 +98,10 @@ public class HomeFragment extends Fragment {
     RecyclerView recyclerViewjob;
     RecyclerView recyclerViewcme;
     private ExoPlayer player;
-
     TodayNewsAdapter todayNewsAdapter;
     ArrayList<NewsToday>  newstoday;
     String videoURL = "https://res.cloudinary.com/dmzp6notl/video/upload/v1701512080/videoforhome_gzfpen.mp4";
     TextView navigatetojobs, navigatetocme, navigatecmeinsider,navigatenews;
-
     public static final String INTENT_KEY_SPECIALITY = "speciality";
     public static final String INTENT_KEY_USER_PHONE = "user_phone";
 
@@ -255,6 +252,17 @@ public class HomeFragment extends Fragment {
                 startActivity(i);
             }
         });
+
+        cardjobs = rootView.findViewById(R.id.cardjobs);
+
+        cardjobs.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent i = new Intent(getActivity(), JobsActivity.class);
+                startActivity(i);
+            }
+        });
+
         cardcme=rootView.findViewById(R.id.cardcme);
         cardjobs=rootView.findViewById(R.id.cardjobs);
         cardcme.setVisibility(View.GONE);
@@ -287,6 +295,16 @@ public class HomeFragment extends Fragment {
         navigatetocme = rootView.findViewById(R.id.navigatecme);
 
         navigatetocme.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent i = new Intent(getActivity(), CmeActivity.class);
+                startActivity(i);
+            }
+        });
+
+        cardcme = rootView.findViewById(R.id.cardcme);
+
+        cardcme.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent i = new Intent(getActivity(), CmeActivity.class);

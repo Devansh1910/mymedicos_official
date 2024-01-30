@@ -108,14 +108,14 @@ public class HomeActivity extends AppCompatActivity {
         LinearLayout openhomedrawerIcon = findViewById(R.id.opensidehomedrawer);
         openhomedrawerIcon.setOnClickListener(v -> openHomeSideActivity());
 
-        notificationbtn = findViewById(R.id.notificationbtn);
-        notificationbtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent i = new Intent(HomeActivity.this, NotificationActivity.class);
-                startActivity(i);
-            }
-        });
+//        notificationbtn = findViewById(R.id.notificationbtn);
+//        notificationbtn.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                Intent i = new Intent(HomeActivity.this, NotificationActivity.class);
+//                startActivity(i);
+//            }
+//        });
 
         bottomAppBar = findViewById(R.id.bottomappabar);
 

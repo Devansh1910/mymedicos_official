@@ -18,15 +18,12 @@ import com.medical.my_medicos.adapter.job.items.jobitem;
 import java.util.List;
 
 public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
-
     Context context;
     List<jobitem> joblist;
-
     public MyAdapter(Context context, List<jobitem> joblist) {
         this.context = context;
         this.joblist = joblist;
     }
-
 
     @NonNull
     @Override

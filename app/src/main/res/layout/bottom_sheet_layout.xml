@@ -2,6 +2,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="@color/backgroundcolor"
+    android:padding="@dimen/_8sdp"
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
 
@@ -57,28 +58,13 @@
             android:gravity="center_vertical"
             android:text="Selected"/>
 
-    <TextView
-        android:id="@+id/showresultdescription"
-        android:layout_width="wrap_content"
-        android:drawablePadding="@dimen/_5sdp"
-        android:fontFamily="@font/inter_extrabold"
-        android:layout_gravity="end"
-        android:gravity="end"
-        android:paddingVertical="@dimen/_5sdp"
-        android:layout_height="wrap_content"
-        android:text="See Details"
-        android:drawableEnd="@drawable/seedetailsrightarrow"
-        android:textColor="#FF0000"
-        android:textSize="@dimen/_10sdp"
-        tools:ignore="NotSibling"/>
-
         <TextView
             android:id="@+id/resultdescription"
             android:layout_width="match_parent"
             android:fontFamily="@font/inter"
             android:paddingVertical="@dimen/_5sdp"
             android:layout_height="wrap_content"
-            android:visibility="gone"
+            android:visibility="visible"
             android:text="See Details"
             android:textColor="@color/unselected"
             android:textSize="@dimen/_10sdp"

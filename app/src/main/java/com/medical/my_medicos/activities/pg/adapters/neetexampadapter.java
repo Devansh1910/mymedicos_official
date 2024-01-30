@@ -35,10 +35,8 @@ public class neetexampadapter extends RecyclerView.Adapter<neetexampadapter.Neet
     private boolean isOptionSelectionEnabled = true;
     private CountDownTimer countDownTimer;
     private OnOptionSelectedListener onOptionSelectedListener;
-
-    private long remainingTimeMilli=210*60*1000;  // Variable to store remaining time when paused
+    private long remainingTimeMilli=210*60*1000;
     private boolean isTimePaused = false;
-
     private TextToSpeech textToSpeech;
     private MediaPlayer mediaPlayer;
 
@@ -51,14 +49,12 @@ public class neetexampadapter extends RecyclerView.Adapter<neetexampadapter.Neet
     @Override
     public NeetQuizQuestionViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(context).inflate(R.layout.question_quiz_design_weekly1, parent, false);
-//        textViewTimer = view.findViewById(R.id.textViewTimer1);
         return new NeetQuizQuestionViewHolder(view);
     }
 
     @Override
     public void onBindViewHolder(@NonNull NeetQuizQuestionViewHolder holder, @SuppressLint("RecyclerView") int position) {
         Neetpg quizquestion = quizquestionsweekly.get(position);
-
 
         holder.questionspan.setText(quizquestion.getQuestion());
         holder.optionA.setText(quizquestion.getOptionA());
@@ -82,7 +78,6 @@ public class neetexampadapter extends RecyclerView.Adapter<neetexampadapter.Neet
             handleOptionClick(holder, selectedOption);
         });
 
-        // Check if the timer was paused, and if so, resume it
         if (!isTimePaused) {
             startTimer(remainingTimeMilli);
         } else {
@@ -109,23 +104,16 @@ public class neetexampadapter extends RecyclerView.Adapter<neetexampadapter.Neet
         void onOptionSelected(String selectedOption, int position);
 
     }
-
-    // Instance variable to hold the listener
-
-
-    // Setter method for the listener
     public void setOnOptionSelectedListener(OnOptionSelectedListener listener) {
         this.onOptionSelectedListener = listener;
         disableOptionSelection();
     }
 
-    // Existing code...
-
     private void handleOptionClick(NeetQuizQuestionViewHolder holder, String selectedOption) {
         if (isOptionSelectionEnabled) {
             if (countDownTimer != null) {
                 countDownTimer.cancel();
-                isTimePaused = true; // Set the flag to indicate that the timer is paused
+                isTimePaused = true;
             }
 
             if (selectedOption == null || selectedOption.isEmpty()) {
@@ -139,7 +127,6 @@ public class neetexampadapter extends RecyclerView.Adapter<neetexampadapter.Neet
             Neetpg quizquestion = quizquestionsweekly.get(holder.getAdapterPosition());
             quizquestion.setSelectedOption(selectedOption);
 
-            // Call the listener method
             if (onOptionSelectedListener != null) {
                 onOptionSelectedListener.onOptionSelected(selectedOption, holder.getAdapterPosition());
             }
@@ -209,9 +196,6 @@ public class neetexampadapter extends RecyclerView.Adapter<neetexampadapter.Neet
                 long seconds = totalSecondsRemaining % 60;
 
                 String timeRemaining = String.format(Locale.getDefault(), "%02d:%02d", minutes, seconds);
-//                textViewTimer.setText(timeRemaining);
-
-
             }
 
             @Override
@@ -237,12 +221,6 @@ public class neetexampadapter extends RecyclerView.Adapter<neetexampadapter.Neet
             startTimer(remainingTimeMilli);
         }
     }
-//    public interface OnOptionSelectedListener {
-//        void onOptionSelected(String selectedOption, int position);
-//    }
-//    public void setOnOptionSelectedListener(OnOptionSelectedListener listener) {
-//        this.onOptionSelectedListener = listener;
-//    }
 
     private void announceRemainingTime(long secondsRemaining) {
         if (secondsRemaining > 0) {
@@ -326,7 +304,6 @@ public class neetexampadapter extends RecyclerView.Adapter<neetexampadapter.Neet
         public void setOnOptionSelectedListener(OnOptionSelectedListener listener) {
             this.onOptionSelectedListener = listener;
         }
-
 
         public NeetQuizQuestionViewHolder(@NonNull View itemView) {
             super(itemView);

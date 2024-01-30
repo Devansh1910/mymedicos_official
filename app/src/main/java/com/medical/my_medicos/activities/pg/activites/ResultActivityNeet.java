@@ -11,6 +11,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.widget.NestedScrollView;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -20,6 +21,7 @@ import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.medical.my_medicos.R;
+import com.medical.my_medicos.activities.pg.activites.PgprepActivity;
 import com.medical.my_medicos.activities.pg.activites.extras.RecetUpdatesNoticeActivity;
 import com.medical.my_medicos.activities.pg.adapters.ResultReportNeetAdapter;
 import com.medical.my_medicos.activities.pg.model.Neetpg;
@@ -35,7 +37,7 @@ public class ResultActivityNeet extends AppCompatActivity {
     private TextView correctAnswersTextView;
     private TextView totalQuestionsTextView;
     private TextView remainingTimeTextView;
-    private Button gotopghome;
+    private TextView gotopghome;
     private FirebaseFirestore db;
     private FirebaseAuth auth; // Initialize FirebaseAuth
 
@@ -45,6 +47,8 @@ public class ResultActivityNeet extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_result_neet);
 
+        NestedScrollView nestedScrollView = findViewById(R.id.nestedofresult);
+        nestedScrollView.smoothScrollTo(0, nestedScrollView.getBottom());
 
         gotopghome = findViewById(R.id.gotopghome);
         gotopghome.setOnClickListener(new View.OnClickListener() {

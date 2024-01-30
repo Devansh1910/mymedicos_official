@@ -28,17 +28,15 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.medical.my_medicos.R;
-import com.medical.my_medicos.activities.pg.activites.extras.CreditsActivity;
 import com.medical.my_medicos.activities.pg.adapters.neetexampadapter;
 import com.medical.my_medicos.activities.pg.model.Neetpg;
-import com.medical.my_medicos.activities.pg.model.QuizPGinsider;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Locale;
 import java.util.Map;
 
-public class Neetexaminsider extends AppCompatActivity  implements neetexampadapter.OnOptionSelectedListener  {
+public class Neetexaminsider extends AppCompatActivity implements neetexampadapter.OnOptionSelectedListener {
 
     private RecyclerView recyclerView;
     private neetexampadapter adapter;
@@ -46,7 +44,7 @@ public class Neetexaminsider extends AppCompatActivity  implements neetexampadap
     String id;
     AlertDialog alertDialog;
     private ArrayList<Neetpg> quizList1;
-    private LinearLayout instructionguide;
+    private TextView instructionguide;
     private TextView timerTextView;
     private int currentQuestionIndex = 0;
     private CountDownTimer countDownTimer;
@@ -64,11 +62,10 @@ public class Neetexaminsider extends AppCompatActivity  implements neetexampadap
         int uiOptions = View.SYSTEM_UI_FLAG_HIDE_NAVIGATION | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY;
         decorView.setSystemUiVisibility(uiOptions);
 
-        currentquestion= findViewById(R.id.currentquestion);
+        currentquestion = findViewById(R.id.currentquestion);
         recyclerView = findViewById(R.id.recycler_view1);
         quizList1 = new ArrayList<>();
         timerTextView = findViewById(R.id.timerTextView);
-
 
         FirebaseFirestore db = FirebaseFirestore.getInstance();
         CollectionReference quizzCollection = db.collection("PGupload").document("Weekley").collection("Quiz");
@@ -79,7 +76,6 @@ public class Neetexaminsider extends AppCompatActivity  implements neetexampadap
                 if (task.isSuccessful()) {
                     quizList1.clear();
                     for (QueryDocumentSnapshot document : task.getResult()) {
-
                         String speciality = document.getString("speciality");
                         String Title = document.getString("title");
                         Log.d("Error in Speciality", speciality);
@@ -88,11 +84,11 @@ public class Neetexaminsider extends AppCompatActivity  implements neetexampadap
                         String str1 = intent.getStringExtra("Title1");
                         String str = intent.getStringExtra("Title");
                         Log.d("Speciality", str1);
-                        int r=str.compareTo(Title);
 
-                        if (r==0 && speciality.equals(str1)) {
+                        int r = str.compareTo(Title);
+
+                        if (r == 0 && speciality.equals(str1)) {
                             ArrayList<Map<String, Object>> dataList = (ArrayList<Map<String, Object>>) document.get("Data");
-                            quizList1.clear();
                             if (dataList != null) {
                                 for (Map<String, Object> entry : dataList) {
                                     String question = (String) entry.get("Question");
@@ -103,36 +99,31 @@ public class Neetexaminsider extends AppCompatActivity  implements neetexampadap
                                     String optionD = (String) entry.get("D");
                                     String description = (String) entry.get("Description");
                                     String imageUrl = (String) entry.get("Image");
-                                    id=document.getId();
-                                    Log.d("document id ",id);
+                                    id = document.getId();
+                                    Log.d("document id ", id);
 
                                     Neetpg quizQuestion;
 
                                     if (imageUrl != null && !imageUrl.isEmpty()) {
+                                        // If Image field is not empty, fetch other details
                                         quizQuestion = new Neetpg(question, optionA, optionB, optionC, optionD, correctAnswer, imageUrl, description);
                                     } else {
-                                        quizQuestion = new Neetpg(question, optionA, optionB, optionC, optionD, correctAnswer, imageUrl, description);
+                                        // If Image field is empty, ignore it and fetch other details
+                                        quizQuestion = new Neetpg(question, optionA, optionB, optionC, optionD, correctAnswer, null, description);
                                     }
                                     quizList1.add(quizQuestion);
                                 }
                             }
                         }
                     }
+                    adapter.setQuizQuestions(quizList1); // Set quiz questions to the adapter
                     loadNextQuestion();
                     startTimer();
                 }
             }
         });
-        Button prevButton = findViewById(R.id.prevButton);
-//        prevButton.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                loadPreviousQuestion();
-//            }
-//        });
 
-
-        Button nextButton = findViewById(R.id.nextButton1);
+        TextView nextButton = findViewById(R.id.nextButton1);
         nextButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -144,14 +135,6 @@ public class Neetexaminsider extends AppCompatActivity  implements neetexampadap
         recyclerView.setLayoutManager(new LinearLayoutManager(Neetexaminsider.this));
         adapter = new neetexampadapter(Neetexaminsider.this, quizList1);
         recyclerView.setAdapter(adapter);
-
-        Button endButton = findViewById(R.id.endenabled1);
-        endButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                handleEndButtonClick();
-            }
-        });
 
         LinearLayout toTheBackLayout = findViewById(R.id.totheback1);
         toTheBackLayout.setOnClickListener(new View.OnClickListener() {
@@ -169,6 +152,7 @@ public class Neetexaminsider extends AppCompatActivity  implements neetexampadap
         });
         adapter.setOnOptionSelectedListener(this);
     }
+
     private void showInstructionDialog() {
         AlertDialog.Builder builder = new AlertDialog.Builder(Neetexaminsider.this, R.style.CustomAlertDialog);
         LayoutInflater inflater = getLayoutInflater();
@@ -206,12 +190,10 @@ public class Neetexaminsider extends AppCompatActivity  implements neetexampadap
             Neetpg currentQuestion = quizList1.get(currentQuestionIndex);
             adapter.setQuizQuestions(Collections.singletonList(currentQuestion));
 
-            // Update the time left based on the remaining time stored when an option was selected
             if (currentQuestion.getRemainingTimeInMillis() != -1) {
                 timeLeftInMillis = currentQuestion.getRemainingTimeInMillis();
-                currentQuestion.setRemainingTimeInMillis(-1); // Reset to default value after using
+                currentQuestion.setRemainingTimeInMillis(-1);
             }
-
 
             recyclerView.smoothScrollToPosition(currentQuestionIndex);
             updateQuestionNumber();
@@ -221,16 +203,6 @@ public class Neetexaminsider extends AppCompatActivity  implements neetexampadap
         }
     }
 
-//    private void loadPreviousQuestion() {
-//        if (currentQuestionIndex > 0) {
-//            currentQuestionIndex--;
-//            adapter.setQuizQuestions(Collections.singletonList(quizList1.get(currentQuestionIndex)));
-//            recyclerView.smoothScrollToPosition(currentQuestionIndex);
-//            updateQuestionNumber();
-//        } else {
-//            Toast.makeText(this, "This is the first question", Toast.LENGTH_SHORT).show();
-//        }
-//    }
     private void updateQuestionNumber() {
         int totalQuestions = quizList1.size();
         String questionNumberText =  (currentQuestionIndex + 1) + " / " + totalQuestions;
@@ -358,8 +330,6 @@ public class Neetexaminsider extends AppCompatActivity  implements neetexampadap
             @Override
             public void onFinish() {
                 timerRunning = false;
-                // Remove the following line to prevent the sound and AlertDialog
-                // handleQuizEnd();
             }
         }.start();
     }
@@ -399,33 +369,11 @@ public class Neetexaminsider extends AppCompatActivity  implements neetexampadap
         return results;
     }
 
-//    @Override
-//    public void onOptionSelected(String selectedOption, int position) {
-//
-//    }
-
     @Override
     public void onOptionSelected(String selectedOption, int position) {
-        // Handle option selected event, and pause the timer if needed
         if (selectedOption != null && !selectedOption.isEmpty()) {
             pauseTimer();
             boolean isOptionSelected = true;
         }
     }
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

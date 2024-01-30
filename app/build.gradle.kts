@@ -122,4 +122,7 @@ dependencies {
     implementation ("uk.co.samuelwall:material-tap-target-prompt:3.3.2")
     // Tap target.....
     implementation ("uk.co.samuelwall:material-tap-target-prompt:3.1.0")
+    //.....Download Activity
+    implementation ("com.itextpdf:itext7-core:7.1.16")
+
 }

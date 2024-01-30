@@ -1,25 +1,6 @@
-//package com.medical.my_medicos.activities.pg.adapters;
-//
-//import android.annotation.SuppressLint;
-//import android.content.Context;
-//import android.view.LayoutInflater;
-//import android.view.View;
-//import android.view.ViewGroup;
-//import android.widget.TextView;
-//
-//import androidx.annotation.NonNull;
-//import androidx.recyclerview.widget.RecyclerView;
-//
-//import com.medical.my_medicos.R;
-//import com.medical.my_medicos.activities.pg.model.QuizPGinsider;
-//
-//import java.util.ArrayList;
-//
-//public class ResultReportNeetAdapter {
-//}
 package com.medical.my_medicos.activities.pg.adapters;
 
-        import android.annotation.SuppressLint;
+import android.annotation.SuppressLint;
         import android.content.Context;
         import android.view.LayoutInflater;
         import android.view.View;
@@ -39,9 +20,9 @@ public class  ResultReportNeetAdapter extends RecyclerView.Adapter< ResultReport
 
     private Context context;
     private ArrayList<Neetpg> quizList;
-    private int correctCount;  // Add this variable
+    private int correctCount;
 
-    public  ResultReportNeetAdapter(Context context, ArrayList<Neetpg> quizList) {
+    public ResultReportNeetAdapter(Context context, ArrayList<Neetpg> quizList) {
         this.context = context;
         this.quizList = quizList;
         this.correctCount = 0;  // Initialize the count
@@ -62,7 +43,7 @@ public class  ResultReportNeetAdapter extends RecyclerView.Adapter< ResultReport
         holder.resultQuestion.setText(quizQuestion.getQuestion());
         holder.resultCorrectOption.setText(quizQuestion.getCorrectAnswer());
         holder.resultSelectedOption.setText(quizQuestion.getSelectedOption());
-        holder.resultDescription.setText("Description: " + quizQuestion.getDescription());
+        holder.resultDescription.setText(quizQuestion.getDescription());
 
         if (quizQuestion.isCorrect()) {
             correctCount++;
@@ -79,6 +60,7 @@ public class  ResultReportNeetAdapter extends RecyclerView.Adapter< ResultReport
         TextView resultCorrectOption;
         TextView resultSelectedOption;
         TextView resultDescription;
+        TextView showResultDescription;
 
         public ResultViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -86,7 +68,19 @@ public class  ResultReportNeetAdapter extends RecyclerView.Adapter< ResultReport
             resultCorrectOption = itemView.findViewById(R.id.resultCorrectOption);
             resultSelectedOption = itemView.findViewById(R.id.resultSelectedOption);
             resultDescription = itemView.findViewById(R.id.resultdescription);
+            showResultDescription = itemView.findViewById(R.id.showresultdescription);
+
+            showResultDescription.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    // Toggle visibility of resultDescription
+                    if (resultDescription.getVisibility() == View.VISIBLE) {
+                        resultDescription.setVisibility(View.GONE);
+                    } else {
+                        resultDescription.setVisibility(View.VISIBLE);
+                    }
+                }
+            });
         }
     }
 }
-

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
+    xmlns:tools="http://schemas.android.com/tools"
     android:orientation="vertical"
     android:background="#F6F6F6"
     android:layout_height="match_parent"
@@ -24,7 +24,7 @@
                 android:id="@+id/appBarLayout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@drawable/upperuploadbtn"
+                android:background="@color/backgroundcolor"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent">
@@ -34,6 +34,7 @@
                     android:paddingEnd="@dimen/_10ssp"
                     android:layout_gravity="center"
                     android:gravity="center"
+                    android:background="@color/backgroundcolor"
                     android:layout_width="match_parent"
                     android:layout_height="?attr/actionBarSize"
                     app:menu="@menu/home_menu">
@@ -82,7 +83,7 @@
                                 android:textColor="@color/white"
                                 android:gravity="center"
                                 android:layout_gravity="center"
-                                android:textSize="14sp"/>
+                                android:textSize="16sp"/>
 
                         </LinearLayout>
 
@@ -90,25 +91,24 @@
 
                 </androidx.appcompat.widget.Toolbar>
 
-                <TextView
-                    android:id="@+id/timerTextView"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginHorizontal="@dimen/_10sdp"
-                    android:layout_marginTop="@dimen/_10sdp"
-                    android:elevation="@dimen/_5sdp"
-                    android:layout_gravity="center_horizontal"
-                    android:fontFamily="@font/inter"
-                    android:gravity="center"
-                    android:paddingVertical="@dimen/_5sdp"
-                    android:paddingHorizontal="@dimen/_24sdp"
-                    android:text="3 hrs 30 mins"
-                    android:textAllCaps="true"
-                    android:textColor="@color/backgroundcolor"
-                    android:textSize="@dimen/_20sdp"
-                    android:textStyle="bold"/>
-
             </com.google.android.material.appbar.AppBarLayout>
+
+            <TextView
+                android:id="@+id/timerTextView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_5sdp"
+                android:layout_gravity="start"
+                android:fontFamily="@font/inter"
+                android:background="@drawable/timerbackground"
+                android:gravity="start"
+                android:paddingVertical="@dimen/_2sdp"
+                android:paddingHorizontal="@dimen/_24sdp"
+                android:text="3 hrs 30 mins"
+                android:textAllCaps="true"
+                android:textColor="@color/unselected"
+                android:textSize="@dimen/_14sdp"
+                android:textStyle="bold"/>
 
             <TextView
                 android:id="@+id/currentquestion"
@@ -116,16 +116,29 @@
                 android:layout_height="wrap_content"
                 android:elevation="@dimen/_5sdp"
                 android:layout_gravity="end"
-                android:layout_marginHorizontal="@dimen/_10sdp"
                 android:fontFamily="@font/inter"
                 android:gravity="end"
                 android:paddingHorizontal="@dimen/_16sdp"
-                android:paddingVertical="@dimen/_5sdp"
                 android:text="18"
                 android:textAllCaps="true"
                 android:textColor="@color/unselected"
-                android:textSize="@dimen/_16sdp"
+                android:textSize="@dimen/_14sdp"
                 android:textStyle="bold"/>
+
+            <TextView
+                android:id="@+id/instructionguide"
+                android:layout_width="wrap_content"
+                android:layout_gravity="end"
+                android:layout_marginTop="@dimen/_5sdp"
+                android:gravity="end"
+                android:layout_marginHorizontal="@dimen/_14sdp"
+                android:textColor="@color/backgroundcolor"
+                android:paddingHorizontal="@dimen/_10sdp"
+                android:paddingVertical="@dimen/_2sdp"
+                android:background="@drawable/instructionsbk"
+                android:layout_height="wrap_content"
+                android:textSize="@dimen/_14sdp"
+                android:text="Instructions"/>
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/recycler_view1"
@@ -142,88 +155,30 @@
                 android:layout_marginTop="16dp"
                 android:orientation="horizontal">
 
-                <Button
-                    android:id="@+id/prevButton"
-                    android:layout_width="0dp"
-                    android:layout_weight="1"
-                    android:padding="@dimen/_10sdp"
-                    android:backgroundTint="@color/grey"
-                    android:layout_height="wrap_content"
-                    android:textSize="@dimen/_16sdp"
-                    android:text="Previous" />
-
                 <com.google.android.material.divider.MaterialDivider
                     android:layout_width="0dp"
                     app:dividerColor="@color/backgroundcolor"
                     android:layout_height="wrap_content"
-                    android:layout_weight="0.2"/>
-
-                <Button
-                    android:id="@+id/nextButton1"
-                    android:layout_width="0dp"
-                    android:padding="@dimen/_10sdp"
-                    android:layout_weight="1"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="end"
-                    android:textSize="@dimen/_16sdp"
-                    android:text="Next" />
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:id="@+id/instructionguide"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:paddingVertical="@dimen/_5sdp"
-                android:paddingHorizontal="@dimen/_8sdp"
-                android:background="@drawable/categoryblackkkkkk"
-                android:layout_gravity="center_vertical"
-                android:layout_margin="@dimen/_10sdp"
-                android:orientation="horizontal">
+                    android:layout_weight="1"/>
 
                 <TextView
+                    android:id="@+id/nextButton1"
                     android:layout_width="0dp"
-                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:gravity="center"
                     android:layout_weight="1"
-                    android:text="Instructions"
-                    android:textColor="@color/unselected"
-                    android:textSize="@dimen/_14sdp"
-                    android:textStyle="bold"
-                    android:fontFamily="@font/inter"/>
-
-                <ImageView
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_weight="0.1"
-                    android:layout_gravity="end"
-                    android:src="@drawable/infoforverify"/>
+                    android:textColor="@color/backgroundcolor"
+                    android:paddingHorizontal="@dimen/_5sdp"
+                    android:paddingVertical="@dimen/_2sdp"
+                    android:background="@drawable/nextbutton"
+                    android:layout_height="wrap_content"
+                    android:textSize="@dimen/_16sdp"
+                    android:text="Next"/>
 
             </LinearLayout>
 
         </LinearLayout>
 
     </ScrollView>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@drawable/upperforpayment"
-        android:orientation="vertical"
-        android:padding="@dimen/_5sdp"
-        app:layout_constraintBottom_toBottomOf="parent">
-
-        <Button
-            android:id="@+id/endenabled1"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:backgroundTint="#FF0000"
-            android:fontFamily="@font/inter"
-            android:padding="@dimen/_8sdp"
-            android:text="End Quiz"
-            android:textColor="@color/backgroundcolor"
-            android:textSize="@dimen/_16sdp"
-            android:textStyle="bold" />
-
-    </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

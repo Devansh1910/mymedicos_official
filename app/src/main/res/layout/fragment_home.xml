@@ -60,7 +60,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginBottom="5dp"
                         android:paddingVertical="@dimen/_5sdp"
-                        android:elevation="5dp"
+                        android:elevation="10dp"
                         android:background="@drawable/uptodownforhome"
                         android:paddingHorizontal="@dimen/_5sdp"
                         android:orientation="vertical">
@@ -116,15 +116,15 @@
                                 android:layout_width="match_parent"
                                 android:paddingVertical="4dp"
                                 android:layout_height="wrap_content"
-                                app:cardCornerRadius="10dp">
+                                app:cardCornerRadius="8dp">
 
                                 <org.imaginativeworld.whynotimagecarousel.ImageCarousel
                                     android:id="@+id/homecarousel"
                                     android:layout_width="match_parent"
                                     android:layout_height="150dp"
-                                    app:showNavigationButtons="false"
+                                    app:autoPlay="true"
                                     app:showCaption="false"
-                                    app:autoPlay="true"/>
+                                    app:showNavigationButtons="false" />
 
                             </androidx.cardview.widget.CardView>
 
@@ -284,7 +284,6 @@
                                 android:layout_width="0dp"
                                 android:layout_weight="1"                                android:layout_height="wrap_content"
                                 android:orientation="vertical">
-
                                 <LinearLayout
                                     android:id="@+id/ugexams"
                                     android:layout_width="@dimen/_40sdp"
@@ -293,13 +292,15 @@
                                     android:background="@drawable/back1">
 
                                     <ImageView
-                                        android:layout_width="wrap_content"
-                                        android:layout_height="wrap_content"
+                                        android:layout_width="@dimen/_25sdp"
+                                        android:layout_height="@dimen/_25sdp"
                                         android:layout_gravity="center"
-                                        android:padding="@dimen/_8ssp"
+                                        android:layout_marginStart="@dimen/_8sdp"
                                         android:src="@drawable/ugicon" />
 
                                 </LinearLayout>
+
+
 
                                 <TextView
                                     android:layout_width="wrap_content"
@@ -315,21 +316,24 @@
                                 android:layout_width="0dp"
                                 android:layout_weight="1"                                android:layout_height="wrap_content"
                                 android:orientation="vertical">
-
                                 <LinearLayout
                                     android:id="@+id/pg_prep"
                                     android:layout_width="@dimen/_40sdp"
                                     android:layout_height="@dimen/_40sdp"
                                     android:layout_gravity="center"
-                                    android:background="@drawable/back2">
+                                    android:background="@drawable/back1">
 
                                     <ImageView
-                                        android:layout_width="wrap_content"
-                                        android:layout_height="wrap_content"
+                                        android:layout_width="@dimen/_25sdp"
+                                        android:layout_height="@dimen/_25sdp"
                                         android:layout_gravity="center"
-                                        android:padding="@dimen/_8ssp"
+                                        android:layout_marginStart="@dimen/_8sdp"
                                         android:src="@drawable/pgicon" />
+
                                 </LinearLayout>
+
+
+
 
                                 <TextView
                                     android:layout_width="wrap_content"
@@ -345,7 +349,6 @@
                                 android:layout_width="0dp"
                                 android:layout_weight="1"                                android:layout_height="wrap_content"
                                 android:orientation="vertical">
-
                                 <LinearLayout
                                     android:id="@+id/university"
                                     android:layout_width="@dimen/_40sdp"
@@ -354,12 +357,14 @@
                                     android:background="@drawable/back1">
 
                                     <ImageView
-                                        android:layout_width="wrap_content"
-                                        android:layout_height="wrap_content"
+                                        android:layout_width="@dimen/_25sdp"
+                                        android:layout_height="@dimen/_25sdp"
                                         android:layout_gravity="center"
-                                        android:padding="@dimen/_8ssp"
+                                        android:layout_marginStart="@dimen/_8sdp"
                                         android:src="@drawable/universityicon" />
+
                                 </LinearLayout>
+
 
                                 <TextView
                                     android:layout_width="wrap_content"
@@ -375,21 +380,23 @@
                                 android:layout_width="0dp"
                                 android:layout_weight="1"                                android:layout_height="wrap_content"
                                 android:orientation="vertical">
-
                                 <LinearLayout
                                     android:id="@+id/meme"
                                     android:layout_width="@dimen/_40sdp"
-                                    android:layout_gravity="center"
                                     android:layout_height="@dimen/_40sdp"
-                                    android:background="@drawable/back2">
+                                    android:layout_gravity="center"
+                                    android:background="@drawable/back1">
 
                                     <ImageView
-                                        android:layout_width="wrap_content"
-                                        android:layout_height="wrap_content"
+                                        android:layout_width="@dimen/_25sdp"
+                                        android:layout_height="@dimen/_25sdp"
                                         android:layout_gravity="center"
-                                        android:padding="@dimen/_8ssp"
+                                        android:layout_marginStart="@dimen/_8sdp"
                                         android:src="@drawable/memeicon" />
+
                                 </LinearLayout>
+
+
 
                                 <TextView
                                     android:layout_width="wrap_content"
@@ -464,23 +471,24 @@
                             android:layout_width="0dp"
                             android:layout_weight="1"
                             android:layout_height="wrap_content"
-                            android:text="Recommended Jobs"
+                            android:text="Quick Apply"
                             android:fontFamily="@font/inter"
                             android:textSize="@dimen/_12ssp"
                             android:textStyle="bold" />
 
                         <TextView
                             android:id="@+id/navigatejobs"
-                            android:layout_width="0dp"
-                            android:layout_weight="1"
+                            android:layout_width="wrap_content"
                             android:fontFamily="@font/inter"
                             android:layout_height="wrap_content"
                             android:text="View All"
+                            android:paddingHorizontal="@dimen/_8sdp"
+                            android:paddingVertical="@dimen/_2sdp"
+                            android:background="@drawable/categoryblackkkkkk"
                             android:drawablePadding="@dimen/_8ssp"
-                            android:drawableEnd="@drawable/sidearrow"
                             android:layout_gravity="center"
                             android:gravity="end"
-                            android:textColor="#676666"
+                            android:textColor="@color/unselected"
                             android:textSize="@dimen/_12ssp"
                             android:textStyle="bold" />
                     </LinearLayout>
@@ -490,7 +498,6 @@
                         android:layout_width="match_parent"
                         android:paddingVertical="@dimen/_5sdp"
                         android:layout_height="wrap_content"
-                        android:layout_marginBottom="@dimen/_5sdp"
                         android:layout_marginRight="@dimen/_5sdp"
                         android:layout_marginLeft="@dimen/_5sdp"
                         android:orientation="horizontal">
@@ -499,7 +506,7 @@
 
                     <androidx.cardview.widget.CardView
                         android:id="@+id/cardjobs"
-                        xmlns:android="http://schemas.android.com/apk/res/android"
+                        app:cardCornerRadius="@dimen/_5sdp"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_margin="8dp"
@@ -512,14 +519,13 @@
                             android:orientation="vertical"
                             android:padding="16dp">
 
-
                             <TextView
-
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:text="NO CONTENT"
+                                android:text="Explore"
                                 android:fontFamily="@font/inter"
                                 android:textSize="16sp"
+                                android:drawableEnd="@drawable/arrowright"
                                 android:layout_gravity="center_horizontal"
                                 android:textColor="@android:color/black"/>
 
@@ -545,16 +551,17 @@
 
                         <TextView
                             android:id="@+id/navigatecmeinsider"
-                            android:layout_width="0dp"
-                            android:layout_weight="1"
+                            android:layout_width="wrap_content"
                             android:fontFamily="@font/inter"
                             android:layout_height="wrap_content"
                             android:text="View All"
+                            android:paddingHorizontal="@dimen/_8sdp"
+                            android:paddingVertical="@dimen/_2sdp"
+                            android:background="@drawable/categoryblackkkkkk"
                             android:drawablePadding="@dimen/_8ssp"
-                            android:drawableEnd="@drawable/sidearrow"
                             android:layout_gravity="center"
                             android:gravity="end"
-                            android:textColor="#676666"
+                            android:textColor="@color/unselected"
                             android:textSize="@dimen/_12ssp"
                             android:textStyle="bold" />
                     </LinearLayout>
@@ -629,16 +636,17 @@
 
                         <TextView
                             android:id="@+id/navigatecme"
-                            android:layout_width="0dp"
-                            android:layout_weight="1"
+                            android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="View All"
+                            android:paddingHorizontal="@dimen/_8sdp"
+                            android:paddingVertical="@dimen/_2sdp"
+                            android:background="@drawable/categoryblackkkkkk"
                             android:fontFamily="@font/inter"
                             android:drawablePadding="@dimen/_8ssp"
-                            android:drawableEnd="@drawable/sidearrow"
                             android:layout_gravity="center"
                             android:gravity="end"
-                            android:textColor="#676666"
+                            android:textColor="@color/unselected"
                             android:textSize="@dimen/_12ssp"
                             android:textStyle="bold" />
                     </LinearLayout>
@@ -655,33 +663,29 @@
 
                     <androidx.cardview.widget.CardView
                         android:id="@+id/cardcme"
-                        xmlns:android="http://schemas.android.com/apk/res/android"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_margin="8dp"
-                        android:elevation="4dp">
+                        android:layout_margin="8dp">
 
-                        <!-- Card Content Layout -->
                         <LinearLayout
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:orientation="vertical"
                             android:padding="16dp">
 
-
                             <TextView
                                 android:id="@+id/descriptionTextView"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:text="NO CONTENT"
+                                android:text="Explore"
                                 android:fontFamily="@font/inter"
                                 android:textSize="16sp"
+                                android:drawableEnd="@drawable/arrowright"
                                 android:layout_gravity="center_horizontal"
                                 android:textColor="@android:color/black"/>
 
-                            <!-- Add more views or customize the layout as needed -->
-
                         </LinearLayout>
+
                     </androidx.cardview.widget.CardView>
 
                     <LinearLayout
@@ -734,11 +738,13 @@
                             android:fontFamily="@font/inter"
                             android:layout_height="wrap_content"
                             android:text="View All"
+                            android:paddingHorizontal="@dimen/_8sdp"
+                            android:paddingVertical="@dimen/_2sdp"
+                            android:background="@drawable/categoryblackkkkkk"
                             android:drawablePadding="@dimen/_8ssp"
-                            android:drawableEnd="@drawable/sidearrow"
                             android:layout_gravity="center"
                             android:gravity="end"
-                            android:textColor="#676666"
+                            android:textColor="@color/unselected"
                             android:textSize="@dimen/_12ssp"
                             android:textStyle="bold" />
                     </LinearLayout>
@@ -758,9 +764,8 @@
                     <ImageView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginBottom="-150dp"
                         android:scaleType="centerCrop"
-                        android:src="@drawable/wd"/>
+                        android:src="@drawable/connectfinal"/>
 
                 </LinearLayout>
             </ScrollView>

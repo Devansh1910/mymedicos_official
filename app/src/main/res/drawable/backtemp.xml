@@ -4,9 +4,9 @@
         <shape
             android:shape="rectangle">
             <solid
-                android:color="#80333333"/> <!-- 80 is the hex value for 50% opacity -->
+                android:color="#98333333"/> <!-- 80 is the hex value for 50% opacity -->
             <corners
-                android:radius="@dimen/_10sdp"/>
+                android:radius="@dimen/_5sdp"/>
         </shape>
     </item>
 </selector>
