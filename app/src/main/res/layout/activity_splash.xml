@@ -16,7 +16,7 @@
         app:layout_constraintBottom_toTopOf="@id/from"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        android:src="@drawable/playstore"/>
+        android:src="@drawable/mm"/>
 
     <LinearLayout
         android:id="@+id/from"
@@ -30,7 +30,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:fontFamily="@font/inter"
-            android:text="powered by"
+            android:text="Powered by"
             android:gravity="center_horizontal"
             android:textColor="@color/unselected"
             android:textSize="@dimen/_12sdp"
