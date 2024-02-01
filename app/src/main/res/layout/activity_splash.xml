@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:background="@color/white"
+    android:background="@color/backgroundcolor"
     android:layout_height="match_parent"
     tools:context=".activities.login.SplashActivity">
 
@@ -16,7 +16,7 @@
         app:layout_constraintBottom_toTopOf="@id/from"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        android:src="@drawable/mm"/>
+        android:src="@drawable/logoooooooofor"/>
 
     <LinearLayout
         android:id="@+id/from"

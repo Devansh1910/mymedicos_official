@@ -48,6 +48,7 @@
             android:text="To enhance the trust and credibility of our medical community, please enter your Medical Council Number below and click 'Get Verified.' This unique identifier is essential for confirming your professional status. Upon successful verification, your profile will be marked with a distinctive symbol."
             android:textAlignment="textStart"
             android:textColor="#514E4E"
+            android:fontFamily="@font/inter"
             android:textSize="@dimen/_12ssp"
             android:textStyle="bold" />
 
@@ -58,7 +59,8 @@
             android:inputType="number"
             android:maxLength="16"
             android:layout_marginTop="@dimen/_10sdp"
-            android:background="@drawable/back4"
+            android:fontFamily="@font/inter"
+            android:background="@drawable/back6"
             android:hint="Enter Medical Council Number"
             android:paddingStart="@dimen/_10sdp" />
 
@@ -80,6 +82,7 @@
                 android:layout_marginHorizontal="@dimen/_10ssp"
                 android:textColor="@color/unselected"
                 android:paddingVertical="@dimen/_5ssp"
+                android:fontFamily="@font/inter"
                 android:textAlignment="center"
                 android:text="View Instructions"/>
 
@@ -113,12 +116,13 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:paddingHorizontal="@dimen/_5ssp"
+            android:fontFamily="@font/inter"
             android:paddingVertical="@dimen/_12sdp"
-            android:backgroundTint="@color/green"
+            android:backgroundTint="@color/unselected"
             android:text="Get Verified"
             android:textStyle="normal"
             android:textColor="#FFFFFF"
-            android:textSize="16sp" />
+            android:textSize="18sp" />
 
         <Button
             android:id="@+id/verificationPendingButton"

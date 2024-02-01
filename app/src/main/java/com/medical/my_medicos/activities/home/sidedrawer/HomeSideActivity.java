@@ -139,10 +139,6 @@ public class HomeSideActivity extends AppCompatActivity {
                             Log.e(TAG, "Error updating phone number: " + e.getMessage());
                         }
                     });
-
-
-
-
     }
 
         toolbar = findViewById(R.id.profiletoolbar);

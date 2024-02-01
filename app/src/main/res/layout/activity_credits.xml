@@ -396,7 +396,7 @@
                                 android:fontFamily="@font/inter_extrabold"
                                 android:paddingHorizontal="10dp"
                                 android:paddingVertical="8dp"
-                                android:text="Get 100 Credit Points"
+                                android:text="Get 99 Base Credit Points + 41 Bonus "
                                 android:textColor="@color/unselected"
                                 android:textSize="13sp"
                                 android:textStyle="bold" />
@@ -408,7 +408,7 @@
                                 android:gravity="center"
                                 android:paddingVertical="5dp"
                                 android:background="@drawable/bkforpurchase"
-                                android:layout_weight="1"
+                                android:layout_weight="0.5"
                                 android:orientation="horizontal">
 
                                 <!-- TextView for existing content -->
@@ -499,7 +499,7 @@
                                 android:fontFamily="@font/inter_extrabold"
                                 android:paddingHorizontal="10dp"
                                 android:paddingVertical="8dp"
-                                android:text="Get 250 Credit Points"
+                                android:text="Get 129 Base Credit Points + 71 Bonus"
                                 android:textColor="@color/unselected"
                                 android:textSize="13sp"
                                 android:textStyle="bold" />
@@ -511,7 +511,7 @@
                                 android:gravity="center"
                                 android:paddingVertical="5dp"
                                 android:background="@drawable/bkforpurchase"
-                                android:layout_weight="1"
+                                android:layout_weight="0.5"
                                 android:orientation="horizontal">
 
                                 <!-- TextView for existing content -->
@@ -604,7 +604,7 @@
                                 android:fontFamily="@font/inter_extrabold"
                                 android:paddingHorizontal="10dp"
                                 android:paddingVertical="8dp"
-                                android:text="Get 500 Credit Points"
+                                android:text="Get 199 Base Credit Points + 151 Bonus"
                                 android:textColor="@color/unselected"
                                 android:textSize="13sp"
                                 android:textStyle="bold" />
@@ -616,7 +616,7 @@
                                 android:gravity="center"
                                 android:paddingVertical="5dp"
                                 android:background="@drawable/bkforpurchase"
-                                android:layout_weight="1"
+                                android:layout_weight="0.5"
                                 android:orientation="horizontal">
 
                                 <!-- TextView for existing content -->

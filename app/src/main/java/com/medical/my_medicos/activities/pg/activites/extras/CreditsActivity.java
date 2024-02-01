@@ -1,20 +1,22 @@
 package com.medical.my_medicos.activities.pg.activites.extras;
 
 import static android.content.ContentValues.TAG;
-
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
 import androidx.core.content.ContextCompat;
-
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.app.Dialog;
+import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -25,8 +27,11 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import com.airbnb.lottie.LottieAnimationView;
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.LoadAdError;
 import com.google.android.gms.ads.OnUserEarnedRewardListener;
@@ -43,6 +48,7 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.database.annotations.NotNull;
+import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
@@ -51,18 +57,21 @@ import com.medical.my_medicos.activities.home.HomeActivity;
 import com.medical.my_medicos.activities.home.sidedrawer.HomeSideActivity;
 import com.medical.my_medicos.activities.news.NewsActivity;
 import com.medical.my_medicos.activities.pg.model.QuizPG;
+import com.medical.my_medicos.activities.publications.activity.CartPublicationActivity;
 import com.medical.my_medicos.activities.publications.activity.PaymentPublicationActivity;
+import com.medical.my_medicos.activities.utils.ConstantsDashboard;
 import com.medical.my_medicos.databinding.ActivityCreditsBinding;
-
+import org.json.JSONObject;
 import java.util.Map;
 import java.util.Objects;
+import java.util.prefs.Preferences;
 
 public class CreditsActivity extends AppCompatActivity {
 
     private static final String PREFS_NAME = "MyPrefs";
     private static final String LAST_CLICK_TIME_VIDEO_1 = "lastClickTimeVideo1";
     private static final String LAST_CLICK_TIME_VIDEO_2 = "lastClickTimeVideo2";
-    private static final long COOLDOWN_PERIOD = 00 * 00 * 60 * 1000; // 24 hours in milliseconds
+    private static final long COOLDOWN_PERIOD = 24 * 60 * 60 * 1000;
     ActivityCreditsBinding binding;
     private RewardedAd mRewardedAd;
     AlertDialog alertDialog;
@@ -70,14 +79,19 @@ public class CreditsActivity extends AppCompatActivity {
     String currentUid;
     private Context context;
     int coins= 300;
-
     private ImageView backtothehomesideactivity;
+    private int previousCoinCount = 0;
+    ProgressDialog progressDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         binding = ActivityCreditsBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
+
+        progressDialog = new ProgressDialog(this);
+        progressDialog.setCancelable(false);
+        progressDialog.setMessage("Processing...");
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             View decorView = getWindow().getDecorView();
@@ -156,21 +170,32 @@ public class CreditsActivity extends AppCompatActivity {
         binding.puchase100credits.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                showBottomSheet100();
+                showBottomSheet99();
             }
         });
         binding.puchase250credits.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                showBottomSheet250();
+                showBottomSheet129();
             }
         });
         binding.puchase500credits.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                showBottomSheet500();
+                showBottomSheet199();
             }
         });
+        TextView currentCoinsTextView = findViewById(R.id.currentcoins);
+        int currentCoins = Integer.parseInt(currentCoinsTextView.getText().toString());
+
+        int increase = currentCoins - previousCoinCount;
+        if (increase == 150) {
+            // Display the custom popup
+            showCustomPopup();
+        }
+
+        previousCoinCount = currentCoins;
+
     }
 
     private void showRewardedAd(String videoName) {
@@ -216,7 +241,7 @@ public class CreditsActivity extends AppCompatActivity {
     }
     void loadAd() {
         AdRequest adRequest = new AdRequest.Builder().build();
-        RewardedAd.load(this, "ca-app-pub-3940256099942544/5224354917",
+        RewardedAd.load(this, "ca-app-pub-1452770494559845~3220735688",
                 adRequest, new RewardedAdLoadCallback() {
                     @Override
                     public void onAdFailedToLoad(@NonNull LoadAdError loadAdError) {
@@ -250,101 +275,284 @@ public class CreditsActivity extends AppCompatActivity {
                 .child("coins")
                 .setValue(updatedCoins);
     }
-    private void showBottomSheet100() {
+    private void showBottomSheet99() {
         View bottomSheetView = LayoutInflater.from(context).inflate(R.layout.bottom_sheet_up_for_payment, null);
         BottomSheetDialog bottomSheetDialog = new BottomSheetDialog(context);
         bottomSheetDialog.setContentView(bottomSheetView);
 
         @SuppressLint({"MissingInflatedId", "LocalSuppress"})
-        LinearLayout textClickMe = bottomSheetView.findViewById(R.id.paymentpartcredit);
+        Button textClickMe = bottomSheetView.findViewById(R.id.paymentpartcredit);
 
         textClickMe.setOnClickListener(v -> {
-            if (mRewardedAd != null) {
-                Activity activityContext = CreditsActivity.this;
-                mRewardedAd.show(activityContext, new OnUserEarnedRewardListener() {
-                    @Override
-                    public void onUserEarnedReward(@NonNull RewardItem rewardItem) {
-                        loadAd();
-                        coins = coins + 100;
-                        database.getReference().child("profiles")
-                                .child(currentUid)
-                                .child("coins")
-                                .setValue(coins);
-                        binding.vide1oicon.setImageResource(R.drawable.baseline_check_24);
-                        handleRewardedAdCompletion();
-                        Toast.makeText(CreditsActivity.this, "Yahhoo!, 100 MedCoins Credited", Toast.LENGTH_SHORT).show();
-                    }
-                });
-            } else {
-                Log.e("Something went wrong","Error");
-            }
+            processCreditsOrderPackage1();
         });
         bottomSheetDialog.show();
     }
 
-    private void showBottomSheet250() {
+    private void showBottomSheet129() {
         View bottomSheetView = LayoutInflater.from(context).inflate(R.layout.bottom_sheet_up_250, null);
         BottomSheetDialog bottomSheetDialog = new BottomSheetDialog(context);
         bottomSheetDialog.setContentView(bottomSheetView);
 
         @SuppressLint({"MissingInflatedId", "LocalSuppress"})
-        LinearLayout textClickMe = bottomSheetView.findViewById(R.id.paymentpartcredit250);
+        Button textClickMe = bottomSheetView.findViewById(R.id.paymentpartcredit129);
 
         textClickMe.setOnClickListener(v -> {
-            if (mRewardedAd != null) {
-                Activity activityContext = CreditsActivity.this;
-                mRewardedAd.show(activityContext, new OnUserEarnedRewardListener() {
-                    @Override
-                    public void onUserEarnedReward(@NonNull RewardItem rewardItem) {
-                        loadAd();
-                        coins = coins + 250;
-                        database.getReference().child("profiles")
-                                .child(currentUid)
-                                .child("coins")
-                                .setValue(coins);
-                        binding.vide1oicon.setImageResource(R.drawable.baseline_check_24);
-                        handleRewardedAdCompletion();
-                        Toast.makeText(CreditsActivity.this, "Yahhoo!, 100 MedCoins Credited", Toast.LENGTH_SHORT).show();
-                    }
-                });
-            } else {
-                Log.e("Something went wrong","Error");
-            }
+            processCreditsOrderPackage2();
         });
         bottomSheetDialog.show();
     }
 
-    private void showBottomSheet500() {
+    private void showBottomSheet199() {
         View bottomSheetView = LayoutInflater.from(context).inflate(R.layout.bottom_sheet_up_500, null);
         BottomSheetDialog bottomSheetDialog = new BottomSheetDialog(context);
         bottomSheetDialog.setContentView(bottomSheetView);
 
         @SuppressLint({"MissingInflatedId", "LocalSuppress"})
-        LinearLayout textClickMe = bottomSheetView.findViewById(R.id.paymentpartcredit500);
+        Button textClickMe = bottomSheetView.findViewById(R.id.paymentpartcredit199);
 
         textClickMe.setOnClickListener(v -> {
-            if (mRewardedAd != null) {
-                Activity activityContext = CreditsActivity.this;
-                mRewardedAd.show(activityContext, new OnUserEarnedRewardListener() {
-                    @Override
-                    public void onUserEarnedReward(@NonNull RewardItem rewardItem) {
-                        loadAd();
-                        coins = coins + 100;
-                        database.getReference().child("profiles")
-                                .child(currentUid)
-                                .child("coins")
-                                .setValue(coins);
-                        binding.vide1oicon.setImageResource(R.drawable.baseline_check_24);
-                        handleRewardedAdCompletion();
-                        Toast.makeText(CreditsActivity.this, "Yahhoo!, 100 MedCoins Credited", Toast.LENGTH_SHORT).show();
-                    }
-                });
-            } else {
-                Log.e("Something went wrong","Error");
-            }
+            processCreditsOrderPackage3();
         });
         bottomSheetDialog.show();
     }
+
+    void processCreditsOrderPackage1() {
+        progressDialog.show();
+
+        FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
+
+        if (currentUser != null) {
+            String userId = currentUser.getUid();
+
+            FirebaseFirestore db = FirebaseFirestore.getInstance();
+            CollectionReference usersRef = db.collection("users");
+
+            usersRef.whereEqualTo("realtimeid", userId)
+                    .get()
+                    .addOnCompleteListener(task -> {
+                        if (task.isSuccessful()) {
+                            for (QueryDocumentSnapshot document : task.getResult()) {
+
+                                RequestQueue queue = Volley.newRequestQueue(this);
+
+                                String url = ConstantsDashboard.GET_ORDER_ID_99_41 + userId + "/" + "package1";
+                                Log.d("API Request URL", url);
+
+                                StringRequest request = new StringRequest(Request.Method.GET, url, response -> {
+                                    try {
+                                        Log.d("API Response", response); // Log the API response
+
+                                        JSONObject requestBody = new JSONObject(response);
+                                        if (requestBody.getString("status").equals("success")) {
+                                            // Your existing logic for processing the order
+                                            Toast.makeText(CreditsActivity.this, "Success order.", Toast.LENGTH_SHORT).show();
+                                            String orderNumber = requestBody.getString("order_id");
+                                            Log.e("Order ID check", orderNumber);
+                                            new AlertDialog.Builder(CreditsActivity.this)
+                                                    .setTitle("Order Successful")
+                                                    .setCancelable(false)
+                                                    .setMessage("Your order number is: " + orderNumber)
+                                                    .setPositiveButton("Pay Now", (dialogInterface, i) -> {
+                                                        Intent intent = new Intent(CreditsActivity.this, PaymentPublicationActivity.class);
+                                                        intent.putExtra("orderCode", orderNumber);
+                                                        startActivity(intent);
+                                                    }).show();
+                                        } else {
+                                            // Your existing logic for handling a failed order
+                                            Toast.makeText(CreditsActivity.this, "Failed order.", Toast.LENGTH_SHORT).show();
+                                        }
+                                        progressDialog.dismiss();
+                                        Log.e("res", response);
+                                    } catch (Exception e) {
+                                        e.printStackTrace();
+                                    }
+                                }, error -> {
+                                    // Handle Volley error
+                                    error.printStackTrace();
+                                    progressDialog.dismiss();
+                                    Toast.makeText(CreditsActivity.this, "Volley Error: " + error.getMessage(), Toast.LENGTH_SHORT).show();
+                                });
+
+                                queue.add(request);
+                            }
+                        } else {
+                            // Handle the error when the document is not found
+                            progressDialog.dismiss();
+                            Toast.makeText(CreditsActivity.this, "Failed to retrieve user information", Toast.LENGTH_SHORT).show();
+                        }
+                    });
+        } else {
+            progressDialog.dismiss();
+            Toast.makeText(CreditsActivity.this, "User not authenticated", Toast.LENGTH_SHORT).show();
+        }
+    }
+
+
+    void processCreditsOrderPackage2() {
+        progressDialog.show();
+
+        FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
+
+        if (currentUser != null) {
+            String userId = currentUser.getUid();
+
+            FirebaseFirestore db = FirebaseFirestore.getInstance();
+            CollectionReference usersRef = db.collection("users");
+
+            usersRef.whereEqualTo("realtimeid", userId)
+                    .get()
+                    .addOnCompleteListener(task -> {
+                        if (task.isSuccessful()) {
+                            for (QueryDocumentSnapshot document : task.getResult()) {
+
+                                RequestQueue queue = Volley.newRequestQueue(this);
+
+                                String url = ConstantsDashboard.GET_ORDER_ID_99_41 + userId + "/" + "package2";
+                                Log.d("API Request URL", url);
+
+                                StringRequest request = new StringRequest(Request.Method.GET, url, response -> {
+                                    try {
+                                        Log.d("API Response", response); // Log the API response
+
+                                        JSONObject requestBody = new JSONObject(response);
+                                        if (requestBody.getString("status").equals("success")) {
+                                            // Your existing logic for processing the order
+                                            Toast.makeText(CreditsActivity.this, "Success order.", Toast.LENGTH_SHORT).show();
+                                            String orderNumber = requestBody.getString("order_id");
+                                            Log.e("Order ID check", orderNumber);
+                                            new AlertDialog.Builder(CreditsActivity.this)
+                                                    .setTitle("Order Successful")
+                                                    .setCancelable(false)
+                                                    .setMessage("Your order number is: " + orderNumber)
+                                                    .setPositiveButton("Pay Now", (dialogInterface, i) -> {
+                                                        Intent intent = new Intent(CreditsActivity.this, PaymentPublicationActivity.class);
+                                                        intent.putExtra("orderCode", orderNumber);
+                                                        startActivity(intent);
+                                                    }).show();
+                                        } else {
+                                            // Your existing logic for handling a failed order
+                                            Toast.makeText(CreditsActivity.this, "Failed order.", Toast.LENGTH_SHORT).show();
+                                        }
+                                        progressDialog.dismiss();
+                                        Log.e("res", response);
+                                    } catch (Exception e) {
+                                        e.printStackTrace();
+                                    }
+                                }, error -> {
+                                    // Handle Volley error
+                                    error.printStackTrace();
+                                    progressDialog.dismiss();
+                                    Toast.makeText(CreditsActivity.this, "Volley Error: " + error.getMessage(), Toast.LENGTH_SHORT).show();
+                                });
+
+                                queue.add(request);
+                            }
+                        } else {
+                            // Handle the error when the document is not found
+                            progressDialog.dismiss();
+                            Toast.makeText(CreditsActivity.this, "Failed to retrieve user information", Toast.LENGTH_SHORT).show();
+                        }
+                    });
+        } else {
+            progressDialog.dismiss();
+            Toast.makeText(CreditsActivity.this, "User not authenticated", Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    void processCreditsOrderPackage3() {
+        progressDialog.show();
+
+        FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
+
+        if (currentUser != null) {
+            String userId = currentUser.getUid();
+
+            FirebaseFirestore db = FirebaseFirestore.getInstance();
+            CollectionReference usersRef = db.collection("users");
+
+            usersRef.whereEqualTo("realtimeid", userId)
+                    .get()
+                    .addOnCompleteListener(task -> {
+                        if (task.isSuccessful()) {
+                            for (QueryDocumentSnapshot document : task.getResult()) {
+
+                                RequestQueue queue = Volley.newRequestQueue(this);
+
+                                String url = ConstantsDashboard.GET_ORDER_ID_99_41 + userId + "/" + "package3";
+                                Log.d("API Request URL", url);
+
+                                StringRequest request = new StringRequest(Request.Method.GET, url, response -> {
+                                    try {
+                                        Log.d("API Response", response); // Log the API response
+
+                                        JSONObject requestBody = new JSONObject(response);
+                                        if (requestBody.getString("status").equals("success")) {
+                                            // Your existing logic for processing the order
+                                            Toast.makeText(CreditsActivity.this, "Success order.", Toast.LENGTH_SHORT).show();
+                                            String orderNumber = requestBody.getString("order_id");
+                                            Log.e("Order ID check", orderNumber);
+                                            new AlertDialog.Builder(CreditsActivity.this)
+                                                    .setTitle("Order Successful")
+                                                    .setCancelable(false)
+                                                    .setMessage("Your order number is: " + orderNumber)
+                                                    .setPositiveButton("Pay Now", (dialogInterface, i) -> {
+                                                        Intent intent = new Intent(CreditsActivity.this, PaymentPublicationActivity.class);
+                                                        intent.putExtra("orderCode", orderNumber);
+                                                        startActivity(intent);
+                                                    }).show();
+                                        } else {
+                                            // Your existing logic for handling a failed order
+                                            Toast.makeText(CreditsActivity.this, "Failed order.", Toast.LENGTH_SHORT).show();
+                                        }
+                                        progressDialog.dismiss();
+                                        Log.e("res", response);
+                                    } catch (Exception e) {
+                                        e.printStackTrace();
+                                    }
+                                }, error -> {
+                                    // Handle Volley error
+                                    error.printStackTrace();
+                                    progressDialog.dismiss();
+                                    Toast.makeText(CreditsActivity.this, "Volley Error: " + error.getMessage(), Toast.LENGTH_SHORT).show();
+                                });
+
+                                queue.add(request);
+                            }
+                        } else {
+                            // Handle the error when the document is not found
+                            progressDialog.dismiss();
+                            Toast.makeText(CreditsActivity.this, "Failed to retrieve user information", Toast.LENGTH_SHORT).show();
+                        }
+                    });
+        } else {
+            progressDialog.dismiss();
+            Toast.makeText(CreditsActivity.this, "User not authenticated", Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    private void showCustomPopup() {
+        final Dialog customDialog = new Dialog(this);
+        customDialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        customDialog.setContentView(R.layout.custom_popup);
+        TextView closeButton = customDialog.findViewById(R.id.closebtnforthecreditmessage99);
+        closeButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                customDialog.dismiss();
+            }
+        });
+
+        customDialog.show();
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                customDialog.dismiss();
+            }
+        }, 3000); // The popup will be dismissed after 3000 milliseconds (3 seconds)
+    }
+
+
     private void showDialog(String message) {
         AlertDialog.Builder builder = new AlertDialog.Builder(CreditsActivity.this, R.style.CustomAlertDialog);
         LayoutInflater inflater = getLayoutInflater();
@@ -371,7 +579,7 @@ public class CreditsActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 alertDialog.dismiss();
-                showBottomSheet250();
+                showBottomSheet129();
             }
         });
 

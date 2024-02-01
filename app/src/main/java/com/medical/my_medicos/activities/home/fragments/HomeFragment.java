@@ -457,10 +457,8 @@ public class HomeFragment extends Fragment {
 
                                         }
 
-                                        // Display the parsed time
                                         System.out.println("Parsed Time: " + parsedTime);
                                     } catch (DateTimeParseException e) {
-                                        // Handle parsing error, e.g., if the input string is in the wrong format
                                         System.err.println("Error parsing time: " + e.getMessage());
 
                                     }

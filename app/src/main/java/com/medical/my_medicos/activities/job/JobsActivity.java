@@ -70,9 +70,12 @@ public class JobsActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_jobs);
 
+
+
         toolbar = findViewById(R.id.jobstoolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
 
         cart_icon = findViewById(R.id.cart_icon);
         cart_icon.setOnClickListener(new View.OnClickListener() {
@@ -99,6 +102,7 @@ public class JobsActivity extends AppCompatActivity {
             public void onClick(View view) {
                 Intent i=new Intent(JobsActivity.this, PostJobActivity.class);
                 startActivity(i);
+
             }
         });
 
