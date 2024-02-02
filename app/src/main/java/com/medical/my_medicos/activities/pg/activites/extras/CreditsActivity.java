@@ -45,6 +45,7 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.database.annotations.NotNull;
@@ -110,6 +111,7 @@ public class CreditsActivity extends AppCompatActivity {
             decorView.setSystemUiVisibility(decorView.getSystemUiVisibility() | View.SYSTEM_UI_FLAG_LIGHT_NAVIGATION_BAR);
         }
 
+
         backtothehomesideactivity = findViewById(R.id.backtothehomesideactivity);
         backtothehomesideactivity.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -118,6 +120,7 @@ public class CreditsActivity extends AppCompatActivity {
                 startActivity(i);
             }
         });
+
 
         context = CreditsActivity.this;
         database = FirebaseDatabase.getInstance();
@@ -146,27 +149,47 @@ public class CreditsActivity extends AppCompatActivity {
                     }
                 });
 
-        binding.video1.setOnClickListener(new View.OnClickListener() {
+//        binding.viewad1.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                if (canClickVideo("video1")) {
+//
+//                    showRewardedAd("video1");
+//
+//                } else {
+//                    showDialog("Free Redeem Coins will be available after 24 hrs");
+//                }
+//            }
+//        });
+        binding.viewad1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (canClickVideo("video1")) {
-                    showRewardedAd("video1");
-                } else {
-                    showDialog("Free Redeem Coins will be available after 24 hrs");
-                }
+                // Call the method to check if the user can click the video
+                checkVideoClickEligibility("video1");
+            }
+        });
+        binding.viewad2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                // Call the method to check if the user can click the video
+                checkVideoClickEligibility("video2");
             }
         });
 
-        binding.video2.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if (canClickVideo("video2")) {
-                    showRewardedAd("video2");
-                } else {
-                    showDialog("Free Redeem Coins will be available after 24 hrs");
-                }
-            }
-        });
+
+
+//        binding.viewad2.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                if (canClickVideo("video2")) {
+//
+//                    showRewardedAd("video2");
+//
+//                } else {
+//                    showDialog("Free Redeem Coins will be available after 24 hrs");
+//                }
+//            }
+//        });
         binding.puchase100credits.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -197,51 +220,239 @@ public class CreditsActivity extends AppCompatActivity {
         previousCoinCount = currentCoins;
 
     }
+    private void checkVideoClickEligibility(String videoName) {
+        DatabaseReference videoRef = FirebaseDatabase.getInstance().getReference()
+                .child("profiles")
+                .child(currentUid);
+
+        videoRef.child(videoName + "_last_watched_time").addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                if (dataSnapshot.exists()) {
+                    long lastClickTimestamp = dataSnapshot.getValue(Long.class);
+                    long currentTime = System.currentTimeMillis();
+                    long twentyFourHoursInMillis = 24 * 60 * 60 * 1000; // 24 hours in milliseconds
+
+                    if ((currentTime - lastClickTimestamp) >= twentyFourHoursInMillis) {
+                        // 24 hours have passed since the last click, user can click the ad
+                        enableButtonAndShowAd(videoName);
+                    } else {
+                        // Less than 24 hours have passed, disable the button and show a dialog
+                        disableButtonAndShowDialog(videoName);
+                    }
+                } else {
+                    // No last watched time found, assuming it's the first click
+                    enableButtonAndShowAd(videoName);
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+                // Handle errors if needed
+            }
+        });
+    }
+
+
+    private void enableButtonAndShowAd(String videoName) {
+        // Enable the button
+        if (videoName=="video1") {
+            binding.viewad1.setEnabled(true);
+        }
+        else if (videoName=="video2") {
+            binding.viewad2.setEnabled(true);
+        }
+
+
+        // Show the rewarded ad
+        showRewardedAd(videoName);
+    }
+
+    private void disableButtonAndShowDialog(String videoName) {
+        // Disable the button
+        if (videoName=="video1") {
+            binding.viewad1.setEnabled(false);
+        }
+        else if (videoName=="video2") {
+            binding.viewad2.setEnabled(false);
+        }
+
+        // Show a dialog
+        showDialog("Free Redeem Coins will be available after 24 hrs");
+    }
+
+
 
     private void showRewardedAd(String videoName) {
         if (mRewardedAd != null) {
             Activity activityContext = CreditsActivity.this;
-            mRewardedAd.show(activityContext, new OnUserEarnedRewardListener() {
-                @Override
-                public void onUserEarnedReward(@NonNull RewardItem rewardItem) {
-                    loadAd();
-                    coins += (videoName.equals("video1") ? 10 : 20);
-                    updateCoinsInDatabase(coins);
-                    handleRewardedAdCompletion();
-                    showDialog("MedCoins Credited: " + (videoName.equals("video1") ? 10 : 20));
-                    updateLastClickTime(videoName);
-                }
-            });
+
+
+                mRewardedAd.show(activityContext, new OnUserEarnedRewardListener() {
+                    @Override
+                    public void onUserEarnedReward(@NonNull RewardItem rewardItem) {
+                        loadAd();
+                        coins += (videoName.equals("video1") ? 10 : 20);
+                        updateCoinsInDatabase(coins);
+                        updateVideoWatchedStatus(videoName); // Update Realtime Database
+                        handleRewardedAdCompletion();
+                        showDialog("MedCoins Credited: " + (videoName.equals("video1") ? 10 : 20));
+
+//                        updateLastClickTime(videoName);
+
+                    }
+                });
+
         } else {
             Log.e("Something went wrong", "Error");
         }
     }
-    private void handleRewardedAdCompletion() {
+
+
+    // Add this method to update the Realtime Database with video watched status
+private void updateVideoWatchedStatus(String videoName) {
+        if (currentUid != null) {
+
+            database.getReference().child("profiles")
+                    .child(currentUid)
+                    .child(videoName + "_last_watched_time")
+                    .setValue(System.currentTimeMillis());
+        }
+        }
+
+private void handleRewardedAdCompletion() {
         loadAd();
         int updatedCoins = Integer.parseInt(binding.currentcoins.getText().toString());
         Log.d(TAG, "Updated Coins Value: " + updatedCoins);
     }
+    private void updateVideoStatus(String currentUid, String videoName) {
+        if (currentUid != null) {
+            DatabaseReference videoRef = database.getReference().child("profiles").child(currentUid).child(videoName);
+
+            videoRef.addListenerForSingleValueEvent(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot snapshot) {
+                    Boolean isWatched = snapshot.getValue(Boolean.class);
+                    if (isWatched != null && isWatched && isWatched!=false) {
+                        // Check the last watched time
+                        DatabaseReference lastWatchedTimeRef = database.getReference().child("profiles").child(currentUid).child(videoName + "_last_watched_time");
+
+                        lastWatchedTimeRef.addListenerForSingleValueEvent(new ValueEventListener() {
+                            @Override
+                            public void onDataChange(@NonNull DataSnapshot timeSnapshot) {
+                                Long lastWatchedTime = timeSnapshot.getValue(Long.class);
+
+                                if (lastWatchedTime != null) {
+                                    long currentTime = System.currentTimeMillis();
+                                    long timeDifference = currentTime - lastWatchedTime;
+                                    long twentyFourHoursInMillis = 24 * 60 * 60 * 1000; // 24 hours in milliseconds
+
+                                    if (timeDifference >= twentyFourHoursInMillis) {
+                                        // Video watched time is older than 24 hours, update video status to false
+                                        videoRef.setValue(false);
+                                    }
+                                }
+                            }
+
+                            @Override
+                            public void onCancelled(@NonNull DatabaseError error) {
+                                // Handle database error for last watched time
+                            }
+                        });
+                    }
+                }
+
+                @Override
+                public void onCancelled(@NonNull DatabaseError error) {
+                    // Handle database error for video status
+                }
+            });
+        }
+    }
+
+    private boolean isVideoAlreadyWatched(String videoName) {
+        final boolean[] isVideoWatched = {true};
+        if (currentUid != null) {
+            DatabaseReference videoRef = database.getReference().child("profiles")
+                    .child(currentUid)
+                    .child(videoName);
+
+
+            videoRef.addListenerForSingleValueEvent(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot snapshot) {
+                    Object value = snapshot.getValue();
+                    String stringValue = value.toString();
+                    Boolean isWatched = snapshot.getValue(Boolean.class);
+                    Log.d("credits5", stringValue);
+
+
+                    if (stringValue.equals("true")) {
+                        // Video has already been watched
+                        Toast.makeText(CreditsActivity.this, "You have already watched this video.", Toast.LENGTH_SHORT).show();
+                        isVideoWatched[0] = false;
+                        Log.d("credits5", "new5");
+                        Log.d("credits5", String.valueOf(isVideoWatched));
+                        Log.d("credits5", stringValue);
+                    } else {
+                        // Video variable not present or not watched
+                        // You can handle this case accordingly
+                        isVideoWatched[0] = true;
+                        Log.d("credits51", String.valueOf(isVideoWatched[0]));
+                    }
+
+                }
+
+                @Override
+                public void onCancelled(@NonNull DatabaseError error) {
+                    // Handle database error
+                }
+            });
+
+        }
+        // If unable to determine the status, assume video hasn't been watched
+        return isVideoWatched[0];
+
+    }
+    private void enableButtonAfterCooldown() {
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                // Enable the button after the cooldown period
+                binding.viewad1.setEnabled(true);
+            }
+        }, COOLDOWN_PERIOD);
+    }
+
 
     private boolean canClickVideo(String videoName) {
-        long lastClickTime = getLastClickTime(videoName);
-        long currentTime = System.currentTimeMillis();
+        if (!isVideoAlreadyWatched(videoName)) {
+            Log.d("credits512", String.valueOf(isVideoAlreadyWatched(videoName)));
+
+            return false; // Video already watched, so user can't click the ad again
+        }
+        Log.d("credits512", String.valueOf(isVideoAlreadyWatched(videoName)));
+//
+//        long lastClickTime = getLastClickTime(videoName);
+//        long currentTime = System.currentTimeMillis();
 
         // Check if enough time has passed since the last click
-        return currentTime - lastClickTime >= COOLDOWN_PERIOD;
+//        return currentTime - lastClickTime >= COOLDOWN_PERIOD;
+        return true;
     }
 
-    private long getLastClickTime(String videoName) {
-        SharedPreferences prefs = getSharedPreferences(PREFS_NAME, MODE_PRIVATE);
-        if ("video1".equals(videoName)) {
-            return prefs.getLong(LAST_CLICK_TIME_VIDEO_1, 0);
-        } else if ("video2".equals(videoName)) {
-            return prefs.getLong(LAST_CLICK_TIME_VIDEO_2, 0);
-        }
-        return 0;
-    }
+//    private long getLastClickTime(String videoName) {
+//        SharedPreferences prefs = getSharedPreferences(PREFS_NAME, MODE_PRIVATE);
+//        if ("video1".equals(videoName)) {
+//            return prefs.getLong(LAST_CLICK_TIME_VIDEO_1, 0);
+//        } else if ("video2".equals(videoName)) {
+//            return prefs.getLong(LAST_CLICK_TIME_VIDEO_2, 0);
+//        }
+//        return 0;
+//    }
     void loadAd() {
         AdRequest adRequest = new AdRequest.Builder().build();
-        RewardedAd.load(this, "ca-app-pub-1452770494559845~3220735688",
+        RewardedAd.load(this, "ca-app-pub-3940256099942544/5224354917",
                 adRequest, new RewardedAdLoadCallback() {
                     @Override
                     public void onAdFailedToLoad(@NonNull LoadAdError loadAdError) {
@@ -255,19 +466,19 @@ public class CreditsActivity extends AppCompatActivity {
                 });
     }
 
-    private void updateLastClickTime(String videoName) {
-        SharedPreferences prefs = getSharedPreferences(PREFS_NAME, MODE_PRIVATE);
-        SharedPreferences.Editor editor = prefs.edit();
-        long currentTime = System.currentTimeMillis();
-
-        if ("video1".equals(videoName)) {
-            editor.putLong(LAST_CLICK_TIME_VIDEO_1, currentTime);
-        } else if ("video2".equals(videoName)) {
-            editor.putLong(LAST_CLICK_TIME_VIDEO_2, currentTime);
-        }
-
-        editor.apply();
-    }
+//    private void updateLastClickTime(String videoName) {
+//        SharedPreferences prefs = getSharedPreferences(PREFS_NAME, MODE_PRIVATE);
+//        SharedPreferences.Editor editor = prefs.edit();
+//        long currentTime = System.currentTimeMillis();
+//
+//        if ("video1".equals(videoName)) {
+//            editor.putLong(LAST_CLICK_TIME_VIDEO_1, currentTime);
+//        } else if ("video2".equals(videoName)) {
+//            editor.putLong(LAST_CLICK_TIME_VIDEO_2, currentTime);
+//        }
+//
+//        editor.apply();
+//    }
 
     private void updateCoinsInDatabase(int updatedCoins) {
         database.getReference().child("profiles")
@@ -316,6 +527,9 @@ public class CreditsActivity extends AppCompatActivity {
         });
         bottomSheetDialog.show();
     }
+
+
+
 
     void processCreditsOrderPackage1() {
         progressDialog.show();

@@ -194,6 +194,7 @@
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="10dp"
             app:cardCornerRadius="10dp"
+            android:clickable="true"
             android:background="@color/unselected"
             tools:ignore="MissingConstraints"
             tools:layout_editor_absoluteX="10dp">
@@ -210,13 +211,13 @@
                     android:id="@+id/vide1oicon"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:src="@drawable/brsmall"
-                    android:layout_gravity="center"/>
+                    android:layout_gravity="center"
+                    android:src="@drawable/brsmall" />
 
                 <TextView
                     android:layout_width="0dp"
-                    android:layout_weight="1"
                     android:layout_height="wrap_content"
+                    android:layout_weight="1"
                     android:fontFamily="@font/inter_extrabold"
                     android:paddingHorizontal="10dp"
                     android:paddingVertical="8dp"
@@ -225,30 +226,39 @@
                     android:textSize="13sp"
                     android:textStyle="bold" />
 
-                <LinearLayout
+                <Button
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
-                    android:gravity="center"
-                    android:paddingVertical="5dp"
-                    android:background="@drawable/categorynewbk"
                     android:layout_weight="1"
-                    android:orientation="horizontal">
+                    android:id="@+id/viewad1"
+                    android:background="@drawable/categorynewbk"
+                    android:gravity="center"
+                    android:text="View Ad"
+                    android:clickable="true"
+                    android:textSize="13sp"
+                    android:textStyle="bold"
+                    android:paddingHorizontal="5dp"
+                    android:textColor="@color/unselected"
+                    android:fontFamily="@font/inter_extrabold"
+                    android:orientation="horizontal"
+                    android:paddingVertical="5dp">
 
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="match_parent"
-                        android:fontFamily="@font/inter_extrabold"
-                        android:text="View Ad"
-                        android:layout_gravity="center"
-                        android:gravity="center"
-                        android:textAlignment="center"
-                        android:paddingHorizontal="5dp"
-                        android:textColor="@color/unselected"
-                        android:textSize="13sp"
-                        android:textStyle="bold" />
+<!--                    <TextView-->
+<!--                        android:layout_width="wrap_content"-->
+<!--                        android:layout_height="match_parent"-->
+<!--                        android:layout_gravity="center"-->
+<!--                        android:fontFamily="@font/inter_extrabold"-->
+<!--                        android:gravity="center"-->
+<!--                        android:paddingHorizontal="5dp"-->
+<!--                        android:text="View Ad"-->
+<!--                        android:clickable="true"-->
+<!--                        android:textAlignment="center"-->
+<!--                        android:textColor="@color/unselected"-->
+<!--                        android:textSize="13sp"-->
+<!--                        android:textStyle="bold" />-->
 
-                </LinearLayout>
+                </Button>
 
             </LinearLayout>
 
@@ -256,6 +266,7 @@
 
         <androidx.cardview.widget.CardView
             android:id="@+id/video2"
+            android:clickable="true"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
@@ -290,30 +301,40 @@
                     android:textSize="13sp"
                     android:textStyle="bold" />
 
-                <LinearLayout
+                <Button
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:gravity="center"
+                    android:id="@+id/viewad2"
                     android:paddingVertical="5dp"
+                    android:clickable="true"
+                    android:text="View Ad"
+
+                    android:textSize="13sp"
+                    android:textStyle="bold"
+                    android:paddingHorizontal="5dp"
+                    android:textColor="@color/unselected"
+                    android:fontFamily="@font/inter_extrabold"
                     android:background="@drawable/categorynewbk"
                     android:layout_weight="1"
                     android:orientation="horizontal">
 
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="match_parent"
-                        android:fontFamily="@font/inter_extrabold"
-                        android:text="View Ad"
-                        android:layout_gravity="center"
-                        android:gravity="center"
-                        android:textAlignment="center"
-                        android:paddingHorizontal="5dp"
-                        android:textColor="@color/unselected"
-                        android:textSize="13sp"
-                        android:textStyle="bold" />
+<!--                    <TextView-->
+<!--                        android:layout_width="wrap_content"-->
+<!--                        android:layout_height="match_parent"-->
+<!--                        android:fontFamily="@font/inter_extrabold"-->
+<!--                        android:text="View Ad"-->
+<!--                        android:layout_gravity="center"-->
+<!--                        android:gravity="center"-->
+<!--                        android:textAlignment="center"-->
+<!--                        android:paddingHorizontal="5dp"-->
+<!--                        android:clickable="true"-->
+<!--                        android:textColor="@color/unselected"-->
+<!--                        android:textSize="13sp"-->
+<!--                        android:textStyle="bold" />-->
 
-                </LinearLayout>
+                </Button>
 
             </LinearLayout>
 
