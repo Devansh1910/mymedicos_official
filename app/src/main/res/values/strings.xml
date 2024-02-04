@@ -316,6 +316,8 @@
     <string name="today_s_quiz_is_done">Today\'s Quiz is Done!</string>
     <string name="_21_10_2003">21/10/2003</string>
 
+    <string name="taptarget">This is the Complete code</string>
+
     <string-array name="prefix_options">
         <item>Dr</item>
         <item>HR</item>

@@ -31,7 +31,7 @@
                     <androidx.appcompat.widget.Toolbar
                         android:id="@+id/jobstoolbar"
                         app:title="Jobs"
-                        app:navigationIcon="@drawable/arrowbackforappbar"
+                        app:navigationIcon="@drawable/arrow_bk"
                         app:titleTextColor="@color/black"
                         app:subtitleTextColor="@color/white"
                         app:subtitleTextAppearance="@color/white"
@@ -40,15 +40,6 @@
                         android:layout_weight="1"
                         android:layout_height="?attr/actionBarSize"
                         android:background="@color/white">
-
-                        <ImageView
-                            android:id="@+id/cart_icon"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:gravity="end"
-                            android:layout_gravity="end"
-                            android:src="@drawable/questionpart"
-                            android:contentDescription="@null"/>
 
                     </androidx.appcompat.widget.Toolbar>
 

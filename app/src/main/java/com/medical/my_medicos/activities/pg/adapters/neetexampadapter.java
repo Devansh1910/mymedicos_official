@@ -63,12 +63,14 @@ public class neetexampadapter extends RecyclerView.Adapter<neetexampadapter.Neet
         holder.optionD.setText(quizquestion.getOptionD());
         isOptionSelectionEnabled = true;
 
-        if (quizquestion.getImage() != null && !quizquestion.getImage().isEmpty()) {
+        String imageUrl = quizquestion.getImage();
+
+        if (imageUrl != null) {
             holder.ifthequestionhavethumbnail.setVisibility(View.VISIBLE);
-            Glide.with(context).load(quizquestion.getImage()).into((ImageView) holder.ifthequestionhavethumbnail);
-            holder.ifthequestionhavethumbnail.setOnClickListener(view -> showImagePopup(quizquestion.getImage()));
+            Glide.with(context).load(imageUrl).into((ImageView) holder.ifthequestionhavethumbnail);
+            holder.ifthequestionhavethumbnail.setOnClickListener(view -> showImagePopup(imageUrl));
         } else {
-            holder.ifthequestionhavethumbnail.setVisibility(View.GONE);
+            holder.ifthequestionhavethumbnail.setVisibility(View.VISIBLE);
         }
 
         setOptionClickListeners(holder);

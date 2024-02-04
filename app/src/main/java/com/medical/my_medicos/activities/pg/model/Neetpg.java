@@ -16,14 +16,15 @@ public class Neetpg implements Item, Serializable {
     private String image;
     private long remainingTimeInMillis;
 
-    public Neetpg(String question, String optionA, String optionB, String optionC, String optionD, String correctAnswer, String image, String description) {
+    public Neetpg(String question, String optionA, String optionB, String optionC, String optionD,
+                  String correctAnswer, String image, String description) {
         this.question = question;
         this.optionA = optionA;
         this.optionB = optionB;
         this.optionC = optionC;
         this.optionD = optionD;
         this.correctAnswer = correctAnswer;
-        this.image = image;
+        this.image = image;  // This line assigns the provided image value, which can be null
         this.description = description;
         this.remainingTimeInMillis = -1;
     }

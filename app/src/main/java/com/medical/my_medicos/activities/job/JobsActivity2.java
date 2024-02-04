@@ -29,7 +29,7 @@ import com.google.firebase.firestore.FirebaseFirestore;
 
 public class JobsActivity2 extends AppCompatActivity {
     String Title1;
-    Button OK;
+    TextView OK;
 
     private ViewPager2 pagerjobs, viewpagerjobs;
     private TabLayout tabLayoutjobs;

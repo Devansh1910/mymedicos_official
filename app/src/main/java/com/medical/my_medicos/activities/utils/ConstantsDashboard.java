@@ -15,7 +15,7 @@ public class ConstantsDashboard {
     public static String GET_SPECIALITY_INSIDER = API_BASE_URL + "/api/publications";
     public static String GET_SPECIALITY_ALL_PRODUCT_HOME = API_BASE_URL + "/api/publications/home";
     public static String GET_SPECIALITY_ALL_PRODUCT_SPONSORED = API_BASE_URL + "/api/publications/Sponsor";
-    public static String GET_SPECIALITY_PRODUCT = API_BASE_URL + "api/publications/id/";
+    public static String GET_SPECIALITY_PRODUCT = API_BASE_URL + "/api/publications/id/";
     public static String GET_CART = API_BASE_URL + "/api/ecom/cart";
     public static String GET_ORDER_ID = API_BASE_URL + "/api/ecom/checkout/generateOrder/";
     public static String GET_ORDER_ID_99_41 = API_BASE_URL + "/api/ecom/medcoins/generateOrder/";

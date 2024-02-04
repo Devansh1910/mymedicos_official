@@ -30,7 +30,6 @@
         <item name="android:backgroundDimEnabled">false</item>
     </style>
 
-
     <style name="Theme.My_medicos.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
 
     <style name="Theme.My_medicos.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />

@@ -48,30 +48,34 @@
             android:id="@+id/spinnerstate"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:paddingVertical="@dimen/_10ssp"
-            android:paddingHorizontal="@dimen/_5sdp"
             android:layout_marginBottom="@dimen/_5ssp"
-            android:orientation="horizontal">
+            android:orientation="horizontal"
+            android:paddingHorizontal="@dimen/_5sdp"
+            android:paddingVertical="@dimen/_10ssp">
 
             <Spinner
-                android:background="@drawable/spinner_back"
                 android:id="@+id/statespeciality"
-                android:paddingHorizontal="@dimen/_25ssp"
                 android:layout_width="wrap_content"
-                android:paddingVertical="@dimen/_10sdp"
+                android:layout_height="wrap_content"
                 android:layout_marginHorizontal="@dimen/_2ssp"
                 android:layout_weight="1"
-                android:layout_height="wrap_content"/>
+                android:background="@drawable/spinner_back"
+                android:paddingHorizontal="@dimen/_25ssp"
+                android:paddingVertical="@dimen/_10sdp" />
 
-            <Button
+            <TextView
+                android:id="@+id/okButton"
                 android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@color/blue"
+                android:clickable="true"
+                android:textColor="@color/unselected"
+                android:fontFamily="@font/inter"
                 android:paddingHorizontal="@dimen/_20sdp"
                 android:paddingVertical="@dimen/_10sdp"
-                android:background="@drawable/categoryblackkkkkk"
-                android:layout_height="wrap_content"
-                android:id="@+id/okButton"
                 android:text="Search"
-                android:clickable="true"/>
+                android:textSize="@dimen/_10sdp"
+                android:textStyle="bold" />
 
         </LinearLayout>
 

@@ -84,6 +84,9 @@ import java.util.Locale;
 import java.util.Map;
 import java.util.prefs.Preferences;
 
+import uk.co.samuelwall.materialtaptargetprompt.MaterialTapTargetPrompt;
+import uk.co.samuelwall.materialtaptargetprompt.extras.focals.CirclePromptFocal;
+
 public class HomeFragment extends Fragment {
 
     private FragmentHomeBinding binding;
@@ -125,6 +128,8 @@ public class HomeFragment extends Fragment {
             window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
             window.setStatusBarColor(ContextCompat.getColor(requireContext(), R.color.blue));
         }
+
+//        showTapTargets();
 
         progressBar = rootView.findViewById(R.id.progressBar);
 
@@ -320,6 +325,8 @@ public class HomeFragment extends Fragment {
                 Intent i = new Intent(getActivity(), CmeActivity.class);
                 startActivity(i);
             }
+
+
         });
 
         meme = rootView.findViewById(R.id.meme);
@@ -572,6 +579,46 @@ public class HomeFragment extends Fragment {
             initTodaysSlider();
         }
         return rootView;
+    }
+
+//    @SuppressLint("ResourceAsColor")
+//    private void showTapTarget(View target, String primaryText, String secondaryText, int sequenceId) {
+//        new MaterialTapTargetPrompt.Builder(requireActivity())
+//                .setTarget(target)
+//                .setPrimaryText(primaryText)
+//                .setSecondaryText(secondaryText)
+//                .setBackgroundColour(R.color.taptargetblue)
+//                .setFocalColour(R.color.white)
+//                .setFocalRadius(150f)
+//                .setPrimaryTextSize(com.intuit.sdp.R.dimen._16sdp)
+//                .setSecondaryTextSize(com.intuit.sdp.R.dimen._12sdp)
+//                .setPrimaryTextColour(R.color.unselected)
+//                .setSecondaryTextColour(R.color.unselected)
+//                .setPromptFocal(new CirclePromptFocal())
+//                .setPromptStateChangeListener((prompt, state) -> {
+//                    if (state == MaterialTapTargetPrompt.STATE_NON_FOCAL_PRESSED
+//                            || state == MaterialTapTargetPrompt.STATE_FOCAL_PRESSED) {
+//                        // Move to the next TapTarget in sequence
+//                        handleTapTargetClick(sequenceId);
+//                    }
+//                })
+//                .show();
+//    }
+
+    private void handleTapTargetClick(int sequenceId) {
+        // Handle TapTarget click based on the sequenceId
+        switch (sequenceId) {
+            case 0:
+                // Handle CME TapTarget click
+                break;
+            case 1:
+                // Handle Library TapTarget click
+                break;
+            case 2:
+                // Handle News TapTarget click
+                break;
+            // Add more cases for other sections as needed
+        }
     }
 
     private void refreshData() {

@@ -105,10 +105,8 @@ public class Neetexaminsider extends AppCompatActivity implements neetexampadapt
                                     Neetpg quizQuestion;
 
                                     if (imageUrl != null && !imageUrl.isEmpty()) {
-                                        // If Image field is not empty, fetch other details
                                         quizQuestion = new Neetpg(question, optionA, optionB, optionC, optionD, correctAnswer, imageUrl, description);
                                     } else {
-                                        // If Image field is empty, ignore it and fetch other details
                                         quizQuestion = new Neetpg(question, optionA, optionB, optionC, optionD, correctAnswer, null, description);
                                     }
                                     quizList1.add(quizQuestion);

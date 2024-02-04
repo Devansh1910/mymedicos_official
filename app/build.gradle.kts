@@ -15,8 +15,8 @@ android {
         applicationId = "com.medical.my_medicos"
         minSdk = 24
         targetSdk = 34
-        versionCode = 10
-        versionName = "1.1.0"
+        versionCode = 12
+        versionName = "1.1.2"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
@@ -120,8 +120,6 @@ dependencies {
     implementation ("com.google.android.recaptcha:recaptcha:18.4.0")
     //.. Tap Target...
     implementation ("uk.co.samuelwall:material-tap-target-prompt:3.3.2")
-    // Tap target.....
-    implementation ("uk.co.samuelwall:material-tap-target-prompt:3.1.0")
     //.....Download Activity
     implementation ("com.itextpdf:itext7-core:7.1.16")
 
