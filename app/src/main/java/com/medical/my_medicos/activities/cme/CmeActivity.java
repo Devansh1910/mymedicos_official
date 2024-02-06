@@ -179,10 +179,6 @@ public class CmeActivity extends AppCompatActivity {
                     }
                 });
 
-
-
-
-
         subspecialityAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item);
         subspecialityAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         subspecialitySpinner.setAdapter(subspecialityAdapter);
