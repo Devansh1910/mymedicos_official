@@ -32,8 +32,8 @@ public class GetstartedActivity extends AppCompatActivity {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             Window window = getWindow();
             window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
-            window.setStatusBarColor(ContextCompat.getColor(this, R.color.getstartedbottom));
-            window.setNavigationBarColor(ContextCompat.getColor(this, R.color.getstartedbottom));
+            window.setStatusBarColor(ContextCompat.getColor(this, R.color.blue));
+            window.setNavigationBarColor(ContextCompat.getColor(this, R.color.white));
         }
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
@@ -46,7 +46,7 @@ public class GetstartedActivity extends AppCompatActivity {
             startActivity(intent);
             finish();
             return;
-}
+        }
         setContentView(R.layout.activity_getstarted);
         startButton = findViewById(R.id.startButton);
         startButton.setOnClickListener(new View.OnClickListener() {
