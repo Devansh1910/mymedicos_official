@@ -15,8 +15,8 @@ android {
         applicationId = "com.medical.my_medicos"
         minSdk = 24
         targetSdk = 34
-        versionCode = 18
-        versionName = "1.1.8"
+        versionCode = 27
+        versionName = "2.0.7"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
@@ -122,4 +122,6 @@ dependencies {
     implementation ("uk.co.samuelwall:material-tap-target-prompt:3.3.2")
     //.....Download Activity
     implementation ("com.itextpdf:itext7-core:7.1.16")
+    //....In app Update
+    implementation ("com.google.android.play:app-update:2.1.0")
 }

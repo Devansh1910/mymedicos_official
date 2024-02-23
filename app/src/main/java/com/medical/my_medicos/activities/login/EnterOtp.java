@@ -131,7 +131,7 @@ public class EnterOtp extends AppCompatActivity {
 
                     if (task.isSuccessful()) {
                         Intent i = new Intent(EnterOtp.this, HomeActivity.class);
-                        i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                        i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                         startActivity(i);
                         finish();
                     } else {
@@ -141,6 +141,10 @@ public class EnterOtp extends AppCompatActivity {
             });
         } else {
             Toast.makeText(EnterOtp.this, "Verification Failed", Toast.LENGTH_SHORT).show();
+            Intent i = new Intent(EnterOtp.this, GetstartedActivity.class);
+            i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+            startActivity(i);
+            finish();
         }
     }
 

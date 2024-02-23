@@ -4,6 +4,7 @@ import static androidx.fragment.app.FragmentManager.TAG;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
+import android.content.IntentSender;
 import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
@@ -28,6 +29,11 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
+import com.google.android.play.core.appupdate.AppUpdateInfo;
+import com.google.android.play.core.appupdate.AppUpdateManager;
+import com.google.android.play.core.appupdate.AppUpdateManagerFactory;
+import com.google.android.play.core.install.model.AppUpdateType;
+import com.google.android.play.core.install.model.UpdateAvailability;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QuerySnapshot;
@@ -62,6 +68,8 @@ public class HomeActivity extends AppCompatActivity {
     Toolbar toolbar;
     ImageView profileImageView, verifiedprofilebehere;
     private static final long DOUBLE_PRESS_EXIT_INTERVAL = 2000;
+
+    private static final int MY_UPDATE_CODE = 100;
     private long lastPressTime;
     FrameLayout verifiedUser, circularImageView;
 
@@ -141,6 +149,7 @@ public class HomeActivity extends AppCompatActivity {
             return true;
         });
 
+        checkforAppUpdate();
     }
     @Override
     public void onBackPressed() {
@@ -311,4 +320,38 @@ public class HomeActivity extends AppCompatActivity {
             Log.e(TAG, "Error fetching profile image: " + exception.getMessage());
         });
     }
+
+    private void checkforAppUpdate(){
+        AppUpdateManager appUpdateManager = AppUpdateManagerFactory.create(this);
+        Task<AppUpdateInfo> appUpdateInfoTask = appUpdateManager.getAppUpdateInfo();
+        appUpdateInfoTask.addOnSuccessListener(appUpdateInfo -> {
+            if (appUpdateInfo.updateAvailability() == UpdateAvailability.UPDATE_AVAILABLE
+                    && appUpdateInfo.isUpdateTypeAllowed(AppUpdateType.IMMEDIATE)) {
+
+                try {
+                    appUpdateManager.startUpdateFlowForResult(
+                            // Pass the intent that is returned by 'getAppUpdateInfo()'.
+                            appUpdateInfo,
+                            // an activity result launcher registered via registerForActivityResult
+                            AppUpdateType.IMMEDIATE,
+                            // Or pass 'AppUpdateType.FLEXIBLE' to newBuilder() for
+                            // flexible updates.
+                            this, MY_UPDATE_CODE);
+                } catch (IntentSender.SendIntentException e) {
+                    throw new RuntimeException(e);
+                }
+
+            }
+        });
+    }
+
+    public void onActivityResult(int requestCode,int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == MY_UPDATE_CODE) {
+            if (resultCode != RESULT_OK) {
+                Log.w("FirstActivity", "Update flow failed! Result code : " + resultCode);
+            }
+        }
+    }
+
 }

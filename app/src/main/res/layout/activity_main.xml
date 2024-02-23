@@ -80,7 +80,7 @@
                 android:fontFamily="@font/inter"
                 android:layout_marginLeft="10dp"
                 android:background="@drawable/maincircularborderring"
-                android:inputType="phone" />
+                android:inputType="phone|textNoSuggestions" />
         </LinearLayout>
 
     <Button
