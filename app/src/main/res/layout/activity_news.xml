@@ -6,7 +6,7 @@
     android:id="@+id/swipeRefreshLayoutNews"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/white"
+    android:background="@color/backgroundcolor"
     tools:context=".activities.news.NewsActivity">
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -63,40 +63,6 @@
                             android:textColor="@color/unselected"
                             android:textSize="@dimen/_18sdp"
                             android:fontFamily="@font/inter_extrabold"/>
-
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:id="@+id/totheguide"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:orientation="horizontal"
-                        android:paddingHorizontal="@dimen/_10ssp"
-                        android:paddingVertical="@dimen/_2ssp"
-                        android:background="@drawable/darkcartbk">
-
-                        <TextView
-                            android:id="@+id/cart_title"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="Info"
-                            android:textStyle="bold"
-                            android:fontFamily="@font/inter_extrabold"
-                            android:textColor="#000"
-                            android:gravity="center"
-                            android:layout_gravity="center"
-                            android:textSize="16sp"
-                            android:layout_marginStart="8dp" />
-
-                        <ImageView
-                            android:id="@+id/cart_icon"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:gravity="center"
-                            android:layout_marginStart="@dimen/_5ssp"
-                            android:layout_gravity="center"
-                            android:src="@drawable/questionpartdark"
-                            android:contentDescription="@null"/>
 
                     </LinearLayout>
 

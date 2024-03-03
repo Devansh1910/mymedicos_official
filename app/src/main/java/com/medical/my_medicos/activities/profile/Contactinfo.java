@@ -24,6 +24,7 @@ import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.Spinner;
@@ -51,10 +52,12 @@ import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
+import com.squareup.picasso.Picasso;
 
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.prefs.Preferences;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
@@ -64,6 +67,8 @@ public class Contactinfo extends AppCompatActivity {
     private Spinner location, speciality;
     String selectedGender;
     String selectedMode;
+
+    ImageView currentImageView;
     Button Submit;
     private ArrayAdapter<CharSequence> locationAdapter, specialityAdapter;
     private CircleImageView avatarImageView;
@@ -115,8 +120,9 @@ public class Contactinfo extends AppCompatActivity {
         FirebaseUser currentUser = mAuth.getCurrentUser();
 
         location = findViewById(R.id.location);
-//        speciality = findViewById(R.id.speciality);
         avatarImageView = findViewById(R.id.avatarImageView);
+        currentImageView = findViewById(R.id.currentImageView);
+
         uploadAvatarCardView = findViewById(R.id.upload_avatar);
 
         email = findViewById(R.id.email1);
@@ -180,7 +186,7 @@ public class Contactinfo extends AppCompatActivity {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int position, long l) {
                 int locationIndex = location.getSelectedItemPosition();
-              selectedMode = location.getSelectedItem().toString();
+                selectedMode = location.getSelectedItem().toString();
                 usermap.put("location", selectedMode);
             }
 
@@ -188,7 +194,6 @@ public class Contactinfo extends AppCompatActivity {
             public void onNothingSelected(AdapterView<?> adapterView) {
             }
         });
-
 
         RadioGroup radioGroup = findViewById(R.id.radiogrp);
         radioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
@@ -216,9 +221,9 @@ public class Contactinfo extends AppCompatActivity {
 
         Submit=findViewById(R.id.consubmit);
 
-         currentaddress = presentaddress.getText().toString().trim();
+        currentaddress = presentaddress.getText().toString().trim();
         fulladdress = permanentaddress.getText().toString().trim();
-         drage = agedr.getText().toString().trim();
+        drage = agedr.getText().toString().trim();
         CheckBox sameAddressCheckBox = findViewById(R.id.checkbox1);
         sameAddressCheckBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
@@ -266,15 +271,77 @@ public class Contactinfo extends AppCompatActivity {
             }
         });
 
-
+        fetchUserData();
     }
 
+    public void fetchUserData() {
+        FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
+        if (currentUser != null) {
+            String userId = currentUser.getPhoneNumber();
+            FirebaseFirestore db = FirebaseFirestore.getInstance();
+
+            db.collection("users")
+                    .get()
+                    .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                        @Override
+                        public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                            if (task.isSuccessful()) {
+                                for (QueryDocumentSnapshot document : task.getResult()) {
+                                    Log.d(TAG, document.getId() + " => " + document.getData());
+                                    String docID = document.getId();
+                                    Map<String, Object> dataMap = document.getData();
+                                    String field1 = (String) dataMap.get("Phone Number");
+
+                                    if (field1 != null && currentUser.getPhoneNumber() != null) {
+                                        int a = field1.compareTo(currentUser.getPhoneNumber());
+                                        if (a == 0) {
+                                            String userName = (String) dataMap.get("Name");
+                                            String userEmail = (String) dataMap.get("Email ID");
+                                            String userLocation = (String) dataMap.get("Location");
+                                            String userInterest = (String) dataMap.get("Interest");
+                                            String userPhone = (String) dataMap.get("Phone Number");
+                                            String userPrefix = (String) dataMap.get("Prefix");
+                                            String userAuthorized = (String) dataMap.get("authorized");
+
+                                            Boolean mcnVerified = (Boolean) dataMap.get("MCN verified");
+
+                                            Preferences preferences = Preferences.userRoot();
+                                            preferences.put("username", userName);
+                                            preferences.put("email", userEmail);
+                                            preferences.put("location", userLocation);
+                                            preferences.put("interest", userInterest);
+                                            preferences.put("userphone", userPhone);
+                                            preferences.put("docId", docID);
+                                            preferences.put("prefix", userPrefix);
+
+                                            fetchUserProfileImage(userId);
+                                        }
+                                    } else {
+                                        Log.e(TAG, "Field1 or currentUser.getPhoneNumber() is null");
+                                    }
+                                }
+                            } else {
+                                Log.d(TAG, "Error getting documents: ", task.getException());
+                            }
+                        }
+                    });
+        }
+    }
+
+    private void fetchUserProfileImage(String userId) {
+        FirebaseStorage storage = FirebaseStorage.getInstance();
+        StorageReference storageRef = storage.getReference().child("users").child(userId).child("profile_image.jpg");
+        storageRef.getDownloadUrl().addOnSuccessListener(uri -> {
+            Picasso.get().load(uri).into(currentImageView);
+        }).addOnFailureListener(exception -> {
+            Log.e(TAG, "Error fetching profile image: " + exception.getMessage());
+        });
+    }
 
     private void openGallery() {
         Intent galleryIntent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
         startActivityForResult(galleryIntent, 1);
     }
-
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);

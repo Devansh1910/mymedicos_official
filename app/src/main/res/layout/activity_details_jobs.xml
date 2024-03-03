@@ -5,7 +5,14 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:background="@color/backgroundcolor"
+    tools:context=".activities.job.JobDetailsActivity"
     android:layout_height="match_parent">
+
+    <TextView
+        android:id="@+id/textView3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="jobpostedbypersonImageView" />
 
     <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
@@ -28,7 +35,7 @@
             <androidx.appcompat.widget.Toolbar
                 android:id="@+id/jobsinsidertoolbar"
                 app:title="Jobs"
-                app:navigationIcon="@drawable/arrowbackforappbar"
+                app:navigationIcon="@drawable/arrow_bk"
                 app:titleTextColor="@color/black"
                 app:subtitleTextColor="@color/white"
                 app:subtitleTextAppearance="@color/white"
@@ -61,7 +68,7 @@
             android:layout_height="wrap_content"
             android:scaleType="centerCrop"
             android:elevation="@dimen/_8sdp"
-            android:src="@drawable/frame_2"/>
+            android:src="@drawable/placeholdercompany"/>
 
         <LinearLayout
             android:layout_width="0dp"
@@ -73,7 +80,7 @@
                 android:id="@+id/jobTitleTextView"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:fontFamily="@font/inter_extrabold"
+                android:fontFamily="@font/inter"
                 android:gravity="start"
                 android:text="Loading.."
                 android:textColor="@color/unselected"
@@ -89,7 +96,7 @@
                 android:text="Loading..."
                 android:textColor="#434545"
                 android:textSize="16sp"
-                android:textStyle="bold" />
+                android:textStyle="normal" />
 
         </LinearLayout>
 
@@ -136,25 +143,38 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:paddingVertical="@dimen/_2ssp"
+            android:layout_gravity="center"
+            android:layout_marginTop="@dimen/_5sdp"
+            android:gravity="start"
+            android:paddingVertical="@dimen/_4ssp"
             android:orientation="horizontal">
+
+
+            <de.hdodenhof.circleimageview.CircleImageView
+                android:id="@+id/jobpostedbypersonImageView"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:layout_gravity="center"
+                android:layout_alignParentBottom="true"
+                android:layout_alignParentRight="true"
+                android:src="@drawable/resource_default" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/inter"
-                android:layout_marginHorizontal="@dimen/_8sdp"
+                android:layout_marginHorizontal="@dimen/_4sdp"
                 android:text="Posted by"
                 android:textColor="#686666"
-                android:textSize="12sp" />
+                android:textSize="14sp" />
 
             <TextView
                 android:id="@+id/organizername"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:fontFamily="@font/inter_extrabold"
+                android:fontFamily="@font/inter"
                 android:text="Loading..."
-                android:textColor="#096159"
+                android:textColor="@color/unselected"
                 android:textSize="14sp" />
 
         </LinearLayout>
@@ -168,17 +188,41 @@
         android:background="@drawable/rounded_edittext_background"
         android:orientation="vertical">
 
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/_15sdp"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:src="@drawable/brief" />
+
+            <TextView
+                android:layout_width="0dp"
+                android:fontFamily="@font/inter"
+                android:layout_weight="1"
+                android:layout_height="wrap_content"
+                android:paddingHorizontal="@dimen/_5ssp"
+                android:text="Brief"
+                android:textStyle="bold"
+                android:textColor="@color/unselected"
+                android:textSize="16sp" />
+
+        </LinearLayout>
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal">
 
                 <ImageView
-                    android:layout_width="0dp"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
-                    android:layout_weight="0.1"
-                    android:src="@drawable/s" />
+                    android:src="@drawable/domain" />
 
                 <TextView
                     android:id="@+id/authorSpecialityTextView"
@@ -189,7 +233,7 @@
                     android:paddingHorizontal="@dimen/_5ssp"
                     android:text="Loading..."
                     android:textColor="#000000"
-                    android:textSize="12sp" />
+                    android:textSize="14sp" />
 
             </LinearLayout>
 
@@ -200,11 +244,10 @@
                 android:orientation="horizontal">
 
                 <ImageView
-                    android:layout_width="0dp"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
-                    android:layout_weight="0.1"
-                    android:src="@drawable/s" />
+                    android:src="@drawable/domain" />
 
                 <TextView
                     android:id="@+id/authorSubSpecialityTextView"
@@ -215,7 +258,7 @@
                     android:paddingHorizontal="@dimen/_5ssp"
                     android:text="Loading..."
                     android:textColor="#000000"
-                    android:textSize="12sp" />
+                    android:textSize="14sp" />
 
             </LinearLayout>
 
@@ -229,9 +272,9 @@
 
                 <ImageView
                     android:layout_width="wrap_content"
-                    android:layout_height="20dp"
-                    android:layout_weight="0.2"
-                    android:src="@drawable/rupee" />
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:src="@drawable/salary" />
 
                 <LinearLayout
                     android:layout_width="164dp"
@@ -242,10 +285,10 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:fontFamily="@font/inter_extrabold"
-                        android:paddingHorizontal="@dimen/_8sdp"
+                        android:fontFamily="@font/inter"
+                        android:paddingHorizontal="@dimen/_2sdp"
                         android:text="₹"
-                        android:textColor="#8A8686"
+                        android:textColor="@color/black"
                         android:textSize="15sp"
                         tools:ignore="TouchTargetSizeCheck" />
 
@@ -253,20 +296,20 @@
                         android:id="@+id/salaryEditText"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:fontFamily="@font/inter_extrabold"
+                        android:fontFamily="@font/inter"
                         android:inputType="text"
                         android:text="Loading..."
-                        android:textColor="#8A8686"
-                        android:textSize="13sp"
+                        android:textColor="@color/black"
+                        android:textSize="14sp"
                         tools:ignore="TouchTargetSizeCheck" />
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:fontFamily="@font/inter_extrabold"
+                        android:fontFamily="@font/inter"
                         android:text="/yr"
-                        android:textColor="#8A8686"
-                        android:textSize="13sp"
+                        android:textColor="@color/black"
+                        android:textSize="14sp"
                         tools:ignore="TouchTargetSizeCheck" />
 
                 </LinearLayout>
@@ -283,8 +326,8 @@
                     android:paddingVertical="@dimen/_2ssp"
                     android:text="Loading.."
                     android:textAlignment="center"
-                    android:textColor="#07AC85"
-                    android:textSize="12sp"
+                    android:textColor="@color/unselected"
+                    android:textSize="14sp"
                     tools:ignore="TouchTargetSizeCheck" />
 
             </LinearLayout>
@@ -296,11 +339,10 @@
                 android:orientation="horizontal">
 
                 <ImageView
-                    android:layout_width="0dp"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
-                    android:layout_weight="0.1"
-                    android:src="@drawable/man" />
+                    android:src="@drawable/group" />
 
                 <LinearLayout
                     android:layout_width="0dp"
@@ -309,21 +351,20 @@
                     android:orientation="horizontal">
 
                     <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:paddingHorizontal="@dimen/_5ssp"
+                        android:text="Requirment of"
+                        android:textColor="#000000"
+                        android:textSize="14sp" />
+
+                    <TextView
                         android:id="@+id/openingsEditText"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:paddingHorizontal="@dimen/_5ssp"
                         android:text="Loading..."
                         android:textColor="#000000"
-                        android:textSize="12sp" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:paddingHorizontal="@dimen/_5ssp"
-                        android:text="Employees"
-                        android:textColor="#000000"
-                        android:textSize="12sp" />
+                        android:textSize="14sp" />
 
                 </LinearLayout>
 
@@ -336,11 +377,10 @@
                 android:orientation="horizontal">
 
                 <ImageView
-                    android:layout_width="0dp"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
-                    android:layout_weight="0.1"
-                    android:src="@drawable/yfe" />
+                    android:src="@drawable/bulblight" />
 
                 <LinearLayout
                     android:layout_width="0dp"
@@ -349,49 +389,73 @@
                     android:orientation="horizontal">
 
                     <TextView
-                        android:id="@+id/experienceEditText"
+                        android:id="@+id/duration"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:paddingHorizontal="@dimen/_5ssp"
+                        android:paddingStart="@dimen/_5ssp"
+                        android:paddingEnd="@dimen/_2sdp"
                         android:fontFamily="@font/inter"
-                        android:text="Loading,,,"
+                        android:text="Loading..."
                         android:textColor="#000000"
-                        android:textSize="12sp" />
+                        android:textSize="14sp" />
+
+                    <TextView
+                        android:id="@+id/timelinedurationwillcomehere"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/inter"
+                        android:text="Loading..."
+                        android:textColor="#000000"
+                        android:textSize="14sp" />
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:paddingHorizontal="@dimen/_5ssp"
-                        android:text="years of experience"
+                        android:text="of probation period"
                         android:fontFamily="@font/inter"
                         android:textColor="#000000"
-                        android:textSize="12sp" />
+                        android:textSize="14sp" />
 
                 </LinearLayout>
 
             </LinearLayout>
 
-            <TextView
-                android:id="@+id/jobDescriptionTextView"
-                android:layout_width="match_parent"
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/_15sdp"
+            android:layout_marginBottom="@dimen/_8sdp"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/_8ssp"
-                android:layout_marginHorizontal="@dimen/_8sdp"
-                android:text="Description"
+                android:layout_gravity="center"
+                android:src="@drawable/description" />
+
+            <TextView
+                android:layout_width="0dp"
+                android:id="@+id/jobDescriptionTextView"
                 android:fontFamily="@font/inter"
-                android:textColor="#595959"
-                android:textSize="13sp"
-                android:textStyle="bold" />
+                android:layout_weight="1"
+                android:layout_height="wrap_content"
+                android:paddingHorizontal="@dimen/_5ssp"
+                android:text="Description"
+                android:textStyle="bold"
+                android:textColor="@color/unselected"
+                android:textSize="16sp" />
+
+        </LinearLayout>
 
             <TextView
                 android:id="@+id/jobDescriptionContentTextView"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/inter"
-                android:layout_marginHorizontal="@dimen/_8sdp"
                 android:text="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam eget lectus non justo blandit luctus. Integer a elit vel ex sodales vestibulum."
                 android:textColor="#8E8D8D"
-                android:textSize="12sp" />
+                android:textSize="14sp" />
 
     </LinearLayout>
 
@@ -407,15 +471,15 @@
         android:layout_alignParentEnd="true"
         android:layout_alignParentStart="true"
         android:layout_alignParentBottom="true"
-        android:elevation="8dp"
         android:orientation="horizontal"
-        android:padding="@dimen/_2sdp">
+        android:padding="@dimen/_10sdp">
 
         <Button
             android:id="@+id/applyButton"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="0.5"
+            android:padding="@dimen/_5sdp"
             android:backgroundTint="@color/green"
             android:text="Apply Now"
             android:fontFamily="@font/inter"
@@ -425,7 +489,9 @@
             android:id="@+id/Alreadyapplied"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:visibility="gone"
             android:layout_weight="0.5"
+            android:padding="@dimen/_5sdp"
             android:fontFamily="@font/inter"
             android:backgroundTint="@color/green"
             android:text="Already Applied"
@@ -437,8 +503,10 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="0.5"
+            android:padding="@dimen/_5sdp"
             android:backgroundTint="@color/green"
             android:text="Applicant"
+            android:visibility="gone"
             android:fontFamily="@font/inter"
             android:textColor="#FFFFFF"
             android:textSize="13sp" />
@@ -451,7 +519,8 @@
         <Button
             android:id="@+id/sharebtnforjobs"
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
+            android:padding="@dimen/_5sdp"
             android:layout_weight="0.5"
             android:backgroundTint="@color/black"
             android:text="Share"

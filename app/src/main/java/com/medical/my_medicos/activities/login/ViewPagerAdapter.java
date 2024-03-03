@@ -1,7 +1,10 @@
 package com.medical.my_medicos.activities.login;
 
 
+import static com.medical.my_medicos.R.id.*;
+
 import android.content.Context;
+import android.annotation.SuppressLint;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,9 +21,9 @@ public class ViewPagerAdapter extends PagerAdapter {
     Context context;
 
     int sliderAllImages[] = {
-            R.drawable.libgirl,
-            R.drawable.ggg,
-            R.drawable.ddd,
+            R.drawable.firstimage,
+            R.drawable.madddd,
+            R.drawable.bcnav,
     };
 
     int sliderAllTitle[] = {
@@ -34,6 +37,11 @@ public class ViewPagerAdapter extends PagerAdapter {
             R.string.screen2desc,
             R.string.screen3desc,
     };
+//    int arrowForward[] = {
+//            R.drawable.pb1,
+//            R.drawable.pb2,
+//            R.drawable.pb3,
+//    };
 
     public ViewPagerAdapter(Context context){
         this.context = context;
@@ -63,6 +71,9 @@ public class ViewPagerAdapter extends PagerAdapter {
         sliderImage.setImageResource(sliderAllImages[position]);
         sliderTitle.setText(this.sliderAllTitle[position]);
         sliderDesc.setText(this.sliderAllDesc[position]);
+        // arrowForward.setImageResource(this.arrowForward[position]);
+
+
 
         container.addView(view);
         return view;

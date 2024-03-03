@@ -2,24 +2,34 @@ package com.medical.my_medicos.activities.login;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
+import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.ImageView;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
 
 import com.airbnb.lottie.LottieAnimationView;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.dynamiclinks.FirebaseDynamicLinks;
+import com.google.firebase.dynamiclinks.PendingDynamicLinkData;
 import com.medical.my_medicos.R;
 import com.google.firebase.auth.FirebaseAuth;
 
 public class SplashActivity extends AppCompatActivity {
 
     ImageView logosplash;
+
+
+    String TAG = "splash";
 
     @SuppressLint("MissingInflatedId")
     @Override
@@ -56,6 +66,7 @@ public class SplashActivity extends AppCompatActivity {
                 finish();
             }
         }, 1000);
+
     }
     private boolean isLoggedIn() {
         FirebaseAuth mAuth = FirebaseAuth.getInstance();

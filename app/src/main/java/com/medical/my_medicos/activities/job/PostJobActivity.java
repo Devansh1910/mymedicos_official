@@ -1,11 +1,17 @@
 package com.medical.my_medicos.activities.job;
 
 import static com.medical.my_medicos.list.subSpecialitiesData.subspecialities;
+
+import android.annotation.SuppressLint;
 import android.app.DatePickerDialog;
+import android.app.ProgressDialog;
 import android.content.Intent;
+import android.database.Cursor;
 import android.graphics.Color;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.provider.OpenableColumns;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
@@ -22,10 +28,16 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
 
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
+import com.google.firebase.storage.UploadTask;
 import com.medical.my_medicos.R;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -36,12 +48,15 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
+import com.medical.my_medicos.activities.cme.PostCmeActivity;
 import com.medical.my_medicos.activities.home.sidedrawer.extras.BottomSheetForChatWithUs;
 import com.medical.my_medicos.activities.login.MainActivity;
 import com.medical.my_medicos.activities.login.RegisterActivity;
 
+import java.io.File;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Deque;
 import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
@@ -50,12 +65,18 @@ public class PostJobActivity extends AppCompatActivity {
     public FirebaseDatabase db = FirebaseDatabase.getInstance();
     String selectedMode;
     String selectedMode2;
+    private StorageReference storageReference;
     FirebaseAuth auth = FirebaseAuth.getInstance();
     FirebaseUser user = auth.getCurrentUser();
     String current = user.getPhoneNumber();
     private Spinner subspecialitySpinner;
     private Spinner specialitySpinner;
+    private DatabaseReference databasereference;
+    private TextView addPdf, uploadPdfBtn;
+
+    String timelinestring;
     String subspecialities1;
+    String downloadUrl = null;
     private TextView btnDatePicker;
     private TextView tvDate;
     private Calendar calendar;
@@ -63,9 +84,19 @@ public class PostJobActivity extends AppCompatActivity {
     private ArrayAdapter<CharSequence> specialityAdapter;
     private ArrayAdapter<CharSequence> subspecialityAdapter;
     FirebaseFirestore dc = FirebaseFirestore.getInstance();
-    public DatabaseReference cmeref = db.getReference().child("CME's");
     String speciality;
     Button post;
+    private StorageReference StorageReference;
+    private DatabaseReference Databasereference;
+    private ProgressDialog pd;
+    public DatabaseReference cmeref = db.getReference().child("CME's");
+    private Uri pdfData;
+    private String pdfName;
+    static final int REQ = 1;
+    private ArrayAdapter<CharSequence> timelineAdapter;
+
+    Spinner timelineduration;
+    @SuppressLint("MissingInflatedId")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -113,6 +144,28 @@ public class PostJobActivity extends AppCompatActivity {
         description=findViewById(R.id.Job_desc);
         duration=findViewById(R.id.job_duration);
         hospital=findViewById(R.id.Job_hopital);
+        Databasereference = FirebaseDatabase.getInstance().getReference();
+        StorageReference = FirebaseStorage.getInstance().getReference();
+
+        pd = new ProgressDialog(this);
+
+        addPdf = findViewById(R.id.addPdf);
+
+        uploadPdfBtn = findViewById(R.id.uploadpdfbtn);
+
+        addPdf.setOnClickListener(view -> {
+            openGallery();
+        });
+        uploadPdfBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (pdfData == null) {
+                    Toast.makeText(PostJobActivity.this, "Select a Document", Toast.LENGTH_SHORT).show();
+                } else {
+                    uploadPdf();
+                }
+            }
+        });
 
         dc.collection("users").get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
             @Override
@@ -140,11 +193,32 @@ public class PostJobActivity extends AppCompatActivity {
 
         specialitySpinner = findViewById(R.id.Job_Speciality);
         subspecialitySpinner = findViewById(R.id.Job_subspeciality);
+        timelineduration = findViewById(R.id.timelineduration);
+
 
         specialityAdapter = ArrayAdapter.createFromResource(this,
                 R.array.speciality, android.R.layout.simple_spinner_item);
         specialityAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         specialitySpinner.setAdapter(specialityAdapter);
+        //......
+
+        timelineAdapter = ArrayAdapter.createFromResource(this,
+                R.array.timeline, android.R.layout.simple_spinner_item);
+        timelineAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        timelineduration.setAdapter(timelineAdapter);
+
+        timelineduration.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parentView, View selectedItemView, int position, long id) {
+                timelinestring = timelineduration.getSelectedItem().toString();
+            }
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+            }
+        });
+
+        //.......
+
         subspecialityAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item);
         subspecialityAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         subspecialitySpinner.setAdapter(subspecialityAdapter);
@@ -244,6 +318,81 @@ public class PostJobActivity extends AppCompatActivity {
             }
         });
     }
+
+    private void uploadPdf() {
+        pd.setTitle("Please wait..");
+        pd.setMessage("Uploading Pdf..");
+        pd.show();
+        StorageReference reference = storageReference.child("pdf/" + pdfName + "-" + System.currentTimeMillis() + ".pdf");
+        reference.putFile(pdfData).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+            @Override
+            public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                Task<Uri> uriTask = taskSnapshot.getStorage().getDownloadUrl();
+                while (!uriTask.isComplete()) ;
+                Uri uri = uriTask.getResult();
+                uploadData(String.valueOf(uri));
+                downloadUrl = String.valueOf(uri);
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                pd.dismiss();
+                Toast.makeText(PostJobActivity.this, "Something went wrong!", Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
+    private void uploadData(String valueOf) {
+        String uniqueKey = databasereference.child("pdf").push().getKey();
+        HashMap data = new HashMap();
+        data.put("pdfUrl", downloadUrl);
+
+        databasereference.child("pdf").child(uniqueKey).setValue(data).addOnCompleteListener(new OnCompleteListener<Void>() {
+            @Override
+            public void onComplete(@NonNull Task<Void> task) {
+                pd.dismiss();
+                Toast.makeText(PostJobActivity.this, "Pdf Uploaded Successfully", Toast.LENGTH_SHORT).show();
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                pd.dismiss();
+                Toast.makeText(PostJobActivity.this, "Failed to upload!", Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
+
+
+    private void openGallery() {
+        Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
+        intent.setType("/");
+        startActivityForResult(Intent.createChooser(intent, "Select File"), REQ);
+    }
+    @SuppressLint("Range")
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == REQ && resultCode == RESULT_OK) {
+            pdfData = data.getData();
+
+            if (pdfData.toString().startsWith("content://")) {
+                Cursor cursor = null;
+                try {
+                    cursor = PostJobActivity.this.getContentResolver().query(pdfData, null, null, null, null);
+                    if (cursor != null && cursor.moveToFirst()) {
+                        pdfName = cursor.getString(cursor.getColumnIndex(OpenableColumns.DISPLAY_NAME));
+                    }
+                } catch (Exception e) {
+                    throw new RuntimeException(e);
+                }
+            } else if (pdfData.toString().startsWith("file://")) {
+                pdfName = new File(pdfData.toString()).getName();
+            }
+            addPdf.setText(pdfName);
+        }
+    }
+
+
     private void showDatePicker() {
         DatePickerDialog datePickerDialog = new DatePickerDialog(
                 this,

@@ -171,15 +171,6 @@ public class HomeSideActivity extends AppCompatActivity {
             }
         });
 
-        totheguide = findViewById(R.id.totheguide);
-        totheguide.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent i = new Intent(HomeSideActivity.this, ProfileGuideActivity.class);
-                startActivity(i);
-            }
-        });
-
         contactinfo = findViewById(R.id.personal_info);
         contactinfo.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -219,7 +210,7 @@ public class HomeSideActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 // Customize the content to share
-                String appLink = "https://play.google.com/store/apps/details?id=com.medical.my_medicos";
+                String appLink = "https://play.google.com/store/apps/details?id=com.medical.my_medicos&pcampaignid=web_share";
                 String message = "Check out our medical app!\nDownload now: " + appLink;
 
                 // Create an Intent with ACTION_SEND

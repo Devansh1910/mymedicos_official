@@ -2,16 +2,16 @@ package com.medical.my_medicos.activities.login;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-        import android.content.Intent;
+import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
-        import android.text.Html;
-        import android.view.View;
+import android.text.Html;
+import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
-        import android.widget.LinearLayout;
-        import android.widget.TextView;
+import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import androidx.core.content.ContextCompat;
 import androidx.viewpager.widget.ViewPager;
@@ -42,6 +42,11 @@ public class NavigationActivity extends AppCompatActivity {
             } else {
                 backButton.setVisibility(View.INVISIBLE);
             }
+            if (position > 0){
+                skipButton.setVisibility((View.VISIBLE));
+            }else{
+                skipButton.setVisibility(View.INVISIBLE);
+            }
             if (position == 2){
                 nextButton.setText("Finish");
             } else {
@@ -71,8 +76,8 @@ public class NavigationActivity extends AppCompatActivity {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             Window window = getWindow();
             window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
-            window.setStatusBarColor(ContextCompat.getColor(this, R.color.blue));
-            window.setNavigationBarColor(ContextCompat.getColor(this, R.color.backgroundcolor));
+            window.setStatusBarColor(ContextCompat.getColor(this, R.color.backgroundcolor));
+            window.setNavigationBarColor(ContextCompat.getColor(this, R.color.white));
         }
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
@@ -133,7 +138,7 @@ public class NavigationActivity extends AppCompatActivity {
             dots[i].setTextColor(getResources().getColor(R.color.grey, getApplicationContext().getTheme()));
             dotIndicator.addView(dots[i]);
         }
-        dots[position].setTextColor(getResources().getColor(R.color.lavender, getApplicationContext().getTheme()));
+        dots[position].setTextColor(getResources().getColor(R.color.black, getApplicationContext().getTheme()));
     }
 
     private int getItem(int i) {

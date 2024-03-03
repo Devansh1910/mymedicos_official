@@ -5,8 +5,11 @@ import static androidx.fragment.app.FragmentManager.TAG;
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.content.IntentSender;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
 import android.util.Log;
 import android.view.View;
 import android.view.Window;
@@ -25,6 +28,7 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
+import com.airbnb.lottie.LottieAnimationView;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -34,10 +38,12 @@ import com.google.android.play.core.appupdate.AppUpdateManager;
 import com.google.android.play.core.appupdate.AppUpdateManagerFactory;
 import com.google.android.play.core.install.model.AppUpdateType;
 import com.google.android.play.core.install.model.UpdateAvailability;
+import com.google.firebase.dynamiclinks.FirebaseDynamicLinks;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.medical.my_medicos.R;
+import com.medical.my_medicos.activities.cme.CmeDetailsActivity;
 import com.medical.my_medicos.activities.home.fragments.ClubFragment;
 import com.medical.my_medicos.activities.home.fragments.HomeFragment;
 import com.medical.my_medicos.activities.home.fragments.SlideshowFragment;
@@ -51,6 +57,7 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
+import com.medical.my_medicos.activities.job.JobDetailsActivity;
 import com.medical.my_medicos.activities.notification.NotificationActivity;
 import com.squareup.picasso.Picasso;
 
@@ -66,6 +73,8 @@ public class HomeActivity extends AppCompatActivity {
     DrawerLayout drawerLayout;
     NavigationView navigationView;
     Toolbar toolbar;
+    private LottieAnimationView shimmerAnimationView;
+
     ImageView profileImageView, verifiedprofilebehere;
     private static final long DOUBLE_PRESS_EXIT_INTERVAL = 2000;
 
@@ -78,6 +87,8 @@ public class HomeActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
+
+        handleDeepLinkIntent();
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             View decorView = getWindow().getDecorView();
@@ -97,6 +108,8 @@ public class HomeActivity extends AppCompatActivity {
         }
 
         toolbar = findViewById(R.id.toolbar);
+
+        shimmerAnimationView = findViewById(R.id.shimmmmmmerererere);
 
         FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
         if (currentUser != null) {
@@ -131,6 +144,13 @@ public class HomeActivity extends AppCompatActivity {
         bottomNavigation = findViewById(R.id.bottomNavigationView);
         bottomNavigation.setBackground(null);
 
+        shimmerAnimationView.setVisibility(View.VISIBLE);
+        shimmerAnimationView.playAnimation();
+
+        new Handler(Looper.getMainLooper()).postDelayed(() -> {
+            shimmerAnimationView.setVisibility(View.GONE);
+        }, 4000); // 2000 milliseconds = 2 seconds
+
         bottomNavigation.setOnItemSelectedListener(item -> {
             int frgId = item.getItemId();
             Log.d("Something went wrong","Report to the Developer");
@@ -151,6 +171,55 @@ public class HomeActivity extends AppCompatActivity {
 
         checkforAppUpdate();
     }
+
+    private void handleDeepLinkIntent() {
+        FirebaseDynamicLinks.getInstance().getDynamicLink(getIntent())
+                .addOnSuccessListener(this, pendingDynamicLinkData -> {
+                    if (pendingDynamicLinkData != null) {
+                        Uri deepLink = pendingDynamicLinkData.getLink();
+                        if (deepLink != null) {
+                            String link = deepLink.toString();
+                            if (link.contains("jobdetails?")) {
+                                handleDeepLinkIntentJOB(deepLink);
+                            } else if (link.contains("cmedetails?")) {
+                                handleDeepLinkIntentCME(deepLink);
+                            }
+                        }
+                    }
+                })
+                .addOnFailureListener(this, e -> {
+                    Log.e("DeepLink", "Error handling deep link: " + e.getMessage());
+                });
+    }
+
+    private void handleDeepLinkIntentJOB(Uri deepLink) {
+        String jobId = deepLink.getQueryParameter("jobId");
+        Log.d("DeepLink", "Received deep link with jobId: " + jobId);
+        openJobDetailsActivity(jobId);
+    }
+
+    private void handleDeepLinkIntentCME(Uri deepLink) {
+        String cmeId = deepLink.getQueryParameter("cmeId");
+        Log.d("DeepLink", "Received deep link with cmeId: " + cmeId);
+        openCmeDetailsActivity(cmeId);
+    }
+    private void openJobDetailsActivity(String jobId) {
+        Log.d("HomeActivity", "Opening JobDetailsActivity with documentId: " + jobId);
+        Intent intent = new Intent(this, JobDetailsActivity.class);
+        intent.putExtra("jobId", jobId);
+        startActivity(intent);
+        finish();
+        Log.d("HomeActivity", "JobDetailsActivity started");
+    }
+    private void openCmeDetailsActivity(String cmeId) {
+        Log.d("HomeActivity", "Opening CmeDetailsActivity with documentId: " + cmeId);
+        Intent intent = new Intent(this, CmeDetailsActivity.class);
+        intent.putExtra("cmeId", cmeId);
+        startActivity(intent);
+        finish();
+        Log.d("HomeActivity", "CmeDetailsActivity started");
+    }
+
     @Override
     public void onBackPressed() {
         Fragment currentFragment = getSupportFragmentManager().findFragmentById(R.id.frame_layout);

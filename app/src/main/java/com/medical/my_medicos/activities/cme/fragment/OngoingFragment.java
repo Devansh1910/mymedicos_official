@@ -106,30 +106,31 @@ public class OngoingFragment extends Fragment  {
                                     }
 
 
-                                    int r = parsedTime.compareTo(currentTime);
+                                    if (parsedTime != null && currentTime != null) {
+                                        int r = parsedTime.compareTo(currentTime);
+                                        Log.d("vivek", String.valueOf(r));
+                                        int r1 = parsedDate.compareTo(currentDate);
+                                        if ((r <= 0) && (r1 == 0)) {
+                                            String field3 = ((String) dataMap.get("CME Title"));
+                                            String field6 = ((String) dataMap.get("Mode"));
+                                            List<String> presenters = (List<String>) dataMap.get("CME Presenter");
+                                            String field4 = presenters.get(0);
+                                            String end = ((String) dataMap.get("endtime"));
+                                            String field1 = (String) dataMap.get("CME Organiser");
+                                            String field2;
+                                            field2 = ((String) dataMap.get("Speciality"));
+                                            String Date = ((String) dataMap.get("Selected Date"));
+                                            String time = ((String) dataMap.get("Selected Time"));
+                                            String field5 = ((String) dataMap.get("User"));
+                                            String documentid = ((String) dataMap.get("documentId"));
+                                            if (end == null) {
+                                                cmeitem4 c = new cmeitem4(field1, field2, Date, field3, field4, 5, time, field5, "LIVE", documentid, field6);
+                                                items1.add(c);
+                                            }
 
-                                    Log.d("vivek", String.valueOf(r));
-                                    int r1 = parsedDate.compareTo(currentDate);
-                                    if ((r <= 0) && (r1 == 0)) {
-                                        String field3 = ((String) dataMap.get("CME Title"));
-                                        String field6 = ((String) dataMap.get("Mode"));
-                                        List<String> presenters = (List<String>) dataMap.get("CME Presenter");
-                                        String field4=presenters.get(0);
-                                        String end=((String) dataMap.get("endtime"));
-                                        String field1 = (String) dataMap.get("CME Organiser");
-                                        String field2;
-                                        field2 = ((String) dataMap.get("Speciality"));
-                                        String Date=((String) dataMap.get("Selected Date"));
-                                        String time =((String) dataMap.get("Selected Time"));
-                                        String field5=((String ) dataMap.get("User"));
-                                        String documentid=((String) dataMap.get("documentId"));
-                                        if (end==null) {
-                                            cmeitem4 c = new cmeitem4(field1, field2, Date, field3, field4, 5, time, field5, "LIVE", documentid,field6);
-                                            items1.add(c);
+                                        } else {
+                                            // Handle the case where parsedTime or currentTime is null
                                         }
-
-                                    } else {
-
                                     }
                                 }
                                 adapter.notifyDataSetChanged();

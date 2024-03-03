@@ -2,9 +2,12 @@ package com.medical.my_medicos.activities.job;
 
 import android.content.Intent;
 import android.graphics.Color;
+import android.os.Build;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -15,6 +18,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
 import androidx.viewpager2.adapter.FragmentStateAdapter;
@@ -33,7 +37,6 @@ public class JobsActivity2 extends AppCompatActivity {
 
     private ViewPager2 pagerjobs, viewpagerjobs;
     private TabLayout tabLayoutjobs;
-
     FirebaseFirestore db = FirebaseFirestore.getInstance();
 
     @Override
@@ -41,9 +44,25 @@ public class JobsActivity2 extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_jobs2);
 
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            View decorView = getWindow().getDecorView();
+            decorView.setSystemUiVisibility(decorView.getSystemUiVisibility() | View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);
+        }
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            Window window = getWindow();
+            window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
+            window.setStatusBarColor(ContextCompat.getColor(this, R.color.backgroundcolor));
+            window.setNavigationBarColor(ContextCompat.getColor(this, R.color.backgroundcolor));
+        }
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            View decorView = getWindow().getDecorView();
+            decorView.setSystemUiVisibility(decorView.getSystemUiVisibility() | View.SYSTEM_UI_FLAG_LIGHT_NAVIGATION_BAR);
+        }
+
         Toolbar toolbar = findViewById(R.id.jobstoolbar);
         OK = findViewById(R.id.okButton);
-        OK.setBackgroundColor(Color.GRAY);
         Spinner specialitySpinner = findViewById(R.id.statespeciality);
 
         ArrayAdapter<CharSequence> specialityAdapter = ArrayAdapter.createFromResource(
@@ -61,30 +80,24 @@ public class JobsActivity2 extends AppCompatActivity {
 
                 if (selectedSpeciality.equals("Select Speciality")) {
                     OK.setClickable(false);
-                    OK.setBackgroundColor(Color.GRAY);
                 } else {
                     OK.setClickable(true);
-                    OK.setBackgroundColor(Color.BLUE);
                 }
             }
 
             @Override
             public void onNothingSelected(AdapterView<?> parentView) {
-                // Do nothing here if no speciality is selected
+
             }
         });
 
-        // Set the support action bar
         setSupportActionBar(toolbar);
-
-        // Set the navigation icon and listener
         ActionBar actionBar = getSupportActionBar();
         if (actionBar != null) {
             actionBar.setDisplayHomeAsUpEnabled(true);
-            actionBar.setHomeAsUpIndicator(R.drawable.arrowbackforappbar);
-        }// Set the toolbar as the ActionBar
+            actionBar.setHomeAsUpIndicator(R.drawable.arrow_bk);
+        }
 
-        // Get the title from the intent
         Intent intent = getIntent();
         if (intent != null) {
             Title1 = intent.getStringExtra("Title");

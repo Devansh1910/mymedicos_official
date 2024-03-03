@@ -97,7 +97,7 @@ public class HomeFragment extends Fragment {
     MyAdapter2 adaptercme;
     String Speciality;
     CardView cardjobs,cardcme;
-    TextView home1,home2,home3,personname,personsuffix;
+    TextView home1,home2,home3,personname,personsuffix,greetingTextView;
     RecyclerView recyclerViewjob;
     RecyclerView recyclerViewcme;
     private ExoPlayer player;
@@ -108,7 +108,7 @@ public class HomeFragment extends Fragment {
     public static final String INTENT_KEY_SPECIALITY = "speciality";
     public static final String INTENT_KEY_USER_PHONE = "user_phone";
 
-    private ViewFlipper viewFlipper;
+//    private ViewFlipper viewFlipper;
     private boolean dataLoaded = false;
 
     private PaidSlideshowAdapter paidslideshowAdapter;
@@ -137,7 +137,7 @@ public class HomeFragment extends Fragment {
 
         recyclerViewjob = rootView.findViewById(R.id.recyclerview_job1);
 
-        viewFlipper = rootView.findViewById(R.id.viewFlipper);
+//        viewFlipper = rootView.findViewById(R.id.viewFlipper);
         dotsLayout = rootView.findViewById(R.id.dotsLayout);
         handler = new Handler();
 
@@ -155,16 +155,29 @@ public class HomeFragment extends Fragment {
             mediaPlayer.start();
             refreshData();
         });
-
-        addDots();
-
-        handler.postDelayed(autoScrollRunnable, AUTO_SCROLL_DELAY);
+//
+//        addDots();
+//
+//        handler.postDelayed(autoScrollRunnable, AUTO_SCROLL_DELAY);
 
         recyclerViewcme = rootView.findViewById(R.id.recyclerview_cme1);
 
         personname = rootView.findViewById(R.id.personnamewillbehere);
 
         personsuffix = rootView.findViewById(R.id.personsuffix);
+
+        greetingTextView = rootView.findViewById(R.id.greetingstext);
+
+        Calendar calendar = Calendar.getInstance();
+        int hour = calendar.get(Calendar.HOUR_OF_DAY);
+
+        if (hour >= 0 && hour < 12) {
+            greetingTextView.setText("Good Morning, ");
+        } else if (hour >= 12 && hour < 16) {
+            greetingTextView.setText("Good Afternoon, ");
+        } else {
+            greetingTextView.setText("Good Evening, ");
+        }
 
 
         ugexams = rootView.findViewById(R.id.ugexams);
@@ -477,68 +490,70 @@ public class HomeFragment extends Fragment {
                                     }
 
 
-                                    int r = parsedTime.compareTo(currentTime);
-
-                                    Log.d("vivek", String.valueOf(r));
-                                    int r1 = parsedDate.compareTo(currentDate);
-                                    if ((r1 <= 0)) {
-                                        String field3 = ((String) dataMap.get("CME Title"));
-                                        String field6 = ((String) dataMap.get("Mode"));
-                                        List<String> presenters = (List<String>) dataMap.get("CME Presenter");
-                                        String field4 = presenters.get(0);
-                                        String field1 = (String) dataMap.get("CME Organiser");
-                                        String field2;
-                                        String field5 = ((String) dataMap.get("User"));
-                                        field2 = ((String) dataMap.get("Speciality"));
-                                        String Date = ((String) dataMap.get("Selected Date"));
-                                        String time = ((String) dataMap.get("Selected Time"));
-                                        String documentid = ((String) dataMap.get("documentId"));
-                                        String end = ((String) dataMap.get("endtime"));
-                                        Log.d("user2",user.getPhoneNumber());
-
-                                        if ((Speciality!=null)&&(field2!=null)) {
-                                            int a = Speciality.compareTo(field2);
+                                    if (parsedTime != null && currentTime != null) {
+                                        int r = parsedTime.compareTo(currentTime);
+                                        Log.d("vivek", String.valueOf(r));
+                                        int r1 = parsedDate.compareTo(currentDate);
+                                        if ((r1 <= 0)) {
+                                            String field3 = ((String) dataMap.get("CME Title"));
+                                            String field6 = ((String) dataMap.get("Mode"));
+                                            List<String> presenters = (List<String>) dataMap.get("CME Presenter");
+                                            String field4 = presenters.get(0);
+                                            String field1 = (String) dataMap.get("CME Organiser");
+                                            String field2;
+                                            String field5 = ((String) dataMap.get("User"));
+                                            field2 = ((String) dataMap.get("Speciality"));
+                                            String Date = ((String) dataMap.get("Selected Date"));
+                                            String time = ((String) dataMap.get("Selected Time"));
+                                            String documentid = ((String) dataMap.get("documentId"));
+                                            String end = ((String) dataMap.get("endtime"));
                                             Log.d("user2",user.getPhoneNumber());
-                                            int b=(user.getPhoneNumber()).compareTo(field5);
-                                            Log.d("phonenumber", String.valueOf(b));
-                                            Log.d("phonenumber", String.valueOf(b));
-                                            cmeitem2 c = new cmeitem2(field1, field2, Date, field3, field4, 5, time, field5, "PAST", documentid,field6);
-                                            if ((end != null) && (a == 0)&&(b!=0)) {
-                                                myitem.add(c);
 
+                                            if ((Speciality!=null)&&(field2!=null)) {
+                                                int a = Speciality.compareTo(field2);
+                                                Log.d("user2",user.getPhoneNumber());
+                                                int b=(user.getPhoneNumber()).compareTo(field5);
+                                                Log.d("phonenumber", String.valueOf(b));
+                                                Log.d("phonenumber", String.valueOf(b));
+                                                cmeitem2 c = new cmeitem2(field1, field2, Date, field3, field4, 5, time, field5, "PAST", documentid,field6);
+                                                if ((end != null) && (a == 0)&&(b!=0)) {
+                                                    myitem.add(c);
+
+                                                }
                                             }
-                                        }
 
 
-                                    } else if ((r < 0) && (r1 == 0)) {
-                                        String field3 = ((String) dataMap.get("CME Title"));
-                                        String field6 = ((String) dataMap.get("Mode"));
-                                        String field4 = ((String) dataMap.get("CME Presenter"));
-                                        String field1 = (String) dataMap.get("CME Organiser");
-                                        String field2;
-                                        String time = ((String) dataMap.get("Selected Time"));
-                                        String field5 = ((String) dataMap.get("User"));
-                                        field2 = ((String) dataMap.get("Speciality"));
-                                        String Date = ((String) dataMap.get("Selected Date"));
-                                        String documentid = ((String) dataMap.get("documentId"));
-                                        String end = ((String) dataMap.get("endtime"));
-                                        Log.d("user2",user.getPhoneNumber());
+                                        } else if ((r < 0) && (r1 == 0)) {
+                                            String field3 = ((String) dataMap.get("CME Title"));
+                                            String field6 = ((String) dataMap.get("Mode"));
+                                            String field4 = ((String) dataMap.get("CME Presenter"));
+                                            String field1 = (String) dataMap.get("CME Organiser");
+                                            String field2;
+                                            String time = ((String) dataMap.get("Selected Time"));
+                                            String field5 = ((String) dataMap.get("User"));
+                                            field2 = ((String) dataMap.get("Speciality"));
+                                            String Date = ((String) dataMap.get("Selected Date"));
+                                            String documentid = ((String) dataMap.get("documentId"));
+                                            String end = ((String) dataMap.get("endtime"));
+                                            Log.d("user2",user.getPhoneNumber());
 
 
-                                        if ((Speciality!=null)&&(field2!=null)) {
-                                            int a = Speciality.compareTo(field2);
-                                            int b=(user.getPhoneNumber()).compareTo(field5);
-                                            Log.d("phonenumber", String.valueOf(b));
-                                            Log.d("phonenumber", String.valueOf(b));
-                                            cmeitem2 c = new cmeitem2(field1, field2, Date, field3, field4, 5, time, field5, "PAST", documentid,field6);
-                                            if ((end != null) && (a == 0)&&(b!=0)) {
-                                                myitem.add(c);
+                                            if ((Speciality!=null)&&(field2!=null)) {
+                                                int a = Speciality.compareTo(field2);
+                                                int b=(user.getPhoneNumber()).compareTo(field5);
+                                                Log.d("phonenumber", String.valueOf(b));
+                                                Log.d("phonenumber", String.valueOf(b));
+                                                cmeitem2 c = new cmeitem2(field1, field2, Date, field3, field4, 5, time, field5, "PAST", documentid,field6);
+                                                if ((end != null) && (a == 0)&&(b!=0)) {
+                                                    myitem.add(c);
 
+                                                }
                                             }
-                                        }
 
+                                        }
+                                    } else {
+                                        Log.d(TAG, "Something went wrong", task.getException());
                                     }
-
                                 }
                                 Log.d("myitem", myitem.toString());
                                 if (myitem.isEmpty()){
@@ -579,46 +594,6 @@ public class HomeFragment extends Fragment {
             initTodaysSlider();
         }
         return rootView;
-    }
-
-//    @SuppressLint("ResourceAsColor")
-//    private void showTapTarget(View target, String primaryText, String secondaryText, int sequenceId) {
-//        new MaterialTapTargetPrompt.Builder(requireActivity())
-//                .setTarget(target)
-//                .setPrimaryText(primaryText)
-//                .setSecondaryText(secondaryText)
-//                .setBackgroundColour(R.color.taptargetblue)
-//                .setFocalColour(R.color.white)
-//                .setFocalRadius(150f)
-//                .setPrimaryTextSize(com.intuit.sdp.R.dimen._16sdp)
-//                .setSecondaryTextSize(com.intuit.sdp.R.dimen._12sdp)
-//                .setPrimaryTextColour(R.color.unselected)
-//                .setSecondaryTextColour(R.color.unselected)
-//                .setPromptFocal(new CirclePromptFocal())
-//                .setPromptStateChangeListener((prompt, state) -> {
-//                    if (state == MaterialTapTargetPrompt.STATE_NON_FOCAL_PRESSED
-//                            || state == MaterialTapTargetPrompt.STATE_FOCAL_PRESSED) {
-//                        // Move to the next TapTarget in sequence
-//                        handleTapTargetClick(sequenceId);
-//                    }
-//                })
-//                .show();
-//    }
-
-    private void handleTapTargetClick(int sequenceId) {
-        // Handle TapTarget click based on the sequenceId
-        switch (sequenceId) {
-            case 0:
-                // Handle CME TapTarget click
-                break;
-            case 1:
-                // Handle Library TapTarget click
-                break;
-            case 2:
-                // Handle News TapTarget click
-                break;
-            // Add more cases for other sections as needed
-        }
     }
 
     private void refreshData() {
@@ -865,31 +840,31 @@ public class HomeFragment extends Fragment {
         getsliderHome();
     }
 
-    private final Runnable autoScrollRunnable = new Runnable() {
-        @Override
-        public void run() {
-            int currentChildIndex = viewFlipper.getDisplayedChild();
-            int nextChildIndex = (currentChildIndex + 1) % viewFlipper.getChildCount();
-            viewFlipper.setDisplayedChild(nextChildIndex);
-            updateDots(nextChildIndex);
-            handler.postDelayed(this, AUTO_SCROLL_DELAY);
-        }
-    };
-
-    @SuppressLint("UseCompatLoadingForDrawables")
-    private void addDots() {
-        for (int i = 0; i < viewFlipper.getChildCount(); i++) {
-            ImageView dot = new ImageView(requireContext());
-            dot.setImageDrawable(getResources().getDrawable(R.drawable.inactive_thumb));
-            LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(
-                    LinearLayout.LayoutParams.WRAP_CONTENT,
-                    LinearLayout.LayoutParams.WRAP_CONTENT
-            );
-            params.setMargins(8, 0, 8, 0);
-            dotsLayout.addView(dot, params);
-        }
-        updateDots(0);
-    }
+//    private final Runnable autoScrollRunnable = new Runnable() {
+//        @Override
+//        public void run() {
+//            int currentChildIndex = viewFlipper.getDisplayedChild();
+//            int nextChildIndex = (currentChildIndex + 1) % viewFlipper.getChildCount();
+//            viewFlipper.setDisplayedChild(nextChildIndex);
+//            updateDots(nextChildIndex);
+//            handler.postDelayed(this, AUTO_SCROLL_DELAY);
+//        }
+//    };
+//
+//    @SuppressLint("UseCompatLoadingForDrawables")
+//    private void addDots() {
+//        for (int i = 0; i < viewFlipper.getChildCount(); i++) {
+//            ImageView dot = new ImageView(requireContext());
+//            dot.setImageDrawable(getResources().getDrawable(R.drawable.inactive_thumb));
+//            LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(
+//                    LinearLayout.LayoutParams.WRAP_CONTENT,
+//                    LinearLayout.LayoutParams.WRAP_CONTENT
+//            );
+//            params.setMargins(8, 0, 8, 0);
+//            dotsLayout.addView(dot, params);
+//        }
+//        updateDots(0);
+//    }
 
     @Override
     public void onDetach() {

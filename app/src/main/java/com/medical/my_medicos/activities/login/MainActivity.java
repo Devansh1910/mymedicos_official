@@ -123,6 +123,10 @@ public class MainActivity extends AppCompatActivity {
                     phone.setError("Phone Number Required");
                     return;
                 }
+                if (phoneNumber.length() != 10) {
+                    Toast.makeText(MainActivity.this, "Phone Number should be 10 digits", Toast.LENGTH_SHORT).show();
+                    return;
+                }
 
                 if (!phoneNumber.startsWith(selectedCountryCode)) {
                     phoneNumber = selectedCountryCode + phoneNumber;
@@ -133,7 +137,15 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
+
+
     private void checkIfUserExists(String phoneNumber) {
+        if (TextUtils.isEmpty(phoneNumber)) {
+            // Phone number is empty
+            Toast.makeText(MainActivity.this, "Phone Number Required", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
         db.collection("users")
                 .whereEqualTo("Phone Number", phoneNumber)
                 .get()
@@ -193,7 +205,6 @@ public class MainActivity extends AppCompatActivity {
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful()) {
                             if (mauth.getCurrentUser().isEmailVerified()) {
-                                // Set the flag to indicate that the user is logged in via phone
                                 setLoggedIn(true);
 
                                 Toast.makeText(getApplicationContext(), "Login Successful", Toast.LENGTH_SHORT).show();
@@ -237,4 +248,6 @@ public class MainActivity extends AppCompatActivity {
                 return super.onOptionsItemSelected(item);
         }
     }
+
+
 }

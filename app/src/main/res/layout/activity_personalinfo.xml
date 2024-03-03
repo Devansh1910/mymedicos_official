@@ -21,13 +21,10 @@
             app:title="Verification"
             app:navigationIcon="@drawable/arrow_bk"
             app:titleTextColor="@color/black"
-            app:subtitleTextColor="@color/white"
-            app:subtitleTextAppearance="@color/white"
-            android:backgroundTint="@color/backgroundcolor"
             android:layout_width="match_parent"
             android:layout_weight="1"
             android:layout_height="?attr/actionBarSize"
-            android:background="@color/white">
+            android:background="@color/backgroundcolor">
         </androidx.appcompat.widget.Toolbar>
 
     </com.google.android.material.appbar.AppBarLayout>
@@ -43,13 +40,55 @@
         app:layout_constraintTop_toBottomOf="@+id/verificationtoolbar_container">
 
         <TextView
+            android:id="@+id/verification_timer_text"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:drawableEnd="@drawable/location"
+            android:drawablePadding="@dimen/_5ssp"
+            android:gravity="center"
+            android:visibility="gone"
+            android:layout_marginBottom="@dimen/_10sdp"
+            android:text="00:00"
+            android:fontFamily="@font/inter"
+            android:textColor="@color/unselected"
+            android:textStyle="bold" />
+
+        <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="To enhance the trust and credibility of our medical community, please enter your Medical Council Number below and click 'Get Verified.' This unique identifier is essential for confirming your professional status. Upon successful verification, your profile will be marked with a distinctive symbol."
             android:textAlignment="textStart"
             android:textColor="#514E4E"
             android:fontFamily="@font/inter"
-            android:textSize="@dimen/_12ssp"
+            android:textSize="@dimen/_10ssp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:drawableEnd="@drawable/location"
+            android:layout_marginTop="20dp"
+            android:drawablePadding="@dimen/_5ssp"
+            android:text="Select State Medical Council"
+            android:fontFamily="@font/inter"
+            android:textColor="@color/unselected"
+            android:textStyle="bold" />
+
+        <Spinner
+            android:id="@+id/mcncouncilselected"
+            android:layout_marginTop="10dp"
+            android:background="@drawable/back6"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="@dimen/_10ssp" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:text="Enter your Medical Council Number"
+            android:fontFamily="@font/inter"
+            android:textColor="@color/unselected"
             android:textStyle="bold" />
 
         <EditText
@@ -64,36 +103,6 @@
             android:hint="Enter Medical Council Number"
             android:paddingStart="@dimen/_10sdp" />
 
-        <LinearLayout
-            android:id="@+id/viewinstruction"
-            android:layout_width="wrap_content"
-            android:layout_gravity="end"
-            android:background="@drawable/back6"
-            android:layout_marginTop="@dimen/_8ssp"
-            android:gravity="center"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textSize="@dimen/_12sdp"
-                android:textStyle="bold"
-                android:layout_marginHorizontal="@dimen/_10ssp"
-                android:textColor="@color/unselected"
-                android:paddingVertical="@dimen/_5ssp"
-                android:fontFamily="@font/inter"
-                android:textAlignment="center"
-                android:text="View Instructions"/>
-
-            <ImageView
-                android:layout_width="@dimen/_18sdp"
-                android:layout_marginEnd="@dimen/_8ssp"
-                android:src="@drawable/infoforverify"
-                android:layout_gravity="center"
-                android:layout_height="@dimen/_18sdp"/>
-
-        </LinearLayout>
 
     </LinearLayout>
 

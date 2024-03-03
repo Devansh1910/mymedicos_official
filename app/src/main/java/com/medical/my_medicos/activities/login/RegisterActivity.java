@@ -3,9 +3,11 @@ package com.medical.my_medicos.activities.login;
 import android.annotation.SuppressLint;
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
@@ -22,6 +24,9 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.content.ContextCompat;
 
+import com.google.firebase.Firebase;
+import com.google.firebase.dynamiclinks.FirebaseDynamicLinks;
+import com.google.firebase.dynamiclinks.PendingDynamicLinkData;
 import com.medical.my_medicos.R;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
@@ -102,7 +107,6 @@ public class RegisterActivity extends AppCompatActivity {
         phoneNumber = findViewById(R.id.phonenumberededit);
         password = findViewById(R.id.passwordedit);
 
-
         mAuth = FirebaseAuth.getInstance();
         progressDialog = new ProgressDialog(this);
 
@@ -112,6 +116,32 @@ public class RegisterActivity extends AppCompatActivity {
 
         setupSpinners();
         register();
+        getDynamicLinkFromFirebase();
+    }
+
+    private void getDynamicLinkFromFirebase() {
+        FirebaseDynamicLinks.getInstance()
+                .getDynamicLink(getIntent())
+                .addOnSuccessListener(new OnSuccessListener<PendingDynamicLinkData>() {
+                    @Override
+                    public void onSuccess(PendingDynamicLinkData pendingDynamicLinkData) {
+                        Log.i("RegistrationActivity","we have a link");
+                        Uri deepLink = null;
+
+                        if(pendingDynamicLinkData != null){
+                            deepLink = pendingDynamicLinkData.getLink();
+                        }
+                        if(deepLink!=null){
+                            Log.i("RegistrationActivity","Here the Dynamic link \n" + deepLink.toString());
+                        }
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Toast.makeText(RegisterActivity.this, e.toString(), Toast.LENGTH_SHORT).show();
+                    }
+                });
     }
 
     private void setupSpinners() {
@@ -191,6 +221,7 @@ public class RegisterActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 String mail = Objects.requireNonNull(email.getText()).toString().trim();
+                // Check email validity
                 if (!isValidEmail(mail)) {
                     email.setError("Invalid Email Address");
                     return;
@@ -200,6 +231,12 @@ public class RegisterActivity extends AppCompatActivity {
                 String enteredPhone = Objects.requireNonNull(phoneNumber.getText()).toString().trim();
                 String pass = Objects.requireNonNull(password.getText()).toString().trim();
 
+                // Check phone number length
+                if (enteredPhone.length() != 10) {
+                    phoneNumber.setError("Phone Number must be 10 digits");
+                    return;
+                }
+
                 String phoneNo;
                 if (!enteredPhone.startsWith("+91")) {
                     phoneNo = "+91" + enteredPhone;
@@ -207,6 +244,7 @@ public class RegisterActivity extends AppCompatActivity {
                     phoneNo = enteredPhone;
                 }
 
+                // Check for other required fields
                 if (TextUtils.isEmpty(mail)) {
                     email.setError("Email Required");
                     return;
@@ -229,6 +267,7 @@ public class RegisterActivity extends AppCompatActivity {
                     return;
                 }
 
+                // Proceed with registration
                 progressDialog.setMessage("Registering");
                 progressDialog.show();
 

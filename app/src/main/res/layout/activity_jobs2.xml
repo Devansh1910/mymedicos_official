@@ -47,11 +47,10 @@
         <LinearLayout
             android:id="@+id/spinnerstate"
             android:layout_width="match_parent"
+            android:background="@drawable/spinner_back"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="@dimen/_5ssp"
-            android:orientation="horizontal"
-            android:paddingHorizontal="@dimen/_5sdp"
-            android:paddingVertical="@dimen/_10ssp">
+            android:layout_marginHorizontal="@dimen/_10sdp"
+            android:orientation="horizontal">
 
             <Spinner
                 android:id="@+id/statespeciality"
@@ -59,15 +58,14 @@
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="@dimen/_2ssp"
                 android:layout_weight="1"
-                android:background="@drawable/spinner_back"
                 android:paddingHorizontal="@dimen/_25ssp"
                 android:paddingVertical="@dimen/_10sdp" />
 
             <TextView
                 android:id="@+id/okButton"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:background="@color/blue"
+                android:layout_height="match_parent"
+                android:background="@drawable/custom_track_for_prep"
                 android:clickable="true"
                 android:textColor="@color/unselected"
                 android:fontFamily="@font/inter"

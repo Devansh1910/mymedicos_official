@@ -4,6 +4,7 @@
     android:layout_width="match_parent"
     android:id="@+id/swipeRefreshLayout"
     android:layout_height="match_parent"
+    android:background="@color/backgroundcolor"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".activities.ug.insideractivities.UgFormFragment">
 

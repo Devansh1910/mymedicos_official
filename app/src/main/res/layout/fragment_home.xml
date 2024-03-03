@@ -4,6 +4,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
+    android:background="@color/backgroundcolor"
     android:layout_height="match_parent"
     android:id="@+id/swipeRefreshLayout"
     tools:context=".activities.home.fragments.HomeFragment">
@@ -60,7 +61,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginBottom="5dp"
                         android:paddingVertical="@dimen/_5sdp"
-                        android:elevation="10dp"
+                        android:elevation="2dp"
                         android:background="@drawable/uptodownforhome"
                         android:paddingHorizontal="@dimen/_5sdp"
                         android:orientation="vertical">
@@ -77,6 +78,7 @@
                                 android:layout_height="wrap_content"
                                 android:text="Welcome,"
                                 android:textSize="@dimen/_14ssp"
+                                android:id="@+id/greetingstext"
                                 android:textColor="@color/unselected"
                                 android:fontFamily="@font/inter_extrabold"
                                 android:textStyle="bold" />
@@ -109,7 +111,6 @@
                         <androidx.cardview.widget.CardView
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_marginVertical="@dimen/_10ssp"
                             android:layout_marginHorizontal="8dp"
                             app:cardCornerRadius="@dimen/_10ssp">
 
@@ -122,7 +123,7 @@
                                 <org.imaginativeworld.whynotimagecarousel.ImageCarousel
                                     android:id="@+id/homecarousel"
                                     android:layout_width="match_parent"
-                                    android:layout_height="150dp"
+                                    android:layout_height="180dp"
                                     app:autoPlay="true"
                                     app:showCaption="false"
                                     app:showNavigationButtons="false" />
@@ -134,325 +135,334 @@
 
                     </LinearLayout>
 
-                    <LinearLayout
+                    <androidx.cardview.widget.CardView
                         android:layout_width="match_parent"
+                        android:layout_marginHorizontal="@dimen/_5sdp"
                         android:layout_height="wrap_content"
-                        android:layout_gravity="center"
-                        android:layout_marginVertical="@dimen/_5ssp"
-                        android:layout_marginHorizontal="5dp"
-                        android:orientation="vertical">
+                        android:layout_marginTop="5dp"
+                        app:cardCornerRadius="10dp">
 
                         <LinearLayout
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_gravity="center"
-                            android:gravity="center"
-                            android:orientation="horizontal">
+                            android:padding="@dimen/_5sdp"
+                            android:elevation="@dimen/_5sdp"
+                            android:orientation="vertical">
 
                             <LinearLayout
-                                android:layout_width="0dp"
-                                android:layout_weight="1"
+                                android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:orientation="vertical">
+                                android:layout_gravity="center"
+                                android:gravity="center"
+                                android:orientation="horizontal">
 
                                 <LinearLayout
-                                    android:id="@+id/cme_img1"
-                                    android:layout_width="@dimen/_40sdp"
-                                    android:layout_height="@dimen/_40sdp"
-                                    android:layout_gravity="center"
-                                    android:background="@drawable/back1">
+                                    android:layout_width="0dp"
+                                    android:layout_weight="1"
+                                    android:layout_height="wrap_content"
+                                    android:orientation="vertical">
 
-                                    <ImageView
-                                        android:layout_width="@dimen/_25sdp"
-                                        android:layout_height="@dimen/_25sdp"
+                                    <LinearLayout
+                                        android:id="@+id/cme_img1"
+                                        android:layout_width="@dimen/_40sdp"
+                                        android:layout_height="@dimen/_40sdp"
                                         android:layout_gravity="center"
-                                        android:layout_marginStart="@dimen/_8sdp"
-                                        android:src="@drawable/cmeicon" />
+                                        android:background="@drawable/back1">
+
+                                        <ImageView
+                                            android:layout_width="@dimen/_25sdp"
+                                            android:layout_height="@dimen/_25sdp"
+                                            android:layout_gravity="center"
+                                            android:layout_marginStart="@dimen/_8sdp"
+                                            android:src="@drawable/cmeicon" />
+
+                                    </LinearLayout>
+
+                                    <TextView
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:layout_gravity="center"
+                                        android:layout_marginTop="@dimen/_5sdp"
+                                        android:text="CME"
+                                        android:textSize="@dimen/_10sdp"
+                                        tools:ignore="TextSizeCheck" />
 
                                 </LinearLayout>
 
-                                <TextView
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:layout_gravity="center"
-                                    android:layout_marginTop="@dimen/_5sdp"
-                                    android:text="CME"
-                                    android:textSize="@dimen/_10sdp"
-                                    tools:ignore="TextSizeCheck" />
+                                <LinearLayout
+                                    android:layout_width="0dp"
+                                    android:layout_weight="1"                                android:layout_height="wrap_content"
+                                    android:orientation="vertical">
+
+                                    <LinearLayout
+                                        android:id="@+id/pub_image"
+                                        android:layout_width="@dimen/_40sdp"
+                                        android:layout_height="@dimen/_40sdp"
+                                        android:layout_gravity="center"
+                                        android:background="@drawable/back2">
+
+                                        <ImageView
+                                            android:layout_width="@dimen/_25sdp"
+                                            android:layout_height="@dimen/_25sdp"
+                                            android:layout_gravity="center"
+                                            android:layout_marginStart="@dimen/_8sdp"
+                                            android:src="@drawable/publicationicon" />
+                                    </LinearLayout>
+
+                                    <TextView
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:layout_gravity="center"
+                                        android:layout_marginTop="@dimen/_5sdp"
+                                        android:text="Library"
+                                        android:textAlignment="center"
+                                        android:textSize="@dimen/_10ssp" />
+                                </LinearLayout>
+
+                                <LinearLayout
+                                    android:layout_width="0dp"
+                                    android:layout_weight="1"                                android:layout_height="wrap_content"
+                                    android:orientation="vertical">
+
+                                    <LinearLayout
+                                        android:id="@+id/news_home"
+                                        android:layout_width="@dimen/_40sdp"
+                                        android:layout_height="@dimen/_40sdp"
+                                        android:layout_gravity="center"
+                                        android:background="@drawable/back1">
+
+                                        <ImageView
+                                            android:layout_width="@dimen/_25sdp"
+                                            android:layout_height="@dimen/_25sdp"
+                                            android:layout_gravity="center"
+                                            android:layout_marginStart="@dimen/_8sdp"
+                                            android:src="@drawable/newsicon" />
+                                    </LinearLayout>
+
+                                    <TextView
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:layout_gravity="center"
+                                        android:layout_marginTop="@dimen/_5sdp"
+                                        android:text="News"
+                                        android:textAlignment="center"
+                                        android:textSize="@dimen/_10ssp" />
+                                </LinearLayout>
+
+                                <LinearLayout
+                                    android:layout_width="0dp"
+                                    android:layout_weight="1"                                android:layout_height="wrap_content"
+                                    android:orientation="vertical">
+
+                                    <LinearLayout
+                                        android:id="@+id/jobs_img"
+                                        android:layout_width="@dimen/_40sdp"
+                                        android:layout_height="@dimen/_40sdp"
+                                        android:layout_gravity="center"
+                                        android:background="@drawable/back2">
+
+                                        <ImageView
+                                            android:layout_width="@dimen/_25sdp"
+                                            android:layout_height="@dimen/_25sdp"
+                                            android:layout_gravity="center"
+                                            android:layout_marginStart="@dimen/_8sdp"
+                                            android:src="@drawable/jobicon" />
+                                    </LinearLayout>
+
+                                    <TextView
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:layout_gravity="center"
+                                        android:layout_marginTop="@dimen/_5sdp"
+                                        android:text="Jobs"
+                                        android:textSize="@dimen/_10ssp" />
+                                </LinearLayout>
 
                             </LinearLayout>
 
                             <LinearLayout
-                                android:layout_width="0dp"
-                                android:layout_weight="1"                                android:layout_height="wrap_content"
-                                android:orientation="vertical">
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:layout_gravity="center"
+                                android:gravity="center"
+                                android:paddingTop="@dimen/_8ssp"
+                                android:orientation="horizontal">
 
                                 <LinearLayout
-                                    android:id="@+id/pub_image"
-                                    android:layout_width="@dimen/_40sdp"
-                                    android:layout_height="@dimen/_40sdp"
-                                    android:layout_gravity="center"
-                                    android:background="@drawable/back2">
-
-                                    <ImageView
-                                        android:layout_width="@dimen/_25sdp"
-                                        android:layout_height="@dimen/_25sdp"
+                                    android:layout_width="0dp"
+                                    android:layout_weight="1"                                android:layout_height="wrap_content"
+                                    android:orientation="vertical">
+                                    <LinearLayout
+                                        android:id="@+id/ugexams"
+                                        android:layout_width="@dimen/_40sdp"
+                                        android:layout_height="@dimen/_40sdp"
                                         android:layout_gravity="center"
-                                        android:layout_marginStart="@dimen/_8sdp"
-                                        android:src="@drawable/publicationicon" />
+                                        android:background="@drawable/back1">
+
+                                        <ImageView
+                                            android:layout_width="@dimen/_25sdp"
+                                            android:layout_height="@dimen/_25sdp"
+                                            android:layout_gravity="center"
+                                            android:layout_marginStart="@dimen/_8sdp"
+                                            android:src="@drawable/ugicon" />
+
+                                    </LinearLayout>
+
+
+
+                                    <TextView
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:layout_gravity="center"
+                                        android:layout_marginTop="@dimen/_5sdp"
+                                        android:text="UG exams"
+                                        android:textSize="@dimen/_10sdp"
+                                        tools:ignore="TextSizeCheck" />
                                 </LinearLayout>
-
-                                <TextView
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:layout_gravity="center"
-                                    android:layout_marginTop="@dimen/_5sdp"
-                                    android:text="Library"
-                                    android:textAlignment="center"
-                                    android:textSize="@dimen/_10ssp" />
-                            </LinearLayout>
-
-                            <LinearLayout
-                                android:layout_width="0dp"
-                                android:layout_weight="1"                                android:layout_height="wrap_content"
-                                android:orientation="vertical">
 
                                 <LinearLayout
-                                    android:id="@+id/news_home"
-                                    android:layout_width="@dimen/_40sdp"
-                                    android:layout_height="@dimen/_40sdp"
-                                    android:layout_gravity="center"
-                                    android:background="@drawable/back1">
-
-                                    <ImageView
-                                        android:layout_width="@dimen/_25sdp"
-                                        android:layout_height="@dimen/_25sdp"
+                                    android:layout_width="0dp"
+                                    android:layout_weight="1"                                android:layout_height="wrap_content"
+                                    android:orientation="vertical">
+                                    <LinearLayout
+                                        android:id="@+id/pg_prep"
+                                        android:layout_width="@dimen/_40sdp"
+                                        android:layout_height="@dimen/_40sdp"
                                         android:layout_gravity="center"
-                                        android:layout_marginStart="@dimen/_8sdp"
-                                        android:src="@drawable/newsicon" />
+                                        android:background="@drawable/back1">
+
+                                        <ImageView
+                                            android:layout_width="@dimen/_25sdp"
+                                            android:layout_height="@dimen/_25sdp"
+                                            android:layout_gravity="center"
+                                            android:layout_marginStart="@dimen/_8sdp"
+                                            android:src="@drawable/pgicon" />
+
+                                    </LinearLayout>
+
+
+
+
+                                    <TextView
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:layout_gravity="center"
+                                        android:layout_marginTop="@dimen/_5sdp"
+                                        android:text="PG Neet"
+                                        android:textAlignment="center"
+                                        android:textSize="@dimen/_10ssp" />
                                 </LinearLayout>
-
-                                <TextView
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:layout_gravity="center"
-                                    android:layout_marginTop="@dimen/_5sdp"
-                                    android:text="News"
-                                    android:textAlignment="center"
-                                    android:textSize="@dimen/_10ssp" />
-                            </LinearLayout>
-
-                            <LinearLayout
-                                android:layout_width="0dp"
-                                android:layout_weight="1"                                android:layout_height="wrap_content"
-                                android:orientation="vertical">
 
                                 <LinearLayout
-                                    android:id="@+id/jobs_img"
-                                    android:layout_width="@dimen/_40sdp"
-                                    android:layout_height="@dimen/_40sdp"
-                                    android:layout_gravity="center"
-                                    android:background="@drawable/back2">
-
-                                    <ImageView
-                                        android:layout_width="@dimen/_25sdp"
-                                        android:layout_height="@dimen/_25sdp"
+                                    android:layout_width="0dp"
+                                    android:layout_weight="1"                                android:layout_height="wrap_content"
+                                    android:orientation="vertical">
+                                    <LinearLayout
+                                        android:id="@+id/university"
+                                        android:layout_width="@dimen/_40sdp"
+                                        android:layout_height="@dimen/_40sdp"
                                         android:layout_gravity="center"
-                                        android:layout_marginStart="@dimen/_8sdp"
-                                        android:src="@drawable/jobicon" />
+                                        android:background="@drawable/back1">
+
+                                        <ImageView
+                                            android:layout_width="@dimen/_25sdp"
+                                            android:layout_height="@dimen/_25sdp"
+                                            android:layout_gravity="center"
+                                            android:layout_marginStart="@dimen/_8sdp"
+                                            android:src="@drawable/universityicon" />
+
+                                    </LinearLayout>
+
+
+                                    <TextView
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:layout_gravity="center"
+                                        android:layout_marginTop="@dimen/_5sdp"
+                                        android:text="Updates"
+                                        android:textAlignment="center"
+                                        android:textSize="@dimen/_10ssp" />
                                 </LinearLayout>
 
-                                <TextView
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:layout_gravity="center"
-                                    android:layout_marginTop="@dimen/_5sdp"
-                                    android:text="Jobs"
-                                    android:textSize="@dimen/_10ssp" />
+                                <LinearLayout
+                                    android:layout_width="0dp"
+                                    android:layout_weight="1"                                android:layout_height="wrap_content"
+                                    android:orientation="vertical">
+                                    <LinearLayout
+                                        android:id="@+id/meme"
+                                        android:layout_width="@dimen/_40sdp"
+                                        android:layout_height="@dimen/_40sdp"
+                                        android:layout_gravity="center"
+                                        android:background="@drawable/back1">
+
+                                        <ImageView
+                                            android:layout_width="@dimen/_25sdp"
+                                            android:layout_height="@dimen/_25sdp"
+                                            android:layout_gravity="center"
+                                            android:layout_marginStart="@dimen/_8sdp"
+                                            android:src="@drawable/memeicon" />
+
+                                    </LinearLayout>
+
+
+
+                                    <TextView
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:layout_gravity="center"
+                                        android:layout_marginTop="@dimen/_5sdp"
+                                        android:text="Memes"
+                                        android:textSize="@dimen/_10ssp" />
+                                </LinearLayout>
+
                             </LinearLayout>
 
                         </LinearLayout>
 
-                        <LinearLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:layout_gravity="center"
-                            android:gravity="center"
-                            android:paddingTop="@dimen/_8ssp"
-                            android:orientation="horizontal">
+                    </androidx.cardview.widget.CardView>
 
-                            <LinearLayout
-                                android:layout_width="0dp"
-                                android:layout_weight="1"                                android:layout_height="wrap_content"
-                                android:orientation="vertical">
-                                <LinearLayout
-                                    android:id="@+id/ugexams"
-                                    android:layout_width="@dimen/_40sdp"
-                                    android:layout_height="@dimen/_40sdp"
-                                    android:layout_gravity="center"
-                                    android:background="@drawable/back1">
+<!--                    <ViewFlipper-->
+<!--                        android:id="@+id/viewFlipper"-->
+<!--                        android:autoStart="true"-->
+<!--                        android:paddingVertical="0dp"-->
+<!--                        android:layout_width="match_parent"-->
+<!--                        android:layout_height="wrap_content">-->
 
-                                    <ImageView
-                                        android:layout_width="@dimen/_25sdp"
-                                        android:layout_height="@dimen/_25sdp"
-                                        android:layout_gravity="center"
-                                        android:layout_marginStart="@dimen/_8sdp"
-                                        android:src="@drawable/ugicon" />
+<!--                        <TextView-->
+<!--                            android:layout_width="match_parent"-->
+<!--                            android:layout_height="wrap_content"-->
+<!--                            android:paddingVertical="8dp"-->
+<!--                            android:paddingHorizontal="15dp"-->
+<!--                            android:textColor="#595656"-->
+<!--                            android:fontFamily="@font/inter"-->
+<!--                            android:text="To the healer weaving hope: positive vibes, dear doctor!"-->
+<!--                            android:textSize="13sp"-->
+<!--                            android:textStyle="bold" />-->
 
-                                </LinearLayout>
+<!--                        <TextView-->
+<!--                            android:layout_width="match_parent"-->
+<!--                            android:layout_height="wrap_content"-->
+<!--                            android:text="In the world of health, your dedication stands out. Good thoughts to you, doctor!"-->
+<!--                            android:fontFamily="@font/inter"-->
+<!--                            android:textSize="13sp"-->
+<!--                            android:textStyle="bold"-->
+<!--                            android:textColor="#595656"-->
+<!--                            android:paddingVertical="8dp"-->
+<!--                            android:paddingHorizontal="15dp" />-->
 
+<!--                        <TextView-->
+<!--                            android:layout_width="match_parent"-->
+<!--                            android:layout_height="wrap_content"-->
+<!--                            android:text="Amid challenges, your commitment shines. Positive energy, amazing doctor!"-->
+<!--                            android:textSize="13sp"-->
+<!--                            android:fontFamily="@font/inter"-->
+<!--                            android:textStyle="bold"-->
+<!--                            android:paddingVertical="8dp"-->
+<!--                            android:paddingHorizontal="15dp"-->
+<!--                            android:textColor="#595656"/>-->
 
-
-                                <TextView
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:layout_gravity="center"
-                                    android:layout_marginTop="@dimen/_5sdp"
-                                    android:text="UG exams"
-                                    android:textSize="@dimen/_10sdp"
-                                    tools:ignore="TextSizeCheck" />
-                            </LinearLayout>
-
-                            <LinearLayout
-                                android:layout_width="0dp"
-                                android:layout_weight="1"                                android:layout_height="wrap_content"
-                                android:orientation="vertical">
-                                <LinearLayout
-                                    android:id="@+id/pg_prep"
-                                    android:layout_width="@dimen/_40sdp"
-                                    android:layout_height="@dimen/_40sdp"
-                                    android:layout_gravity="center"
-                                    android:background="@drawable/back1">
-
-                                    <ImageView
-                                        android:layout_width="@dimen/_25sdp"
-                                        android:layout_height="@dimen/_25sdp"
-                                        android:layout_gravity="center"
-                                        android:layout_marginStart="@dimen/_8sdp"
-                                        android:src="@drawable/pgicon" />
-
-                                </LinearLayout>
-
-
-
-
-                                <TextView
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:layout_gravity="center"
-                                    android:layout_marginTop="@dimen/_5sdp"
-                                    android:text="PG Neet"
-                                    android:textAlignment="center"
-                                    android:textSize="@dimen/_10ssp" />
-                            </LinearLayout>
-
-                            <LinearLayout
-                                android:layout_width="0dp"
-                                android:layout_weight="1"                                android:layout_height="wrap_content"
-                                android:orientation="vertical">
-                                <LinearLayout
-                                    android:id="@+id/university"
-                                    android:layout_width="@dimen/_40sdp"
-                                    android:layout_height="@dimen/_40sdp"
-                                    android:layout_gravity="center"
-                                    android:background="@drawable/back1">
-
-                                    <ImageView
-                                        android:layout_width="@dimen/_25sdp"
-                                        android:layout_height="@dimen/_25sdp"
-                                        android:layout_gravity="center"
-                                        android:layout_marginStart="@dimen/_8sdp"
-                                        android:src="@drawable/universityicon" />
-
-                                </LinearLayout>
-
-
-                                <TextView
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:layout_gravity="center"
-                                    android:layout_marginTop="@dimen/_5sdp"
-                                    android:text="Updates"
-                                    android:textAlignment="center"
-                                    android:textSize="@dimen/_10ssp" />
-                            </LinearLayout>
-
-                            <LinearLayout
-                                android:layout_width="0dp"
-                                android:layout_weight="1"                                android:layout_height="wrap_content"
-                                android:orientation="vertical">
-                                <LinearLayout
-                                    android:id="@+id/meme"
-                                    android:layout_width="@dimen/_40sdp"
-                                    android:layout_height="@dimen/_40sdp"
-                                    android:layout_gravity="center"
-                                    android:background="@drawable/back1">
-
-                                    <ImageView
-                                        android:layout_width="@dimen/_25sdp"
-                                        android:layout_height="@dimen/_25sdp"
-                                        android:layout_gravity="center"
-                                        android:layout_marginStart="@dimen/_8sdp"
-                                        android:src="@drawable/memeicon" />
-
-                                </LinearLayout>
-
-
-
-                                <TextView
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:layout_gravity="center"
-                                    android:layout_marginTop="@dimen/_5sdp"
-                                    android:text="Memes"
-                                    android:textSize="@dimen/_10ssp" />
-                            </LinearLayout>
-
-                        </LinearLayout>
-
-                    </LinearLayout>
-
-                    <ViewFlipper
-                        android:id="@+id/viewFlipper"
-                        android:autoStart="true"
-                        android:paddingVertical="0dp"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content">
-
-                        <TextView
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:paddingVertical="8dp"
-                            android:paddingHorizontal="15dp"
-                            android:textColor="#595656"
-                            android:fontFamily="@font/inter"
-                            android:text="To the healer weaving hope: positive vibes, dear doctor!"
-                            android:textSize="13sp"
-                            android:textStyle="bold" />
-
-                        <TextView
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:text="In the world of health, your dedication stands out. Good thoughts to you, doctor!"
-                            android:fontFamily="@font/inter"
-                            android:textSize="13sp"
-                            android:textStyle="bold"
-                            android:textColor="#595656"
-                            android:paddingVertical="8dp"
-                            android:paddingHorizontal="15dp" />
-
-                        <TextView
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:text="Amid challenges, your commitment shines. Positive energy, amazing doctor!"
-                            android:textSize="13sp"
-                            android:fontFamily="@font/inter"
-                            android:textStyle="bold"
-                            android:paddingVertical="8dp"
-                            android:paddingHorizontal="15dp"
-                            android:textColor="#595656"/>
-
-                    </ViewFlipper>
+<!--                    </ViewFlipper>-->
 
                     <LinearLayout
                         android:id="@+id/dotsLayout"
@@ -533,6 +543,7 @@
                             <!-- Add more views or customize the layout as needed -->
 
                         </LinearLayout>
+
                     </androidx.cardview.widget.CardView>
 
                     <LinearLayout

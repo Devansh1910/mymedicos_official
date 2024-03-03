@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/white"
+    android:background="@color/backgroundcolor"
     tools:context=".activities.publications.activity.PublicationActivity">
 
     <com.google.android.material.appbar.AppBarLayout
@@ -190,21 +190,11 @@
 
             </LinearLayout>
 
-            <androidx.cardview.widget.CardView
-                android:id="@+id/cardViewfortop"
-                android:outlineSpotShadowColor="@color/white"
-                android:elevation="0dp"
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/recentaddedbooksList"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                app:cardCornerRadius="10dp">
-
-                <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/recentaddedbooksList"
-                    android:layout_width="match_parent"
-                    android:orientation="horizontal"
-                    android:layout_height="wrap_content"/>
-            </androidx.cardview.widget.CardView>
+                android:orientation="horizontal"
+                android:layout_height="wrap_content"/>
 
             <!-- For Category -->
 
@@ -241,20 +231,10 @@
 
             </LinearLayout>
 
-            <androidx.cardview.widget.CardView
-                android:id="@+id/cardView"
-                android:outlineSpotShadowColor="@color/white"
-                android:elevation="0dp"
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/categoriesList"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                app:cardCornerRadius="10dp">
-
-                <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/categoriesList"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"/>
-            </androidx.cardview.widget.CardView>
+                android:layout_height="wrap_content"/>
 
             <!-- For Promotions -->
 

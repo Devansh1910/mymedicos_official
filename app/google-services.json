@@ -23,6 +23,26 @@
         "appinvite_service": {
           "other_platform_oauth_client": []
         }
+      },
+      "admob_app_id": "ca-app-pub-1452770494559845~3220735688"
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:968103235749:android:1da2a3ce0085b4afedbd4c",
+        "android_client_info": {
+          "package_name": "com.medicos.medicosuniversityadmin"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAbdFEUVSuIPGbIPk5VfF6EI88QHtch1Jo"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
       }
     }
   ],

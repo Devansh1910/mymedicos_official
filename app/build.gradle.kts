@@ -15,8 +15,8 @@ android {
         applicationId = "com.medical.my_medicos"
         minSdk = 24
         targetSdk = 34
-        versionCode = 27
-        versionName = "2.0.7"
+        versionCode = 32
+        versionName = "3.0.2"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
@@ -30,12 +30,6 @@ android {
                 "proguard-rules.pro"
             )
         }
-    }
-    buildFeatures{
-
-        viewBinding=true
-        dataBinding = true
-        viewBinding = true
     }
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_1_8
@@ -124,4 +118,9 @@ dependencies {
     implementation ("com.itextpdf:itext7-core:7.1.16")
     //....In app Update
     implementation ("com.google.android.play:app-update:2.1.0")
+    //.......SMS Retriver.......
+    implementation ("com.google.android.gms:play-services-auth:21.0.0")
+    implementation ("com.google.android.gms:play-services-auth-api-phone:18.0.2")
+    //......Deep Links...........
+    implementation("com.google.firebase:firebase-dynamic-links-ktx:21.2.0")
 }

@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/white"
+    android:background="@color/backgroundcolor"
     tools:context=".activities.memes.MemeActivity">
 
     <com.google.android.material.appbar.AppBarLayout
@@ -18,15 +18,12 @@
         <androidx.appcompat.widget.Toolbar
             android:id="@+id/memestoolbar"
             app:title="Memes"
-            app:navigationIcon="@drawable/arrowbackforappbar"
+            app:navigationIcon="@drawable/arrow_bk"
             app:titleTextColor="@color/black"
-            app:subtitleTextColor="@color/white"
-            app:subtitleTextAppearance="@color/white"
-            android:backgroundTint="@color/white"
             android:layout_width="match_parent"
             android:layout_weight="1"
             android:layout_height="?attr/actionBarSize"
-            android:background="@color/white">
+            android:background="@color/backgroundcolor">
 
         </androidx.appcompat.widget.Toolbar>
 

@@ -63,8 +63,6 @@ import java.util.prefs.Preferences;
 
 
 public class ProductDetailedActivity extends AppCompatActivity {
-
-
     ActivityProductDetailedBinding binding;
     Product currentProduct;
     TextView  tocartgo;
@@ -76,7 +74,7 @@ public class ProductDetailedActivity extends AppCompatActivity {
         binding = ActivityProductDetailedBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
-//        getWindow().setFlags(WindowManager.LayoutParams.FLAG_SECURE, WindowManager.LayoutParams.FLAG_SECURE);
+        getWindow().setFlags(WindowManager.LayoutParams.FLAG_SECURE, WindowManager.LayoutParams.FLAG_SECURE);
 
         showLoadForLib();
 

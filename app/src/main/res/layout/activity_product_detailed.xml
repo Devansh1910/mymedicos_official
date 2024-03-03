@@ -102,7 +102,7 @@
                     android:id="@+id/titleoftheproduct"
                     android:layout_width="match_parent"
                     android:layout_marginHorizontal="@dimen/_10sdp"
-                    android:textSize="@dimen/_16sdp"
+                    android:textSize="@dimen/_14sdp"
                     android:layout_height="wrap_content"
                     app:layout_constraintTop_toBottomOf="@id/loader"
                     android:textColor="@color/unselected"
@@ -112,6 +112,7 @@
                 <LinearLayout
                     android:id="@+id/authorlayout"
                     android:layout_width="match_parent"
+                    android:layout_marginVertical="@dimen/_5sdp"
                     android:layout_marginHorizontal="@dimen/_10sdp"
                     android:layout_height="wrap_content"
                     app:layout_constraintTop_toBottomOf="@id/titleoftheproduct"
@@ -123,7 +124,7 @@
                         android:layout_weight="1"
                         android:paddingVertical="@dimen/_5sdp"
                         android:layout_height="wrap_content"
-                        android:textColor="@color/grey"
+                        android:textColor="@color/teal_200"
                         android:fontFamily="@font/inter"
                         android:text="Author Name" />
 

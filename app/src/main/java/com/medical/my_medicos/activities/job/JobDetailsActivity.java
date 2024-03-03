@@ -6,12 +6,17 @@ import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
+import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -20,10 +25,15 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager2.widget.ViewPager2;
 
+import com.google.firebase.dynamiclinks.DynamicLink;
+import com.google.firebase.dynamiclinks.FirebaseDynamicLinks;
+import com.google.firebase.dynamiclinks.ShortDynamicLink;
+import com.google.firebase.firestore.DocumentReference;
 import com.medical.my_medicos.adapter.job.Adapter8;
 import com.medical.my_medicos.adapter.job.MyAdapter6;
 import com.medical.my_medicos.R;
@@ -44,7 +54,6 @@ import java.util.List;
 import java.util.Map;
 
 public class JobDetailsActivity extends AppCompatActivity {
-
     Button shareButton;
     RecyclerView recyclerView1;
     MyAdapter8 adapter1;
@@ -53,35 +62,50 @@ public class JobDetailsActivity extends AppCompatActivity {
     private TabLayout tabLayout;
     RecyclerView recyclerView2;
     FirebaseFirestore db = FirebaseFirestore.getInstance();
-
+    Button sharebtnforjobs;
     String speciality,Organiser,Location;
     String receivedData,documentid;
+
+    String jobtitle,jobdescription;
     FirebaseAuth auth = FirebaseAuth.getInstance();
     FirebaseUser user = auth.getCurrentUser();
     String current=user.getPhoneNumber();
-
     Toolbar toolbar;
     String documentid1;
-
+    TextView jobTitleTextView,companyNameTextView,locationTextView,salaryEditText,organizername,dateofpost,openingsEditText,timelinedurationwillcomehere,authorSpecialityTextView,authorSubSpecialityTextView,jobDescriptionContentTextView,jobtype,durationforjob;
     @SuppressLint("MissingInflatedId")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_details_jobs);
+
+        String documentId = getIntent().getStringExtra("documentid");
+        String documentId2 = getIntent().getStringExtra("documentid");
+
+        if (documentId != null && !documentId.isEmpty()) {
+            fetchJobDetails(documentId);
+        } else {
+            // Handle the case when documentId is null or empty
+            Log.e(TAG, "DocumentId is null or empty");
+            documentId2 = getIntent().getStringExtra("jobId");
+            Log.e(documentId2,"print");
+            fetchJobDetails2(documentId2);
+        }
+
         // Find views by their IDs
-        TextView jobTitleTextView = findViewById(R.id.jobTitleTextView);
-        TextView companyNameTextView = findViewById(R.id.companyNameTextView);
-        TextView locationTextView = findViewById(R.id.locationTextView);
-        TextView salaryEditText = findViewById(R.id.salaryEditText);
-        TextView organizername = findViewById(R.id.organizername);
-        TextView dateofpost = findViewById(R.id.jobposteddate);
-        TextView openingsEditText = findViewById(R.id.openingsEditText);
-        TextView experienceEditText = findViewById(R.id.experienceEditText);
-        TextView authorSpecialityTextView = findViewById(R.id.authorSpecialityTextView);
-        TextView authorSubSpecialityTextView = findViewById(R.id.authorSubSpecialityTextView);
-        TextView jobDescriptionContentTextView = findViewById(R.id.jobDescriptionContentTextView);
-        TextView jobtype = findViewById(R.id.Job_type);
+        jobTitleTextView = findViewById(R.id.jobTitleTextView);
+        companyNameTextView = findViewById(R.id.companyNameTextView);
+        locationTextView = findViewById(R.id.locationTextView);
+        salaryEditText = findViewById(R.id.salaryEditText);
+        organizername = findViewById(R.id.organizername);
+        dateofpost = findViewById(R.id.jobposteddate);
+        openingsEditText = findViewById(R.id.openingsEditText);
+        durationforjob = findViewById(R.id.duration);
+        timelinedurationwillcomehere = findViewById(R.id.timelinedurationwillcomehere);
+        authorSpecialityTextView = findViewById(R.id.authorSpecialityTextView);
+        authorSubSpecialityTextView = findViewById(R.id.authorSubSpecialityTextView);
+        jobDescriptionContentTextView = findViewById(R.id.jobDescriptionContentTextView);
+        jobtype = findViewById(R.id.Job_type);
         Intent intent = getIntent();
 
         if (intent != null && intent.hasExtra("user")&&(intent.hasExtra("documentid"))) {
@@ -91,9 +115,6 @@ public class JobDetailsActivity extends AppCompatActivity {
             documentid1=intent.getStringExtra("documentid");
 
         }
-
-
-
         Toolbar toolbar = findViewById(R.id.jobsinsidertoolbar);
 
         // Set the support action bar
@@ -103,7 +124,7 @@ public class JobDetailsActivity extends AppCompatActivity {
         ActionBar actionBar = getSupportActionBar();
         if (actionBar != null) {
             actionBar.setDisplayHomeAsUpEnabled(true);
-            actionBar.setHomeAsUpIndicator(R.drawable.arrowbackforappbar);
+            actionBar.setHomeAsUpIndicator(R.drawable.arrow_bk);
         }
 
         // Set the click listener for the navigation icon
@@ -122,9 +143,14 @@ public class JobDetailsActivity extends AppCompatActivity {
         Button applycant=findViewById(R.id.applycant);
         apply.setVisibility(View.GONE);
         applycant.setVisibility(View.GONE);
-        Log.d("received data",receivedData);
-        int r=receivedData.compareTo(current);
-        Log.d("received data1",receivedData);
+        int r;
+        if (receivedData != null && current != null) {
+            r = receivedData.compareTo(current);
+            Log.d("received data1", receivedData);
+        } else {
+            r = -1;
+            Log.e(TAG, "receivedData or current is null");
+        }
         if (r==0){
             apply.setVisibility(View.GONE);
             applycant.setVisibility(View.VISIBLE);
@@ -159,7 +185,6 @@ public class JobDetailsActivity extends AppCompatActivity {
         }
 
         FirebaseFirestore dc = FirebaseFirestore.getInstance();
-        //......
         dc.collection("JOB")
                 .get()
                 .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
@@ -169,23 +194,23 @@ public class JobDetailsActivity extends AppCompatActivity {
                         if (task.isSuccessful()) {
                             for (QueryDocumentSnapshot document : task.getResult()) {
 
-
                                 Map<String, Object> dataMap = document.getData();
                                 String user = ((String) dataMap.get("documentId"));
 
                                 int r=0;
                                 if (documentid1!=null) {
                                     r = documentid1.compareTo(user);
-                                    Log.d("vivekpalnew", String.valueOf(r));
+                                    Log.d("Something went wrong", String.valueOf(r));
                                 }
                                 if (r==0) {
 
-//
                                     jobTitleTextView.setText((String) dataMap.get("JOB Title"));
                                     organizername.setText((String) dataMap.get("JOB Organiser"));
                                     salaryEditText.setText((String) dataMap.get("Job Salary"));
                                     jobDescriptionContentTextView.setText((String) dataMap.get("JOB Description"));
                                     openingsEditText.setText((String) dataMap.get("JOB Opening"));
+                                    durationforjob.setText((String) dataMap.get("Job Duration"));
+                                    timelinedurationwillcomehere.setText((String) dataMap.get("Duration Timeline"));
                                     dateofpost.setText((String) dataMap.get("date"));
                                     locationTextView.setText((String) dataMap.get("Location"));
                                     authorSpecialityTextView.setText((String) dataMap.get("Speciality"));
@@ -198,8 +223,6 @@ public class JobDetailsActivity extends AppCompatActivity {
                                     }
                                     companyNameTextView.setText((String) dataMap.get("Hospital"));
                                     jobtype.setText((String) dataMap.get("Job type"));
-
-
                                 }
                             }
                         } else {
@@ -207,5 +230,181 @@ public class JobDetailsActivity extends AppCompatActivity {
                         }
                     }
                 });
+
+        sharebtnforjobs = findViewById(R.id.sharebtnforjobs);
+
+        sharebtnforjobs.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                createlink(current, documentid, jobtitle,jobdescription);
+            }
+        });
+
+        handleDeepLink();
+        setSystemBarColors();
+    }
+    public void createlink(String custid, String jobId,String jobtitle, String jobdescription){
+        Log.e("main","create link");
+
+        DynamicLink dynamicLink = FirebaseDynamicLinks.getInstance().createDynamicLink()
+                .setLink(Uri.parse("https://www.mymedicos.in/jobdetails?custid=" + custid + "&jobId=" + jobId))
+                .setDomainUriPrefix("https://app.mymedicos.in")
+                .setAndroidParameters(new DynamicLink.AndroidParameters.Builder().build())
+                .setIosParameters(new DynamicLink.IosParameters.Builder("com.example.ios").build())
+                .buildDynamicLink();
+
+        Uri dynamicLinkUri = dynamicLink.getUri();
+        Log.e("main"," Long refer "+ dynamicLink.getUri());
+
+        createreferlink(custid, jobId);
+    }
+    public void createreferlink(String custid, String jobId) {
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+        DocumentReference docRef = db.collection("JOB").document(jobId);
+
+        docRef.get().addOnSuccessListener(documentSnapshot -> {
+            if (documentSnapshot.exists()) {
+                String jobTitle = documentSnapshot.getString("JOB Title");
+                String jobHospital = documentSnapshot.getString("Hospital");
+                String jobLocation = documentSnapshot.getString("Location");
+                String jobDescription = documentSnapshot.getString("JOB Description");
+
+                String sharelinktext = "Hey Candidate,\nCheckout this new job role of "+jobTitle+" \uD83E\uDE7A"+" at "+
+                        jobHospital+" in "+
+                        jobLocation+" :\n\n"+
+                        "https://app.mymedicos.in/?" +
+                        "link=http://www.mymedicos.in/jobdetails?jobId="+jobId+
+                        "&st=" + jobTitle +
+                        "&sd=" + jobDescription +
+                        "&apn=" + getPackageName() +
+                        "&si=" + "https://res.cloudinary.com/dlgrxj8fp/image/upload/v1709416117/mwkegbnreoldjn4lksnn.png";
+
+
+                Log.e("Job Detailed Activity", "Sharelink - " + sharelinktext);
+
+                Intent intent = new Intent();
+                intent.setAction(Intent.ACTION_SEND);
+                intent.putExtra(Intent.EXTRA_TEXT, sharelinktext.toString());
+                intent.setType("text/plain");
+                startActivity(intent);
+            } else {
+                Log.e(TAG, "No such document with documentId: " + jobId);
+            }
+        }).addOnFailureListener(e -> {
+            Log.e(TAG, "Error fetching job details for documentId: " + jobId, e);
+        });
+    }
+    private void handleDeepLink() {
+        FirebaseDynamicLinks.getInstance().getDynamicLink(getIntent())
+                .addOnSuccessListener(this, pendingDynamicLinkData -> {
+                    if (pendingDynamicLinkData != null) {
+                        Uri deepLink = pendingDynamicLinkData.getLink();
+                        if (deepLink != null) {
+                            String jobId = deepLink.getQueryParameter("jobId");
+                            Intent intent = getIntent();
+                            intent.putExtra("jobId", jobId);
+                            setIntent(intent);
+                        }
+                    }
+                })
+                .addOnFailureListener(this, e -> Log.w("DeepLink", "getDynamicLink:onFailure", e));
+    }
+    private void fetchJobDetails(String documentId) {
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+        DocumentReference docRef = db.collection("JOB").document(documentId);
+
+        docRef.get().addOnSuccessListener(documentSnapshot -> {
+            if (documentSnapshot.exists()) {
+
+                String jobTitle = documentSnapshot.getString("JOB Title");
+                String organiser = documentSnapshot.getString("JOB Organiser");
+                String salary = documentSnapshot.getString("Job Salary");
+                String jobDescription = documentSnapshot.getString("JOB Description");
+                String openings = documentSnapshot.getString("JOB Opening");
+                String roleduration = documentSnapshot.getString("Job Duration");
+                String time = documentSnapshot.getString("Duration Timeline");
+                String date = documentSnapshot.getString("date");
+                String location = documentSnapshot.getString("Location");
+                String speciality = documentSnapshot.getString("Speciality");
+                String subspeciality = documentSnapshot.getString("SubSpeciality");
+                String hospital = documentSnapshot.getString("Hospital");
+                String type = documentSnapshot.getString("Job type");
+
+                updateUI(jobTitle, hospital, jobDescription,  location,  salary, organiser, date, openings, time, speciality, subspeciality, type, roleduration);
+
+            } else {
+                Log.e(TAG, "No such document with documentId: " + documentId);
+            }
+        }).addOnFailureListener(e -> {
+            Log.e(TAG, "Error fetching job details for documentId: " + documentId, e);
+        });
+    }
+
+    private void fetchJobDetails2(String documentId2) {
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+        DocumentReference docRef = db.collection("JOB").document(documentId2);
+
+        docRef.get().addOnSuccessListener(documentSnapshot -> {
+            if (documentSnapshot.exists()) {
+
+                String jobTitle = documentSnapshot.getString("JOB Title");
+                String organiser = documentSnapshot.getString("JOB Organiser");
+                String salary = documentSnapshot.getString("Job Salary");
+                String jobDescription = documentSnapshot.getString("JOB Description");
+                String openings = documentSnapshot.getString("JOB Opening");
+                String roleduration = documentSnapshot.getString("Job Duration");
+                String time = documentSnapshot.getString("Duration Timeline");
+                String date = documentSnapshot.getString("date");
+                String location = documentSnapshot.getString("Location");
+                String speciality = documentSnapshot.getString("Speciality");
+                String subspeciality = documentSnapshot.getString("SubSpeciality");
+                String hospital = documentSnapshot.getString("Hospital");
+                String type = documentSnapshot.getString("Job type");
+
+                updateUI(jobTitle, hospital, jobDescription,  location,  salary, organiser, date, openings, time, speciality, subspeciality, type, roleduration);
+
+            } else {
+                Log.e(TAG, "No such document with documentId: " + documentId2);
+            }
+        }).addOnFailureListener(e -> {
+            Log.e(TAG, "Error fetching job details for documentId: " + documentId2, e);
+        });
+    }
+
+    private void updateUI(String jobTitle, String hospital, String jobDescription, String location, String salary,String organiser,String date,String openings,String time,String speciality,String subspeciality,String type,String roleduration) {
+
+        jobTitleTextView.setText(jobTitle);
+        companyNameTextView.setText(hospital);
+        jobDescriptionContentTextView.setText(jobDescription);
+        locationTextView.setText(location);
+        salaryEditText.setText(salary);
+        organizername.setText(organiser);
+        dateofpost.setText(date);
+        openingsEditText.setText(openings);
+        timelinedurationwillcomehere.setText(time);
+        authorSpecialityTextView.setText(speciality);
+        authorSubSpecialityTextView.setText(subspeciality);
+        jobtype.setText(type);
+        durationforjob.setText(roleduration);
+
+    }
+
+    private void setSystemBarColors() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            View decorView = getWindow().getDecorView();
+            decorView.setSystemUiVisibility(decorView.getSystemUiVisibility() | View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);
+        }
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            Window window = getWindow();
+            window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
+            window.setStatusBarColor(ContextCompat.getColor(this, R.color.backgroundcolor));
+            window.setNavigationBarColor(ContextCompat.getColor(this, R.color.backgroundcolor));
+        }
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            View decorView = getWindow().getDecorView();
+            decorView.setSystemUiVisibility(decorView.getSystemUiVisibility() | View.SYSTEM_UI_FLAG_LIGHT_NAVIGATION_BAR);
+        }
     }
 }

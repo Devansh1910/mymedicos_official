@@ -27,7 +27,7 @@
             <androidx.appcompat.widget.Toolbar
                 android:id="@+id/toolbar"
                 app:title="Speciality"
-                app:navigationIcon="@drawable/arrowbackforappbar"
+                app:navigationIcon="@drawable/arrow_bk"
                 app:titleTextColor="@color/black"
                 app:subtitleTextColor="@color/black"
                 app:subtitleTextAppearance="@color/black"

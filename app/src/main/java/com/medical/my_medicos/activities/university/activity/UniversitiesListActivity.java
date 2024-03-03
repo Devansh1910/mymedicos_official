@@ -33,9 +33,7 @@ public class UniversitiesListActivity extends AppCompatActivity {
     private UpdatesAdapter updateAdapter;
     private ArrayList<Updates> updates;
     private Toolbar toolbar;
-
     private ImageView backtothehomefromupdates;
-
     LottieAnimationView notavailebeuniversities;
 
     @Override
@@ -67,11 +65,10 @@ public class UniversitiesListActivity extends AppCompatActivity {
         backtothehomefromupdates.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent i = new Intent(UniversitiesListActivity.this, UniversityActivity.class);
-                startActivity(i);
                 finish();
             }
         });
+
 
         Button connectWithUsButton = findViewById(R.id.connectwithusforuniversityadmin);
         connectWithUsButton.setOnClickListener(new View.OnClickListener() {

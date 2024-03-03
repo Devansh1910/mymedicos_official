@@ -45,92 +45,155 @@
 
             </com.google.android.material.appbar.AppBarLayout>
 
-            <!--        <HorizontalScrollView-->
-            <!--            android:layout_width="match_parent"-->
-            <!--            android:scrollbars="vertical"-->
-            <!--            android:scrollbarStyle="insideInset"-->
-            <!--            android:layout_height="wrap_content">-->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:paddingVertical="@dimen/_5ssp"
+                android:paddingHorizontal="@dimen/_10ssp"
+                android:orientation="vertical"
+                android:layout_height="wrap_content">
 
-            <!--            <LinearLayout-->
-            <!--                android:layout_width="match_parent"-->
-            <!--                android:layout_height="wrap_content"-->
-            <!--                android:paddingVertical="@dimen/_10ssp"-->
-            <!--                android:layout_marginBottom="@dimen/_5ssp"-->
-            <!--                android:orientation="horizontal">-->
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Explore with job specialities"
+                    android:textSize="@dimen/_12ssp"
+                    android:textStyle="bold" />
 
-            <!--                <Spinner-->
-            <!--                    android:id="@+id/city"-->
-            <!--                    android:layout_width="0dp"-->
-            <!--                    android:layout_weight="1"-->
-            <!--                    android:paddingHorizontal="@dimen/_25ssp"-->
-            <!--                    android:layout_height="@dimen/_40sdp"-->
-            <!--                    android:layout_marginHorizontal="@dimen/_2ssp"-->
-            <!--                    android:background="@drawable/spinner_new" />-->
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Broaden your job search with curated collections"
+                    android:textSize="@dimen/_10ssp"
+                    android:textStyle="normal" />
 
-            <!--                <Spinner-->
-            <!--                    android:id="@+id/speciality"-->
-            <!--                    android:layout_width="0dp"-->
-            <!--                    android:layout_weight="1"-->
-            <!--                    android:paddingHorizontal="@dimen/_25ssp"-->
-            <!--                    android:layout_height="@dimen/_40sdp"-->
-            <!--                    android:layout_marginHorizontal="@dimen/_2ssp"-->
-            <!--                    android:background="@drawable/spinner_new" />-->
-
-            <!--                <Spinner-->
-            <!--                    android:id="@+id/subspeciality"-->
-            <!--                    android:layout_width="0dp"-->
-            <!--                    android:layout_weight="1"-->
-            <!--                    android:paddingHorizontal="@dimen/_25ssp"-->
-            <!--                    android:layout_height="@dimen/_40sdp"-->
-            <!--                    android:layout_marginHorizontal="@dimen/_5ssp"-->
-            <!--                    android:background="@drawable/spinner_new" />-->
-
-            <!--                <Button-->
-            <!--                    android:id="@+id/ok"-->
-            <!--                    android:layout_width="0dp"-->
-            <!--                    android:layout_weight="1"-->
-            <!--                    android:layout_height="52.00dp"-->
-            <!--                    android:text="OK"-->
-            <!--                    android:clickable="true" />-->
-
-            <!--            </LinearLayout>-->
-
-            <!--        </HorizontalScrollView>-->
+            </LinearLayout>
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/recyclerview6"
                 android:layout_width="match_parent"
                 android:layout_marginTop="@dimen/_5ssp"
-                android:layout_marginHorizontal="@dimen/_8ssp"
-                android:layout_height="500dp"
+                android:layout_height="wrap_content"
                 app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"/>
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:paddingVertical="@dimen/_5ssp"
                 android:paddingHorizontal="@dimen/_10ssp"
+                android:orientation="vertical"
                 android:layout_height="wrap_content">
 
                 <TextView
-                    android:layout_width="0dp"
-                    android:layout_weight="1"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="@string/recommended_jobs"
+                    android:text="Recommended for you"
                     android:textSize="@dimen/_12ssp"
                     android:textStyle="bold" />
 
                 <TextView
-                    android:layout_width="0dp"
-                    android:layout_weight="1"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="@string/view_all"
-                    android:drawablePadding="@dimen/_8ssp"
-                    android:layout_gravity="center"
-                    android:gravity="end"
-                    android:textColor="#676666"
+                    android:text="Based on your profile and search history"
+                    android:textSize="@dimen/_10ssp"
+                    android:textStyle="normal" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Interest"
+                        android:id="@+id/interest"
+                        android:paddingHorizontal="@dimen/_15sdp"
+                        android:paddingVertical="@dimen/_4sdp"
+                        android:layout_marginTop="@dimen/_5sdp"
+                        android:background="@drawable/submit_btn_new_bk"
+                        android:textSize="@dimen/_10ssp"
+                        android:textStyle="normal" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Interest2"
+                        android:id="@+id/interest2"
+                        android:layout_marginStart="@dimen/_10sdp"
+                        android:paddingHorizontal="@dimen/_15sdp"
+                        android:paddingVertical="@dimen/_4sdp"
+                        android:layout_marginTop="@dimen/_5sdp"
+                        android:background="@drawable/categoryblackkkkkk"
+                        android:textSize="@dimen/_10ssp"
+                        android:textStyle="normal" />
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/recommendedforyouonly"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"/>
+
+            <androidx.cardview.widget.CardView
+                android:id="@+id/cardjobs"
+                app:cardCornerRadius="@dimen/_5sdp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="8dp"
+                android:elevation="4dp">
+
+                <!-- Card Content Layout -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:padding="16dp">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Keep Exploring"
+                        android:fontFamily="@font/inter"
+                        android:textSize="16sp"
+                        android:drawableEnd="@drawable/search"
+                        android:layout_gravity="center_horizontal"
+                        android:textColor="@android:color/black"/>
+
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Start Searching about your niche"
+                        android:textSize="@dimen/_10ssp"
+                        android:textStyle="normal" />
+
+                </LinearLayout>
+
+            </androidx.cardview.widget.CardView>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:paddingVertical="@dimen/_5ssp"
+                android:paddingHorizontal="@dimen/_10ssp"
+                android:orientation="vertical"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Recently Added Openings"
                     android:textSize="@dimen/_12ssp"
-                    android:textStyle="bold"
-                    app:drawableEndCompat="@drawable/sidearrow" />
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Based on your chances of hearing back"
+                    android:textSize="@dimen/_10ssp"
+                    android:textStyle="normal" />
+
             </LinearLayout>
 
             <androidx.recyclerview.widget.RecyclerView
@@ -138,6 +201,70 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"/>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingHorizontal="@dimen/_5sdp"
+                android:paddingTop="@dimen/_10sdp"
+                android:paddingBottom="@dimen/_20sdp"
+                android:orientation="horizontal">
+
+                <androidx.cardview.widget.CardView
+                    android:layout_width="0dp"
+                    android:id="@+id/applied"
+                    android:layout_weight="1"
+                    android:layout_margin="@dimen/_5sdp"
+                    android:layout_height="wrap_content"
+                    app:cardCornerRadius="@dimen/_5sdp">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:textColor="@color/unselected"
+                        android:drawableStart="@drawable/save_on"
+                        android:textSize="@dimen/_12sdp"
+                        android:textStyle="normal"
+                        android:gravity="center_vertical"
+                        android:drawablePadding="@dimen/_10sdp"
+                        android:layout_gravity="center_vertical"
+                        android:fontFamily="@font/inter_extrabold"
+                        android:padding="@dimen/_10sdp"
+                        android:text="Applied"/>
+
+                </androidx.cardview.widget.CardView>
+
+                <androidx.cardview.widget.CardView
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:id="@+id/managejobs"
+                    android:layout_margin="@dimen/_5sdp"
+                    android:layout_height="wrap_content"
+                    app:cardCornerRadius="@dimen/_5sdp">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:textColor="@color/unselected"
+                        android:drawableStart="@drawable/jobsmajor_svgrepo_com"
+                        android:textSize="@dimen/_12sdp"
+                        android:textStyle="normal"
+                        android:gravity="center_vertical"
+                        android:drawablePadding="@dimen/_10sdp"
+                        android:layout_gravity="center_vertical"
+                        android:fontFamily="@font/inter_extrabold"
+                        android:padding="@dimen/_10sdp"
+                        android:text="Manage Jobs"/>
+
+                </androidx.cardview.widget.CardView>
+
+            </LinearLayout>
+
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:scaleType="centerCrop"
+                android:src="@drawable/connectfinal"/>
 
         </LinearLayout>
 

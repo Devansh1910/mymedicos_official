@@ -80,16 +80,15 @@
             android:layout_height="wrap_content">
 
             <LinearLayout
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:paddingHorizontal="@dimen/_5sdp"
-                android:paddingVertical="@dimen/_8ssp"
                 android:orientation="horizontal">
 
                 <Spinner
                     android:id="@+id/mode"
                     android:layout_width="match_parent"
-                    android:paddingHorizontal="@dimen/_25ssp"
+                    android:paddingHorizontal="@dimen/_20ssp"
                     android:layout_height="@dimen/_40sdp"
                     android:layout_marginHorizontal="@dimen/_2ssp"
                     android:layout_weight="1"
@@ -98,7 +97,7 @@
                 <Spinner
                     android:background="@drawable/spinner_back"
                     android:id="@+id/speciality"
-                    android:paddingHorizontal="@dimen/_25ssp"
+                    android:paddingHorizontal="@dimen/_20ssp"
                     android:layout_width="match_parent"
                     android:layout_marginHorizontal="@dimen/_2ssp"
                     android:layout_weight="1"
@@ -107,7 +106,7 @@
                 <Spinner
                     android:background="@drawable/spinner_back"
                     android:id="@+id/subspeciality"
-                    android:paddingHorizontal="@dimen/_25ssp"
+                    android:paddingHorizontal="@dimen/_20ssp"
                     android:layout_width="match_parent"
                     android:layout_weight="1"
                     android:layout_marginHorizontal="@dimen/_5ssp"
@@ -149,14 +148,15 @@
                     <androidx.cardview.widget.CardView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/_5sdp"
                         android:layout_marginHorizontal="8dp"
-                        app:cardCornerRadius="@dimen/_15ssp">
+                        app:cardCornerRadius="@dimen/_5ssp">
 
                         <androidx.cardview.widget.CardView
                             android:layout_width="match_parent"
                             android:paddingVertical="4dp"
                             android:layout_height="wrap_content"
-                            app:cardCornerRadius="10dp">
+                            app:cardCornerRadius="5dp">
 
                             <org.imaginativeworld.whynotimagecarousel.ImageCarousel
                                 android:id="@+id/cmecarousel"

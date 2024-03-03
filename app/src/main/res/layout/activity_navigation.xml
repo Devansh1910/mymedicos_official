@@ -4,43 +4,32 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:background="@drawable/rectangle1"
     android:layout_height="match_parent"
     tools:context=".activities.login.NavigationActivity">
-    <com.airbnb.lottie.LottieAnimationView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        app:lottie_autoPlay="true"
-        android:scaleType="centerCrop"
-        app:lottie_loop="true"
-        app:lottie_rawRes="@raw/topbk"
-        app:lottie_speed="1" />
-
-    <Button
-        android:id="@+id/skipButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Skip"
-        android:layout_marginTop="20dp"
-        android:layout_marginEnd="15dp"
-        android:textColor="@color/white"
-        android:textSize="14sp"
-        app:cornerRadius = "15dp"
-        android:elevation="@dimen/_18sdp"
-        android:padding="8dp"
-        android:drawableRight="@drawable/arrowright"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
 
     <androidx.viewpager.widget.ViewPager
         android:id="@+id/slideViewPager"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginVertical="@dimen/_80sdp"
-        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"/>
+
+    <Button
+        android:id="@+id/skipButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="#00000000"
+        android:text="Skip"
+        android:textSize="18sp"
+        android:visibility="invisible"
+        android:layout_marginTop="20dp"
+        android:drawableRight="@drawable/arrowright"
+        android:layout_marginEnd="15dp"
+        android:textColor="#262629"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"  />
 
     <Button
         android:id="@+id/backButton"
@@ -51,6 +40,7 @@
         android:textSize="18sp"
         android:layout_marginStart="15dp"
         android:layout_marginBottom="20dp"
+        android:elevation="@dimen/_20sdp"
         android:visibility="invisible"
         android:textColor="#262629"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -60,9 +50,11 @@
         android:id="@+id/nextButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:backgroundTint="@color/white"
         android:text="Next"
-        android:textSize="16sp"
-        android:elevation="@dimen/_8sdp"
+        android:textColor="@color/black"
+        android:textSize="18sp"
+        android:layout_marginTop="20dp"
         android:layout_marginBottom="20dp"
         android:layout_marginEnd="15dp"
         app:layout_constraintBottom_toBottomOf="parent"

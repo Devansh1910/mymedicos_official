@@ -300,19 +300,30 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="10dp"
+                    android:orientation="horizontal"
                     android:background="@drawable/circularbordersolid"
-                    android:gravity="center"
-                    android:padding="18dp">
+                    android:gravity="center">
 
                     <EditText
                         android:id="@+id/job_duration"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
+                        android:layout_width="0dp"
+                        android:layout_weight="1"
+                        android:maxLength="2"
+                        android:paddingStart="@dimen/_10sdp"
+                        android:layout_height="match_parent"
                         android:background="@null"
                         android:fontFamily="@font/inter"
                         android:hint="Estimate Role Duration"
-                        android:inputType="text"
+                        android:inputType="number"
                         android:textSize="14sp" />
+
+                    <Spinner
+                        android:id="@+id/timelineduration"
+                        android:layout_width="wrap_content"
+                        android:paddingHorizontal="@dimen/_25sdp"
+                        android:background="@drawable/categorydark"
+                        android:layout_height="match_parent"
+                        android:paddingVertical="@dimen/_10sdp"/>
 
                 </LinearLayout>
 
@@ -359,6 +370,55 @@
                         android:gravity="center"
                         android:textSize="@dimen/_12ssp"
                         android:text="Select"
+                        android:background="@drawable/categorydark"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        android:textColor="#FFFFFF"/>
+
+                </LinearLayout>
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:drawableEnd="@drawable/location"
+                    android:drawablePadding="@dimen/_5ssp"
+                    android:text="Attach a Document for reference"
+                    android:fontFamily="@font/inter"
+                    android:textColor="@color/unselected"
+                    android:textStyle="bold" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_marginTop="@dimen/_10sdp"
+                    android:layout_marginBottom="@dimen/_10sdp"
+                    android:layout_height="match_parent"
+                    android:background="@drawable/circularbordersolid"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:id="@+id/addPdf"
+                        android:layout_width="0dp"
+                        android:layout_weight="1"
+                        android:layout_height="match_parent"
+                        android:paddingHorizontal="@dimen/_5ssp"
+                        android:textStyle="bold"
+                        android:paddingVertical="@dimen/_10ssp"
+                        android:gravity="center"
+                        android:textSize="@dimen/_12ssp"
+                        android:text="Attach a Document (Opt.)"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        android:textColor="#BAB2B2"/>
+
+                    <TextView
+                        android:id="@+id/uploadpdfbtn"
+                        android:layout_width="0dp"
+                        android:layout_weight="0.5"
+                        android:layout_height="match_parent"
+                        android:paddingHorizontal="@dimen/_10ssp"
+                        android:textStyle="bold"
+                        android:paddingVertical="@dimen/_10ssp"
+                        android:gravity="center"
+                        android:textSize="@dimen/_12ssp"
+                        android:text="Upload"
                         android:background="@drawable/categorydark"
                         app:layout_constraintEnd_toEndOf="parent"
                         android:textColor="#FFFFFF"/>

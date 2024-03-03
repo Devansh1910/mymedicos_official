@@ -405,12 +405,10 @@ private void handleRewardedAdCompletion() {
 
                 @Override
                 public void onCancelled(@NonNull DatabaseError error) {
-                    // Handle database error
                 }
             });
-
         }
-        // If unable to determine the status, assume video hasn't been watched
+
         return isVideoWatched[0];
 
     }
@@ -418,7 +416,6 @@ private void handleRewardedAdCompletion() {
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
-                // Enable the button after the cooldown period
                 binding.viewad1.setEnabled(true);
             }
         }, COOLDOWN_PERIOD);
@@ -428,31 +425,16 @@ private void handleRewardedAdCompletion() {
     private boolean canClickVideo(String videoName) {
         if (!isVideoAlreadyWatched(videoName)) {
             Log.d("credits512", String.valueOf(isVideoAlreadyWatched(videoName)));
-
-            return false; // Video already watched, so user can't click the ad again
+            return false;
         }
-        Log.d("credits512", String.valueOf(isVideoAlreadyWatched(videoName)));
-//
-//        long lastClickTime = getLastClickTime(videoName);
-//        long currentTime = System.currentTimeMillis();
 
-        // Check if enough time has passed since the last click
-//        return currentTime - lastClickTime >= COOLDOWN_PERIOD;
+        Log.d("credits512", String.valueOf(isVideoAlreadyWatched(videoName)));
         return true;
     }
 
-//    private long getLastClickTime(String videoName) {
-//        SharedPreferences prefs = getSharedPreferences(PREFS_NAME, MODE_PRIVATE);
-//        if ("video1".equals(videoName)) {
-//            return prefs.getLong(LAST_CLICK_TIME_VIDEO_1, 0);
-//        } else if ("video2".equals(videoName)) {
-//            return prefs.getLong(LAST_CLICK_TIME_VIDEO_2, 0);
-//        }
-//        return 0;
-//    }
     void loadAd() {
         AdRequest adRequest = new AdRequest.Builder().build();
-        RewardedAd.load(this, "ca-app-pub-3940256099942544/5224354917",
+        RewardedAd.load(this, "ca-app-pub-1452770494559845/3094113721",
                 adRequest, new RewardedAdLoadCallback() {
                     @Override
                     public void onAdFailedToLoad(@NonNull LoadAdError loadAdError) {
@@ -465,27 +447,13 @@ private void handleRewardedAdCompletion() {
                     }
                 });
     }
-
-//    private void updateLastClickTime(String videoName) {
-//        SharedPreferences prefs = getSharedPreferences(PREFS_NAME, MODE_PRIVATE);
-//        SharedPreferences.Editor editor = prefs.edit();
-//        long currentTime = System.currentTimeMillis();
-//
-//        if ("video1".equals(videoName)) {
-//            editor.putLong(LAST_CLICK_TIME_VIDEO_1, currentTime);
-//        } else if ("video2".equals(videoName)) {
-//            editor.putLong(LAST_CLICK_TIME_VIDEO_2, currentTime);
-//        }
-//
-//        editor.apply();
-//    }
-
     private void updateCoinsInDatabase(int updatedCoins) {
         database.getReference().child("profiles")
                 .child(currentUid)
                 .child("coins")
                 .setValue(updatedCoins);
     }
+
     private void showBottomSheet99() {
         View bottomSheetView = LayoutInflater.from(context).inflate(R.layout.bottom_sheet_up_for_payment, null);
         BottomSheetDialog bottomSheetDialog = new BottomSheetDialog(context);
@@ -528,9 +496,6 @@ private void handleRewardedAdCompletion() {
         bottomSheetDialog.show();
     }
 
-
-
-
     void processCreditsOrderPackage1() {
         progressDialog.show();
 
@@ -555,11 +520,9 @@ private void handleRewardedAdCompletion() {
 
                                 StringRequest request = new StringRequest(Request.Method.GET, url, response -> {
                                     try {
-                                        Log.d("API Response", response); // Log the API response
-
+                                        Log.d("API Response", response);
                                         JSONObject requestBody = new JSONObject(response);
                                         if (requestBody.getString("status").equals("success")) {
-                                            // Your existing logic for processing the order
                                             Toast.makeText(CreditsActivity.this, "Success order.", Toast.LENGTH_SHORT).show();
                                             String orderNumber = requestBody.getString("order_id");
                                             Log.e("Order ID check", orderNumber);
@@ -573,7 +536,6 @@ private void handleRewardedAdCompletion() {
                                                         startActivity(intent);
                                                     }).show();
                                         } else {
-                                            // Your existing logic for handling a failed order
                                             Toast.makeText(CreditsActivity.this, "Failed order.", Toast.LENGTH_SHORT).show();
                                         }
                                         progressDialog.dismiss();
@@ -582,16 +544,16 @@ private void handleRewardedAdCompletion() {
                                         e.printStackTrace();
                                     }
                                 }, error -> {
-                                    // Handle Volley error
+
                                     error.printStackTrace();
                                     progressDialog.dismiss();
                                     Toast.makeText(CreditsActivity.this, "Volley Error: " + error.getMessage(), Toast.LENGTH_SHORT).show();
+
                                 });
 
                                 queue.add(request);
                             }
                         } else {
-                            // Handle the error when the document is not found
                             progressDialog.dismiss();
                             Toast.makeText(CreditsActivity.this, "Failed to retrieve user information", Toast.LENGTH_SHORT).show();
                         }
@@ -602,15 +564,11 @@ private void handleRewardedAdCompletion() {
         }
     }
 
-
     void processCreditsOrderPackage2() {
         progressDialog.show();
-
         FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
-
         if (currentUser != null) {
             String userId = currentUser.getUid();
-
             FirebaseFirestore db = FirebaseFirestore.getInstance();
             CollectionReference usersRef = db.collection("users");
 
@@ -619,7 +577,6 @@ private void handleRewardedAdCompletion() {
                     .addOnCompleteListener(task -> {
                         if (task.isSuccessful()) {
                             for (QueryDocumentSnapshot document : task.getResult()) {
-
                                 RequestQueue queue = Volley.newRequestQueue(this);
 
                                 String url = ConstantsDashboard.GET_ORDER_ID_99_41 + userId + "/" + "package2";
@@ -627,11 +584,10 @@ private void handleRewardedAdCompletion() {
 
                                 StringRequest request = new StringRequest(Request.Method.GET, url, response -> {
                                     try {
-                                        Log.d("API Response", response); // Log the API response
-
+                                        Log.d("API Response", response);
                                         JSONObject requestBody = new JSONObject(response);
+
                                         if (requestBody.getString("status").equals("success")) {
-                                            // Your existing logic for processing the order
                                             Toast.makeText(CreditsActivity.this, "Success order.", Toast.LENGTH_SHORT).show();
                                             String orderNumber = requestBody.getString("order_id");
                                             Log.e("Order ID check", orderNumber);
@@ -645,7 +601,6 @@ private void handleRewardedAdCompletion() {
                                                         startActivity(intent);
                                                     }).show();
                                         } else {
-                                            // Your existing logic for handling a failed order
                                             Toast.makeText(CreditsActivity.this, "Failed order.", Toast.LENGTH_SHORT).show();
                                         }
                                         progressDialog.dismiss();
@@ -654,7 +609,6 @@ private void handleRewardedAdCompletion() {
                                         e.printStackTrace();
                                     }
                                 }, error -> {
-                                    // Handle Volley error
                                     error.printStackTrace();
                                     progressDialog.dismiss();
                                     Toast.makeText(CreditsActivity.this, "Volley Error: " + error.getMessage(), Toast.LENGTH_SHORT).show();
@@ -763,7 +717,7 @@ private void handleRewardedAdCompletion() {
             public void run() {
                 customDialog.dismiss();
             }
-        }, 3000); // The popup will be dismissed after 3000 milliseconds (3 seconds)
+        }, 3000);
     }
 
 

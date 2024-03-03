@@ -53,12 +53,6 @@ public class PastFragment extends Fragment {
         recyclerView2.setAdapter(adapter);
         fetchData();
 
-
-
-        // Query and display Today's CME events in the RecyclerView
-        // Customize your logic to query and display data for today's events.
-        // Set the appropriate adapter for the RecyclerView.
-
         return view;
     }
     public void refreshData() {
@@ -89,21 +83,18 @@ public class PastFragment extends Fragment {
                                     LocalTime parsedTime = null;
                                     LocalDate parsedDate=null;
                                     try {
-                                        // Parse the time string into a LocalTime object
                                         parsedTime = null;
                                         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
                                             parsedTime = LocalTime.parse(Time, formatter);
                                             parsedDate = LocalDate.parse(date, formatter1);
-
                                         }
 
-                                        // Display the parsed time
                                         System.out.println("Parsed Time: " + parsedTime);
-                                    } catch (DateTimeParseException e) {
-                                        // Handle parsing error, e.g., if the input string is in the wrong format
-                                        System.err.println("Error parsing time: " + e.getMessage());
 
+                                    } catch (DateTimeParseException e) {
+                                        System.err.println("Error parsing time: " + e.getMessage());
                                     }
+
                                     LocalTime currentTime = null;
                                     LocalDate currentDate = null;
                                     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
@@ -111,10 +102,9 @@ public class PastFragment extends Fragment {
                                         currentDate = LocalDate.now();
                                     }
 
-
                                     int r = parsedTime.compareTo(currentTime);
 
-                                    Log.d("vivek", String.valueOf(r));
+                                    Log.d("Something went wrong..", String.valueOf(r));
                                     int r1 = parsedDate.compareTo(currentDate);
                                     if ((r1 <= 0)) {
                                         String field3 = ((String) dataMap.get("CME Title"));
@@ -132,10 +122,7 @@ public class PastFragment extends Fragment {
                                         cmeitem2 c = new cmeitem2(field1, field2, Date, field3, field4,5,time,field5,"PAST",documentid,field6);
                                         if (end!=null) {
                                             myitem.add(c);
-
                                         }
-
-
                                     } else if ((r < 0)&& (r1 == 0)){
                                         String field3 = ((String) dataMap.get("CME Title"));
                                         String field6 = ((String) dataMap.get("Mode"));
@@ -151,11 +138,8 @@ public class PastFragment extends Fragment {
                                         cmeitem2 c = new cmeitem2(field1, field2, Date, field3, field4,5,time,field5,"PAST",documentid,field6);
                                         if (end!=null) {
                                             myitem.add(c);
-
                                         }
-
                                     }
-
                                 }
                                 adapter.notifyDataSetChanged();
                             } else {

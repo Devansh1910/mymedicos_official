@@ -12,9 +12,13 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
+import android.widget.Spinner;
+import android.widget.SpinnerAdapter;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -44,9 +48,13 @@ public class Personalinfo extends AppCompatActivity {
 
     FirebaseAuth auth = FirebaseAuth.getInstance();
     FirebaseUser user = auth.getCurrentUser();
+    private ArrayAdapter<CharSequence> medicalcouncilAdapter;
+
     String current = user.getPhoneNumber();
 
     Button verificationbtnformedical;
+
+    Spinner mcncouncilselected;
     FirebaseFirestore mcnumber = FirebaseFirestore.getInstance();
     EditText medicalcouncilnumber;
 
@@ -55,6 +63,8 @@ public class Personalinfo extends AppCompatActivity {
     public FirebaseDatabase db = FirebaseDatabase.getInstance();
     public DatabaseReference medicalref = db.getReference().child("Medical Council Number Request");
     private ProgressDialog progressDialog;
+
+    HashMap<String, Object> userMap = new HashMap<>();
 
     @SuppressLint("MissingInflatedId")
     @Override
@@ -70,7 +80,7 @@ public class Personalinfo extends AppCompatActivity {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             Window window = getWindow();
             window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
-            window.setStatusBarColor(ContextCompat.getColor(this, R.color.blue));
+            window.setStatusBarColor(ContextCompat.getColor(this, R.color.backgroundcolor));
             window.setNavigationBarColor(ContextCompat.getColor(this, R.color.backgroundcolor));
         }
 
@@ -82,20 +92,13 @@ public class Personalinfo extends AppCompatActivity {
         Toolbar toolbar = findViewById(R.id.verificationtoolbar);
         setSupportActionBar(toolbar);
 
+        mcncouncilselected = findViewById(R.id.mcncouncilselected);
+
         ActionBar actionBar = getSupportActionBar();
         if (actionBar != null) {
             actionBar.setDisplayHomeAsUpEnabled(true);
             actionBar.setHomeAsUpIndicator(R.drawable.arrow_bk);
         }
-
-        viewinstruction = findViewById(R.id.viewinstruction);
-        viewinstruction.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent i = new Intent(Personalinfo.this, VerficationGuideActivity.class);
-                startActivity(i);
-            }
-        });
 
         progressDialog = new ProgressDialog(this);
         medicalcouncilnumber = findViewById(R.id.mcnumber);
@@ -115,7 +118,30 @@ public class Personalinfo extends AppCompatActivity {
                 }
             }
         });
+
+        mcnspinner();
     }
+
+    private void mcnspinner(){
+        medicalcouncilAdapter = ArrayAdapter.createFromResource(this,
+                R.array.indian_medical_council, android.R.layout.simple_spinner_item);
+        medicalcouncilAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        mcncouncilselected.setAdapter(medicalcouncilAdapter);
+
+        mcncouncilselected.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int position, long id) {
+                String selectedMedicalLocation = adapterView.getItemAtPosition(position).toString();
+                userMap.put("location", selectedMedicalLocation);
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+                // Do nothing
+            }
+        });
+    }
+
 
     private boolean isVerificationPending() {
         // Have to Create Function here
@@ -136,8 +162,10 @@ public class Personalinfo extends AppCompatActivity {
                 if (dataSnapshot.exists()) {
                     verificationbtnformedical.setVisibility(View.INVISIBLE);
                     medicalcouncilnumber.setEnabled(false);
+                    mcncouncilselected.setEnabled(false);
                     verificationbtnformedical.setEnabled(false);
-                    medicalcouncilnumber.setHint("Verification Pending");
+                    medicalcouncilnumber.setHint("In Review");
+                    mcncouncilselected.setTag("In Review");
                 }
             }
 

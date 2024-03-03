@@ -248,20 +248,26 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="20dp"
                 android:id="@+id/cmeholderplace"
-                android:background="@drawable/circularbordersolid"
-                android:gravity="center"
+                android:layout_marginTop="10dp"
                 android:visibility="gone"
-                android:padding="18dp">
+                android:background="@drawable/onlyformaps"
+                android:gravity="center">
+
+                <ImageView
+                    android:id="@+id/openmaps"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/googlemaps"/>
 
                 <EditText
                     android:id="@+id/cme_place"
                     android:layout_width="match_parent"
+                    android:padding="10dp"
                     android:layout_height="wrap_content"
                     android:background="@null"
                     android:fontFamily="@font/inter"
-                    android:hint="Enter the location (Eg. JBC Hospital .."
+                    android:hint="Enter the Google Maps Link"
                     android:inputType="text"
                     android:textSize="14sp" />
 
@@ -288,13 +294,13 @@
                     android:id="@+id/tvDate"
                     android:layout_width="0dp"
                     android:layout_weight="1"
+                    android:hint="Select Estimate Date"
                     android:layout_height="match_parent"
                     android:paddingHorizontal="@dimen/_5ssp"
                     android:textStyle="bold"
                     android:paddingVertical="@dimen/_10ssp"
                     android:gravity="center"
                     android:textSize="@dimen/_12ssp"
-                    android:text="Select estimate Date"
                     app:layout_constraintEnd_toEndOf="parent"
                     android:textColor="#BAB2B2"/>
 
@@ -340,9 +346,9 @@
                     android:paddingHorizontal="@dimen/_5ssp"
                     android:textStyle="bold"
                     android:paddingVertical="@dimen/_10ssp"
+                    android:hint="Select Estimate Time"
                     android:gravity="center"
                     android:textSize="@dimen/_12ssp"
-                    android:text="Select Esstimate Time"
                     app:layout_constraintEnd_toEndOf="parent"
                     android:textColor="#BAB2B2"/>
 

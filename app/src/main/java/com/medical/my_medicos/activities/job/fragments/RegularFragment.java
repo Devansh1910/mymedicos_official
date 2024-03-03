@@ -31,24 +31,27 @@ public class RegularFragment extends Fragment  {
     RecyclerView recyclerView;
     String title;
 
-    @SuppressLint("MissingInflatedId")
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_regular, container, false);
         recyclerView = view.findViewById(R.id.jobs_recyclerview_regular);
         FirebaseFirestore db = FirebaseFirestore.getInstance();
         Bundle args = getArguments();
+
         if (args != null) {
             title = args.getString("Title");
             Log.d("Title",title);
-            // Use the 'title' as needed in RegularFragment
         }
-
-        List<jobitem1> joblist = new ArrayList<jobitem1>();
-        List<jobitem1> regularJobList = new ArrayList<jobitem1>();
-        
+        return view;
+    }
+    @Override
+    public void onResume() {
+        super.onResume();
+        loadDataRegular();
+    }
+    public void loadDataRegular(){
         FirebaseFirestore dc = FirebaseFirestore.getInstance();
-        //......
+        List<jobitem1> regularJobList = new ArrayList<jobitem1>();
         dc.collection("JOB")
                 .get()
                 .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
@@ -61,7 +64,6 @@ public class RegularFragment extends Fragment  {
                                 Map<String, Object> dataMap = document.getData();
                                 String Category = (String) dataMap.get("Job type");
 
-                                // Check if the job type is "regular"
                                 if ("Regular".equalsIgnoreCase(Category)) {
                                     String Organiser = (String) dataMap.get("JOB Organiser");
                                     String Location = (String) dataMap.get("Location");
@@ -86,10 +88,5 @@ public class RegularFragment extends Fragment  {
                         }
                     }
                 });
-        // Query and display Today's CME events in the RecyclerView
-        // Customize your logic to query and display data for today's events.
-        // Set the appropriate adapter for the RecyclerView.
-
-        return view;
     }
 }

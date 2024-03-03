@@ -20,7 +20,7 @@
         <androidx.appcompat.widget.Toolbar
             android:id="@+id/settingsstoolbar"
             app:title="Settings"
-            app:navigationIcon="@drawable/arrowbackforappbar"
+            app:navigationIcon="@drawable/arrow_bk"
             app:titleTextColor="@color/unselected"
             app:subtitleTextColor="@color/white"
             app:subtitleTextAppearance="@color/white"

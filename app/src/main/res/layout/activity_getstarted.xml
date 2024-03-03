@@ -3,18 +3,30 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/linearLayout2"
-    android:background="@color/getstartedbottom"
+    android:background="@color/backgroundcolor"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:gravity="bottom"
     android:layout_gravity="center_vertical"
     android:orientation="vertical">
 
+    <com.airbnb.lottie.LottieAnimationView
+        android:id="@+id/correctanswer"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        app:lottie_autoPlay="true"
+        android:layout_gravity="center"
+        app:lottie_loop="false"
+        app:lottie_rawRes="@raw/ioio"
+        app:lottie_speed="1" />
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:padding="@dimen/_10sdp"
-        android:background="@drawable/logobkforimg"
+        android:visibility="gone"
+        android:id="@+id/parttoshow"
         android:orientation="vertical">
 
         <LinearLayout
@@ -60,15 +72,15 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@drawable/bkforthelogo"
-            android:fontFamily="@font/inter"
+            android:fontFamily="@font/inter_extrabold"
             android:layout_marginVertical="@dimen/_5sdp"
             android:gravity="center"
             android:orientation="horizontal"
             android:padding="@dimen/_7sdp"
             android:shadowColor="#00DCE1E0"
-            android:text="Get Started"
+            android:text="Let's Go"
             android:textAllCaps="false"
-            android:textColor="@color/backgroundcolor"
+            android:textColor="@color/unselected"
             android:textSize="@dimen/_16ssp"
             android:textStyle="normal"/>
 

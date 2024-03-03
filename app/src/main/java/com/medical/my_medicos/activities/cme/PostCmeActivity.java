@@ -96,6 +96,7 @@ public class PostCmeActivity extends AppCompatActivity {
     FirebaseFirestore dc = FirebaseFirestore.getInstance();
     private Spinner subspecialitySpinner;
     private Spinner specialitySpinner;
+    private Spinner modeSpinner;
     String subspecialities1;
     public DatabaseReference cmeref = db.getReference().child("CME's");
     private ProgressDialog progressDialog;
@@ -107,12 +108,12 @@ public class PostCmeActivity extends AppCompatActivity {
     private SimpleDateFormat dateFormat, timeFormat;
     static final int REQ = 1;
     private Uri pdfData;
-    TextView room,offlineroom;
+    TextView room, offlineroom;
     private DatabaseReference databasereference;
     private StorageReference storageReference;
     private TextView addPdf, uploadPdfBtn;
     String downloadUrl = null;
-    LinearLayout cmeholderplace,cmevirtuallinkholder;
+    LinearLayout cmeholderplace, cmevirtuallinkholder;
     private ProgressDialog pd;
     private String pdfName;
     private String currentuserSpeciality;
@@ -173,8 +174,6 @@ public class PostCmeActivity extends AppCompatActivity {
         addPdf.setOnClickListener(view -> {
             openGallery();
         });
-
-
         uploadPdfBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -201,17 +200,24 @@ public class PostCmeActivity extends AppCompatActivity {
 
         specialitySpinner = findViewById(R.id.cmespeciality);
         subspecialitySpinner = findViewById(R.id.cmesubspeciality);
+        modeSpinner = findViewById(R.id.cmemode);
 
+
+        // For Speciality............
         specialityAdapter = ArrayAdapter.createFromResource(this,
                 R.array.speciality, android.R.layout.simple_spinner_item);
         specialityAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         specialitySpinner.setAdapter(specialityAdapter);
+        //...........................
 
+        // For Subspeciality..........
         subspecialityAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item);
         subspecialityAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         subspecialitySpinner.setAdapter(subspecialityAdapter);
         // Initially, hide the subspeciality spinner
         subspecialitySpinner.setVisibility(View.GONE);
+        //............................
+
         specialitySpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int position, long l) {
@@ -257,13 +263,13 @@ public class PostCmeActivity extends AppCompatActivity {
                         Map<String, Object> dataMap = document.getData();
                         field3 = ((String) dataMap.get("Phone Number"));
                         boolean areEqualIgnoreCase = current.equalsIgnoreCase(field3);
-                        Log.d("vivek", String.valueOf(areEqualIgnoreCase));
+                        Log.d("Something went wrong..", String.valueOf(areEqualIgnoreCase));
                         if ((current != null) && (field3 != null)) {
                             int r = current.compareTo(field3);
                             if (r == 0) {
                                 field4 = ((String) dataMap.get("Name"));
                                 currentuserSpeciality = ((String) dataMap.get("Interest"));
-                                Log.d("veefe", field4);
+                                Log.d("Something went wrong..", field4);
                                 cmeorg.setText(field4);
                             }
                         }
@@ -276,34 +282,27 @@ public class PostCmeActivity extends AppCompatActivity {
             }
         });
 
-        Spinner modeSpinner = findViewById(R.id.cmemode);
+        // For Mode..............
         ArrayAdapter<CharSequence> modeAdapter = ArrayAdapter.createFromResource(this,
                 R.array.mode, android.R.layout.simple_spinner_item);
         modeAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         modeSpinner.setAdapter(modeAdapter);
+        //.........................
 
         cmetitle = findViewById(R.id.cme_title);
         cmeorg = findViewById(R.id.cme_organiser);
-
         cmeorg.setEnabled(false);
         cmeorg.setTextColor(Color.parseColor("#80000000"));
         cmeorg.setBackgroundResource(R.drawable.rounded_edittext_background);
         cmepresenter = findViewById(R.id.cme_presenter);
-
-
         cmevenu = findViewById(R.id.cme_venu);
         virtuallink = findViewById(R.id.cme_virtuallink);
         cmevirtuallinkholder = findViewById(R.id.cmevirtuallinkholder);
         cme_place = findViewById(R.id.cme_place);
         cmeholderplace = findViewById(R.id.cmeholderplace);
-
         postcme = findViewById(R.id.post_btn);
-
-
-        // Initialize the charCount TextView
         TextView charCount = findViewById(R.id.char_counter);
 
-        // Add a TextWatcher to the cmevenu EditText for character counting and button enabling/disabling
         cmevenu.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
@@ -314,15 +313,13 @@ public class PostCmeActivity extends AppCompatActivity {
                 int currentCount = charSequence.length();
                 charCount.setText(currentCount + "/" + MAX_CHARACTERS);
 
-                // You can change the color of the charCount TextView based on the character count
                 if (currentCount > MAX_CHARACTERS) {
                     charCount.setTextColor(Color.RED);
-                    postcme.setEnabled(false); // Disable the "Post" button
-                    // Add a Toast message to notify the user
+                    postcme.setEnabled(false);
                     Toast.makeText(PostCmeActivity.this, "Character limit exceeded (2000 characters max)", Toast.LENGTH_SHORT).show();
                 } else {
                     charCount.setTextColor(Color.DKGRAY);
-                    postcme.setEnabled(true); // Enable the "Post" button
+                    postcme.setEnabled(true);
                 }
             }
 
@@ -331,22 +328,19 @@ public class PostCmeActivity extends AppCompatActivity {
             }
         });
 
-        // Disable the "Post" button initially
         postcme.setEnabled(false);
-
         postcme.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
                     Context context = view.getContext();
 
-                    // Check if all mandatory data is filled
                     if (isDataValid()) {
                         postCme(currentuserSpeciality);
-
                         Intent i = new Intent(context, CmeActivity.class);
                         i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                         context.startActivity(i);
+
                     } else {
                         Toast.makeText(PostCmeActivity.this, "Please fill in all mandatory fields", Toast.LENGTH_SHORT).show();
                     }
@@ -355,7 +349,6 @@ public class PostCmeActivity extends AppCompatActivity {
         });
 
 
-        // Set up the OnItemSelectedListener for cmemode Spinner
         Spinner cmemodeSpinner = findViewById(R.id.cmemode);
         cmemodeSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
@@ -363,21 +356,23 @@ public class PostCmeActivity extends AppCompatActivity {
                 selectedMode = cmemodeSpinner.getSelectedItem().toString();
 
                 if (selectedMode.equals("Online")) {
-                    // Show the virtual link EditText and hide the place EditText
+
                     virtuallink.setVisibility(View.VISIBLE);
                     cmevirtuallinkholder.setVisibility(View.VISIBLE);
                     room.setVisibility(View.VISIBLE);
                     offlineroom.setVisibility(View.GONE);
                     cmeholderplace.setVisibility(View.GONE);
                     cme_place.setVisibility(View.GONE);
+
                 } else if (selectedMode.equals("Offline")) {
-                    // Show the place EditText and hide the virtual link EditText
+
                     virtuallink.setVisibility(View.GONE);
                     cmevirtuallinkholder.setVisibility(View.GONE);
                     room.setVisibility(View.GONE);
                     offlineroom.setVisibility(View.VISIBLE);
                     cme_place.setVisibility(View.VISIBLE);
                     cmeholderplace.setVisibility(View.VISIBLE);
+
                 }
             }
 
@@ -419,11 +414,80 @@ public class PostCmeActivity extends AppCompatActivity {
         String organiser = cmeorg.getText().toString().trim();
         String presenter = cmepresenter.getText().toString().trim();
         String venu = cmevenu.getText().toString().trim();
+        String date = tvDate.getText().toString().trim();
+        String time = tvTime.getText().toString().trim();
+        String selectedSpinnerItemSpeciality = specialitySpinner.getSelectedItem().toString().trim();
+        String selectedSpinnerItemMode = modeSpinner.getSelectedItem().toString().trim();
+        String[] presentersArray = presenter.split("\\s*,\\s*");
+        String link = virtuallink.getText().toString().trim();
+        String place = cme_place.getText().toString().trim();
+
+        if (TextUtils.isEmpty(selectedSpinnerItemSpeciality) || selectedSpinnerItemSpeciality.equals(getString(R.string.select_speciality))) {
+            Toast.makeText(this, "Select a Speciality", Toast.LENGTH_SHORT).show();
+            return false;
+        }
+
+        if (TextUtils.isEmpty(selectedSpinnerItemMode) || selectedSpinnerItemMode.equals(getString(R.string.select_mode))) {
+            Toast.makeText(this, "Select a Mode", Toast.LENGTH_SHORT).show();
+            return false;
+        }
+        if (TextUtils.isEmpty(title) || title.length() > 50) {
+            cmetitle.setError(TextUtils.isEmpty(title) ? "Title Required" : "Title must be 50 characters or less");
+            return false;
+        }
+        cmetitle.setError(null);
+
+        if (TextUtils.isEmpty(organiser)) {
+            cmeorg.setError("Organizer Required");
+            return false;
+        }
+        cmeorg.setError(null);
+
+        if (TextUtils.isEmpty(presenter)) {
+            cmepresenter.setError("Presenter Required");
+            return false;
+        }
+        cmepresenter.setError(null);
+
+        if (TextUtils.isEmpty(venu) || venu.length() > MAX_CHARACTERS) {
+            cmevenu.setError(TextUtils.isEmpty(venu) ? "Location Required" : "Character limit exceeded");
+            return false;
+        }
+        cmevenu.setError(null);
+
+        if (TextUtils.isEmpty(tvDate.getText())) {
+            tvDate.setError("Select Date");
+            return false;
+        }
+
+        if (TextUtils.isEmpty(tvTime.getText())) {
+            tvTime.setError("Select Time");
+            return false;
+        }
+
+        if (selectedMode.equals("Offline")) {
+            if (TextUtils.isEmpty(cme_place.getText().toString().trim()) || !place.matches("https://maps.app.goo.gl/.*")) {
+                cme_place.setError("Invalid Location");
+                return false;
+            }
+        } else if (selectedMode.equals("Online")) {
+            if (!link.matches("https://us04web\\.zoom\\.us/.*") || TextUtils.isEmpty(virtuallink.getText().toString().trim())) {
+                virtuallink.setError("Invalid link format");
+                return false;
+            }
+        }
+
+        virtuallink.setError(null);
+        cme_place.setError(null);
 
         return !TextUtils.isEmpty(title)
                 && !TextUtils.isEmpty(organiser)
                 && !TextUtils.isEmpty(presenter)
-                && !TextUtils.isEmpty(venu);
+                && !TextUtils.isEmpty(venu)
+                && !TextUtils.isEmpty(date)
+                && !TextUtils.isEmpty(time)
+                && !TextUtils.isEmpty(selectedSpinnerItemMode)
+                && !TextUtils.isEmpty(selectedSpinnerItemSpeciality);
     }
 
     private void uploadPdf() {
@@ -548,55 +612,11 @@ public class PostCmeActivity extends AppCompatActivity {
         String link = virtuallink.getText().toString().trim();
         String place = cme_place.getText().toString().trim();
 
-        if (selectedMode.equals("Online")) {
-            if (!link.matches("https://us04web\\.zoom\\.us/.*")) {
-                virtuallink.setError("Invalid link format");
-                return;
-            } else {
-                virtuallink.setError(null);
-            }
-        } else {
-            virtuallink.setError(null);
-        }
-
-        if (TextUtils.isEmpty(title)) {
-            cmetitle.setError("Title Required");
-            return;
-        } else if (title.length() > 50) {
-            cmetitle.setError("Title must be 50 characters or less");
-            return;
-        } else {
-            cmetitle.setError(null);
-        }
-        if (TextUtils.isEmpty(organiser)) {
-            cmeorg.setError("Organizer Required");
-            return;
-        }
-        if (TextUtils.isEmpty(presenter)) {
-            cmepresenter.setError("Phone Number Required");
-            return;
-        }
-        if (TextUtils.isEmpty(venu)) {
-            cmevenu.setError("Email Required");
-            return;
-        }
-
-        if (venu.length() > MAX_CHARACTERS) {
-            cmevenu.setError("Character limit exceeded");
-            return;
-
-        } else {
-            cmevenu.setError(null); // Clear any previous error
-        }
-
         Spinner cmemodeSpinner = findViewById(R.id.cmemode);
         String mode = cmemodeSpinner.getSelectedItem().toString();
 
-        // Get the selected speciality from the spinner
         Spinner cmespecialitySpinner = findViewById(R.id.cmespeciality);
         String speciality = cmespecialitySpinner.getSelectedItem().toString();
-
-        // Get current date and time
 
         LocalDateTime currentDateTime = LocalDateTime.now();
         DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
@@ -604,15 +624,13 @@ public class PostCmeActivity extends AppCompatActivity {
         String formattedDate = currentDateTime.format(dateFormatter);
         String formattedTime = currentDateTime.format(timeFormatter);
 
-        // Get the selected date and time
         String selectedDate = tvDate.getText().toString();
         String selectedTime = tvTime.getText().toString();
 
         HashMap<String, Object> usermap = new HashMap<>();
         usermap.put("CME Title", title);
-        usermap.put("CME Organiser", field4);
+        usermap.put("CME Organiser", organiser);
         usermap.put("CME Presenter", Arrays.asList(presentersArray));
-        Log.d("array check", Arrays.asList(presentersArray).toString());
         usermap.put("CME Venue", venu);
         usermap.put("Virtual Link", link);
         usermap.put("CME Place", place);
@@ -630,30 +648,25 @@ public class PostCmeActivity extends AppCompatActivity {
         progressDialog.setMessage("Posting...");
         progressDialog.show();
 
-        cmeref.push().setValue(usermap).addOnCompleteListener(new OnCompleteListener<Void>() {
-            @Override
-            public void onComplete(@NonNull Task<Void> task) {
-                progressDialog.dismiss();
-
-                if (task.isSuccessful()) {
-                    String generatedDocId = cmeref.push().getKey();
-                    usermap.put("documentId", generatedDocId);
-                    dc.collection("CME").document(generatedDocId).set(usermap).addOnCompleteListener(new OnCompleteListener<Void>() {
-                        @Override
-                        public void onComplete(@NonNull Task<Void> task) {
-                            if (task.isSuccessful()) {
-                                Toast.makeText(PostCmeActivity.this, "Posted Successfully", Toast.LENGTH_SHORT).show();
-                                Log.d("token2", speciality);
-                            } else {
-                                Toast.makeText(PostCmeActivity.this, "Task Failed", Toast.LENGTH_SHORT).show();
-                            }
-                        }
-                    });
-                } else {
-                    Toast.makeText(PostCmeActivity.this, "Task Failed", Toast.LENGTH_SHORT).show();
-                }
-            }
-        });
-
+        DatabaseReference newPostRef = cmeref.push();
+        String generatedDocId = newPostRef.getKey();
+        newPostRef.setValue(usermap)
+                .addOnCompleteListener(task -> {
+                    progressDialog.dismiss();
+                    if (task.isSuccessful()) {
+                        usermap.put("documentId", generatedDocId);
+                        dc.collection("CME").document(generatedDocId).set(usermap)
+                                .addOnCompleteListener(subTask -> {
+                                    if (subTask.isSuccessful()) {
+                                        Toast.makeText(PostCmeActivity.this, "Posted Successfully", Toast.LENGTH_SHORT).show();
+                                        Log.d("token2", speciality);
+                                    } else {
+                                        Toast.makeText(PostCmeActivity.this, "Task Failed", Toast.LENGTH_SHORT).show();
+                                    }
+                                });
+                    } else {
+                        Toast.makeText(PostCmeActivity.this, "Task Failed", Toast.LENGTH_SHORT).show();
+                    }
+                });
     }
 }

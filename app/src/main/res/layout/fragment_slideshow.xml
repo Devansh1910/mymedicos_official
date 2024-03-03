@@ -5,6 +5,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:id="@+id/swipeRefreshLayout"
+    android:background="@color/backgroundcolor"
     android:layout_height="match_parent">
 
     <androidx.core.widget.NestedScrollView
@@ -208,11 +209,10 @@
                 </LinearLayout>
 
             <ImageView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="-150dp"
-                    android:scaleType="centerCrop"
-                    android:src="@drawable/wd"/>
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:scaleType="centerCrop"
+                android:src="@drawable/connectfinal"/>
 
             </LinearLayout>
 

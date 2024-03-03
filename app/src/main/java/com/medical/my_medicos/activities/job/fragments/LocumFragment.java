@@ -36,13 +36,17 @@ public class LocumFragment extends Fragment {
         if (args != null) {
             title = args.getString("Title");
             Log.d("Title",title);
-            // Use the 'title' as needed in RegularFragment
         }
-
-        List<jobitem1> locumJobList = new ArrayList<>();
-
+        return view;
+    }
+    @Override
+    public void onResume() {
+        super.onResume();
+        loadDataLocum();
+    }
+    public void loadDataLocum(){
         FirebaseFirestore dc = FirebaseFirestore.getInstance();
-
+        List<jobitem1> locumJobList = new ArrayList<>();
         dc.collection("JOB")
                 .get()
                 .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
@@ -53,8 +57,7 @@ public class LocumFragment extends Fragment {
                                 Map<String, Object> dataMap = document.getData();
                                 String Category = (String) dataMap.get("Job type");
 
-                                // Check if the job type is "Loccum" and speciality is "YourSpeciality"
-                                if ("Loccum".equalsIgnoreCase(Category)) {
+                                if ("Locum".equalsIgnoreCase(Category)) {
                                     String Organiser = (String) dataMap.get("JOB Organiser");
                                     String Location = (String) dataMap.get("Location");
                                     String date = (String) dataMap.get("date");
@@ -79,7 +82,5 @@ public class LocumFragment extends Fragment {
                         }
                     }
                 });
-
-        return view;
     }
 }

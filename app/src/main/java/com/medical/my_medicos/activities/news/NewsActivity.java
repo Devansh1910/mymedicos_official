@@ -1,15 +1,19 @@
 package com.medical.my_medicos.activities.news;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 
@@ -56,6 +60,22 @@ public class  NewsActivity extends AppCompatActivity {
         binding = ActivityNewsBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            View decorView = getWindow().getDecorView();
+            decorView.setSystemUiVisibility(decorView.getSystemUiVisibility() | View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);
+        }
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            Window window = getWindow();
+            window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
+            window.setStatusBarColor(ContextCompat.getColor(this, R.color.backgroundcolor));
+            window.setNavigationBarColor(ContextCompat.getColor(this, R.color.backgroundcolor));
+        }
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            View decorView = getWindow().getDecorView();
+            decorView.setSystemUiVisibility(decorView.getSystemUiVisibility() | View.SYSTEM_UI_FLAG_LIGHT_NAVIGATION_BAR);
+        }
 
         backtothehomefrompg = findViewById(R.id.backtothehomefrompg);
         backtothehomefrompg.setOnClickListener(new View.OnClickListener() {
@@ -69,15 +89,6 @@ public class  NewsActivity extends AppCompatActivity {
         swipeRefreshLayoutNews = findViewById(R.id.swipeRefreshLayoutNews);
         swipeRefreshLayoutNews.setOnRefreshListener(this::refreshContent);
         binding.newstoolbar.setNavigationOnClickListener(vv -> onBackPressed());
-
-        totheguide = findViewById(R.id.totheguide);
-        totheguide.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent i = new Intent(NewsActivity.this, NewsGuideActivity.class);
-                startActivity(i);
-            }
-        });
 
         initNews();
         initNewsSlider();
