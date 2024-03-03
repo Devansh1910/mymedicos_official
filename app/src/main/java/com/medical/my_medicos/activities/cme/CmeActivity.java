@@ -120,14 +120,6 @@ public class CmeActivity extends AppCompatActivity {
         viewpager.setAdapter(new ViewPagerAdapter(this));
         swipeRefreshLayout = findViewById(R.id.swipe_refresh_layout);
 
-//        cart_icon = findViewById(R.id.cart_icon);
-//        cart_icon.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                Intent i = new Intent(CmeActivity.this, CmeGuideActivity.class);
-//                startActivity(i);
-//            }
-//        });
         swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
@@ -228,7 +220,7 @@ public class CmeActivity extends AppCompatActivity {
                             selectedMode2 = subspecialitySpinner.getSelectedItem().toString();
                             selectedMode1 = specialitySpinner.getSelectedItem().toString();
                             OK.setClickable(true);
-                            OK.setBackgroundColor(Color.parseColor("#90EE90"));
+                            OK.setBackgroundColor(Color.parseColor("#85E8D1"));
                         }
                         @Override
                         public void onNothingSelected(AdapterView<?> adapterView) {

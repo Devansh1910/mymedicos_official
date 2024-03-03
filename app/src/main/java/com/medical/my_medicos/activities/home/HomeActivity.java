@@ -172,6 +172,7 @@ public class HomeActivity extends AppCompatActivity {
         checkforAppUpdate();
     }
 
+
     private void handleDeepLinkIntent() {
         FirebaseDynamicLinks.getInstance().getDynamicLink(getIntent())
                 .addOnSuccessListener(this, pendingDynamicLinkData -> {
@@ -183,6 +184,8 @@ public class HomeActivity extends AppCompatActivity {
                                 handleDeepLinkIntentJOB(deepLink);
                             } else if (link.contains("cmedetails?")) {
                                 handleDeepLinkIntentCME(deepLink);
+//                                Toast.makeText(this, "Not found", Toast.LENGTH_SHORT).show();
+
                             }
                         }
                     }
@@ -200,9 +203,21 @@ public class HomeActivity extends AppCompatActivity {
 
     private void handleDeepLinkIntentCME(Uri deepLink) {
         String cmeId = deepLink.getQueryParameter("cmeId");
-        Log.d("DeepLink", "Received deep link with cmeId: " + cmeId);
-        openCmeDetailsActivity(cmeId);
+        String typefordeep = deepLink.getQueryParameter("typefordeep"); // Fetch typefordeep parameter
+        Log.d("DeepLink", "Received deep link with cmeId: " + cmeId + " and typefordeep: " + typefordeep);
+        openCmeDetailsActivity(cmeId, typefordeep); // Pass typefordeep to openCmeDetailsActivity method
     }
+
+    private void openCmeDetailsActivity(String cmeId, String typefordeep) {
+        Log.d("HomeActivity", "Opening CmeDetailsActivity with documentId: " + cmeId);
+        Intent intent = new Intent(this, CmeDetailsActivity.class);
+        intent.putExtra("cmeId", cmeId);
+        intent.putExtra("typefordeep", typefordeep); // Pass typefordeep parameter to CmeDetailsActivity
+        startActivity(intent);
+        finish();
+        Log.d("HomeActivity", "CmeDetailsActivity started");
+    }
+
     private void openJobDetailsActivity(String jobId) {
         Log.d("HomeActivity", "Opening JobDetailsActivity with documentId: " + jobId);
         Intent intent = new Intent(this, JobDetailsActivity.class);
@@ -211,14 +226,7 @@ public class HomeActivity extends AppCompatActivity {
         finish();
         Log.d("HomeActivity", "JobDetailsActivity started");
     }
-    private void openCmeDetailsActivity(String cmeId) {
-        Log.d("HomeActivity", "Opening CmeDetailsActivity with documentId: " + cmeId);
-        Intent intent = new Intent(this, CmeDetailsActivity.class);
-        intent.putExtra("cmeId", cmeId);
-        startActivity(intent);
-        finish();
-        Log.d("HomeActivity", "CmeDetailsActivity started");
-    }
+
 
     @Override
     public void onBackPressed() {

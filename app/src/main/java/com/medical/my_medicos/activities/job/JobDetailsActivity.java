@@ -339,7 +339,6 @@ public class JobDetailsActivity extends AppCompatActivity {
             Log.e(TAG, "Error fetching job details for documentId: " + documentId, e);
         });
     }
-
     private void fetchJobDetails2(String documentId2) {
         FirebaseFirestore db = FirebaseFirestore.getInstance();
         DocumentReference docRef = db.collection("JOB").document(documentId2);
@@ -370,7 +369,6 @@ public class JobDetailsActivity extends AppCompatActivity {
             Log.e(TAG, "Error fetching job details for documentId: " + documentId2, e);
         });
     }
-
     private void updateUI(String jobTitle, String hospital, String jobDescription, String location, String salary,String organiser,String date,String openings,String time,String speciality,String subspeciality,String type,String roleduration) {
 
         jobTitleTextView.setText(jobTitle);
@@ -388,7 +386,6 @@ public class JobDetailsActivity extends AppCompatActivity {
         durationforjob.setText(roleduration);
 
     }
-
     private void setSystemBarColors() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             View decorView = getWindow().getDecorView();

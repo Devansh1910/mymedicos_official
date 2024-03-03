@@ -4,7 +4,6 @@ import static android.content.ContentValues.TAG;
 
 import android.annotation.SuppressLint;
 import android.app.AlertDialog;
-import android.app.Dialog;
 import android.app.DownloadManager;
 import android.app.ProgressDialog;
 import android.content.Context;
@@ -33,11 +32,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.content.ContextCompat;
 
-import com.bumptech.glide.Glide;
 import com.google.firebase.dynamiclinks.DynamicLink;
 import com.google.firebase.dynamiclinks.FirebaseDynamicLinks;
-import com.google.firebase.dynamiclinks.PendingDynamicLinkData;
-import com.google.firebase.dynamiclinks.ShortDynamicLink;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.medical.my_medicos.R;
@@ -55,15 +51,22 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
-import com.medical.my_medicos.activities.login.RegisterActivity;
+import com.medical.my_medicos.databinding.ActivityCmeDetailsBinding;
+import com.medical.my_medicos.databinding.ActivityEnterOtpBinding;
 import com.squareup.picasso.Picasso;
 
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
+import java.util.concurrent.TimeUnit;
+
 public class CmeDetailsActivity extends AppCompatActivity {
+
+    ActivityCmeDetailsBinding binding;
     private ExoPlayer player;
     private ProgressDialog progressDialog;
     FirebaseAuth auth = FirebaseAuth.getInstance();
@@ -77,16 +80,35 @@ public class CmeDetailsActivity extends AppCompatActivity {
     LinearLayout playerlayout;
     String pdf = null;
     ImageView circularImageView;
-
     String cmetitle,cmedescription;
-
+    TextView typecmelink;
+    String typefordeep;
     Button sharebtnforcmepast,sharebtnforcme;
     @SuppressLint("MissingInflatedId")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_cme_details);
-        Toolbar toolbar = findViewById(R.id.detailtoolbar);
+        binding = ActivityCmeDetailsBinding.inflate(getLayoutInflater());
+        setContentView(binding.getRoot());
+
+        toolbar = binding.detailtoolbar;
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            View decorView = getWindow().getDecorView();
+            decorView.setSystemUiVisibility(decorView.getSystemUiVisibility() | View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);
+        }
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            Window window = getWindow();
+            window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
+            window.setStatusBarColor(ContextCompat.getColor(this, R.color.backgroundcolor));
+            window.setNavigationBarColor(ContextCompat.getColor(this, R.color.backgroundcolor));
+        }
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            View decorView = getWindow().getDecorView();
+            decorView.setSystemUiVisibility(decorView.getSystemUiVisibility() | View.SYSTEM_UI_FLAG_LIGHT_NAVIGATION_BAR);
+        }
 
         setSupportActionBar(toolbar);
         ActionBar actionBar = getSupportActionBar();
@@ -121,9 +143,16 @@ public class CmeDetailsActivity extends AppCompatActivity {
             viewLocationBtn.setVisibility(View.VISIBLE);
         }
         String field1 = getIntent().getExtras().getString("documentid");
+        if (field1 == null || field1.isEmpty()){
+            field1 = getIntent().getExtras().getString("cmeId");
+            Log.e("coming id",field1);
+
+
+        }
+
         String name = getIntent().getExtras().getString("name");
-        String field5 = getIntent().getExtras().getString("type");
         String field6 = getIntent().getExtras().getString("time");
+        String field5 = getIntent().getExtras().getString("type");
         Type.setText(field5);
         LinearLayout downloadPdfButton = findViewById(R.id.downloadPdfButton);
         TextView presenters2 = findViewById(R.id.presenters1);
@@ -149,6 +178,7 @@ public class CmeDetailsActivity extends AppCompatActivity {
         LinearLayout textpartforupcoming = findViewById(R.id.textpartforupcoming);
         RelativeLayout relativeboxnotforpast = findViewById(R.id.relativeboxnotforpast);
         Query query = db.collection("CME");
+        String finalField = field1;
         query.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
             @Override
             public void onComplete(Task<QuerySnapshot> task) {
@@ -158,9 +188,11 @@ public class CmeDetailsActivity extends AppCompatActivity {
                         Map<String, Object> dataMap = document.getData();
                         String User = ((String) dataMap.get("User"));
                         field3 = ((String) dataMap.get("documentId"));
+                        Log.e("document Id -----------------",field3);
                         documentid = ((String) dataMap.get("documentId"));
                         if (field3 != null) {
-                            int r = field1.compareTo(field3);
+                            int r = finalField.compareTo(field3);
+                            Log.e("Final field ----------------",finalField);
                             if (r == 0) {
                                 String speciality = ((String) dataMap.get("Speciality"));
                                 String venue = ((String) dataMap.get("CME Venue"));
@@ -228,6 +260,7 @@ public class CmeDetailsActivity extends AppCompatActivity {
                                 date.setText(date1);
                                 time.setText(time1);
                                 Speciality.setText(speciality);
+                                break;
                             }
                         }
                     }
@@ -265,6 +298,7 @@ public class CmeDetailsActivity extends AppCompatActivity {
                 Button deleteButton = findViewById(R.id.deletemeet);
                 deleteButton.setVisibility(View.GONE);
             }
+            String finalField1 = field1;
             reservecmebtn.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -277,7 +311,7 @@ public class CmeDetailsActivity extends AppCompatActivity {
 
                         reservecmebtn.setVisibility(View.GONE);
                         reservedcmebtn.setVisibility(View.VISIBLE);
-                        apply(field1);
+                        apply(finalField1);
                     }
                 }
             });
@@ -288,7 +322,8 @@ public class CmeDetailsActivity extends AppCompatActivity {
             textpartforupcoming.setVisibility(View.VISIBLE);
             relativeboxnotforpast.setVisibility(View.VISIBLE);
 
-        } else if ("LIVE".equals(field5)) {
+        }
+        else if ("LIVE".equals(field5)) {
             String currentTime = getCurrentTime();
             Log.d("CurrentTime", currentTime);
             long currenttimeformatted = convertTimeToMillis(currentTime);
@@ -309,11 +344,12 @@ public class CmeDetailsActivity extends AppCompatActivity {
                 if ((currenttimeformatted - eventStartTime) >= 10 * 60 * 1000) {
                     liveendpost.setVisibility(View.VISIBLE);
                     livecmebtn.setVisibility(View.GONE);
+                    String finalField2 = field1;
                     liveendpost.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
                             FirebaseFirestore db = FirebaseFirestore.getInstance();
-                            DocumentReference docRef = db.collection("CME").document(field1);
+                            DocumentReference docRef = db.collection("CME").document(finalField2);
                             docRef.update("endtime", getCurrentTime(), "Video", null)
                                     .addOnSuccessListener(new OnSuccessListener<Void>() {
                                         @Override
@@ -332,7 +368,8 @@ public class CmeDetailsActivity extends AppCompatActivity {
                                     });
                         }
                     });
-                } else {
+                }
+                else {
                     liveendpost.setVisibility(View.GONE);
                     livecmebtn.setVisibility(View.VISIBLE);
                 }
@@ -408,7 +445,8 @@ public class CmeDetailsActivity extends AppCompatActivity {
                     }
                 });
             }
-        } else if ("PAST".equals(field5)) {
+        }
+        else if ("PAST".equals(field5)) {
             reservebtn.setVisibility(View.GONE);
             livebtn.setVisibility(View.GONE);
             pastbtn.setVisibility(View.VISIBLE);
@@ -419,7 +457,8 @@ public class CmeDetailsActivity extends AppCompatActivity {
             textpartforupcoming.setVisibility(View.GONE);
             relativeboxnotforpast.setVisibility(View.GONE);
 
-        } else {
+        }
+        else {
             reservebtn.setVisibility(View.GONE);
             livebtn.setVisibility(View.GONE);
         }
@@ -431,10 +470,10 @@ public class CmeDetailsActivity extends AppCompatActivity {
                     for (QueryDocumentSnapshot document : task.getResult()) {
                         Map<String, Object> dataMap = document.getData();
                         field3 = (String) dataMap.get("Phone Number");
-                        boolean areEqualIgnoreCase = name.equalsIgnoreCase(field3);
+                        boolean areEqualIgnoreCase = current.equalsIgnoreCase(field3);
                         Log.d("Something went wrong", String.valueOf(areEqualIgnoreCase));
-                        if ((name != null) && (field3 != null)) {
-                            int r = name.compareTo(field3);
+                        if ((current != null) && (field3 != null)) {
+                            int r = current.compareTo(field3);
                             if (r == 0) {
                                 field4 = (String) dataMap.get("Name");
                                 Name.setText(field4);
@@ -624,30 +663,252 @@ public class CmeDetailsActivity extends AppCompatActivity {
         createreferlink(custid, cmeId);
     }
     public void createreferlink(String custid, String cmeId) {
+        TextView Type = findViewById(R.id.type);
         FirebaseFirestore db = FirebaseFirestore.getInstance();
         DocumentReference docRef = db.collection("CME").document(cmeId);
+        Log.e("Error", cmeId);
 
         docRef.get().addOnSuccessListener(documentSnapshot -> {
             if (documentSnapshot.exists()) {
                 String cmeTitle = documentSnapshot.getString("CME Title");
                 String cmeSpeciality = documentSnapshot.getString("Speciality");
-                String cmeOrganiser = documentSnapshot.getString("Location");
-                String cmeDescription = documentSnapshot.getString("CME Organiser");
+                String cmeOrganiser = documentSnapshot.getString("CME Organiser");
+                String cmeDate = documentSnapshot.getString("Selected Date");
+                String cmeTime = documentSnapshot.getString("Selected Time");
 
-                String sharelinktext = "Hey there,\n\nJoin us for an insightful CME session on "+cmeTitle+" \uD83E\uDE7A"+" organized by "+
-                        cmeOrganiser+" focusing on "+ cmeSpeciality +".\n\n"+
+                SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm", Locale.getDefault());
+                Date selectedDateTime = null;
+                try {
+                    selectedDateTime = sdf.parse(cmeDate + " " + cmeTime);
+                } catch (ParseException e) {
+                    e.printStackTrace();
+                }
+
+                Date currentDate = new Date();
+
+                SharedPreferences sharedPref = getSharedPreferences("CmeDetails", Context.MODE_PRIVATE);
+                String field1 = getIntent().getExtras().getString("documentid");
+                if (field1 == null || field1.isEmpty()){
+                    field1 = getIntent().getExtras().getString("cmeId");
+                    Log.e("coming id",field1);
+                }
+                String name = getIntent().getExtras().getString("name");
+                boolean isCreator = current.equals(name);
+
+                if (selectedDateTime != null && selectedDateTime.after(currentDate)) {
+
+                    Type.setText("UPCOMING");
+                    // Handle UPCOMING CME here
+                    binding.reservbtn.setVisibility(View.VISIBLE);
+                    binding.livebtn.setVisibility(View.GONE);
+                    binding.liveendpost.setVisibility(View.GONE);
+                    binding.textpartforlivecreator.setVisibility(View.GONE);
+                    binding.textpartforlive.setVisibility(View.GONE);
+                    binding.pastbtn.setVisibility(View.GONE);
+                    reservecmebtn.setVisibility(View.GONE);
+                    reservedcmebtn.setVisibility(View.GONE);
+                    if (isCreator) {
+                        reservecmebtn.setVisibility(View.GONE);
+                        binding.schedulemeet.setVisibility(View.VISIBLE);
+                        Button deleteButton = findViewById(R.id.deletemeet);
+                        deleteButton.setVisibility(View.VISIBLE);
+                        deleteButton.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                showDeleteConfirmationDialog(documentid);
+                            }
+                        });
+                    } else {
+                        reservecmebtn.setVisibility(View.VISIBLE);
+                        binding.schedulemeet.setVisibility(View.GONE);
+                        binding.attendcmebtn.setVisibility(View.GONE);
+                        Button deleteButton = findViewById(R.id.deletemeet);
+                        deleteButton.setVisibility(View.GONE);
+                    }
+                    String finalField1 = field1;
+                    reservecmebtn.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            if (isReserved) {
+                                Toast.makeText(CmeDetailsActivity.this, "You have already reserved a seat", Toast.LENGTH_SHORT).show();
+                            } else {
+                                SharedPreferences.Editor editor = sharedPref.edit();
+                                editor.putBoolean("isReserved", true);
+                                editor.apply();
+
+                                reservecmebtn.setVisibility(View.GONE);
+                                reservedcmebtn.setVisibility(View.VISIBLE);
+                                apply(finalField1);
+                            }
+                        }
+                    });
+                    reservedcmebtn.setVisibility(View.GONE);
+                    playerlayout.setVisibility(View.GONE);
+                    binding.defaultimage.setVisibility(View.VISIBLE);
+                    binding.textpartforlive.setVisibility(View.INVISIBLE);
+                    binding.textpartforupcoming.setVisibility(View.VISIBLE);
+                    binding.relativeboxnotforpast.setVisibility(View.VISIBLE);
+
+                } else if (selectedDateTime != null && currentDate.after(selectedDateTime)) {
+                    long diffInMillies = Math.abs(currentDate.getTime() - selectedDateTime.getTime());
+                    long diffInHours = TimeUnit.HOURS.convert(diffInMillies, TimeUnit.MILLISECONDS);
+                    if (diffInHours >= 4) {
+                        Type.setText("PAST");
+                        binding.reservbtn.setVisibility(View.GONE);
+                        binding.livebtn.setVisibility(View.GONE);
+                        binding.pastbtn.setVisibility(View.VISIBLE);
+                        binding.pastbtn.setVisibility(View.VISIBLE);
+                        playerlayout.setVisibility(View.VISIBLE);
+                        binding.defaultimage.setVisibility(View.GONE);
+                        binding.textpartforlive.setVisibility(View.INVISIBLE);
+                        binding.textpartforupcoming.setVisibility(View.GONE);
+                        binding.relativeboxnotforpast.setVisibility(View.GONE);
+
+                    }
+                    } else {
+                    Type.setText("LIVE");
+                    String currentTime = getCurrentTime();
+                    Log.d("CurrentTime", currentTime);
+
+                    String field6 = getIntent().getExtras().getString("time");
+                    long eventStartTime = convertTimeToMillis(field6);
+
+                    long currenttimeformatted = convertTimeToMillis(currentTime);
+                    if (isCreator) {
+                        binding.reservbtn.setVisibility(View.GONE);
+                        binding.pastbtn.setVisibility(View.GONE);
+                        playerlayout.setVisibility(View.GONE);
+                        binding.defaultimage.setVisibility(View.VISIBLE);
+                        binding.textpartforlive.setVisibility(View.GONE);
+                        binding.textpartforlivecreator.setVisibility(View.VISIBLE);
+                        binding.viewlocationcmebtn.setVisibility(View.VISIBLE);
+                        binding.attendcmebtn.setVisibility(View.GONE);
+                        binding.textpartforupcoming.setVisibility(View.INVISIBLE);
+                        binding.relativeboxnotforpast.setVisibility(View.VISIBLE);
+                        Log.d("timenew", String.valueOf(eventStartTime));
+                        binding.livebtn.setVisibility(View.VISIBLE);
+                        Log.d("CmeDetailsActivity", "Time difference: " + (currenttimeformatted - eventStartTime));
+                        if ((currenttimeformatted - eventStartTime) >= 10 * 60 * 1000) {
+                            binding.liveendpost.setVisibility(View.VISIBLE);
+                            binding.livecmebtn.setVisibility(View.GONE);
+                            String finalField2 = field1;
+                            binding.liveendpost.setOnClickListener(new View.OnClickListener() {
+                                @Override
+                                public void onClick(View v) {
+                                    FirebaseFirestore db = FirebaseFirestore.getInstance();
+                                    DocumentReference docRef = db.collection("CME").document(finalField2);
+                                    docRef.update("endtime", getCurrentTime(), "Video", null)
+                                            .addOnSuccessListener(new OnSuccessListener<Void>() {
+                                                @Override
+                                                public void onSuccess(Void aVoid) {
+                                                    Log.d(TAG, "DocumentSnapshot successfully updated!");
+                                                    Toast.makeText(CmeDetailsActivity.this, "Successfully Ended", Toast.LENGTH_SHORT).show();
+                                                    binding.liveendpost.setVisibility(View.GONE);
+                                                    Log.d("Something went wrong", "Something went wrong");
+                                                }
+                                            })
+                                            .addOnFailureListener(new OnFailureListener() {
+                                                @Override
+                                                public void onFailure(@NonNull Exception e) {
+                                                    Log.w(TAG, "Error updating document", e);
+                                                }
+                                            });
+                                }
+                            });
+                        } else {
+                            binding.liveendpost.setVisibility(View.GONE);
+                            binding.livecmebtn.setVisibility(View.VISIBLE);
+                        }
+                    } else {
+                        binding.reservbtn.setVisibility(View.GONE);
+                        binding.livebtn.setVisibility(View.VISIBLE);
+                        binding.livecmebtn.setVisibility(View.GONE);
+                        binding.pastbtn.setVisibility(View.GONE);
+                        playerlayout.setVisibility(View.GONE);
+                        binding.defaultimage.setVisibility(View.VISIBLE);
+                        binding.textpartforlive.setVisibility(View.VISIBLE);
+                        binding.textpartforlive.setVisibility(View.VISIBLE);
+                        binding.textpartforlivecreator.setVisibility(View.GONE);
+                        binding.attendcmebtn.setVisibility(View.GONE);
+                        binding.textpartforupcoming.setVisibility(View.INVISIBLE);
+                        binding.relativeboxnotforpast.setVisibility(View.VISIBLE);
+                        binding.liveendpost.setVisibility(View.GONE);
+                        binding.attendcmebtn.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                Query query = db.collection("CME").whereEqualTo("User", current);
+                                query.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                                    @Override
+                                    public void onComplete(Task<QuerySnapshot> task) {
+                                        if (task.isSuccessful()) {
+                                            for (QueryDocumentSnapshot document : task.getResult()) {
+                                                String virtualLink = document.getString("Virtual Link");
+                                                try {
+                                                    Uri uri = Uri.parse(virtualLink);
+                                                    Intent intent = new Intent(Intent.ACTION_VIEW, uri);
+                                                    startActivity(intent);
+                                                } catch (Exception e) {
+                                                    e.printStackTrace();
+                                                    Log.e("VirtualLinkError", "Error opening virtual link", e);
+                                                }
+                                            }
+                                        } else {
+                                            Toast.makeText(CmeDetailsActivity.this, "Error fetching data from Firebase Firestore", Toast.LENGTH_SHORT).show();
+                                        }
+                                    }
+                                });
+                            }
+                        });
+                        binding.viewlocationcmebtn.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                Query query = db.collection("CME").whereEqualTo("User", current);
+                                query.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                                    @Override
+                                    public void onComplete(Task<QuerySnapshot> task) {
+                                        if (task.isSuccessful()) {
+                                            for (QueryDocumentSnapshot document : task.getResult()) {
+                                                String cmePlace = document.getString("CME Place");
+
+                                                try {
+                                                    Uri uri = Uri.parse(cmePlace);
+                                                    Intent intent = new Intent(Intent.ACTION_VIEW, uri);
+                                                    if (intent.resolveActivity(getPackageManager()) != null) {
+                                                        startActivity(intent);
+                                                    } else {
+                                                        Toast.makeText(CmeDetailsActivity.this, "No app available to handle the link", Toast.LENGTH_SHORT).show();
+                                                    }
+                                                } catch (Exception e) {
+                                                    e.printStackTrace();
+                                                    Log.e("CmePlaceError", "Error opening cme place", e);
+                                                }
+                                            }
+                                        } else {
+                                            Toast.makeText(CmeDetailsActivity.this, "Error fetching data from Firebase Firestore", Toast.LENGTH_SHORT).show();
+                                        }
+                                    }
+                                });
+                            }
+                        });
+                    }
+                }
+
+                String sharelinktext = "Hey there,\n\nJoin us for an insightful CME session on " + cmeTitle + " \uD83E\uDE7A" + " organized by " +
+                        cmeOrganiser + " focusing on " + cmeSpeciality + ".\n\n" +
                         "Event Details:\n\n" +
                         "Title: " + cmeTitle + "\n" +
                         "Organizer: " + cmeOrganiser + "\n" +
-                        "Specialty: " + cmeSpeciality + "\n\n" +
-                        "Learn more and register:\n" +
+                        "Specialty: " + cmeSpeciality + "\n" +
+                        "Date : " + cmeDate + "\n" +
+                        "Time :" + cmeTime + "\n" +
+                        "Type :" + Type.getText().toString() + "\n\n" +
+                        "Learn more and register: \n" +
                         "https://app.mymedicos.in/?" +
-                        "link=http://www.mymedicos.in/cmedetails?cmeId="+cmeId+
+                        "link=http://www.mymedicos.in/cmedetails?cmeId=" + cmeId +
                         "&st=" + cmeTitle +
-                        "&sd=" + cmeDescription +
+                        "&sd=" + Type.getText().toString() +
                         "&apn=" + getPackageName() +
                         "&si=" + "https://res.cloudinary.com/dlgrxj8fp/image/upload/v1709416117/mwkegbnreoldjn4lksnn.png";
-
 
                 Log.e("Cme Detailed Activity", "Sharelink - " + sharelinktext);
 
@@ -656,13 +917,17 @@ public class CmeDetailsActivity extends AppCompatActivity {
                 intent.putExtra(Intent.EXTRA_TEXT, sharelinktext.toString());
                 intent.setType("text/plain");
                 startActivity(intent);
+
             } else {
                 Log.e(TAG, "No such document with documentId: " + cmeId);
             }
+
         }).addOnFailureListener(e -> {
             Log.e(TAG, "Error fetching job details for documentId: " + cmeId, e);
         });
     }
+
+
     private void handleDeepLink() {
         FirebaseDynamicLinks.getInstance().getDynamicLink(getIntent())
                 .addOnSuccessListener(this, pendingDynamicLinkData -> {
@@ -678,6 +943,7 @@ public class CmeDetailsActivity extends AppCompatActivity {
                 })
                 .addOnFailureListener(this, e -> Log.w("DeepLink", "getDynamicLink:onFailure", e));
     }
+
 
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {

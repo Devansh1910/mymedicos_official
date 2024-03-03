@@ -116,7 +116,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="52.00dp"
                     android:id="@+id/ok"
-                    android:text="OK"
+                    android:text="Search"
                     android:clickable="true"/>
 
             </LinearLayout>

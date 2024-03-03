@@ -49,15 +49,6 @@ public class UgExamActivity extends AppCompatActivity {
 
         setSupportActionBar(ugtoolbar);
 
-        totheguide = findViewById(R.id.totheguide);
-        totheguide.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent i = new Intent(UgExamActivity.this, UgGuideActivity.class);
-                startActivity(i);
-            }
-        });
-
         backtothehomefrompg = findViewById(R.id.backtothehomefrompg);
         backtothehomefrompg.setOnClickListener(new View.OnClickListener() {
             @Override
