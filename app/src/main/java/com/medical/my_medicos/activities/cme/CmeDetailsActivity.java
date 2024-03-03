@@ -896,19 +896,19 @@ public class CmeDetailsActivity extends AppCompatActivity {
                 String sharelinktext = "Hey there,\n\nJoin us for an insightful CME session on " + cmeTitle + " \uD83E\uDE7A" + " organized by " +
                         cmeOrganiser + " focusing on " + cmeSpeciality + ".\n\n" +
                         "Event Details:\n\n" +
-                        "Title: " + cmeTitle + "\n" +
-                        "Organizer: " + cmeOrganiser + "\n" +
-                        "Specialty: " + cmeSpeciality + "\n" +
+                        "Title : " + cmeTitle + "\n" +
+                        "Organizer : " + cmeOrganiser + "\n" +
+                        "Specialty : " + cmeSpeciality + "\n" +
                         "Date : " + cmeDate + "\n" +
-                        "Time :" + cmeTime + "\n" +
-                        "Type :" + Type.getText().toString() + "\n\n" +
+                        "Time : " + cmeTime + "\n" +
+                        "Type : " + Type.getText().toString() + "\n\n" +
                         "Learn more and register: \n" +
                         "https://app.mymedicos.in/?" +
                         "link=http://www.mymedicos.in/cmedetails?cmeId=" + cmeId +
                         "&st=" + cmeTitle +
                         "&sd=" + Type.getText().toString() +
                         "&apn=" + getPackageName() +
-                        "&si=" + "https://res.cloudinary.com/dlgrxj8fp/image/upload/v1709416117/mwkegbnreoldjn4lksnn.png";
+                        "&si=" + "https://res.cloudinary.com/dmzp6notl/image/upload/v1709502435/wewewe_ixdzja.png";
 
                 Log.e("Cme Detailed Activity", "Sharelink - " + sharelinktext);
 
