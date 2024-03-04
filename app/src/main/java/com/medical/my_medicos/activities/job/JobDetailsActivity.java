@@ -49,6 +49,9 @@ import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.medical.my_medicos.adapter.ug.MyAdapter8;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -269,16 +272,19 @@ public class JobDetailsActivity extends AppCompatActivity {
                 String jobLocation = documentSnapshot.getString("Location");
                 String jobDescription = documentSnapshot.getString("JOB Description");
 
-                String sharelinktext = "Hey Candidate,\nCheckout this new job role of "+jobTitle+" \uD83E\uDE7A"+" at "+
-                        jobHospital+" in "+
-                        jobLocation+" :\n\n"+
+                // Attempt to URL encode jobTitle and jobDescription
+                String encodedJobTitle = encode(jobTitle);
+                String encodedJobDescription = encode(jobDescription);
+
+                String sharelinktext = "Hey Candidate,\nCheckout this new job role of " + jobTitle + " \uD83E\uDE7A" + " at " +
+                        jobHospital + " in " +
+                        jobLocation + " :\n\n" +
                         "https://app.mymedicos.in/?" +
-                        "link=http://www.mymedicos.in/jobdetails?jobId="+jobId+
-                        "&st=" + jobTitle +
-                        "&sd=" + jobDescription +
+                        "link=http://www.mymedicos.in/jobdetails?jobId=" + jobId +
+                        "&st=" + encodedJobTitle +
+                        "&sd=" + encodedJobDescription +
                         "&apn=" + getPackageName() +
                         "&si=" + "https://res.cloudinary.com/dlgrxj8fp/image/upload/v1709416117/mwkegbnreoldjn4lksnn.png";
-
 
                 Log.e("Job Detailed Activity", "Sharelink - " + sharelinktext);
 
@@ -294,6 +300,15 @@ public class JobDetailsActivity extends AppCompatActivity {
             Log.e(TAG, "Error fetching job details for documentId: " + jobId, e);
         });
     }
+
+    private String encode(String s) {
+        try {
+            return URLEncoder.encode(s, StandardCharsets.UTF_8.toString());
+        } catch (UnsupportedEncodingException e) {
+            return URLEncoder.encode(s);
+        }
+    }
+
     private void handleDeepLink() {
         FirebaseDynamicLinks.getInstance().getDynamicLink(getIntent())
                 .addOnSuccessListener(this, pendingDynamicLinkData -> {

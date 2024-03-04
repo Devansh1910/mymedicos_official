@@ -1,6 +1,7 @@
 package com.medical.my_medicos.activities.cme;
 
 import static android.content.ContentValues.TAG;
+import static android.net.Uri.encode;
 
 import android.annotation.SuppressLint;
 import android.app.AlertDialog;
@@ -647,18 +648,22 @@ public class CmeDetailsActivity extends AppCompatActivity {
                 });
     }
 
-    public void createlink(String custid, String cmeId,String cmetitle, String cmedescription){
-        Log.e("main","create link");
+    public void createlink(String custid, String cmeId, String cmetitle, String cmedescription) {
+        Log.e("main", "create link");
+
+        // Attempt to URL encode cmetitle and cmedescription
+        String encodedCmeTitle = encode(cmetitle);
+        String encodedCmeDescription = encode(cmedescription);
 
         DynamicLink dynamicLink = FirebaseDynamicLinks.getInstance().createDynamicLink()
-                .setLink(Uri.parse("https://www.mymedicos.in/cmedetails?custid=" + custid + "&cmeId=" + cmeId))
+                .setLink(Uri.parse("https://www.mymedicos.in/cmedetails?custid=" + custid + "&cmeId=" + cmeId + "&st=" + encodedCmeTitle + "&sd=" + encodedCmeDescription))
                 .setDomainUriPrefix("https://app.mymedicos.in")
                 .setAndroidParameters(new DynamicLink.AndroidParameters.Builder().build())
                 .setIosParameters(new DynamicLink.IosParameters.Builder("com.example.ios").build())
                 .buildDynamicLink();
 
         Uri dynamicLinkUri = dynamicLink.getUri();
-        Log.e("main"," Long refer "+ dynamicLink.getUri());
+        Log.e("main", " Long refer " + dynamicLink.getUri());
 
         createreferlink(custid, cmeId);
     }
@@ -752,7 +757,7 @@ public class CmeDetailsActivity extends AppCompatActivity {
                 } else if (selectedDateTime != null && currentDate.after(selectedDateTime)) {
                     long diffInMillies = Math.abs(currentDate.getTime() - selectedDateTime.getTime());
                     long diffInHours = TimeUnit.HOURS.convert(diffInMillies, TimeUnit.MILLISECONDS);
-                    if (diffInHours >= 4) {
+                    if (diffInHours >= 24) {
                         Type.setText("PAST");
                         binding.reservbtn.setVisibility(View.GONE);
                         binding.livebtn.setVisibility(View.GONE);
@@ -904,11 +909,12 @@ public class CmeDetailsActivity extends AppCompatActivity {
                         "Type : " + Type.getText().toString() + "\n\n" +
                         "Learn more and register: \n" +
                         "https://app.mymedicos.in/?" +
-                        "link=http://www.mymedicos.in/cmedetails?cmeId=" + cmeId +
-                        "&st=" + cmeTitle +
-                        "&sd=" + Type.getText().toString() +
-                        "&apn=" + getPackageName() +
-                        "&si=" + "https://res.cloudinary.com/dmzp6notl/image/upload/v1709502435/wewewe_ixdzja.png";
+                        "link=http://www.mymedicos.in/cmedetails?cmeId=" + encode(cmeId) +
+                        "&st=" + encode(cmeTitle) +
+                        "&sd=" + encode(Type.getText().toString()) +
+                        "&apn=" + encode(getPackageName()) +
+                        "&si=" + encode("https://res.cloudinary.com/dmzp6notl/image/upload/v1709502435/wewewe_ixdzja.png");
+
 
                 Log.e("Cme Detailed Activity", "Sharelink - " + sharelinktext);
 

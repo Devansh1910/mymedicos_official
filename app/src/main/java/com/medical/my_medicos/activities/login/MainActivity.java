@@ -33,7 +33,6 @@ import com.medical.my_medicos.R;
 import com.medical.my_medicos.activities.home.HomeActivity;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
-import com.google.android.material.textfield.TextInputEditText;
 import com.google.firebase.FirebaseException;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
@@ -101,7 +100,6 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        // Ad mob Content Over....
 
         countryCodeSpinner = findViewById(R.id.countryCodeSpinner);
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this, R.array.country_codes, android.R.layout.simple_spinner_item);
@@ -128,6 +126,7 @@ public class MainActivity extends AppCompatActivity {
                     return;
                 }
 
+                // Ensure the phone number includes the country code
                 if (!phoneNumber.startsWith(selectedCountryCode)) {
                     phoneNumber = selectedCountryCode + phoneNumber;
                 }
@@ -137,11 +136,8 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
-
-
     private void checkIfUserExists(String phoneNumber) {
         if (TextUtils.isEmpty(phoneNumber)) {
-            // Phone number is empty
             Toast.makeText(MainActivity.this, "Phone Number Required", Toast.LENGTH_SHORT).show();
             return;
         }
@@ -157,7 +153,6 @@ public class MainActivity extends AppCompatActivity {
                                 mdialog.setMessage("Logging in");
                                 mdialog.show();
 
-                                String finalPhoneNumber = phoneNumber;
                                 PhoneAuthProvider.getInstance().verifyPhoneNumber(
                                         phoneNumber,
                                         60,
@@ -179,8 +174,7 @@ public class MainActivity extends AppCompatActivity {
                                             public void onCodeSent(@NonNull String backendOtp, @NonNull PhoneAuthProvider.ForceResendingToken forceResendingToken) {
                                                 mdialog.dismiss();
                                                 Intent intent = new Intent(MainActivity.this, EnterOtp.class);
-                                                intent.putExtra("mobile", finalPhoneNumber);
-                                                intent.putExtra("Countrycode", "+91");
+                                                intent.putExtra("mobile", phoneNumber);
                                                 intent.putExtra("backendotp", backendOtp);
                                                 startActivity(intent);
                                             }
@@ -238,16 +232,12 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-
         switch (item.getItemId()) {
             case android.R.id.home:
-                // Handle the back arrow click, finish the current activity
                 finish();
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
         }
     }
-
-
 }

@@ -10,6 +10,9 @@ import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextUtils;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
 import android.view.Window;
@@ -23,12 +26,15 @@ import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.mancj.materialsearchbar.MaterialSearchBar;
 import com.medical.my_medicos.R;
 import com.medical.my_medicos.activities.guide.JobGuideActivity;
 import com.medical.my_medicos.activities.guide.NewsGuideActivity;
 import com.medical.my_medicos.activities.home.HomeActivity;
 import com.medical.my_medicos.activities.job.JobsActivity;
 import com.medical.my_medicos.activities.pg.activites.PgprepActivity;
+import com.medical.my_medicos.activities.publications.activity.PublicationActivity;
+import com.medical.my_medicos.activities.publications.activity.SearchPublicationActivity;
 import com.medical.my_medicos.activities.utils.ConstantsDashboard;
 import com.medical.my_medicos.databinding.ActivityNewsBinding;
 
@@ -50,7 +56,6 @@ public class  NewsActivity extends AppCompatActivity {
     LinearLayout totheguide;
     TodayNewsAdapter todayNewsAdapter;
     ArrayList<NewsToday>  newstoday;
-
     private ImageView backtothehomefrompg;
     private SwipeRefreshLayout swipeRefreshLayoutNews;
 
@@ -76,6 +81,47 @@ public class  NewsActivity extends AppCompatActivity {
             View decorView = getWindow().getDecorView();
             decorView.setSystemUiVisibility(decorView.getSystemUiVisibility() | View.SYSTEM_UI_FLAG_LIGHT_NAVIGATION_BAR);
         }
+
+        binding.searchBarNews.addTextChangeListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                // Not needed for now
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                // Not needed for now
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+                // Not needed for now
+            }
+        });
+
+        binding.searchBarNews.setOnSearchActionListener(new MaterialSearchBar.OnSearchActionListener() {
+            @Override
+            public void onSearchStateChanged(boolean enabled) {
+                // Not needed for now
+            }
+
+            @Override
+            public void onSearchConfirmed(CharSequence text) {
+                String query = text.toString();
+                if (!TextUtils.isEmpty(query)) {
+                    Intent intent = new Intent(NewsActivity.this, SearchNewsActivity.class);
+                    intent.putExtra("query", query);
+                    startActivity(intent);
+                }
+            }
+
+            @Override
+            public void onButtonClicked(int buttonCode) {
+                if (buttonCode == MaterialSearchBar.BUTTON_BACK) {
+                    // Handle back button click
+                }
+            }
+        });
 
         backtothehomefrompg = findViewById(R.id.backtothehomefrompg);
         backtothehomefrompg.setOnClickListener(new View.OnClickListener() {
