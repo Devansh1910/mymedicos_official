@@ -62,6 +62,7 @@ import java.util.Locale;
 import java.util.Map;
 public class PostJobActivity extends AppCompatActivity {
     EditText title,Organiser,salary,jobposition,description,Opening,duration,hospital;
+
     public FirebaseDatabase db = FirebaseDatabase.getInstance();
     String selectedMode;
     String selectedMode2;
@@ -73,7 +74,6 @@ public class PostJobActivity extends AppCompatActivity {
     private Spinner specialitySpinner;
     private DatabaseReference databasereference;
     private TextView addPdf, uploadPdfBtn;
-
     String timelinestring;
     String subspecialities1;
     String downloadUrl = null;
@@ -126,6 +126,31 @@ public class PostJobActivity extends AppCompatActivity {
                 Intent i = new Intent(PostJobActivity.this, JobsActivity.class);
                 startActivity(i);
                 finish();
+            }
+        });
+
+        addPdf = findViewById(R.id.addPdf);
+
+        databasereference = FirebaseDatabase.getInstance().getReference();
+        storageReference = FirebaseStorage.getInstance().getReference();
+
+        pd = new ProgressDialog(this);
+
+        addPdf = findViewById(R.id.addPdf);
+
+        uploadPdfBtn = findViewById(R.id.uploadpdfbtn);
+
+        addPdf.setOnClickListener(view -> {
+            openGallery();
+        });
+        uploadPdfBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (pdfData == null) {
+                    Toast.makeText(PostJobActivity.this, "Select a Document", Toast.LENGTH_SHORT).show();
+                } else {
+                    uploadPdf();
+                }
             }
         });
 
@@ -323,7 +348,7 @@ public class PostJobActivity extends AppCompatActivity {
         pd.setTitle("Please wait..");
         pd.setMessage("Uploading Pdf..");
         pd.show();
-        StorageReference reference = storageReference.child("pdf/" + pdfName + "-" + System.currentTimeMillis() + ".pdf");
+        StorageReference reference = storageReference.child("Job/" + pdfName + "-" + System.currentTimeMillis() + ".pdf");
         reference.putFile(pdfData).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
             @Override
             public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
@@ -362,11 +387,9 @@ public class PostJobActivity extends AppCompatActivity {
         });
     }
 
-
-
     private void openGallery() {
         Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
-        intent.setType("/");
+        intent.setType("*/*");
         startActivityForResult(Intent.createChooser(intent, "Select File"), REQ);
     }
     @SuppressLint("Range")
@@ -415,7 +438,6 @@ public class PostJobActivity extends AppCompatActivity {
 
     private void openBottomSheet() {
         BottomSheetDialogFragment bottomSheetFragment = new BottomSheetForChatWithUs();
-
         bottomSheetFragment.show(getSupportFragmentManager(), bottomSheetFragment.getTag());
     }
 
@@ -477,6 +499,7 @@ public class PostJobActivity extends AppCompatActivity {
         usermap.put("Job Duration", Duration);
         usermap.put("JOB Opening", opening);
         usermap.put("User", current);
+        usermap.put("Jobs pdf", downloadUrl);
         usermap.put("Location", selectedMode);
         usermap.put("Job type", selectedMode2);
         usermap.put("Speciality", speciality);

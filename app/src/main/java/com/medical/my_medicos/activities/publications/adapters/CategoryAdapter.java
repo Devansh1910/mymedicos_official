@@ -15,6 +15,7 @@ import com.bumptech.glide.Glide;
 import com.medical.my_medicos.R;
 import com.medical.my_medicos.activities.publications.activity.CategoryPublicationActivity;
 import com.medical.my_medicos.activities.publications.activity.insiders.CategoryPublicationInsiderActivity;
+import com.medical.my_medicos.activities.publications.activity.insiders.CategoryPublicationInsiderForRealActivity;
 import com.medical.my_medicos.activities.publications.model.Category;
 import com.makeramen.roundedimageview.RoundedImageView;
 
@@ -72,7 +73,7 @@ public class CategoryAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
                 @Override
                 public void onClick(View view) {
                     // Handle "More" item click
-                    Intent intent = new Intent(context, CategoryPublicationInsiderActivity.class);
+                    Intent intent = new Intent(context, CategoryPublicationInsiderForRealActivity.class);
                     context.startActivity(intent);
                 }
             });

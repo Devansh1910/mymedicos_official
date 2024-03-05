@@ -17,13 +17,17 @@
     <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentEnd="true"
         android:fillViewport="true"
+        android:layout_alignParentTop="true"
         android:layout_above="@id/applylinear">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:orientation="vertical"
         android:layout_height="match_parent"
+        android:layout_gravity="center"
         android:background="@color/backgroundcolor"
         tools:context=".activities.job.JobDetailsActivity">
 
@@ -182,9 +186,10 @@
     </LinearLayout>
 
     <LinearLayout
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:padding="@dimen/_8ssp"
+        android:layout_gravity="center"
         android:background="@drawable/rounded_edittext_background"
         android:orientation="vertical">
 
@@ -213,7 +218,7 @@
 
         </LinearLayout>
 
-            <LinearLayout
+        <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal">
@@ -237,7 +242,7 @@
 
             </LinearLayout>
 
-            <LinearLayout
+        <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginVertical="@dimen/_8sdp"
@@ -262,7 +267,7 @@
 
             </LinearLayout>
 
-            <LinearLayout
+        <LinearLayout
                 android:id="@+id/salaryLayout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -332,7 +337,7 @@
 
             </LinearLayout>
 
-            <LinearLayout
+        <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginVertical="@dimen/_8sdp"
@@ -370,7 +375,7 @@
 
             </LinearLayout>
 
-            <LinearLayout
+        <LinearLayout
                 android:id="@+id/experienceLayout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -422,6 +427,28 @@
             </LinearLayout>
 
         <LinearLayout
+            android:id="@+id/downloadPdfButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:paddingVertical="15dp"
+                android:layout_marginTop="@dimen/_5sdp"
+            android:background = "@drawable/downloadbtnbk"
+            android:onClick="downloadPdf">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Download Attachment"
+                android:textStyle="bold"
+                android:textSize="14dp"
+                android:textColor="@color/black"
+                android:textAlignment="center"/>
+
+        </LinearLayout>
+
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/_15sdp"
@@ -448,7 +475,7 @@
 
         </LinearLayout>
 
-            <TextView
+        <TextView
                 android:id="@+id/jobDescriptionContentTextView"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"

@@ -307,7 +307,6 @@
 
         </LinearLayout>
 
-
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -404,6 +403,7 @@
                 android:layout_marginStart="@dimen/_5sdp"
                 android:layout_marginEnd="@dimen/_5sdp"
                 android:text="Live"/>
+
             <Button
                 android:id="@+id/liveendpost"
                 android:layout_width="0dp"
@@ -440,6 +440,7 @@
                 android:padding="@dimen/_10sdp"
                 android:backgroundTint="@color/unselected"
                 android:fontFamily="@font/inter"
+                android:visibility="gone"
                 android:textStyle="bold"
                 android:textColor="@color/white"
                 android:layout_marginStart="@dimen/_5sdp"

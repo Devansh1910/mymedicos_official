@@ -44,7 +44,7 @@ android {
 
 dependencies {
     implementation("androidx.appcompat:appcompat:1.6.1")
-    implementation(platform("com.google.firebase:firebase-bom:32.6.0"))
+    implementation(platform("com.google.firebase:firebase-bom:32.7.3"))
     implementation("com.google.firebase:firebase-analytics")
 //    implementation("com.google.firebase:firebase-auth")
     implementation("com.google.android.material:material:1.11.0")
@@ -70,17 +70,17 @@ dependencies {
     ///........
     implementation("com.intuit.ssp:ssp-android:1.1.0")
 //    implementation("com.google.firebase:firebase-database")
-    implementation ("org.jetbrains.kotlin:kotlin-stdlib:1.9.0")
+    implementation ("org.jetbrains.kotlin:kotlin-stdlib:1.9.22")
     implementation ("org.jetbrains.kotlin:kotlin-stdlib-jdk8:1.9.0")
-    implementation("com.google.firebase:firebase-auth:22.3.0")
-    implementation("com.google.firebase:firebase-database:20.3.0")
+    implementation("com.google.firebase:firebase-auth:22.3.1")
+    implementation("com.google.firebase:firebase-database:20.3.1")
     implementation("com.firebaseui:firebase-ui-database:8.0.2")
     implementation("androidx.recyclerview:recyclerview:1.3.2")
     implementation ("com.github.denzcoskun:ImageSlideshow:0.1.2")
     // Additional dependencies from the first code block
     implementation("com.google.firebase:firebase-storage:20.3.0")
     implementation("com.google.firebase:firebase-core:21.1.1")
-    implementation("com.google.firebase:firebase-firestore:24.10.0")
+    implementation("com.google.firebase:firebase-firestore:24.10.3")
     implementation ("com.squareup.picasso:picasso:2.71828")
     //....
     implementation ("com.github.bumptech.glide:glide:4.14.2")

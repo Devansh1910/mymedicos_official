@@ -3,12 +3,14 @@ package com.medical.my_medicos.activities.job;
 import static android.content.ContentValues.TAG;
 
 import android.annotation.SuppressLint;
+import android.app.DownloadManager;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Environment;
 import android.util.Log;
 import android.view.View;
 import android.view.Window;
@@ -20,6 +22,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
@@ -75,12 +78,15 @@ public class JobDetailsActivity extends AppCompatActivity {
     String current=user.getPhoneNumber();
     Toolbar toolbar;
     String documentid1;
+
+    String pdf = null;
     TextView jobTitleTextView,companyNameTextView,locationTextView,salaryEditText,organizername,dateofpost,openingsEditText,timelinedurationwillcomehere,authorSpecialityTextView,authorSubSpecialityTextView,jobDescriptionContentTextView,jobtype,durationforjob;
     @SuppressLint("MissingInflatedId")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_details_jobs);
+        LinearLayout downloadPdfButton = findViewById(R.id.downloadPdfButton);
 
         String documentId = getIntent().getStringExtra("documentid");
         String documentId2 = getIntent().getStringExtra("documentid");
@@ -226,6 +232,18 @@ public class JobDetailsActivity extends AppCompatActivity {
                                     }
                                     companyNameTextView.setText((String) dataMap.get("Hospital"));
                                     jobtype.setText((String) dataMap.get("Job type"));
+                                    pdf = ((String) dataMap.get("Jobs pdf"));
+                                    if (pdf == null) {
+                                        downloadPdfButton.setVisibility(View.GONE);
+                                    } else {
+                                        downloadPdfButton.setVisibility(View.VISIBLE);
+                                        downloadPdfButton.setOnClickListener(new View.OnClickListener() {
+                                            @Override
+                                            public void onClick(View v) {
+                                                downloadPdf(pdf);
+                                            }
+                                        });
+                                    }
                                 }
                             }
                         } else {
@@ -401,6 +419,20 @@ public class JobDetailsActivity extends AppCompatActivity {
         durationforjob.setText(roleduration);
 
     }
+
+    public void downloadPdf(String pdfUrl) {
+        DownloadManager.Request request = new DownloadManager.Request(Uri.parse(pdfUrl));
+        request.setTitle("Downloading PDF");
+        request.setDescription("Please wait...");
+        request.setDestinationInExternalPublicDir(Environment.DIRECTORY_DOWNLOADS, "your_pdf_filename.pdf");
+        request.setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_COMPLETED);
+        DownloadManager manager = (DownloadManager) getSystemService(Context.DOWNLOAD_SERVICE);
+        if (manager != null) {
+            manager.enqueue(request);
+        }
+        Toast.makeText(this, "Download started", Toast.LENGTH_SHORT).show();
+    }
+
     private void setSystemBarColors() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             View decorView = getWindow().getDecorView();

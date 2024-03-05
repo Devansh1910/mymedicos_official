@@ -26,8 +26,8 @@
 
                 <androidx.appcompat.widget.Toolbar
                     android:id="@+id/cmetoolbar"
-                    app:title="CME Reserved"
-                    app:navigationIcon="@drawable/arrowbackforappbar"
+                    app:title="Reserved"
+                    app:navigationIcon="@drawable/arrow_bk"
                     app:titleTextColor="@color/unselected"
                     app:subtitleTextColor="@color/white"
                     app:subtitleTextAppearance="@color/white"

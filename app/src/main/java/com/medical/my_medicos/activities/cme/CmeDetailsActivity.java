@@ -136,18 +136,11 @@ public class CmeDetailsActivity extends AppCompatActivity {
         String mode = getIntent().getExtras().getString("mode");
         Button attendCmeBtn = findViewById(R.id.attendcmebtn);
         Button viewLocationBtn = findViewById(R.id.viewlocationcmebtn);
-        if ("Online".equals(mode)) {
-            attendCmeBtn.setVisibility(View.VISIBLE);
-            viewLocationBtn.setVisibility(View.GONE);
-        } else if ("Offline".equals(mode)) {
-            attendCmeBtn.setVisibility(View.GONE);
-            viewLocationBtn.setVisibility(View.VISIBLE);
-        }
+
         String field1 = getIntent().getExtras().getString("documentid");
         if (field1 == null || field1.isEmpty()){
             field1 = getIntent().getExtras().getString("cmeId");
             Log.e("coming id",field1);
-
 
         }
 
@@ -281,6 +274,13 @@ public class CmeDetailsActivity extends AppCompatActivity {
             pastbtn.setVisibility(View.GONE);
             reservecmebtn.setVisibility(View.GONE);
             reservedcmebtn.setVisibility(View.GONE);
+            if ("Online".equals(mode)) {
+                attendCmeBtn.setVisibility(View.VISIBLE);
+                viewLocationBtn.setVisibility(View.GONE);
+            } else if ("Offline".equals(mode)) {
+                attendCmeBtn.setVisibility(View.GONE);
+                viewLocationBtn.setVisibility(View.VISIBLE);
+            }
             if (isCreator) {
                 reservecmebtn.setVisibility(View.GONE);
                 Schedule.setVisibility(View.VISIBLE);
@@ -335,7 +335,7 @@ public class CmeDetailsActivity extends AppCompatActivity {
                 defaultimageofcme.setVisibility(View.VISIBLE);
                 textpartforlive.setVisibility(View.GONE);
                 textpartforlivecreator.setVisibility(View.VISIBLE);
-                viewLocationBtn.setVisibility(View.VISIBLE);
+                viewLocationBtn.setVisibility(View.GONE);
                 attendcmebtn.setVisibility(View.GONE);
                 textpartforupcoming.setVisibility(View.INVISIBLE);
                 relativeboxnotforpast.setVisibility(View.VISIBLE);
@@ -374,7 +374,8 @@ public class CmeDetailsActivity extends AppCompatActivity {
                     liveendpost.setVisibility(View.GONE);
                     livecmebtn.setVisibility(View.VISIBLE);
                 }
-            } else {
+            }
+            else {
                 reservebtn.setVisibility(View.GONE);
                 livebtn.setVisibility(View.VISIBLE);
                 livecmebtn.setVisibility(View.GONE);
@@ -382,10 +383,9 @@ public class CmeDetailsActivity extends AppCompatActivity {
                 playerlayout.setVisibility(View.GONE);
                 defaultimageofcme.setVisibility(View.VISIBLE);
                 textpartforlive.setVisibility(View.VISIBLE);
-                textpartforlive.setVisibility(View.VISIBLE);
                 textpartforlivecreator.setVisibility(View.GONE);
-                attendcmebtn.setVisibility(View.GONE);
-                textpartforupcoming.setVisibility(View.INVISIBLE);
+                attendcmebtn.setVisibility(View.VISIBLE);
+                textpartforupcoming.setVisibility(View.GONE);
                 relativeboxnotforpast.setVisibility(View.VISIBLE);
                 liveendpost.setVisibility(View.GONE);
                 attendcmebtn.setOnClickListener(new View.OnClickListener() {

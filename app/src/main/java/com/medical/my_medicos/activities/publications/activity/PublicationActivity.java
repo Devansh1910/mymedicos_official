@@ -73,6 +73,8 @@ public class PublicationActivity extends AppCompatActivity {
 
     LottieAnimationView loader;
 
+    private boolean isClickListenerAdded = false; // Add this flag at the class level
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -277,37 +279,11 @@ public class PublicationActivity extends AppCompatActivity {
                             }
                         }
 
-                        // Add the "More" item
                         Category moreItem = new Category("-1", -1);
                         categories.add(moreItem);
 
                         categoryAdapter.notifyDataSetChanged();
 
-                        binding.categoriesList.addOnItemTouchListener(new RecyclerView.OnItemTouchListener() {
-                            @Override
-                            public boolean onInterceptTouchEvent(@NonNull RecyclerView rv, @NonNull MotionEvent e) {
-                                View child = rv.findChildViewUnder(e.getX(), e.getY());
-                                int position = rv.getChildAdapterPosition(child);
-
-                                if (position != RecyclerView.NO_POSITION) {
-                                    if (position == categories.size() - 1 && categories.get(position).getPriority() == -1) {
-                                        Intent intent = new Intent(PublicationActivity.this, CategoryPublicationInsiderForRealActivity.class);
-                                        startActivity(intent);
-                                    } else {
-                                        Log.e("Error","Error Here");
-                                    }
-                                }
-                                return false;
-                            }
-
-                            @Override
-                            public void onTouchEvent(@NonNull RecyclerView rv, @NonNull MotionEvent e) {}
-
-                            @Override
-                            public void onRequestDisallowInterceptTouchEvent(boolean disallowIntercept) {}
-                        });
-
-                        categoryAdapter.notifyDataSetChanged();
                     } else {
                         Log.e("Error","Error Here");
                     }

@@ -202,11 +202,34 @@ public class RegisterActivity extends AppCompatActivity {
                 String pass = Objects.requireNonNull(password.getText()).toString().trim();
 
                 String phoneNo;
+                if (prefixSpinner.getSelectedItemPosition() == 0){
+                    Toast.makeText(RegisterActivity.this, "Please select a Designation", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+                if (locationSpinner.getSelectedItemPosition() == 0) {
+                    Toast.makeText(RegisterActivity.this, "Please select a location", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+
+                // Check if interest spinner 1 is empty
+                if (interestSpinner.getSelectedItemPosition() == 0) {
+                    Toast.makeText(RegisterActivity.this, "Please select your first interest", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+
+                // Check if interest spinner 2 is empty
+                if (interestSpinner2.getSelectedItemPosition() == 0) {
+                    Toast.makeText(RegisterActivity.this, "Please select your second interest", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+
+
                 if (!enteredPhone.startsWith("+91")) {
                     phoneNo = "+91" + enteredPhone;
                 } else {
                     phoneNo = enteredPhone;
                 }
+
 
                 if (TextUtils.isEmpty(mail)) {
                     email.setError("Email Required");

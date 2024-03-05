@@ -160,7 +160,7 @@
                     android:fontFamily="@font/inter"
                     android:hint="PhoneNumber"
                     android:inputType="phone"
-                    android:maxLength="10"
+                    android:maxLength="14"
                     android:textSize="16sp" />
             </LinearLayout>
 
@@ -285,6 +285,7 @@
                 android:layout_height="50dp"
                 android:background="@drawable/circularbordersolid"
                 android:hint="Enter Age"
+                android:maxLength="2"
                 android:inputType="number"
                 android:paddingStart="@dimen/_10sdp"
                 android:textSize="@dimen/_14ssp" />
