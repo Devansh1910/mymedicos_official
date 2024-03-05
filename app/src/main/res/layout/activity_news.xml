@@ -100,8 +100,8 @@
                         android:padding="@dimen/_2sdp"
                         android:outlineSpotShadowColor="@color/black"
                         android:layout_height="wrap_content"
-                        app:mt_hint="Search your favorite book"
-                        app:mt_placeholder="Search UG"
+                        app:mt_hint="Explore what's going on..."
+                        app:mt_placeholder="Search News"
                         app:mt_navIconEnabled="true"
                         app:mt_maxSuggestionsCount="10"
                         app:mt_speechMode="false" />

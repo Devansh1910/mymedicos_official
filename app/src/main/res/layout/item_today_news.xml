@@ -7,10 +7,10 @@
     android:layout_marginStart="8dp"
     android:layout_marginTop="8dp"
     android:layout_marginBottom="8dp"
-    app:cardCornerRadius="10dp">
+    app:cardCornerRadius="5dp">
 
 
-        <LinearLayout
+        <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="vertical">
@@ -22,38 +22,36 @@
                 android:scaleType="centerCrop"
                 app:srcCompat="@drawable/placeholder" />
 
+            <TextView
+                android:id="@+id/newslabel"
+                android:layout_width="wrap_content"
+                android:background="@drawable/bkoflive"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:drawablePadding="@dimen/_5sdp"
+                android:gravity="center_vertical"
+                android:layout_alignParentTop="true"
+                android:paddingVertical="@dimen/_5sdp"
+                android:paddingHorizontal="@dimen/_10sdp"
+                android:layout_alignParentStart="true"
+                android:text="Live"
+                android:drawableStart="@drawable/live"
+                android:textSize="12dp"
+                android:textStyle="bold"
+                android:fontFamily="@font/roboto_bold"
+                android:maxLines="1"
+                android:ellipsize="end"
+                android:textColor="@color/black" />
+
+
             <LinearLayout
                 android:elevation="@dimen/_10sdp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal">
 
-                <com.airbnb.lottie.LottieAnimationView
-                    android:id="@+id/liveanime"
-                    android:layout_width="0dp"
-                    android:layout_weight="0.25"
-                    android:layout_height="40dp"
-                    app:lottie_autoPlay="true"
-                    app:lottie_loop="true"
-                    app:lottie_rawRes="@raw/liveanime"
-                    app:lottie_speed="1" />
-
-                <TextView
-                    android:id="@+id/newslabel"
-                    android:layout_width="0dp"
-                    android:layout_weight="1"
-                    android:layout_height="match_parent"
-                    android:layout_gravity="center_vertical"
-                    android:gravity="center_vertical"
-                    android:text="Live.."
-                    android:textSize="18dp"
-                    android:textStyle="bold"
-                    android:fontFamily="@font/roboto_bold"
-                    android:maxLines="1"
-                    android:ellipsize="end"
-                    android:textColor="@color/black" />
 
             </LinearLayout>
 
-        </LinearLayout>
+        </RelativeLayout>
 </androidx.cardview.widget.CardView>

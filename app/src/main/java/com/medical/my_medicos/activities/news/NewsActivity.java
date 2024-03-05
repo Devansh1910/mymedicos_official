@@ -1,10 +1,15 @@
 package com.medical.my_medicos.activities.news;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentActivity;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
+import androidx.viewpager2.adapter.FragmentStateAdapter;
+import androidx.viewpager2.widget.ViewPager2;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
@@ -24,6 +29,8 @@ import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.google.android.material.tabs.TabLayout;
+import com.google.android.material.tabs.TabLayoutMediator;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.mancj.materialsearchbar.MaterialSearchBar;
@@ -32,6 +39,9 @@ import com.medical.my_medicos.activities.guide.JobGuideActivity;
 import com.medical.my_medicos.activities.guide.NewsGuideActivity;
 import com.medical.my_medicos.activities.home.HomeActivity;
 import com.medical.my_medicos.activities.job.JobsActivity;
+import com.medical.my_medicos.activities.job.JobsActivity2;
+import com.medical.my_medicos.activities.job.fragments.LocumFragment;
+import com.medical.my_medicos.activities.job.fragments.RegularFragment;
 import com.medical.my_medicos.activities.pg.activites.PgprepActivity;
 import com.medical.my_medicos.activities.publications.activity.PublicationActivity;
 import com.medical.my_medicos.activities.publications.activity.SearchPublicationActivity;
@@ -57,6 +67,9 @@ public class  NewsActivity extends AppCompatActivity {
     TodayNewsAdapter todayNewsAdapter;
     ArrayList<NewsToday>  newstoday;
     private ImageView backtothehomefrompg;
+
+    private TabLayout tabLayoutnews;
+    private ViewPager2 pagernews, viewpagernews;
     private SwipeRefreshLayout swipeRefreshLayoutNews;
 
     @Override
@@ -140,7 +153,6 @@ public class  NewsActivity extends AppCompatActivity {
         initNewsSlider();
         initTodaysSlider(); // Make sure to call this after initNewsSlider
     }
-
 
     private void refreshContent() {
         clearData();

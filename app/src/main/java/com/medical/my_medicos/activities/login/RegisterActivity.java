@@ -3,11 +3,9 @@ package com.medical.my_medicos.activities.login;
 import android.annotation.SuppressLint;
 import android.app.ProgressDialog;
 import android.content.Intent;
-import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
@@ -20,13 +18,11 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.content.ContextCompat;
 
-import com.google.firebase.Firebase;
-import com.google.firebase.dynamiclinks.FirebaseDynamicLinks;
-import com.google.firebase.dynamiclinks.PendingDynamicLinkData;
 import com.medical.my_medicos.R;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
@@ -37,6 +33,9 @@ import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
+
+import org.jetbrains.annotations.Contract;
+
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
@@ -107,6 +106,7 @@ public class RegisterActivity extends AppCompatActivity {
         phoneNumber = findViewById(R.id.phonenumberededit);
         password = findViewById(R.id.passwordedit);
 
+
         mAuth = FirebaseAuth.getInstance();
         progressDialog = new ProgressDialog(this);
 
@@ -116,32 +116,6 @@ public class RegisterActivity extends AppCompatActivity {
 
         setupSpinners();
         register();
-        getDynamicLinkFromFirebase();
-    }
-
-    private void getDynamicLinkFromFirebase() {
-        FirebaseDynamicLinks.getInstance()
-                .getDynamicLink(getIntent())
-                .addOnSuccessListener(new OnSuccessListener<PendingDynamicLinkData>() {
-                    @Override
-                    public void onSuccess(PendingDynamicLinkData pendingDynamicLinkData) {
-                        Log.i("RegistrationActivity","we have a link");
-                        Uri deepLink = null;
-
-                        if(pendingDynamicLinkData != null){
-                            deepLink = pendingDynamicLinkData.getLink();
-                        }
-                        if(deepLink!=null){
-                            Log.i("RegistrationActivity","Here the Dynamic link \n" + deepLink.toString());
-                        }
-                    }
-                })
-                .addOnFailureListener(new OnFailureListener() {
-                    @Override
-                    public void onFailure(@NonNull Exception e) {
-                        Toast.makeText(RegisterActivity.this, e.toString(), Toast.LENGTH_SHORT).show();
-                    }
-                });
     }
 
     private void setupSpinners() {
@@ -221,21 +195,11 @@ public class RegisterActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 String mail = Objects.requireNonNull(email.getText()).toString().trim();
-                // Check email validity
-                if (!isValidEmail(mail)) {
-                    email.setError("Invalid Email Address");
-                    return;
-                }
+
 
                 String name = Objects.requireNonNull(fullName.getText()).toString().trim();
                 String enteredPhone = Objects.requireNonNull(phoneNumber.getText()).toString().trim();
                 String pass = Objects.requireNonNull(password.getText()).toString().trim();
-
-                // Check phone number length
-                if (enteredPhone.length() != 10) {
-                    phoneNumber.setError("Phone Number must be 10 digits");
-                    return;
-                }
 
                 String phoneNo;
                 if (!enteredPhone.startsWith("+91")) {
@@ -244,7 +208,6 @@ public class RegisterActivity extends AppCompatActivity {
                     phoneNo = enteredPhone;
                 }
 
-                // Check for other required fields
                 if (TextUtils.isEmpty(mail)) {
                     email.setError("Email Required");
                     return;
@@ -260,14 +223,34 @@ public class RegisterActivity extends AppCompatActivity {
                 if (TextUtils.isEmpty(pass)) {
                     password.setError("Password Required");
                     return;
+
                 }
-                if (!isPasswordValid(pass)) {
-                    password.setError("Invalid password");
-                    Toast.makeText(RegisterActivity.this, "Password is Invalid", Toast.LENGTH_SHORT).show();
+
+                // Check if phone number is valid
+                // Check if email is empty or invalid
+                String emailValidity = isValidEmail(mail);
+                if (emailValidity != null) {
+                    email.setError(emailValidity);
+                    Toast.makeText(RegisterActivity.this, emailValidity, Toast.LENGTH_SHORT).show();
                     return;
                 }
 
-                // Proceed with registration
+// Check if phone number is empty or invalid
+                String phoneValidity = isValidPhoneNumber(phoneNo);
+                if (phoneValidity != null) {
+                    phoneNumber.setError(phoneValidity);
+                    Toast.makeText(RegisterActivity.this, phoneValidity, Toast.LENGTH_SHORT).show();
+                    return;
+                }
+
+// Check if password is empty or invalid
+                String passwordValidity = isPasswordValid(pass);
+                if (passwordValidity != null) {
+                    password.setError(passwordValidity);
+                    Toast.makeText(RegisterActivity.this, passwordValidity, Toast.LENGTH_LONG).show();
+                    return;
+                }
+
                 progressDialog.setMessage("Registering");
                 progressDialog.show();
 
@@ -309,6 +292,8 @@ public class RegisterActivity extends AppCompatActivity {
             }
         });
     }
+
+
 
     private void createUserInFirestore(String mail, String name, String phoneNo, String location, String interest, String quiztoday,int medcoins,int streak) {
         Map<String, Object> user = new HashMap<>();
@@ -368,14 +353,40 @@ public class RegisterActivity extends AppCompatActivity {
                 });
     }
 
-    public static boolean isPasswordValid(String password) {
-        return password.length() >= 6 &&
-                Pattern.compile("[A-Z]").matcher(password).find() &&
-                Pattern.compile("[^a-zA-Z0-9]").matcher(password).find() &&
-                Pattern.compile("[0-9]").matcher(password).find();
+    public static String isPasswordValid(String password) {
+        if (password.length() < 6) {
+            return "Password must be at least 6 characters long";
+        } else if (!Pattern.compile("[A-Z]").matcher(password).find()) {
+            return "Password must contain at least one uppercase letter";
+        } else if (!Pattern.compile("[^a-zA-Z0-9]").matcher(password).find()) {
+            return "Password must contain at least one special character";
+        } else if (!Pattern.compile("[0-9]").matcher(password).find()) {
+            return "Password must contain at least one digit";
+        } else {
+            return null; // Password is valid
+        }
     }
 
-    private boolean isValidEmail(String email) {
-        return email.toLowerCase().endsWith("@gmail.com");
+    @Nullable
+    @Contract("null -> !null")
+    private String isValidEmail(String email) {
+        if (email == null || email.isEmpty()) {
+            return "Email is required";
+        } else if (!email.toLowerCase().endsWith("@gmail.com")) {
+            return "Email must end with @gmail.com";
+        } else {
+            return null; // Email is valid
+        }
+    }
+
+    @Nullable
+    private String isValidPhoneNumber(String phoneNumber) {
+        if (TextUtils.isEmpty(phoneNumber)) {
+            return "Phone number is required";
+        } else if (!phoneNumber.matches("\\+?[0-9]+")) {
+            return "Phone number must contain only digits";
+        } else {
+            return null; // Phone number is valid
+        }
     }
 }

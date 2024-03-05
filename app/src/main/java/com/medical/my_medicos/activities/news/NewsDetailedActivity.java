@@ -2,16 +2,21 @@ package com.medical.my_medicos.activities.news;
 
 import android.content.Intent;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.text.Html;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
 
 import com.bumptech.glide.Glide;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.medical.my_medicos.R;
 import com.medical.my_medicos.databinding.ActivityNewsDetailedBinding;
 
 public class NewsDetailedActivity extends AppCompatActivity {
@@ -25,6 +30,24 @@ public class NewsDetailedActivity extends AppCompatActivity {
         binding = ActivityNewsDetailedBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            View decorView = getWindow().getDecorView();
+            decorView.setSystemUiVisibility(decorView.getSystemUiVisibility() | View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);
+        }
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            Window window = getWindow();
+            window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
+            window.setStatusBarColor(ContextCompat.getColor(this, R.color.backgroundcolor));
+            window.setNavigationBarColor(ContextCompat.getColor(this, R.color.backgroundcolor));
+        }
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            View decorView = getWindow().getDecorView();
+            decorView.setSystemUiVisibility(decorView.getSystemUiVisibility() | View.SYSTEM_UI_FLAG_LIGHT_NAVIGATION_BAR);
+        }
+
         String name = getIntent().getStringExtra("Title");
         String image = getIntent().getStringExtra("thumbnail");
         String status = getIntent().getStringExtra("Description");
@@ -36,7 +59,8 @@ public class NewsDetailedActivity extends AppCompatActivity {
                 .into(binding.newsthumbnail);
 
         binding.newsDescription.setText(status);
-        binding.newsstoolbar.setTitle(name);
+        binding.newsTitle.setText(name);
+        binding.newsTime.setText(time);
 
         // Set up the "Read More" button click listener
         binding.readmoreBtn.setOnClickListener(new View.OnClickListener() {
@@ -46,6 +70,7 @@ public class NewsDetailedActivity extends AppCompatActivity {
                 openUrlInBrowser(url);
             }
         });
+
 
         // Enable the back button in the toolbar
         setSupportActionBar(binding.newsstoolbar);
@@ -64,11 +89,10 @@ public class NewsDetailedActivity extends AppCompatActivity {
                 .addOnSuccessListener(documentSnapshot -> {
                     if (documentSnapshot.exists()) {
                         String description = documentSnapshot.getString("Description");
+                        String time = documentSnapshot.getString("Time");
 
-                        getSupportActionBar().setTitle(documentSnapshot.getString("Title"));
-
-                        binding.newsstoolbar.setTitle(documentSnapshot.getString("Title"));
                         binding.newsDescription.setText(Html.fromHtml(description));
+                        binding.newsTime.setText(Html.fromHtml(time));
 
                         currentNews = new News(
                                 documentSnapshot.getString("Title"),
@@ -77,12 +101,13 @@ public class NewsDetailedActivity extends AppCompatActivity {
                                 documentSnapshot.getString("Time"),
                                 documentSnapshot.getString("URL"),
                                 documentSnapshot.getString("type")
-
                         );
                     } else {
+                        // Handle the case where the document does not exist
                     }
                 })
                 .addOnFailureListener(e -> {
+                    // Handle the error
                 });
     }
 
