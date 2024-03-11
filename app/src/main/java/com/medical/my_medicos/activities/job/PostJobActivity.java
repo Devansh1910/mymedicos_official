@@ -12,7 +12,9 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.provider.OpenableColumns;
+import android.text.Editable;
 import android.text.TextUtils;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
 import android.view.Window;
@@ -58,8 +60,10 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Deque;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Locale;
 import java.util.Map;
+import com.google.android.material.slider.RangeSlider;
 public class PostJobActivity extends AppCompatActivity {
     EditText title,Organiser,salary,jobposition,description,Opening,duration,hospital;
 
@@ -94,30 +98,23 @@ public class PostJobActivity extends AppCompatActivity {
     private String pdfName;
     static final int REQ = 1;
     private ArrayAdapter<CharSequence> timelineAdapter;
-
+    String salaryRange;
     Spinner timelineduration;
+    private boolean isEditTextUpdate = false;
+    private RangeSlider salaryRangeSlider;
+    private EditText lowerRangeEditText;
+    private EditText upperRangeEditText;
     @SuppressLint("MissingInflatedId")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_post_job);
 
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            View decorView = getWindow().getDecorView();
-            decorView.setSystemUiVisibility(decorView.getSystemUiVisibility() | View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);
-        }
+        Filter();
 
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            Window window = getWindow();
-            window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
-            window.setStatusBarColor(ContextCompat.getColor(this, R.color.backgroundcolor));
-            window.setNavigationBarColor(ContextCompat.getColor(this, R.color.backgroundcolor));
-        }
-
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            View decorView = getWindow().getDecorView();
-            decorView.setSystemUiVisibility(decorView.getSystemUiVisibility() | View.SYSTEM_UI_FLAG_LIGHT_NAVIGATION_BAR);
-        }
+        lowerRangeEditText = findViewById(R.id.lower_range);
+        upperRangeEditText = findViewById(R.id.upper_range);
+        salaryRangeSlider = findViewById(R.id.salaryRangeSlider);
 
         ImageView backArrow = findViewById(R.id.backbtn);
         backArrow.setOnClickListener(new View.OnClickListener() {
@@ -164,7 +161,6 @@ public class PostJobActivity extends AppCompatActivity {
         Organiser.setTextColor(Color.parseColor("#80000000"));
         Organiser.setBackgroundResource(R.drawable.rounded_edittext_background);
         Opening=findViewById(R.id.opening);
-        salary=findViewById(R.id.Salary);
         jobposition=findViewById(R.id.Job_post);
         description=findViewById(R.id.Job_desc);
         duration=findViewById(R.id.job_duration);
@@ -342,6 +338,100 @@ public class PostJobActivity extends AppCompatActivity {
                 openBottomSheet();
             }
         });
+
+        float defaultLowerValue = 1000f;
+        float defaultUpperValue = 100000f;
+        salaryRangeSlider.setValues(defaultLowerValue, defaultUpperValue);
+        lowerRangeEditText.setText(String.valueOf(defaultLowerValue));
+        upperRangeEditText.setText(String.valueOf(defaultUpperValue));
+
+        // Set up the RangeSlider listener
+        salaryRangeSlider.addOnChangeListener(new RangeSlider.OnChangeListener() {
+            @Override
+            public void onValueChange(@NonNull RangeSlider slider, float value, boolean fromUser) {
+                List<Float> values = slider.getValues();
+                if (values.size() >= 2) {
+                    isEditTextUpdate = true;
+                    int minValue = values.get(0).intValue();
+                    int maxValue = values.get(1).intValue();
+                    lowerRangeEditText.setText(String.valueOf(minValue));
+                    upperRangeEditText.setText(String.valueOf(maxValue));
+                    isEditTextUpdate = false; // Reset flag after updating EditText
+                }
+            }
+        });
+
+        salaryRangeSlider.setValueFrom(1000f);
+        salaryRangeSlider.setValueTo(100000f);
+
+        lowerRangeEditText.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {}
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                checkFormValidity();
+                if (!isEditTextUpdate && !s.toString().isEmpty()) {
+                    try {
+                        float lowerValue = Float.parseFloat(s.toString());
+                        float upperValue = Float.parseFloat(upperRangeEditText.getText().toString());
+                        if (lowerValue >= 1000 && lowerValue <= 100000) {
+                            salaryRangeSlider.setValues(lowerValue, upperValue);
+                            if (lowerValue > upperValue) {
+                                Toast.makeText(PostJobActivity.this, "Lower limit cannot be greater than upper limit", Toast.LENGTH_SHORT).show();
+                                post.setEnabled(false);
+                            } else {
+                                post.setEnabled(true);
+                            }
+                        } else {
+                            Toast.makeText(PostJobActivity.this, "Lower limit must be between 1000 and 100000", Toast.LENGTH_SHORT).show();
+                        }
+                    } catch (NumberFormatException e) {
+                        // Handle the case where the string is not a valid number
+                    }
+                }
+            }
+        });
+
+// Set up the TextWatcher for the upper RangeEditText
+        upperRangeEditText.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {}
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                checkFormValidity();
+                if (!isEditTextUpdate && !s.toString().isEmpty()) {
+                    try {
+                        float upperValue = Float.parseFloat(s.toString());
+                        float lowerValue = Float.parseFloat(lowerRangeEditText.getText().toString());
+                        // Check if upperValue is within the allowed range
+                        if (upperValue >= 1000 && upperValue <= 100000) {
+                            salaryRangeSlider.setValues(lowerValue, upperValue);
+                            // Check if upperValue is lesser than lowerValue
+                            if (upperValue < lowerValue) {
+                                Toast.makeText(PostJobActivity.this, "Upper limit cannot be lesser than lower limit", Toast.LENGTH_SHORT).show();
+                                post.setEnabled(false);
+                            } else {
+                                post.setEnabled(true);
+                            }
+                        } else {
+                            Toast.makeText(PostJobActivity.this, "Upper limit must be between 1000 and 100000", Toast.LENGTH_SHORT).show();
+                        }
+                    } catch (NumberFormatException e) {
+                        // Handle the case where the string is not a valid number
+                    }
+                }
+            }
+        });
+
+        checkFormValidity();
     }
 
     private void uploadPdf() {
@@ -441,10 +531,31 @@ public class PostJobActivity extends AppCompatActivity {
         bottomSheetFragment.show(getSupportFragmentManager(), bottomSheetFragment.getTag());
     }
 
+    private void Filter(){
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            View decorView = getWindow().getDecorView();
+            decorView.setSystemUiVisibility(decorView.getSystemUiVisibility() | View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);
+        }
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            Window window = getWindow();
+            window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
+            window.setStatusBarColor(ContextCompat.getColor(this, R.color.backgroundcolor));
+            window.setNavigationBarColor(ContextCompat.getColor(this, R.color.backgroundcolor));
+        }
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            View decorView = getWindow().getDecorView();
+            decorView.setSystemUiVisibility(decorView.getSystemUiVisibility() | View.SYSTEM_UI_FLAG_LIGHT_NAVIGATION_BAR);
+        }
+    }
+
     public void post() {
         String Title = title.getText().toString().trim();
         String organiser = Organiser.getText().toString().trim();
-        String Salary = salary.getText().toString().trim();
+        String lowerRange = lowerRangeEditText.getText().toString().trim();
+        String upperRange = upperRangeEditText.getText().toString().trim();
+        String salaryRange = lowerRange + " - " + upperRange;
         String opening = Opening.getText().toString().trim();
         String Position = jobposition.getText().toString().trim();
         String Desciption = description.getText().toString().trim();
@@ -460,8 +571,8 @@ public class PostJobActivity extends AppCompatActivity {
             Organiser.setError("Organizer Required");
             return;
         }
-        if (TextUtils.isEmpty(Salary)) {
-            salary.setError("Salary Required");
+        if (TextUtils.isEmpty(salaryRange)) {
+            Toast.makeText(PostJobActivity.this, "Please select a salary range", Toast.LENGTH_SHORT).show();
             return;
         }
         if (TextUtils.isEmpty(Position)) {
@@ -494,7 +605,7 @@ public class PostJobActivity extends AppCompatActivity {
         HashMap<String, Object> usermap = new HashMap<>();
         usermap.put("JOB Title", Title);
         usermap.put("JOB Organiser", organiser);
-        usermap.put("Job Salary", Salary);
+        usermap.put("Job Salary", salaryRange);
         usermap.put("JOB Description", Desciption);
         usermap.put("Job Duration", Duration);
         usermap.put("JOB Opening", opening);
@@ -530,5 +641,31 @@ public class PostJobActivity extends AppCompatActivity {
                 }
             }
         });
+    }
+
+    private void checkFormValidity() {
+        boolean isValid = true;
+
+        // Check if all required fields are filled
+        if (TextUtils.isEmpty(title.getText().toString().trim()) ||
+                TextUtils.isEmpty(Organiser.getText().toString().trim()) ||
+                TextUtils.isEmpty(lowerRangeEditText.getText().toString().trim()) ||
+                TextUtils.isEmpty(upperRangeEditText.getText().toString().trim()) ||
+                TextUtils.isEmpty(jobposition.getText().toString().trim()) ||
+                TextUtils.isEmpty(description.getText().toString().trim()) ||
+                TextUtils.isEmpty(Opening.getText().toString().trim()) ||
+                TextUtils.isEmpty(duration.getText().toString().trim()) ||
+                TextUtils.isEmpty(hospital.getText().toString().trim()) ||
+                TextUtils.isEmpty(tvDate.getText().toString().trim())) {
+            isValid = false;
+        }
+
+        if (specialitySpinner.getSelectedItemPosition() == 0 ||
+                (subspecialitySpinner.getVisibility() == View.VISIBLE && subspecialitySpinner.getSelectedItemPosition() == 0)) {
+            isValid = false;
+        }
+
+        // Enable or disable the "Post Opening" button based on the validity
+        post.setEnabled(isValid);
     }
 }

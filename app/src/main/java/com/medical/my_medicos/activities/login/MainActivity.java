@@ -8,7 +8,10 @@ import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Bundle;
+import android.text.Editable;
 import android.text.TextUtils;
+import android.text.TextWatcher;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.Window;
@@ -67,8 +70,8 @@ public class MainActivity extends AppCompatActivity {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             Window window = getWindow();
             window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
-            window.setStatusBarColor(ContextCompat.getColor(this, R.color.white));
-            window.setNavigationBarColor(ContextCompat.getColor(this, R.color.white));
+            window.setStatusBarColor(ContextCompat.getColor(this, R.color.backgroundcolor));
+            window.setNavigationBarColor(ContextCompat.getColor(this, R.color.backgroundcolor));
         }
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
@@ -76,7 +79,6 @@ public class MainActivity extends AppCompatActivity {
             decorView.setSystemUiVisibility(decorView.getSystemUiVisibility() | View.SYSTEM_UI_FLAG_LIGHT_NAVIGATION_BAR);
         }
 
-        // Toolbar
 
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -111,6 +113,31 @@ public class MainActivity extends AppCompatActivity {
         mdialog = new ProgressDialog(this);
         mauth = FirebaseAuth.getInstance();
 
+        login.setBackgroundColor(ContextCompat.getColor(this, R.color.grey));
+
+        phone.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+                // Not needed for this implementation
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                // Not needed for this implementation
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                // Check if the text length is exactly 10
+                if (s.length() == 10) {
+                    login.setEnabled(true);
+                    login.setBackgroundColor(ContextCompat.getColor(MainActivity.this, R.color.blue));
+                } else {
+                    login.setEnabled(false);
+                    login.setBackgroundColor(ContextCompat.getColor(MainActivity.this, R.color.grey));
+                }
+            }
+        });
         login.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -126,7 +153,6 @@ public class MainActivity extends AppCompatActivity {
                     return;
                 }
 
-                // Ensure the phone number includes the country code
                 if (!phoneNumber.startsWith(selectedCountryCode)) {
                     phoneNumber = selectedCountryCode + phoneNumber;
                 }
@@ -171,11 +197,13 @@ public class MainActivity extends AppCompatActivity {
                                             }
 
                                             @Override
-                                            public void onCodeSent(@NonNull String backendOtp, @NonNull PhoneAuthProvider.ForceResendingToken forceResendingToken) {
+                                            public void onCodeSent(@NonNull String verificationId,
+                                                                   @NonNull PhoneAuthProvider.ForceResendingToken forceResendingToken) {
                                                 mdialog.dismiss();
                                                 Intent intent = new Intent(MainActivity.this, EnterOtp.class);
                                                 intent.putExtra("mobile", phoneNumber);
-                                                intent.putExtra("backendotp", backendOtp);
+                                                intent.putExtra("verificationId", verificationId);
+                                                Log.e("otp sent",verificationId);
                                                 startActivity(intent);
                                             }
                                         }

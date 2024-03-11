@@ -58,6 +58,7 @@ import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.medical.my_medicos.activities.job.JobDetailsActivity;
+import com.medical.my_medicos.activities.news.NewsDetailedActivity;
 import com.medical.my_medicos.activities.notification.NotificationActivity;
 import com.squareup.picasso.Picasso;
 
@@ -74,14 +75,11 @@ public class HomeActivity extends AppCompatActivity {
     NavigationView navigationView;
     Toolbar toolbar;
     private LottieAnimationView shimmerAnimationView;
-
     ImageView profileImageView, verifiedprofilebehere;
     private static final long DOUBLE_PRESS_EXIT_INTERVAL = 2000;
-
     private static final int MY_UPDATE_CODE = 100;
     private long lastPressTime;
     FrameLayout verifiedUser, circularImageView;
-
     @SuppressLint("MissingInflatedId")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -172,7 +170,6 @@ public class HomeActivity extends AppCompatActivity {
         checkforAppUpdate();
     }
 
-
     private void handleDeepLinkIntent() {
         FirebaseDynamicLinks.getInstance().getDynamicLink(getIntent())
                 .addOnSuccessListener(this, pendingDynamicLinkData -> {
@@ -184,8 +181,8 @@ public class HomeActivity extends AppCompatActivity {
                                 handleDeepLinkIntentJOB(deepLink);
                             } else if (link.contains("cmedetails?")) {
                                 handleDeepLinkIntentCME(deepLink);
-//                                Toast.makeText(this, "Not found", Toast.LENGTH_SHORT).show();
-
+                            } else if (link.contains("newsdetails?")) {
+                                handleDeepLinkIntentNews(deepLink);
                             }
                         }
                     }
@@ -194,20 +191,22 @@ public class HomeActivity extends AppCompatActivity {
                     Log.e("DeepLink", "Error handling deep link: " + e.getMessage());
                 });
     }
-
     private void handleDeepLinkIntentJOB(Uri deepLink) {
         String jobId = deepLink.getQueryParameter("jobId");
         Log.d("DeepLink", "Received deep link with jobId: " + jobId);
         openJobDetailsActivity(jobId);
     }
-
+    private void handleDeepLinkIntentNews(Uri deepLink) {
+        String newsId = deepLink.getQueryParameter("newsId");
+        Log.d("DeepLink", "Received deep link with newsId: " + newsId);
+        openNewsDetailsActivity(newsId);
+    }
     private void handleDeepLinkIntentCME(Uri deepLink) {
         String cmeId = deepLink.getQueryParameter("cmeId");
-        String typefordeep = deepLink.getQueryParameter("typefordeep"); // Fetch typefordeep parameter
+        String typefordeep = deepLink.getQueryParameter("typefordeep");
         Log.d("DeepLink", "Received deep link with cmeId: " + cmeId + " and typefordeep: " + typefordeep);
         openCmeDetailsActivity(cmeId, typefordeep); // Pass typefordeep to openCmeDetailsActivity method
     }
-
     private void openCmeDetailsActivity(String cmeId, String typefordeep) {
         Log.d("HomeActivity", "Opening CmeDetailsActivity with documentId: " + cmeId);
         Intent intent = new Intent(this, CmeDetailsActivity.class);
@@ -217,7 +216,6 @@ public class HomeActivity extends AppCompatActivity {
         finish();
         Log.d("HomeActivity", "CmeDetailsActivity started");
     }
-
     private void openJobDetailsActivity(String jobId) {
         Log.d("HomeActivity", "Opening JobDetailsActivity with documentId: " + jobId);
         Intent intent = new Intent(this, JobDetailsActivity.class);
@@ -226,8 +224,14 @@ public class HomeActivity extends AppCompatActivity {
         finish();
         Log.d("HomeActivity", "JobDetailsActivity started");
     }
-
-
+    private void openNewsDetailsActivity(String newsId) {
+        Log.d("HomeActivity", "Opening JobDetailsActivity with documentId: " + newsId);
+        Intent intent = new Intent(this, NewsDetailedActivity.class);
+        intent.putExtra("newsId", newsId);
+        startActivity(intent);
+        finish();
+        Log.d("HomeActivity", "JobDetailsActivity started");
+    }
     @Override
     public void onBackPressed() {
         Fragment currentFragment = getSupportFragmentManager().findFragmentById(R.id.frame_layout);
@@ -245,11 +249,9 @@ public class HomeActivity extends AppCompatActivity {
             super.onBackPressed();
         }
     }
-
     private void showToast(String message) {
         Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
     }
-
     private void updateToolbarColor(Fragment fragment) {
         Toolbar toolbar = findViewById(R.id.toolbar);
         if (fragment instanceof SlideshowFragment || fragment instanceof ClubFragment) {
@@ -258,19 +260,16 @@ public class HomeActivity extends AppCompatActivity {
             toolbar.setBackgroundColor(ContextCompat.getColor(this, R.color.blue));
         }
     }
-
     public void openHomeSideActivity() {
         Intent settingsIntent = new Intent(HomeActivity.this, HomeSideActivity.class);
         startActivity(settingsIntent);
     }
-
     private void replaceFragment(Fragment fragment) {
         FragmentManager fragmentManager = getSupportFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
         fragmentTransaction.replace(R.id.frame_layout, fragment);
         fragmentTransaction.commit();
     }
-
     @SuppressLint("RestrictedApi")
     public void fetchUserData() {
         FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
@@ -327,8 +326,6 @@ public class HomeActivity extends AppCompatActivity {
                     });
         }
     }
-
-
     private void updateProfileUI(String userName, String userId, String userEmail) {
         ImageView profileImageView = findViewById(R.id.circularImageView);
         FrameLayout verifiedUser = findViewById(R.id.verifieduser);
@@ -370,8 +367,6 @@ public class HomeActivity extends AppCompatActivity {
             });
         }
     }
-
-
     @SuppressLint("RestrictedApi")
     private void fetchUserProfileImage(String userId) {
         FirebaseStorage storage = FirebaseStorage.getInstance();
@@ -397,7 +392,6 @@ public class HomeActivity extends AppCompatActivity {
             Log.e(TAG, "Error fetching profile image: " + exception.getMessage());
         });
     }
-
     private void checkforAppUpdate(){
         AppUpdateManager appUpdateManager = AppUpdateManagerFactory.create(this);
         Task<AppUpdateInfo> appUpdateInfoTask = appUpdateManager.getAppUpdateInfo();
@@ -421,7 +415,6 @@ public class HomeActivity extends AppCompatActivity {
             }
         });
     }
-
     public void onActivityResult(int requestCode,int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == MY_UPDATE_CODE) {

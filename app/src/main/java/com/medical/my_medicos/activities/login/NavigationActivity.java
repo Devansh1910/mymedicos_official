@@ -76,7 +76,7 @@ public class NavigationActivity extends AppCompatActivity {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             Window window = getWindow();
             window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
-            window.setStatusBarColor(ContextCompat.getColor(this, R.color.backgroundcolor));
+            window.setStatusBarColor(ContextCompat.getColor(this, R.color.navbg));
             window.setNavigationBarColor(ContextCompat.getColor(this, R.color.white));
         }
 

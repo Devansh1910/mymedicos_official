@@ -35,10 +35,13 @@ import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.Volley;
+
+import org.json.JSONArray;
 import org.json.JSONObject;
 
 import com.android.volley.toolbox.StringRequest;
 import com.bumptech.glide.Glide;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.mancj.materialsearchbar.MaterialSearchBar;
 import com.medical.my_medicos.R;
 import com.medical.my_medicos.activities.home.fragments.HomeFragment;
@@ -59,6 +62,7 @@ import com.medical.my_medicos.databinding.ActivityProductDetailedBinding;
 
 import org.json.JSONException;
 
+import java.util.ArrayList;
 import java.util.prefs.Preferences;
 
 
@@ -131,6 +135,11 @@ public class ProductDetailedActivity extends AppCompatActivity {
 
         getProductDetails(id);
 
+
+        if (isProductInCart(id)) {
+            binding.addToCartBtn.setVisibility(View.GONE);
+        }
+
         String query = getIntent().getStringExtra("Title");
 
         TextView titleTextView = findViewById(R.id.titleoftheproduct);
@@ -177,6 +186,8 @@ public class ProductDetailedActivity extends AppCompatActivity {
                 startActivity(i);
             }
         });
+
+        getProductDetails(id);
     }
 
     private void showLoadForLib() {
@@ -271,7 +282,16 @@ public class ProductDetailedActivity extends AppCompatActivity {
         queue.add(request);
     }
 
+    private boolean isProductInCart(String productId) {
+        ArrayList<String> cartProductIds = getCartProductIds();
+        return cartProductIds.contains(productId);
+    }
 
+    private ArrayList<String> getCartProductIds() {
+        // This method should return the list of product IDs currently in the cart
+        // For simplicity, let's assume you have a method to get this list
+        return new ArrayList<>(); // Replace this with your actual implementation
+    }
 
     @Override
     public boolean onSupportNavigateUp() {

@@ -25,10 +25,7 @@ import com.medical.my_medicos.R;
 import com.google.firebase.auth.FirebaseAuth;
 
 public class SplashActivity extends AppCompatActivity {
-
     ImageView logosplash;
-
-
     String TAG = "splash";
 
     @SuppressLint("MissingInflatedId")

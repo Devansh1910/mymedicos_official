@@ -122,26 +122,6 @@
 
                     </FrameLayout>
 
-
-                    <TextView
-                        android:id="@+id/share"
-                        android:paddingHorizontal="@dimen/_5ssp"
-                        android:layout_marginTop="@dimen/_10ssp"
-                        android:paddingVertical="@dimen/_4ssp"
-                        android:layout_width="wrap_content"
-                        android:gravity="center"
-                        android:layout_gravity="center"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-
-                        android:drawableEnd="@drawable/share"
-                        android:textStyle="bold"
-                        android:background="@drawable/black_block"
-                        android:fontFamily="@font/montserrat_medium"
-                        android:text="Share "
-                        android:textColor="@color/white"
-                        android:textSize="@dimen/_10ssp" />
-
                 </LinearLayout>
 
                 <LinearLayout

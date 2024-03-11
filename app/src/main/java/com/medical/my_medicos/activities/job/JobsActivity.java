@@ -208,7 +208,7 @@ public class JobsActivity extends AppCompatActivity {
                                 adapterjob = new MyAdapter(JobsActivity.this, joblist); // Pass the joblist to the adapter
                                 recommendedforyouonly.setAdapter(adapterjob);
                             }
-                            Log.d("abcdef", joblist.toString());
+                            Log.d("Something went wrong", joblist.toString());
                             if (joblist.isEmpty()){
                                 cardjobs.setVisibility(View.VISIBLE);
                                 TextView nocontent = findViewById(R.id.descriptionTextView);

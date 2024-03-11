@@ -81,14 +81,12 @@
                 android:layout_width="match_parent"
                 android:background="@color/blue"
                 android:padding="@dimen/_5sdp"
-                android:drawableStart="@drawable/heartbtn"
                 android:layout_weight="1"
                 android:layout_gravity="center"
                 android:gravity="center"
-                android:drawablePadding="@dimen/_2sdp"
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/inter"
-                android:text="Wishlist"
+                android:text="Explore"
                 android:textColor="@color/white"
                 android:textSize="@dimen/_14ssp" />
 

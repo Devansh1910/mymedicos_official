@@ -117,9 +117,6 @@
             android:name=".activities.pg.activites.ResultActivity"
             android:exported="false" />
         <activity
-            android:name=".activities.news.NewsDetailedActivity"
-            android:exported="false" />
-        <activity
             android:name=".activities.pg.activites.ResultActivityNeet"
             android:label="Result Activity Neet" />
         <activity android:name=".activities.pg.activites.Neetexaminsider" />
@@ -346,6 +343,22 @@
             </intent-filter>
         </activity>
         <activity
+            android:name=".activities.news.NewsDetailedActivity"
+            android:exported="true"
+            android:parentActivityName=".activities.home.HomeActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+
+                <data android:scheme="https" />
+                <data android:host="mymedicos.in" />
+                <data android:scheme="http" />
+                <data android:host="mymedicos.in" />
+            </intent-filter>
+        </activity>
+        <activity
             android:name=".activities.home.HomeActivity"
             android:exported="true">
             <intent-filter>
@@ -365,6 +378,14 @@
                 <data android:host="mymedicos.in" />
             </intent-filter>
         </activity>
+        <receiver
+            android:name=".activities.login.OtpReceiver"
+            android:exported="true"
+            android:permission="com.google.android.gms.auth.api.phone.permission.SEND">
+            <intent-filter>
+                <action android:name="com.google.android.gms.auth.api.phone.SMS_RETRIEVED" />
+            </intent-filter>
+        </receiver>
         <activity
             android:name=".activities.login.GetstartedActivity"
             android:exported="true">

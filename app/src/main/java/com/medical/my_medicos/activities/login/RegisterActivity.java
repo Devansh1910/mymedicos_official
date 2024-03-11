@@ -316,8 +316,6 @@ public class RegisterActivity extends AppCompatActivity {
         });
     }
 
-
-
     private void createUserInFirestore(String mail, String name, String phoneNo, String location, String interest, String quiztoday,int medcoins,int streak) {
         Map<String, Object> user = new HashMap<>();
         user.put("Email ID", mail);

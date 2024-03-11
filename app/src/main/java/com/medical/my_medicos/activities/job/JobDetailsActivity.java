@@ -37,6 +37,7 @@ import com.google.firebase.dynamiclinks.DynamicLink;
 import com.google.firebase.dynamiclinks.FirebaseDynamicLinks;
 import com.google.firebase.dynamiclinks.ShortDynamicLink;
 import com.google.firebase.firestore.DocumentReference;
+import com.medical.my_medicos.activities.job.fragments.TermsandConditionDialogueFragment;
 import com.medical.my_medicos.adapter.job.Adapter8;
 import com.medical.my_medicos.adapter.job.MyAdapter6;
 import com.medical.my_medicos.R;
@@ -183,14 +184,21 @@ public class JobDetailsActivity extends AppCompatActivity {
             apply.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    Context context = view.getContext();
-                    Intent j=new Intent(context, JobsApplyActivity.class);
-                    j.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                    j.putExtra("user",receivedData);
-                    j.putExtra("documentid",documentid);
-                    context.startActivity(j);
+                    TermsandConditionDialogueFragment dialog = new TermsandConditionDialogueFragment(new TermsandConditionDialogueFragment.OnTermsAcceptedListener() {
+                        @Override
+                        public void onTermsAccepted() {
+                            Context context = view.getContext();
+                            Intent j = new Intent(context, JobsApplyActivity.class);
+                            j.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                            j.putExtra("user", receivedData);
+                            j.putExtra("documentid", documentid);
+                            context.startActivity(j);
+                        }
+                    });
+                    dialog.show(getSupportFragmentManager(), "TermsAndConditionsDialog");
                 }
             });
+
         }
 
         FirebaseFirestore dc = FirebaseFirestore.getInstance();

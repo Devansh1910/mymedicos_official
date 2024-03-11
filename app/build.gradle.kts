@@ -15,8 +15,8 @@ android {
         applicationId = "com.medical.my_medicos"
         minSdk = 24
         targetSdk = 34
-        versionCode = 36
-        versionName = "3.0.6"
+        versionCode = 37
+        versionName = "3.0.7"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
@@ -123,4 +123,6 @@ dependencies {
     implementation ("com.google.android.gms:play-services-auth-api-phone:18.0.2")
     //......Deep Links...........
     implementation("com.google.firebase:firebase-dynamic-links-ktx:21.2.0")
+    //.....Salary Range provider..............
+    implementation ("com.google.android.material:material:1.11.0")
 }
