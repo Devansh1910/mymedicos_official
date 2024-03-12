@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.cardview.widget.CardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/viewtodaysnews"
     android:layout_width="280dp"
@@ -9,49 +10,55 @@
     android:layout_marginBottom="8dp"
     app:cardCornerRadius="5dp">
 
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
 
-        <RelativeLayout
+        <ImageView
+            android:id="@+id/thumbnailnewstoday"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="vertical">
+            android:layout_height="@dimen/_90sdp"
+            android:scaleType="centerCrop"
+            app:srcCompat="@drawable/placeholder" />
 
-            <ImageView
-                android:id="@+id/thumbnailnewstoday"
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/_90sdp"
-                android:scaleType="centerCrop"
-                app:srcCompat="@drawable/placeholder" />
+        <TextView
+            android:id="@+id/newslabel"
+            android:layout_width="wrap_content"
+            android:background="@drawable/bkoflive"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:drawablePadding="@dimen/_5sdp"
+            android:gravity="center_vertical"
+            android:layout_alignParentTop="true"
+            android:paddingVertical="@dimen/_5sdp"
+            android:paddingHorizontal="@dimen/_10sdp"
+            android:layout_alignParentStart="true"
+            android:text="Live"
+            android:drawableStart="@drawable/live"
+            android:textSize="12dp"
+            android:textStyle="bold"
+            android:fontFamily="@font/roboto_bold"
+            android:maxLines="1"
+            android:ellipsize="end"
+            android:textColor="@color/black" />
 
-            <TextView
-                android:id="@+id/newslabel"
-                android:layout_width="wrap_content"
-                android:background="@drawable/bkoflive"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_vertical"
-                android:drawablePadding="@dimen/_5sdp"
-                android:gravity="center_vertical"
-                android:layout_alignParentTop="true"
-                android:paddingVertical="@dimen/_5sdp"
-                android:paddingHorizontal="@dimen/_10sdp"
-                android:layout_alignParentStart="true"
-                android:text="Live"
-                android:drawableStart="@drawable/live"
-                android:textSize="12dp"
-                android:textStyle="bold"
-                android:fontFamily="@font/roboto_bold"
-                android:maxLines="1"
-                android:ellipsize="end"
-                android:textColor="@color/black" />
+        <TextView
+            android:id="@+id/label"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:fontFamily="@font/roboto_bold"
+            android:gravity="center_vertical"
+            android:maxLines="1"
+            android:background="@drawable/gradient_overlay"
+            android:layout_alignParentBottom="true"
+            android:paddingHorizontal="@dimen/_10sdp"
+            android:paddingVertical="@dimen/_5sdp"
+            android:text="Live"
+            android:textColor="@color/black"
+            android:textSize="12dp"
+            android:textStyle="bold" />
 
-
-            <LinearLayout
-                android:elevation="@dimen/_10sdp"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal">
-
-
-            </LinearLayout>
-
-        </RelativeLayout>
+    </RelativeLayout>
 </androidx.cardview.widget.CardView>

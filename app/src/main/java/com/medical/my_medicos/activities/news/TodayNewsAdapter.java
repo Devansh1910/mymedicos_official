@@ -40,6 +40,8 @@ public class TodayNewsAdapter extends RecyclerView.Adapter<TodayNewsAdapter.Toda
                 .load(newstoday.getThumbnail())
                 .into(holder.binding.thumbnailnewstoday);
 
+        holder.binding.label.setText(newstoday.getLabel());
+
         holder.binding.viewtodaysnews.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -59,6 +61,7 @@ public class TodayNewsAdapter extends RecyclerView.Adapter<TodayNewsAdapter.Toda
         public TodayNewsViewHolder(@NonNull View itemView) {
             super(itemView);
             binding = ItemTodayNewsBinding.bind(itemView);
+
         }
     }
 

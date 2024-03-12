@@ -188,11 +188,11 @@ public class NewsDetailedActivity extends AppCompatActivity {
 
                 String sharelinktext =
                         newsTitle + "\\n\\n\"" +
-                        "https://app.mymedicos.in/?" +
-                        "link=http://www.mymedicos.in/newsdetails?newsId=" + newsId +
-                        "&st=" + encodedNewsTitle +
-                        "&apn=" + getPackageName() +
-                        "&si=" + newsThumbnail ;
+                                "https://app.mymedicos.in/?" +
+                                "link=http://www.mymedicos.in/newsdetails?newsId=" + newsId +
+                                "&st=" + encodedNewsTitle +
+                                "&apn=" + getPackageName() +
+                                "&si=" + newsThumbnail ;
 
                 Log.e("Job Detailed Activity", "Sharelink - " + sharelinktext);
 
