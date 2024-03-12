@@ -227,6 +227,7 @@ public class NewsDetailedActivity extends AppCompatActivity {
                             Intent intent = getIntent();
                             intent.putExtra("newsId", newsId);
                             setIntent(intent);
+                            //.....
                         }
                     }
                 })
