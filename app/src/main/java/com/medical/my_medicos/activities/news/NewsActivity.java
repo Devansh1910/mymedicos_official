@@ -1,12 +1,18 @@
 package com.medical.my_medicos.activities.news;
 
+import static android.view.WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS;
+
+import static androidx.core.content.ContentProviderCompat.requireContext;
+
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
+import androidx.core.widget.NestedScrollView;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 import androidx.viewpager2.adapter.FragmentStateAdapter;
 import androidx.viewpager2.widget.ViewPager2;
@@ -19,14 +25,19 @@ import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.util.Log;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.Window;
+import android.view.WindowInsets;
+import android.view.WindowInsetsController;
 import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.google.android.material.tabs.TabLayout;
@@ -42,9 +53,15 @@ import com.medical.my_medicos.activities.job.JobsActivity;
 import com.medical.my_medicos.activities.job.JobsActivity2;
 import com.medical.my_medicos.activities.job.fragments.LocumFragment;
 import com.medical.my_medicos.activities.job.fragments.RegularFragment;
+//import com.medical.my_medicos.activities.news.tags.Tags;
+//import com.medical.my_medicos.activities.news.tags.TagsAdapter;
+//import com.medical.my_medicos.activities.news.tags.TagsInsiderActivity;
 import com.medical.my_medicos.activities.pg.activites.PgprepActivity;
 import com.medical.my_medicos.activities.publications.activity.PublicationActivity;
 import com.medical.my_medicos.activities.publications.activity.SearchPublicationActivity;
+import com.medical.my_medicos.activities.slideshow.SlideshareCategoryAdapter;
+import com.medical.my_medicos.activities.slideshow.insider.SpecialitySlideshowInsiderActivity;
+import com.medical.my_medicos.activities.slideshow.model.SlideshareCategory;
 import com.medical.my_medicos.activities.utils.ConstantsDashboard;
 import com.medical.my_medicos.databinding.ActivityNewsBinding;
 
@@ -67,33 +84,38 @@ public class  NewsActivity extends AppCompatActivity {
     TodayNewsAdapter todayNewsAdapter;
     ArrayList<NewsToday>  newstoday;
     private ImageView backtothehomefrompg;
-
     private TabLayout tabLayoutnews;
     private ViewPager2 pagernews, viewpagernews;
-    private SwipeRefreshLayout swipeRefreshLayoutNews;
+
+//    TagsAdapter tagsAdapter;
+//    ArrayList<Tags> tags;
+
+    //....News Activity
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        getWindow().setFlags(WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS, WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS );
         binding = ActivityNewsBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            View decorView = getWindow().getDecorView();
-            decorView.setSystemUiVisibility(decorView.getSystemUiVisibility() | View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);
-        }
-
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            Window window = getWindow();
-            window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
-            window.setStatusBarColor(ContextCompat.getColor(this, R.color.backgroundcolor));
-            window.setNavigationBarColor(ContextCompat.getColor(this, R.color.backgroundcolor));
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+            WindowInsetsController controller = getWindow().getInsetsController();
+            if (controller != null) {
+                controller.setSystemBarsBehavior(WindowInsetsController.BEHAVIOR_SHOW_TRANSIENT_BARS_BY_SWIPE);
+                controller.hide(WindowInsets.Type.statusBars());
+            }
+        } else {
+            getWindow().getDecorView().setSystemUiVisibility(
+                    View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
+                            | View.SYSTEM_UI_FLAG_LAYOUT_STABLE);
         }
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             View decorView = getWindow().getDecorView();
             decorView.setSystemUiVisibility(decorView.getSystemUiVisibility() | View.SYSTEM_UI_FLAG_LIGHT_NAVIGATION_BAR);
         }
+
 
         binding.searchBarNews.addTextChangeListener(new TextWatcher() {
             @Override
@@ -145,11 +167,12 @@ public class  NewsActivity extends AppCompatActivity {
             }
         });
 
-        swipeRefreshLayoutNews = findViewById(R.id.swipeRefreshLayoutNews);
-        swipeRefreshLayoutNews.setOnRefreshListener(this::refreshContent);
+//        swipeRefreshLayoutNews = findViewById(R.id.swipeRefreshLayoutNews);
+//        swipeRefreshLayoutNews.setOnRefreshListener(this::refreshContent);
         binding.newstoolbar.setNavigationOnClickListener(vv -> onBackPressed());
 
         initNews();
+//        initTags();
         initNewsSlider();
         initTodaysSlider(); // Make sure to call this after initNewsSlider
     }
@@ -157,7 +180,7 @@ public class  NewsActivity extends AppCompatActivity {
     private void refreshContent() {
         clearData();
         fetchData();
-        swipeRefreshLayoutNews.setRefreshing(false);
+//        swipeRefreshLayoutNews.setRefreshing(false);
     }
     private void clearData() {
         news.clear();
@@ -287,6 +310,85 @@ public class  NewsActivity extends AppCompatActivity {
         binding.newsListToday.setLayoutManager(layoutManager);
         binding.newsListToday.setAdapter(todayNewsAdapter);
     }
+
+    //......
+//    void initTags() {
+//        tags = new ArrayList<>();
+//        tagsAdapter = new TagsAdapter(this, tags);
+//
+//        getTags();
+//
+//        LinearLayoutManager layoutManager = new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false);
+//        binding.newstags.setLayoutManager(layoutManager);
+//        binding.newstags.setAdapter(tagsAdapter);
+//    }
+//    void getTags() {
+//
+//        RequestQueue queue = Volley.newRequestQueue(this);
+//        StringRequest request = new StringRequest(Request.Method.GET, ConstantsDashboard.GET_SPECIALITY, new Response.Listener<String>() {
+//            @SuppressLint("NotifyDataSetChanged")
+//            @Override
+//            public void onResponse(String response) {
+//                try {
+//                    Log.e("err", response);
+//                    JSONObject mainObj = new JSONObject(response);
+//                    if (mainObj.getString("status").equals("success")) {
+//                        JSONArray tagsArray = mainObj.getJSONArray("data");
+//                        int tagsCount = Math.min(tagsArray.length(), 40);
+//                        for (int i = 0; i < tagsCount; i++) {
+//                            JSONObject object = tagsArray.getJSONObject(i);
+//
+//                            int priority = object.getInt("priority");
+//                            if (priority >= 1 && priority <= 3) {
+//                                Tags tagscategories = new Tags(
+//                                        object.getString("id"),
+//                                        priority // Set the priority
+//                                );
+//                                tags.add(tagscategories);
+//                                Log.e("Priority", String.valueOf(priority));
+//                            }
+//                        }
+//
+//
+//                        tagsAdapter.notifyDataSetChanged();
+//                        binding.newstags.addOnItemTouchListener(new RecyclerView.OnItemTouchListener() {
+//                            @Override
+//                            public boolean onInterceptTouchEvent(@NonNull RecyclerView rv, @NonNull MotionEvent e) {
+//                                View child = rv.findChildViewUnder(e.getX(), e.getY());
+//                                int position = rv.getChildAdapterPosition(child);
+//
+//                                if (position != RecyclerView.NO_POSITION) {
+//                                    if (position == tags.size() - 1 && tags.get(position).getPriority() == -1) {
+//                                        Intent intent = new Intent(NewsActivity.this, TagsInsiderActivity.class);
+//                                        startActivity(intent);
+//                                    } else {
+//
+//                                    }
+//                                }
+//                                return false;
+//                            }
+//                            @Override
+//                            public void onTouchEvent(@NonNull RecyclerView rv, @NonNull MotionEvent e) {}
+//
+//                            @Override
+//                            public void onRequestDisallowInterceptTouchEvent(boolean disallowIntercept) {}
+//                        });
+//                        tagsAdapter.notifyDataSetChanged();
+//                    } else {
+//                    }
+//                } catch (JSONException e) {
+//                    e.printStackTrace();
+//                }
+//            }
+//        }, new Response.ErrorListener() {
+//            @Override
+//            public void onErrorResponse(VolleyError error) {
+//
+//            }
+//        });
+//
+//        queue.add(request);
+//    }
 
     @Override
     public boolean onSupportNavigateUp() {
