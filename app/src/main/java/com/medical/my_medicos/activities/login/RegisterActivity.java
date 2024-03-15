@@ -249,8 +249,6 @@ public class RegisterActivity extends AppCompatActivity {
 
                 }
 
-                // Check if phone number is valid
-                // Check if email is empty or invalid
                 String emailValidity = isValidEmail(mail);
                 if (emailValidity != null) {
                     email.setError(emailValidity);
@@ -258,7 +256,6 @@ public class RegisterActivity extends AppCompatActivity {
                     return;
                 }
 
-// Check if phone number is empty or invalid
                 String phoneValidity = isValidPhoneNumber(phoneNo);
                 if (phoneValidity != null) {
                     phoneNumber.setError(phoneValidity);
@@ -266,7 +263,6 @@ public class RegisterActivity extends AppCompatActivity {
                     return;
                 }
 
-// Check if password is empty or invalid
                 String passwordValidity = isPasswordValid(pass);
                 if (passwordValidity != null) {
                     password.setError(passwordValidity);
@@ -285,7 +281,6 @@ public class RegisterActivity extends AppCompatActivity {
                                 @Override
                                 public void onComplete(@NonNull Task<Void> task) {
                                     if (task.isSuccessful()) {
-                                        // Use Number type for Streak in createUserInFirestore
                                         createUserInFirestore(mail, name, phoneNo,
                                                 Objects.requireNonNull(userMap.get("location")).toString(),
                                                 Objects.requireNonNull(userMap.get("interest")).toString(),
@@ -300,14 +295,14 @@ public class RegisterActivity extends AppCompatActivity {
                                         Toast.makeText(getApplicationContext(), "Registration Successful, please verify your Email ID", Toast.LENGTH_SHORT).show();
                                         progressDialog.dismiss();
                                     } else {
-                                        Toast.makeText(getApplicationContext(), "Registration Failed", Toast.LENGTH_SHORT).show();
+                                        Toast.makeText(getApplicationContext(), "Email already existing,use a different email Id", Toast.LENGTH_SHORT).show();
                                         progressDialog.dismiss();
                                     }
                                 }
 
                             });
                         } else {
-                            Toast.makeText(getApplicationContext(), "Registration Failed", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(getApplicationContext(), "Registration Failed, Something went wrong!", Toast.LENGTH_SHORT).show();
                             progressDialog.dismiss();
                         }
                     }
@@ -369,7 +364,7 @@ public class RegisterActivity extends AppCompatActivity {
                 .addOnFailureListener(new OnFailureListener() {
                     @Override
                     public void onFailure(@NonNull Exception e) {
-                        Toast.makeText(RegisterActivity.this, "Error", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(RegisterActivity.this, "Error 404", Toast.LENGTH_SHORT).show();
                     }
                 });
     }

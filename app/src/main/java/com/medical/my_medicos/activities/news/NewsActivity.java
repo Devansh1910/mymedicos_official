@@ -19,6 +19,7 @@ import androidx.viewpager2.widget.ViewPager2;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
 import android.text.Editable;
@@ -56,6 +57,11 @@ import com.medical.my_medicos.activities.job.fragments.RegularFragment;
 //import com.medical.my_medicos.activities.news.tags.Tags;
 //import com.medical.my_medicos.activities.news.tags.TagsAdapter;
 //import com.medical.my_medicos.activities.news.tags.TagsInsiderActivity;
+import com.medical.my_medicos.activities.news.fragments.AllNewsFragment;
+import com.medical.my_medicos.activities.news.fragments.DrugnDiseasesNewsFragment;
+import com.medical.my_medicos.activities.news.fragments.EducationNewsFragment;
+import com.medical.my_medicos.activities.news.fragments.JobsUpdatesNewsFragment;
+import com.medical.my_medicos.activities.news.fragments.MedicalNewsFragment;
 import com.medical.my_medicos.activities.pg.activites.PgprepActivity;
 import com.medical.my_medicos.activities.publications.activity.PublicationActivity;
 import com.medical.my_medicos.activities.publications.activity.SearchPublicationActivity;
@@ -87,6 +93,8 @@ public class  NewsActivity extends AppCompatActivity {
     private TabLayout tabLayoutnews;
     private ViewPager2 pagernews, viewpagernews;
 
+    String TitleNews;
+
 //    TagsAdapter tagsAdapter;
 //    ArrayList<Tags> tags;
 
@@ -116,6 +124,30 @@ public class  NewsActivity extends AppCompatActivity {
             decorView.setSystemUiVisibility(decorView.getSystemUiVisibility() | View.SYSTEM_UI_FLAG_LIGHT_NAVIGATION_BAR);
         }
 
+//        viewpagernews = findViewById(R.id.view_pager_news);
+//        viewpagernews.setAdapter(new NewsActivity.ViewPagerAdapterNews(this, TitleNews));
+//
+//        pagernews = findViewById(R.id.view_pager_news);
+//        tabLayoutnews = findViewById(R.id.tablayoutnews);
+//        new TabLayoutMediator(tabLayoutnews, viewpagernews, (tab, position) -> {
+//            switch (position) {
+//                case 0:
+//                    tab.setText("All");
+//                    break;
+//                case 1:
+//                    tab.setText("Medical");
+//                    break;
+//                case 2:
+//                    tab.setText("Education");
+//                    break;
+//                case 3:
+//                    tab.setText("Drugs & Diseases");
+//                    break;
+//                case 4:
+//                    tab.setText("Job Updates");
+//                    break;
+//            }
+//        }).attach();
 
         binding.searchBarNews.addTextChangeListener(new TextWatcher() {
             @Override
@@ -176,6 +208,64 @@ public class  NewsActivity extends AppCompatActivity {
         initNewsSlider();
         initTodaysSlider(); // Make sure to call this after initNewsSlider
     }
+
+//    class ViewPagerAdapterNews extends FragmentStateAdapter {
+//        private String title;
+//
+//        public ViewPagerAdapterNews(@NonNull FragmentActivity fragmentActivity, String title) {
+//            super(fragmentActivity);
+//            this.title = title;
+//        }
+//
+//        @NonNull
+//        @Override
+//        public Fragment createFragment(int position) {
+//            switch (position) {
+//                case 0:
+//                    AllNewsFragment allnewsFragment = new AllNewsFragment();
+//                    Bundle argsall = new Bundle();
+//                    argsall.putString("Title", title);
+//                    allnewsFragment.setArguments(argsall);
+//                    return allnewsFragment;
+//
+//                case 1:
+//                    MedicalNewsFragment medicalNewsFragment = new MedicalNewsFragment();
+//                    Bundle argsMedical = new Bundle();
+//                    argsMedical.putString("Title", title);
+//                    medicalNewsFragment.setArguments(argsMedical);
+//                    return medicalNewsFragment;
+//
+//                case 2:
+//                    EducationNewsFragment educationNewsFragment = new EducationNewsFragment();
+//                    Bundle argseducation = new Bundle();
+//                    argseducation.putString("Title", title);
+//                    educationNewsFragment.setArguments(argseducation);
+//                    return educationNewsFragment;
+//
+//                case 3:
+//                    DrugnDiseasesNewsFragment drugsndiseasesNewsFragment = new DrugnDiseasesNewsFragment();
+//                    Bundle argsdrugs = new Bundle();
+//                    argsdrugs.putString("Title", title);
+//                    drugsndiseasesNewsFragment.setArguments(argsdrugs);
+//                    return drugsndiseasesNewsFragment;
+//
+//                case 4:
+//                    JobsUpdatesNewsFragment jobsUpdatesNewsFragment = new JobsUpdatesNewsFragment();
+//                    Bundle argsJobsUpdates = new Bundle();
+//                    argsJobsUpdates.putString("Title", title);
+//                    jobsUpdatesNewsFragment.setArguments(argsJobsUpdates);
+//                    return jobsUpdatesNewsFragment;
+//
+//            }
+//
+//            return null;
+//        }
+//
+//        @Override
+//        public int getItemCount() {
+//            return 2;
+//        }
+//    }
 
     private void refreshContent() {
         clearData();

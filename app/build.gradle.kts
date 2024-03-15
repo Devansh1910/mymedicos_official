@@ -15,8 +15,8 @@ android {
         applicationId = "com.medical.my_medicos"
         minSdk = 24
         targetSdk = 34
-        versionCode = 37
-        versionName = "3.0.7"
+        versionCode = 47
+        versionName = "4.0.6"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
@@ -44,7 +44,7 @@ android {
 
 dependencies {
     implementation("androidx.appcompat:appcompat:1.6.1")
-    implementation(platform("com.google.firebase:firebase-bom:32.7.3"))
+    implementation(platform("com.google.firebase:firebase-bom:32.7.4"))
     implementation("com.google.firebase:firebase-analytics")
 //    implementation("com.google.firebase:firebase-auth")
     implementation("com.google.android.material:material:1.11.0")
@@ -55,10 +55,11 @@ dependencies {
     implementation("androidx.navigation:navigation-ui:2.7.7")
     implementation("androidx.legacy:legacy-support-v4:1.0.0")
     implementation("com.google.firebase:firebase-sessions:1.2.2")
-    implementation("androidx.media3:media3-common:1.2.1")
+    implementation("androidx.media3:media3-common:1.3.0")
     implementation("com.google.firebase:firebase-crashlytics-buildtools:2.9.9")
-    implementation("androidx.media3:media3-exoplayer:1.2.1")
+    implementation("androidx.media3:media3-exoplayer:1.3.0")
     implementation("com.google.firebase:firebase-messaging:23.4.1")
+    implementation("androidx.activity:activity:1.8.2")
     testImplementation("junit:junit:4.13.2")
     androidTestImplementation("androidx.test.ext:junit:1.1.5")
     androidTestImplementation("androidx.test.espresso:espresso-core:3.5.1")
@@ -108,7 +109,7 @@ dependencies {
     implementation ("com.google.android.exoplayer:exoplayer:2.19.1")
     implementation ("com.google.android.exoplayer:exoplayer-ui:2.19.1")
     //.. AdMobs....
-    implementation ("com.google.android.gms:play-services-ads:22.6.0")
+    implementation ("com.google.android.gms:play-services-ads:23.0.0")
     //...Swipe in....
     implementation ("com.github.esafirm:android-stubutton:1.1.0")
     implementation ("com.google.android.recaptcha:recaptcha:18.4.0")

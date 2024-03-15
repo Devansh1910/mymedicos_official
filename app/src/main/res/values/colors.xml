@@ -2,6 +2,8 @@
 <resources>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
+    <color name="whiteopac">#BFFFFFFF</color>
+
     <color name="blue">@color/green</color>
     <color name="green">#85E8D1</color>
     <color name="taptargetblue">#E685E8D1</color>
@@ -19,4 +21,5 @@
     <color name="backgroundcolor">#F5F5F5</color>
     <color name="getstartedbottom">#F1EEEE</color>
     <color name="navbg">#51A590</color>
+    <color name="transparentcolor">#00FFFFFF</color>
 </resources>

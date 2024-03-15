@@ -11,6 +11,7 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
+import android.os.Handler;
 import android.util.Log;
 import android.view.View;
 import android.view.Window;
@@ -20,6 +21,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -81,13 +83,15 @@ public class JobDetailsActivity extends AppCompatActivity {
     String documentid1;
 
     String pdf = null;
-    TextView jobTitleTextView,companyNameTextView,locationTextView,salaryEditText,organizername,dateofpost,openingsEditText,timelinedurationwillcomehere,authorSpecialityTextView,authorSubSpecialityTextView,jobDescriptionContentTextView,jobtype,durationforjob;
+    TextView jobTitleTextView,companyNameTextView,locationTextView,salaryEditText,organizername,dateofpost,openingsEditText,timelinedurationwillcomehere,authorSpecialityTextView,authorSubSpecialityTextView,jobDescriptionContentTextView,jobtype,durationforjob,salarytypeTextView;
     @SuppressLint("MissingInflatedId")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_details_jobs);
         LinearLayout downloadPdfButton = findViewById(R.id.downloadPdfButton);
+
+        showLoadForJob();
 
         String documentId = getIntent().getStringExtra("documentid");
         String documentId2 = getIntent().getStringExtra("documentid");
@@ -106,6 +110,7 @@ public class JobDetailsActivity extends AppCompatActivity {
         jobTitleTextView = findViewById(R.id.jobTitleTextView);
         companyNameTextView = findViewById(R.id.companyNameTextView);
         locationTextView = findViewById(R.id.locationTextView);
+        salarytypeTextView = findViewById(R.id.salarytype);
         salaryEditText = findViewById(R.id.salaryEditText);
         organizername = findViewById(R.id.organizername);
         dateofpost = findViewById(R.id.jobposteddate);
@@ -230,6 +235,7 @@ public class JobDetailsActivity extends AppCompatActivity {
                                     timelinedurationwillcomehere.setText((String) dataMap.get("Duration Timeline"));
                                     dateofpost.setText((String) dataMap.get("date"));
                                     locationTextView.setText((String) dataMap.get("Location"));
+                                    salarytypeTextView.setText((String) dataMap.get("Salary type"));
                                     authorSpecialityTextView.setText((String) dataMap.get("Speciality"));
                                     String subSpeciality = (String) dataMap.get("SubSpeciality");
                                     if (subSpeciality != null && !subSpeciality.isEmpty()) {
@@ -271,6 +277,18 @@ public class JobDetailsActivity extends AppCompatActivity {
 
         handleDeepLink();
         setSystemBarColors();
+    }
+
+    private void showLoadForJob() {
+        RelativeLayout loaderForJobs = findViewById(R.id.loaderforjobs);
+        loaderForJobs.setVisibility(View.VISIBLE);
+
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                loaderForJobs.setVisibility(View.GONE);
+            }
+        }, 2000);
     }
     public void createlink(String custid, String jobId,String jobtitle, String jobdescription){
         Log.e("main","create link");
@@ -366,12 +384,13 @@ public class JobDetailsActivity extends AppCompatActivity {
                 String time = documentSnapshot.getString("Duration Timeline");
                 String date = documentSnapshot.getString("date");
                 String location = documentSnapshot.getString("Location");
+                String salarytype = documentSnapshot.getString("Salary type");
                 String speciality = documentSnapshot.getString("Speciality");
                 String subspeciality = documentSnapshot.getString("SubSpeciality");
                 String hospital = documentSnapshot.getString("Hospital");
                 String type = documentSnapshot.getString("Job type");
 
-                updateUI(jobTitle, hospital, jobDescription,  location,  salary, organiser, date, openings, time, speciality, subspeciality, type, roleduration);
+                updateUI(jobTitle, hospital, jobDescription,  location,  salary, organiser, date, openings, time, speciality, subspeciality, type, roleduration, salarytype);
 
             } else {
                 Log.e(TAG, "No such document with documentId: " + documentId);
@@ -396,12 +415,13 @@ public class JobDetailsActivity extends AppCompatActivity {
                 String time = documentSnapshot.getString("Duration Timeline");
                 String date = documentSnapshot.getString("date");
                 String location = documentSnapshot.getString("Location");
+                String salarytype = documentSnapshot.getString("Salary type");
                 String speciality = documentSnapshot.getString("Speciality");
                 String subspeciality = documentSnapshot.getString("SubSpeciality");
                 String hospital = documentSnapshot.getString("Hospital");
                 String type = documentSnapshot.getString("Job type");
 
-                updateUI(jobTitle, hospital, jobDescription,  location,  salary, organiser, date, openings, time, speciality, subspeciality, type, roleduration);
+                updateUI(jobTitle, hospital, jobDescription,  location,  salary, organiser, date, openings, time, speciality, subspeciality, type, roleduration, salarytype);
 
             } else {
                 Log.e(TAG, "No such document with documentId: " + documentId2);
@@ -410,12 +430,13 @@ public class JobDetailsActivity extends AppCompatActivity {
             Log.e(TAG, "Error fetching job details for documentId: " + documentId2, e);
         });
     }
-    private void updateUI(String jobTitle, String hospital, String jobDescription, String location, String salary,String organiser,String date,String openings,String time,String speciality,String subspeciality,String type,String roleduration) {
+    private void updateUI(String jobTitle, String hospital, String jobDescription, String location, String salary,String organiser,String date,String openings,String time,String speciality,String subspeciality,String type,String roleduration,String salarytype) {
 
         jobTitleTextView.setText(jobTitle);
         companyNameTextView.setText(hospital);
         jobDescriptionContentTextView.setText(jobDescription);
         locationTextView.setText(location);
+        salarytypeTextView.setText(salarytype);
         salaryEditText.setText(salary);
         organizername.setText(organiser);
         dateofpost.setText(date);

@@ -61,7 +61,7 @@
                     android:id="@+id/profiletoolbar"
                     app:title="Profile"
                     app:navigationIcon="@drawable/arrow_bk"
-                    app:titleTextColor="@color/black"
+                    app:titleTextColor="@color/unselected"
                     app:subtitleTextColor="@color/white"
                     app:subtitleTextAppearance="@color/white"
                     android:layout_width="match_parent"
@@ -125,7 +125,8 @@
                 </LinearLayout>
 
                 <LinearLayout
-                    android:layout_width="wrap_content"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:layout_marginStart="@dimen/_8ssp"
@@ -140,7 +141,7 @@
                             android:id="@+id/prefixselecterfromuser"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:fontFamily="@font/montserrat_medium"
+                            android:fontFamily="@font/inter"
                             android:text="Dr."
                             android:textStyle="bold"
                             android:textColor="@color/black"
@@ -151,44 +152,43 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
+                            android:paddingStart="@dimen/_5ssp"
                             android:textStyle="bold"
                             android:layout_marginStart="@dimen/_2ssp"
                             android:textColor="@color/black"
-                            android:fontFamily="@font/montserrat_medium"
+                            android:fontFamily="@font/inter"
                             android:text="Loading.."
                             android:textSize="@dimen/_14ssp" />
 
                     </LinearLayout>
 
                     <LinearLayout
-                        android:layout_width="wrap_content"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:orientation="horizontal">
+                        android:orientation="vertical">
 
                         <TextView
                             android:id="@+id/user_location_dr"
                             android:padding="@dimen/_3ssp"
-                            android:layout_width="wrap_content"
+                            android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_weight="1"
                             android:textStyle="bold"
                             android:background="@drawable/smaller_block"
                             android:layout_marginVertical="@dimen/_4ssp"
-                            android:fontFamily="@font/montserrat_medium"
+                            android:fontFamily="@font/inter"
                             android:text="Loading.."
                             android:textSize="@dimen/_9ssp" />
 
                         <TextView
                             android:id="@+id/user_interest_dr"
                             android:padding="@dimen/_3ssp"
-                            android:layout_width="wrap_content"
-                            android:layout_marginStart="@dimen/_5ssp"
+                            android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
                             android:textStyle="bold"
                             android:background="@drawable/smaller_block"
                             android:layout_marginVertical="@dimen/_4ssp"
-                            android:fontFamily="@font/montserrat_medium"
+                            android:fontFamily="@font/inter"
                             android:text="Loading.."
                             android:textSize="@dimen/_9ssp" />
 
@@ -209,7 +209,7 @@
                             android:textColor="@color/black"
                             android:layout_marginHorizontal="@dimen/_4ssp"
                             android:layout_marginVertical="@dimen/_2ssp"
-                            android:fontFamily="@font/montserrat_medium"
+                            android:fontFamily="@font/inter"
                             android:text="Loading.."
                             android:textSize="@dimen/_10ssp" />
 
@@ -239,7 +239,7 @@
                             android:textColor="@color/black"
                             android:textStyle="bold"
                             android:layout_marginHorizontal="@dimen/_2ssp"
-                            android:fontFamily="@font/montserrat_medium"
+                            android:fontFamily="@font/inter"
                             android:text="Loading.."
                             android:textSize="@dimen/_10ssp" />
 
@@ -251,23 +251,6 @@
                             android:layout_marginEnd="@dimen/_5ssp"/>
 
                     </LinearLayout>
-
-                    <TextView
-                        android:paddingHorizontal="@dimen/_20ssp"
-                        android:id="@+id/Edit"
-                        android:paddingVertical="@dimen/_4ssp"
-                        android:layout_width="wrap_content"
-                        android:gravity="center"
-                        android:layout_gravity="end"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:textStyle="bold"
-                        android:layout_marginStart="@dimen/_10ssp"
-                        android:background="@drawable/black_block"
-                        android:fontFamily="@font/montserrat_medium"
-                        android:text="Update Profile"
-                        android:textColor="@color/white"
-                        android:textSize="@dimen/_10ssp" />
 
                 </LinearLayout>
 
@@ -294,7 +277,7 @@
                         android:layout_width="0dp"
                         android:layout_weight="1"
                         android:layout_height="wrap_content"
-                        android:fontFamily="@font/inter_extrabold"
+                        android:fontFamily="@font/inter"
                         android:paddingHorizontal="20dp"
                         android:paddingVertical="8dp"
                         android:text="Your Credit Score"
@@ -358,6 +341,7 @@
                         android:textStyle="bold"
                         android:drawableEnd="@drawable/arrowww"
                         android:textSize="@dimen/_15ssp"
+                        android:fontFamily="@font/inter"
                         android:paddingTop="@dimen/_20ssp"
                         android:paddingHorizontal="@dimen/_20ssp"
                         android:textColor="@color/white"/>
@@ -368,6 +352,7 @@
                         android:paddingHorizontal="@dimen/_20ssp"
                         android:paddingBottom="@dimen/_20ssp"
                         android:textSize="@dimen/_10ssp"
+                        android:fontFamily="@font/inter"
                         android:text="Verify your documents to get enjoy all the features of Medicos :)"
                         android:textStyle="bold"
                         android:textColor="#000000"/>
@@ -402,6 +387,7 @@
                             android:gravity="start"
                             android:paddingTop="@dimen/_8sdp"
                             android:text="Verified!"
+                            android:fontFamily="@font/inter"
                             android:textStyle="bold"
                             android:textSize="@dimen/_18ssp"
                             android:paddingHorizontal="@dimen/_20ssp"
@@ -416,9 +402,10 @@
                             android:gravity="start"
                             android:paddingBottom="@dimen/_8sdp"
                             android:textSize="@dimen/_12ssp"
+                            android:fontFamily="@font/inter"
                             android:text="Congratulations, You are in Top 1% "
                             android:textStyle="bold"
-                            android:textColor="#000000"/>
+                            android:textColor="@color/unselected"/>
 
                     </LinearLayout>
 
@@ -467,8 +454,9 @@
                         android:layout_height="match_parent"
                         android:textSize="@dimen/_14ssp"
                         android:text="Customize Profile"
+                        android:fontFamily="@font/inter"
                         android:textStyle="bold"
-                        android:textColor="@color/black"/>
+                        android:textColor="@color/unselected"/>
 
                     <ImageView
                         android:layout_width="wrap_content"
@@ -530,9 +518,10 @@
                             android:paddingHorizontal="@dimen/_5sdp"
                             android:layout_height="match_parent"
                             android:textSize="@dimen/_14ssp"
+                            android:fontFamily="@font/inter"
                             android:text="About Us"
                             android:textStyle="bold"
-                            android:textColor="@color/black"/>
+                            android:textColor="@color/unselected"/>
 
                         <ImageView
                             android:layout_width="wrap_content"
@@ -565,9 +554,10 @@
                             android:layout_height="match_parent"
                             android:textSize="@dimen/_14ssp"
                             android:text="Chat with us"
+                            android:fontFamily="@font/inter"
                             android:paddingHorizontal="@dimen/_5sdp"
                             android:textStyle="bold"
-                            android:textColor="@color/black"/>
+                            android:textColor="@color/unselected"/>
 
                         <ImageView
                             android:layout_width="wrap_content"
@@ -600,9 +590,10 @@
                             android:paddingHorizontal="@dimen/_5sdp"
                             android:layout_height="match_parent"
                             android:textSize="@dimen/_14ssp"
+                            android:fontFamily="@font/inter"
                             android:text="Join Community"
                             android:textStyle="bold"
-                            android:textColor="@color/black"/>
+                            android:textColor="@color/unselected"/>
 
                         <ImageView
                             android:layout_width="wrap_content"
@@ -636,9 +627,10 @@
                             android:paddingHorizontal="@dimen/_5sdp"
                             android:layout_height="match_parent"
                             android:textSize="@dimen/_14ssp"
+                            android:fontFamily="@font/inter"
                             android:text="Settings"
                             android:textStyle="bold"
-                            android:textColor="@color/black"/>
+                            android:textColor="@color/unselected"/>
 
                         <ImageView
                             android:layout_width="wrap_content"
@@ -671,9 +663,10 @@
                             android:paddingHorizontal="@dimen/_5sdp"
                             android:layout_height="match_parent"
                             android:textSize="@dimen/_14ssp"
+                            android:fontFamily="@font/inter"
                             android:text="Refer to a Friend"
                             android:textStyle="bold"
-                            android:textColor="@color/black"/>
+                            android:textColor="@color/unselected"/>
 
                         <ImageView
                             android:layout_width="wrap_content"
@@ -718,10 +711,11 @@
                         android:gravity="center_vertical"
                         android:paddingHorizontal="@dimen/_5sdp"
                         android:layout_height="match_parent"
+                        android:fontFamily="@font/inter"
                         android:textSize="@dimen/_14ssp"
                         android:text="Log Out"
                         android:textStyle="bold"
-                        android:textColor="@color/black"/>
+                        android:textColor="#FF0000"/>
 
                 </LinearLayout>
 

@@ -15,21 +15,6 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <com.airbnb.lottie.LottieAnimationView
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:elevation="10dp"
-            android:id="@+id/shimmmmmmerererere"
-            android:background="@color/white"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:lottie_autoPlay="true"
-            android:visibility="gone"
-            app:lottie_rawRes="@raw/shimmer"
-            app:lottie_loop="false"
-            app:lottie_speed="1" />
-
         <com.google.android.material.appbar.AppBarLayout
             android:id="@+id/appBarLayout"
             android:layout_width="match_parent"
@@ -63,12 +48,21 @@
                     android:gravity="center"
                     android:orientation="horizontal">
 
-<!--                    <ImageView-->
-<!--                        android:id="@+id/notificationbtn"-->
-<!--                        android:layout_width="wrap_content"-->
-<!--                        android:layout_height="wrap_content"-->
-<!--                        android:layout_marginEnd="@dimen/_8sdp"-->
-<!--                        android:src="@drawable/notificationlogo" />-->
+                    <!--                    <ImageView-->
+                    <!--                        android:id="@+id/notificationbtn"-->
+                    <!--                        android:layout_width="wrap_content"-->
+                    <!--                        android:layout_height="wrap_content"-->
+                    <!--                        android:layout_marginEnd="@dimen/_8sdp"-->
+                    <!--                        android:src="@drawable/notificationlogo" />-->
+
+                    <ProgressBar
+                        android:id="@+id/loadingCircle"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="@dimen/_5ssp"
+                        android:layout_gravity="center"
+                        android:visibility="visible"
+                        android:progressTint="@color/white" />
 
                     <LinearLayout
                         android:id="@+id/opensidehomedrawer"

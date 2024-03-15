@@ -56,7 +56,7 @@
             android:paddingHorizontal="@dimen/_10sdp"
             android:paddingVertical="@dimen/_5sdp"
             android:text="Live"
-            android:textColor="@color/black"
+            android:textColor="@color/white"
             android:textSize="12dp"
             android:textStyle="bold" />
 

@@ -5,9 +5,6 @@
 package com.medical.my_medicos.adapter.job.items;
 
 import android.util.Log;
-
-
-
 public class jobitem1 {
 
     String position,speciality,Location,Organiser;

@@ -18,7 +18,6 @@
     <style name="AppBottomSheetDialogTheme" parent="Theme.Design.BottomSheetDialog">
         <item name="android:background">@android:color/transparent</item>
     </style>
-    <!-- styles.xml -->
 
     <style name="CustomProgressDialog" parent="Theme.AppCompat.Light.Dialog.Alert">
         <item name="android:windowBackground">@android:color/transparent</item>
@@ -33,4 +32,9 @@
     <style name="Theme.My_medicos.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
 
     <style name="Theme.My_medicos.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
+
+    <style name="Theme.My_medicos.BlackStatusBar" parent="Base.Theme.My_medicos">
+        <item name="colorPrimaryDark">@color/black</item> <!-- This sets the status bar color -->
+        <item name="android:statusBarColor">@color/black</item> <!-- This also sets the status bar color -->
+    </style>
 </resources>

@@ -298,7 +298,7 @@ public class SlideshowFragment extends Fragment {
         getSlideshowRecent();
 
         // Use requireContext() or getContext() to get a valid context
-        GridLayoutManager layoutManager = new GridLayoutManager(getContext(), 1);
+        LinearLayoutManager layoutManager = new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false);
 
         binding.slideshowpptlist.setLayoutManager(layoutManager);
         binding.slideshowpptlist.setAdapter(paidslideshowAdapter);

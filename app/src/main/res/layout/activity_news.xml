@@ -44,7 +44,7 @@
                         <org.imaginativeworld.whynotimagecarousel.ImageCarousel
                             android:id="@+id/newscarousel"
                             android:layout_width="match_parent"
-                            android:layout_height="350dp"
+                            android:layout_height="250dp"
                             app:showNavigationButtons="false"
                             app:showCaption="false"
                             app:autoPlay="true"/>
@@ -115,20 +115,27 @@
                             android:id="@+id/linearLayout"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_margin="@dimen/_5sdp"
                             android:orientation="horizontal">
 
                             <com.mancj.materialsearchbar.MaterialSearchBar
                                 android:id="@+id/searchBarNews"
-                                android:layout_width="match_parent"
-                                android:background="@color/black"
-                                android:padding="@dimen/_2sdp"
-                                android:outlineSpotShadowColor="@color/black"
+                                android:layout_width="wrap_content"
+                                android:paddingBottom="@dimen/_10sdp"
+                                android:paddingTop="@dimen/_2ssp"
                                 android:layout_height="wrap_content"
+                                android:paddingHorizontal="@dimen/_8ssp"
                                 app:mt_hint="Explore what's going on..."
-                                app:mt_placeholder="Search News"
-                                app:mt_navIconEnabled="true"
                                 app:mt_maxSuggestionsCount="10"
+                                app:mt_placeholderColor="@color/black"
+                                app:mt_navIconEnabled="false"
+                                app:mt_hintColor="@color/black"
+                                android:fadeScrollbars="true"
+                                android:fadingEdge="horizontal"
+                                android:elevation="@dimen/_10sdp"
+                                app:mt_textColor="@color/black"
+                                app:mt_placeholder="Search News"
+                                app:mt_roundedSearchBarEnabled="true"
+                                app:mt_searchBarColor="@color/whiteopac"
                                 app:mt_speechMode="false" />
 
                         </LinearLayout>
@@ -160,6 +167,58 @@
                     android:layout_width="match_parent"
                     android:paddingHorizontal="5dp"
                     android:layout_height="wrap_content" />
+
+<!--                <com.google.android.material.tabs.TabLayout-->
+<!--                    android:layout_width="match_parent"-->
+<!--                    android:scrollbars="horizontal"-->
+<!--                    android:background="@color/backgroundcolor"-->
+<!--                    android:layout_height="match_parent"-->
+<!--                    android:id="@+id/tablayoutnews"-->
+<!--                    app:layout_constraintEnd_toEndOf="parent"-->
+<!--                    app:layout_constraintStart_toStartOf="parent">-->
+
+<!--                    <com.google.android.material.tabs.TabItem-->
+<!--                        android:id="@+id/allnews"-->
+<!--                        android:layout_width="wrap_content"-->
+<!--                        android:layout_height="wrap_content"-->
+<!--                        android:text="All" />-->
+
+<!--                    <com.google.android.material.tabs.TabItem-->
+<!--                        android:id="@+id/medicalnews"-->
+<!--                        android:layout_width="wrap_content"-->
+<!--                        android:layout_height="wrap_content"-->
+<!--                        android:text="Medical" />-->
+
+<!--                    <com.google.android.material.tabs.TabItem-->
+<!--                        android:id="@+id/educationews"-->
+<!--                        android:layout_width="wrap_content"-->
+<!--                        android:layout_height="wrap_content"-->
+<!--                        android:text="Education" />-->
+
+<!--                    <com.google.android.material.tabs.TabItem-->
+<!--                        android:id="@+id/drugsndiseasesnews"-->
+<!--                        android:layout_width="wrap_content"-->
+<!--                        android:layout_height="wrap_content"-->
+<!--                        android:text="Drugs &amp; Diseases" />-->
+
+<!--                    <com.google.android.material.tabs.TabItem-->
+<!--                        android:id="@+id/jobsnews"-->
+<!--                        android:layout_width="wrap_content"-->
+<!--                        android:layout_height="wrap_content"-->
+<!--                        android:text="Job Updates" />-->
+
+<!--                </com.google.android.material.tabs.TabLayout>-->
+
+<!--                <RelativeLayout-->
+<!--                    android:layout_width="match_parent"-->
+<!--                    android:layout_height="wrap_content">-->
+
+<!--                    <androidx.viewpager2.widget.ViewPager2-->
+<!--                        android:id="@+id/view_pager_news"-->
+<!--                        android:layout_width="match_parent"-->
+<!--                        android:layout_height="wrap_content" />-->
+
+<!--                </RelativeLayout>-->
 
                 <LinearLayout
                     android:layout_width="match_parent"

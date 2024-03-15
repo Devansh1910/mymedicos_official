@@ -88,15 +88,15 @@
             android:layout_height="wrap_content"
             android:text="Need Help Support ?"
             android:visibility="visible"
-            android:fontFamily="@font/inter_extrabold"
+            android:fontFamily="@font/inter"
             android:textColor="@color/grey"
             android:layout_gravity="center"
             android:layout_marginVertical="@dimen/_20sdp"
-            android:padding="@dimen/_5sdp"
+            android:paddingHorizontal="@dimen/_10sdp"
             android:gravity="center"
             android:textSize="@dimen/_12ssp"
             android:background="@drawable/categoryblackkkkkk"
-            android:textStyle="bold" />
+            android:textStyle="normal" />
 
     </LinearLayout>
 

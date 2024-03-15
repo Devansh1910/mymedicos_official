@@ -6,9 +6,12 @@ import android.os.Build;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.Button;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -21,6 +24,7 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.FirebaseException;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException;
 import com.google.firebase.auth.PhoneAuthCredential;
 import com.google.firebase.auth.PhoneAuthOptions;
 import com.google.firebase.auth.PhoneAuthProvider;
@@ -110,7 +114,7 @@ public class EnterOtp extends AppCompatActivity {
                                 .signInWithCredential(credential)
                                 .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
                                     @Override
-                                    public void onComplete(@NonNull @NotNull Task<AuthResult> task) {
+                                    public void onComplete(Task<AuthResult> task) {
                                         if (task.isSuccessful()) {
                                             binding.otpprogressbar.setVisibility(View.VISIBLE);
                                             binding.submitOtp.setVisibility(View.INVISIBLE);
@@ -119,47 +123,71 @@ public class EnterOtp extends AppCompatActivity {
                                             intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
                                             startActivity(intent);
                                         } else {
-                                            binding.submitOtp.setVisibility(View.VISIBLE);
-                                            Toast.makeText(EnterOtp.this, "OTP is not Valid!", Toast.LENGTH_SHORT).show();
+                                            if (task.getException() instanceof FirebaseAuthInvalidCredentialsException) {
+                                                binding.submitOtp.setVisibility(View.VISIBLE);
+                                                Toast.makeText(EnterOtp.this, "OTP is not Valid!", Toast.LENGTH_SHORT).show();
+                                            }else {
+                                                LayoutInflater inflater = getLayoutInflater();
+                                                View layout = inflater.inflate(R.layout.custom_reloader_otp, null);
+                                                Button rebootButton = layout.findViewById(R.id.reboot_button);
+                                                rebootButton.setOnClickListener(new View.OnClickListener() {
+                                                    @Override
+                                                    public void onClick(View v) {
+                                                        Intent intent = getBaseContext().getPackageManager()
+                                                                .getLaunchIntentForPackage(getBaseContext().getPackageName());
+                                                        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                                                        startActivity(intent);
+                                                    }
+                                                });
+                                                Toast toast = new Toast(getApplicationContext());
+                                                toast.setGravity(Gravity.CENTER_VERTICAL, 0, 0);
+                                                toast.setDuration(Toast.LENGTH_LONG);
+                                                toast.setView(layout);
+                                                toast.show();
+
+                                                binding.otpprogressbar.setVisibility(View.GONE);
+                                            }
+
                                             binding.otpprogressbar.setVisibility(View.GONE);
                                         }
                                     }
                                 });
+
                     }
                 }
             }
         });
 
-        autoOtpReceiver();
+//        autoOtpReceiver();
     }
 
-    private void autoOtpReceiver() {
-        otp_receiver = new OtpReceiver();
-        this.registerReceiver(otp_receiver, new IntentFilter(SmsRetriever.SMS_RETRIEVED_ACTION));
-        otp_receiver.initListener(new OtpReceiver.OtpReceiverListener() {
-            @Override
-            public void onOtpSuccess(String otp) {
-                int o1 = Character.getNumericValue(otp.charAt(0));
-                int o2 = Character.getNumericValue(otp.charAt(1));
-                int o3 = Character.getNumericValue(otp.charAt(2));
-                int o4 = Character.getNumericValue(otp.charAt(3));
-                int o5 = Character.getNumericValue(otp.charAt(4));
-                int o6 = Character.getNumericValue(otp.charAt(5));
-
-                binding.inputotp1.setText(String.valueOf(o1));
-                binding.inputotp2.setText(String.valueOf(o2));
-                binding.inputotp3.setText(String.valueOf(o3));
-                binding.inputotp4.setText(String.valueOf(o4));
-                binding.inputotp5.setText(String.valueOf(o5));
-                binding.inputotp6.setText(String.valueOf(o6));
-            }
-
-            @Override
-            public void onOtpTimeout() {
-                Toast.makeText(EnterOtp.this, "Auto Fetch Otp Disabled!", Toast.LENGTH_SHORT).show();
-            }
-        });
-    }
+//    private void autoOtpReceiver() {
+//        otp_receiver = new OtpReceiver();
+//        this.registerReceiver(otp_receiver, new IntentFilter(SmsRetriever.SMS_RETRIEVED_ACTION));
+//        otp_receiver.initListener(new OtpReceiver.OtpReceiverListener() {
+//            @Override
+//            public void onOtpSuccess(String otp) {
+//                int o1 = Character.getNumericValue(otp.charAt(0));
+//                int o2 = Character.getNumericValue(otp.charAt(1));
+//                int o3 = Character.getNumericValue(otp.charAt(2));
+//                int o4 = Character.getNumericValue(otp.charAt(3));
+//                int o5 = Character.getNumericValue(otp.charAt(4));
+//                int o6 = Character.getNumericValue(otp.charAt(5));
+//
+//                binding.inputotp1.setText(String.valueOf(o1));
+//                binding.inputotp2.setText(String.valueOf(o2));
+//                binding.inputotp3.setText(String.valueOf(o3));
+//                binding.inputotp4.setText(String.valueOf(o4));
+//                binding.inputotp5.setText(String.valueOf(o5));
+//                binding.inputotp6.setText(String.valueOf(o6));
+//            }
+//
+//            @Override
+//            public void onOtpTimeout() {
+//                Toast.makeText(EnterOtp.this, "Auto Fetch Otp Disabled!", Toast.LENGTH_SHORT).show();
+//            }
+//        });
+//    }
 
     private void againOtpSend() {
         binding.otpprogressbar.setVisibility(View.VISIBLE);

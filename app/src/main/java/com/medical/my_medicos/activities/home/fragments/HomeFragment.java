@@ -613,8 +613,7 @@ public class HomeFragment extends Fragment {
         paidslideshowAdapter = new PaidSlideshowAdapter(getActivity(), paidslideshows);
         getSlideshowRecent();
 
-        // Use requireContext() or getContext() to get a valid context
-        GridLayoutManager layoutManager = new GridLayoutManager(getContext(), 1);
+        GridLayoutManager layoutManager = new GridLayoutManager(getContext(), 1, LinearLayoutManager.HORIZONTAL, false);
 
         binding.recyclerviewSlideshare1.setLayoutManager(layoutManager);
         binding.recyclerviewSlideshare1.setAdapter(paidslideshowAdapter);
@@ -826,15 +825,23 @@ public class HomeFragment extends Fragment {
         Preferences preferences = Preferences.userRoot();
         if (preferences.get("username", null) != null) {
             System.out.println("Key '" + "username" + "' exists in preferences.");
-            String username = preferences.get("username", null);
-            Log.d("usernaem", username);
+            String fullName = preferences.get("username", null);
+            Log.d("Something went wrong", fullName);
+
+            // Split the full name by spaces and take the first element (the first name)
+            String firstName = fullName.split(" ")[0];
+
+            // Set the first name to the TextView
+            personname.setText(firstName);
         }
+
+        // Assuming you want to keep the rest of the logic as is
         String username = preferences.get("username", "");
         String userPrefix = preferences.get("prefix", "");
-        personname.setText(username);
+        // personname.setText(username); // This line might be redundant if you're setting the first name above
         personsuffix.setText(userPrefix);
-
     }
+
 
     private void initHomeSlider() {
         getsliderHome();

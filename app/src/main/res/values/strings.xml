@@ -404,6 +404,14 @@
         <item>+91</item> <!-- India -->
     </string-array>
 
+    <string-array name="salary_type">
+        <item>Select Type</item>
+        <item>/Yearly</item>
+        <item>/Monthly</item>
+        <item>/Weekly</item>
+        <item>/Hourly</item>
+    </string-array>
+
 
     <string name="app_name1">Onboarding Practice</string>
     <string name="screen1"> Doctors Connect, Learn, Grow.</string>

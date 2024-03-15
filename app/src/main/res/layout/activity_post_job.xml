@@ -266,13 +266,29 @@
                     android:textColor="@color/unselected"
                     android:textStyle="bold" />
 
-                <com.google.android.material.slider.RangeSlider
-                    android:id="@+id/salaryRangeSlider"
+                <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:valueFrom="1000"
-                    android:valueTo="100000"
-                    android:stepSize="1" />
+                    android:layout_gravity="center_vertical"
+                    android:gravity="center"
+                    android:orientation="horizontal">
+
+                    <com.google.android.material.slider.RangeSlider
+                        android:id="@+id/salaryRangeSlider"
+                        android:layout_width="0dp"
+                        android:layout_weight="1"
+                        android:layout_height="wrap_content"
+                        android:valueFrom="1000"
+                        android:valueTo="100000"
+                        android:stepSize="1" />
+
+                    <Spinner
+                        android:id="@+id/salarytype"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:padding="@dimen/_10ssp" />
+
+                </LinearLayout>
 
                 <LinearLayout
                     android:layout_width="match_parent"

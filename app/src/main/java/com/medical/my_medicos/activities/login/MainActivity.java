@@ -1,17 +1,21 @@
 package com.medical.my_medicos.activities.login;
 
 import android.annotation.SuppressLint;
+import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Build;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.Window;
@@ -21,6 +25,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -29,6 +34,7 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
+import com.airbnb.lottie.LottieAnimationView;
 import com.google.android.gms.ads.MobileAds;
 import com.google.android.gms.ads.initialization.InitializationStatus;
 import com.google.android.gms.ads.initialization.OnInitializationCompleteListener;
@@ -50,7 +56,7 @@ public class MainActivity extends AppCompatActivity {
 
     EditText phone;
     Button login;
-    ProgressDialog mdialog;
+    private Dialog mdialog;
     Toolbar toolbar;
     Spinner countryCodeSpinner;
     FirebaseAuth mauth;
@@ -167,7 +173,6 @@ public class MainActivity extends AppCompatActivity {
             Toast.makeText(MainActivity.this, "Phone Number Required", Toast.LENGTH_SHORT).show();
             return;
         }
-
         db.collection("users")
                 .whereEqualTo("Phone Number", phoneNumber)
                 .get()
@@ -176,7 +181,7 @@ public class MainActivity extends AppCompatActivity {
                     public void onComplete(@NonNull Task<QuerySnapshot> task) {
                         if (task.isSuccessful()) {
                             if (task.getResult() != null && !task.getResult().isEmpty()) {
-                                mdialog.setMessage("Logging in");
+                                showCustomProgressDialog("Checking...");
                                 mdialog.show();
 
                                 PhoneAuthProvider.getInstance().verifyPhoneNumber(
@@ -220,6 +225,26 @@ public class MainActivity extends AppCompatActivity {
                 });
     }
 
+    private void showCustomProgressDialog(String message) {
+        if (mdialog != null && mdialog.isShowing()) {
+            mdialog.dismiss();
+        }
+
+        LayoutInflater inflater = getLayoutInflater();
+        @SuppressLint("InflateParams") View view = inflater.inflate(R.layout.custom_dialogue, null);
+        LottieAnimationView lottieAnimationView = view.findViewById(R.id.lottieAnimationView);
+        TextView progressText = view.findViewById(R.id.progressText);
+        progressText.setText(message);
+
+        // Create a new Dialog instance
+        mdialog = new Dialog(this);
+        mdialog.setContentView(view);
+        mdialog.setCancelable(false);
+        mdialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        mdialog.show();
+    }
+
+
     private void signInWithPhoneAuthCredential(PhoneAuthCredential credential) {
         mauth.signInWithCredential(credential)
                 .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
@@ -228,14 +253,13 @@ public class MainActivity extends AppCompatActivity {
                         if (task.isSuccessful()) {
                             if (mauth.getCurrentUser().isEmailVerified()) {
                                 setLoggedIn(true);
-
                                 Toast.makeText(getApplicationContext(), "Login Successful", Toast.LENGTH_SHORT).show();
                                 Intent i = new Intent(MainActivity.this, HomeActivity.class);
                                 startActivity(i);
                                 finish();
                                 mdialog.dismiss();
                             } else {
-                                Toast.makeText(getApplicationContext(), "Please Verify your email", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(getApplicationContext(), "Please Verify your Email Address, For safe Login", Toast.LENGTH_SHORT).show();
                                 mdialog.dismiss();
                             }
                         } else {

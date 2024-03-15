@@ -76,9 +76,15 @@ public class PostJobActivity extends AppCompatActivity {
     String current = user.getPhoneNumber();
     private Spinner subspecialitySpinner;
     private Spinner specialitySpinner;
+
+    private ArrayAdapter<CharSequence> yearAdapter;
+    Spinner yearSpinner;
+    private Spinner salaryType;
     private DatabaseReference databasereference;
     private TextView addPdf, uploadPdfBtn;
     String timelinestring;
+
+    String yearstring;
     String subspecialities1;
     String downloadUrl = null;
     private TextView btnDatePicker;
@@ -167,6 +173,7 @@ public class PostJobActivity extends AppCompatActivity {
         hospital=findViewById(R.id.Job_hopital);
         Databasereference = FirebaseDatabase.getInstance().getReference();
         StorageReference = FirebaseStorage.getInstance().getReference();
+        yearSpinner = findViewById(R.id.city);
 
         pd = new ProgressDialog(this);
 
@@ -239,6 +246,21 @@ public class PostJobActivity extends AppCompatActivity {
         });
 
         //.......
+        Spinner  spinnersalarytype = (Spinner) findViewById(R.id.salarytype);
+        ArrayAdapter<CharSequence> mysalaryadapter = ArrayAdapter.createFromResource(this,
+                R.array.salary_type, android.R.layout.simple_spinner_item);
+        mysalaryadapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinnersalarytype.setAdapter(mysalaryadapter);
+
+        spinnersalarytype.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parentView, View selectedItemView, int position, long id) {
+                yearstring = spinnersalarytype.getSelectedItem().toString();
+            }
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+            }
+        });
 
         subspecialityAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item);
         subspecialityAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
@@ -602,6 +624,11 @@ public class PostJobActivity extends AppCompatActivity {
             return;
         }
 
+        if (yearSpinner.getSelectedItemPosition() == 0){
+            Toast.makeText(PostJobActivity.this, "Please select Salary Type", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
         HashMap<String, Object> usermap = new HashMap<>();
         usermap.put("JOB Title", Title);
         usermap.put("JOB Organiser", organiser);
@@ -615,6 +642,7 @@ public class PostJobActivity extends AppCompatActivity {
         usermap.put("Job type", selectedMode2);
         usermap.put("Speciality", speciality);
         usermap.put("SubSpeciality", subspecialities1);
+        usermap.put("Salary type", yearstring);
         usermap.put("date", selectedDate);
         usermap.put("Hospital", Hospital);
 
@@ -630,6 +658,10 @@ public class PostJobActivity extends AppCompatActivity {
                             public void onComplete(@NonNull Task<Void> task) {
                                 if (task.isSuccessful()) {
                                     Toast.makeText(PostJobActivity.this, "Posted Successfully", Toast.LENGTH_SHORT).show();
+                                    Intent intent = new Intent(PostJobActivity.this,JobsActivity.class);
+                                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
+                                    startActivity(intent);
+                                    finish();
                                 } else {
                                     Toast.makeText(PostJobActivity.this, "Task Failed", Toast.LENGTH_SHORT).show();
                                 }
@@ -645,8 +677,6 @@ public class PostJobActivity extends AppCompatActivity {
 
     private void checkFormValidity() {
         boolean isValid = true;
-
-        // Check if all required fields are filled
         if (TextUtils.isEmpty(title.getText().toString().trim()) ||
                 TextUtils.isEmpty(Organiser.getText().toString().trim()) ||
                 TextUtils.isEmpty(lowerRangeEditText.getText().toString().trim()) ||
@@ -664,8 +694,6 @@ public class PostJobActivity extends AppCompatActivity {
                 (subspecialitySpinner.getVisibility() == View.VISIBLE && subspecialitySpinner.getSelectedItemPosition() == 0)) {
             isValid = false;
         }
-
-        // Enable or disable the "Post Opening" button based on the validity
         post.setEnabled(isValid);
     }
 }

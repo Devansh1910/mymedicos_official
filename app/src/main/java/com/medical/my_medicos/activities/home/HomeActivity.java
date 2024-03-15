@@ -17,6 +17,7 @@ import android.view.WindowManager;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -43,6 +44,7 @@ import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.medical.my_medicos.R;
+import com.medical.my_medicos.activities.Extras.NoInternetActivity;
 import com.medical.my_medicos.activities.cme.CmeDetailsActivity;
 import com.medical.my_medicos.activities.home.fragments.ClubFragment;
 import com.medical.my_medicos.activities.home.fragments.HomeFragment;
@@ -60,12 +62,14 @@ import com.google.firebase.storage.StorageReference;
 import com.medical.my_medicos.activities.job.JobDetailsActivity;
 import com.medical.my_medicos.activities.news.NewsDetailedActivity;
 import com.medical.my_medicos.activities.notification.NotificationActivity;
+import com.medical.my_medicos.activities.utils.ConnectvityUtil;
 import com.squareup.picasso.Picasso;
 
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
 import java.util.prefs.Preferences;
+
 
 public class HomeActivity extends AppCompatActivity {
     BottomNavigationView bottomNavigation;
@@ -74,17 +78,35 @@ public class HomeActivity extends AppCompatActivity {
     DrawerLayout drawerLayout;
     NavigationView navigationView;
     Toolbar toolbar;
-    private LottieAnimationView shimmerAnimationView;
     ImageView profileImageView, verifiedprofilebehere;
     private static final long DOUBLE_PRESS_EXIT_INTERVAL = 2000;
     private static final int MY_UPDATE_CODE = 100;
     private long lastPressTime;
     FrameLayout verifiedUser, circularImageView;
+
+    ProgressBar loadingCircle;
+
+    LinearLayout opensidehomedrawer;
+
     @SuppressLint("MissingInflatedId")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
+
+        if (!ConnectvityUtil.isConnectedToInternet(this)) {
+            // Start the NoInternetActivity if there is no internet connection
+            Intent intent = new Intent(this, NoInternetActivity.class);
+            startActivity(intent);
+            finish(); // Close the current activity
+            return; // Exit the method early
+        }
+
+        loadingCircle = findViewById(R.id.loadingCircle);
+        opensidehomedrawer = findViewById(R.id.opensidehomedrawer);
+
+        loadingCircle.setVisibility(View.VISIBLE);
+        opensidehomedrawer.setVisibility(View.GONE);
 
         handleDeepLinkIntent();
 
@@ -107,7 +129,6 @@ public class HomeActivity extends AppCompatActivity {
 
         toolbar = findViewById(R.id.toolbar);
 
-        shimmerAnimationView = findViewById(R.id.shimmmmmmerererere);
 
         FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
         if (currentUser != null) {
@@ -141,13 +162,6 @@ public class HomeActivity extends AppCompatActivity {
         replaceFragment(new HomeFragment());
         bottomNavigation = findViewById(R.id.bottomNavigationView);
         bottomNavigation.setBackground(null);
-
-        shimmerAnimationView.setVisibility(View.VISIBLE);
-        shimmerAnimationView.playAnimation();
-
-        new Handler(Looper.getMainLooper()).postDelayed(() -> {
-            shimmerAnimationView.setVisibility(View.GONE);
-        }, 4000); // 2000 milliseconds = 2 seconds
 
         bottomNavigation.setOnItemSelectedListener(item -> {
             int frgId = item.getItemId();
@@ -278,7 +292,6 @@ public class HomeActivity extends AppCompatActivity {
             FirebaseFirestore db = FirebaseFirestore.getInstance();
             putUserData(userId);
 
-
             db.collection("users")
                     .get()
                     .addOnCompleteListener(task -> {
@@ -324,6 +337,12 @@ public class HomeActivity extends AppCompatActivity {
                             Log.d(TAG, "Error getting documents: ", task.getException());
                         }
                     });
+            new Handler(Looper.getMainLooper()).postDelayed(() -> {
+                if (!isFinishing()) {
+                    loadingCircle.setVisibility(View.GONE);
+                    opensidehomedrawer.setVisibility(View.VISIBLE);
+                }
+            }, 2000);
         }
     }
     private void updateProfileUI(String userName, String userId, String userEmail) {
