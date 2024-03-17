@@ -428,10 +428,10 @@ public class HomeFragment extends Fragment {
                                 Log.d("speciality2", speciality);
 
                                 recyclerViewjob.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false));
-                                adapterjob = new MyAdapter(getContext(), joblist); // Pass the joblist to the adapter
+                                adapterjob = new MyAdapter(getContext(), joblist);
                                 recyclerViewjob.setAdapter(adapterjob);
                             }
-                            Log.d("abcdef", joblist.toString());
+                            Log.d("Something went wrong!", joblist.toString());
                             if (joblist.isEmpty()){
                                 cardjobs.setVisibility(View.VISIBLE);
                                 TextView nocontent=rootView.findViewById(R.id.descriptionTextView);

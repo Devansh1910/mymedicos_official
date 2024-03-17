@@ -206,7 +206,7 @@ public class MainActivity extends AppCompatActivity {
                                                                    @NonNull PhoneAuthProvider.ForceResendingToken forceResendingToken) {
                                                 mdialog.dismiss();
                                                 Intent intent = new Intent(MainActivity.this, EnterOtp.class);
-                                                intent.putExtra("mobile", phoneNumber);
+                                                intent.putExtra("phone", phoneNumber);
                                                 intent.putExtra("verificationId", verificationId);
                                                 Log.e("otp sent",verificationId);
                                                 startActivity(intent);
@@ -263,7 +263,7 @@ public class MainActivity extends AppCompatActivity {
                                 mdialog.dismiss();
                             }
                         } else {
-                            Toast.makeText(getApplicationContext(), "Login Failed", Toast.LENGTH_SHORT).show();
+//                            Toast.makeText(getApplicationContext(), "Login Failed", Toast.LENGTH_SHORT).show();
                             mdialog.dismiss();
                         }
                     }

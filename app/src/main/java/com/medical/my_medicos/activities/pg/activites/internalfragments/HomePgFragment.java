@@ -1,16 +1,23 @@
 package com.medical.my_medicos.activities.pg.activites.internalfragments;
 
+import static android.content.Context.MODE_PRIVATE;
 import static androidx.fragment.app.FragmentManager.TAG;
 import android.annotation.SuppressLint;
+import android.app.AlertDialog;
 import android.content.ContentValues;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -37,7 +44,13 @@ import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.medical.my_medicos.R;
+import com.medical.my_medicos.activities.home.HomeActivity;
+import com.medical.my_medicos.activities.home.sidedrawer.TermsandConditionsActivity;
+import com.medical.my_medicos.activities.job.JobsApplyActivity;
+import com.medical.my_medicos.activities.job.fragments.TermsandConditionDialogueFragment;
+import com.medical.my_medicos.activities.pg.activites.PgprepActivity;
 import com.medical.my_medicos.activities.pg.activites.extras.RecetUpdatesNoticeActivity;
+import com.medical.my_medicos.activities.pg.activites.extras.TermsandConditionsDialogueFragmentPg;
 import com.medical.my_medicos.activities.pg.activites.internalfragments.intwernaladapters.ExamQuizAdapter;
 import com.medical.my_medicos.activities.pg.adapters.PerDayPGAdapter;
 import com.medical.my_medicos.activities.pg.adapters.QuestionBankPGAdapter;
@@ -71,6 +84,9 @@ public class HomePgFragment extends Fragment {
     CardView gotoupdatesofpg;
     private ArrayList<QuizPG> quizpg;
     String title1;
+
+    private TermsandConditionsDialogueFragmentPg dialog;
+
     public static HomePgFragment newInstance() {
         HomePgFragment fragment = new HomePgFragment();
         Bundle args = new Bundle();
@@ -82,6 +98,8 @@ public class HomePgFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         binding = FragmentHomePgBinding.inflate(inflater, container, false);
         View view = binding.getRoot();
+
+        showFirstTimePopup();
 
         Bundle args = getArguments();
         if (args != null) {
@@ -130,6 +148,46 @@ public class HomePgFragment extends Fragment {
 
         return view;
     }
+
+
+    private void showFirstTimePopup() {
+        SharedPreferences prefs = getActivity().getSharedPreferences("PgPrepPrefs", MODE_PRIVATE);
+        boolean isFirstLaunch = prefs.getBoolean("isFirstLaunch", true);
+
+            if (isFirstLaunch) {
+                View popupView = LayoutInflater.from(requireContext()).inflate(R.layout.custompopupforpg, null);
+                AlertDialog.Builder builder = new AlertDialog.Builder(requireContext());
+                builder.setView(popupView);
+
+                Button agreeButton = popupView.findViewById(R.id.agreepg);
+                Button disagreeButton = popupView.findViewById(R.id.visit);
+                ImageView closeOpt = popupView.findViewById(R.id.closebtndialogue);
+
+                AlertDialog dialog = builder.create();
+
+                agreeButton.setOnClickListener(v -> {
+                    dialog.dismiss();
+                });
+
+                disagreeButton.setOnClickListener(v -> {
+                    dialog.dismiss();
+                    Intent intent = new Intent(requireContext(), TermsandConditionsActivity.class);
+                    Toast.makeText(requireContext(), "Redirecting..", Toast.LENGTH_SHORT).show();
+                    startActivity(intent);
+                });
+
+                closeOpt.setOnClickListener(v -> {
+                    dialog.dismiss();
+                    Intent intent = new Intent(requireContext(), HomeActivity.class);
+                    Toast.makeText(requireContext(), "Returning back...", Toast.LENGTH_SHORT).show();
+                    startActivity(intent);
+                });
+
+                dialog.show();
+                prefs.edit().putBoolean("isFirstLaunch", false).apply();
+            }
+    }
+
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {

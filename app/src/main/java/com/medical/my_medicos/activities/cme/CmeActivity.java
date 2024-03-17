@@ -146,6 +146,7 @@ public class CmeActivity extends AppCompatActivity {
                     break;
             }
         }).attach();
+
         specialitySpinner = findViewById(R.id.speciality);
         subspecialitySpinner = findViewById(R.id.subspeciality);
 
@@ -160,12 +161,9 @@ public class CmeActivity extends AppCompatActivity {
                     public void onComplete(@NonNull Task<String> task) {
                         if (task.isSuccessful() && task.getResult() != null) {
                             String fcmToken = task.getResult();
-                            // Store or use the FCM token as needed
-                            // Example: Save the token to Firebase Firestore
                             saveFcmTokenToFirestore(fcmToken);
                             Log.d("fcm token ",fcmToken);
                         } else {
-                            // Handle the error
                             Log.e("FCM Token", "Error getting FCM token", task.getException());
                         }
                     }

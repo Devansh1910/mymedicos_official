@@ -4,7 +4,6 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 
 import com.google.android.gms.auth.api.phone.SmsRetriever;
 import com.google.android.gms.common.api.CommonStatusCodes;
@@ -32,10 +31,10 @@ public class OtpReceiver extends BroadcastReceiver {
                 Status status = (Status) bundle.get(SmsRetriever.EXTRA_STATUS);
                 if (status != null) {
                     switch (status.getStatusCode()) {
-                        case CommonStatusCodes.SUCCESS:
+                        case CommonStatusCodes
+                                .SUCCESS:
                             String message = (String) bundle.get(SmsRetriever.EXTRA_SMS_MESSAGE);
                             if (message != null) {
-                                Log.d("OtpReceiver", "SMS Message: " + message);
                                 Pattern pattern = Pattern.compile("\\d{6}");
                                 Matcher matcher = pattern.matcher(message);
 
@@ -53,7 +52,6 @@ public class OtpReceiver extends BroadcastReceiver {
                             }
                             break;
                         case CommonStatusCodes.TIMEOUT:
-                            Log.d("OtpReceiver", "SMS Retrieval Timeout");
                             if (this.otpReceiverListener != null) {
                                 this.otpReceiverListener.onOtpTimeout();
                             }

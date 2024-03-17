@@ -4,32 +4,33 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
+    android:elevation="@dimen/_10sdp"
     android:layout_margin="@dimen/_5sdp"
-    android:background="@drawable/m"
-    app:cardCornerRadius="@dimen/_10sdp">
+    app:cardCornerRadius="@dimen/_8sdp">
 
         <LinearLayout
             android:id="@+id/Apply"
             android:layout_width="280dp"
-            android:paddingVertical="@dimen/_4ssp"
             android:layout_height="match_parent"
             android:orientation="vertical">
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="@dimen/_2sdp"
-                android:layout_marginRight="@dimen/_2sdp"                android:paddingHorizontal="@dimen/_10ssp"
+                android:layout_gravity="center_vertical"
+                android:gravity="center_vertical"
+                android:paddingHorizontal="@dimen/_8ssp"
                 android:orientation="horizontal">
 
                 <TextView
                     android:id="@+id/job_pos"
-                    android:layout_width="wrap_content"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_weight="2"
-                    android:fontFamily="@font/montserrat_medium"
+                    android:textColor="@color/unselected"
+                    android:layout_weight="1"
+                    android:fontFamily="@font/inter"
                     android:text="Enter Position here"
-                    android:textSize="@dimen/_14ssp"
+                    android:textSize="@dimen/_12ssp"
                     android:textStyle="bold" />
 
                 <TextView
@@ -37,11 +38,11 @@
                     android:layout_width="wrap_content"
                     android:layout_height="@dimen/_15ssp"
                     android:layout_gravity="center"
-                    android:layout_weight="1"
-                    android:gravity="end"
+                    android:gravity="center_vertical"
+                    android:fontFamily="@font/inter"
                     android:text="01-Sept-2023"
-                    android:textColor="#616161"
-                    android:textSize="@dimen/_7ssp"
+                    android:textColor="@color/unselected"
+                    android:textSize="@dimen/_8ssp"
                     android:textStyle="bold" />
 
             </LinearLayout>
@@ -50,9 +51,7 @@
                 android:id="@+id/hosp_name"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="@dimen/_5sdp"
-                android:layout_marginRight="@dimen/_5sdp"
-                android:fontFamily="@font/montserrat_medium"
+                android:fontFamily="@font/inter"
                 android:paddingHorizontal="@dimen/_8ssp"
                 android:paddingVertical="@dimen/_2ssp"
                 android:text="Hospital Name"
@@ -60,17 +59,11 @@
                 android:textSize="@dimen/_10ssp"
                 android:textStyle="bold" />
 
-            <androidx.cardview.widget.CardView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="@dimen/_5sdp"
-                    android:layout_marginRight="@dimen/_5sdp"
                     android:paddingVertical="@dimen/_5ssp"
-                    android:paddingHorizontal="@dimen/_10ssp"
+                    android:paddingHorizontal="@dimen/_8ssp"
                     android:background="@drawable/bkofjobs"
                     android:layout_gravity="center"
                     android:orientation="horizontal">
@@ -79,18 +72,22 @@
                         android:id="@+id/job_loc"
                         android:layout_width="0dp"
                         android:layout_weight="2"
-                        android:layout_height="wrap_content"
-                        android:fontFamily="@font/montserrat_medium"
+                        android:layout_gravity="center_vertical"
+                        android:gravity="center_vertical"
+                        android:layout_height="match_parent"
+                        android:fontFamily="@font/inter"
                         android:text="Enter the state here"
-                        android:textColor="#4A4949"
+                        android:textColor="@color/unselected"
                         android:textSize="@dimen/_9ssp"
-                        android:textStyle="bold" />
+                        android:textStyle="normal" />
 
                     <TextView
                         android:id="@+id/Category"
                         android:layout_width="@dimen/_10sdp"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
+                        android:paddingVertical="@dimen/_1sdp"
+                        android:fontFamily="@font/inter"
                         android:layout_weight="1"
                         android:background="@drawable/jobbackground"
                         android:gravity="center"
@@ -99,8 +96,6 @@
                         android:textSize="@dimen/_11sdp" />
 
                 </LinearLayout>
-
-            </androidx.cardview.widget.CardView>
 
         </LinearLayout>
 

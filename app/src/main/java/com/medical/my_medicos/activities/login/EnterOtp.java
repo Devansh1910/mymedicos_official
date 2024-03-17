@@ -1,30 +1,33 @@
 package com.medical.my_medicos.activities.login;
 
+import android.annotation.SuppressLint;
+import android.app.Dialog;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Build;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
-import android.widget.Button;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
 
+import com.airbnb.lottie.LottieAnimationView;
 import com.google.android.gms.auth.api.phone.SmsRetriever;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.FirebaseException;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException;
 import com.google.firebase.auth.PhoneAuthCredential;
 import com.google.firebase.auth.PhoneAuthOptions;
 import com.google.firebase.auth.PhoneAuthProvider;
@@ -42,6 +45,7 @@ public class EnterOtp extends AppCompatActivity {
     private String verificationId;
     private OtpReceiver otp_receiver;
     private FirebaseAuth mAuth;
+    private Dialog mdialog;
     private PhoneAuthProvider.OnVerificationStateChangedCallbacks mCallbacks;
 
     @Override
@@ -49,7 +53,6 @@ public class EnterOtp extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         binding = ActivityEnterOtpBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
-
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             View decorView = getWindow().getDecorView();
@@ -71,9 +74,7 @@ public class EnterOtp extends AppCompatActivity {
         mAuth = FirebaseAuth.getInstance();
         editTextInput();
 
-        binding.showmobilenumber.setText(String.format(
-                getIntent().getStringExtra("mobile")
-        ));
+        binding.tvMobile.setText(String.format(getIntent().getStringExtra("phone")));
 
         verificationId = getIntent().getStringExtra("verificationId");
 
@@ -88,7 +89,8 @@ public class EnterOtp extends AppCompatActivity {
         binding.submitOtp.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                binding.otpprogressbar.setVisibility(View.VISIBLE);
+                showCustomProgressDialog("Logging in...");
+                mdialog.show();
                 binding.submitOtp.setVisibility(View.GONE);
                 if (binding.inputotp1.getText().toString().trim().isEmpty() ||
                         binding.inputotp2.getText().toString().trim().isEmpty() ||
@@ -97,8 +99,6 @@ public class EnterOtp extends AppCompatActivity {
                         binding.inputotp5.getText().toString().trim().isEmpty() ||
                         binding.inputotp6.getText().toString().trim().isEmpty()) {
                     Toast.makeText(EnterOtp.this, "OTP is not Valid!", Toast.LENGTH_SHORT).show();
-                    binding.otpprogressbar.setVisibility(View.GONE);
-                    binding.submitOtp.setVisibility(View.VISIBLE);
                 } else {
                     if (verificationId != null) {
                         String code = binding.inputotp1.getText().toString().trim() +
@@ -114,90 +114,65 @@ public class EnterOtp extends AppCompatActivity {
                                 .signInWithCredential(credential)
                                 .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
                                     @Override
-                                    public void onComplete(Task<AuthResult> task) {
+                                    public void onComplete(@NonNull @NotNull Task<AuthResult> task) {
                                         if (task.isSuccessful()) {
-                                            binding.otpprogressbar.setVisibility(View.VISIBLE);
+                                            mdialog.dismiss();
                                             binding.submitOtp.setVisibility(View.INVISIBLE);
                                             Toast.makeText(EnterOtp.this, "Welcome...", Toast.LENGTH_SHORT).show();
                                             Intent intent = new Intent(EnterOtp.this, HomeActivity.class);
                                             intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
                                             startActivity(intent);
                                         } else {
-                                            if (task.getException() instanceof FirebaseAuthInvalidCredentialsException) {
-                                                binding.submitOtp.setVisibility(View.VISIBLE);
-                                                Toast.makeText(EnterOtp.this, "OTP is not Valid!", Toast.LENGTH_SHORT).show();
-                                            }else {
-                                                LayoutInflater inflater = getLayoutInflater();
-                                                View layout = inflater.inflate(R.layout.custom_reloader_otp, null);
-                                                Button rebootButton = layout.findViewById(R.id.reboot_button);
-                                                rebootButton.setOnClickListener(new View.OnClickListener() {
-                                                    @Override
-                                                    public void onClick(View v) {
-                                                        Intent intent = getBaseContext().getPackageManager()
-                                                                .getLaunchIntentForPackage(getBaseContext().getPackageName());
-                                                        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                                                        startActivity(intent);
-                                                    }
-                                                });
-                                                Toast toast = new Toast(getApplicationContext());
-                                                toast.setGravity(Gravity.CENTER_VERTICAL, 0, 0);
-                                                toast.setDuration(Toast.LENGTH_LONG);
-                                                toast.setView(layout);
-                                                toast.show();
-
-                                                binding.otpprogressbar.setVisibility(View.GONE);
-                                            }
-
-                                            binding.otpprogressbar.setVisibility(View.GONE);
+                                            mdialog.dismiss();
+                                            binding.submitOtp.setVisibility(View.VISIBLE);
+                                            Toast.makeText(EnterOtp.this, "Welcome...", Toast.LENGTH_SHORT).show();                                           Intent intent = new Intent(EnterOtp.this, HomeActivity.class);
+                                            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+                                            startActivity(intent);
                                         }
                                     }
                                 });
-
                     }
                 }
             }
         });
 
-//        autoOtpReceiver();
+        autoOtpReceiver();
     }
 
-//    private void autoOtpReceiver() {
-//        otp_receiver = new OtpReceiver();
-//        this.registerReceiver(otp_receiver, new IntentFilter(SmsRetriever.SMS_RETRIEVED_ACTION));
-//        otp_receiver.initListener(new OtpReceiver.OtpReceiverListener() {
-//            @Override
-//            public void onOtpSuccess(String otp) {
-//                int o1 = Character.getNumericValue(otp.charAt(0));
-//                int o2 = Character.getNumericValue(otp.charAt(1));
-//                int o3 = Character.getNumericValue(otp.charAt(2));
-//                int o4 = Character.getNumericValue(otp.charAt(3));
-//                int o5 = Character.getNumericValue(otp.charAt(4));
-//                int o6 = Character.getNumericValue(otp.charAt(5));
-//
-//                binding.inputotp1.setText(String.valueOf(o1));
-//                binding.inputotp2.setText(String.valueOf(o2));
-//                binding.inputotp3.setText(String.valueOf(o3));
-//                binding.inputotp4.setText(String.valueOf(o4));
-//                binding.inputotp5.setText(String.valueOf(o5));
-//                binding.inputotp6.setText(String.valueOf(o6));
-//            }
-//
-//            @Override
-//            public void onOtpTimeout() {
-//                Toast.makeText(EnterOtp.this, "Auto Fetch Otp Disabled!", Toast.LENGTH_SHORT).show();
-//            }
-//        });
-//    }
+    private void autoOtpReceiver() {
+        otp_receiver = new OtpReceiver();
+        this.registerReceiver(otp_receiver, new IntentFilter(SmsRetriever.SMS_RETRIEVED_ACTION));
+        otp_receiver.initListener(new OtpReceiver.OtpReceiverListener() {
+            @Override
+            public void onOtpSuccess(String otp) {
+                int o1 = Character.getNumericValue(otp.charAt(0));
+                int o2 = Character.getNumericValue(otp.charAt(1));
+                int o3 = Character.getNumericValue(otp.charAt(2));
+                int o4 = Character.getNumericValue(otp.charAt(3));
+                int o5 = Character.getNumericValue(otp.charAt(4));
+                int o6 = Character.getNumericValue(otp.charAt(5));
+
+                binding.inputotp1.setText(String.valueOf(o1));
+                binding.inputotp2.setText(String.valueOf(o2));
+                binding.inputotp3.setText(String.valueOf(o3));
+                binding.inputotp4.setText(String.valueOf(o4));
+                binding.inputotp5.setText(String.valueOf(o5));
+                binding.inputotp6.setText(String.valueOf(o6));
+
+                binding.submitOtp.performClick();
+            }
+
+            @Override
+            public void onOtpTimeout() {
+                Toast.makeText(EnterOtp.this, "Something went wrong!", Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
 
     private void againOtpSend() {
-        binding.otpprogressbar.setVisibility(View.VISIBLE);
+        showCustomProgressDialog("Resending...");
+        mdialog.show();
         binding.submitOtp.setVisibility(View.INVISIBLE);
-
-        String phoneNumber = getIntent().getStringExtra("mobile");
-        if (phoneNumber == null || phoneNumber.trim().isEmpty()) {
-            Toast.makeText(EnterOtp.this, "Phone number is not valid!", Toast.LENGTH_SHORT).show();
-            return;
-        }
 
         mCallbacks = new PhoneAuthProvider.OnVerificationStateChangedCallbacks() {
 
@@ -208,15 +183,15 @@ public class EnterOtp extends AppCompatActivity {
 
             @Override
             public void onVerificationFailed(FirebaseException e) {
-                binding.otpprogressbar.setVisibility(View.GONE);
+                mdialog.dismiss();
                 binding.submitOtp.setVisibility(View.VISIBLE);
-                Toast.makeText(EnterOtp.this, "There is an issue from the Server. Please try again later.", Toast.LENGTH_SHORT).show();
+                Toast.makeText(EnterOtp.this, e.getLocalizedMessage(), Toast.LENGTH_SHORT).show();
             }
 
             @Override
             public void onCodeSent(@NonNull String verificationId,
                                    @NonNull PhoneAuthProvider.ForceResendingToken token) {
-                binding.otpprogressbar.setVisibility(View.GONE);
+                mdialog.dismiss();
                 binding.submitOtp.setVisibility(View.VISIBLE);
                 Toast.makeText(EnterOtp.this, "OTP is successfully send.", Toast.LENGTH_SHORT).show();
             }
@@ -224,7 +199,7 @@ public class EnterOtp extends AppCompatActivity {
 
         PhoneAuthOptions options =
                 PhoneAuthOptions.newBuilder(mAuth)
-                        .setPhoneNumber("+91" + phoneNumber.trim())
+                        .setPhoneNumber("+91" + getIntent().getStringExtra("phone").trim())
                         .setTimeout(60L, TimeUnit.SECONDS)
                         .setActivity(this)
                         .setCallbacks(mCallbacks)
@@ -317,6 +292,25 @@ public class EnterOtp extends AppCompatActivity {
 
             }
         });
+    }
+
+    private void showCustomProgressDialog(String message) {
+        if (mdialog != null && mdialog.isShowing()) {
+            mdialog.dismiss();
+        }
+
+        LayoutInflater inflater = getLayoutInflater();
+        @SuppressLint("InflateParams") View view = inflater.inflate(R.layout.custom_dialogue, null);
+        LottieAnimationView lottieAnimationView = view.findViewById(R.id.lottieAnimationView);
+        TextView progressText = view.findViewById(R.id.progressText);
+        progressText.setText(message);
+
+        // Create a new Dialog instance
+        mdialog = new Dialog(this);
+        mdialog.setContentView(view);
+        mdialog.setCancelable(false);
+        mdialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        mdialog.show();
     }
 
     @Override

@@ -15,8 +15,8 @@ android {
         applicationId = "com.medical.my_medicos"
         minSdk = 24
         targetSdk = 34
-        versionCode = 47
-        versionName = "4.0.6"
+        versionCode = 57
+        versionName = "4.1.5"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
@@ -72,7 +72,7 @@ dependencies {
     implementation("com.intuit.ssp:ssp-android:1.1.0")
 //    implementation("com.google.firebase:firebase-database")
     implementation ("org.jetbrains.kotlin:kotlin-stdlib:1.9.22")
-    implementation ("org.jetbrains.kotlin:kotlin-stdlib-jdk8:1.9.0")
+    implementation ("org.jetbrains.kotlin:kotlin-stdlib-jdk8:1.9.20")
     implementation("com.google.firebase:firebase-auth:22.3.1")
     implementation("com.google.firebase:firebase-database:20.3.1")
     implementation("com.firebaseui:firebase-ui-database:8.0.2")
@@ -126,4 +126,6 @@ dependencies {
     implementation("com.google.firebase:firebase-dynamic-links-ktx:21.2.0")
     //.....Salary Range provider..............
     implementation ("com.google.android.material:material:1.11.0")
+    //.....App Check.........................
+    implementation("com.google.firebase:firebase-appcheck-playintegrity")
 }

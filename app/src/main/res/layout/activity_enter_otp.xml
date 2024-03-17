@@ -32,7 +32,7 @@
         android:text="Verify with OTP sent to"/>
 
     <TextView
-        android:id="@+id/showmobilenumber"
+        android:id="@+id/tvMobile"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="start"

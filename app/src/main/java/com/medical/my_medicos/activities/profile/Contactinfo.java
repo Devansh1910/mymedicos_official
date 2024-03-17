@@ -67,7 +67,6 @@ public class Contactinfo extends AppCompatActivity {
     private Spinner location, speciality;
     String selectedGender;
     String selectedMode;
-
     ImageView currentImageView;
     Button Submit;
     private ArrayAdapter<CharSequence> locationAdapter, specialityAdapter;

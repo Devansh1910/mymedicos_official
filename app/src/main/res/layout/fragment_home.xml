@@ -481,7 +481,9 @@
                         <TextView
                             android:layout_width="0dp"
                             android:layout_weight="1"
-                            android:layout_height="wrap_content"
+                            android:layout_height="match_parent"
+                            android:layout_gravity="center_vertical"
+                            android:gravity="center_vertical"
                             android:text="Quick Apply"
                             android:fontFamily="@font/inter"
                             android:textSize="@dimen/_12ssp"
@@ -503,6 +505,16 @@
                             android:textSize="@dimen/_12ssp"
                             android:textStyle="bold" />
                     </LinearLayout>
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Latest Jobs Opening, Recommended for you!"
+                        android:paddingHorizontal="@dimen/_10sdp"
+                        android:fontFamily="@font/inter"
+                        android:textColor="#919392"
+                        android:textSize="@dimen/_10ssp"
+                        android:textStyle="bold" />
 
                     <androidx.recyclerview.widget.RecyclerView
                         android:id="@+id/recyclerview_job1"
@@ -555,7 +567,9 @@
                         <TextView
                             android:layout_width="0dp"
                             android:layout_weight="1"
-                            android:layout_height="wrap_content"
+                            android:layout_height="match_parent"
+                            android:layout_gravity="center_vertical"
+                            android:gravity="center_vertical"
                             android:text="Quick Explore"
                             android:textSize="@dimen/_12ssp"
                             android:fontFamily="@font/inter"
@@ -577,6 +591,16 @@
                             android:textSize="@dimen/_12ssp"
                             android:textStyle="bold" />
                     </LinearLayout>
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Checkout the latest CME in a Click!"
+                        android:paddingHorizontal="@dimen/_10sdp"
+                        android:fontFamily="@font/inter"
+                        android:textColor="#919392"
+                        android:textSize="@dimen/_10ssp"
+                        android:textStyle="bold" />
 
                     <LinearLayout
                         android:layout_width="match_parent"
@@ -641,7 +665,9 @@
                             android:layout_width="0dp"
                             android:layout_weight="1"
                             android:fontFamily="@font/inter"
-                            android:layout_height="wrap_content"
+                            android:layout_height="match_parent"
+                            android:layout_gravity="center_vertical"
+                            android:gravity="center_vertical"
                             android:text="Featured CME"
                             android:textSize="@dimen/_12ssp"
                             android:textStyle="bold" />
@@ -662,6 +688,16 @@
                             android:textSize="@dimen/_12ssp"
                             android:textStyle="bold" />
                     </LinearLayout>
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Upscale your knowledge, Listen to the Professionals of your domain."
+                        android:paddingHorizontal="@dimen/_10sdp"
+                        android:fontFamily="@font/inter"
+                        android:textColor="#919392"
+                        android:textSize="@dimen/_10ssp"
+                        android:textStyle="bold" />
 
                     <androidx.recyclerview.widget.RecyclerView
                         android:id="@+id/recyclerview_cme1"

@@ -203,11 +203,11 @@ public class PostJobActivity extends AppCompatActivity {
                         Map<String, Object> dataMap = document.getData();
                         String field3 = ((String) dataMap.get("Phone Number"));
                         boolean areEqualIgnoreCase = current.equalsIgnoreCase(field3);
-                        Log.d("vivek", String.valueOf(areEqualIgnoreCase));
+                        Log.d("Task Complete....", String.valueOf(areEqualIgnoreCase));
                         int r=current.compareTo(field3);
                         if (r==0){
                             String field4 = ((String) dataMap.get("Name"));
-                            Log.d("veefe",field4);
+                            Log.d("Name of the Person......",field4);
                             Organiser.setText(field4);
                         }
                     }
