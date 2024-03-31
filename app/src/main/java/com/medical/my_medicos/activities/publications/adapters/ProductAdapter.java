@@ -19,7 +19,7 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductV
 
     private final Context context;
     private final List<Product> products;
-    private OnItemClickListener onItemClickListener; // Listener for item click
+    private OnItemClickListener onItemClickListener;
 
     public ProductAdapter(Context context, List<Product> products) {
         this.context = context;
@@ -37,13 +37,11 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductV
         Product product = products.get(position);
         Log.d("ProductAdapter", "Title: " + product.getTitle() +
                 ", Author: " + product.getAuthor() +
-                ", Price: " + product.getPrice() +
                 ", Thumbnail: " + product.getThumbnail());
 
         Glide.with(context).load(product.getThumbnail()).into(holder.binding.image);
         holder.binding.label.setText(product.getTitle());
         holder.binding.author.setText(product.getAuthor());
-        holder.binding.price.setText(String.format("INR %.2f", product.getPrice()));
 
 
         holder.itemView.setOnClickListener(view -> {
@@ -71,9 +69,7 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductV
             super(itemView);
             binding = ItemProductBinding.bind(itemView);
 
-            // Add click listener to the itemView
             itemView.setOnClickListener(view -> {
-                // Notify the listener on item click
                 if (onItemClickListener != null) {
                     int position = getAdapterPosition();
                     if (position != RecyclerView.NO_POSITION) {
@@ -84,12 +80,10 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductV
         }
     }
 
-    // Setter method for the click listener
     public void setOnItemClickListener(OnItemClickListener listener) {
         this.onItemClickListener = listener;
     }
 
-    // Interface for item click listener
     public interface OnItemClickListener {
         void onItemClick(Product product);
     }

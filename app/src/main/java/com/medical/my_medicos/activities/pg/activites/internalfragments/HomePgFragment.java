@@ -181,6 +181,7 @@ public class HomePgFragment extends Fragment {
                     Intent intent = new Intent(requireContext(), HomeActivity.class);
                     Toast.makeText(requireContext(), "Returning back...", Toast.LENGTH_SHORT).show();
                     startActivity(intent);
+                    dialog.dismiss();
                 });
 
                 dialog.show();

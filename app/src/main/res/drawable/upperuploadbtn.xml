@@ -3,6 +3,6 @@
     android:shape="rectangle">
     <solid android:color="@color/green"/> <!-- Adjust the opacity here (40 is the opacity) -->
     <corners
-        android:bottomLeftRadius="@dimen/_80ssp"
-        android:bottomRightRadius="@dimen/_80ssp"/>
+        android:bottomLeftRadius="@dimen/_10sdp"
+        android:bottomRightRadius="@dimen/_10ssp"/>
 </shape>

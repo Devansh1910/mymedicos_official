@@ -2,11 +2,9 @@ package com.medical.my_medicos.activities.login;
 
 import android.annotation.SuppressLint;
 import android.app.Dialog;
-import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Build;
@@ -38,10 +36,10 @@ import com.airbnb.lottie.LottieAnimationView;
 import com.google.android.gms.ads.MobileAds;
 import com.google.android.gms.ads.initialization.InitializationStatus;
 import com.google.android.gms.ads.initialization.OnInitializationCompleteListener;
-import com.medical.my_medicos.R;
-import com.medical.my_medicos.activities.home.HomeActivity;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.medical.my_medicos.R;
+import com.medical.my_medicos.activities.home.HomeActivity;
 import com.google.firebase.FirebaseException;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
@@ -68,6 +66,14 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        setupUI();
+        setupAdMob();
+        setupCountryCodeSpinner();
+        setupPhoneNumberInput();
+        setupLoginButton();
+    }
+
+    private void setupUI() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             View decorView = getWindow().getDecorView();
             decorView.setSystemUiVisibility(decorView.getSystemUiVisibility() | View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);
@@ -84,43 +90,25 @@ public class MainActivity extends AppCompatActivity {
             View decorView = getWindow().getDecorView();
             decorView.setSystemUiVisibility(decorView.getSystemUiVisibility() | View.SYSTEM_UI_FLAG_LIGHT_NAVIGATION_BAR);
         }
+    }
 
-
-        Toolbar toolbar = findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
-        getSupportActionBar().setDisplayShowTitleEnabled(false);
-
-        ImageView backArrow = findViewById(R.id.toolbar_back_arrow);
-        backArrow.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent i = new Intent(MainActivity.this, NavigationActivity.class);
-                startActivity(i);
-                finish();
-            }
-        });
-
-        // Ad Mob Content...
-
+    private void setupAdMob() {
         MobileAds.initialize(this, new OnInitializationCompleteListener() {
             @Override
             public void onInitializationComplete(InitializationStatus initializationStatus) {
             }
         });
+    }
 
-
+    private void setupCountryCodeSpinner() {
         countryCodeSpinner = findViewById(R.id.countryCodeSpinner);
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this, R.array.country_codes, android.R.layout.simple_spinner_item);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         countryCodeSpinner.setAdapter(adapter);
+    }
 
+    private void setupPhoneNumberInput() {
         phone = findViewById(R.id.phonenumberedit);
-        login = findViewById(R.id.lgn_btn);
-        mdialog = new ProgressDialog(this);
-        mauth = FirebaseAuth.getInstance();
-
-        login.setBackgroundColor(ContextCompat.getColor(this, R.color.grey));
-
         phone.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -144,6 +132,15 @@ public class MainActivity extends AppCompatActivity {
                 }
             }
         });
+    }
+
+    private void setupLoginButton() {
+        login = findViewById(R.id.lgn_btn);
+        mdialog = new Dialog(this);
+        mauth = FirebaseAuth.getInstance();
+
+        login.setBackgroundColor(ContextCompat.getColor(this, R.color.grey));
+
         login.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -236,7 +233,6 @@ public class MainActivity extends AppCompatActivity {
         TextView progressText = view.findViewById(R.id.progressText);
         progressText.setText(message);
 
-        // Create a new Dialog instance
         mdialog = new Dialog(this);
         mdialog.setContentView(view);
         mdialog.setCancelable(false);

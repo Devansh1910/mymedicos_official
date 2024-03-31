@@ -1,11 +1,8 @@
 package com.medical.my_medicos.activities.publications.activity.insiders;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
 import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.GridLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
@@ -16,7 +13,6 @@ import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.util.Log;
 import android.view.MenuItem;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
@@ -30,13 +26,10 @@ import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.mancj.materialsearchbar.MaterialSearchBar;
 import com.medical.my_medicos.R;
-import com.medical.my_medicos.activities.publications.activity.PublicationActivity;
-import com.medical.my_medicos.activities.publications.activity.SearchPublicationActivity;
-import com.medical.my_medicos.activities.publications.adapters.CategoryAdapter;
+import com.medical.my_medicos.activities.publications.activity.mainfragments.SearchPublicationFragment;
 import com.medical.my_medicos.activities.publications.adapters.insiders.CategoryInsiderAdapter;
 import com.medical.my_medicos.activities.publications.model.Category;
 import com.medical.my_medicos.activities.utils.ConstantsDashboard;
-import com.medical.my_medicos.databinding.ActivityCategoryPublicationInsiderBinding;
 import com.medical.my_medicos.databinding.ActivityCategoryPublicationInsiderForRealBinding;
 
 import org.json.JSONArray;
@@ -108,7 +101,7 @@ public class CategoryPublicationInsiderForRealActivity extends AppCompatActivity
             public void onSearchConfirmed(CharSequence text) {
                 String query = text.toString();
                 if (!TextUtils.isEmpty(query)) {
-                    Intent intent = new Intent(CategoryPublicationInsiderForRealActivity.this, SearchPublicationActivity.class);
+                    Intent intent = new Intent(CategoryPublicationInsiderForRealActivity.this, SearchPublicationFragment.class);
                     intent.putExtra("query", query);
                     startActivity(intent);
                 }

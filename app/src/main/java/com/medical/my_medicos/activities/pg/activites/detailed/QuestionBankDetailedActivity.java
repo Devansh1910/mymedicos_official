@@ -19,8 +19,8 @@ import com.android.volley.toolbox.Volley;
 import com.bumptech.glide.Glide;
 import com.medical.my_medicos.R;
 import com.medical.my_medicos.activities.pg.model.QuestionPG;
+import com.medical.my_medicos.activities.publications.activity.CartFromDetailActivity;
 import com.medical.my_medicos.activities.utils.ConstantsDashboard;
-import com.medical.my_medicos.activities.publications.activity.CartPublicationActivity;
 import com.hishd.tinycart.model.Cart;
 import com.hishd.tinycart.util.TinyCartHelper;
 import com.medical.my_medicos.databinding.ActivityQuestionBankDetailedBinding;
@@ -80,7 +80,7 @@ public class QuestionBankDetailedActivity extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         if(item.getItemId() == R.id.cart) {
-            startActivity(new Intent(this, CartPublicationActivity.class));
+            startActivity(new Intent(this, CartFromDetailActivity.class));
         }
         return super.onOptionsItemSelected(item);
     }

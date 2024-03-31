@@ -16,11 +16,13 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.github.chrisbanes.photoview.PhotoView;
 import com.medical.my_medicos.R;
+import com.medical.my_medicos.activities.pg.activites.insiders.optionsbottom.OptionsBottomSheetDialogueFragment;
 import com.medical.my_medicos.activities.pg.model.Neetpg;
 
 import java.util.ArrayList;
@@ -169,18 +171,9 @@ public class neetexampadapter extends RecyclerView.Adapter<neetexampadapter.Neet
         String selectedOption = quizQuestion.getSelectedOption();
         String description = quizQuestion.getDescription();
 
-        String message = "Correct Option: " + correctOption + "\n";
-        message += "Your Selected Option: " + selectedOption + "\n";
-        message += "Description: " + description;
+        OptionsBottomSheetDialogueFragment bottomSheetDialogFragment = OptionsBottomSheetDialogueFragment.newInstance(correctOption, selectedOption, description);
+        bottomSheetDialogFragment.show(((AppCompatActivity) context).getSupportFragmentManager(), "OptionsBottomSheetDialogFragment");
 
-        AlertDialog.Builder builder = new AlertDialog.Builder(context);
-        builder.setTitle("Options and Description");
-        builder.setMessage(message);
-        builder.setPositiveButton("OK", (dialog, which) -> {
-            resetOptionStyle(holder);
-            disableOptionSelection();
-        });
-        builder.show();
         disableOptionSelection();
     }
 

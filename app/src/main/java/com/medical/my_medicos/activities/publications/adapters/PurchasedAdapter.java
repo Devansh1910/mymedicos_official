@@ -15,6 +15,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.medical.my_medicos.R;
+import com.medical.my_medicos.activities.publications.activity.DetailsActivity;
 import com.medical.my_medicos.activities.publications.activity.ProductDetailedActivity;
 import com.medical.my_medicos.activities.publications.model.Product;
 
@@ -25,7 +26,7 @@ public class PurchasedAdapter extends RecyclerView.Adapter<PurchasedAdapter.Prod
 
     private Context context;
     private List<Product> products;
-    private OnItemClickListener onItemClickListener; // Listener for item click
+    private OnItemClickListener onItemClickListener;
 
     public PurchasedAdapter(Context context, List<Product> products) {
         this.context = context;
@@ -46,6 +47,7 @@ public class PurchasedAdapter extends RecyclerView.Adapter<PurchasedAdapter.Prod
                 ", Author: " + product.getAuthor() +
                 ", Price: " + product.getPrice() +
                 ", Thumbnail: " + product.getThumbnail());
+
         Glide.with(context)
                 .load(product.getThumbnail())
                 .into(holder.imageView);
@@ -62,6 +64,7 @@ public class PurchasedAdapter extends RecyclerView.Adapter<PurchasedAdapter.Prod
                 intent.putExtra("Subject", product.getSubject());
                 intent.putExtra("Price", product.getPrice());
                 intent.putExtra("Author", product.getAuthor());
+                intent.putExtra("URL",product.getURL());
                 context.startActivity(intent);
             }
         });
@@ -77,14 +80,28 @@ public class PurchasedAdapter extends RecyclerView.Adapter<PurchasedAdapter.Prod
         ImageView imageView;
         TextView labelTextView;
         TextView authorTextView;
+        TextView readTextView; // Reference for the "Read" TextView
 
         public ProductViewHolder(@NonNull View itemView) {
             super(itemView);
-            imageView = itemView.findViewById(R.id.image1);
-            labelTextView = itemView.findViewById(R.id.label1);
-            authorTextView = itemView.findViewById(R.id.author1);
+            imageView = itemView.findViewById(R.id.image);
+            labelTextView = itemView.findViewById(R.id.label);
+            authorTextView = itemView.findViewById(R.id.author);
+            readTextView = itemView.findViewById(R.id.read);
+            readTextView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    int position = getAdapterPosition();
+                    if (position != RecyclerView.NO_POSITION) {
+                        Product product = products.get(position);
+                        Intent intent = new Intent(context, DetailsActivity.class);
+                        intent.putExtra("productId", product.getId()); // Pass the product ID
+                        context.startActivity(intent);
+                    }
+                }
+            });
 
-            // Add click listener to the itemView
+
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
@@ -99,6 +116,7 @@ public class PurchasedAdapter extends RecyclerView.Adapter<PurchasedAdapter.Prod
             });
         }
     }
+
 
     public void setOnItemClickListener(OnItemClickListener listener) {
         this.onItemClickListener = listener;

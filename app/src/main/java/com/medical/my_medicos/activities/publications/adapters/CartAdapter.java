@@ -74,7 +74,8 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.CartViewHolder
                                 childObj.getString("Type"),
                                 childObj.getString("Category"),
                                 childObj.getString("id"),
-                                childObj.getString("Subject")
+                                childObj.getString("Subject"),
+                                childObj.getString("URL")
                         );
                         products.add(product);
                         Log.d("product loaded", childObj.toString());

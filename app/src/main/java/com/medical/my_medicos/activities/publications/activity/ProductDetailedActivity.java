@@ -5,50 +5,29 @@ import static android.content.ContentValues.TAG;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
-import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentTransaction;
 
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
-import android.text.Editable;
 import android.text.Html;
-import android.text.Layout;
-import android.text.TextUtils;
-import android.text.TextWatcher;
 import android.util.Log;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
-import android.widget.Button;
-import android.widget.FrameLayout;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
-import com.android.volley.Response;
-import com.android.volley.VolleyError;
 import com.android.volley.toolbox.Volley;
 
-import org.json.JSONArray;
 import org.json.JSONObject;
 
 import com.android.volley.toolbox.StringRequest;
 import com.bumptech.glide.Glide;
-import com.google.firebase.firestore.DocumentSnapshot;
-import com.mancj.materialsearchbar.MaterialSearchBar;
+import com.bumptech.glide.request.RequestOptions;
 import com.medical.my_medicos.R;
-import com.medical.my_medicos.activities.home.fragments.HomeFragment;
-import com.medical.my_medicos.activities.login.MainActivity;
-import com.medical.my_medicos.activities.login.NavigationActivity;
-import com.medical.my_medicos.activities.pg.activites.PgprepActivity;
-import com.medical.my_medicos.activities.pg.animations.CorrectAnswerActivity;
 import com.medical.my_medicos.activities.publications.model.Product;
 import com.medical.my_medicos.activities.utils.ConstantsDashboard;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -65,6 +44,8 @@ import org.json.JSONException;
 import java.util.ArrayList;
 import java.util.prefs.Preferences;
 
+import jp.wasabeef.glide.transformations.BlurTransformation;
+
 
 public class ProductDetailedActivity extends AppCompatActivity {
     ActivityProductDetailedBinding binding;
@@ -78,50 +59,26 @@ public class ProductDetailedActivity extends AppCompatActivity {
         binding = ActivityProductDetailedBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
-        getWindow().setFlags(WindowManager.LayoutParams.FLAG_SECURE, WindowManager.LayoutParams.FLAG_SECURE);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            View decorView = getWindow().getDecorView();
+            decorView.setSystemUiVisibility(decorView.getSystemUiVisibility() | View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);
+        }
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            Window window = getWindow();
+            window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
+            window.setStatusBarColor(ContextCompat.getColor(this, R.color.backgroundcolor));
+            window.setNavigationBarColor(ContextCompat.getColor(this, R.color.backgroundcolor));
+        }
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            View decorView = getWindow().getDecorView();
+            decorView.setSystemUiVisibility(decorView.getSystemUiVisibility() | View.SYSTEM_UI_FLAG_LIGHT_NAVIGATION_BAR);
+        }
+
+//        getWindow().setFlags(WindowManager.LayoutParams.FLAG_SECURE, WindowManager.LayoutParams.FLAG_SECURE);
 
         showLoadForLib();
-
-        binding.searchBar.addTextChangeListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-                // Not needed for now
-            }
-
-            @Override
-            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-                // Not needed for now
-            }
-
-            @Override
-            public void afterTextChanged(Editable editable) {
-                // Not needed for now
-            }
-        });
-
-        binding.searchBar.setOnSearchActionListener(new MaterialSearchBar.OnSearchActionListener() {
-            @Override
-            public void onSearchStateChanged(boolean enabled) {
-                // Not needed for now
-            }
-
-            @Override
-            public void onSearchConfirmed(CharSequence text) {
-                String query = text.toString();
-                if (!TextUtils.isEmpty(query)) {
-                    Intent intent = new Intent(ProductDetailedActivity.this, SearchPublicationActivity.class);
-                    intent.putExtra("query", query);
-                    startActivity(intent);
-                }
-            }
-
-            @Override
-            public void onButtonClicked(int buttonCode) {
-                if (buttonCode == MaterialSearchBar.BUTTON_BACK) {
-                    // Handle back button click
-                }
-            }
-        });
 
         String name = getIntent().getStringExtra("Title");
         String image = getIntent().getStringExtra("thumbnail");
@@ -130,8 +87,12 @@ public class ProductDetailedActivity extends AppCompatActivity {
 
         Glide.with(this)
                 .load(image)
-                .into(binding.productImage);
+                .apply(RequestOptions.bitmapTransform(new BlurTransformation(25, 4))) // Adjust the radius and sampling for desired blur level
+                .into(binding.blurimageofthebook);
 
+        Glide.with(this)
+                .load(image)
+                .into(binding.image);
 
         getProductDetails(id);
 
@@ -182,7 +143,7 @@ public class ProductDetailedActivity extends AppCompatActivity {
         tocartgo.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent i = new Intent(ProductDetailedActivity.this, CartPublicationActivity.class);
+                Intent i = new Intent(ProductDetailedActivity.this, CartFromDetailActivity.class);
                 startActivity(i);
             }
         });
@@ -235,52 +196,60 @@ public class ProductDetailedActivity extends AppCompatActivity {
 
         String url = ConstantsDashboard.GET_SPECIALITY_PRODUCT + id;
 
-        StringRequest request = new StringRequest(Request.Method.GET, url, new Response.Listener<String>() {
-            @Override
-            public void onResponse(String response) {
-                try {
-                    JSONObject object = new JSONObject(response);
-                    if(object.getString("status").equals("success")) {
-                        JSONObject product = object.getJSONObject("data");
+        StringRequest request = new StringRequest(Request.Method.GET, url, response -> {
+            try {
+                JSONObject object = new JSONObject(response);
+                if (object.getString("status").equals("success")) {
+                    JSONObject product = object.getJSONObject("data");
 
-                        // Extract product details
-                        String title = product.getString("Title");
-                        String author = product.getString("Author");
-                        String type = product.getString("Type");
-                        String description = product.getString("Description");
-                        double price = product.getDouble("Price");
+                    // Extract product details
+                    String title = product.getString("Title");
+                    String author = product.getString("Author");
+                    String type = product.getString("Type");
+                    String description = product.getString("Description");
+                    double price = product.getDouble("Price");
 
-                        // Set the UI elements with product details
-                        binding.titleoftheproduct.setText(title);
-                        binding.productauthor.setText(author);
-                        binding.producttype.setText(type);
-                        binding.productDescription.setText(Html.fromHtml(description));
-                        binding.productprice.setText("₹" + String.valueOf(price));
+                    // Set the UI elements with product details
+                    binding.titleoftheproduct.setText(title);
+                    binding.author.setText(author);
+                    binding.type.setText(type);
+                    binding.productDescription.setText(Html.fromHtml(description));
+                    binding.productprice.setText("₹" + price);
 
-                        currentProduct = new Product(
-                                title,
-                                product.getString("thumbnail"),
-                                author,
-                                price,
-                                product.getString("Type"),
-                                product.getString("Category"),
-                                product.getString("Subject"),
-                                object.getString("id")
-                        );
+                    currentProduct = new Product(
+                            title,
+                            product.getString("thumbnail"),
+                            author,
+                            price,
+                            product.getString("Type"),
+                            product.getString("Category"),
+                            product.getString("Subject"),
+                            product.getString("URL"),
+                            object.getString("id")
+                    );
+
+                    // Adjust visibility based on the price
+                    if (price == 0.0) {
+                        binding.redeemBtn.setVisibility(View.VISIBLE);
+                        binding.addToCartBtn.setVisibility(View.GONE);
+                        binding.tocartgo.setVisibility(View.GONE);
+                    } else {
+                        binding.redeemBtn.setVisibility(View.GONE);
+                        binding.addToCartBtn.setVisibility(View.VISIBLE);
+                        binding.tocartgo.setVisibility(View.VISIBLE);
                     }
-                } catch (JSONException e) {
-                    e.printStackTrace();
+
                 }
+            } catch (JSONException e) {
+                e.printStackTrace();
             }
-        }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                // Handle error if needed
-            }
+        }, error -> {
+            // Handle error if needed
         });
 
         queue.add(request);
     }
+
 
     private boolean isProductInCart(String productId) {
         ArrayList<String> cartProductIds = getCartProductIds();
@@ -288,9 +257,7 @@ public class ProductDetailedActivity extends AppCompatActivity {
     }
 
     private ArrayList<String> getCartProductIds() {
-        // This method should return the list of product IDs currently in the cart
-        // For simplicity, let's assume you have a method to get this list
-        return new ArrayList<>(); // Replace this with your actual implementation
+        return new ArrayList<>();
     }
 
     @Override

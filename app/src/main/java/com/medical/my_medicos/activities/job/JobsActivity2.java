@@ -34,7 +34,6 @@ import com.google.firebase.firestore.FirebaseFirestore;
 public class JobsActivity2 extends AppCompatActivity {
     String Title1;
     TextView OK;
-
     private ViewPager2 pagerjobs, viewpagerjobs;
     private TabLayout tabLayoutjobs;
     FirebaseFirestore db = FirebaseFirestore.getInstance();
@@ -108,7 +107,7 @@ public class JobsActivity2 extends AppCompatActivity {
         }
 
         viewpagerjobs = findViewById(R.id.view_pager_jobs);
-        viewpagerjobs.setAdapter(new ViewPagerAdapterJobs(this, Title1)); // Pass Title1 to the adapter
+        viewpagerjobs.setAdapter(new ViewPagerAdapterJobs(this, Title1));
 
         pagerjobs = findViewById(R.id.view_pager_jobs);
         tabLayoutjobs = findViewById(R.id.tablayout);

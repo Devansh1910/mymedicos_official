@@ -9,6 +9,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -28,6 +29,7 @@ import com.medical.my_medicos.R;
 import com.medical.my_medicos.activities.pg.activites.PgprepActivity;
 import com.medical.my_medicos.activities.pg.activites.ResultActivity;
 import com.medical.my_medicos.activities.pg.adapters.WeeklyQuizAdapterinsider;
+import com.medical.my_medicos.activities.pg.model.Neetpg;
 import com.medical.my_medicos.activities.pg.model.QuizPGinsider;
 
 import java.util.ArrayList;
@@ -49,102 +51,73 @@ public class WeeklyQuizInsiderActivity extends AppCompatActivity {
 
         recyclerView = findViewById(R.id.recycler_view);
         Intent intent = getIntent();
-        String str = intent.getStringExtra("Title1");
-        String str1 = intent.getStringExtra("Title");
+        String str = intent.getStringExtra("Title1"); // Specialty
+        String str1 = intent.getStringExtra("Title"); // Title
         quizList = new ArrayList<>();
 
         FirebaseFirestore db = FirebaseFirestore.getInstance();
         CollectionReference quizzCollection = db.collection("PGupload").document("Weekley").collection("Quiz");
-        quizzCollection.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-            @Override
-            public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                if (task.isSuccessful()) {
-                    quizList.clear();
-                    for (QueryDocumentSnapshot document : task.getResult()) {
-                        String speciality = document.getString("speciality");
-                        String title1 = document.getString("title");
-                        Log.d("Error in Speciality", speciality);
-                        Log.d("Speciality", str);
+        quizzCollection.get().addOnCompleteListener(task -> {
+            if (task.isSuccessful()) {
+                quizList.clear(); // Ensure this happens only once
+                for (QueryDocumentSnapshot document : task.getResult()) {
+                    String speciality = document.getString("speciality");
+                    String title = document.getString("title");
 
+                    if (str.equals(speciality) && str1.equals(title)) {
                         ArrayList<Map<String, Object>> dataList = (ArrayList<Map<String, Object>>) document.get("Data");
-                        int r = speciality.compareTo(str);
-                        int r1=title1.compareTo(str1);
-                        Log.d("Something went wrong", String.valueOf(r));
-                        quizList.clear();
-                        if ((r == 0)&&(r1==0) ){
-                            if (dataList != null) {
-                                for (Map<String, Object> entry : dataList) {
-                                    id=document.getId();
-                                    String question = (String) entry.get("Question");
-                                    String correctAnswer = (String) entry.get("Correct");
-                                    String optionA = (String) entry.get("A");
-                                    String optionB = (String) entry.get("B");
-                                    String optionC = (String) entry.get("C");
-                                    String optionD = (String) entry.get("D");
-                                    String description = (String) entry.get("Description");
+                        for (Map<String, Object> entry : dataList) {
+                            String question = (String) entry.get("Question");
+                            String correctAnswer = (String) entry.get("Correct");
+                            String optionA = (String) entry.get("A");
+                            String optionB = (String) entry.get("B");
+                            String optionC = (String) entry.get("C");
+                            String optionD = (String) entry.get("D");
+                            String description = (String) entry.get("Description");
+                            String imageUrl = (String) entry.get("Image");
 
-                                    String imageUrl = (String) entry.get("Image");
-
-                                    QuizPGinsider quizQuestion;
-
-                                    if (imageUrl != null && !imageUrl.isEmpty()) {
-                                        quizQuestion = new QuizPGinsider(question, optionA, optionB, optionC, optionD, correctAnswer, imageUrl, description);
-                                    } else {
-                                        quizQuestion = new QuizPGinsider(question, optionA, optionB, optionC, optionD, correctAnswer, imageUrl, description);
-                                    }
-                                    quizList.add(quizQuestion);
-                                }
-                            }
+                            QuizPGinsider quizQuestion = new QuizPGinsider(question, optionA, optionB, optionC, optionD, correctAnswer, imageUrl, description);
+                            quizList.add(quizQuestion);
                         }
+                        break; // Assuming only one matching document, break after adding its questions
                     }
-//                    adapter.setQuizQuestions(quizList);
                 }
-                loadNextQuestion();
-
-
-
+                if (!quizList.isEmpty()) {
+                    loadNextQuestion(); // Initialize the quiz with the first question
+                } else {
+                    Log.d("QuizLoading", "No questions loaded. Check filters or database.");
+                }
+            } else {
+                Log.e("FirestoreError", "Error getting documents: ", task.getException());
             }
         });
 
-        Button nextButton = findViewById(R.id.nextButton);
-        nextButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                loadNextQuestion();
-            }
-        });
-        recyclerView.setLayoutManager(new LinearLayoutManager(WeeklyQuizInsiderActivity.this));
-        adapter = new WeeklyQuizAdapterinsider(WeeklyQuizInsiderActivity.this, quizList);
+        ImageView nextButton = findViewById(R.id.nextButton);
+        nextButton.setOnClickListener(v -> loadNextQuestion());
+
+        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+        adapter = new WeeklyQuizAdapterinsider(this, quizList);
         recyclerView.setAdapter(adapter);
 
         TextView endButton = findViewById(R.id.endenabled);
-        endButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                handleEndButtonClick();
-            }
-        });
+        endButton.setOnClickListener(v -> handleEndButtonClick());
 
         LinearLayout toTheBackLayout = findViewById(R.id.totheback);
-        toTheBackLayout.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                showConfirmationDialog();
-            }
-        });
+        toTheBackLayout.setOnClickListener(v -> showConfirmationDialog());
+
+        adapter.setOnCountdownFinishedListener(this::onCountdownFinished);
     }
 
     private void loadNextQuestion() {
-        if (currentQuestionIndex-1 < quizList.size() - 1) {
-
-            adapter.setQuizQuestions(Collections.singletonList(quizList.get(currentQuestionIndex)));
+        if (currentQuestionIndex < quizList.size()) {
+            QuizPGinsider currentQuestion = quizList.get(currentQuestionIndex);
+            adapter.setQuizQuestions(Collections.singletonList(currentQuestion));
             recyclerView.smoothScrollToPosition(currentQuestionIndex);
             currentQuestionIndex++;
         } else {
             showEndQuizConfirmation();
         }
     }
-
 
 
     private void showEndQuizConfirmation() {
@@ -193,6 +166,7 @@ public class WeeklyQuizInsiderActivity extends AppCompatActivity {
         dialog.show();
     }
 
+
     private void navigateToPrepareActivity() {
         Intent intent = new Intent(WeeklyQuizInsiderActivity.this, PgprepActivity.class);
         startActivity(intent);
@@ -204,9 +178,7 @@ public class WeeklyQuizInsiderActivity extends AppCompatActivity {
 
         for (QuizPGinsider quizQuestion : quizList) {
             if (quizQuestion.getSelectedOption() == null || quizQuestion.getSelectedOption().isEmpty()) {
-//                showCustomToast("Respond to every question");
                 userSelectedOptions.add("Skip");
-//                return;
             }
             userSelectedOptions.add(quizQuestion.getSelectedOption());
         }
@@ -247,5 +219,9 @@ public class WeeklyQuizInsiderActivity extends AppCompatActivity {
         }
 
         return results;
+    }
+
+    public void onCountdownFinished() {
+        loadNextQuestion();
     }
 }

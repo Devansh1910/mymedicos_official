@@ -2,6 +2,7 @@ package com.medical.my_medicos.activities.publications.adapters;
 
 import android.content.Context;
 import android.content.Intent;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -38,7 +39,13 @@ public class SponsoredProductAdapter extends RecyclerView.Adapter<SponsoredProdu
     @Override
     public void onBindViewHolder(@NonNull SponsoredProductViewHolder holder, int position) {
         Product sponsoredproduct = sponsored.get(position);
+        Log.d("ProductAdapter", "Title: " + sponsoredproduct.getTitle() +
+                ", Author: " + sponsoredproduct.getAuthor() +
+                ", Thumbnail: " + sponsoredproduct.getThumbnail());
+
+        Glide.with(context).load(sponsoredproduct.getThumbnail()).into(holder.binding.image);
         holder.binding.label.setText(sponsoredproduct.getTitle());
+        holder.binding.author.setText(sponsoredproduct.getAuthor());
 
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override

@@ -29,7 +29,7 @@ import com.medical.my_medicos.R;
 import com.medical.my_medicos.activities.publications.adapters.CartAdapter;
 import com.medical.my_medicos.activities.publications.model.Product;
 import com.medical.my_medicos.activities.utils.ConstantsDashboard;
-import com.medical.my_medicos.databinding.ActivityCartPublicationBinding;
+import com.medical.my_medicos.databinding.ActivityCartFromDetailBinding;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -37,9 +37,9 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.prefs.Preferences;
 
-public class CartPublicationActivity extends AppCompatActivity {
+public class CartFromDetailActivity extends AppCompatActivity {
 
-    ActivityCartPublicationBinding binding;
+    ActivityCartFromDetailBinding binding;
     CartAdapter adapter;
     ArrayList<Product> products;
     ProgressDialog progressDialog;
@@ -47,7 +47,7 @@ public class CartPublicationActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        binding = ActivityCartPublicationBinding.inflate(getLayoutInflater());
+        binding = ActivityCartFromDetailBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_SECURE, WindowManager.LayoutParams.FLAG_SECURE);
@@ -86,7 +86,7 @@ public class CartPublicationActivity extends AppCompatActivity {
             public void onSearchConfirmed(CharSequence text) {
                 String query = text.toString();
                 if (!TextUtils.isEmpty(query)) {
-                    Intent intent = new Intent(CartPublicationActivity.this, SearchPublicationActivity.class);
+                    Intent intent = new Intent(CartFromDetailActivity.this, SearchingPublicationActivity.class);
                     intent.putExtra("query", query);
                     startActivity(intent);
                 }
@@ -139,23 +139,23 @@ public class CartPublicationActivity extends AppCompatActivity {
             try {
                 JSONObject requestBody = new JSONObject(response);
                 if (requestBody.getString("status").equals("success")) {
-                    Toast.makeText(CartPublicationActivity.this, "Success order.", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(CartFromDetailActivity.this, "Success order.", Toast.LENGTH_SHORT).show();
                     String orderNumber = requestBody.getString("order_id");
                     Log.e("Order ID check",orderNumber);
-                    new AlertDialog.Builder(CartPublicationActivity.this)
+                    new AlertDialog.Builder(CartFromDetailActivity.this)
                             .setTitle("Order Successful")
                             .setCancelable(false)
                             .setMessage("Your order number is: " + orderNumber)
                             .setPositiveButton("Pay Now", new DialogInterface.OnClickListener() {
                                 @Override
                                 public void onClick(DialogInterface dialogInterface, int i) {
-                                    Intent intent = new Intent(CartPublicationActivity.this, PaymentPublicationActivity.class);
+                                    Intent intent = new Intent(CartFromDetailActivity.this, PaymentPublicationActivity.class);
                                     intent.putExtra("orderCode", orderNumber);
                                     startActivity(intent);
                                 }
                             }).show();
                 } else {
-                    new AlertDialog.Builder(CartPublicationActivity.this)
+                    new AlertDialog.Builder(CartFromDetailActivity.this)
                             .setTitle("Order Failed")
                             .setMessage("Something went wrong, please try again.")
                             .setCancelable(false)
@@ -165,7 +165,7 @@ public class CartPublicationActivity extends AppCompatActivity {
 
                                 }
                             }).show();
-                    Toast.makeText(CartPublicationActivity.this, "Failed order.", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(CartFromDetailActivity.this, "Failed order.", Toast.LENGTH_SHORT).show();
                 }
                 progressDialog.dismiss();
                 Log.e("res", response.toString());

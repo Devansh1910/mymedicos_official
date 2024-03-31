@@ -1,12 +1,10 @@
 package com.medical.my_medicos.activities.home.fragments;
 
 import android.annotation.SuppressLint;
-import android.app.AlertDialog;
 import android.content.Intent;
 import android.media.MediaPlayer;
 import android.os.Build;
 import android.os.Bundle;
-import android.os.Handler;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
@@ -17,15 +15,12 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
-import android.widget.LinearLayout;
-import android.widget.ScrollView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.core.content.ContextCompat;
 import androidx.core.widget.NestedScrollView;
 import androidx.fragment.app.Fragment;
-import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
@@ -37,10 +32,6 @@ import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.mancj.materialsearchbar.MaterialSearchBar;
 import com.medical.my_medicos.R;
-import com.medical.my_medicos.activities.job.JobsActivity;
-import com.medical.my_medicos.activities.publications.activity.PublicationActivity;
-import com.medical.my_medicos.activities.publications.activity.SearchPublicationActivity;
-import com.medical.my_medicos.activities.publications.model.Category;
 import com.medical.my_medicos.activities.slideshow.PaidSlideshowAdapter;
 import com.medical.my_medicos.activities.slideshow.SearchSlideshowActivity;
 import com.medical.my_medicos.activities.slideshow.SlideshareCategoryAdapter;
@@ -49,7 +40,6 @@ import com.medical.my_medicos.activities.slideshow.Slideshow;
 import com.medical.my_medicos.activities.slideshow.SlideshowAdapter;
 import com.medical.my_medicos.activities.slideshow.insider.SpecialitySlideshowInsiderActivity;
 import com.medical.my_medicos.activities.slideshow.model.SlideshareCategory;
-import com.medical.my_medicos.activities.ug.UgPostInsiderActivity;
 import com.medical.my_medicos.activities.utils.ConstantsDashboard;
 import com.medical.my_medicos.databinding.FragmentSlideshowBinding;
 

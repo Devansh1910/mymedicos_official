@@ -15,8 +15,8 @@ android {
         applicationId = "com.medical.my_medicos"
         minSdk = 24
         targetSdk = 34
-        versionCode = 57
-        versionName = "4.1.5"
+        versionCode = 58
+        versionName = "4.1.6"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
@@ -44,7 +44,7 @@ android {
 
 dependencies {
     implementation("androidx.appcompat:appcompat:1.6.1")
-    implementation(platform("com.google.firebase:firebase-bom:32.7.4"))
+    implementation(platform("com.google.firebase:firebase-bom:32.8.0"))
     implementation("com.google.firebase:firebase-analytics")
 //    implementation("com.google.firebase:firebase-auth")
     implementation("com.google.android.material:material:1.11.0")
@@ -54,7 +54,7 @@ dependencies {
     implementation("androidx.navigation:navigation-fragment:2.7.7")
     implementation("androidx.navigation:navigation-ui:2.7.7")
     implementation("androidx.legacy:legacy-support-v4:1.0.0")
-    implementation("com.google.firebase:firebase-sessions:1.2.2")
+    implementation("com.google.firebase:firebase-sessions:1.2.3")
     implementation("androidx.media3:media3-common:1.3.0")
     implementation("com.google.firebase:firebase-crashlytics-buildtools:2.9.9")
     implementation("androidx.media3:media3-exoplayer:1.3.0")
@@ -81,7 +81,7 @@ dependencies {
     // Additional dependencies from the first code block
     implementation("com.google.firebase:firebase-storage:20.3.0")
     implementation("com.google.firebase:firebase-core:21.1.1")
-    implementation("com.google.firebase:firebase-firestore:24.10.3")
+    implementation("com.google.firebase:firebase-firestore:24.11.0")
     implementation ("com.squareup.picasso:picasso:2.71828")
     //....
     implementation ("com.github.bumptech.glide:glide:4.14.2")
@@ -128,4 +128,8 @@ dependencies {
     implementation ("com.google.android.material:material:1.11.0")
     //.....App Check.........................
     implementation("com.google.firebase:firebase-appcheck-playintegrity")
+    //......
+    implementation ("jp.wasabeef:glide-transformations:4.3.0")
+    //.....Reader............
+    implementation ("com.github.barteksc:android-pdf-viewer:2.8.2")
 }

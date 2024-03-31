@@ -152,6 +152,19 @@
                             android:gravity="center_vertical"
                             android:text="Option D"/>
 
+                        <TextView
+                            android:id="@+id/viewsummaryoption"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:textSize="@dimen/_14sdp"
+                            android:textStyle="bold"
+                            android:visibility="gone"
+                            android:paddingTop="10dp"
+                            android:text="View Solution"
+                            android:textColor="@color/blue"
+                            android:textAlignment="center"
+                            android:drawableTop="@drawable/upp"/>
+
                     </LinearLayout>
 
                 </LinearLayout>

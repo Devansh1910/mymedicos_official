@@ -41,12 +41,16 @@ public class ResultReportAdapter extends RecyclerView.Adapter<ResultReportAdapte
         holder.resultQuestion.setText(quizQuestion.getQuestion());
         holder.resultCorrectOption.setText("" + quizQuestion.getCorrectAnswer());
 
-        if (quizQuestion.getSelectedOption().equals(quizQuestion.getCorrectAnswer())) {
-            holder.resultSelectedOption.setText("" + quizQuestion.getSelectedOption());
+        String selectedOption = quizQuestion.getSelectedOption();
+        String correctAnswer = quizQuestion.getCorrectAnswer();
+
+        // Check if selectedOption or correctAnswer is null before calling equals
+        if (selectedOption != null && correctAnswer != null && selectedOption.equals(correctAnswer)) {
+            holder.resultSelectedOption.setText("" + selectedOption);
             holder.resultSelectedOption.setBackgroundResource(R.drawable.correct_option_selected);
             holder.resultCorrectOption.setVisibility(View.GONE);
         } else {
-            holder.resultSelectedOption.setText("" + quizQuestion.getSelectedOption());
+            holder.resultSelectedOption.setText("" + selectedOption);
             holder.resultSelectedOption.setBackgroundResource(R.drawable.wrong_option_selected);
             holder.resultCorrectOption.setVisibility(View.VISIBLE);
         }
@@ -57,6 +61,7 @@ public class ResultReportAdapter extends RecyclerView.Adapter<ResultReportAdapte
             correctCount++;
         }
     }
+
 
 
     @Override

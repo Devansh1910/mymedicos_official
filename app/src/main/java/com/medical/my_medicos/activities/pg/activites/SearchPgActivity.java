@@ -73,8 +73,8 @@ public class SearchPgActivity extends AppCompatActivity {
                                 childObj.getString("Type"),
                                 childObj.getString("Category"),
                                 childObj.getString("Subject"),
+                                childObj.getString("URL"),
                                 object.getString("id")
-
                         );
                         products.add(product);
                     }

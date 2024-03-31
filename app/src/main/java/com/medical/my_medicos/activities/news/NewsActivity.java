@@ -1,34 +1,24 @@
 package com.medical.my_medicos.activities.news;
 
-import static android.view.WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS;
-
-import static androidx.core.content.ContentProviderCompat.requireContext;
-
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.content.ContextCompat;
-import androidx.core.widget.NestedScrollView;
+import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentActivity;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 import androidx.viewpager2.adapter.FragmentStateAdapter;
 import androidx.viewpager2.widget.ViewPager2;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
-import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.util.Log;
-import android.view.MotionEvent;
 import android.view.View;
-import android.view.Window;
 import android.view.WindowInsets;
 import android.view.WindowInsetsController;
 import android.view.WindowManager;
@@ -37,8 +27,6 @@ import android.widget.LinearLayout;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
-import com.android.volley.Response;
-import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.google.android.material.tabs.TabLayout;
@@ -47,13 +35,7 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.mancj.materialsearchbar.MaterialSearchBar;
 import com.medical.my_medicos.R;
-import com.medical.my_medicos.activities.guide.JobGuideActivity;
-import com.medical.my_medicos.activities.guide.NewsGuideActivity;
 import com.medical.my_medicos.activities.home.HomeActivity;
-import com.medical.my_medicos.activities.job.JobsActivity;
-import com.medical.my_medicos.activities.job.JobsActivity2;
-import com.medical.my_medicos.activities.job.fragments.LocumFragment;
-import com.medical.my_medicos.activities.job.fragments.RegularFragment;
 //import com.medical.my_medicos.activities.news.tags.Tags;
 //import com.medical.my_medicos.activities.news.tags.TagsAdapter;
 //import com.medical.my_medicos.activities.news.tags.TagsInsiderActivity;
@@ -62,15 +44,10 @@ import com.medical.my_medicos.activities.news.fragments.DrugnDiseasesNewsFragmen
 import com.medical.my_medicos.activities.news.fragments.EducationNewsFragment;
 import com.medical.my_medicos.activities.news.fragments.JobsUpdatesNewsFragment;
 import com.medical.my_medicos.activities.news.fragments.MedicalNewsFragment;
-import com.medical.my_medicos.activities.pg.activites.PgprepActivity;
-import com.medical.my_medicos.activities.publications.activity.PublicationActivity;
-import com.medical.my_medicos.activities.publications.activity.SearchPublicationActivity;
-import com.medical.my_medicos.activities.slideshow.SlideshareCategoryAdapter;
-import com.medical.my_medicos.activities.slideshow.insider.SpecialitySlideshowInsiderActivity;
-import com.medical.my_medicos.activities.slideshow.model.SlideshareCategory;
 import com.medical.my_medicos.activities.utils.ConstantsDashboard;
 import com.medical.my_medicos.databinding.ActivityNewsBinding;
 
+import org.imaginativeworld.whynotimagecarousel.ImageCarousel;
 import org.imaginativeworld.whynotimagecarousel.model.CarouselItem;
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -90,22 +67,12 @@ public class  NewsActivity extends AppCompatActivity {
     TodayNewsAdapter todayNewsAdapter;
     ArrayList<NewsToday>  newstoday;
     private ImageView backtothehomefrompg;
-    private TabLayout tabLayoutnews;
-    private ViewPager2 pagernews, viewpagernews;
-
-    String TitleNews;
-
-//    TagsAdapter tagsAdapter;
-//    ArrayList<Tags> tags;
-
-    //....News Activity
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS, WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS );
-        binding = ActivityNewsBinding.inflate(getLayoutInflater());
-        setContentView(binding.getRoot());
+        setContentView(R.layout.activity_news);
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
             WindowInsetsController controller = getWindow().getInsetsController();
@@ -124,32 +91,8 @@ public class  NewsActivity extends AppCompatActivity {
             decorView.setSystemUiVisibility(decorView.getSystemUiVisibility() | View.SYSTEM_UI_FLAG_LIGHT_NAVIGATION_BAR);
         }
 
-//        viewpagernews = findViewById(R.id.view_pager_news);
-//        viewpagernews.setAdapter(new NewsActivity.ViewPagerAdapterNews(this, TitleNews));
-//
-//        pagernews = findViewById(R.id.view_pager_news);
-//        tabLayoutnews = findViewById(R.id.tablayoutnews);
-//        new TabLayoutMediator(tabLayoutnews, viewpagernews, (tab, position) -> {
-//            switch (position) {
-//                case 0:
-//                    tab.setText("All");
-//                    break;
-//                case 1:
-//                    tab.setText("Medical");
-//                    break;
-//                case 2:
-//                    tab.setText("Education");
-//                    break;
-//                case 3:
-//                    tab.setText("Drugs & Diseases");
-//                    break;
-//                case 4:
-//                    tab.setText("Job Updates");
-//                    break;
-//            }
-//        }).attach();
-
-        binding.searchBarNews.addTextChangeListener(new TextWatcher() {
+        MaterialSearchBar searchBarNews = findViewById(R.id.searchBarNews);
+        searchBarNews.addTextChangeListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
                 // Not needed for now
@@ -166,7 +109,7 @@ public class  NewsActivity extends AppCompatActivity {
             }
         });
 
-        binding.searchBarNews.setOnSearchActionListener(new MaterialSearchBar.OnSearchActionListener() {
+        searchBarNews.setOnSearchActionListener(new MaterialSearchBar.OnSearchActionListener() {
             @Override
             public void onSearchStateChanged(boolean enabled) {
                 // Not needed for now
@@ -199,73 +142,66 @@ public class  NewsActivity extends AppCompatActivity {
             }
         });
 
-//        swipeRefreshLayoutNews = findViewById(R.id.swipeRefreshLayoutNews);
-//        swipeRefreshLayoutNews.setOnRefreshListener(this::refreshContent);
-        binding.newstoolbar.setNavigationOnClickListener(vv -> onBackPressed());
+        TabLayout tabLayout = findViewById(R.id.tablayoutnews);
+        ViewPager2 viewPager = findViewById(R.id.view_pager_news);
+
+        FragmentStateAdapter adapter = new FragmentStateAdapter(this) {
+            @NonNull
+            @Override
+            public Fragment createFragment(int position) {
+                switch (position) {
+                    case 0: // All
+                        return new AllNewsFragment();
+                    case 1: // Medical
+                        return new MedicalNewsFragment();
+                    case 2: // Education
+                        return new EducationNewsFragment();
+                    case 3: // Drugs & Diseases
+                        return new DrugnDiseasesNewsFragment();
+                    case 4: // Job Updates
+                        return new JobsUpdatesNewsFragment();
+                    default:
+                        return new AllNewsFragment();
+                }
+            }
+
+            @Override
+            public int getItemCount() {
+                return 5; // Number of tabs
+            }
+        };
+
+        viewPager.setAdapter(adapter);
+
+        new TabLayoutMediator(tabLayout, viewPager, (tab, position) -> {
+            switch (position) {
+                case 0:
+                    tab.setText("All");
+                    break;
+                case 1:
+                    tab.setText("Medical");
+                    break;
+                case 2:
+                    tab.setText("Education");
+                    break;
+                case 3:
+                    tab.setText("Drugs & Diseases");
+                    break;
+                case 4:
+                    tab.setText("Job Updates");
+                    break;
+            }
+        }).attach();
+
+        // Assuming you have a toolbar with the id newstoolbar
+        Toolbar newstoolbar = findViewById(R.id.newstoolbar);
+        newstoolbar.setNavigationOnClickListener(vv -> onBackPressed());
 
         initNews();
-//        initTags();
         initNewsSlider();
-        initTodaysSlider(); // Make sure to call this after initNewsSlider
+        initTodaysSlider();
     }
 
-//    class ViewPagerAdapterNews extends FragmentStateAdapter {
-//        private String title;
-//
-//        public ViewPagerAdapterNews(@NonNull FragmentActivity fragmentActivity, String title) {
-//            super(fragmentActivity);
-//            this.title = title;
-//        }
-//
-//        @NonNull
-//        @Override
-//        public Fragment createFragment(int position) {
-//            switch (position) {
-//                case 0:
-//                    AllNewsFragment allnewsFragment = new AllNewsFragment();
-//                    Bundle argsall = new Bundle();
-//                    argsall.putString("Title", title);
-//                    allnewsFragment.setArguments(argsall);
-//                    return allnewsFragment;
-//
-//                case 1:
-//                    MedicalNewsFragment medicalNewsFragment = new MedicalNewsFragment();
-//                    Bundle argsMedical = new Bundle();
-//                    argsMedical.putString("Title", title);
-//                    medicalNewsFragment.setArguments(argsMedical);
-//                    return medicalNewsFragment;
-//
-//                case 2:
-//                    EducationNewsFragment educationNewsFragment = new EducationNewsFragment();
-//                    Bundle argseducation = new Bundle();
-//                    argseducation.putString("Title", title);
-//                    educationNewsFragment.setArguments(argseducation);
-//                    return educationNewsFragment;
-//
-//                case 3:
-//                    DrugnDiseasesNewsFragment drugsndiseasesNewsFragment = new DrugnDiseasesNewsFragment();
-//                    Bundle argsdrugs = new Bundle();
-//                    argsdrugs.putString("Title", title);
-//                    drugsndiseasesNewsFragment.setArguments(argsdrugs);
-//                    return drugsndiseasesNewsFragment;
-//
-//                case 4:
-//                    JobsUpdatesNewsFragment jobsUpdatesNewsFragment = new JobsUpdatesNewsFragment();
-//                    Bundle argsJobsUpdates = new Bundle();
-//                    argsJobsUpdates.putString("Title", title);
-//                    jobsUpdatesNewsFragment.setArguments(argsJobsUpdates);
-//                    return jobsUpdatesNewsFragment;
-//
-//            }
-//
-//            return null;
-//        }
-//
-//        @Override
-//        public int getItemCount() {
-//            return 2;
-//        }
-//    }
 
     private void refreshContent() {
         clearData();
@@ -278,7 +214,6 @@ public class  NewsActivity extends AppCompatActivity {
     private void fetchData() {
         getRecentNews();
     }
-
     private void initNews() {
         getSliderNews();
     }
@@ -308,7 +243,7 @@ public class  NewsActivity extends AppCompatActivity {
                         }
                         newsAdapter.notifyDataSetChanged();
                     } else {
-                        // Handle the case where data retrieval is not successful
+
                     }
                 });
     }
@@ -321,7 +256,8 @@ public class  NewsActivity extends AppCompatActivity {
                 JSONArray newssliderArray = new JSONArray(response);
                 for (int i = 0; i < newssliderArray.length(); i++) {
                     JSONObject childObj = newssliderArray.getJSONObject(i);
-                    binding.newscarousel.addData(
+                    ImageCarousel newscarousel = findViewById(R.id.newscarousel);
+                    newscarousel.addData(
                             new CarouselItem(
                                     childObj.getString("url"),
                                     childObj.getString("action")
@@ -332,14 +268,14 @@ public class  NewsActivity extends AppCompatActivity {
                 e.printStackTrace();
             }
         }, error -> {
-            // Handle error if needed
+
         });
         queue.add(request);
     }
+
     void getTodayNews() {
         FirebaseFirestore db = FirebaseFirestore.getInstance();
 
-        // Calculate the time 24 hours ago
         Calendar calendar = Calendar.getInstance();
         calendar.add(Calendar.DAY_OF_MONTH, -1);
         long twentyFourHoursAgo = calendar.getTimeInMillis();
@@ -374,7 +310,7 @@ public class  NewsActivity extends AppCompatActivity {
                         }
                         todayNewsAdapter.notifyDataSetChanged();
                     } else {
-                        // Handle the case where the data retrieval is not successful
+
                     }
                 });
     }
@@ -383,10 +319,11 @@ public class  NewsActivity extends AppCompatActivity {
         news = new ArrayList<News>();
         newsAdapter = new NewsAdapter(this, news);
         getRecentNews();
-        GridLayoutManager layoutManager = new GridLayoutManager(this, 1);  // Specify the number of columns
-        binding.newsList.setLayoutManager(layoutManager);
+        GridLayoutManager layoutManager = new GridLayoutManager(this, 1); // Specify the number of columns
+        RecyclerView newsList = findViewById(R.id.newsList); // Use findViewById here
+        newsList.setLayoutManager(layoutManager);
 
-        binding.newsList.setAdapter(newsAdapter);
+        newsList.setAdapter(newsAdapter);
     }
 
     void initTodaysSlider() {
@@ -394,91 +331,13 @@ public class  NewsActivity extends AppCompatActivity {
         todayNewsAdapter = new TodayNewsAdapter(this, newstoday);
         getTodayNews();
 
-        // Use LinearLayoutManager with horizontal orientation
         LinearLayoutManager layoutManager = new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false);
 
-        binding.newsListToday.setLayoutManager(layoutManager);
-        binding.newsListToday.setAdapter(todayNewsAdapter);
+        RecyclerView newsListToday = findViewById(R.id.newsListToday); // Use findViewById here
+        newsListToday.setLayoutManager(layoutManager);
+        newsListToday.setAdapter(todayNewsAdapter);
     }
 
-    //......
-//    void initTags() {
-//        tags = new ArrayList<>();
-//        tagsAdapter = new TagsAdapter(this, tags);
-//
-//        getTags();
-//
-//        LinearLayoutManager layoutManager = new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false);
-//        binding.newstags.setLayoutManager(layoutManager);
-//        binding.newstags.setAdapter(tagsAdapter);
-//    }
-//    void getTags() {
-//
-//        RequestQueue queue = Volley.newRequestQueue(this);
-//        StringRequest request = new StringRequest(Request.Method.GET, ConstantsDashboard.GET_SPECIALITY, new Response.Listener<String>() {
-//            @SuppressLint("NotifyDataSetChanged")
-//            @Override
-//            public void onResponse(String response) {
-//                try {
-//                    Log.e("err", response);
-//                    JSONObject mainObj = new JSONObject(response);
-//                    if (mainObj.getString("status").equals("success")) {
-//                        JSONArray tagsArray = mainObj.getJSONArray("data");
-//                        int tagsCount = Math.min(tagsArray.length(), 40);
-//                        for (int i = 0; i < tagsCount; i++) {
-//                            JSONObject object = tagsArray.getJSONObject(i);
-//
-//                            int priority = object.getInt("priority");
-//                            if (priority >= 1 && priority <= 3) {
-//                                Tags tagscategories = new Tags(
-//                                        object.getString("id"),
-//                                        priority // Set the priority
-//                                );
-//                                tags.add(tagscategories);
-//                                Log.e("Priority", String.valueOf(priority));
-//                            }
-//                        }
-//
-//
-//                        tagsAdapter.notifyDataSetChanged();
-//                        binding.newstags.addOnItemTouchListener(new RecyclerView.OnItemTouchListener() {
-//                            @Override
-//                            public boolean onInterceptTouchEvent(@NonNull RecyclerView rv, @NonNull MotionEvent e) {
-//                                View child = rv.findChildViewUnder(e.getX(), e.getY());
-//                                int position = rv.getChildAdapterPosition(child);
-//
-//                                if (position != RecyclerView.NO_POSITION) {
-//                                    if (position == tags.size() - 1 && tags.get(position).getPriority() == -1) {
-//                                        Intent intent = new Intent(NewsActivity.this, TagsInsiderActivity.class);
-//                                        startActivity(intent);
-//                                    } else {
-//
-//                                    }
-//                                }
-//                                return false;
-//                            }
-//                            @Override
-//                            public void onTouchEvent(@NonNull RecyclerView rv, @NonNull MotionEvent e) {}
-//
-//                            @Override
-//                            public void onRequestDisallowInterceptTouchEvent(boolean disallowIntercept) {}
-//                        });
-//                        tagsAdapter.notifyDataSetChanged();
-//                    } else {
-//                    }
-//                } catch (JSONException e) {
-//                    e.printStackTrace();
-//                }
-//            }
-//        }, new Response.ErrorListener() {
-//            @Override
-//            public void onErrorResponse(VolleyError error) {
-//
-//            }
-//        });
-//
-//        queue.add(request);
-//    }
 
     @Override
     public boolean onSupportNavigateUp() {

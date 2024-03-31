@@ -1,173 +1,37 @@
 package com.medical.my_medicos.activities.publications.activity;
 
-import android.annotation.SuppressLint;
-import android.content.Intent;
+import android.graphics.Rect;
 import android.os.Build;
 import android.os.Bundle;
-import android.text.Editable;
-import android.text.TextUtils;
-import android.text.TextWatcher;
-import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.Window;
-import android.view.WindowManager;
+import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
-import androidx.recyclerview.widget.GridLayoutManager;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 
 import com.airbnb.lottie.LottieAnimationView;
-import com.android.volley.Request;
-import com.android.volley.RequestQueue;
-import com.android.volley.Response;
-import com.android.volley.VolleyError;
-import com.android.volley.toolbox.StringRequest;
-import com.android.volley.toolbox.Volley;
 import com.medical.my_medicos.R;
-import com.medical.my_medicos.activities.publications.activity.insiders.CategoryPublicationInsiderActivity;
-import com.medical.my_medicos.activities.publications.activity.insiders.CategoryPublicationInsiderForRealActivity;
-import com.medical.my_medicos.activities.publications.adapters.CategoryAdapter;
-import com.medical.my_medicos.activities.publications.adapters.ProductAdapter;
-import com.medical.my_medicos.activities.publications.adapters.RecentHomeProductsAdapter;
-import com.medical.my_medicos.activities.publications.adapters.SponsoredProductAdapter;
-import com.medical.my_medicos.activities.publications.model.Category;
-import com.medical.my_medicos.activities.publications.model.Product;
-import com.medical.my_medicos.activities.publications.utils.Constants;
-import com.medical.my_medicos.activities.utils.ConstantsDashboard;
-import com.mancj.materialsearchbar.MaterialSearchBar;
+import com.medical.my_medicos.activities.publications.activity.mainfragments.HomePublicationFragment; // Ensure this import is correct
+import com.medical.my_medicos.activities.publications.activity.mainfragments.SearchPublicationFragment;
+import com.medical.my_medicos.activities.publications.activity.mainfragments.UsersPublicationFragment;
+import com.medical.my_medicos.activities.publications.activity.mainfragments.WaitlistPublicationFragment;
 import com.medical.my_medicos.databinding.ActivityPublicationBinding;
 
-import org.imaginativeworld.whynotimagecarousel.model.CarouselItem;
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import java.util.ArrayList;
 public class PublicationActivity extends AppCompatActivity {
 
-    //.. Binding Initiate...
     ActivityPublicationBinding binding;
-
-    //... For Categories.....
-    CategoryAdapter categoryAdapter;
-    ArrayList<Category> categories;
-
-    //... For ShowCase Products.....
-    ProductAdapter productAdapter;
-    ArrayList<Product> products;
-
-    //.... For Recent Products ......
-    RecentHomeProductsAdapter recentHomeProductsAdapter;
-    ArrayList<Product> recenthomeproducts;
-
-    //.... For Sponsored Products....
-    SponsoredProductAdapter sponsoredProductsAdapter;
-    ArrayList<Product> sponsoredProduct;
-
-    //... Loader....
-
-    LottieAnimationView loader;
-
-    private boolean isClickListenerAdded = false; // Add this flag at the class level
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-        //..... Security (Restricted for Screenshot or Recording).....
-
-        getWindow().setFlags(WindowManager.LayoutParams.FLAG_SECURE, WindowManager.LayoutParams.FLAG_SECURE);
-
-        //... Binding Statement.....
-
         binding = ActivityPublicationBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
-
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            View decorView = getWindow().getDecorView();
-            decorView.setSystemUiVisibility(decorView.getSystemUiVisibility() | View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);
-        }
-
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            Window window = getWindow();
-            window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
-            window.setStatusBarColor(ContextCompat.getColor(this, R.color.blue));
-            window.setNavigationBarColor(ContextCompat.getColor(this, R.color.backgroundcolor));
-        }
-
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            View decorView = getWindow().getDecorView();
-            decorView.setSystemUiVisibility(decorView.getSystemUiVisibility() | View.SYSTEM_UI_FLAG_LIGHT_NAVIGATION_BAR);
-        }
-
-        //..........Search Bar......
-
-
-        binding.searchBar.addTextChangeListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-                // Not needed for now
-            }
-
-            @Override
-            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-                // Not needed for now
-            }
-
-            @Override
-            public void afterTextChanged(Editable editable) {
-                // Not needed for now
-            }
-        });
-
-        binding.searchBar.setOnSearchActionListener(new MaterialSearchBar.OnSearchActionListener() {
-            @Override
-            public void onSearchStateChanged(boolean enabled) {
-                // Not needed for now
-            }
-
-            @Override
-            public void onSearchConfirmed(CharSequence text) {
-                String query = text.toString();
-                if (!TextUtils.isEmpty(query)) {
-                    Intent intent = new Intent(PublicationActivity.this, SearchPublicationActivity.class);
-                    intent.putExtra("query", query);
-                    startActivity(intent);
-                }
-            }
-
-            @Override
-            public void onButtonClicked(int buttonCode) {
-                if (buttonCode == MaterialSearchBar.BUTTON_BACK) {
-                    // Handle back button click
-                }
-            }
-        });
-
-        //..... Init Statements......
-
-        initCategories();
-        initProducts();
-        initTopExploredReadables();
-        initSlider();
-        initSponsorSlider();
-        initSponsorProduct();
-
-        //......To the Content Page Purchased by the Person....
-
-        binding.totheccart.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                startActivity(new Intent(PublicationActivity.this, UserContentActivity.class));
-            }
-        });
-
-        //.... Back to the Previous Activity....
 
         ImageView backToHomeImageView = findViewById(R.id.backtothehomefrompublication);
         backToHomeImageView.setOnClickListener(new View.OnClickListener() {
@@ -177,291 +41,65 @@ public class PublicationActivity extends AppCompatActivity {
             }
         });
 
-        // Loader.....
-        loader = findViewById(R.id.loader);
-        loader.setVisibility(View.VISIBLE);
-        loader.playAnimation();
-    }
-
-    //... Normal Slider.....
-    private void initSlider() {
-        getRecentOffers();
-    }
-
-    void getRecentOffers() {
-        RequestQueue queue = Volley.newRequestQueue(this);
-
-        StringRequest request = new StringRequest(Request.Method.GET, Constants.GET_OFFERS_URL, response -> {
-            try {
-                JSONObject object = new JSONObject(response);
-                if(object.getString("status").equals("success")) {
-                    JSONArray offerArray = object.getJSONArray("news_infos");
-                    for(int i =0; i < offerArray.length(); i++) {
-                        JSONObject childObj =  offerArray.getJSONObject(i);
-                        binding.carousel.addData(
-                                new CarouselItem(
-                                        Constants.NEWS_IMAGE_URL + childObj.getString("image"),
-                                        childObj.getString("title")
-                                )
-                        );
-                    }
-                }
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
-        }, error -> {});
-        queue.add(request);
-    }
-
-    //....... Sponsored Slider.....
-    private void initSponsorSlider() {
-        getRecentSlidersSponsored();
-    }
-
-    void getRecentSlidersSponsored() {
-        RequestQueue queue = Volley.newRequestQueue(this);
-
-        StringRequest request = new StringRequest(Request.Method.GET, ConstantsDashboard.GET_SPONSORS_SLIDER_URL, response -> {
-            try {
-                JSONArray newssliderArray = new JSONArray(response);
-                for (int i = 0; i < newssliderArray.length(); i++) {
-                    JSONObject childObj = newssliderArray.getJSONObject(i);
-                    binding.carouselsponsor.addData(
-                            new CarouselItem(
-                                    childObj.getString("url"),
-                                    childObj.getString("action")
-                            )
-                    );
-                }
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
-        }, error -> {
-            // Handle error if needed
-        });
-        queue.add(request);
-    }
-
-    //....Categories.....
-    void initCategories() {
-        categories = new ArrayList<>();
-        categoryAdapter = new CategoryAdapter(this, categories);
-
-        getCategories();
-
-        GridLayoutManager layoutManager = new GridLayoutManager(this, 2);
-        binding.categoriesList.setLayoutManager(layoutManager);
-        binding.categoriesList.setAdapter(categoryAdapter);
-    }
-
-    void getCategories() {
-        RequestQueue queue = Volley.newRequestQueue(this);
-        StringRequest request = new StringRequest(Request.Method.GET, ConstantsDashboard.GET_SPECIALITY, new Response.Listener<String>() {
-            @SuppressLint("NotifyDataSetChanged")
+        LottieAnimationView robotCall = findViewById(R.id.robotcall);
+        robotCall.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onResponse(String response) {
-                try {
-                    Log.e("err", response);
-                    JSONObject mainObj = new JSONObject(response);
-                    if (mainObj.getString("status").equals("success")) {
-                        JSONArray categoriesArray = mainObj.getJSONArray("data");
-
-                        for (int i = 0; i < categoriesArray.length(); i++) {
-                            JSONObject object = categoriesArray.getJSONObject(i);
-                            int priority = object.getInt("priority");
-                            if (priority == 1 || priority == 2) {
-                                Category category = new Category(
-                                        object.getString("id"),
-                                        priority
-                                );
-                                categories.add(category);
-                                Log.e("Something went wrong..", String.valueOf(priority));
-                            }
-                        }
-
-                        Category moreItem = new Category("-1", -1);
-                        categories.add(moreItem);
-
-                        categoryAdapter.notifyDataSetChanged();
-
-                    } else {
-                        Log.e("Error","Error Here");
-                    }
-                } catch (JSONException e) {
-                    e.printStackTrace();
+            public void onClick(View view) {
+                if (binding.popuprobot.getVisibility() == View.GONE) {
+                    // Show the popup
+                    binding.popuprobot.setVisibility(View.VISIBLE);
+                    binding.popuprobot.startAnimation(AnimationUtils.loadAnimation(PublicationActivity.this, R.anim.slide_up));
                 }
-            }
-        }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                // Handle errors here
             }
         });
 
-        queue.add(request);
+        configureWindow();
+        setupBottomNavigation();
+        loadDefaultFragment();
     }
-
-    // Top Explored Readables
-
-    void initTopExploredReadables() {
-        recenthomeproducts = new ArrayList<>();
-        recentHomeProductsAdapter = new RecentHomeProductsAdapter(this, recenthomeproducts);
-
-        getTopExploredReadables();
-
-        LinearLayoutManager layoutManager = new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false);
-        binding.recentaddedbooksList.setLayoutManager(layoutManager);
-        binding.recentaddedbooksList.setAdapter(recentHomeProductsAdapter);
-    }
-
-    void getTopExploredReadables() {
-        RequestQueue queue = Volley.newRequestQueue(this);
-
-        String url = ConstantsDashboard.GET_SPECIALITY_ALL_PRODUCT_HOME;
-        @SuppressLint("NotifyDataSetChanged") StringRequest request = new StringRequest(Request.Method.GET, url, response -> {
-            try {
-                JSONObject object = new JSONObject(response);
-                if(object.getString("status").equals("success")){
-                    JSONArray recenthomeproductsArray = object.getJSONArray("data");
-                    for(int i =0; i< recenthomeproductsArray.length(); i++) {
-                        JSONObject childObj = recenthomeproductsArray.getJSONObject(i);
-                        JSONObject recenthomeproductObj = childObj.getJSONObject("data");
-
-                        String documentId = childObj.getString("id");
-
-                        Product recenthomeproduct = new Product(
-                                recenthomeproductObj.getString("Title"),
-                                recenthomeproductObj.getString("thumbnail"),
-                                recenthomeproductObj.getString("Author"),
-                                recenthomeproductObj.getDouble("Price"),
-                                recenthomeproductObj.getString("Type"),
-                                recenthomeproductObj.getString("Category"),
-                                documentId,
-                                recenthomeproductObj.getString("Subject")
-                        );
-
-                        recenthomeproducts.add(recenthomeproduct);
-                    }
-                    recentHomeProductsAdapter.notifyDataSetChanged();
-                }
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
-        }, error -> { });
-
-        queue.add(request);
-    }
-
-    //.....For the Sponsor
-
-    void initSponsorProduct() {
-        sponsoredProduct = new ArrayList<>();
-        sponsoredProductsAdapter = new SponsoredProductAdapter(this, sponsoredProduct);
-
-        getSponsorProduct();
-
-        LinearLayoutManager layoutManager = new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false);
-        binding.specialproductList.setLayoutManager(layoutManager);
-        binding.specialproductList.setAdapter(sponsoredProductsAdapter);
-    }
-
-    void getSponsorProduct() {
-        RequestQueue queue = Volley.newRequestQueue(this);
-
-        String url = ConstantsDashboard.GET_SPECIALITY_ALL_PRODUCT_SPONSORED;
-        @SuppressLint("NotifyDataSetChanged") StringRequest request = new StringRequest(Request.Method.GET, url, response -> {
-            try {
-                JSONObject object = new JSONObject(response);
-                if(object.getString("status").equals("success")){
-                    JSONArray sponsoredproductsArray = object.getJSONArray("data");
-                    for(int i =0; i< sponsoredproductsArray.length(); i++) {
-                        JSONObject childObj = sponsoredproductsArray.getJSONObject(i);
-                        JSONObject sponsorproductObj = childObj.getJSONObject("data");
-
-                        String documentId = childObj.getString("id");
-
-                        Product sponsoredproduct = new Product(
-                                sponsorproductObj.getString("Title"),
-                                sponsorproductObj.getString("thumbnail"),
-                                sponsorproductObj.getString("Author"),
-                                sponsorproductObj.getDouble("Price"),
-                                sponsorproductObj.getString("Type"),
-                                sponsorproductObj.getString("Category"),
-                                documentId,
-                                sponsorproductObj.getString("Subject")
-                        );
-
-                        sponsoredProduct.add(sponsoredproduct);
-                    }
-                    sponsoredProductsAdapter.notifyDataSetChanged();
-                }
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
-        }, error -> { });
-
-        queue.add(request);
-    }
-
-    //....ShowCase Products.....
-
-    void initProducts() {
-        products = new ArrayList<>();
-        productAdapter = new ProductAdapter(this, products);
-
-        getRecentProducts();
-
-        GridLayoutManager layoutManager = new GridLayoutManager(this, 1);
-        binding.productList.setLayoutManager(layoutManager);
-        binding.productList.setAdapter(productAdapter);
-    }
-
-    void getRecentProducts() {
-        RequestQueue queue = Volley.newRequestQueue(this);
-
-        String url = ConstantsDashboard.GET_SPECIALITY_ALL_PRODUCT;
-        @SuppressLint("NotifyDataSetChanged") StringRequest request = new StringRequest(Request.Method.GET, url, response -> {
-            try {
-                JSONObject object = new JSONObject(response);
-                if(object.getString("status").equals("success")){
-                    JSONArray productsArray = object.getJSONArray("data");
-                    for(int i =0; i< productsArray.length(); i++) {
-                        JSONObject childObj = productsArray.getJSONObject(i);
-                        JSONObject productObj = childObj.getJSONObject("data");
-
-                        String documentId = childObj.getString("id");
-
-                        Product product = new Product(
-                                productObj.getString("Title"),
-                                productObj.getString("thumbnail"),
-                                productObj.getString("Author"),
-                                productObj.getDouble("Price"),
-                                productObj.getString("Type"),
-                                productObj.getString("Category"),
-                                documentId,
-                                productObj.getString("Subject")
-                        );
-
-                        products.add(product);
-                    }
-                    productAdapter.notifyDataSetChanged();
-                }
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
-        }, error -> { });
-
-        queue.add(request);
-    }
-
-    //....Navigate Back Statement...
 
     @Override
-    public boolean onSupportNavigateUp() {
-        finish();
-        return super.onSupportNavigateUp();
+    public boolean dispatchTouchEvent(MotionEvent event) {
+        if (event.getAction() == MotionEvent.ACTION_DOWN) {
+            if (binding.popuprobot.getVisibility() == View.VISIBLE) {
+                Rect outRect = new Rect();
+                binding.popuprobot.getGlobalVisibleRect(outRect);
+                if (!outRect.contains((int) event.getRawX(), (int) event.getRawY())) {
+                    binding.popuprobot.startAnimation(AnimationUtils.loadAnimation(getApplicationContext(), R.anim.slide_down));
+                    binding.popuprobot.setVisibility(View.GONE);
+                }
+            }
+        }
+        return super.dispatchTouchEvent(event);
     }
 
-    //...........................
+    private void configureWindow() {
+//        getWindow().setFlags(WindowManager.LayoutParams.FLAG_SECURE, WindowManager.LayoutParams.FLAG_SECURE);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            Window window = getWindow();
+            window.setStatusBarColor(ContextCompat.getColor(this, R.color.backgroundcolor));
+            window.setNavigationBarColor(ContextCompat.getColor(this, R.color.backgroundcolor));
+            View decorView = window.getDecorView();
+            decorView.setSystemUiVisibility(decorView.getSystemUiVisibility() | View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR | View.SYSTEM_UI_FLAG_LIGHT_NAVIGATION_BAR);
+        }
+    }
 
+    private void setupBottomNavigation() {
+        binding.libicon.setOnClickListener(view -> replaceFragment(new HomePublicationFragment()));
+        binding.contentpage.setOnClickListener(view -> replaceFragment(new UsersPublicationFragment()));
+        binding.cartpage.setOnClickListener(view -> replaceFragment(new WaitlistPublicationFragment()));
+        binding.searchpage.setOnClickListener(view -> replaceFragment(new SearchPublicationFragment()));
+    }
+
+    private void loadDefaultFragment() {
+        // Load HomePublicationFragment by default
+        replaceFragment(new HomePublicationFragment());
+    }
+
+    private void replaceFragment(Fragment fragment) {
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+        fragmentTransaction.replace(R.id.frame_layout_publication, fragment);
+        fragmentTransaction.commit();
+    }
 }

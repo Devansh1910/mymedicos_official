@@ -168,57 +168,58 @@
                     android:paddingHorizontal="5dp"
                     android:layout_height="wrap_content" />
 
-<!--                <com.google.android.material.tabs.TabLayout-->
-<!--                    android:layout_width="match_parent"-->
-<!--                    android:scrollbars="horizontal"-->
-<!--                    android:background="@color/backgroundcolor"-->
-<!--                    android:layout_height="match_parent"-->
-<!--                    android:id="@+id/tablayoutnews"-->
-<!--                    app:layout_constraintEnd_toEndOf="parent"-->
-<!--                    app:layout_constraintStart_toStartOf="parent">-->
+                <com.google.android.material.tabs.TabLayout
+                    android:layout_width="wrap_content"
+                    android:scrollbars="horizontal"
+                    android:nestedScrollingEnabled="true"
+                    android:background="@color/backgroundcolor"
+                    android:layout_height="match_parent"
+                    android:id="@+id/tablayoutnews"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent">
 
-<!--                    <com.google.android.material.tabs.TabItem-->
-<!--                        android:id="@+id/allnews"-->
-<!--                        android:layout_width="wrap_content"-->
-<!--                        android:layout_height="wrap_content"-->
-<!--                        android:text="All" />-->
+                    <com.google.android.material.tabs.TabItem
+                        android:id="@+id/allnews"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="All" />
 
-<!--                    <com.google.android.material.tabs.TabItem-->
-<!--                        android:id="@+id/medicalnews"-->
-<!--                        android:layout_width="wrap_content"-->
-<!--                        android:layout_height="wrap_content"-->
-<!--                        android:text="Medical" />-->
+                    <com.google.android.material.tabs.TabItem
+                        android:id="@+id/medicalnews"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Law in Medicine" />
 
-<!--                    <com.google.android.material.tabs.TabItem-->
-<!--                        android:id="@+id/educationews"-->
-<!--                        android:layout_width="wrap_content"-->
-<!--                        android:layout_height="wrap_content"-->
-<!--                        android:text="Education" />-->
+                    <com.google.android.material.tabs.TabItem
+                        android:id="@+id/educationews"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Education" />
 
-<!--                    <com.google.android.material.tabs.TabItem-->
-<!--                        android:id="@+id/drugsndiseasesnews"-->
-<!--                        android:layout_width="wrap_content"-->
-<!--                        android:layout_height="wrap_content"-->
-<!--                        android:text="Drugs &amp; Diseases" />-->
+                    <com.google.android.material.tabs.TabItem
+                        android:id="@+id/drugsndiseasesnews"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Drugs &amp; Devices" />
 
-<!--                    <com.google.android.material.tabs.TabItem-->
-<!--                        android:id="@+id/jobsnews"-->
-<!--                        android:layout_width="wrap_content"-->
-<!--                        android:layout_height="wrap_content"-->
-<!--                        android:text="Job Updates" />-->
+                    <com.google.android.material.tabs.TabItem
+                        android:id="@+id/jobsnews"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Alerts" />
 
-<!--                </com.google.android.material.tabs.TabLayout>-->
+                </com.google.android.material.tabs.TabLayout>
 
-<!--                <RelativeLayout-->
-<!--                    android:layout_width="match_parent"-->
-<!--                    android:layout_height="wrap_content">-->
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
 
-<!--                    <androidx.viewpager2.widget.ViewPager2-->
-<!--                        android:id="@+id/view_pager_news"-->
-<!--                        android:layout_width="match_parent"-->
-<!--                        android:layout_height="wrap_content" />-->
+                    <androidx.viewpager2.widget.ViewPager2
+                        android:id="@+id/view_pager_news"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content" />
 
-<!--                </RelativeLayout>-->
+                </RelativeLayout>
 
                 <LinearLayout
                     android:layout_width="match_parent"

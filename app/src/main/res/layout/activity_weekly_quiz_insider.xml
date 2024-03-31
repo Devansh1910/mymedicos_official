@@ -92,17 +92,17 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
 
-        <Button
+        <ImageView
             android:id="@+id/nextButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Next"
-            android:paddingVertical="@dimen/_5sdp"
-            android:paddingHorizontal="@dimen/_16sdp"
-            android:textSize="@dimen/_16sdp"
+            android:elevation="10dp"
+            android:background="@drawable/bkforbtninpg"
+            android:src="@drawable/arrowrightwhite"
+            android:paddingHorizontal="@dimen/_10sdp"
             android:layout_margin="@dimen/_10sdp"
             android:layout_gravity="end"/>
-
 
     </LinearLayout>
 

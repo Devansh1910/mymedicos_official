@@ -42,7 +42,6 @@ public class RecentHomeProductsAdapter extends RecyclerView.Adapter<RecentHomePr
                 .into(holder.binding.image);
         holder.binding.label.setText(recenthomeproducts.getTitle());
         holder.binding.author.setText(recenthomeproducts.getAuthor()); // Set the author
-        holder.binding.price.setText("INR " + recenthomeproducts.getPrice());
 
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override

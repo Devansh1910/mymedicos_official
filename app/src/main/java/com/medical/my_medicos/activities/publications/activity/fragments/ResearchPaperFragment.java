@@ -127,7 +127,8 @@ public class ResearchPaperFragment extends Fragment {
                                         productObj.getString("Type"),
                                         productObj.getString("Category"),
                                         documentId,
-                                        productObj.getString("Subject")
+                                        productObj.getString("Subject"),
+                                        productObj.getString("URL")
                                 );
 
                                 products.add(product);

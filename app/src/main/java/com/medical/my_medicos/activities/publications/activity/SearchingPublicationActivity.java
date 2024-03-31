@@ -1,12 +1,15 @@
 package com.medical.my_medicos.activities.publications.activity;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.GridLayoutManager;
 
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
+import android.view.Window;
 import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -18,9 +21,11 @@ import com.android.volley.toolbox.Volley;
 import com.mancj.materialsearchbar.MaterialSearchBar;
 import com.medical.my_medicos.R;
 import com.medical.my_medicos.activities.publications.adapters.ProductAdapter;
+import com.medical.my_medicos.activities.publications.adapters.SearchPublicationAdapter;
 import com.medical.my_medicos.activities.publications.model.Product;
 import com.medical.my_medicos.activities.utils.ConstantsDashboard;
 import com.medical.my_medicos.databinding.ActivitySearchPublicationBinding;
+import com.medical.my_medicos.databinding.ActivitySearchingPublicationBinding;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -28,22 +33,22 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 
-public class SearchPublicationActivity extends AppCompatActivity {
+public class SearchingPublicationActivity extends AppCompatActivity {
 
-    ActivitySearchPublicationBinding binding;
-    ProductAdapter productAdapter;
+    ActivitySearchingPublicationBinding binding;
+    SearchPublicationAdapter searchPublicationAdapter;
     ArrayList<Product> products;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        binding = ActivitySearchPublicationBinding.inflate(getLayoutInflater());
+        binding = ActivitySearchingPublicationBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_SECURE, WindowManager.LayoutParams.FLAG_SECURE);
 
         products = new ArrayList<>();
-        productAdapter = new ProductAdapter(this, products);
+        searchPublicationAdapter = new SearchPublicationAdapter(this, products);
 
         String query = getIntent().getStringExtra("query");
 
@@ -58,9 +63,22 @@ public class SearchPublicationActivity extends AppCompatActivity {
             finish();
         });
 
-        GridLayoutManager layoutManager = new GridLayoutManager(this, 1);
+        GridLayoutManager layoutManager = new GridLayoutManager(this, 3);
         binding.productList.setLayoutManager(layoutManager);
-        binding.productList.setAdapter(productAdapter);
+        binding.productList.setAdapter(searchPublicationAdapter);
+
+        configureWindow();
+    }
+
+    private void configureWindow() {
+        getWindow().setFlags(WindowManager.LayoutParams.FLAG_SECURE, WindowManager.LayoutParams.FLAG_SECURE);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            Window window = getWindow();
+            window.setStatusBarColor(ContextCompat.getColor(this, R.color.backgroundcolor));
+            window.setNavigationBarColor(ContextCompat.getColor(this, R.color.backgroundcolor));
+            View decorView = window.getDecorView();
+            decorView.setSystemUiVisibility(decorView.getSystemUiVisibility() | View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR | View.SYSTEM_UI_FLAG_LIGHT_NAVIGATION_BAR);
+        }
     }
 
 
@@ -90,13 +108,14 @@ public class SearchPublicationActivity extends AppCompatActivity {
                                     childObj.getJSONObject("data").getDouble("Price"),
                                     childObj.getJSONObject("data").getString("Type"),
                                     childObj.getJSONObject("data").getString("Category"),
+                                    childObj.getString("id"),
                                     childObj.getJSONObject("data").getString("Subject"),
-                                    childObj.getString("id")
+                                    childObj.getJSONObject("data").getString("URL") // Add this line for the URL parameter.
                             );
                             products.add(product);
                         }
                     }
-                    productAdapter.notifyDataSetChanged();
+                    searchPublicationAdapter.notifyDataSetChanged();
                     if (products.isEmpty()) {
                         binding.noResults.setVisibility(View.VISIBLE);
                     } else {

@@ -18,6 +18,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
 import android.widget.ViewFlipper;
 
 import com.google.firebase.auth.FirebaseUser;
@@ -33,10 +34,12 @@ import com.medical.my_medicos.activities.pg.activites.extras.adapter.RecentUpdat
 import com.medical.my_medicos.activities.pg.activites.internalfragments.intwernaladapters.ExamQuizAdapter;
 import com.medical.my_medicos.activities.pg.fragment.WeeklyQuizFragment;
 import com.medical.my_medicos.activities.pg.model.QuizPG;
+import com.medical.my_medicos.activities.utils.UpdatingScreen;
 import com.medical.my_medicos.databinding.FragmentNeetExamBinding;
 import com.medical.my_medicos.databinding.FragmentPreparationPgBinding;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 
 public class PreparationPgFragment extends Fragment {
 
@@ -110,15 +113,29 @@ public class PreparationPgFragment extends Fragment {
             }
         });
 
-
-        material = rootView.findViewById(R.id.material);
-        material.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent i = new Intent(getActivity(), PreparationCategoryMaterialDisplayActivity.class);
-                startActivity(i);
-            }
-        });
+//        Calendar today = Calendar.getInstance();
+//
+//        // Set the target date to April 1st, 2024
+//        Calendar targetDate = Calendar.getInstance();
+//        targetDate.set(2024, Calendar.APRIL, 1); // Note: Months are 0-based in Calendar
+//
+//        Intent i;
+//        if (today.before(targetDate)) {
+//            i = new Intent(getActivity(), UpdatingScreen.class);
+//            Toast.makeText(getActivity(), "This feature will be available soon!", Toast.LENGTH_SHORT).show();
+//        } else {
+//            i = new Intent(getActivity(), PreparationCategoryDisplayActivity.class);
+//        }
+//        startActivity(i);
+//
+//        material = rootView.findViewById(R.id.material);
+//        material.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                Intent i = new Intent(getActivity(), PreparationCategoryMaterialDisplayActivity.class);
+//                startActivity(i);
+//            }
+//        });
 
 
         initImportantUpdatesInPreparation();
