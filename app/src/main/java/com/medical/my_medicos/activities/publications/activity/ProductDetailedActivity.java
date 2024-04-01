@@ -7,6 +7,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
@@ -27,6 +28,9 @@ import org.json.JSONObject;
 import com.android.volley.toolbox.StringRequest;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.firestore.FieldValue;
 import com.medical.my_medicos.R;
 import com.medical.my_medicos.activities.publications.model.Product;
 import com.medical.my_medicos.activities.utils.ConstantsDashboard;
@@ -42,6 +46,7 @@ import com.medical.my_medicos.databinding.ActivityProductDetailedBinding;
 import org.json.JSONException;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.prefs.Preferences;
 
 import jp.wasabeef.glide.transformations.BlurTransformation;
@@ -59,21 +64,22 @@ public class ProductDetailedActivity extends AppCompatActivity {
         binding = ActivityProductDetailedBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            View decorView = getWindow().getDecorView();
-            decorView.setSystemUiVisibility(decorView.getSystemUiVisibility() | View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);
-        }
-
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             Window window = getWindow();
+            window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
             window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
-            window.setStatusBarColor(ContextCompat.getColor(this, R.color.backgroundcolor));
-            window.setNavigationBarColor(ContextCompat.getColor(this, R.color.backgroundcolor));
-        }
+            window.setStatusBarColor(Color.TRANSPARENT);
 
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            View decorView = getWindow().getDecorView();
-            decorView.setSystemUiVisibility(decorView.getSystemUiVisibility() | View.SYSTEM_UI_FLAG_LIGHT_NAVIGATION_BAR);
+            // Set the navigation bar color to your custom color
+            int backgroundColor = ContextCompat.getColor(this, R.color.backgroundcolor);
+            window.setNavigationBarColor(backgroundColor);
+
+            View decorView = window.getDecorView();
+            decorView.setSystemUiVisibility(
+                    View.SYSTEM_UI_FLAG_LAYOUT_STABLE
+                            | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
+            );
+
         }
 
 //        getWindow().setFlags(WindowManager.LayoutParams.FLAG_SECURE, WindowManager.LayoutParams.FLAG_SECURE);
@@ -149,6 +155,7 @@ public class ProductDetailedActivity extends AppCompatActivity {
         });
 
         getProductDetails(id);
+        checkIfBookIsPurchased(id);
     }
 
     private void showLoadForLib() {
@@ -231,6 +238,12 @@ public class ProductDetailedActivity extends AppCompatActivity {
                     // Adjust visibility based on the price
                     if (price == 0.0) {
                         binding.redeemBtn.setVisibility(View.VISIBLE);
+                        binding.redeemBtn.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View view) {
+                                redeemBook(id);
+                            }
+                        });
                         binding.addToCartBtn.setVisibility(View.GONE);
                         binding.tocartgo.setVisibility(View.GONE);
                     } else {
@@ -250,6 +263,75 @@ public class ProductDetailedActivity extends AppCompatActivity {
         queue.add(request);
     }
 
+    private void checkIfBookIsPurchased(String bookId) {
+        FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
+        if (currentUser != null) {
+            FirebaseFirestore db = FirebaseFirestore.getInstance();
+            db.collection("users")
+                    .whereEqualTo("Phone Number", currentUser.getPhoneNumber())
+                    .get()
+                    .addOnCompleteListener(task -> {
+                        if (task.isSuccessful()) {
+                            for (QueryDocumentSnapshot document : task.getResult()) {
+                                List<String> purchasedBooks = (List<String>) document.get("purchased");
+                                if (purchasedBooks != null && purchasedBooks.contains(bookId)) {
+                                    // If the book is already purchased, disable the redeem button and change its text
+                                    binding.redeemBtn.setEnabled(false);
+                                    binding.redeemBtn.setText("Claimed Already");
+                                    return; // Exit once found
+                                }
+                            }
+                        } else {
+                            Log.e(TAG, "Error getting documents: ", task.getException());
+                        }
+                    });
+        }
+    }
+
+    private void redeemBook(String bookId) {
+        FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
+        if (currentUser != null) {
+            String phoneNumber = currentUser.getPhoneNumber();
+            FirebaseFirestore db = FirebaseFirestore.getInstance();
+
+            // You need to find the user's document ID based on their phone number or another unique identifier
+            db.collection("users")
+                    .whereEqualTo("Phone Number", phoneNumber)
+                    .get()
+                    .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                        @Override
+                        public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                            if (task.isSuccessful() && task.getResult() != null) {
+                                for (QueryDocumentSnapshot document : task.getResult()) {
+                                    String userDocId = document.getId();
+
+                                    db.collection("users").document(userDocId)
+                                            .update("purchased", FieldValue.arrayUnion(bookId))
+                                            .addOnSuccessListener(aVoid -> {
+                                                Log.d(TAG, "Book successfully redeemed!");
+                                                // Disable the button and change its text
+                                                runOnUiThread(() -> {
+                                                    binding.redeemBtn.setEnabled(false);
+                                                    binding.redeemBtn.setText("Claimed Already");
+                                                });
+                                            })
+
+                                            .addOnFailureListener(new OnFailureListener() {
+                                                @Override
+                                                public void onFailure(@NonNull Exception e) {
+                                                    Log.w(TAG, "Error redeeming book", e);
+                                                }
+                                            });
+
+                                    break;
+                                }
+                            } else {
+                                Log.e(TAG, "Error getting documents: ", task.getException());
+                            }
+                        }
+                    });
+        }
+    }
 
     private boolean isProductInCart(String productId) {
         ArrayList<String> cartProductIds = getCartProductIds();

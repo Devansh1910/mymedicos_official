@@ -94,14 +94,19 @@ public class PurchasedAdapter extends RecyclerView.Adapter<PurchasedAdapter.Prod
                     int position = getAdapterPosition();
                     if (position != RecyclerView.NO_POSITION) {
                         Product product = products.get(position);
-                        Intent intent = new Intent(context, DetailsActivity.class);
-                        intent.putExtra("productId", product.getId()); // Pass the product ID
-                        context.startActivity(intent);
+                        Log.d("PurchasedAdapter", "Product ID: " + product.getId()); // Check if the ID is being logged correctly
+                        if (product.getId() != null && !product.getId().isEmpty()) {
+                            Intent intent = new Intent(context, DetailsActivity.class);
+                            intent.putExtra("productId", product.getId());
+                            context.startActivity(intent);
+                        } else {
+                            Log.e("PurchasedAdapter", "Product ID is null or empty for position: " + position);
+                        }
                     }
+
                 }
             });
-
-
+            
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {

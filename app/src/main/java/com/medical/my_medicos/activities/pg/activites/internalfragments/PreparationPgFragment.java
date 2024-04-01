@@ -105,37 +105,43 @@ public class PreparationPgFragment extends Fragment {
         handlerprepration.postDelayed(autoScrollRunnable, AUTO_SCROLL_DELAY);
 
         practivemcq = rootView.findViewById(R.id.practivemcq);
+//        practivemcq.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                Intent i = new Intent(getActivity(), PreparationCategoryDisplayActivity.class);
+//                startActivity(i);
+//            }
+//        });
+
         practivemcq.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent i = new Intent(getActivity(), PreparationCategoryDisplayActivity.class);
+                Calendar today = Calendar.getInstance();
+
+                // Set the target date to April 1st, 2024
+                Calendar targetDate = Calendar.getInstance();
+                targetDate.set(2024, Calendar.APRIL, 8); // Note: Months are 0-based in Calendar
+
+                Intent i;
+                if (today.before(targetDate)) {
+                    i = new Intent(getActivity(), UpdatingScreen.class);
+                    Toast.makeText(getActivity(), "This feature will be available soon!", Toast.LENGTH_SHORT).show();
+                } else {
+                    i = new Intent(getActivity(), PreparationCategoryDisplayActivity.class);
+                }
                 startActivity(i);
             }
         });
 
-//        Calendar today = Calendar.getInstance();
-//
-//        // Set the target date to April 1st, 2024
-//        Calendar targetDate = Calendar.getInstance();
-//        targetDate.set(2024, Calendar.APRIL, 1); // Note: Months are 0-based in Calendar
-//
-//        Intent i;
-//        if (today.before(targetDate)) {
-//            i = new Intent(getActivity(), UpdatingScreen.class);
-//            Toast.makeText(getActivity(), "This feature will be available soon!", Toast.LENGTH_SHORT).show();
-//        } else {
-//            i = new Intent(getActivity(), PreparationCategoryDisplayActivity.class);
-//        }
-//        startActivity(i);
-//
-//        material = rootView.findViewById(R.id.material);
-//        material.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                Intent i = new Intent(getActivity(), PreparationCategoryMaterialDisplayActivity.class);
-//                startActivity(i);
-//            }
-//        });
+
+        material = rootView.findViewById(R.id.material);
+        material.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent i = new Intent(getActivity(), PreparationCategoryMaterialDisplayActivity.class);
+                startActivity(i);
+            }
+        });
 
 
         initImportantUpdatesInPreparation();

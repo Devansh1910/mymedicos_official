@@ -24,6 +24,9 @@
         tools:replace="android:label"
         tools:targetApi="31">
         <activity
+            android:name=".activities.news.ImportantNoticesNewsActivity"
+            android:exported="false" />
+        <activity
             android:name=".activities.publications.activity.DetailsActivity"
             android:exported="false" />
         <activity

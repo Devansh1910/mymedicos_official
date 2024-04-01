@@ -15,8 +15,8 @@ android {
         applicationId = "com.medical.my_medicos"
         minSdk = 24
         targetSdk = 34
-        versionCode = 58
-        versionName = "4.1.6"
+        versionCode = 59
+        versionName = "4.1.7"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }

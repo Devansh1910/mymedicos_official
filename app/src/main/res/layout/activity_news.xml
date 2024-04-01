@@ -28,121 +28,97 @@
                 android:layout_height="wrap_content"
                 android:orientation="vertical">
 
-                <RelativeLayout
-                    android:id="@+id/relative"
+                <androidx.appcompat.widget.Toolbar
+                    android:id="@+id/newstoolbar"
+                    android:layout_gravity="center"
+                    android:gravity="center"
                     android:layout_width="match_parent"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
                     android:layout_height="wrap_content"
-                    android:orientation="vertical">
-
-                    <androidx.cardview.widget.CardView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content">
-
-                        <org.imaginativeworld.whynotimagecarousel.ImageCarousel
-                            android:id="@+id/newscarousel"
-                            android:layout_width="match_parent"
-                            android:layout_height="250dp"
-                            app:showNavigationButtons="false"
-                            app:showCaption="false"
-                            app:autoPlay="true"/>
-
-                    </androidx.cardview.widget.CardView>
+                    app:menu="@menu/home_menu">
 
                     <LinearLayout
-                        android:id="@+id/tobefitted"
                         android:layout_width="match_parent"
-                        android:elevation="@dimen/_10ssp"
-                        android:layout_alignParentTop="true"
-                        android:layout_alignParentStart="true"
-                        android:layout_alignParentEnd="true"
-                        android:background="@drawable/gradient_top"
+                        android:layout_gravity="center"
+                        android:gravity="center_vertical"
                         android:layout_height="wrap_content"
-                        android:orientation="vertical">
-
-                        <androidx.appcompat.widget.Toolbar
-                            android:id="@+id/newstoolbar"
-                            android:paddingEnd="@dimen/_10ssp"
-                            android:layout_gravity="center"
-                            android:paddingTop="@dimen/_10sdp"
-                            android:gravity="center"
-                            android:layout_width="match_parent"
-                            android:layout_height="?attr/actionBarSize"
-                            app:menu="@menu/home_menu">
-
-                            <LinearLayout
-                                android:layout_width="match_parent"
-                                android:layout_gravity="center"
-                                android:gravity="center_vertical"
-                                android:layout_height="wrap_content"
-                                android:orientation="horizontal">
-
-                                <LinearLayout
-                                    android:layout_width="match_parent"
-                                    android:layout_gravity="center_vertical"
-                                    android:gravity="center_vertical"
-                                    android:layout_height="wrap_content"
-                                    android:orientation="horizontal">
-
-                                    <ImageView
-                                        android:id="@+id/backtothehomefrompg"
-                                        android:layout_width="wrap_content"
-                                        android:layout_height="match_parent"
-                                        android:padding="@dimen/_10sdp"
-                                        android:src="@drawable/arrow_bkwhite"
-                                        android:layout_marginEnd="@dimen/_10sdp"/>
-
-                                    <TextView
-                                        android:layout_width="0dp"
-                                        android:layout_height="match_parent"
-                                        android:text="Medical News"
-                                        android:layout_gravity="center_vertical"
-                                        android:gravity="center_vertical"
-                                        android:layout_weight="1"
-                                        android:textColor="@color/white"
-                                        android:textSize="@dimen/_18sdp"
-                                        android:fontFamily="@font/inter"/>
-
-                                </LinearLayout>
-
-                            </LinearLayout>
-
-                        </androidx.appcompat.widget.Toolbar>
+                        android:orientation="horizontal">
 
                         <LinearLayout
-                            android:id="@+id/linearLayout"
                             android:layout_width="match_parent"
+                            android:layout_gravity="center_vertical"
+                            android:gravity="center_vertical"
                             android:layout_height="wrap_content"
                             android:orientation="horizontal">
 
-                            <com.mancj.materialsearchbar.MaterialSearchBar
-                                android:id="@+id/searchBarNews"
+                            <ImageView
+                                android:id="@+id/backtothehomefrompg"
                                 android:layout_width="wrap_content"
-                                android:paddingBottom="@dimen/_10sdp"
-                                android:paddingTop="@dimen/_2ssp"
-                                android:layout_height="wrap_content"
-                                android:paddingHorizontal="@dimen/_8ssp"
-                                app:mt_hint="Explore what's going on..."
-                                app:mt_maxSuggestionsCount="10"
-                                app:mt_placeholderColor="@color/black"
-                                app:mt_navIconEnabled="false"
-                                app:mt_hintColor="@color/black"
-                                android:fadeScrollbars="true"
-                                android:fadingEdge="horizontal"
-                                android:elevation="@dimen/_10sdp"
-                                app:mt_textColor="@color/black"
-                                app:mt_placeholder="Search News"
-                                app:mt_roundedSearchBarEnabled="true"
-                                app:mt_searchBarColor="@color/whiteopac"
-                                app:mt_speechMode="false" />
+                                android:layout_height="match_parent"
+                                android:padding="@dimen/_10sdp"
+                                android:src="@drawable/arrow_bk"
+                                android:layout_marginEnd="@dimen/_10sdp"/>
+
+                            <TextView
+                                android:layout_width="0dp"
+                                android:layout_height="match_parent"
+                                android:text="Medical News"
+                                android:layout_gravity="center_vertical"
+                                android:gravity="center_vertical"
+                                android:layout_weight="1"
+                                android:textColor="@color/unselected"
+                                android:textSize="@dimen/_18sdp"
+                                android:fontFamily="@font/inter"/>
+
+                            <RelativeLayout
+                                android:id="@+id/importantnoticego"
+                                android:layout_width="0dp"
+                                android:layout_gravity="center"
+                                android:gravity="center"
+                                android:layout_weight="0.25"
+                                android:layout_height="40dp">
+
+                                <ImageView
+                                    android:id="@+id/importantnotices"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="match_parent"
+                                    android:src="@drawable/announcements" />
+
+
+                                <TextView
+                                    android:id="@+id/counterforthenumberofimportantnotice"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="1"
+                                    android:textSize="@dimen/_10sdp"
+                                    android:paddingHorizontal="@dimen/_5sdp"
+                                    android:textAlignment="center"
+                                    android:textColor="@color/white"
+                                    android:textStyle="normal"
+                                    android:fontFamily="@font/inter"
+                                    android:background="@drawable/importantcountbk"/>
+
+                            </RelativeLayout>
 
                         </LinearLayout>
 
                     </LinearLayout>
 
-                </RelativeLayout>
+                </androidx.appcompat.widget.Toolbar>
+
+                <com.mancj.materialsearchbar.MaterialSearchBar
+                    android:id="@+id/searchBarNews"
+                    android:layout_width="match_parent"
+                    android:outlineSpotShadowColor="@color/black"
+                    android:padding="@dimen/_1ssp"
+                    android:layout_height="wrap_content"
+                    app:mt_hint="Search your favorite book"
+                    android:layout_marginHorizontal="@dimen/_8sdp"
+                    android:background="@color/blue"
+                    app:mt_placeholder="Medicos hub"
+                    app:mt_navIconEnabled="false"
+                    app:mt_maxSuggestionsCount="10"
+                    app:mt_speechMode="false" />
+
 
                 <TextView
                     android:layout_width="match_parent"
@@ -150,16 +126,19 @@
                     android:paddingHorizontal="8dp"
                     android:paddingTop="@dimen/_5ssp"
                     android:text="Hot News"
-                    android:textSize="@dimen/_16ssp"
+                    android:fontFamily="@font/inter"
+                    android:textColor="@color/unselected"
+                    android:textSize="@dimen/_14ssp"
                     android:textStyle="bold" />
 
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:paddingHorizontal="8dp"
+                    android:fontFamily="@font/inter"
                     android:text="Get the fastest Medical Updates "
                     android:paddingBottom="@dimen/_5ssp"
-                    android:textSize="@dimen/_12ssp"
+                    android:textSize="@dimen/_10ssp"
                     android:textStyle="normal" />
 
                 <androidx.recyclerview.widget.RecyclerView
@@ -169,90 +148,57 @@
                     android:layout_height="wrap_content" />
 
                 <com.google.android.material.tabs.TabLayout
-                    android:layout_width="wrap_content"
-                    android:scrollbars="horizontal"
-                    android:nestedScrollingEnabled="true"
-                    android:background="@color/backgroundcolor"
-                    android:layout_height="match_parent"
                     android:id="@+id/tablayoutnews"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent">
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:background="@color/backgroundcolor"
+                    style="@style/CustomTabLayout"
+                    android:scrollbars="none"
+                    app:tabMode="scrollable">
 
                     <com.google.android.material.tabs.TabItem
                         android:id="@+id/allnews"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="All" />
+                        android:textAlignment="center"
+                        android:layout_gravity="center"
+                        android:text="Explore" />
 
                     <com.google.android.material.tabs.TabItem
-                        android:id="@+id/medicalnews"
+                        android:id="@+id/medical"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Law in Medicine" />
+                        android:text="Medical" />
 
                     <com.google.android.material.tabs.TabItem
-                        android:id="@+id/educationews"
+                        android:id="@+id/education"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="Education" />
 
                     <com.google.android.material.tabs.TabItem
-                        android:id="@+id/drugsndiseasesnews"
+                        android:id="@+id/drungndiseases"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Drugs &amp; Devices" />
+                        android:text="Drug &amp; Diseases" />
 
                     <com.google.android.material.tabs.TabItem
-                        android:id="@+id/jobsnews"
+                        android:id="@+id/jobupdates"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Alerts" />
+                        android:text="Job Alerts" />
 
                 </com.google.android.material.tabs.TabLayout>
 
-                <RelativeLayout
+                <androidx.viewpager2.widget.ViewPager2
+                    android:id="@+id/view_pager_news"
+                    android:elevation="10dp"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
-
-                    <androidx.viewpager2.widget.ViewPager2
-                        android:id="@+id/view_pager_news"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content" />
-
-                </RelativeLayout>
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:orientation="vertical"
-                    android:layout_height="wrap_content">
-
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:paddingHorizontal="8dp"
-                        android:paddingTop="@dimen/_5ssp"
-                        android:text="Discovery"
-                        android:textSize="@dimen/_16ssp"
-                        android:textStyle="bold" />
-
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:paddingHorizontal="8dp"
-                        android:text="Explore the latest news"
-                        android:paddingBottom="@dimen/_5ssp"
-                        android:textSize="@dimen/_12ssp"
-                        android:textStyle="normal" />
-
-                </LinearLayout>
-
-                <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/newsList"
-                    android:paddingHorizontal="5dp"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content" />
+                    android:layout_height="match_parent" />
 
             </LinearLayout>
         </androidx.core.widget.NestedScrollView>
     </androidx.constraintlayout.widget.ConstraintLayout>
+
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

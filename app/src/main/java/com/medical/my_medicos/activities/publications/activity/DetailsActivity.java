@@ -1,6 +1,7 @@
 package com.medical.my_medicos.activities.publications.activity;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
 
@@ -30,6 +31,7 @@ public class DetailsActivity extends AppCompatActivity {
         setContentView(binding.getRoot());
 
         String productId = getIntent().getStringExtra("productId");
+        Log.d("DetailsActivity", "Received Product ID: " + productId); // Check the log to ensure ID is received
         if (productId != null) {
             fetchProductDetailsAndShowPdf(productId);
         } else {
