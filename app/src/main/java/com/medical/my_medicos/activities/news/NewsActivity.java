@@ -245,6 +245,7 @@ public class  NewsActivity extends AppCompatActivity {
                                 long newsTime = newsDate.getTime();
                                 if (newsTime >= twentyFourHoursAgo && "News".equals(document.getString("type"))) {
                                     NewsToday newsItemToday = new NewsToday(
+                                            document.getId(),
                                             document.getString("Title"),
                                             document.getString("thumbnail"),
                                             document.getString("Description"),

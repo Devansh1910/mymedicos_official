@@ -13,6 +13,7 @@ import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -32,6 +33,10 @@ import com.medical.my_medicos.databinding.ActivityNewsDetailedBinding;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Locale;
+import java.util.TimeZone;
 
 public class NewsDetailedActivity extends AppCompatActivity {
 
@@ -42,7 +47,7 @@ public class NewsDetailedActivity extends AppCompatActivity {
     FirebaseAuth auth = FirebaseAuth.getInstance();
     FirebaseUser user = auth.getCurrentUser();
     String current=user.getPhoneNumber();
-    TextView sharenews;
+    ImageView sharenews;
     String newsId;
 
     @Override
@@ -50,6 +55,18 @@ public class NewsDetailedActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         binding = ActivityNewsDetailedBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
+
+        String documentId = getIntent().getStringExtra("id");
+        String documentId2 = getIntent().getStringExtra("id");
+
+        if (documentId != null && !documentId.isEmpty()) {
+            getNewsDetails(documentId);
+        }else{
+            Log.e(TAG,"DocumentId is null or empty");
+            documentId2 = getIntent().getStringExtra("newsId");
+            Log.e(documentId2,"print");
+            getNewsDetails2(documentId2);
+        }
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             View decorView = getWindow().getDecorView();
@@ -74,8 +91,6 @@ public class NewsDetailedActivity extends AppCompatActivity {
         String time = getIntent().getStringExtra("Time");
         String url = getIntent().getStringExtra("URL");
 
-        getNewsDetails(name);
-
         Glide.with(this)
                 .load(image)
                 .into(binding.newsthumbnail);
@@ -97,62 +112,141 @@ public class NewsDetailedActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
 
-//        sharenews = findViewById(R.id.sharenews);
-//
-//        sharenews.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                createlink(current, documentid, newstitle,newstype);
-//            }
-//        });
+        sharenews = findViewById(R.id.sharebtnfornews);
+
+        sharenews.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                createlink(current, documentid, newstitle,newstype);
+            }
+        });
 
         handleDeepLink();
-        getNewsDetails(name);
     }
 
-    void getNewsDetails(String name) {
+    public void getNewsDetails(String documentId) {
         FirebaseFirestore db = FirebaseFirestore.getInstance();
 
         db.collection("MedicalNews")
-                .document(name)
+                .document(documentId)
                 .get()
                 .addOnSuccessListener(documentSnapshot -> {
                     if (documentSnapshot.exists()) {
                         String description = documentSnapshot.getString("Description");
-                        String time = documentSnapshot.getString("Time");
+                        String time = documentSnapshot.getString("Time"); // Example time format: "2024-04-04T05:09:47.458Z"
                         String url = documentSnapshot.getString("URL");
                         String thumbnail = documentSnapshot.getString("thumbnail");
                         String type = documentSnapshot.getString("type");
 
                         documentid = documentSnapshot.getId();
-
                         newstitle = documentSnapshot.getString("Title");
-
                         newstype = type;
-
                         newsId = documentSnapshot.getId();
 
+                        // Adjust the SimpleDateFormat to include milliseconds
+                        SimpleDateFormat originalFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'", Locale.US);
+                        originalFormat.setTimeZone(TimeZone.getTimeZone("UTC")); // Ensure parsing is in UTC
+                        SimpleDateFormat desiredFormat = new SimpleDateFormat("MMMM, dd HH:mm", Locale.US);
+
+                        try {
+                            Date date = originalFormat.parse(time);
+                            String formattedTime = desiredFormat.format(date);
+                            binding.newsTime.setText(formattedTime);
+                        } catch (Exception e) {
+                            Log.e(TAG, "Error parsing date: " + time, e);
+                            binding.newsTime.setText(time); // Fallback to original string in case of parsing error
+                        }
+
                         binding.newsDescription.setText(Html.fromHtml(description));
-                        binding.newsTime.setText(Html.fromHtml(time));
+                        Glide.with(NewsDetailedActivity.this)
+                                .load(thumbnail)
+                                .into(binding.newsthumbnail);
+                        binding.newsTitle.setText(newstitle);
 
                         currentNews = new News(
+                                documentid,
                                 documentSnapshot.getString("Title"),
-                                thumbnail,
-                                description,
-                                time,
-                                url,
-                                type
+                                documentSnapshot.getString("thumbnail"),
+                                documentSnapshot.getString("Description"),
+                                documentSnapshot.getString("Time"),
+                                documentSnapshot.getString("URL"),
+                                documentSnapshot.getString("type")
                         );
+
                     } else {
                         // Handle the case where the document does not exist
-                        Log.e(TAG, "No such document with name: " + name);
+                        Log.e(TAG, "No such document with name: " + documentId);
                     }
                 })
                 .addOnFailureListener(e -> {
                     // Handle the error
-                    Log.e(TAG, "Error fetching news details for name: " + name, e);
+                    Log.e(TAG, "Error fetching news details for name: " + documentId, e);
                 });
     }
+
+
+    void getNewsDetails2(String documentId2) {
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+
+        db.collection("MedicalNews")
+                .document(documentId2)
+                .get()
+                .addOnSuccessListener(documentSnapshot -> {
+                    if (documentSnapshot.exists()) {
+                        String description = documentSnapshot.getString("Description");
+                        String time = documentSnapshot.getString("Time"); // Example format: "2024-03-12T09:45:00.458Z"
+                        String url = documentSnapshot.getString("URL");
+                        String thumbnail = documentSnapshot.getString("thumbnail");
+                        String type = documentSnapshot.getString("type");
+                        documentid = documentSnapshot.getId();
+                        newstitle = documentSnapshot.getString("Title");
+                        newstype = type;
+                        newsId = documentSnapshot.getId();
+
+                        // Adjust the SimpleDateFormat to include milliseconds
+                        SimpleDateFormat originalFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'", Locale.US);
+                        originalFormat.setTimeZone(TimeZone.getTimeZone("UTC")); // Ensure parsing is in UTC
+                        SimpleDateFormat desiredFormat = new SimpleDateFormat("MMMM, dd HH:mm", Locale.US);
+
+                        try {
+                            Date date = originalFormat.parse(time);
+                            String formattedTime = desiredFormat.format(date);
+                            binding.newsTime.setText(formattedTime);
+                        } catch (Exception e) {
+                            Log.e(TAG, "Error parsing date: " + time, e);
+                            binding.newsTime.setText(time); // Fallback to original string in case of parsing error
+                        }
+
+                        binding.newsDescription.setText(Html.fromHtml(description));
+                        binding.newsTitle.setText(newstitle);
+                        Glide.with(this)
+                                .load(thumbnail)
+                                .into(binding.newsthumbnail);
+
+                        binding.readmoreBtn.setOnClickListener(view -> {
+                            Intent intent = new Intent(Intent.ACTION_VIEW);
+                            intent.setData(Uri.parse(url));
+                            startActivity(intent);
+                        });
+
+                        currentNews = new News(
+                                documentid,
+                                documentSnapshot.getString("Title"),
+                                documentSnapshot.getString("thumbnail"),
+                                documentSnapshot.getString("Description"),
+                                documentSnapshot.getString("Time"),
+                                documentSnapshot.getString("URL"),
+                                documentSnapshot.getString("type")
+                        );
+
+                    } else {
+                        Log.e(TAG, "No such document with name: " + documentId2);
+                    }
+                })
+                .addOnFailureListener(e -> Log.e(TAG, "Error fetching news details for name: " + documentId2, e));
+    }
+
+
 
 
     private void openUrlInBrowser(String url) {
@@ -185,29 +279,32 @@ public class NewsDetailedActivity extends AppCompatActivity {
                 String newsThumbnail = documentSnapshot.getString("thumbnail");
 
                 String encodedNewsTitle = encode(newsTitle);
+                String encodedNewsThumbnail = encode(newsThumbnail); // Assuming you want to include this in the URL for some reason
 
-                String sharelinktext =
-                        newsTitle + "\\n\\n\"" +
-                                "https://app.mymedicos.in/?" +
-                                "link=http://www.mymedicos.in/newsdetails?newsId=" + newsId +
-                                "&st=" + encodedNewsTitle +
-                                "&apn=" + getPackageName() +
-                                "&si=" + newsThumbnail ;
+                // The shared text format
+                String sharelinktext = newsTitle + "\n\n For entire detail visit: " +
+                        "https://app.mymedicos.in/?" +
+                        "link=http://www.mymedicos.in/newsdetails?newsId=" + newsId +
+                        "&st=" + encodedNewsTitle +
+                        "&apn=" + getPackageName() +
+                        "&si=" + encodedNewsThumbnail; // This will not make the thumbnail appear in the share text directly
 
-                Log.e("Job Detailed Activity", "Sharelink - " + sharelinktext);
+                Log.e("NewsDetailedActivity", "Sharelink - " + sharelinktext);
 
                 Intent intent = new Intent();
                 intent.setAction(Intent.ACTION_SEND);
-                intent.putExtra(Intent.EXTRA_TEXT, sharelinktext.toString());
+                intent.putExtra(Intent.EXTRA_TEXT, sharelinktext);
                 intent.setType("text/plain");
                 startActivity(intent);
+
             } else {
                 Log.e(TAG, "No such document with documentId: " + newsId);
             }
         }).addOnFailureListener(e -> {
-            Log.e(TAG, "Error fetching job details for documentId: " + newsId, e);
+            Log.e(TAG, "Error fetching news details for documentId: " + newsId, e);
         });
     }
+
 
     private String encode(String s) {
         try {
@@ -227,7 +324,6 @@ public class NewsDetailedActivity extends AppCompatActivity {
                             Intent intent = getIntent();
                             intent.putExtra("newsId", newsId);
                             setIntent(intent);
-                            //.....
                         }
                     }
                 })

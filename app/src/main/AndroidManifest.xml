@@ -23,6 +23,13 @@
         android:theme="@style/Theme.My_medicos"
         tools:replace="android:label"
         tools:targetApi="31">
+        <service
+            android:name=".activities.notifications.MedicosFirebaseMessagingService"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="com.google.firebase.MESSAGING_EVENT"/>
+            </intent-filter>
+        </service>
         <activity
             android:name=".activities.news.ImportantNoticesNewsActivity"
             android:exported="false" />
@@ -46,9 +53,6 @@
 
         <activity
             android:name=".activities.news.SearchNewsActivity"
-            android:exported="false" />
-        <activity
-            android:name=".activities.notification.NotificationActivity"
             android:exported="false" />
         <activity
             android:name=".activities.slideshow.SlideshowInsidernActivity"

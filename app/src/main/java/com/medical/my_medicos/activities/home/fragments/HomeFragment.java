@@ -701,6 +701,7 @@ public class HomeFragment extends Fragment {
                                 // Check if the news was posted within the last 24 hours and has the type "News"
                                 if (newsTime >= twentyFourHoursAgo && "News".equals(document.getString("type"))) {
                                     NewsToday newsItemToday = new NewsToday(
+                                            document.getId(),
                                             document.getString("Title"),
                                             document.getString("thumbnail"),
                                             document.getString("Description"),

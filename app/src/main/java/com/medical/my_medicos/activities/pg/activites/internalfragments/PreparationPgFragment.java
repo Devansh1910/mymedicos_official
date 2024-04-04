@@ -163,7 +163,6 @@ public class PreparationPgFragment extends Fragment {
 
 
 
-    @SuppressLint("NotifyDataSetChanged")
     void getRecentNewsUpdatesPrepration() {
         FirebaseFirestore db = FirebaseFirestore.getInstance();
 
@@ -171,11 +170,13 @@ public class PreparationPgFragment extends Fragment {
                 .get()
                 .addOnCompleteListener(task -> {
                     if (task.isSuccessful()) {
+                        newsprepration.clear(); // Clear the list to ensure fresh data on refresh
                         for (QueryDocumentSnapshot document : task.getResult()) {
                             String newsType = document.getString("type");
 
                             if ("Notice".equals(newsType)) {
                                 News newsItem = new News(
+                                        document.getId(), // Add document ID here
                                         document.getString("Title"),
                                         document.getString("thumbnail"),
                                         document.getString("Description"),
@@ -188,10 +189,10 @@ public class PreparationPgFragment extends Fragment {
                         }
                         newsupdatespreparationAdapter.notifyDataSetChanged();
                     } else {
+
                     }
                 });
     }
-
 
     private void refreshContent() {
         swipeRefreshLayoutPreparation.setRefreshing(false);

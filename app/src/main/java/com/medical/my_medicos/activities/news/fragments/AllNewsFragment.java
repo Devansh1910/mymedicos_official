@@ -56,6 +56,7 @@ public class AllNewsFragment extends Fragment {
                             String newsType = document.getString("type");
                             if ("News".equals(newsType)) {
                                 News newsItem = new News(
+                                        document.getId(),
                                         document.getString("Title"),
                                         document.getString("thumbnail"),
                                         document.getString("Description"),

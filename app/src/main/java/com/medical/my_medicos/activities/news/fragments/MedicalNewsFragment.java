@@ -54,6 +54,7 @@ public class MedicalNewsFragment extends Fragment {
                     if (task.isSuccessful()) {
                         for (QueryDocumentSnapshot document : task.getResult()) {
                             News newsItem = new News(
+                                    document.getId(),
                                     document.getString("Title"),
                                     document.getString("thumbnail"),
                                     document.getString("Description"),

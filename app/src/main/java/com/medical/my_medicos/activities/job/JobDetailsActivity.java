@@ -81,7 +81,6 @@ public class JobDetailsActivity extends AppCompatActivity {
     String current=user.getPhoneNumber();
     Toolbar toolbar;
     String documentid1;
-
     String pdf = null;
     TextView jobTitleTextView,companyNameTextView,locationTextView,salaryEditText,organizername,dateofpost,openingsEditText,timelinedurationwillcomehere,authorSpecialityTextView,authorSubSpecialityTextView,jobDescriptionContentTextView,jobtype,durationforjob,salarytypeTextView;
     @SuppressLint("MissingInflatedId")

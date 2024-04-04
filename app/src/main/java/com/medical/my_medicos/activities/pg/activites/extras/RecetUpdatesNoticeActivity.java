@@ -66,11 +66,13 @@ public class RecetUpdatesNoticeActivity extends AppCompatActivity {
                 .get()
                 .addOnCompleteListener(task -> {
                     if (task.isSuccessful()) {
+                        newspg.clear(); // Clear existing data to avoid duplicates when refreshing
                         for (QueryDocumentSnapshot document : task.getResult()) {
                             String newsType = document.getString("type");
 
                             if ("Notice".equals(newsType)) {
                                 News newsItem = new News(
+                                        document.getId(), // Include the document ID here
                                         document.getString("Title"),
                                         document.getString("thumbnail"),
                                         document.getString("Description"),
@@ -83,10 +85,11 @@ public class RecetUpdatesNoticeActivity extends AppCompatActivity {
                         }
                         newsupdatespgAdapter.notifyDataSetChanged();
                     } else {
-                        // Handle the case where data retrieval is not successful
+                        // Optionally, show an error message or handle the failure case
                     }
                 });
     }
+
 
     @Override
     public boolean onSupportNavigateUp() {

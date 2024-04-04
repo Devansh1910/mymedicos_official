@@ -10,9 +10,12 @@ import java.util.TimeZone;
 
 public class News {
     private String label, thumbnail, description, url, date, type;
+
+    private String documentId; // Add this line
     private static final String DATE_FORMAT_PATTERN = "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'";
 
-    public News(String label, String thumbnail, String description, String date, String url,String type) {
+    public News(String documentId,String label, String thumbnail, String description, String date, String url,String type) {
+        this.documentId = documentId; // Add this line
         this.label = label;
         this.thumbnail = thumbnail;
         this.description = description;
@@ -21,6 +24,9 @@ public class News {
         this.type = type;
     }
 
+    public String getDocumentId() {
+        return documentId;
+    }
     public String getLabel() {
         return label;
     }

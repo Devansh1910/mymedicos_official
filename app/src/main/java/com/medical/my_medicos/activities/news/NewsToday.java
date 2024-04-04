@@ -10,14 +10,21 @@ import java.util.TimeZone;
 
 public class NewsToday {
     private String label, thumbnail, description, url, date;
+
+    private String documentId; // Add this line
     private static final String DATE_FORMAT_PATTERN = "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'";
 
-    public NewsToday(String label, String thumbnail, String description, String date, String url) {
+    public NewsToday(String documentId,String label, String thumbnail, String description, String date, String url) {
+        this.documentId = documentId; // Add this line
         this.label = label;
         this.thumbnail = thumbnail;
         this.description = description;
         this.date = date;
         this.url = url;
+    }
+
+    public String getDocumentId() {
+        return documentId;
     }
 
     public String getLabel() {

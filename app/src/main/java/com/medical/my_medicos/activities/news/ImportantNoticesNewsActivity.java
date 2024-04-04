@@ -89,6 +89,7 @@ public class ImportantNoticesNewsActivity extends AppCompatActivity {
                         for (QueryDocumentSnapshot document : task.getResult()) {
                             updateIds.add(document.getId());
                             News newsItem = new News(
+                                    document.getId(),
                                     document.getString("Title"),
                                     document.getString("thumbnail"),
                                     document.getString("Description"),

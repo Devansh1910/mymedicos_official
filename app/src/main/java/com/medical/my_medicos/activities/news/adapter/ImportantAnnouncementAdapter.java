@@ -70,6 +70,7 @@ public class ImportantAnnouncementAdapter extends RecyclerView.Adapter<Important
 
     private void openNewsDetailedActivity(News news) {
         Intent intent = new Intent(context, NewsDetailedActivity.class);
+        intent.putExtra("id", news.getDocumentId());
         intent.putExtra("Title", news.getLabel());
         intent.putExtra("thumbnail", news.getThumbnail());
         intent.putExtra("Description", news.getDescription());

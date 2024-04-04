@@ -99,6 +99,7 @@ public class SearchNewsActivity extends AppCompatActivity {
                             String title = document.getString("Title");
                             if (title.toLowerCase().contains(query.toLowerCase())) {
                                 News newsItem = new News(
+                                        document.getId(), // Include the document ID here
                                         title,
                                         document.getString("thumbnail"),
                                         document.getString("Description"),
@@ -121,5 +122,4 @@ public class SearchNewsActivity extends AppCompatActivity {
                     }
                 });
     }
-
 }

@@ -5,6 +5,8 @@ import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
+
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -46,27 +48,31 @@ public class EducationNewsFragment extends Fragment {
     void getRecentNews() {
         FirebaseFirestore db = FirebaseFirestore.getInstance();
         db.collection("MedicalNews")
-                .whereEqualTo("type", "News")
-                .whereEqualTo("tag", "Education")
+                .whereEqualTo("tag", "Education") // Add this line to filter by tag
+                .whereEqualTo("type", "News") // Assuming you want to keep filtering by type as well
                 .orderBy("Time", Query.Direction.DESCENDING)
                 .get()
                 .addOnCompleteListener(task -> {
                     if (task.isSuccessful()) {
+                        news.clear(); // Clear existing news to avoid duplicates
                         for (QueryDocumentSnapshot document : task.getResult()) {
                             News newsItem = new News(
+                                    document.getId(),
                                     document.getString("Title"),
                                     document.getString("thumbnail"),
                                     document.getString("Description"),
                                     document.getString("Time"),
                                     document.getString("URL"),
-                                    document.getString("tag") // Assuming you want to include the tag in your News model
+                                    document.getString("type") // Since you're already filtering by type, this will always be "News"
                             );
                             news.add(newsItem);
                         }
                         newsAdapter.notifyDataSetChanged();
                     } else {
-                        // Handle the failure
+                        // Log the error or show a message to the user
+                        Toast.makeText(requireContext(), "Failed to fetch news: " + task.getException(), Toast.LENGTH_SHORT).show();
                     }
                 });
     }
+
 }

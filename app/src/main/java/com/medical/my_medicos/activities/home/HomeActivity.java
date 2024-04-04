@@ -61,7 +61,6 @@ import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.medical.my_medicos.activities.job.JobDetailsActivity;
 import com.medical.my_medicos.activities.news.NewsDetailedActivity;
-import com.medical.my_medicos.activities.notification.NotificationActivity;
 import com.medical.my_medicos.activities.utils.ConnectvityUtil;
 import com.squareup.picasso.Picasso;
 
@@ -239,12 +238,12 @@ public class HomeActivity extends AppCompatActivity {
         Log.d("HomeActivity", "JobDetailsActivity started");
     }
     private void openNewsDetailsActivity(String newsId) {
-        Log.d("HomeActivity", "Opening JobDetailsActivity with documentId: " + newsId);
+        Log.d("HomeActivity", "Opening NewsDetailsActivity with documentId: " + newsId);
         Intent intent = new Intent(this, NewsDetailedActivity.class);
         intent.putExtra("newsId", newsId);
         startActivity(intent);
         finish();
-        Log.d("HomeActivity", "JobDetailsActivity started");
+        Log.d("HomeActivity", "NewsDetailsActivity started");
     }
     @Override
     public void onBackPressed() {
