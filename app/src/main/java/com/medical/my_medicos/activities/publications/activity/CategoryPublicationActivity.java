@@ -117,6 +117,7 @@ public class CategoryPublicationActivity extends AppCompatActivity {
                     for (int i = 0; i < productsArray.length(); i++) {
                         JSONObject childObj = productsArray.getJSONObject(i);
                         Product product = new Product(
+                                childObj.getString("id"),
                                 childObj.getString("Title"),
                                 childObj.getString("thumbnail"),
                                 childObj.getString("Author"),
@@ -124,8 +125,7 @@ public class CategoryPublicationActivity extends AppCompatActivity {
                                 childObj.getString("Type"),
                                 childObj.getString("Category"),
                                 childObj.getString("Subject"),
-                                childObj.getString("URL"),
-                                object.getString("id")
+                                childObj.getString("URL")
 
                         );
                         products.add(product);

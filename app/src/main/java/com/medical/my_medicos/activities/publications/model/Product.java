@@ -7,25 +7,26 @@ import java.math.BigDecimal;
 
 public class Product implements Item, Serializable {
 
-    private String Title, thumbnail, Author, Type, Category, id, Subject,URL;
+    private String Title, thumbnail, Author, Type, Category, Subject,URL,id;
     private Double Price;
 
-    // No-argument constructor
     public Product() {
     }
-
-    public Product(String title, String thumbnail, String author, Double price, String type, String category, String id, String subject, String url) {
+    public Product(String documentid,String title, String thumbnail, String author, Double price, String type, String category, String subject, String url) {
         this.Title = title;
         this.thumbnail = thumbnail;
         this.Author = author;
         this.Price = price;
         this.Type = type;
         this.Category = category;
-        this.id = id;
+        this.id = documentid;
         this.Subject = subject;
         this.URL = url;
     }
 
+    public String getId() {
+        return id;
+    }
 
     public String getTitle() {
         return Title;
@@ -96,14 +97,6 @@ public class Product implements Item, Serializable {
 
     public void setURl(String url) {
         this.URL = url;
-    }
-
-    public String getId() {
-        return id;
-    }
-
-    public void setId(String id) {
-        this.id = id;
     }
 
     @Override

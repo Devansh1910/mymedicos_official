@@ -97,7 +97,7 @@ public class PurchasedAdapter extends RecyclerView.Adapter<PurchasedAdapter.Prod
                         Log.d("PurchasedAdapter", "Product ID: " + product.getId()); // Check if the ID is being logged correctly
                         if (product.getId() != null && !product.getId().isEmpty()) {
                             Intent intent = new Intent(context, DetailsActivity.class);
-                            intent.putExtra("productId", product.getId());
+                            intent.putExtra("id", product.getId());
                             context.startActivity(intent);
                         } else {
                             Log.e("PurchasedAdapter", "Product ID is null or empty for position: " + position);

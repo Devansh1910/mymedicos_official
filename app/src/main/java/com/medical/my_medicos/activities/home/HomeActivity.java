@@ -61,6 +61,7 @@ import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.medical.my_medicos.activities.job.JobDetailsActivity;
 import com.medical.my_medicos.activities.news.NewsDetailedActivity;
+import com.medical.my_medicos.activities.publications.activity.ProductDetailedActivity;
 import com.medical.my_medicos.activities.utils.ConnectvityUtil;
 import com.squareup.picasso.Picasso;
 
@@ -196,6 +197,8 @@ public class HomeActivity extends AppCompatActivity {
                                 handleDeepLinkIntentCME(deepLink);
                             } else if (link.contains("newsdetails?")) {
                                 handleDeepLinkIntentNews(deepLink);
+                            }else if (link.contains("bookdetails?")){
+                                handleDeepLinkIntentPublication(deepLink);
                             }
                         }
                     }
@@ -220,6 +223,13 @@ public class HomeActivity extends AppCompatActivity {
         Log.d("DeepLink", "Received deep link with cmeId: " + cmeId + " and typefordeep: " + typefordeep);
         openCmeDetailsActivity(cmeId, typefordeep); // Pass typefordeep to openCmeDetailsActivity method
     }
+
+    private void handleDeepLinkIntentPublication(Uri deepLink) {
+        String bookId = deepLink.getQueryParameter("bookId");
+        Log.d("DeepLink", "Received deep link with bookId: " + bookId);
+        openPublicationsDetailsActivity(bookId);
+    }
+
     private void openCmeDetailsActivity(String cmeId, String typefordeep) {
         Log.d("HomeActivity", "Opening CmeDetailsActivity with documentId: " + cmeId);
         Intent intent = new Intent(this, CmeDetailsActivity.class);
@@ -245,6 +255,16 @@ public class HomeActivity extends AppCompatActivity {
         finish();
         Log.d("HomeActivity", "NewsDetailsActivity started");
     }
+
+    private void openPublicationsDetailsActivity(String bookId) {
+        Log.d("HomeActivity", "Opening PublicationsDetailsActivity with documentId: " + bookId);
+        Intent intent = new Intent(this, ProductDetailedActivity.class);
+        intent.putExtra("bookId", bookId);
+        startActivity(intent);
+        finish();
+        Log.d("HomeActivity", "PublicationsDetailsActivity started");
+    }
+
     @Override
     public void onBackPressed() {
         Fragment currentFragment = getSupportFragmentManager().findFragmentById(R.id.frame_layout);

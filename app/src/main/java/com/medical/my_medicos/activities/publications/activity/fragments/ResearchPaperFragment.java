@@ -120,13 +120,13 @@ public class ResearchPaperFragment extends Fragment {
                                 String documentId = childObj.getString("id");
 
                                 Product product = new Product(
+                                        productObj.getString("id"),
                                         productObj.getString("Title"),
                                         productObj.getString("thumbnail"),
                                         productObj.getString("Author"),
                                         productObj.getDouble("Price"),
                                         productObj.getString("Type"),
                                         productObj.getString("Category"),
-                                        documentId,
                                         productObj.getString("Subject"),
                                         productObj.getString("URL")
                                 );

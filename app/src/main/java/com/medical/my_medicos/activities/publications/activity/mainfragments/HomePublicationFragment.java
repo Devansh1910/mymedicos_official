@@ -156,15 +156,15 @@ public class HomePublicationFragment extends Fragment {
                         String documentId = childObj.getString("id");
 
                         Product recenthomeproduct = new Product(
+                                recenthomeproductObj.getString("id"),
                                 recenthomeproductObj.getString("Title"),
                                 recenthomeproductObj.getString("thumbnail"),
                                 recenthomeproductObj.getString("Author"),
                                 recenthomeproductObj.getDouble("Price"),
                                 recenthomeproductObj.getString("Type"),
                                 recenthomeproductObj.getString("Category"),
-                                documentId,
-                                recenthomeproductObj.getString("URL"),
-                                recenthomeproductObj.getString("Subject")
+                                recenthomeproductObj.getString("Subject"),
+                                recenthomeproductObj.getString("URL")
                         );
 
                         recentHomeProducts.add(recenthomeproduct);
@@ -207,15 +207,15 @@ public class HomePublicationFragment extends Fragment {
                         JSONObject productObj = childObj.getJSONObject("data");
                         String documentId = childObj.getString("id");
                         Product product = new Product(
+                                productObj.getString("id"),
                                 productObj.getString("Title"),
                                 productObj.getString("thumbnail"),
                                 productObj.getString("Author"),
                                 productObj.getDouble("Price"),
                                 productObj.getString("Type"),
                                 productObj.getString("Category"),
-                                documentId,
-                                productObj.getString("URL"),
-                                productObj.getString("Subject")
+                                productObj.getString("Subject"),
+                                productObj.getString("URL")
                         );
                         allProducts.add(product);
                     }
@@ -302,15 +302,15 @@ public class HomePublicationFragment extends Fragment {
                         String documentId = childObj.getString("id");
 
                         Product sponsoredproduct = new Product(
+                                sponsorproductObj.getString("id"),
                                 sponsorproductObj.getString("Title"),
                                 sponsorproductObj.getString("thumbnail"),
                                 sponsorproductObj.getString("Author"),
                                 sponsorproductObj.getDouble("Price"),
                                 sponsorproductObj.getString("Type"),
                                 sponsorproductObj.getString("Category"),
-                                documentId,
-                                sponsorproductObj.getString("URL"),
-                                sponsorproductObj.getString("Subject")
+                                sponsorproductObj.getString("Subject"),
+                                sponsorproductObj.getString("URL")
                         );
 
                         sponsoredProduct.add(sponsoredproduct);
@@ -355,15 +355,15 @@ public class HomePublicationFragment extends Fragment {
                         String documentId = childObj.getString("id");
 
                         Product product = new Product(
+                                productObj.getString("id"),
                                 productObj.getString("Title"),
                                 productObj.getString("thumbnail"),
                                 productObj.getString("Author"),
                                 productObj.getDouble("Price"),
                                 productObj.getString("Type"),
                                 productObj.getString("Category"),
-                                documentId,
-                                productObj.getString("URL"),
-                                productObj.getString("Subject")
+                                productObj.getString("Subject"),
+                                productObj.getString("URL")
                         );
 
                         products.add(product);

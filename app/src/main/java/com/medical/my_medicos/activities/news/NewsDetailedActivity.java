@@ -183,8 +183,6 @@ public class NewsDetailedActivity extends AppCompatActivity {
                     Log.e(TAG, "Error fetching news details for name: " + documentId, e);
                 });
     }
-
-
     void getNewsDetails2(String documentId2) {
         FirebaseFirestore db = FirebaseFirestore.getInstance();
 
@@ -245,10 +243,6 @@ public class NewsDetailedActivity extends AppCompatActivity {
                 })
                 .addOnFailureListener(e -> Log.e(TAG, "Error fetching news details for name: " + documentId2, e));
     }
-
-
-
-
     private void openUrlInBrowser(String url) {
         Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
         startActivity(intent);
@@ -304,8 +298,6 @@ public class NewsDetailedActivity extends AppCompatActivity {
             Log.e(TAG, "Error fetching news details for documentId: " + newsId, e);
         });
     }
-
-
     private String encode(String s) {
         try {
             return URLEncoder.encode(s, StandardCharsets.UTF_8.toString());
@@ -313,7 +305,6 @@ public class NewsDetailedActivity extends AppCompatActivity {
             return URLEncoder.encode(s);
         }
     }
-
     private void handleDeepLink() {
         FirebaseDynamicLinks.getInstance().getDynamicLink(getIntent())
                 .addOnSuccessListener(this, pendingDynamicLinkData -> {

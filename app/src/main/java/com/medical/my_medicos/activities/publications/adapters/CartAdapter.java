@@ -67,13 +67,13 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.CartViewHolder
                     for (int i = 0; i < cart.length(); i++) {
                         JSONObject childObj = cart.getJSONObject(i);
                         Product product = new Product(
+                                childObj.getString("id"),
                                 childObj.getString("Title"),
                                 childObj.getString("thumbnail"),
                                 childObj.getString("Author"),
                                 childObj.getDouble("Price"),
                                 childObj.getString("Type"),
                                 childObj.getString("Category"),
-                                childObj.getString("id"),
                                 childObj.getString("Subject"),
                                 childObj.getString("URL")
                         );

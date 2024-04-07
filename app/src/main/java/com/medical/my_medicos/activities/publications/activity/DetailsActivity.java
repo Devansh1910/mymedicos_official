@@ -1,28 +1,33 @@
 package com.medical.my_medicos.activities.publications.activity;
 
+import android.Manifest;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
+import android.os.Environment;
 import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
-
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.medical.my_medicos.databinding.ActivityDetailsBinding;
-
+import com.shockwave.pdfium.PdfDocument;
+import java.io.File;
 import java.io.IOException;
-import java.io.InputStream;
-
 import okhttp3.Call;
 import okhttp3.Callback;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
+import okio.BufferedSink;
+import okio.Okio;
 
 public class DetailsActivity extends AppCompatActivity {
-    ActivityDetailsBinding binding;
+    private ActivityDetailsBinding binding;
+    private static final int STORAGE_PERMISSION_CODE = 1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,8 +35,17 @@ public class DetailsActivity extends AppCompatActivity {
         binding = ActivityDetailsBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
-        String productId = getIntent().getStringExtra("productId");
-        Log.d("DetailsActivity", "Received Product ID: " + productId); // Check the log to ensure ID is received
+        if (checkStoragePermission()) {
+            // Permissions are already granted, fetch the PDF
+            fetchPdf();
+        } else {
+            // Request storage permissions
+            requestStoragePermission();
+        }
+    }
+
+    private void fetchPdf() {
+        String productId = getIntent().getStringExtra("id");
         if (productId != null) {
             fetchProductDetailsAndShowPdf(productId);
         } else {
@@ -42,13 +56,12 @@ public class DetailsActivity extends AppCompatActivity {
     private void fetchProductDetailsAndShowPdf(String productId) {
         FirebaseFirestore db = FirebaseFirestore.getInstance();
         db.collection("Publications").document(productId).get().addOnCompleteListener(task -> {
-            if (task.isSuccessful()) {
+            if (task.isSuccessful() && task.getResult() != null) {
                 DocumentSnapshot document = task.getResult();
                 if (document.exists()) {
-                    // Assuming the document contains a field named "URL" for the PDF
                     String url = document.getString("URL");
                     if (url != null) {
-                        ShowPdf(url);
+                        downloadAndDisplayPdf(url);
                     } else {
                         Toast.makeText(DetailsActivity.this, "PDF URL is missing", Toast.LENGTH_SHORT).show();
                     }
@@ -61,43 +74,70 @@ public class DetailsActivity extends AppCompatActivity {
         });
     }
 
-
-    private void ShowPdf(String URL) {
-        if (URL == null || URL.isEmpty()) {
-            Toast.makeText(this, "Invalid document URL", Toast.LENGTH_SHORT).show();
-            return;
-        }
+    private void downloadAndDisplayPdf(final String pdfUrl) {
+        final File pdfFile = new File(getExternalFilesDir(null), "downloadedPdf.pdf");
 
         OkHttpClient client = new OkHttpClient();
-        Request request = new Request.Builder().url(URL).build();
-
-        binding.progress.setVisibility(View.VISIBLE); // Show progress bar when loading starts
-
+        Request request = new Request.Builder().url(pdfUrl).build();
         client.newCall(request).enqueue(new Callback() {
             @Override
             public void onFailure(@NonNull Call call, @NonNull IOException e) {
                 runOnUiThread(() -> {
-                    binding.progress.setVisibility(View.GONE);
-                    Toast.makeText(DetailsActivity.this, "Error: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+                    Toast.makeText(DetailsActivity.this, "Failed to download file", Toast.LENGTH_SHORT).show();
+                    binding.progress.setVisibility(View.GONE); // Hide progress bar on failure
                 });
             }
 
             @Override
             public void onResponse(@NonNull Call call, @NonNull Response response) throws IOException {
-                if (!response.isSuccessful()) {
-                    runOnUiThread(() -> {
-                        binding.progress.setVisibility(View.GONE);
-                        Toast.makeText(DetailsActivity.this, "Failed to load document", Toast.LENGTH_SHORT).show();
-                    });
-                    return;
+                if (!response.isSuccessful()) throw new IOException("Unexpected code " + response);
+
+                // Assuming you have access to response headers, check Content-Length if available
+                long contentLength = -1;
+                String contentLengthHeader = response.header("Content-Length");
+                if (contentLengthHeader != null) {
+                    contentLength = Long.parseLong(contentLengthHeader);
                 }
-                InputStream inputStream = response.body().byteStream();
-                runOnUiThread(() -> {
-                    binding.pdfView.fromStream(inputStream)
-                            .onLoad(nbPages -> binding.progress.setVisibility(View.GONE))
-                            .load();
-                });
+
+                File file = new File(getExternalFilesDir(null), "downloadedPdf.pdf");
+                BufferedSink sink = Okio.buffer(Okio.sink(file));
+                sink.writeAll(response.body().source());
+                sink.close();
+
+                if (file.length() != contentLength && contentLength != -1) {
+                    // This means the file size does not match the expected size
+                    Log.e("PDF Download", "File size does not match expected content length.");
+                    // Handle error - might want to retry download or notify user
+                } else {
+                    // Proceed to display PDF
+                    runOnUiThread(() -> {
+                        binding.pdfView.fromFile(file).load();
+                        binding.progress.setVisibility(View.GONE);
+                    });
+                }
             }
+
         });
+    }
+
+
+    private boolean checkStoragePermission() {
+        return ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED;
+    }
+
+    private void requestStoragePermission() {
+        ActivityCompat.requestPermissions(this, new String[] {Manifest.permission.WRITE_EXTERNAL_STORAGE}, STORAGE_PERMISSION_CODE);
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        if (requestCode == STORAGE_PERMISSION_CODE) {
+            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                fetchPdf();
+            } else {
+                Toast.makeText(this, "Permission DENIED", Toast.LENGTH_SHORT).show();
+            }
+        }
     }
 }

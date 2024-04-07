@@ -124,6 +124,32 @@
                                 android:layout_height="wrap_content"
                                 android:src="@drawable/linedark"/>
 
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_gravity="end"
+                                android:gravity="end"
+                                android:layout_height="wrap_content"
+                                android:orientation="horizontal">
+
+                                <ImageButton
+                                    android:id="@+id/btnHeart"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:background="?android:selectableItemBackground"
+                                    android:padding="@dimen/_3sdp"
+                                    android:src="@drawable/border_heart" />
+
+
+                                <ImageView
+                                    android:id="@+id/sharebook"
+                                    android:layout_width="@dimen/_25sdp"
+                                    android:layout_gravity="end"
+                                    android:layout_height="@dimen/_25sdp"
+                                    android:src="@drawable/share"/>
+
+
+                            </LinearLayout>
+
                             <TextView
                                 android:id="@+id/titleoftheproduct"
                                 android:layout_width="match_parent"

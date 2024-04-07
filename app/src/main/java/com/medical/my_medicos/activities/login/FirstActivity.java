@@ -21,7 +21,6 @@ public class FirstActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        // Check if the user is already logged in
         if (isLoggedIn()) {
             Intent intent = new Intent(FirstActivity.this, HomeActivity.class);
             startActivity(intent);

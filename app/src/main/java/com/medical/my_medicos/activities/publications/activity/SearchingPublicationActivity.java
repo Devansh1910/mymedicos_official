@@ -99,18 +99,19 @@ public class SearchingPublicationActivity extends AppCompatActivity {
                     JSONArray productsArray = object.getJSONArray("data");
                     for (int i = 0; i < productsArray.length(); i++) {
                         JSONObject childObj = productsArray.getJSONObject(i);
-                        String title = childObj.getJSONObject("data").getString("Title");
+                        // Assuming each childObj directly contains the product details and an id
+                        String title = childObj.getString("Title");
                         if (title.toLowerCase().contains(query.toLowerCase())) {
                             Product product = new Product(
+                                    childObj.getString("id"), // Adjusted to place id as the first parameter
                                     title,
-                                    childObj.getJSONObject("data").getString("thumbnail"),
-                                    childObj.getJSONObject("data").getString("Author"),
-                                    childObj.getJSONObject("data").getDouble("Price"),
-                                    childObj.getJSONObject("data").getString("Type"),
-                                    childObj.getJSONObject("data").getString("Category"),
-                                    childObj.getString("id"),
-                                    childObj.getJSONObject("data").getString("Subject"),
-                                    childObj.getJSONObject("data").getString("URL") // Add this line for the URL parameter.
+                                    childObj.getString("thumbnail"),
+                                    childObj.getString("Author"),
+                                    childObj.getDouble("Price"),
+                                    childObj.getString("Type"),
+                                    childObj.getString("Category"),
+                                    childObj.getString("Subject"),
+                                    childObj.getString("URL")
                             );
                             products.add(product);
                         }
@@ -131,4 +132,5 @@ public class SearchingPublicationActivity extends AppCompatActivity {
 
         queue.add(request);
     }
+
 }

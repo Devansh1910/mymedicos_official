@@ -132,4 +132,7 @@ dependencies {
     implementation ("jp.wasabeef:glide-transformations:4.3.0")
     //.....Reader............
     implementation ("com.github.barteksc:android-pdf-viewer:2.8.2")
+    //......Retrofit...........
+    implementation ("com.squareup.retrofit2:retrofit:2.9.0")
+    implementation ("com.squareup.retrofit2:converter-gson:2.9.0")
 }
