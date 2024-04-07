@@ -20,6 +20,7 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
+import androidx.core.content.PermissionChecker;
 
 import com.airbnb.lottie.LottieAnimationView;
 import com.google.android.gms.auth.api.phone.SmsRetriever;
@@ -47,6 +48,7 @@ public class EnterOtp extends AppCompatActivity {
     private FirebaseAuth mAuth;
     private Dialog mdialog;
     private PhoneAuthProvider.OnVerificationStateChangedCallbacks mCallbacks;
+    private static final int SMS_PERMISSION_REQUEST_CODE = 101;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,6 +59,11 @@ public class EnterOtp extends AppCompatActivity {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             View decorView = getWindow().getDecorView();
             decorView.setSystemUiVisibility(decorView.getSystemUiVisibility() | View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);
+        }
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            if (PermissionChecker.checkSelfPermission(this, "android.permission.RECEIVE_SMS") != PermissionChecker.PERMISSION_GRANTED) {
+                requestPermissions(new String[]{"android.permission.RECEIVE_SMS"}, SMS_PERMISSION_REQUEST_CODE);
+            }
         }
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
@@ -70,6 +77,7 @@ public class EnterOtp extends AppCompatActivity {
             View decorView = getWindow().getDecorView();
             decorView.setSystemUiVisibility(decorView.getSystemUiVisibility() | View.SYSTEM_UI_FLAG_LIGHT_NAVIGATION_BAR);
         }
+
 
         mAuth = FirebaseAuth.getInstance();
         editTextInput();
@@ -98,7 +106,7 @@ public class EnterOtp extends AppCompatActivity {
                         binding.inputotp4.getText().toString().trim().isEmpty() ||
                         binding.inputotp5.getText().toString().trim().isEmpty() ||
                         binding.inputotp6.getText().toString().trim().isEmpty()) {
-                    Toast.makeText(EnterOtp.this, "OTP is not Valid!", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(EnterOtp.this, "OTP is not valid!", Toast.LENGTH_SHORT).show();
                 } else {
                     if (verificationId != null) {
                         String code = binding.inputotp1.getText().toString().trim() +
@@ -125,7 +133,8 @@ public class EnterOtp extends AppCompatActivity {
                                         } else {
                                             mdialog.dismiss();
                                             binding.submitOtp.setVisibility(View.VISIBLE);
-                                            Toast.makeText(EnterOtp.this, "Welcome...", Toast.LENGTH_SHORT).show();                                           Intent intent = new Intent(EnterOtp.this, HomeActivity.class);
+                                            Toast.makeText(EnterOtp.this, "Welcome...", Toast.LENGTH_SHORT).show();
+                                            Intent intent = new Intent(EnterOtp.this, HomeActivity.class);
                                             intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
                                             startActivity(intent);
                                         }
@@ -140,33 +149,42 @@ public class EnterOtp extends AppCompatActivity {
     }
 
     private void autoOtpReceiver() {
-        otp_receiver = new OtpReceiver();
-        this.registerReceiver(otp_receiver, new IntentFilter(SmsRetriever.SMS_RETRIEVED_ACTION));
-        otp_receiver.initListener(new OtpReceiver.OtpReceiverListener() {
-            @Override
-            public void onOtpSuccess(String otp) {
-                int o1 = Character.getNumericValue(otp.charAt(0));
-                int o2 = Character.getNumericValue(otp.charAt(1));
-                int o3 = Character.getNumericValue(otp.charAt(2));
-                int o4 = Character.getNumericValue(otp.charAt(3));
-                int o5 = Character.getNumericValue(otp.charAt(4));
-                int o6 = Character.getNumericValue(otp.charAt(5));
+        // Check if SMS permission is granted
+        if (PermissionChecker.checkSelfPermission(this, "android.permission.RECEIVE_SMS") == PermissionChecker.PERMISSION_GRANTED) {
+            // SMS permission is granted, register the receiver for automatic OTP reading
+            otp_receiver = new OtpReceiver();
+            IntentFilter intentFilter = new IntentFilter(SmsRetriever.SMS_RETRIEVED_ACTION);
+            intentFilter.setPriority(IntentFilter.SYSTEM_HIGH_PRIORITY);
+            this.registerReceiver(otp_receiver, intentFilter);
+            otp_receiver.initListener(new OtpReceiver.OtpReceiverListener() {
+                @Override
+                public void onOtpSuccess(String otp) {
+                    int o1 = Character.getNumericValue(otp.charAt(0));
+                    int o2 = Character.getNumericValue(otp.charAt(1));
+                    int o3 = Character.getNumericValue(otp.charAt(2));
+                    int o4 = Character.getNumericValue(otp.charAt(3));
+                    int o5 = Character.getNumericValue(otp.charAt(4));
+                    int o6 = Character.getNumericValue(otp.charAt(5));
 
-                binding.inputotp1.setText(String.valueOf(o1));
-                binding.inputotp2.setText(String.valueOf(o2));
-                binding.inputotp3.setText(String.valueOf(o3));
-                binding.inputotp4.setText(String.valueOf(o4));
-                binding.inputotp5.setText(String.valueOf(o5));
-                binding.inputotp6.setText(String.valueOf(o6));
+                    binding.inputotp1.setText(String.valueOf(o1));
+                    binding.inputotp2.setText(String.valueOf(o2));
+                    binding.inputotp3.setText(String.valueOf(o3));
+                    binding.inputotp4.setText(String.valueOf(o4));
+                    binding.inputotp5.setText(String.valueOf(o5));
+                    binding.inputotp6.setText(String.valueOf(o6));
 
-                binding.submitOtp.performClick();
-            }
+                    binding.submitOtp.performClick();
+                }
 
-            @Override
-            public void onOtpTimeout() {
-                Toast.makeText(EnterOtp.this, "Something went wrong!", Toast.LENGTH_SHORT).show();
-            }
-        });
+                @Override
+                public void onOtpTimeout() {
+                    Toast.makeText(EnterOtp.this, "Something went wrong!", Toast.LENGTH_SHORT).show();
+                }
+            });
+        } else {
+            // SMS permission is not granted, display a message to the user to manually enter the OTP
+            Toast.makeText(this, "SMS permission not granted. Please enter OTP manually.", Toast.LENGTH_SHORT).show();
+        }
     }
 
     private void againOtpSend() {

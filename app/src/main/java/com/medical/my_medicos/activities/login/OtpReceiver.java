@@ -31,8 +31,7 @@ public class OtpReceiver extends BroadcastReceiver {
                 Status status = (Status) bundle.get(SmsRetriever.EXTRA_STATUS);
                 if (status != null) {
                     switch (status.getStatusCode()) {
-                        case CommonStatusCodes
-                                .SUCCESS:
+                        case CommonStatusCodes.SUCCESS:
                             String message = (String) bundle.get(SmsRetriever.EXTRA_SMS_MESSAGE);
                             if (message != null) {
                                 Pattern pattern = Pattern.compile("\\d{6}");
