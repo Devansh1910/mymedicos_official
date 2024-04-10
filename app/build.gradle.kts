@@ -15,8 +15,10 @@ android {
         applicationId = "com.medical.my_medicos"
         minSdk = 24
         targetSdk = 34
-        versionCode = 59
-        versionName = "4.1.7"
+        versionCode = 62
+        versionName = "4.2.0"
+
+        // Test Version Closed : 60, 4.1.8 for OTP Check.... (Reminder)
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
@@ -132,7 +134,4 @@ dependencies {
     implementation ("jp.wasabeef:glide-transformations:4.3.0")
     //.....Reader............
     implementation ("com.github.barteksc:android-pdf-viewer:2.8.2")
-    //......Retrofit...........
-    implementation ("com.squareup.retrofit2:retrofit:2.9.0")
-    implementation ("com.squareup.retrofit2:converter-gson:2.9.0")
 }

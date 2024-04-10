@@ -57,7 +57,8 @@
         <item>Physiology</item>
         <item>Anatomy</item>
         <item>Biochemistry</item>
-        <!-- Add other specialities here -->
+        <item>Duty Doctor</item>
+
     </string-array>
 
     <!-- Subspecialities -->

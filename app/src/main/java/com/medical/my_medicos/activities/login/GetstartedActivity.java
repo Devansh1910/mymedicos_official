@@ -27,15 +27,12 @@ public class GetstartedActivity extends AppCompatActivity {
 
     TextView startButton;
     LinearLayout parttoshow;
-    MediaPlayer mediaPlayer;
 
     @SuppressLint("MissingInflatedId")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_getstarted);
-
-        mediaPlayer = MediaPlayer.create(this, R.raw.waterdrop);
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             View decorView = getWindow().getDecorView();
@@ -70,7 +67,6 @@ public class GetstartedActivity extends AppCompatActivity {
                 fadeInAnimation(parttoshow);
                 parttoshow.setVisibility(View.VISIBLE);
                 // Play sound effect when parttoshow LinearLayout becomes visible
-                playSoundEffect();
             }
         }, 3000);
 
@@ -95,13 +91,8 @@ public class GetstartedActivity extends AppCompatActivity {
         return mAuth.getCurrentUser() != null;
     }
 
-    private void playSoundEffect() {
-        mediaPlayer.start(); // Start playing the sound effect
-    }
-
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        mediaPlayer.release(); // Release the MediaPlayer when the activity is destroyed
     }
 }
