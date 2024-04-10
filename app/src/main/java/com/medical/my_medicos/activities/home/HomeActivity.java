@@ -3,6 +3,8 @@ package com.medical.my_medicos.activities.home;
 import static androidx.fragment.app.FragmentManager.TAG;
 
 import android.annotation.SuppressLint;
+import android.app.Notification;
+import android.app.NotificationManager;
 import android.content.Intent;
 import android.content.IntentSender;
 import android.net.Uri;
@@ -83,9 +85,7 @@ public class HomeActivity extends AppCompatActivity {
     private static final int MY_UPDATE_CODE = 100;
     private long lastPressTime;
     FrameLayout verifiedUser, circularImageView;
-
     ProgressBar loadingCircle;
-
     LinearLayout opensidehomedrawer;
 
     @SuppressLint("MissingInflatedId")

@@ -7,6 +7,7 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.content.ContextCompat;
+import androidx.core.content.res.ResourcesCompat;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -15,9 +16,16 @@ import androidx.viewpager2.adapter.FragmentStateAdapter;
 import androidx.viewpager2.widget.ViewPager2;
 
 import android.annotation.SuppressLint;
+import android.app.Notification;
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Bitmap;
 import android.graphics.Color;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.os.Bundle;
 import android.text.Editable;
@@ -38,6 +46,7 @@ import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.bumptech.glide.load.resource.bitmap.BitmapDrawableDecoder;
 import com.google.android.material.tabs.TabLayout;
 import com.google.android.material.tabs.TabLayoutMediator;
 import com.google.firebase.firestore.DocumentSnapshot;
@@ -80,12 +89,85 @@ public class  NewsActivity extends AppCompatActivity {
     RelativeLayout importantnoticego;
     private ImageView backtothehomefrompg;
 
+    private static final String CHANNEL_ID_NEWS = "News";
+    private static final int NOTIFICATION_ID_NEWS = 100;
+
+    private static final int REQ_CODE_NEWS = 1000;
+
     ActivityResultLauncher<Intent> importantNoticesActivityResultLauncher;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_news);
+
+        //....Notification for News...............
+
+        Drawable drawable_news = ResourcesCompat.getDrawable(getResources(), R.drawable.playstorelogo, null);
+
+        BitmapDrawable bitmapDrawableNews = (BitmapDrawable) drawable_news;
+
+        Bitmap largeIconNews = bitmapDrawableNews.getBitmap();
+
+        NotificationManager nm = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
+        Notification notification_news;
+
+        Intent intent_news = new Intent(getApplicationContext(), NewsActivity.class);
+        intent_news.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+
+        PendingIntent pl_news = PendingIntent.getActivity(this, REQ_CODE_NEWS,intent_news,PendingIntent.FLAG_UPDATE_CURRENT);
+
+        //..Big Picture................
+        Notification.BigPictureStyle bigPictureStyleNews = new Notification.BigPictureStyle()
+                .bigPicture(((BitmapDrawable)(ResourcesCompat.getDrawable(getResources(), R.drawable.playstorelogo,null))).getBitmap())
+                .bigLargeIcon(largeIconNews)
+                .setBigContentTitle("News Detail...........")
+                .setSummaryText("News Thumbnail");
+
+        //...Inbox Style........
+        Notification.InboxStyle inboxStyleNews = new Notification.InboxStyle()
+                .addLine("A")
+                .addLine("B")
+                .addLine("C")
+                .addLine("D")
+                .addLine("E")
+                .addLine("F")
+                .addLine("G")
+                .addLine("H")
+                .addLine("I")
+                .addLine("J")
+                .setBigContentTitle("Full Message...")
+                .setSummaryText("Message from News Activity....");
+
+
+
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
+            notification_news = new Notification.Builder(this)
+                    .setLargeIcon(largeIconNews)
+                    .setSmallIcon(R.drawable.playstorelogo)
+                    .setContentText("Message in News")
+                    .setSubText("New message from news Small")
+                    .setContentIntent(pl_news)
+                    .setStyle(bigPictureStyleNews)
+                    .setChannelId(CHANNEL_ID_NEWS)
+                    .build();
+
+            nm.createNotificationChannel(new NotificationChannel(CHANNEL_ID_NEWS,"News",NotificationManager.IMPORTANCE_HIGH));
+
+        }else{
+            notification_news = new Notification.Builder(this)
+                    .setLargeIcon(largeIconNews)
+                    .setSmallIcon(R.drawable.playstore)
+                    .setContentText("Message in News")
+                    .setSubText("New message from news Small")
+                    .setContentIntent(pl_news)
+                    .setStyle(bigPictureStyleNews)
+                    .build();
+        }
+
+        nm.notify(NOTIFICATION_ID_NEWS,notification_news);
+
+        //..............................................
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             View decorView = getWindow().getDecorView();

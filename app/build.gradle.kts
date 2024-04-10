@@ -134,4 +134,5 @@ dependencies {
     implementation ("jp.wasabeef:glide-transformations:4.3.0")
     //.....Reader............
     implementation ("com.github.barteksc:android-pdf-viewer:2.8.2")
+
 }
