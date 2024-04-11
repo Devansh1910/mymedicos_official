@@ -1,5 +1,6 @@
 package com.medical.my_medicos.activities.job;
 
+import static com.medical.my_medicos.activities.utils.ConstantsNotification.TOPIC;
 import static com.medical.my_medicos.list.subSpecialitiesData.subspecialities;
 
 import android.annotation.SuppressLint;
@@ -37,6 +38,7 @@ import androidx.core.content.ContextCompat;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
+import com.google.firebase.messaging.FirebaseMessaging;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
@@ -64,6 +66,15 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 import com.google.android.material.slider.RangeSlider;
+import com.medical.my_medicos.activities.notifications.api.NotificationApiInterface;
+import com.medical.my_medicos.activities.notifications.api.NotificationApiUtilities;
+import com.medical.my_medicos.activities.notifications.model.NotificationDataJobs;
+import com.medical.my_medicos.activities.notifications.model.PushNotification;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+
 public class PostJobActivity extends AppCompatActivity {
     EditText title,Organiser,salary,jobposition,description,Opening,duration,hospital;
 
@@ -115,6 +126,8 @@ public class PostJobActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_post_job);
+
+        FirebaseMessaging.getInstance().subscribeToTopic(TOPIC);
 
         Filter();
 
@@ -658,6 +671,11 @@ public class PostJobActivity extends AppCompatActivity {
                             public void onComplete(@NonNull Task<Void> task) {
                                 if (task.isSuccessful()) {
                                     Toast.makeText(PostJobActivity.this, "Posted Successfully", Toast.LENGTH_SHORT).show();
+                                    //....Notification Check......
+                                    PushNotification notification = new PushNotification(new NotificationDataJobs(Title,organiser,generatedDocId), TOPIC);
+                                    Log.e("print",generatedDocId);
+                                    sendNotificationjob(notification);
+                                    //............
                                     Intent intent = new Intent(PostJobActivity.this,JobsActivity.class);
                                     intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
                                     startActivity(intent);
@@ -665,6 +683,23 @@ public class PostJobActivity extends AppCompatActivity {
                                 } else {
                                     Toast.makeText(PostJobActivity.this, "Task Failed", Toast.LENGTH_SHORT).show();
                                 }
+                            }
+                            private void sendNotificationjob(PushNotification notification) {
+                                NotificationApiUtilities.getClient().sendNotification(notification).enqueue(new Callback<PushNotification>() {
+                                    @Override
+                                    public void onResponse(Call<PushNotification> call, Response<PushNotification> response) {
+                                        if(response.isSuccessful())
+                                            Toast.makeText(PostJobActivity.this, "Opening Live..", Toast.LENGTH_SHORT).show();
+                                        else
+                                            Toast.makeText(PostJobActivity.this, "Something went wrong...", Toast.LENGTH_SHORT).show();
+                                    }
+
+                                    @Override
+                                    public void onFailure(Call<PushNotification> call, Throwable throwable) {
+                                        Toast.makeText(PostJobActivity.this, throwable.getMessage(), Toast.LENGTH_SHORT).show();
+
+                                    }
+                                });
                             }
                         });
                     } else {
