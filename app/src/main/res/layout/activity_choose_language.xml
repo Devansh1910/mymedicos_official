@@ -44,7 +44,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical">
-
+<!--Radio button for english -->
             <RadioButton
                 android:id="@+id/selectenglish"
                 android:layout_width="match_parent"
@@ -64,7 +64,7 @@
                 android:textSize="20dp"
                 android:textStyle="bold" />
 
-
+<!--Radio button for Hindi -->
             <RadioButton
                 android:id="@+id/selecthindi"
                 android:layout_width="match_parent"
@@ -99,7 +99,7 @@
                 android:textColor="@color/black"
                 android:textSize="24dp"
                 android:textStyle="bold" />
-
+<!--Radio button for Gujrati -->
             <RadioButton
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -116,7 +116,7 @@
                 android:textColor="@color/black"
                 android:textSize="24dp"
                 android:textStyle="bold" />
-
+<!--Radio button for Marathi -->
             <RadioButton
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
