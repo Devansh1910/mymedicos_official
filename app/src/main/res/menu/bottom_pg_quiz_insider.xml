@@ -5,6 +5,7 @@
         android:icon="@drawable/quizicon"
         android:id="@+id/qui">
     </item>
+    <!--Score Board -->
     <item
         android:title="Score Board"
         android:icon="@drawable/scoreboard"
