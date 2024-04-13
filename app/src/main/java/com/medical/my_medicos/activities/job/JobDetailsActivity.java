@@ -351,7 +351,7 @@ public class JobDetailsActivity extends AppCompatActivity {
             return URLEncoder.encode(s);
         }
     }
-    //
+    //....
 
     private void handleDeepLink() {
         FirebaseDynamicLinks.getInstance().getDynamicLink(getIntent())
