@@ -72,6 +72,8 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.prefs.Preferences;
 
+// This is teh Home Activity..
+
 
 public class HomeActivity extends AppCompatActivity {
     BottomNavigationView bottomNavigation;
@@ -94,6 +96,8 @@ public class HomeActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
 
+        // Network Issue Condition...........
+
         if (!ConnectvityUtil.isConnectedToInternet(this)) {
             // Start the NoInternetActivity if there is no internet connection
             Intent intent = new Intent(this, NoInternetActivity.class);
@@ -102,6 +106,8 @@ public class HomeActivity extends AppCompatActivity {
             return; // Exit the method early
         }
 
+        // Loader Implementation..............
+
         loadingCircle = findViewById(R.id.loadingCircle);
         opensidehomedrawer = findViewById(R.id.opensidehomedrawer);
 
@@ -109,6 +115,8 @@ public class HomeActivity extends AppCompatActivity {
         opensidehomedrawer.setVisibility(View.GONE);
 
         handleDeepLinkIntent();
+
+        // Theme for Status and Navigation bar.......
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             View decorView = getWindow().getDecorView();
@@ -126,6 +134,8 @@ public class HomeActivity extends AppCompatActivity {
             View decorView = getWindow().getDecorView();
             decorView.setSystemUiVisibility(decorView.getSystemUiVisibility() | View.SYSTEM_UI_FLAG_LIGHT_NAVIGATION_BAR);
         }
+
+        //...Toolbar Implementation......
 
         toolbar = findViewById(R.id.toolbar);
 
@@ -163,6 +173,8 @@ public class HomeActivity extends AppCompatActivity {
         bottomNavigation = findViewById(R.id.bottomNavigationView);
         bottomNavigation.setBackground(null);
 
+        //....Fragment Shifter...........
+
         bottomNavigation.setOnItemSelectedListener(item -> {
             int frgId = item.getItemId();
             Log.d("Something went wrong","Report to the Developer");
@@ -183,6 +195,8 @@ public class HomeActivity extends AppCompatActivity {
 
         checkforAppUpdate();
     }
+
+    //....Shareable Link Handler.............
 
     private void handleDeepLinkIntent() {
         FirebaseDynamicLinks.getInstance().getDynamicLink(getIntent())
@@ -207,6 +221,9 @@ public class HomeActivity extends AppCompatActivity {
                     Log.e("DeepLink", "Error handling deep link: " + e.getMessage());
                 });
     }
+
+    //...Handler Extention..........
+
     private void handleDeepLinkIntentJOB(Uri deepLink) {
         String jobId = deepLink.getQueryParameter("jobId");
         Log.d("DeepLink", "Received deep link with jobId: " + jobId);
@@ -230,6 +247,8 @@ public class HomeActivity extends AppCompatActivity {
         openPublicationsDetailsActivity(bookId);
     }
 
+    //...Cme Handler.............
+
     private void openCmeDetailsActivity(String cmeId, String typefordeep) {
         Log.d("HomeActivity", "Opening CmeDetailsActivity with documentId: " + cmeId);
         Intent intent = new Intent(this, CmeDetailsActivity.class);
@@ -239,6 +258,9 @@ public class HomeActivity extends AppCompatActivity {
         finish();
         Log.d("HomeActivity", "CmeDetailsActivity started");
     }
+
+    //...Job Handler...............
+
     private void openJobDetailsActivity(String jobId) {
         Log.d("HomeActivity", "Opening JobDetailsActivity with documentId: " + jobId);
         Intent intent = new Intent(this, JobDetailsActivity.class);
@@ -247,6 +269,9 @@ public class HomeActivity extends AppCompatActivity {
         finish();
         Log.d("HomeActivity", "JobDetailsActivity started");
     }
+
+    //...New Handler..............
+
     private void openNewsDetailsActivity(String newsId) {
         Log.d("HomeActivity", "Opening NewsDetailsActivity with documentId: " + newsId);
         Intent intent = new Intent(this, NewsDetailedActivity.class);
@@ -256,6 +281,8 @@ public class HomeActivity extends AppCompatActivity {
         Log.d("HomeActivity", "NewsDetailsActivity started");
     }
 
+    //...Publication Handler..............
+
     private void openPublicationsDetailsActivity(String bookId) {
         Log.d("HomeActivity", "Opening PublicationsDetailsActivity with documentId: " + bookId);
         Intent intent = new Intent(this, ProductDetailedActivity.class);
@@ -264,6 +291,8 @@ public class HomeActivity extends AppCompatActivity {
         finish();
         Log.d("HomeActivity", "PublicationsDetailsActivity started");
     }
+
+    //... Back Functionality Handler................
 
     @Override
     public void onBackPressed() {
@@ -285,6 +314,9 @@ public class HomeActivity extends AppCompatActivity {
     private void showToast(String message) {
         Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
     }
+
+    //....Update the Toolbar................
+
     private void updateToolbarColor(Fragment fragment) {
         Toolbar toolbar = findViewById(R.id.toolbar);
         if (fragment instanceof SlideshowFragment || fragment instanceof ClubFragment) {
