@@ -674,6 +674,7 @@ public class PostJobActivity extends AppCompatActivity {
                                     //....Notification Check......
                                     PushNotification notification = new PushNotification(new NotificationDataJobs(Title,organiser,generatedDocId), TOPIC);
                                     Log.e("print",generatedDocId);
+
                                     sendNotificationjob(notification);
                                     //............
                                     Intent intent = new Intent(PostJobActivity.this,JobsActivity.class);

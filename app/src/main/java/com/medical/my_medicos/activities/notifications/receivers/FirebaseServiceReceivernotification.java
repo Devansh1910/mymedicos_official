@@ -19,6 +19,7 @@ import android.graphics.drawable.VectorDrawable;
 import android.media.AudioAttributes;
 import android.net.Uri;
 import android.os.Build;
+import android.util.Log;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -44,14 +45,14 @@ public class FirebaseServiceReceivernotification extends FirebaseMessagingServic
     public void onMessageReceived(@NonNull RemoteMessage remoteMessage) {
         super.onMessageReceived(remoteMessage);
 
-        String generatedDocId = remoteMessage.getData().get("generatedDocId");
-
-        Intent intent = new Intent(this, JobDetailsActivity.class);
-        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
-        intent.putExtra("documentid", generatedDocId);
-
         NotificationManager manager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
         int notificationId = new Random().nextInt();
+
+        String documentid = remoteMessage.getData().get("documentId");
+
+        Log.e("printidinnnnnn..",documentid);
+        Intent intent = new Intent(this, JobDetailsActivity.class);
+        intent.putExtra("documentid", documentid);
 
         Drawable drawable = ResourcesCompat.getDrawable(getResources(), R.drawable.placeholderjobouter, null);
         Bitmap largeIcon = getBitmapFromDrawable(drawable);
@@ -62,7 +63,7 @@ public class FirebaseServiceReceivernotification extends FirebaseMessagingServic
 
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         PendingIntent pendingIntent = PendingIntent.getActivity(
-                this, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT | PendingIntent.FLAG_IMMUTABLE
+                this, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT
         );
 
         // Extract data from the message

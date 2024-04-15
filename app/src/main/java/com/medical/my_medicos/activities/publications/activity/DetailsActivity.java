@@ -2,10 +2,13 @@ package com.medical.my_medicos.activities.publications.activity;
 
 import android.Manifest;
 import android.content.pm.PackageManager;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
 import android.util.Log;
 import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -13,6 +16,7 @@ import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.medical.my_medicos.R;
 import com.medical.my_medicos.databinding.ActivityDetailsBinding;
 import com.shockwave.pdfium.PdfDocument;
 import java.io.File;
@@ -34,6 +38,23 @@ public class DetailsActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         binding = ActivityDetailsBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            View decorView = getWindow().getDecorView();
+            decorView.setSystemUiVisibility(decorView.getSystemUiVisibility() | View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);
+        }
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            Window window = getWindow();
+            window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
+            window.setStatusBarColor(ContextCompat.getColor(this, R.color.backgroundcolor));
+            window.setNavigationBarColor(ContextCompat.getColor(this, R.color.backgroundcolor));
+        }
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            View decorView = getWindow().getDecorView();
+            decorView.setSystemUiVisibility(decorView.getSystemUiVisibility() | View.SYSTEM_UI_FLAG_LIGHT_NAVIGATION_BAR);
+        }
 
         if (checkStoragePermission()) {
             // Permissions are already granted, fetch the PDF

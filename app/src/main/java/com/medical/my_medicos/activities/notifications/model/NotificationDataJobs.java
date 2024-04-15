@@ -2,12 +2,13 @@ package com.medical.my_medicos.activities.notifications.model;
 
 public class NotificationDataJobs {
 
-    public String title,Organiser,documentid;
+    public String title,Organiser,documentId;
 
     public NotificationDataJobs (String title, String organiser, String documentid) {
 
         this.title = title;
         this.Organiser = organiser;
+        this.documentId = documentid;
     }
 
     //.....Title.........
@@ -33,10 +34,10 @@ public class NotificationDataJobs {
     //.....Document ID.....
 
     public String getDocumentid() {
-        return documentid;
+        return documentId;
     }
 
     public void setDocumentid(String documentid) {
-        this.documentid = documentid;
+        this.documentId = documentid;
     }
 }
