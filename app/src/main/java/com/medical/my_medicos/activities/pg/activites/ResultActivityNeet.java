@@ -178,6 +178,7 @@ public class ResultActivityNeet extends AppCompatActivity {
             resultData.put("correctAnswers", correctAnswers);
             resultData.put("totalQuestions", totalQuestions);
             resultData.put("remainingTime", remainingTime);
+            Log.d("Result Upload",userId);
             idSubcollectionRef
                     .document(id)
                     .set(resultData)

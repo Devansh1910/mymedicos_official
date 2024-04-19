@@ -21,6 +21,7 @@ android {
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
 
+
     buildTypes {
         release {
             isMinifyEnabled = false
@@ -44,8 +45,13 @@ android {
 
 dependencies {
     implementation("androidx.appcompat:appcompat:1.6.1")
-    implementation(platform("com.google.firebase:firebase-bom:32.8.0"))
+    implementation(platform("com.google.firebase:firebase-bom:32.8.1"))
     implementation("com.google.firebase:firebase-analytics")
+    implementation ("com.google.android.gms:play-services-auth:21.1.0")
+    implementation ("com.google.android.gms:play-services-auth-api-phone:18.0.2")
+    implementation ("com.google.firebase:firebase-auth:22.3.1")
+    implementation ("com.github.barteksc:android-pdf-viewer:3.2.0-beta.1")
+
 //    implementation("com.google.firebase:firebase-auth")
     implementation("com.google.android.material:material:1.11.0")
     implementation("androidx.constraintlayout:constraintlayout:2.1.4")
@@ -120,7 +126,7 @@ dependencies {
     //....In app Update
     implementation ("com.google.android.play:app-update:2.1.0")
     //.......SMS Retriver.......
-    implementation ("com.google.android.gms:play-services-auth:21.0.0")
+    implementation ("com.google.android.gms:play-services-auth:21.1.0")
     implementation ("com.google.android.gms:play-services-auth-api-phone:18.0.2")
     //......Deep Links...........
     implementation("com.google.firebase:firebase-dynamic-links-ktx:21.2.0")

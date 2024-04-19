@@ -41,6 +41,7 @@ public class WeeklyQuizInsiderActivity extends AppCompatActivity {
     private RecyclerView recyclerView;
     private WeeklyQuizAdapterinsider adapter;
     private ArrayList<QuizPGinsider> quizList;
+    private ArrayList<QuizPGinsider> copy;
     private int currentQuestionIndex = 0;
     String id;
 
@@ -48,26 +49,32 @@ public class WeeklyQuizInsiderActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_weekly_quiz_insider);
+        TextView title1=findViewById(R.id.setnamewillbehere);
+
 
         recyclerView = findViewById(R.id.recycler_view);
         Intent intent = getIntent();
         String str = intent.getStringExtra("Title1"); // Specialty
         String str1 = intent.getStringExtra("Title"); // Title
         quizList = new ArrayList<>();
+        copy = new ArrayList<>();
 
         FirebaseFirestore db = FirebaseFirestore.getInstance();
         CollectionReference quizzCollection = db.collection("PGupload").document("Weekley").collection("Quiz");
         quizzCollection.get().addOnCompleteListener(task -> {
             if (task.isSuccessful()) {
                 quizList.clear(); // Ensure this happens only once
+                copy.clear();
                 for (QueryDocumentSnapshot document : task.getResult()) {
                     String speciality = document.getString("speciality");
                     String title = document.getString("title");
+                    title1.setText(title);
 
                     if (str.equals(speciality) && str1.equals(title)) {
                         ArrayList<Map<String, Object>> dataList = (ArrayList<Map<String, Object>>) document.get("Data");
                         for (Map<String, Object> entry : dataList) {
                             String question = (String) entry.get("Question");
+
                             String correctAnswer = (String) entry.get("Correct");
                             String optionA = (String) entry.get("A");
                             String optionB = (String) entry.get("B");
@@ -75,29 +82,40 @@ public class WeeklyQuizInsiderActivity extends AppCompatActivity {
                             String optionD = (String) entry.get("D");
                             String description = (String) entry.get("Description");
                             String imageUrl = (String) entry.get("Image");
-
-                            QuizPGinsider quizQuestion = new QuizPGinsider(question, optionA, optionB, optionC, optionD, correctAnswer, imageUrl, description);
+                            id = document.getId();
+                            QuizPGinsider quizQuestion;
+                            if (imageUrl != null && !imageUrl.isEmpty()) {
+                                quizQuestion = new QuizPGinsider(question, optionA, optionB, optionC, optionD, correctAnswer, imageUrl, description);
+                            }else {
+                                quizQuestion = new QuizPGinsider(question, optionA, optionB, optionC, optionD, correctAnswer, null, description);
+                            }
+                            copy.add(quizQuestion);
                             quizList.add(quizQuestion);
+
+
                         }
-                        break; // Assuming only one matching document, break after adding its questions
+
                     }
                 }
-                if (!quizList.isEmpty()) {
-                    loadNextQuestion(); // Initialize the quiz with the first question
-                } else {
-                    Log.d("QuizLoading", "No questions loaded. Check filters or database.");
-                }
+//                adapter.setQuizQuestions(quizList); // Set quiz questions to the adapter
+                loadNextQuestion(quizList);
             } else {
                 Log.e("FirestoreError", "Error getting documents: ", task.getException());
             }
         });
 
-        ImageView nextButton = findViewById(R.id.nextButton);
-        nextButton.setOnClickListener(v -> loadNextQuestion());
+        @SuppressLint({"MissingInflatedId", "LocalSuppress"}) Button nextButton = findViewById(R.id.nextButton2);
+        nextButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                loadNextQuestion(quizList);
+            }
+        });
 
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        adapter = new WeeklyQuizAdapterinsider(this, quizList);
+        adapter = new WeeklyQuizAdapterinsider(WeeklyQuizInsiderActivity.this, quizList);
         recyclerView.setAdapter(adapter);
+
 
         TextView endButton = findViewById(R.id.endenabled);
         endButton.setOnClickListener(v -> handleEndButtonClick());
@@ -108,16 +126,35 @@ public class WeeklyQuizInsiderActivity extends AppCompatActivity {
         adapter.setOnCountdownFinishedListener(this::onCountdownFinished);
     }
 
-    private void loadNextQuestion() {
-        if (currentQuestionIndex < quizList.size()) {
-            QuizPGinsider currentQuestion = quizList.get(currentQuestionIndex);
+    private void loadNextQuestion(ArrayList<QuizPGinsider> quizList) {
+        int q1=copy.size();
+        if (currentQuestionIndex < q1) {
+            Log.d("abasjdnajs", "Current Question Index: " + currentQuestionIndex);
+            Log.d("abasjdnajs", "Quiz List Size: " + quizList.size());
+
+            // Log each quiz question in the quizList
+            for (int i = 0; i < q1; i++) {
+                QuizPGinsider quizQuestion = copy.get(i);
+                Log.d("QuizPGinsider", "Question " + (i + 1) + ": " + quizQuestion.getQuestion());
+                // Log other properties of the quiz question as needed
+            }
+
+            QuizPGinsider currentQuestion = copy.get(currentQuestionIndex);
             adapter.setQuizQuestions(Collections.singletonList(currentQuestion));
             recyclerView.smoothScrollToPosition(currentQuestionIndex);
             currentQuestionIndex++;
         } else {
+            Log.d("abasjdnajs", "Current Question Index: " + currentQuestionIndex);
+            Log.d("abasjdnajs", "Quiz List Size: " + quizList.size());
+            for (int i = 0; i < quizList.size(); i++) {
+                QuizPGinsider quizQuestion = quizList.get(i);
+                Log.d("QuizPGinsider", "Question " + (i + 1) + ": " + quizQuestion.getQuestion());
+                // Log other properties of the quiz question as needed
+            }
             showEndQuizConfirmation();
         }
     }
+
 
 
     private void showEndQuizConfirmation() {
@@ -186,7 +223,7 @@ public class WeeklyQuizInsiderActivity extends AppCompatActivity {
         ArrayList<String> results = compareAnswers(userSelectedOptions);
 
         Intent intent = new Intent(WeeklyQuizInsiderActivity.this, ResultActivity.class);
-        intent.putExtra("questions", quizList);
+        intent.putExtra("questions", copy);
         intent.putExtra("id", id);
         startActivity(intent);
     }
@@ -222,6 +259,6 @@ public class WeeklyQuizInsiderActivity extends AppCompatActivity {
     }
 
     public void onCountdownFinished() {
-        loadNextQuestion();
+        loadNextQuestion(quizList);
     }
 }

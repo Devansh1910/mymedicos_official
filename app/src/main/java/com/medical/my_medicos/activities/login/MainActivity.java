@@ -31,6 +31,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
+import androidx.core.content.PermissionChecker;
 
 import com.airbnb.lottie.LottieAnimationView;
 import com.google.android.gms.ads.MobileAds;
@@ -59,8 +60,9 @@ public class MainActivity extends AppCompatActivity {
     Spinner countryCodeSpinner;
     FirebaseAuth mauth;
     FirebaseFirestore db = FirebaseFirestore.getInstance();
+    private static final int SMS_PERMISSION_REQUEST_CODE = 101;
 
-    @SuppressLint("MissingInflatedId")
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

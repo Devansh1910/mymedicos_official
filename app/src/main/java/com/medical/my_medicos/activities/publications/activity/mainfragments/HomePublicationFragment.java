@@ -43,6 +43,8 @@ public class HomePublicationFragment extends Fragment {
 
     private FragmentHomePublicationBinding binding;
 
+    private Context context;
+
     private BookoftheDayAdapter BookofthedayAdapter;
     private ArrayList<Product> bookoftheday;
     private ProductAdapter productAdapter;
@@ -56,16 +58,23 @@ public class HomePublicationFragment extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         binding = FragmentHomePublicationBinding.inflate(inflater, container, false);
+        context = getContext();
 
-        initProducts();
-        initTopExploredReadables();
-        initSlider();
-        initSponsorSlider();
-        initSponsorProduct();
-        initBookReadables();
-
+        if (context != null) {
+            initProducts();
+            initTopExploredReadables();
+            initSlider();
+            initSponsorSlider();
+            initSponsorProduct();
+            initBookReadables();
+        }
 
         return binding.getRoot();
+    }
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        binding = null; // Clean up the binding reference
     }
 
     //... Normal Slider.....
@@ -380,9 +389,5 @@ public class HomePublicationFragment extends Fragment {
 
     //....Navigate Back Statement...
 
-    @Override
-    public void onDestroyView() {
-        super.onDestroyView();
-        binding = null; // Clean up the binding reference
-    }
+
 }

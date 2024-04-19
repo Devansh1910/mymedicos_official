@@ -9,6 +9,7 @@ import android.graphics.Color;
 import android.graphics.Typeface;
 import android.media.MediaPlayer;
 import android.os.CountDownTimer;
+import android.os.Handler;
 import android.speech.tts.TextToSpeech;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -104,6 +105,7 @@ public class WeeklyQuizAdapterinsider extends RecyclerView.Adapter<WeeklyQuizAda
         holder.binding.optionD.setOnClickListener(view -> handleOptionClick(holder, "D"));
     }
 
+
     private void startTimer() {
         if (countDownTimer != null) {
             countDownTimer.cancel();
@@ -189,7 +191,36 @@ public class WeeklyQuizAdapterinsider extends RecyclerView.Adapter<WeeklyQuizAda
         bottomSheetDialogFragment.show(((AppCompatActivity) context).getSupportFragmentManager(), "OptionsBottomSheetDialogFragment");
 
         disableOptionSelection();
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+
+                resetButtonColors1(holder);
+            }
+        }, 5000);
     }
+    public void resetButtonColors1(WeeklyQuizQuestionViewHolder holder) {
+        // Reset option A
+        holder.binding.optionA.setBackgroundResource(R.drawable.categorynewbk);
+        holder.binding.optionA.setTextColor(context.getResources().getColor(R.color.black));
+        holder.binding.optionA.setTypeface(null, Typeface.NORMAL);
+
+        // Reset option B
+        holder.binding.optionB.setBackgroundResource(R.drawable.categorynewbk);
+        holder. binding.optionB.setTextColor(context.getResources().getColor(R.color.black));
+        holder.binding.optionB.setTypeface(null, Typeface.NORMAL);
+
+        // Reset option C
+        holder.binding.optionC.setBackgroundResource(R.drawable.categorynewbk);
+        holder.binding.optionC.setTextColor(context.getResources().getColor(R.color.black));
+        holder.binding.optionC.setTypeface(null, Typeface.NORMAL);
+
+        // Reset option D
+        holder.binding. optionD.setBackgroundResource(R.drawable.categorynewbk);
+        holder. binding.optionD.setTextColor(context.getResources().getColor(R.color.black));
+        holder.binding.optionD.setTypeface(null, Typeface.NORMAL);
+    }
+
 
     private void showNoOptionSelectedDialog(QuizPGinsider quizquestion,WeeklyQuizQuestionViewHolder holder) {
 //        if (context instanceof Activity && !((Activity) context).isFinishing()) {
@@ -227,6 +258,27 @@ public class WeeklyQuizAdapterinsider extends RecyclerView.Adapter<WeeklyQuizAda
             selectedTextView.setTypeface(null, Typeface.BOLD);
         }
     }
+    public void resetButtonColors(neetexampadapter.NeetQuizQuestionViewHolder holder) {
+        // Reset option A
+        holder.optionA.setBackgroundResource(R.drawable.categorynewbk);
+        holder.optionA.setTextColor(context.getResources().getColor(R.color.black));
+        holder.optionA.setTypeface(null, Typeface.NORMAL);
+
+        // Reset option B
+        holder.optionB.setBackgroundResource(R.drawable.categorynewbk);
+        holder. optionB.setTextColor(context.getResources().getColor(R.color.black));
+        holder.optionB.setTypeface(null, Typeface.NORMAL);
+
+        // Reset option C
+        holder.optionC.setBackgroundResource(R.drawable.categorynewbk);
+        holder.optionC.setTextColor(context.getResources().getColor(R.color.black));
+        holder.optionC.setTypeface(null, Typeface.NORMAL);
+
+        // Reset option D
+        holder. optionD.setBackgroundResource(R.drawable.categorynewbk);
+        holder. optionD.setTextColor(context.getResources().getColor(R.color.black));
+        holder.optionD.setTypeface(null, Typeface.NORMAL);
+    }
 
     private void resetOptionStyle(WeeklyQuizQuestionViewHolder holder) {
         if (holder != null && holder.binding != null) {
@@ -247,11 +299,11 @@ public class WeeklyQuizAdapterinsider extends RecyclerView.Adapter<WeeklyQuizAda
             holder.binding.optionD.setTypeface(null, Typeface.NORMAL);
         }
     }
-
     @Override
     public int getItemCount() {
-        return quizquestionsweekly.size();
+        return quizquestionsweekly != null ? quizquestionsweekly.size() : 0;
     }
+
 
     public class WeeklyQuizQuestionViewHolder extends RecyclerView.ViewHolder {
 

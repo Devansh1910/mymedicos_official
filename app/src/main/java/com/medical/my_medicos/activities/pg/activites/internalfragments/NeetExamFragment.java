@@ -171,36 +171,31 @@ public class NeetExamFragment extends Fragment {
 
                         // Check if the document ID is present in the subcollectionIds array
                         if (!subcollectionIds.contains(id)) {
-                        String quizTitle = document.getString("title");
-                        String speciality = document.getString("speciality");
-                        Timestamp To = document.getTimestamp("to");
+                            String quizTitle = document.getString("title");
+                            String speciality = document.getString("speciality");
+                            Timestamp To = document.getTimestamp("to");
+                            Log.d("title sdnvkjsbdv",quizTitle);
 
-                        if (finalTitle.isEmpty() || finalTitle.equals("Home")) {
-                            int r = speciality.compareTo(title2);
-                            if (r == 0) {
-                                QuizPG quizday = new QuizPG(quizTitle, title2,To);
-                                quizpgneet.add(quizday);
-                            }
-
-                            quizAdapterneet.notifyDataSetChanged();
-                        } else {
-                            int r = speciality.compareTo(finalTitle);
-                            if (r == 0) {
-                                QuizPG quizday = new QuizPG(quizTitle, finalTitle, To);
-                                quizpgneet.add(quizday);
+                            if (finalTitle.isEmpty() || finalTitle.equals("Exam")) {
+                                if (finalTitle != null && speciality != null) {
+                                    int r = speciality.compareTo(finalTitle);
+                                    if (r == 0) {
+                                        QuizPG quizday = new QuizPG(quizTitle, finalTitle, To);
+                                        quizpgneet.add(quizday);
+                                    }
+                                    quizAdapterneet.notifyDataSetChanged();
+                                }
                             }
                         }
-                        }
-
                     }
                     quizAdapterneet.notifyDataSetChanged();
-
                 } else {
                     Log.d(ContentValues.TAG, "Error getting documents: ", task.getException());
                 }
             }
         });
     }
+
     private final Runnable autoScrollRunnable = new Runnable() {
         @Override
         public void run() {

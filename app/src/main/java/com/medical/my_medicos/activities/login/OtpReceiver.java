@@ -9,50 +9,27 @@ import com.google.android.gms.auth.api.phone.SmsRetriever;
 import com.google.android.gms.common.api.CommonStatusCodes;
 import com.google.android.gms.common.api.Status;
 
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-
 public class OtpReceiver extends BroadcastReceiver {
 
-    private OtpReceiverListener otpReceiverListener;
-
-    public OtpReceiver() {
-    }
-
-    public void initListener(OtpReceiverListener otpReceiverListener) {
-        this.otpReceiverListener = otpReceiverListener;
-    }
+    public SmsBroadcastReceiverListener smsBroadcastReceiverListener;
 
     @Override
     public void onReceive(Context context, Intent intent) {
-        if (SmsRetriever.SMS_RETRIEVED_ACTION.equals(intent.getAction())) {
-            Bundle bundle = intent.getExtras();
-            if (bundle != null) {
-                Status status = (Status) bundle.get(SmsRetriever.EXTRA_STATUS);
-                if (status != null) {
-                    switch (status.getStatusCode()) {
+        if (intent.getAction() == SmsRetriever.SMS_RETRIEVED_ACTION) {
+            Bundle extras = intent.getExtras();
+            if (extras != null) {
+                Status smsRetrieverStatus = (Status) extras.get(SmsRetriever.EXTRA_STATUS);
+                if (smsRetrieverStatus != null) {
+                    switch (smsRetrieverStatus.getStatusCode()) {
                         case CommonStatusCodes.SUCCESS:
-                            String message = (String) bundle.get(SmsRetriever.EXTRA_SMS_MESSAGE);
-                            if (message != null) {
-                                Pattern pattern = Pattern.compile("\\d{6}");
-                                Matcher matcher = pattern.matcher(message);
-
-                                if (matcher.find()) {
-                                    String myOtp = matcher.group(0);
-
-                                    if (this.otpReceiverListener != null) {
-                                        this.otpReceiverListener.onOtpSuccess(myOtp);
-                                    } else {
-                                        if (this.otpReceiverListener != null) {
-                                            this.otpReceiverListener.onOtpTimeout();
-                                        }
-                                    }
-                                }
+                            Intent messageIntent = extras.getParcelable(SmsRetriever.EXTRA_CONSENT_INTENT);
+                            if (smsBroadcastReceiverListener != null) {
+                                smsBroadcastReceiverListener.onSuccess(messageIntent);
                             }
                             break;
                         case CommonStatusCodes.TIMEOUT:
-                            if (this.otpReceiverListener != null) {
-                                this.otpReceiverListener.onOtpTimeout();
+                            if (smsBroadcastReceiverListener != null) {
+                                smsBroadcastReceiverListener.onFailure();
                             }
                             break;
                     }
@@ -61,9 +38,8 @@ public class OtpReceiver extends BroadcastReceiver {
         }
     }
 
-    public interface OtpReceiverListener {
-        void onOtpSuccess(String otp);
-
-        void onOtpTimeout();
+    public interface SmsBroadcastReceiverListener {
+        void onSuccess(Intent intent);
+        void onFailure();
     }
 }

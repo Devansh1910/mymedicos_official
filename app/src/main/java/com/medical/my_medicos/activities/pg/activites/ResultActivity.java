@@ -109,7 +109,7 @@ public class ResultActivity extends AppCompatActivity {
 
         for (QuizPGinsider question : questions) {
             if (question.isCorrect()) {
-                score += 1;
+                score += 4;
             } else {
                 score -= 1;
             }
@@ -118,10 +118,10 @@ public class ResultActivity extends AppCompatActivity {
         return Math.max(0, score);
     }
 
-    @Override
-    public void onBackPressed(){
-//        Toast.makeText(ResultActivity.this, "", Toast.LENGTH_SHORT).show();
-    }
+//    @Override
+//    public void onBackPressed(){
+////        Toast.makeText(ResultActivity.this, "", Toast.LENGTH_SHORT).show();
+//    }
 
 
     private int calculateCorrectAnswers(ArrayList<QuizPGinsider> questions) {
@@ -140,7 +140,9 @@ public class ResultActivity extends AppCompatActivity {
             String userId = user.getUid();
             DocumentReference userDocumentRef = db.collection("QuizResults").document(userId);
             CollectionReference idSubcollectionRef = userDocumentRef.collection("Weekley");
-            Log.d("collection id ",id);
+            if (id!=null) {
+                Log.d("collection id ", id);
+            }
             Map<String, Object> resultData = new HashMap<>();
             resultData.put("correctAnswers", correctAnswers);
             resultData.put("totalQuestions", totalQuestions);

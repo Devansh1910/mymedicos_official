@@ -423,7 +423,7 @@ public class HomePgFragment extends Fragment {
                             Timestamp To = document.getTimestamp("to");
 
                             if (finalTitle.isEmpty() || finalTitle.equals("Home")) {
-                                int r = speciality.compareTo(title1);
+                                int r = speciality.compareTo(finalTitle);
                                 if (r == 0) {
                                     QuizPG quizday = new QuizPG(quizTitle, title1, To);
                                     quizpg.add(quizday);

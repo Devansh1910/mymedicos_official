@@ -7,9 +7,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.util.Log;
-import android.view.KeyEvent;
 import android.view.LayoutInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.LinearLayout;
@@ -51,6 +49,7 @@ public class Neetexaminsider extends AppCompatActivity implements neetexampadapt
     private long timeLeftInMillis = 210 * 60 * 1000; // 210 minutes in milliseconds
     private boolean timerRunning = true;
     private long remainingTimeInMillis;
+    TextView title;
 
     @SuppressLint("MissingInflatedId")
     @Override
@@ -64,8 +63,10 @@ public class Neetexaminsider extends AppCompatActivity implements neetexampadapt
 
         currentquestion = findViewById(R.id.currentquestion);
         recyclerView = findViewById(R.id.recycler_view1);
+        title=findViewById(R.id.setnamewillbehere);
         quizList1 = new ArrayList<>();
         timerTextView = findViewById(R.id.timerTextView);
+
 
         FirebaseFirestore db = FirebaseFirestore.getInstance();
         CollectionReference quizzCollection = db.collection("PGupload").document("Weekley").collection("Quiz");
@@ -78,6 +79,7 @@ public class Neetexaminsider extends AppCompatActivity implements neetexampadapt
                     for (QueryDocumentSnapshot document : task.getResult()) {
                         String speciality = document.getString("speciality");
                         String Title = document.getString("title");
+                        title.setText(Title);
                         Log.d("Error in Speciality", speciality);
 
                         Intent intent = getIntent();
@@ -91,7 +93,7 @@ public class Neetexaminsider extends AppCompatActivity implements neetexampadapt
                             ArrayList<Map<String, Object>> dataList = (ArrayList<Map<String, Object>>) document.get("Data");
                             if (dataList != null) {
                                 for (Map<String, Object> entry : dataList) {
-                                    String question = (String) entry.get("Question");
+                                    String question=(String) entry.get("Question");
                                     String correctAnswer = (String) entry.get("Correct");
                                     String optionA = (String) entry.get("A");
                                     String optionB = (String) entry.get("B");
@@ -121,6 +123,7 @@ public class Neetexaminsider extends AppCompatActivity implements neetexampadapt
             }
         });
 
+
         TextView nextButton = findViewById(R.id.nextButton1);
         nextButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -129,6 +132,15 @@ public class Neetexaminsider extends AppCompatActivity implements neetexampadapt
                 startTimer();
             }
         });
+        TextView Back = findViewById(R.id.BackButtom);
+        Back.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                loadPreviousQuestion();
+                startTimer();
+            }
+        });
+
 
         recyclerView.setLayoutManager(new LinearLayoutManager(Neetexaminsider.this));
         adapter = new neetexampadapter(Neetexaminsider.this, quizList1);
@@ -150,6 +162,26 @@ public class Neetexaminsider extends AppCompatActivity implements neetexampadapt
         });
         adapter.setOnOptionSelectedListener(this);
     }
+
+    private void loadPreviousQuestion() {
+        if (currentQuestionIndex > 0) {
+            currentQuestionIndex--; // Decrement the current question index
+            Neetpg previousQuestion = quizList1.get(currentQuestionIndex);
+            adapter.setQuizQuestions(Collections.singletonList(previousQuestion));
+
+            if (previousQuestion.getRemainingTimeInMillis() != -1) {
+                timeLeftInMillis = previousQuestion.getRemainingTimeInMillis();
+                previousQuestion.setRemainingTimeInMillis(-1);
+            }
+
+            recyclerView.smoothScrollToPosition(currentQuestionIndex);
+            updateQuestionNumber();
+        } else {
+
+            Toast.makeText(this, "This is the first question", Toast.LENGTH_SHORT).show();
+        }
+    }
+
 
     private void showInstructionDialog() {
         AlertDialog.Builder builder = new AlertDialog.Builder(Neetexaminsider.this, R.style.CustomAlertDialog);
