@@ -66,7 +66,6 @@ public class FirebaseServiceReceivernotification extends FirebaseMessagingServic
                 this, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT
         );
 
-        // Extract data from the message
         String title = remoteMessage.getData().get("title");
         String organiser = remoteMessage.getData().get("Organiser");
 

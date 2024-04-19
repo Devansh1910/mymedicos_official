@@ -15,10 +15,8 @@ android {
         applicationId = "com.medical.my_medicos"
         minSdk = 24
         targetSdk = 34
-        versionCode = 62
-        versionName = "4.2.0"
-
-        // Test Version Closed : 60, 4.1.8 for OTP Check.... (Reminder)
+        versionCode = 63
+        versionName = "4.3.0"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }

@@ -39,6 +39,8 @@ public class DetailsActivity extends AppCompatActivity {
         binding = ActivityDetailsBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
+        getWindow().setFlags(WindowManager.LayoutParams.FLAG_SECURE, WindowManager.LayoutParams.FLAG_SECURE);
+
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             View decorView = getWindow().getDecorView();
             decorView.setSystemUiVisibility(decorView.getSystemUiVisibility() | View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);
