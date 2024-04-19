@@ -406,7 +406,7 @@ public class CmeActivity extends AppCompatActivity {
         if (upcomingFragment != null) {
             upcomingFragment.refreshData();
         }
-//
+//.....
         PastFragment pastFragment = (PastFragment) viewPagerAdapter.findFragmentByPosition(2);
         if (pastFragment != null) {
             pastFragment.refreshData();
