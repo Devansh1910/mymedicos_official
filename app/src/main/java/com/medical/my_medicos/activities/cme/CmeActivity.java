@@ -82,6 +82,7 @@ public class CmeActivity extends AppCompatActivity {
     private Spinner specialitySpinner;
     String selectedMode1,selectedMode2,selectedMode;
     private FirebaseFirestore db;
+    //.....
     private Spinner subspecialitySpinner;
     private ArrayAdapter<CharSequence> specialityAdapter;
     private ArrayAdapter<CharSequence> subspecialityAdapter;
