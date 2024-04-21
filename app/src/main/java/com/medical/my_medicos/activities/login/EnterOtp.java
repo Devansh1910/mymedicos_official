@@ -55,10 +55,8 @@ import com.google.android.material.textfield.TextInputEditText;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 public class EnterOtp extends AppCompatActivity {
-
     private ActivityEnterOtpBinding binding;
     private static final int REQ_USER_CONSENT = 200;
-
     TextInputEditText etOTP;
     private String verificationId;
     private OtpReceiver otp_receiver;
