@@ -2,6 +2,7 @@ package com.medical.my_medicos.activities.login;
 
 import android.annotation.SuppressLint;
 import android.app.Dialog;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -67,6 +68,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
 
         setupUI();
         setupAdMob();
@@ -137,6 +139,8 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void setupLoginButton() {
+
+
         login = findViewById(R.id.lgn_btn);
         mdialog = new Dialog(this);
         mauth = FirebaseAuth.getInstance();
@@ -185,7 +189,7 @@ public class MainActivity extends AppCompatActivity {
 
                                 PhoneAuthProvider.getInstance().verifyPhoneNumber(
                                         phoneNumber,
-                                        60,
+                                        0L,
                                         TimeUnit.SECONDS,
                                         MainActivity.this,
                                         new PhoneAuthProvider.OnVerificationStateChangedCallbacks() {
@@ -242,7 +246,6 @@ public class MainActivity extends AppCompatActivity {
         mdialog.show();
     }
 
-
     private void signInWithPhoneAuthCredential(PhoneAuthCredential credential) {
         mauth.signInWithCredential(credential)
                 .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
@@ -275,7 +278,6 @@ public class MainActivity extends AppCompatActivity {
         editor.apply();
     }
 
-    // Helper method to check if the user is already logged in
     private boolean isLoggedIn() {
         SharedPreferences preferences = getSharedPreferences("user_data", Context.MODE_PRIVATE);
         return preferences.getBoolean("is_logged_in", false);
