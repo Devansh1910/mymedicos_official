@@ -38,18 +38,20 @@ public class Neetexaminsider extends AppCompatActivity implements neetexampadapt
 
     private RecyclerView recyclerView;
     private neetexampadapter adapter;
+    AlertDialog alertDialog;
+    private boolean timerRunning = false;
+
     private TextView currentquestion;
     String id;
-    AlertDialog alertDialog;
     private ArrayList<Neetpg> quizList1;
-    private TextView instructionguide;
     private TextView timerTextView;
+
     private int currentQuestionIndex = 0;
     private CountDownTimer countDownTimer;
     private long timeLeftInMillis = 210 * 60 * 1000; // 210 minutes in milliseconds
-    private boolean timerRunning = true;
     private long remainingTimeInMillis;
-    TextView title;
+    private ArrayList<String> selectedOptionsList = new ArrayList<>();
+
 
     @SuppressLint("MissingInflatedId")
     @Override
@@ -57,16 +59,11 @@ public class Neetexaminsider extends AppCompatActivity implements neetexampadapt
         super.onCreate(savedInstanceState);
         setContentView(R.layout.neetexaminsideractivity);
 
-        View decorView = getWindow().getDecorView();
-        int uiOptions = View.SYSTEM_UI_FLAG_HIDE_NAVIGATION | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY;
-        decorView.setSystemUiVisibility(uiOptions);
-
         currentquestion = findViewById(R.id.currentquestion);
         recyclerView = findViewById(R.id.recycler_view1);
-        title=findViewById(R.id.setnamewillbehere);
         quizList1 = new ArrayList<>();
         timerTextView = findViewById(R.id.timerTextView);
-
+        startTimer();
 
         FirebaseFirestore db = FirebaseFirestore.getInstance();
         CollectionReference quizzCollection = db.collection("PGupload").document("Weekley").collection("Quiz");
@@ -77,23 +74,22 @@ public class Neetexaminsider extends AppCompatActivity implements neetexampadapt
                 if (task.isSuccessful()) {
                     quizList1.clear();
                     for (QueryDocumentSnapshot document : task.getResult()) {
+
                         String speciality = document.getString("speciality");
                         String Title = document.getString("title");
-                        title.setText(Title);
                         Log.d("Error in Speciality", speciality);
 
                         Intent intent = getIntent();
                         String str1 = intent.getStringExtra("Title1");
                         String str = intent.getStringExtra("Title");
                         Log.d("Speciality", str1);
-
                         int r = str.compareTo(Title);
 
                         if (r == 0 && speciality.equals(str1)) {
                             ArrayList<Map<String, Object>> dataList = (ArrayList<Map<String, Object>>) document.get("Data");
                             if (dataList != null) {
                                 for (Map<String, Object> entry : dataList) {
-                                    String question=(String) entry.get("Question");
+                                    String question = (String) entry.get("Question");
                                     String correctAnswer = (String) entry.get("Correct");
                                     String optionA = (String) entry.get("A");
                                     String optionB = (String) entry.get("B");
@@ -109,42 +105,48 @@ public class Neetexaminsider extends AppCompatActivity implements neetexampadapt
                                     if (imageUrl != null && !imageUrl.isEmpty()) {
                                         quizQuestion = new Neetpg(question, optionA, optionB, optionC, optionD, correctAnswer, imageUrl, description);
                                     } else {
-                                        quizQuestion = new Neetpg(question, optionA, optionB, optionC, optionD, correctAnswer, null, description);
+                                        quizQuestion = new Neetpg(question, optionA, optionB, optionC, optionD, correctAnswer, imageUrl, description);
                                     }
                                     quizList1.add(quizQuestion);
+                                    // Initialize selectedOptionsList with empty strings
+                                    selectedOptionsList.add("");
                                 }
                             }
                         }
                     }
-                    adapter.setQuizQuestions(quizList1); // Set quiz questions to the adapter
                     loadNextQuestion();
-                    startTimer();
                 }
             }
         });
 
+        TextView prevButton = findViewById(R.id.BackButtom);
+        prevButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                loadPreviousQuestion();
+            }
+        });
 
         TextView nextButton = findViewById(R.id.nextButton1);
         nextButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 loadNextQuestion();
-                startTimer();
             }
         });
-        TextView Back = findViewById(R.id.BackButtom);
-        Back.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                loadPreviousQuestion();
-                startTimer();
-            }
-        });
-
 
         recyclerView.setLayoutManager(new LinearLayoutManager(Neetexaminsider.this));
         adapter = new neetexampadapter(Neetexaminsider.this, quizList1);
+        adapter.setOnOptionSelectedListener(this); // Set the listener
         recyclerView.setAdapter(adapter);
+
+        TextView instructionguide = findViewById(R.id.instructionguide);
+        instructionguide.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showInstructionDialog();
+            }
+        });
 
         LinearLayout toTheBackLayout = findViewById(R.id.totheback1);
         toTheBackLayout.setOnClickListener(new View.OnClickListener() {
@@ -153,35 +155,20 @@ public class Neetexaminsider extends AppCompatActivity implements neetexampadapt
                 showConfirmationDialog();
             }
         });
-        instructionguide = findViewById(R.id.instructionguide);
-        instructionguide.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                showInstructionDialog();
-            }
-        });
-        adapter.setOnOptionSelectedListener(this);
     }
 
-    private void loadPreviousQuestion() {
-        if (currentQuestionIndex > 0) {
-            currentQuestionIndex--; // Decrement the current question index
-            Neetpg previousQuestion = quizList1.get(currentQuestionIndex);
-            adapter.setQuizQuestions(Collections.singletonList(previousQuestion));
 
-            if (previousQuestion.getRemainingTimeInMillis() != -1) {
-                timeLeftInMillis = previousQuestion.getRemainingTimeInMillis();
-                previousQuestion.setRemainingTimeInMillis(-1);
-            }
 
+    private void loadNextQuestion() {
+        if (currentQuestionIndex < quizList1.size()) {
+            adapter.setQuizQuestions(Collections.singletonList(quizList1.get(currentQuestionIndex)));
             recyclerView.smoothScrollToPosition(currentQuestionIndex);
             updateQuestionNumber();
+            currentQuestionIndex++;
         } else {
-
-            Toast.makeText(this, "This is the first question", Toast.LENGTH_SHORT).show();
+            showEndQuizConfirmation();
         }
     }
-
 
     private void showInstructionDialog() {
         AlertDialog.Builder builder = new AlertDialog.Builder(Neetexaminsider.this, R.style.CustomAlertDialog);
@@ -203,55 +190,39 @@ public class Neetexaminsider extends AppCompatActivity implements neetexampadapt
         alertDialog = dialog;
     }
 
-    @Override
-    public void onBackPressed() {
-        super.onBackPressed();
-        Toast.makeText(Neetexaminsider.this, "Can't navigate back", Toast.LENGTH_SHORT).show();
-    }
-
-    private void pauseTimer() {
-        if (countDownTimer != null) {
-            countDownTimer.cancel();
-        }
-    }
-
-    private void loadNextQuestion() {
-        if (currentQuestionIndex < quizList1.size()) {
-            Neetpg currentQuestion = quizList1.get(currentQuestionIndex);
-            adapter.setQuizQuestions(Collections.singletonList(currentQuestion));
-
-            if (currentQuestion.getRemainingTimeInMillis() != -1) {
-                timeLeftInMillis = currentQuestion.getRemainingTimeInMillis();
-                currentQuestion.setRemainingTimeInMillis(-1);
+    private void loadPreviousQuestion() {
+        if (!selectedOptionsList.isEmpty()) { // Check if the selectedOptionsList is not empty
+            if (currentQuestionIndex > 0) {
+                currentQuestionIndex--;
+                adapter.setQuizQuestions(Collections.singletonList(quizList1.get(currentQuestionIndex)));
+                adapter.setSelectedOption(selectedOptionsList.get(currentQuestionIndex));
+                recyclerView.smoothScrollToPosition(currentQuestionIndex);
+                updateQuestionNumber();
+            } else {
+                Toast.makeText(this, "This is the first question", Toast.LENGTH_SHORT).show();
             }
-
-            recyclerView.smoothScrollToPosition(currentQuestionIndex);
-            updateQuestionNumber();
-            currentQuestionIndex++;
         } else {
-            showEndQuizConfirmation();
+            Toast.makeText(this, "No selected options available", Toast.LENGTH_SHORT).show();
         }
     }
 
     private void updateQuestionNumber() {
         int totalQuestions = quizList1.size();
-        String questionNumberText =  (currentQuestionIndex + 1) + " / " + totalQuestions;
-        Log.d("Currentquestion Number", String.valueOf(currentQuestionIndex+1));
-        Log.d("Currentquestion Number",String.valueOf(totalQuestions));
+        String questionNumberText = (currentQuestionIndex + 1) + " / " + totalQuestions;
         currentquestion.setText(questionNumberText);
     }
 
-
     private void showEndQuizConfirmation() {
-        AlertDialog.Builder builder = new AlertDialog.Builder(Neetexaminsider.this, R.style.CustomAlertDialog);
-        builder.setTitle("That's all");
-        builder.setMessage("Would you like to proceed towards the result?");
-        builder.setPositiveButton("Go to Result", new DialogInterface.OnClickListener() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("End Quiz");
+        builder.setMessage("Are you sure you want to end the quiz?");
+        builder.setPositiveButton("Confirm", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 handleEndButtonClick();
             }
         });
+
         builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
@@ -264,7 +235,7 @@ public class Neetexaminsider extends AppCompatActivity implements neetexampadapt
     }
 
     private void showConfirmationDialog() {
-        AlertDialog.Builder builder = new AlertDialog.Builder(Neetexaminsider.this, R.style.CustomAlertDialog);
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setTitle("End Quiz");
         builder.setMessage("Are you sure you want to end the quiz?");
 
@@ -286,12 +257,7 @@ public class Neetexaminsider extends AppCompatActivity implements neetexampadapt
         dialog.show();
     }
 
-
     private void handleEndButtonClick() {
-        showConfirmationDialogForFinal();
-    }
-
-    private void proceedWithQuizEnd() {
         ArrayList<String> userSelectedOptions = new ArrayList<>();
 
         for (Neetpg quizQuestion : quizList1) {
@@ -304,51 +270,18 @@ public class Neetexaminsider extends AppCompatActivity implements neetexampadapt
 
         ArrayList<String> results = compareAnswers(userSelectedOptions);
         countDownTimer.cancel();
+        navigateToResultActivity();
+    }
 
+    private void navigateToResultActivity() {
         Intent intent = new Intent(Neetexaminsider.this, ResultActivityNeet.class);
         intent.putExtra("questions", quizList1);
         intent.putExtra("remainingTime", remainingTimeInMillis);
         intent.putExtra("id", id);
-        Log.d("time left", String.valueOf(remainingTimeInMillis));
         startActivity(intent);
+        finish();
     }
 
-    private void showConfirmationDialogForFinal() {
-        AlertDialog.Builder builder = new AlertDialog.Builder(Neetexaminsider.this, R.style.CustomAlertDialog);
-        builder.setTitle("End Quiz");
-        builder.setMessage("Are you sure you want to end the quiz?");
-
-        builder.setPositiveButton("Confirm", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                proceedWithQuizEnd();
-            }
-        });
-
-        builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                dialog.dismiss();
-            }
-        });
-
-        AlertDialog dialog = builder.create();
-        dialog.show();
-    }
-
-
-    private void showCustomToast(String message) {
-        LayoutInflater inflater = getLayoutInflater();
-        View layout = inflater.inflate(R.layout.custom_toast, findViewById(R.id.customToastLayout));
-
-        TextView text = layout.findViewById(R.id.customToastText);
-        text.setText(message);
-
-        Toast toast = new Toast(getApplicationContext());
-        toast.setDuration(Toast.LENGTH_SHORT);
-        toast.setView(layout);
-        toast.show();
-    }
     private void startTimer() {
         countDownTimer = new CountDownTimer(timeLeftInMillis, 1000) {
             @Override
@@ -360,20 +293,31 @@ public class Neetexaminsider extends AppCompatActivity implements neetexampadapt
             @Override
             public void onFinish() {
                 timerRunning = false;
+                handleQuizEnd();
             }
         }.start();
     }
 
-    private void navigateToResultActivity() {
-        Intent intent = new Intent(Neetexaminsider.this, ResultActivityNeet.class);
-        intent.putExtra("questions", quizList1);
-        intent.putExtra("remainingTime", remainingTimeInMillis);
-        intent.putExtra("id", id);
-        Log.d("time left", String.valueOf(remainingTimeInMillis));
-        startActivity(intent);
-        finish();
-    }
+    private void handleQuizEnd() {
+        if (countDownTimer != null) {
+            countDownTimer.cancel();
+        }
+        remainingTimeInMillis = timeLeftInMillis;
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("Time's Up!");
+        builder.setMessage("Sorry, you've run out of time. The quiz will be ended.");
 
+        builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                navigateToResultActivity();
+            }
+        });
+
+        builder.setCancelable(false);
+        AlertDialog dialog = builder.create();
+        dialog.show();
+    }
 
     private void updateTimerText() {
         int minutes = (int) (timeLeftInMillis / 1000) / 60;
@@ -399,11 +343,13 @@ public class Neetexaminsider extends AppCompatActivity implements neetexampadapt
         return results;
     }
 
+//    @Override
+//    public void onOptionSelected() {
+//
+//    }
     @Override
-    public void onOptionSelected(String selectedOption, int position) {
-        if (selectedOption != null && !selectedOption.isEmpty()) {
-            pauseTimer();
-            boolean isOptionSelected = true;
-        }
+    public void onOptionSelected(String selectedOption) {
+        // Update the selected option for the current question
+        selectedOptionsList.set(currentQuestionIndex, selectedOption);
     }
 }

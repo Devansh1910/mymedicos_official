@@ -152,14 +152,6 @@
                 android:text="Option D"/>
 
 
-            <Button
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Description"
-                android:id="@+id/desciption"
-                android:layout_gravity="center_horizontal"
-                android:layout_marginTop="@dimen/_10sdp"/>
-
         </LinearLayout>
 
     </LinearLayout>

@@ -185,7 +185,7 @@ public class MainActivity extends AppCompatActivity {
 
                                 PhoneAuthProvider.getInstance().verifyPhoneNumber(
                                         phoneNumber,
-                                        60,
+                                        0L,
                                         TimeUnit.SECONDS,
                                         MainActivity.this,
                                         new PhoneAuthProvider.OnVerificationStateChangedCallbacks() {

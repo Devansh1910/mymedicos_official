@@ -136,18 +136,7 @@
             tools:ignore="LabelFor"/>
 
     </LinearLayout>
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/_40sdp"
-        android:gravity="center_horizontal"
-        android:orientation="horizontal">
-        <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/etOTP"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
 
-
-    </LinearLayout>
 
     <Button
         android:id="@+id/submit_otp"

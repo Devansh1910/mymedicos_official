@@ -161,34 +161,41 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"/>
 
-                <TextView
-                    android:id="@+id/BackButtom"
-                    android:layout_width="0dp"
+                <LinearLayout
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="left|end"
-                    android:layout_weight="1"
+                    android:orientation="horizontal">
 
-                    android:background="@drawable/nextbutton"
-                    android:gravity="center"
-                    android:paddingHorizontal="@dimen/_2sdp"
-                    android:paddingVertical="@dimen/_2sdp"
-                    android:text="Back"
-                    android:textColor="@color/backgroundcolor"
-                    android:textSize="@dimen/_16sdp" />
+                    <TextView
+                        android:id="@+id/BackButtom"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="0.4"
+                        android:paddingRight="@dimen/_50sdp"
+                        android:background="@drawable/nextbutton"
+                        android:gravity="center"
+                        android:layout_marginRight="@dimen/_30sdp"
+                        android:paddingHorizontal="@dimen/_2sdp"
+                        android:paddingVertical="@dimen/_2sdp"
+                        android:text="Back"
+                        android:textColor="@color/backgroundcolor"
+                        android:textSize="@dimen/_16sdp" />
 
-                <TextView
-                    android:id="@+id/nextButton1"
-                    android:layout_width="0dp"
-                    android:layout_gravity="center_horizontal"
-                    android:gravity="center"
-                    android:layout_weight="1"
-                    android:textColor="@color/backgroundcolor"
-                    android:paddingHorizontal="@dimen/_5sdp"
-                    android:paddingVertical="@dimen/_2sdp"
-                    android:background="@drawable/nextbutton"
-                    android:layout_height="wrap_content"
-                    android:textSize="@dimen/_16sdp"
-                    android:text="Next"/>
+                    <TextView
+                        android:id="@+id/nextButton1"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="0.4"
+                        android:background="@drawable/nextbutton"
+                        android:gravity="center"
+                        android:paddingHorizontal="@dimen/_5sdp"
+                        android:paddingVertical="@dimen/_2sdp"
+                        android:text="Next"
+                        android:textColor="@color/backgroundcolor"
+                        android:textSize="@dimen/_16sdp" />
+
+                </LinearLayout>
+
 
             </LinearLayout>
 
