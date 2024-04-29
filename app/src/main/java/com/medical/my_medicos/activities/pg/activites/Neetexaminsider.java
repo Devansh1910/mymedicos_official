@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.util.Log;
+import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
@@ -39,9 +40,12 @@ public class Neetexaminsider extends AppCompatActivity implements neetexampadapt
     private RecyclerView recyclerView;
     private neetexampadapter adapter;
     AlertDialog alertDialog;
+    int count = 0;
     private boolean timerRunning = false;
 
     private TextView currentquestion;
+    private LinearLayout questionNumberLayout;
+
     String id;
     private ArrayList<Neetpg> quizList1;
     private TextView timerTextView;
@@ -63,7 +67,12 @@ public class Neetexaminsider extends AppCompatActivity implements neetexampadapt
         recyclerView = findViewById(R.id.recycler_view1);
         quizList1 = new ArrayList<>();
         timerTextView = findViewById(R.id.timerTextView);
+        questionNumberLayout = findViewById(R.id.questionNumberLayout); // Assuming your layout ID is 'questionNumberLayout'
+
+
+
         startTimer();
+
 
         FirebaseFirestore db = FirebaseFirestore.getInstance();
         CollectionReference quizzCollection = db.collection("PGupload").document("Weekley").collection("Quiz");
@@ -108,6 +117,9 @@ public class Neetexaminsider extends AppCompatActivity implements neetexampadapt
                                         quizQuestion = new Neetpg(question, optionA, optionB, optionC, optionD, correctAnswer, imageUrl, description);
                                     }
                                     quizList1.add(quizQuestion);
+                                    count+= 1;
+                                    Log.d("quizlist.size()", String.valueOf(count));
+
                                     // Initialize selectedOptionsList with empty strings
                                     selectedOptionsList.add("");
                                 }
@@ -118,6 +130,42 @@ public class Neetexaminsider extends AppCompatActivity implements neetexampadapt
                 }
             }
         });
+        Log.d("quizlist.size()", String.valueOf(count));
+
+
+
+        for (int i = 0; i < 200; i++) {
+            TextView questionNumberTextView = new TextView(this);
+            LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(
+                    LinearLayout.LayoutParams.WRAP_CONTENT,
+                    LinearLayout.LayoutParams.WRAP_CONTENT
+            );
+            layoutParams.setMargins(8, 0, 8, 0); // Set margins between TextViews
+            questionNumberTextView.setLayoutParams(layoutParams);
+            questionNumberTextView.setText(String.valueOf(i + 1)); // Question numbers start from 1
+
+            questionNumberTextView.setTextColor(getResources().getColorStateList(R.color.green));
+            questionNumberTextView.setTextSize(TypedValue.COMPLEX_UNIT_SP, 20);
+            questionNumberTextView.setPadding(24, 24, 24, 24);
+
+            // Make TextView circular
+            questionNumberTextView.setBackground(getResources().getDrawable(R.drawable.circular_bg));
+
+
+
+            questionNumberTextView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    // Handle click event to navigate to the corresponding question
+                    int questionIndex = Integer.parseInt(((TextView) v).getText().toString()) - 1; // Subtract 1 to get the index (indexes start from 0)
+                    navigateToQuestion(questionIndex);
+                }
+            });
+            questionNumberLayout.addView(questionNumberTextView);
+
+        }
+
+
 
         TextView prevButton = findViewById(R.id.BackButtom);
         prevButton.setOnClickListener(new View.OnClickListener() {
@@ -134,6 +182,11 @@ public class Neetexaminsider extends AppCompatActivity implements neetexampadapt
                 loadNextQuestion();
             }
         });
+        // Get reference to the horizontal LinearLayout
+        // Get reference to the horizontal LinearLayout
+
+
+
 
         recyclerView.setLayoutManager(new LinearLayoutManager(Neetexaminsider.this));
         adapter = new neetexampadapter(Neetexaminsider.this, quizList1);
@@ -169,6 +222,18 @@ public class Neetexaminsider extends AppCompatActivity implements neetexampadapt
             showEndQuizConfirmation();
         }
     }
+    private void navigateToQuestion(int questionNumber) {
+        if (questionNumber >= 0 && questionNumber < quizList1.size()) {
+            currentQuestionIndex = questionNumber;
+            adapter.setQuizQuestions(Collections.singletonList(quizList1.get(currentQuestionIndex)));
+            adapter.setSelectedOption(selectedOptionsList.get(currentQuestionIndex));
+            recyclerView.smoothScrollToPosition(currentQuestionIndex);
+            updateQuestionNumber();
+        } else {
+            Toast.makeText(this, "Invalid question number", Toast.LENGTH_SHORT).show();
+        }
+    }
+
 
     private void showInstructionDialog() {
         AlertDialog.Builder builder = new AlertDialog.Builder(Neetexaminsider.this, R.style.CustomAlertDialog);
@@ -209,6 +274,21 @@ public class Neetexaminsider extends AppCompatActivity implements neetexampadapt
     private void updateQuestionNumber() {
         int totalQuestions = quizList1.size();
         String questionNumberText = (currentQuestionIndex + 1) + " / " + totalQuestions;
+        for (int i = 0; i < quizList1.size(); i++) {
+            Neetpg quizQuestion = quizList1.get(i);
+            if (quizQuestion.getSelectedOption() != null) {
+
+                TextView questionNumberTextView = (TextView) questionNumberLayout.getChildAt(i);
+
+                questionNumberTextView.setBackground(getResources().getDrawable(R.drawable.circular_bg_green));
+            } else {
+                TextView questionNumberTextView = (TextView) questionNumberLayout.getChildAt(i);
+                questionNumberTextView.setBackground(getResources().getDrawable(R.drawable.circular_bg));
+            }
+            Log.d("asdfghjklllllllllll", "aaafdsghjkl");
+        }
+
+
         currentquestion.setText(questionNumberText);
     }
 
@@ -342,14 +422,23 @@ public class Neetexaminsider extends AppCompatActivity implements neetexampadapt
 
         return results;
     }
-
-//    @Override
-//    public void onOptionSelected() {
-//
-//    }
     @Override
     public void onOptionSelected(String selectedOption) {
-        // Update the selected option for the current question
+
         selectedOptionsList.set(currentQuestionIndex, selectedOption);
+//        Neetpg quizQuestion = quizList1.get(currentQuestionIndex) ;
+//        if (quizQuestion.getSelectedOption() != null) {
+//
+//            TextView questionNumberTextView = (TextView) questionNumberLayout.getChildAt(currentQuestionIndex);
+//
+//            questionNumberTextView.setBackground(getResources().getDrawable(R.drawable.circular_bg));
+//        }
+//        else {
+//            TextView questionNumberTextView = (TextView) questionNumberLayout.getChildAt(currentQuestionIndex);
+//            questionNumberTextView.setBackground(getResources().getDrawable(R.drawable.circular_bg));
+//        }
+//        Log.d("asdfghjklllllllllll","aaafdsghjkl");
+
+
     }
 }

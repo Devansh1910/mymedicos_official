@@ -99,12 +99,20 @@ public class neetexampadapter extends RecyclerView.Adapter<neetexampadapter.Neet
 
     private void handleOptionClick(NeetQuizQuestionViewHolder holder, String selectedOption) {
         if (isOptionSelectionEnabled) {
-            resetOptionStyle(holder);
-            setOptionSelectedStyle(holder, selectedOption);
+            // Check if the clicked option is already selected
             Neetpg quizquestion = quizquestionsweekly.get(holder.getAdapterPosition());
-            quizquestion.setSelectedOption(selectedOption);
+            String currentSelectedOption = quizquestion.getSelectedOption();
+            if (currentSelectedOption != null && currentSelectedOption.equals(selectedOption)) {
+                resetOptionStyle(holder);
+                quizquestion.setSelectedOption(null);
+            } else {
+                resetOptionStyle(holder);
+                setOptionSelectedStyle(holder, selectedOption);
+                quizquestion.setSelectedOption(selectedOption);
+            }
         }
     }
+
 
     public void disableOptionSelection() {
         isOptionSelectionEnabled = false;
