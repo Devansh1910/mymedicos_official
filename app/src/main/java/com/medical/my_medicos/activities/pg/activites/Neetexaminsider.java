@@ -53,6 +53,7 @@ public class Neetexaminsider extends AppCompatActivity implements neetexampadapt
     private long timeLeftInMillis = 210 * 60 * 1000; // 210 minutes in milliseconds
     private long remainingTimeInMillis;
     private ArrayList<String> selectedOptionsList = new ArrayList<>();
+    TextView title;
 
 
     @SuppressLint("MissingInflatedId")
@@ -61,11 +62,13 @@ public class Neetexaminsider extends AppCompatActivity implements neetexampadapt
         super.onCreate(savedInstanceState);
         setContentView(R.layout.neetexaminsideractivity);
 
+
         currentquestion = findViewById(R.id.currentquestion);
         recyclerView = findViewById(R.id.recycler_view1);
         quizList1 = new ArrayList<>();
         timerTextView = findViewById(R.id.timerTextView);
         questionNumberLayout = findViewById(R.id.questionNumberLayout);
+        title =findViewById(R.id.setnamewillbehere);
 
         startTimer();
 
@@ -86,6 +89,7 @@ public class Neetexaminsider extends AppCompatActivity implements neetexampadapt
                         Intent intent = getIntent();
                         String str1 = intent.getStringExtra("Title1");
                         String str = intent.getStringExtra("Title");
+
                         Log.d("Speciality", str1);
                         int r = str.compareTo(Title);
 
@@ -93,6 +97,7 @@ public class Neetexaminsider extends AppCompatActivity implements neetexampadapt
                             ArrayList<Map<String, Object>> dataList = (ArrayList<Map<String, Object>>) document.get("Data");
                             if (dataList != null) {
                                 for (Map<String, Object> entry : dataList) {
+                                    title.setText(str);
                                     String question = (String) entry.get("Question");
                                     String correctAnswer = (String) entry.get("Correct");
                                     String optionA = (String) entry.get("A");
