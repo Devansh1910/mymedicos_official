@@ -1,4 +1,4 @@
-package com.medical.my_medicos.activities.pg.fragment;
+package com.medical.my_medicos.activities.pg.activites.insiders.fragment;
 
 import android.os.Bundle;
 

@@ -149,19 +149,19 @@ public class neetexampadapter extends RecyclerView.Adapter<neetexampadapter.Neet
     }
 
     private void resetOptionStyle(NeetQuizQuestionViewHolder holder) {
-        holder.optionA.setBackgroundResource(R.drawable.categorynewbk);
+        holder.optionA.setBackgroundResource(R.drawable.questionsoptionbk);
         holder.optionA.setTextColor(Color.BLACK);
         holder.optionA.setTypeface(null, Typeface.NORMAL);
 
-        holder.optionB.setBackgroundResource(R.drawable.categorynewbk);
+        holder.optionB.setBackgroundResource(R.drawable.questionsoptionbk);
         holder.optionB.setTextColor(Color.BLACK);
         holder.optionB.setTypeface(null, Typeface.NORMAL);
 
-        holder.optionC.setBackgroundResource(R.drawable.categorynewbk);
+        holder.optionC.setBackgroundResource(R.drawable.questionsoptionbk);
         holder.optionC.setTextColor(Color.BLACK);
         holder.optionC.setTypeface(null, Typeface.NORMAL);
 
-        holder.optionD.setBackgroundResource(R.drawable.categorynewbk);
+        holder.optionD.setBackgroundResource(R.drawable.questionsoptionbk);
         holder.optionD.setTextColor(Color.BLACK);
         holder.optionD.setTypeface(null, Typeface.NORMAL);
     }

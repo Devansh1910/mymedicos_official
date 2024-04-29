@@ -1,12 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
+<androidx.constraintlayout.widget.ConstraintLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
     android:layout_width="match_parent"
     android:background="@color/backgroundcolor"
     tools:context=".activities.job.JobDetailsActivity"
     android:layout_height="match_parent">
+
+    <!-- Loader -->
 
     <RelativeLayout
         android:id="@+id/loaderforjobs"
@@ -35,8 +38,14 @@
 
     </RelativeLayout>
 
+    <!-- App Bar -->
+
     <com.google.android.material.appbar.AppBarLayout
         android:id="@+id/jobsinsidertoolbar_container"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:elevation="10dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
@@ -56,110 +65,155 @@
 
     </com.google.android.material.appbar.AppBarLayout>
 
-    <ScrollView
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentEnd="true"
-        android:fillViewport="true"
-        android:layout_below="@+id/jobsinsidertoolbar_container"
-        android:layout_above="@id/applylinear">
+        android:layout_height="0dp"
+        android:layout_gravity="center"
+        app:layout_constraintTop_toBottomOf="@id/jobsinsidertoolbar_container"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/applylinear"
+        android:background="@color/backgroundcolor"
+        android:orientation="vertical">
 
-        <LinearLayout
+        <ScrollView
             android:layout_width="match_parent"
-            android:orientation="vertical"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:background="@color/backgroundcolor">
-
+            android:layout_height="wrap_content">
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:padding="8dp">
-
-                <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal">
-
-                <ImageView
-                    android:layout_width="0dp"
-                    android:layout_weight="0.25"
-                    android:padding="@dimen/_2ssp"
-                    android:layout_height="wrap_content"
-                    android:scaleType="centerCrop"
-                    android:elevation="@dimen/_8sdp"
-                    android:src="@drawable/placeholdercompany"/>
-
-                <LinearLayout
-                    android:layout_width="0dp"
-                    android:layout_weight="1"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical">
-
-                    <TextView
-                        android:id="@+id/jobTitleTextView"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:fontFamily="@font/inter"
-                        android:gravity="start"
-                        android:text="Loading.."
-                        android:textColor="@color/unselected"
-                        android:textSize="22sp"
-                        android:textStyle="bold" />
-
-                    <TextView
-                        android:id="@+id/companyNameTextView"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:gravity="start"
-                        android:fontFamily="@font/inter"
-                        android:text="Loading..."
-                        android:textColor="#434545"
-                        android:textSize="16sp"
-                        android:textStyle="normal" />
-
-                </LinearLayout>
-
-            </LinearLayout>
+                android:orientation="vertical">
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/_5sdp"
-                    android:paddingHorizontal="@dimen/_8sdp"
-                    android:orientation="horizontal">
+                    android:orientation="vertical"
+                    android:padding="8dp">
 
-                    <TextView
-                        android:id="@+id/jobposteddate"
-                        android:layout_width="0dp"
+                    <LinearLayout
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_weight="0.5"
+                        android:orientation="horizontal">
+
+                        <ImageView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="0.25"
+                            android:elevation="@dimen/_8sdp"
+                            android:padding="@dimen/_2ssp"
+                            android:scaleType="centerCrop"
+                            android:src="@drawable/placeholdercompany" />
+
+                        <LinearLayout
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:orientation="vertical">
+
+                            <TextView
+                                android:id="@+id/jobTitleTextView"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:fontFamily="@font/inter"
+                                android:gravity="start"
+                                android:text="Loading.."
+                                android:textColor="@color/unselected"
+                                android:textSize="22sp"
+                                android:textStyle="bold" />
+
+                            <TextView
+                                android:id="@+id/companyNameTextView"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:fontFamily="@font/inter"
+                                android:gravity="start"
+                                android:text="Loading..."
+                                android:textColor="#434545"
+                                android:textSize="16sp"
+                                android:textStyle="normal" />
+
+                        </LinearLayout>
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/_5sdp"
+                        android:orientation="horizontal"
+                        android:paddingHorizontal="@dimen/_8sdp">
+
+                        <TextView
+                            android:id="@+id/jobposteddate"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="0.5"
+                            android:fontFamily="@font/inter"
+                            android:gravity="start"
+                            android:text="Loading..."
+                            android:textColor="#434545"
+                            android:textSize="14sp" />
+
+                        <ImageView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginHorizontal="@dimen/_4sdp"
+                            android:src="@drawable/loc">
+
+                        </ImageView>
+
+                        <TextView
+                            android:id="@+id/locationTextView"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="0.5"
+                            android:fontFamily="@font/inter"
+                            android:gravity="start"
+                            android:text="Loading..."
+                            android:textColor="#434545"
+                            android:textSize="14sp" />
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_marginTop="@dimen/_5sdp"
                         android:gravity="start"
-                        android:fontFamily="@font/inter"
-                        android:text="Loading..."
-                        android:textColor="#434545"
-                        android:textSize="14sp" />
-                    <ImageView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginHorizontal="@dimen/_4sdp"
-                        android:src="@drawable/loc">
+                        android:orientation="horizontal"
+                        android:paddingVertical="@dimen/_4ssp">
 
-                    </ImageView>
 
-                    <TextView
-                        android:id="@+id/locationTextView"
-                        android:layout_width="0dp"
-                        android:fontFamily="@font/inter"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="0.5"
-                        android:gravity="start"
-                        android:text="Loading..."
-                        android:textColor="#434545"
-                        android:textSize="14sp" />
+                        <de.hdodenhof.circleimageview.CircleImageView
+                            android:id="@+id/jobpostedbypersonImageView"
+                            android:layout_width="20dp"
+                            android:layout_height="20dp"
+                            android:layout_alignParentRight="true"
+                            android:layout_alignParentBottom="true"
+                            android:layout_gravity="center"
+                            android:src="@drawable/resource_default" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginHorizontal="@dimen/_4sdp"
+                            android:fontFamily="@font/inter"
+                            android:text="Posted by"
+                            android:textColor="#686666"
+                            android:textSize="14sp" />
+
+                        <TextView
+                            android:id="@+id/organizername"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="@font/inter"
+                            android:text="Loading..."
+                            android:textColor="@color/unselected"
+                            android:textSize="14sp" />
+
+                    </LinearLayout>
 
                 </LinearLayout>
 
@@ -167,77 +221,36 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
-                    android:layout_marginTop="@dimen/_5sdp"
-                    android:gravity="start"
-                    android:paddingVertical="@dimen/_4ssp"
-                    android:orientation="horizontal">
+                    android:background="@drawable/rounded_edittext_background"
+                    android:orientation="vertical"
+                    android:padding="@dimen/_8ssp">
 
-
-                    <de.hdodenhof.circleimageview.CircleImageView
-                        android:id="@+id/jobpostedbypersonImageView"
-                        android:layout_width="20dp"
-                        android:layout_height="20dp"
-                        android:layout_gravity="center"
-                        android:layout_alignParentBottom="true"
-                        android:layout_alignParentRight="true"
-                        android:src="@drawable/resource_default" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
+                    <LinearLayout
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:fontFamily="@font/inter"
-                        android:layout_marginHorizontal="@dimen/_4sdp"
-                        android:text="Posted by"
-                        android:textColor="#686666"
-                        android:textSize="14sp" />
+                        android:layout_marginBottom="@dimen/_15sdp"
+                        android:orientation="horizontal">
 
-                    <TextView
-                        android:id="@+id/organizername"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:fontFamily="@font/inter"
-                        android:text="Loading..."
-                        android:textColor="@color/unselected"
-                        android:textSize="14sp" />
+                        <ImageView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:src="@drawable/brief" />
 
-                </LinearLayout>
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:fontFamily="@font/inter"
+                            android:paddingHorizontal="@dimen/_5ssp"
+                            android:text="Brief"
+                            android:textColor="@color/unselected"
+                            android:textSize="16sp"
+                            android:textStyle="bold" />
 
-            </LinearLayout>
+                    </LinearLayout>
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:padding="@dimen/_8ssp"
-                android:layout_gravity="center"
-                android:background="@drawable/rounded_edittext_background"
-                android:orientation="vertical">
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="@dimen/_15sdp"
-                    android:orientation="horizontal">
-
-                    <ImageView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center"
-                        android:src="@drawable/brief" />
-
-                    <TextView
-                        android:layout_width="0dp"
-                        android:fontFamily="@font/inter"
-                        android:layout_weight="1"
-                        android:layout_height="wrap_content"
-                        android:paddingHorizontal="@dimen/_5ssp"
-                        android:text="Brief"
-                        android:textStyle="bold"
-                        android:textColor="@color/unselected"
-                        android:textSize="16sp" />
-
-                </LinearLayout>
-
-                <LinearLayout
+                    <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:orientation="horizontal">
@@ -251,9 +264,9 @@
                         <TextView
                             android:id="@+id/authorSpecialityTextView"
                             android:layout_width="0dp"
-                            android:fontFamily="@font/inter"
-                            android:layout_weight="1"
                             android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:fontFamily="@font/inter"
                             android:paddingHorizontal="@dimen/_5ssp"
                             android:text="Loading..."
                             android:textColor="#000000"
@@ -261,7 +274,7 @@
 
                     </LinearLayout>
 
-                <LinearLayout
+                    <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginVertical="@dimen/_8sdp"
@@ -276,9 +289,9 @@
                         <TextView
                             android:id="@+id/authorSubSpecialityTextView"
                             android:layout_width="0dp"
-                            android:fontFamily="@font/inter"
-                            android:layout_weight="1"
                             android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:fontFamily="@font/inter"
                             android:paddingHorizontal="@dimen/_5ssp"
                             android:text="Loading..."
                             android:textColor="#000000"
@@ -286,7 +299,7 @@
 
                     </LinearLayout>
 
-                <LinearLayout
+                    <LinearLayout
                         android:id="@+id/salaryLayout"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -357,7 +370,7 @@
 
                     </LinearLayout>
 
-                <LinearLayout
+                    <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginVertical="@dimen/_8sdp"
@@ -395,7 +408,7 @@
 
                     </LinearLayout>
 
-                <LinearLayout
+                    <LinearLayout
                         android:id="@+id/experienceLayout"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -417,9 +430,9 @@
                                 android:id="@+id/duration"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
+                                android:fontFamily="@font/inter"
                                 android:paddingStart="@dimen/_5ssp"
                                 android:paddingEnd="@dimen/_2sdp"
-                                android:fontFamily="@font/inter"
                                 android:text="Loading..."
                                 android:textColor="#000000"
                                 android:textSize="14sp" />
@@ -436,9 +449,9 @@
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
+                                android:fontFamily="@font/inter"
                                 android:paddingHorizontal="@dimen/_5ssp"
                                 android:text="of probation period"
-                                android:fontFamily="@font/inter"
                                 android:textColor="#000000"
                                 android:textSize="14sp" />
 
@@ -446,72 +459,78 @@
 
                     </LinearLayout>
 
-                <LinearLayout
-                    android:id="@+id/downloadPdfButton"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:gravity="center"
-                    android:paddingVertical="15dp"
-                        android:layout_marginTop="@dimen/_5sdp"
-                    android:background = "@drawable/downloadbtnbk"
-                    android:onClick="downloadPdf">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Download Attachment"
-                        android:textStyle="bold"
-                        android:textSize="14dp"
-                        android:textColor="@color/black"
-                        android:textAlignment="center"/>
-
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/_15sdp"
-                    android:layout_marginBottom="@dimen/_8sdp"
-                    android:orientation="horizontal">
-
-                    <ImageView
-                        android:layout_width="wrap_content"
+                    <LinearLayout
+                        android:id="@+id/downloadPdfButton"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
-                        android:src="@drawable/description" />
+                        android:layout_marginTop="@dimen/_5sdp"
+                        android:background="@drawable/downloadbtnbk"
+                        android:gravity="center"
+                        android:onClick="downloadPdf"
+                        android:paddingVertical="15dp">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Download Attachment"
+                            android:textAlignment="center"
+                            android:textColor="@color/black"
+                            android:textSize="14dp"
+                            android:textStyle="bold" />
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/_15sdp"
+                        android:layout_marginBottom="@dimen/_8sdp"
+                        android:orientation="horizontal">
+
+                        <ImageView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:src="@drawable/description" />
+
+                        <TextView
+                            android:id="@+id/jobDescriptionTextView"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:fontFamily="@font/inter"
+                            android:paddingHorizontal="@dimen/_5ssp"
+                            android:text="Description"
+                            android:textColor="@color/unselected"
+                            android:textSize="16sp"
+                            android:textStyle="bold" />
+
+                    </LinearLayout>
 
                     <TextView
-                        android:layout_width="0dp"
-                        android:id="@+id/jobDescriptionTextView"
-                        android:fontFamily="@font/inter"
-                        android:layout_weight="1"
-                        android:layout_height="wrap_content"
-                        android:paddingHorizontal="@dimen/_5ssp"
-                        android:text="Description"
-                        android:textStyle="bold"
-                        android:textColor="@color/unselected"
-                        android:textSize="16sp" />
-
-                </LinearLayout>
-
-                <TextView
                         android:id="@+id/jobDescriptionContentTextView"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:fontFamily="@font/inter"
+                        android:paddingBottom="10dp"
                         android:text="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam eget lectus non justo blandit luctus. Integer a elit vel ex sodales vestibulum."
                         android:textColor="#8E8D8D"
                         android:textSize="14sp" />
 
+                </LinearLayout>
+
             </LinearLayout>
 
-        </LinearLayout>
+        </ScrollView>
 
-    </ScrollView>
+    </LinearLayout>
 
     <LinearLayout
         android:id="@+id/applylinear"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/backgroundcolor"
@@ -532,6 +551,7 @@
             android:fontFamily="@font/inter"
             android:textColor="#FFFFFF"
             android:textSize="12sp" />
+
         <Button
             android:id="@+id/Alreadyapplied"
             android:layout_width="0dp"
@@ -576,4 +596,4 @@
 
     </LinearLayout>
 
-</RelativeLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

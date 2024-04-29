@@ -1,6 +1,5 @@
 package com.medical.my_medicos.activities.pg.activites.insiders;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.MenuItem;
@@ -11,9 +10,8 @@ import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
 import com.medical.my_medicos.R;
-import com.medical.my_medicos.activities.pg.fragment.QuestionbankFragment;
-import com.medical.my_medicos.activities.pg.fragment.VideoBankFragment;
-import com.medical.my_medicos.activities.pg.fragment.WeeklyQuizFragment;
+import com.medical.my_medicos.activities.pg.activites.insiders.fragment.QuestionbankFragment;
+import com.medical.my_medicos.activities.pg.activites.insiders.fragment.VideoBankFragment;
 import com.medical.my_medicos.databinding.ActivitySpecialityPgBinding;
 import com.google.android.material.bottomappbar.BottomAppBar;
 import com.google.android.material.bottomnavigation.BottomNavigationView;

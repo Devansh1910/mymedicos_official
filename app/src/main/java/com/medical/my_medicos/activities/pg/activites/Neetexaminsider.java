@@ -42,10 +42,8 @@ public class Neetexaminsider extends AppCompatActivity implements neetexampadapt
     AlertDialog alertDialog;
     int count = 0;
     private boolean timerRunning = false;
-
     private TextView currentquestion;
     private LinearLayout questionNumberLayout;
-
     String id;
     private ArrayList<Neetpg> quizList1;
     private TextView timerTextView;
@@ -67,12 +65,9 @@ public class Neetexaminsider extends AppCompatActivity implements neetexampadapt
         recyclerView = findViewById(R.id.recycler_view1);
         quizList1 = new ArrayList<>();
         timerTextView = findViewById(R.id.timerTextView);
-        questionNumberLayout = findViewById(R.id.questionNumberLayout); // Assuming your layout ID is 'questionNumberLayout'
-
-
+        questionNumberLayout = findViewById(R.id.questionNumberLayout);
 
         startTimer();
-
 
         FirebaseFirestore db = FirebaseFirestore.getInstance();
         CollectionReference quizzCollection = db.collection("PGupload").document("Weekley").collection("Quiz");
@@ -144,14 +139,13 @@ public class Neetexaminsider extends AppCompatActivity implements neetexampadapt
             questionNumberTextView.setLayoutParams(layoutParams);
             questionNumberTextView.setText(String.valueOf(i + 1)); // Question numbers start from 1
 
-            questionNumberTextView.setTextColor(getResources().getColorStateList(R.color.green));
+            questionNumberTextView.setTextColor(getResources().getColorStateList(R.color.unselected));
+            questionNumberTextView.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
             questionNumberTextView.setTextSize(TypedValue.COMPLEX_UNIT_SP, 20);
             questionNumberTextView.setPadding(24, 24, 24, 24);
 
             // Make TextView circular
-            questionNumberTextView.setBackground(getResources().getDrawable(R.drawable.circular_bg));
-
-
+            questionNumberTextView.setBackground(getResources().getDrawable(R.drawable.circle_outline_unanswered));
 
             questionNumberTextView.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -164,8 +158,6 @@ public class Neetexaminsider extends AppCompatActivity implements neetexampadapt
             questionNumberLayout.addView(questionNumberTextView);
 
         }
-
-
 
         TextView prevButton = findViewById(R.id.BackButtom);
         prevButton.setOnClickListener(new View.OnClickListener() {
@@ -278,12 +270,22 @@ public class Neetexaminsider extends AppCompatActivity implements neetexampadapt
             Neetpg quizQuestion = quizList1.get(i);
             if (quizQuestion.getSelectedOption() != null) {
 
+                LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(
+                        LinearLayout.LayoutParams.WRAP_CONTENT,
+                        LinearLayout.LayoutParams.WRAP_CONTENT
+                );
                 TextView questionNumberTextView = (TextView) questionNumberLayout.getChildAt(i);
+                layoutParams.setMargins(8, 0, 8, 0); // Set margins between TextViews
+                questionNumberTextView.setLayoutParams(layoutParams);
 
-                questionNumberTextView.setBackground(getResources().getDrawable(R.drawable.circular_bg_green));
+                questionNumberTextView.setBackground(getResources().getDrawable(R.drawable.circle_answered));
+                questionNumberTextView.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
+                questionNumberTextView.setTextSize(TypedValue.COMPLEX_UNIT_SP, 20);
+                questionNumberTextView.setPadding(50, 24, 50, 24);
+
             } else {
                 TextView questionNumberTextView = (TextView) questionNumberLayout.getChildAt(i);
-                questionNumberTextView.setBackground(getResources().getDrawable(R.drawable.circular_bg));
+                questionNumberTextView.setBackground(getResources().getDrawable(R.drawable.circle_outline_unanswered));
             }
             Log.d("asdfghjklllllllllll", "aaafdsghjkl");
         }

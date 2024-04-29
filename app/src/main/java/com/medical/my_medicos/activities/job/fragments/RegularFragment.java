@@ -81,7 +81,7 @@ public class RegularFragment extends Fragment  {
                                 }
                             }
 
-                            recyclerView.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.HORIZONTAL, false));
+                            recyclerView.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false));
                             recyclerView.setAdapter(new MyAdapter6(getActivity(), regularJobList));
                         } else {
                             Log.d(TAG, "Error getting documents: ", task.getException());

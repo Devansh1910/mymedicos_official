@@ -38,12 +38,12 @@ public class subSpecialitiesData {
                     "Sports Medicine",
                     "Hand Surgery"
             },
-            {},
+            {"Dermatology"},
             {
                     "Dermatopathology",
                     "Pediatric Dermatology"
             },
-            {},
+            {"Ophthalmology"},
             {
                     "Retina and Vitreous Diseases",
                     "Pediatric Ophthalmology"
@@ -54,9 +54,9 @@ public class subSpecialitiesData {
                     "Forensic Pathology",
                     "Transfusion Medicine"
             },
-            {},
-            {},
-            {},
+            {"Infectious Diseases"},
+            {"Allergy and Immunology"},
+            {"Pulmonology"},
             {"Sleep Medicine "},
             {"PET-CT"},
             {
@@ -67,9 +67,12 @@ public class subSpecialitiesData {
                     "Aerospace Medicine",
                     "Industrial Health"
             },
-            {},
+            {"Pharmacology"},
             {"Clinical Pharmacology"},
-
+            {"Physiology"},
+            {"Anatomy"},
+            {"Biochemistry"},
+            {"Duty Doctor"}
     };
 
 }

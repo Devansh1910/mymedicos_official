@@ -38,6 +38,7 @@ import androidx.viewpager2.widget.ViewPager2;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.Query;
 import com.medical.my_medicos.activities.cme.CmeActivity;
 import com.medical.my_medicos.activities.guide.CmeGuideActivity;
 import com.medical.my_medicos.activities.guide.JobGuideActivity;
@@ -227,6 +228,7 @@ public class JobsActivity extends AppCompatActivity {
 
         FirebaseFirestore recent = FirebaseFirestore.getInstance();
         recent.collection("JOB")
+                .orderBy("date", Query.Direction.DESCENDING)
                 .get()
                 .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                     @Override

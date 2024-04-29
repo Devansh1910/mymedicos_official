@@ -375,7 +375,7 @@ public class PostJobActivity extends AppCompatActivity {
         });
 
         float defaultLowerValue = 1000f;
-        float defaultUpperValue = 100000f;
+        float defaultUpperValue = 10000000f;
         salaryRangeSlider.setValues(defaultLowerValue, defaultUpperValue);
         lowerRangeEditText.setText(String.valueOf(defaultLowerValue));
         upperRangeEditText.setText(String.valueOf(defaultUpperValue));
@@ -397,7 +397,7 @@ public class PostJobActivity extends AppCompatActivity {
         });
 
         salaryRangeSlider.setValueFrom(1000f);
-        salaryRangeSlider.setValueTo(100000f);
+        salaryRangeSlider.setValueTo(10000000f);
 
         lowerRangeEditText.addTextChangedListener(new TextWatcher() {
             @Override
@@ -413,7 +413,7 @@ public class PostJobActivity extends AppCompatActivity {
                     try {
                         float lowerValue = Float.parseFloat(s.toString());
                         float upperValue = Float.parseFloat(upperRangeEditText.getText().toString());
-                        if (lowerValue >= 1000 && lowerValue <= 100000) {
+                        if (lowerValue >= 1000 && lowerValue <= 10000000) {
                             salaryRangeSlider.setValues(lowerValue, upperValue);
                             if (lowerValue > upperValue) {
                                 Toast.makeText(PostJobActivity.this, "Lower limit cannot be greater than upper limit", Toast.LENGTH_SHORT).show();
@@ -447,7 +447,7 @@ public class PostJobActivity extends AppCompatActivity {
                         float upperValue = Float.parseFloat(s.toString());
                         float lowerValue = Float.parseFloat(lowerRangeEditText.getText().toString());
                         // Check if upperValue is within the allowed range
-                        if (upperValue >= 1000 && upperValue <= 100000) {
+                        if (upperValue >= 1000 && upperValue <= 10000000) {
                             salaryRangeSlider.setValues(lowerValue, upperValue);
                             // Check if upperValue is lesser than lowerValue
                             if (upperValue < lowerValue) {
@@ -606,10 +606,6 @@ public class PostJobActivity extends AppCompatActivity {
             Organiser.setError("Organizer Required");
             return;
         }
-        if (TextUtils.isEmpty(salaryRange)) {
-            Toast.makeText(PostJobActivity.this, "Please select a salary range", Toast.LENGTH_SHORT).show();
-            return;
-        }
         if (TextUtils.isEmpty(Position)) {
             jobposition.setError("Position Required");
             return;
@@ -715,8 +711,6 @@ public class PostJobActivity extends AppCompatActivity {
         boolean isValid = true;
         if (TextUtils.isEmpty(title.getText().toString().trim()) ||
                 TextUtils.isEmpty(Organiser.getText().toString().trim()) ||
-                TextUtils.isEmpty(lowerRangeEditText.getText().toString().trim()) ||
-                TextUtils.isEmpty(upperRangeEditText.getText().toString().trim()) ||
                 TextUtils.isEmpty(jobposition.getText().toString().trim()) ||
                 TextUtils.isEmpty(description.getText().toString().trim()) ||
                 TextUtils.isEmpty(Opening.getText().toString().trim()) ||

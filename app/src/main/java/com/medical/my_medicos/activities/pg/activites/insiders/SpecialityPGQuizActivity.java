@@ -12,10 +12,8 @@ import android.view.MenuItem;
 import com.google.android.material.bottomappbar.BottomAppBar;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.medical.my_medicos.R;
-import com.medical.my_medicos.activities.pg.fragment.QuestionbankFragment;
-import com.medical.my_medicos.activities.pg.fragment.ScoreboardFragment;
-import com.medical.my_medicos.activities.pg.fragment.VideoBankFragment;
-import com.medical.my_medicos.activities.pg.fragment.WeeklyQuizFragment;
+import com.medical.my_medicos.activities.pg.activites.insiders.fragment.ScoreboardFragment;
+import com.medical.my_medicos.activities.pg.activites.insiders.fragment.WeeklyQuizFragment;
 import com.medical.my_medicos.databinding.ActivitySpecialityPgquizBinding;
 
 public class SpecialityPGQuizActivity extends AppCompatActivity {

@@ -6,7 +6,6 @@ import android.os.Bundle;
 
 import androidx.cardview.widget.CardView;
 import androidx.fragment.app.Fragment;
-import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
@@ -21,21 +20,14 @@ import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.ViewFlipper;
 
-import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.medical.my_medicos.R;
 import com.medical.my_medicos.activities.news.News;
-import com.medical.my_medicos.activities.pg.activites.PgprepActivity;
 import com.medical.my_medicos.activities.pg.activites.extras.PreparationCategoryDisplayActivity;
 import com.medical.my_medicos.activities.pg.activites.extras.PreparationCategoryMaterialDisplayActivity;
 import com.medical.my_medicos.activities.pg.activites.extras.adapter.ImportantPreprationAdapter;
-import com.medical.my_medicos.activities.pg.activites.extras.adapter.RecentUpdatesAdapter;
-import com.medical.my_medicos.activities.pg.activites.internalfragments.intwernaladapters.ExamQuizAdapter;
-import com.medical.my_medicos.activities.pg.fragment.WeeklyQuizFragment;
-import com.medical.my_medicos.activities.pg.model.QuizPG;
 import com.medical.my_medicos.activities.utils.UpdatingScreen;
-import com.medical.my_medicos.databinding.FragmentNeetExamBinding;
 import com.medical.my_medicos.databinding.FragmentPreparationPgBinding;
 
 import java.util.ArrayList;

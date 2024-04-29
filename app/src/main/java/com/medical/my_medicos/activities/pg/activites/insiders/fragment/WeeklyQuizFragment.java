@@ -1,4 +1,4 @@
-package com.medical.my_medicos.activities.pg.fragment;
+package com.medical.my_medicos.activities.pg.activites.insiders.fragment;
 
 import static android.content.ContentValues.TAG;
 
@@ -10,14 +10,9 @@ import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
-import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.android.volley.Request;
-import com.android.volley.RequestQueue;
-import com.android.volley.toolbox.StringRequest;
-import com.android.volley.toolbox.Volley;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.Timestamp;
@@ -29,16 +24,9 @@ import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.medical.my_medicos.activities.pg.activites.insiders.SpecialityPGInsiderActivity;
-import com.medical.my_medicos.activities.pg.adapters.VideoPGAdapter;
 import com.medical.my_medicos.activities.pg.adapters.WeeklyQuizAdapter;
 import com.medical.my_medicos.activities.pg.model.QuizPG;
-import com.medical.my_medicos.activities.utils.ConstantsDashboard;
-import com.medical.my_medicos.databinding.FragmentVideoBankBinding;
 import com.medical.my_medicos.databinding.FragmentWeeklyQuizBinding;
-
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;

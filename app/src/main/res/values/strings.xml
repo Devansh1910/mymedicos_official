@@ -123,7 +123,6 @@
         <item>Forensic Medicine</item>
         <item>Infectious Disease</item>
         <item>Internal Medicine</item>
-        <item>Duty Doctor MBBS</item>
         <item>Microbiology</item>
         <item>Nuclear Medicine</item>
         <item>Obstetrics and Gynecology</item>
@@ -139,6 +138,8 @@
         <item>Pulmonology</item>
         <item>Radiology</item>
         <item>Surgery</item>
+        <item>Duty Doctor</item>
+
         <!-- Add other specialities here -->
     </string-array>
 
@@ -192,6 +193,7 @@
         <item>Arunachal Pradesh</item>
         <item>Assam</item>
         <item>Bihar</item>
+        <item>Delhi</item>
         <item>Chhattisgarh</item>
         <item>Goa</item>
         <item>Gujarat</item>

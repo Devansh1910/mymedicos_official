@@ -23,6 +23,7 @@ public class ConstantsDashboard {
     public static String GET_PG_SLIDER_URL = API_BASE_URL + "/api/sliders/pg";
     public static String GET_NEWS_SLIDER_URL = API_BASE_URL + "/api/sliders/news";
     public static String GET_SPONSORS_SLIDER_URL = API_BASE_URL + "/api/sliders/sponsor";
+    public static String GET_PUBLICATION_SLIDER_URL = API_BASE_URL + "/api/sliders/publicationbanner";
     public static String GET_SLIDESHOW_SLIDER_URL = API_BASE_URL + "/api/sliders/slideshow";
     public static String GET_PG_QUESTIONBANK_URL_HOME = API_BASE_URL + "api/notes/home";
     public static String GET_PG_QUESTIONBANK_URL = API_BASE_URL + "api/notes";

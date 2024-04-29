@@ -1,4 +1,4 @@
-package com.medical.my_medicos.activities.pg.fragment;
+package com.medical.my_medicos.activities.pg.activites.insiders.fragment;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -15,10 +15,10 @@ import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.medical.my_medicos.activities.pg.activites.insiders.SpecialityPGInsiderActivity;
-import com.medical.my_medicos.activities.pg.adapters.QuestionBankPGAdapter;
-import com.medical.my_medicos.activities.pg.model.QuestionPG;
+import com.medical.my_medicos.activities.pg.adapters.VideoPGAdapter;
+import com.medical.my_medicos.activities.pg.model.VideoPG;
 import com.medical.my_medicos.activities.utils.ConstantsDashboard;
-import com.medical.my_medicos.databinding.FragmentQuestionbankBinding;
+import com.medical.my_medicos.databinding.FragmentVideoBankBinding;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -26,17 +26,16 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 
-public class QuestionbankFragment extends Fragment {
+public class VideoBankFragment extends Fragment {
 
-    private FragmentQuestionbankBinding binding;
-    private QuestionBankPGAdapter questionsAdapter;
-
+    private FragmentVideoBankBinding binding;
+    private VideoPGAdapter videosAdapter;
     LottieAnimationView nodatafound;
-    private ArrayList<QuestionPG> questionsforpg;
+    private ArrayList<VideoPG> videosforpg;
     private int catId;
 
-    public static QuestionbankFragment newInstance(int catId, String title) {
-        QuestionbankFragment fragment = new QuestionbankFragment();
+    public static VideoBankFragment newInstance(int catId, String title) {
+        VideoBankFragment fragment = new VideoBankFragment();
         Bundle args = new Bundle();
         args.putInt("catId", catId);
         args.putString("title", title);
@@ -55,21 +54,22 @@ public class QuestionbankFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        binding = FragmentQuestionbankBinding.inflate(inflater, container, false);
+        binding = FragmentVideoBankBinding.inflate(inflater, container, false);
         View view = binding.getRoot();
 
         String title = getArguments().getString("title", "");
+
         if (getActivity() instanceof SpecialityPGInsiderActivity) {
             ((SpecialityPGInsiderActivity) getActivity()).setToolbarTitle(title);
         }
 
-        questionsforpg = new ArrayList<>();
-        questionsAdapter = new QuestionBankPGAdapter(requireContext(), questionsforpg);
+        videosforpg = new ArrayList<>();
+        videosAdapter = new VideoPGAdapter(requireContext(), videosforpg);
 
-        RecyclerView recyclerViewQuestions = binding.questionsListQuestion;
+        RecyclerView recyclerViewQuestions = binding.videosListQuestion;
         LinearLayoutManager layoutManagerQuestions = new LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false);
         recyclerViewQuestions.setLayoutManager(layoutManagerQuestions);
-        recyclerViewQuestions.setAdapter(questionsAdapter);
+        recyclerViewQuestions.setAdapter(videosAdapter);
         getRecentQuestions(title);
 
         return view;
@@ -86,15 +86,15 @@ public class QuestionbankFragment extends Fragment {
                     JSONArray array = object.getJSONArray("data");
                     for (int i = 0; i < array.length(); i++) {
                         JSONObject childObj = array.getJSONObject(i);
-                        QuestionPG questionbankItem = new QuestionPG(
+                        VideoPG questionbankItem = new VideoPG(
                                 childObj.getString("Title"),
                                 childObj.getString("Description"),
                                 childObj.getString("Time"),
                                 childObj.getString("file")
                         );
-                        questionsforpg.add(questionbankItem);
+                        videosforpg.add(questionbankItem);
                     }
-                    questionsAdapter.notifyDataSetChanged();
+                    videosAdapter.notifyDataSetChanged();
                     updateNoDataVisibility();
                 }
             } catch (JSONException e) {
@@ -105,9 +105,8 @@ public class QuestionbankFragment extends Fragment {
 
         queue.add(request);
     }
-
     private void updateNoDataVisibility() {
-        if (questionsforpg.isEmpty()) {
+        if (videosforpg.isEmpty()) {
             binding.nodatafound.setVisibility(View.VISIBLE);
         } else {
             binding.nodatafound.setVisibility(View.GONE);

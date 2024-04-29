@@ -85,7 +85,7 @@ public class HomePublicationFragment extends Fragment {
     void getRecentOffers() {
         RequestQueue queue = Volley.newRequestQueue(requireContext());
 
-        StringRequest request = new StringRequest(Request.Method.GET, Constants.GET_OFFERS_URL, response -> {
+        StringRequest request = new StringRequest(Request.Method.GET, ConstantsDashboard.GET_PUBLICATION_SLIDER_URL, response -> {
             try {
                 JSONObject object = new JSONObject(response);
                 if(object.getString("status").equals("success")) {
