@@ -80,7 +80,8 @@ public class MainActivity extends AppCompatActivity {
         setupCountryCodeSpinner();
         setupPhoneNumberInput();
         setupLoginButton();
-//        requestNotificationPermission();  // Add this line to prompt for permission
+        requestNotificationPermission();  // Add this line to prompt for permission
+
     }
 
     private void setupUI() {
@@ -110,39 +111,39 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
-//    private void requestNotificationPermission() {
-//        new AlertDialog.Builder(this)
-//                .setTitle("Notification Permission")
-//                .setMessage("Do you want to receive notifications about important news?")
-//                .setPositiveButton("Confirm", new DialogInterface.OnClickListener() {
-//                    @Override
-//                    public void onClick(DialogInterface dialog, int which) {
-//                        subscribeToTopic();
-//                    }
-//                })
-//                .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-//                    @Override
-//                    public void onClick(DialogInterface dialog, int which) {
-//                        // Optionally handle a rejection.
-//                        Toast.makeText(MainActivity.this, "Permission Denied", Toast.LENGTH_SHORT).show();
-//                    }
-//                })
-//                .show();
-//    }
-//
-//    private void subscribeToTopic() {
-//        FirebaseMessaging.getInstance().subscribeToTopic("NEWS")
-//                .addOnCompleteListener(new OnCompleteListener<Void>() {
-//                    @Override
-//                    public void onComplete(@NonNull Task<Void> task) {
-//                        String msg = "Subscribed to NEWS updates";
-//                        if (!task.isSuccessful()) {
-//                            msg = "Subscription to NEWS updates failed";
-//                        }
-//                        Toast.makeText(MainActivity.this, msg, Toast.LENGTH_SHORT).show();
-//                    }
-//                });
-//    }
+    private void requestNotificationPermission() {
+        new AlertDialog.Builder(this)
+                .setTitle("Notification Permission")
+                .setMessage("Do you want to receive notifications about important news?")
+                .setPositiveButton("Confirm", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        subscribeToTopic();
+                    }
+                })
+                .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        // Optionally handle a rejection.
+                        Toast.makeText(MainActivity.this, "Permission Denied", Toast.LENGTH_SHORT).show();
+                    }
+                })
+                .show();
+    }
+
+    private void subscribeToTopic() {
+        FirebaseMessaging.getInstance().subscribeToTopic("NEWS")
+                .addOnCompleteListener(new OnCompleteListener<Void>() {
+                    @Override
+                    public void onComplete(@NonNull Task<Void> task) {
+                        String msg = "Subscribed to NEWS updates";
+                        if (!task.isSuccessful()) {
+                            msg = "Subscription to NEWS updates failed";
+                        }
+                        Toast.makeText(MainActivity.this, msg, Toast.LENGTH_SHORT).show();
+                    }
+                });
+    }
 
     private void setupCountryCodeSpinner() {
         countryCodeSpinner = findViewById(R.id.countryCodeSpinner);
