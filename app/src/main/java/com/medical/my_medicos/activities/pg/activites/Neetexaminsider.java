@@ -147,7 +147,7 @@ public class Neetexaminsider extends AppCompatActivity implements neetexampadapt
             questionNumberTextView.setTextColor(getResources().getColorStateList(R.color.unselected));
             questionNumberTextView.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
             questionNumberTextView.setTextSize(TypedValue.COMPLEX_UNIT_SP, 20);
-            questionNumberTextView.setPadding(24, 24, 24, 24);
+            questionNumberTextView.setPadding(48, 24, 50, 48);
 
             // Make TextView circular
             questionNumberTextView.setBackground(getResources().getDrawable(R.drawable.circle_outline_unanswered));
@@ -286,7 +286,7 @@ public class Neetexaminsider extends AppCompatActivity implements neetexampadapt
                 questionNumberTextView.setBackground(getResources().getDrawable(R.drawable.circle_answered));
                 questionNumberTextView.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
                 questionNumberTextView.setTextSize(TypedValue.COMPLEX_UNIT_SP, 20);
-                questionNumberTextView.setPadding(50, 24, 50, 24);
+                questionNumberTextView.setPadding(48, 24, 48, 24);
 
             } else {
                 TextView questionNumberTextView = (TextView) questionNumberLayout.getChildAt(i);

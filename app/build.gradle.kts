@@ -15,8 +15,8 @@ android {
         applicationId = "com.medical.my_medicos"
         minSdk = 24
         targetSdk = 34
-        versionCode = 66
-        versionName = "4.6.0"
+        versionCode = 67
+        versionName = "4.7.0"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
@@ -60,12 +60,12 @@ dependencies {
     implementation("androidx.navigation:navigation-fragment:2.7.7")
     implementation("androidx.navigation:navigation-ui:2.7.7")
     implementation("androidx.legacy:legacy-support-v4:1.0.0")
-    implementation("com.google.firebase:firebase-sessions:1.2.3")
-    implementation("androidx.media3:media3-common:1.3.0")
+    implementation("com.google.firebase:firebase-sessions:1.2.4")
+    implementation("androidx.media3:media3-common:1.3.1")
     implementation("com.google.firebase:firebase-crashlytics-buildtools:2.9.9")
-    implementation("androidx.media3:media3-exoplayer:1.3.0")
+    implementation("androidx.media3:media3-exoplayer:1.3.1")
     implementation("com.google.firebase:firebase-messaging:23.4.1")
-    implementation("androidx.activity:activity:1.8.2")
+    implementation("androidx.activity:activity:1.9.0")
     testImplementation("junit:junit:4.13.2")
     androidTestImplementation("androidx.test.ext:junit:1.1.5")
     androidTestImplementation("androidx.test.espresso:espresso-core:3.5.1")
@@ -87,7 +87,7 @@ dependencies {
     // Additional dependencies from the first code block
     implementation("com.google.firebase:firebase-storage:20.3.0")
     implementation("com.google.firebase:firebase-core:21.1.1")
-    implementation("com.google.firebase:firebase-firestore:24.11.0")
+    implementation("com.google.firebase:firebase-firestore:24.11.1")
     implementation ("com.squareup.picasso:picasso:2.71828")
     //....
     implementation ("com.github.bumptech.glide:glide:4.14.2")

@@ -48,11 +48,11 @@ public class FirebaseServiceReceivernotification extends FirebaseMessagingServic
         NotificationManager manager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
         int notificationId = new Random().nextInt();
 
-        String documentid = remoteMessage.getData().get("documentId");
-
-        Log.e("printidinnnnnn..",documentid);
-        Intent intent = new Intent(this, JobDetailsActivity.class);
-        intent.putExtra("documentid", documentid);
+//        String documentid = remoteMessage.getData().get("documentId");
+//
+//        Log.e("printidinnnnnn..",documentid);
+//        Intent intent = new Intent(this, JobDetailsActivity.class);
+//        intent.putExtra("documentid", documentid);
 
         Drawable drawable = ResourcesCompat.getDrawable(getResources(), R.drawable.placeholderjobouter, null);
         Bitmap largeIcon = getBitmapFromDrawable(drawable);
@@ -61,10 +61,10 @@ public class FirebaseServiceReceivernotification extends FirebaseMessagingServic
             createNotificationChannel(manager);
         }
 
-        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-        PendingIntent pendingIntent = PendingIntent.getActivity(
-                this, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT
-        );
+//        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+//        PendingIntent pendingIntent = PendingIntent.getActivity(
+//                this, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT
+//        );
 
         String title = remoteMessage.getData().get("title");
         String organiser = remoteMessage.getData().get("Organiser");
@@ -74,8 +74,8 @@ public class FirebaseServiceReceivernotification extends FirebaseMessagingServic
                 .setContentText("Posted by " + organiser)
                 .setSmallIcon(R.drawable.logoooooooofor)
                 .setLargeIcon(largeIcon)
-                .setAutoCancel(true)
-                .setContentIntent(pendingIntent);
+                .setAutoCancel(true);
+//                .setContentIntent(pendingIntent);
 
         manager.notify(notificationId, notificationBuilder.build());
     }

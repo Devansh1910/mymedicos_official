@@ -22,11 +22,11 @@
             android:layout_width="70dp"
             android:layout_height="70dp"
             android:layout_gravity="center"
-            android:scaleX="1.2"
-            android:scaleY="1.2"
+            android:scaleX="1"
+            android:scaleY="1"
             app:lottie_autoPlay="true"
             app:lottie_loop="false"
-            app:lottie_rawRes="@raw/award"
+            app:lottie_rawRes="@raw/bookk"
             app:lottie_speed="1" />
 
         <LinearLayout
@@ -88,7 +88,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/inter"
-                    android:text="200 MCQ's"
+                    android:text="25 MCQ's"
                     android:textColor="@color/grey"
                     android:textSize="@dimen/_10sdp"
                     android:textStyle="bold" />
@@ -107,7 +107,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/inter"
-                    android:text="210 mins"
+                    android:text="45 seconds each"
                     android:textColor="@color/grey"
                     android:textSize="@dimen/_10sdp"
                     android:textStyle="bold" />
