@@ -71,7 +71,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
 import java.util.prefs.Preferences;
-
+import com.google.firebase.messaging.FirebaseMessaging;
 // This is teh Home Activity..
 
 
@@ -358,6 +358,18 @@ public class HomeActivity extends AppCompatActivity {
                                     Boolean mcnVerified = (Boolean) dataMap.get("MCN verified");
                                     Preferences preferences = Preferences.userRoot();
 
+                                    // Obtain FCM token
+                                    FirebaseMessaging.getInstance().getToken()
+                                            .addOnCompleteListener(tokenTask -> {
+                                                if (tokenTask.isSuccessful()) {
+                                                    String fcmToken = tokenTask.getResult();
+                                                    // Upload FCM token to Firestore
+                                                    uploadFcmTokenToFirestore(userId, fcmToken);
+                                                } else {
+                                                    Log.e(TAG, "Failed to get FCM token: ", tokenTask.getException());
+                                                }
+                                            });
+
                                     // Initialize views
                                     verifiedUser = findViewById(R.id.verifieduser);
                                     profileImageView = findViewById(R.id.circularImageView);
@@ -395,6 +407,41 @@ public class HomeActivity extends AppCompatActivity {
                 }
             }, 2000);
         }
+
+    }
+    @SuppressLint("RestrictedApi")
+    private void uploadFcmTokenToFirestore(String userId, String fcmToken) {
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+
+        // Query Firestore to find the document for the current user
+        db.collection("users")
+                .whereEqualTo("Phone Number", userId)
+                .get()
+                .addOnCompleteListener(task -> {
+                    if (task.isSuccessful()) {
+                        for (QueryDocumentSnapshot document : task.getResult()) {
+                            // Update or create document with FCM token
+                            Map<String, Object> data = new HashMap<>();
+                            data.put("FCM Token", fcmToken);
+
+                            // If document exists, update; otherwise, create new document
+                            if (document.exists()) {
+                                db.collection("users").document(document.getId())
+                                        .update(data)
+                                        .addOnSuccessListener(aVoid -> Log.d(TAG, "FCM token updated"))
+                                        .addOnFailureListener(e -> Log.e(TAG, "Error updating FCM token", e));
+                            } else {
+                                db.collection("users")
+                                        .document()
+                                        .set(data)
+                                        .addOnSuccessListener(aVoid -> Log.d(TAG, "New user added with FCM token"))
+                                        .addOnFailureListener(e -> Log.e(TAG, "Error adding new user", e));
+                            }
+                        }
+                    } else {
+                        Log.e(TAG, "Error querying Firestore for user document: ", task.getException());
+                    }
+                });
     }
     private void updateProfileUI(String userName, String userId, String userEmail) {
         ImageView profileImageView = findViewById(R.id.circularImageView);

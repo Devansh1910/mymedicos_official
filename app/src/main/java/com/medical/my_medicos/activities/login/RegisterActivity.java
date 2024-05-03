@@ -1,11 +1,14 @@
 package com.medical.my_medicos.activities.login;
 
+import static androidx.fragment.app.FragmentManager.TAG;
+
 import android.annotation.SuppressLint;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
@@ -23,6 +26,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.content.ContextCompat;
 
+import com.google.firebase.messaging.FirebaseMessaging;
 import com.medical.my_medicos.R;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
@@ -84,6 +88,7 @@ public class RegisterActivity extends AppCompatActivity {
                 finish();
             }
         });
+
 
         TextView  loginreg = findViewById(R.id.loginreg);
         loginreg.setOnClickListener(new View.OnClickListener() {
@@ -192,16 +197,15 @@ public class RegisterActivity extends AppCompatActivity {
 
     private void register() {
         register.setOnClickListener(new View.OnClickListener() {
+            @SuppressLint("RestrictedApi")
             @Override
             public void onClick(View view) {
                 String mail = Objects.requireNonNull(email.getText()).toString().trim();
-
-
                 String name = Objects.requireNonNull(fullName.getText()).toString().trim();
                 String enteredPhone = Objects.requireNonNull(phoneNumber.getText()).toString().trim();
                 String pass = Objects.requireNonNull(password.getText()).toString().trim();
-
                 String phoneNo;
+
                 if (prefixSpinner.getSelectedItemPosition() == 0){
                     Toast.makeText(RegisterActivity.this, "Please select a Designation", Toast.LENGTH_SHORT).show();
                     return;
@@ -223,13 +227,11 @@ public class RegisterActivity extends AppCompatActivity {
                     return;
                 }
 
-
                 if (!enteredPhone.startsWith("+91")) {
                     phoneNo = "+91" + enteredPhone;
                 } else {
                     phoneNo = enteredPhone;
                 }
-
 
                 if (TextUtils.isEmpty(mail)) {
                     email.setError("Email Required");
@@ -246,7 +248,6 @@ public class RegisterActivity extends AppCompatActivity {
                 if (TextUtils.isEmpty(pass)) {
                     password.setError("Password Required");
                     return;
-
                 }
 
                 String emailValidity = isValidEmail(mail);
@@ -273,45 +274,55 @@ public class RegisterActivity extends AppCompatActivity {
                 progressDialog.setMessage("Registering");
                 progressDialog.show();
 
-                mAuth.createUserWithEmailAndPassword(mail, pass).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
-                    @Override
-                    public void onComplete(@NonNull Task<AuthResult> task) {
-                        if (task.isSuccessful()) {
-                            Objects.requireNonNull(mAuth.getCurrentUser()).sendEmailVerification().addOnCompleteListener(new OnCompleteListener<Void>() {
-                                @Override
-                                public void onComplete(@NonNull Task<Void> task) {
-                                    if (task.isSuccessful()) {
-                                        createUserInFirestore(mail, name, phoneNo,
-                                                Objects.requireNonNull(userMap.get("location")).toString(),
-                                                Objects.requireNonNull(userMap.get("interest")).toString(),
-                                                Objects.requireNonNull(userMap.get("QuizToday")).toString(),
-                                                Integer.parseInt(Objects.requireNonNull(userMap.get("MedCoins")).toString()),
-                                                Integer.parseInt(Objects.requireNonNull(userMap.get("Streak")).toString()));
+                // Get FCM token
+                FirebaseMessaging.getInstance().getToken()
+                        .addOnCompleteListener(task -> {
+                            if (task.isSuccessful()) {
+                                String fcmToken = task.getResult();
+                                mAuth.createUserWithEmailAndPassword(mail, pass).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+                                    @Override
+                                    public void onComplete(@NonNull Task<AuthResult> task) {
+                                        if (task.isSuccessful()) {
+                                            Objects.requireNonNull(mAuth.getCurrentUser()).sendEmailVerification().addOnCompleteListener(new OnCompleteListener<Void>() {
+                                                @Override
+                                                public void onComplete(@NonNull Task<Void> task) {
+                                                    if (task.isSuccessful()) {
+                                                        createUserInFirestore(mail, name, phoneNo,
+                                                                Objects.requireNonNull(userMap.get("location")).toString(),
+                                                                Objects.requireNonNull(userMap.get("interest")).toString(),
+                                                                Objects.requireNonNull(userMap.get("QuizToday")).toString(),
+                                                                Integer.parseInt(Objects.requireNonNull(userMap.get("MedCoins")).toString()),
+                                                                Integer.parseInt(Objects.requireNonNull(userMap.get("Streak")).toString()), fcmToken);
 
-                                        Intent i = new Intent(RegisterActivity.this, MainActivity.class);
-                                        startActivity(i);
-                                        finish();
+                                                        Intent i = new Intent(RegisterActivity.this, MainActivity.class);
+                                                        startActivity(i);
+                                                        finish();
 
-                                        Toast.makeText(getApplicationContext(), "Registration Successful, please verify your Email ID", Toast.LENGTH_SHORT).show();
-                                        progressDialog.dismiss();
-                                    } else {
-                                        Toast.makeText(getApplicationContext(), "Email already existing,use a different email Id", Toast.LENGTH_SHORT).show();
-                                        progressDialog.dismiss();
+                                                        Toast.makeText(getApplicationContext(), "Registration Successful, please verify your Email ID", Toast.LENGTH_SHORT).show();
+                                                        progressDialog.dismiss();
+                                                    } else {
+                                                        Toast.makeText(getApplicationContext(), "Email already existing,use a different email Id", Toast.LENGTH_SHORT).show();
+                                                        progressDialog.dismiss();
+                                                    }
+                                                }
+                                            });
+                                        } else {
+                                            Toast.makeText(getApplicationContext(), "Registration Failed, Something went wrong!", Toast.LENGTH_SHORT).show();
+                                            progressDialog.dismiss();
+                                        }
                                     }
-                                }
-
-                            });
-                        } else {
-                            Toast.makeText(getApplicationContext(), "Registration Failed, Something went wrong!", Toast.LENGTH_SHORT).show();
-                            progressDialog.dismiss();
-                        }
-                    }
-                });
+                                });
+                            } else {
+                                Log.e(TAG, "Failed to get FCM token: ", task.getException());
+                                Toast.makeText(RegisterActivity.this, "Failed to get FCM token", Toast.LENGTH_SHORT).show();
+                            }
+                        });
             }
         });
     }
 
-    private void createUserInFirestore(String mail, String name, String phoneNo, String location, String interest, String quiztoday,int medcoins,int streak) {
+
+    private void createUserInFirestore(String mail, String name, String phoneNo, String location, String interest, String quiztoday,int medcoins,int streak,String fcmtoken) {
         Map<String, Object> user = new HashMap<>();
         user.put("Email ID", mail);
         user.put("Name", name);
@@ -324,6 +335,7 @@ public class RegisterActivity extends AppCompatActivity {
         user.put("Interest2", interest);
         user.put("Prefix", userMap.get("prefix").toString());
         user.put("MCN verified", false);
+        user.put("FCM Token",fcmtoken);
 
         db.collection("users")
                 .add(user)
