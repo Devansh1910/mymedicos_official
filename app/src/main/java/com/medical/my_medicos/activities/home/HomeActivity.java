@@ -7,11 +7,13 @@ import android.app.Notification;
 import android.app.NotificationManager;
 import android.content.Intent;
 import android.content.IntentSender;
+import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
+import android.provider.Settings;
 import android.util.Log;
 import android.view.View;
 import android.view.Window;
@@ -25,6 +27,7 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
@@ -89,6 +92,7 @@ public class HomeActivity extends AppCompatActivity {
     FrameLayout verifiedUser, circularImageView;
     ProgressBar loadingCircle;
     LinearLayout opensidehomedrawer;
+    private static final int NOTIFICATION_PERMISSION_CODE = 3300;
 
     @SuppressLint("MissingInflatedId")
     @Override
@@ -105,6 +109,11 @@ public class HomeActivity extends AppCompatActivity {
             finish(); // Close the current activity
             return; // Exit the method early
         }
+        // Notification permisions
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            checkNotificationPermission();
+        }
+
 
         // Loader Implementation..............
 
@@ -195,6 +204,50 @@ public class HomeActivity extends AppCompatActivity {
 
         checkforAppUpdate();
     }
+    private void checkNotificationPermission() {
+        if (ContextCompat.checkSelfPermission(this, android.Manifest.permission.POST_NOTIFICATIONS) == PackageManager.PERMISSION_GRANTED) {
+
+            Toast.makeText(this, "Notification permission is already granted.", Toast.LENGTH_LONG).show();
+        } else {
+            // Should we show an explanation?
+            if (ActivityCompat.shouldShowRequestPermissionRationale(this, android.Manifest.permission.POST_NOTIFICATIONS)) {
+                Toast.makeText(this, "Notifications are needed to inform you of important updates.", Toast.LENGTH_LONG).show();
+            }
+            // Request the permission
+            ActivityCompat.requestPermissions(this, new String[]{android.Manifest.permission.POST_NOTIFICATIONS}, NOTIFICATION_PERMISSION_CODE);
+        }
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        if (requestCode == NOTIFICATION_PERMISSION_CODE) {
+            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                // Permission was granted
+                openNotificationSettings();
+                Toast.makeText(this, "Notification permission granted.", Toast.LENGTH_SHORT).show();
+            } else {
+                // Permission was denied
+                Toast.makeText(this, "Notification permission denied.", Toast.LENGTH_SHORT).show();
+            }
+        }
+    }
+    private void openNotificationSettings() {
+        Intent intent = new Intent();
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
+            intent.setAction(Settings.ACTION_APP_NOTIFICATION_SETTINGS);
+            intent.putExtra(Settings.EXTRA_APP_PACKAGE, getPackageName());
+        } else if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP){
+            intent.setAction(Settings.ACTION_APP_NOTIFICATION_SETTINGS);
+            intent.putExtra("app_package", getPackageName());
+            intent.putExtra("app_uid", getApplicationInfo().uid);
+        } else {
+            intent.setAction(Settings.ACTION_APPLICATION_DETAILS_SETTINGS);
+            intent.setData(Uri.fromParts("package", getPackageName(), null));
+        }
+        startActivity(intent);
+    }
+
 
     //....Shareable Link Handler.............
 
