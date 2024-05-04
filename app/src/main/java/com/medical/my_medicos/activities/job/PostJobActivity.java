@@ -59,6 +59,7 @@ import com.medical.my_medicos.activities.login.RegisterActivity;
 
 import java.io.File;
 import java.text.SimpleDateFormat;
+import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Deque;
 import java.util.HashMap;
@@ -654,6 +655,7 @@ public class PostJobActivity extends AppCompatActivity {
         usermap.put("Salary type", yearstring);
         usermap.put("date", selectedDate);
         usermap.put("Hospital", Hospital);
+        List<String> userTokens = Arrays.asList("c1Gb4gI2Sy2IWJWRtPlbwT:APA91bHDZ5Dg3k09ukV7BvhkNR_wwKX-Y-S6k2XkV-r68x3U8QkuicghQo0pnNCck9UI69mexHQEuXHQOVg4KNFaMfDNuAlOLAq1VTVOD_WvW_CLnYBMIn-g3HEJNgC7YQbqFw2-0NrQ", "cOR9ct1XQlmeumtCOecbNc:APA91bGvLt6MD9aJlvU1kceSzL1oBbzYbp6Lvvi3jgT45acTclyDsgr6Oe3Liz4YmVbtcnVsJn9onvl9pCgHFXhhj7Km5AUxt-PVfIskjcqV6foFBcXN3JbXbyicRnbf1F02a0_8OMWT");
 
         cmeref.push().setValue(usermap).addOnCompleteListener(new OnCompleteListener<Void>() {
             @Override
@@ -668,10 +670,27 @@ public class PostJobActivity extends AppCompatActivity {
                                 if (task.isSuccessful()) {
                                     Toast.makeText(PostJobActivity.this, "Posted Successfully", Toast.LENGTH_SHORT).show();
                                     //....Notification Check......
-                                    PushNotification notification = new PushNotification(new NotificationDataJobs(Title,organiser,generatedDocId), TOPIC);
+                                    PushNotification notification = new PushNotification(new NotificationDataJobs(Title,organiser,generatedDocId), userTokens);
                                     Log.e("print",generatedDocId);
+                                    NotificationApiInterface apiService = NotificationApiUtilities.getClient();
+                                    Call<PushNotification> call = apiService.sendNotification(notification);
+                                    call.enqueue(new Callback<PushNotification>() {
+                                        @Override
+                                        public void onResponse(Call<PushNotification> call, Response<PushNotification> response) {
+                                            if (response.isSuccessful()) {
+                                                Toast.makeText(getApplicationContext(), "Notification sent successfully", Toast.LENGTH_SHORT).show();
+                                            } else {
+                                                Toast.makeText(getApplicationContext(), "Failed to send notification", Toast.LENGTH_SHORT).show();
+                                            }
+                                        }
 
-                                    sendNotificationjob(notification);
+                                        @Override
+                                        public void onFailure(Call<PushNotification> call, Throwable t) {
+                                            Toast.makeText(getApplicationContext(), "Error: " + t.getMessage(), Toast.LENGTH_SHORT).show();
+                                        }
+                                    });
+
+//                                    sendNotificationjob(notification);
                                     //............
                                     Intent intent = new Intent(PostJobActivity.this,JobsActivity.class);
                                     intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
@@ -706,6 +725,7 @@ public class PostJobActivity extends AppCompatActivity {
             }
         });
     }
+
 
     private void checkFormValidity() {
         boolean isValid = true;
