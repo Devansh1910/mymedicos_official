@@ -93,7 +93,7 @@ public class JobDetailsActivity extends AppCompatActivity {
         showLoadForJob();
 
         String documentId = getIntent().getStringExtra("documentid");
-        String documentId2 = getIntent().getStringExtra("documentid");
+        String documentId2;
 
         if (documentId != null && !documentId.isEmpty()) {
             fetchJobDetails(documentId);

@@ -6,6 +6,7 @@ import android.app.PendingIntent;
 import android.content.ContentResolver;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Color;
@@ -28,51 +29,61 @@ import com.google.firebase.messaging.RemoteMessage;
 import com.medical.my_medicos.R;
 import com.medical.my_medicos.activities.job.JobDetailsActivity;
 
-import java.util.Random;
+import java.util.concurrent.atomic.AtomicInteger;
 
 public class FirebaseServiceReceivernotification extends FirebaseMessagingService {
 
     private static final String CHANNEL_ID = "Job Alerts";
+    private static final AtomicInteger notificationId = new AtomicInteger(0);
+    private static final String PREFS_NAME = "JobNotificationPrefs";
+    private static final String SENT_KEY = "notificationsSent";
+    private static final String OPENED_KEY = "notificationsOpened";
 
     @Override
     public void onMessageReceived(@NonNull RemoteMessage remoteMessage) {
         super.onMessageReceived(remoteMessage);
 
-        // Initialize NotificationManager
+        SharedPreferences prefs = getSharedPreferences(PREFS_NAME, MODE_PRIVATE);
+        int notificationsSent = prefs.getInt(SENT_KEY, 0);
+        int notificationsOpened = prefs.getInt(OPENED_KEY, 0);
+
         NotificationManager notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
 
-        // Notification ID to allow for future updates
-        int notificationId = new Random().nextInt();
-
-        // Create a notification channel if necessary (Oreo and above)
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             createNotificationChannel(notificationManager);
         }
 
-        // Get title and organizer from the remote message
         String title = remoteMessage.getData().get("title");
         String organiser = remoteMessage.getData().get("Organiser");
+        String jobId = remoteMessage.getData().get("documentId");
 
-        // Create an intent that will fire when the notification is tapped
         Intent intent = new Intent(this, JobDetailsActivity.class);
+        intent.putExtra("documentid", jobId);
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, intent, PendingIntent.FLAG_ONE_SHOT | PendingIntent.FLAG_IMMUTABLE);
 
-        // Get the large icon for the notification
         Drawable drawable = ResourcesCompat.getDrawable(getResources(), R.drawable.placeholderjobouter, null);
         Bitmap largeIcon = getBitmapFromDrawable(drawable);
 
-        // Build the notification
+        String contentText = "Organized by " + organiser;
+        if (notificationsSent - notificationsOpened > 2) {
+            contentText = "More than two jobs in your specialty have been posted!";
+        }
+
         NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder(this, CHANNEL_ID)
                 .setContentTitle("New Opening: " + title)
-                .setContentText("Organized by " + organiser)
+                .setContentText(contentText)
                 .setSmallIcon(R.drawable.logoooooooofor)
                 .setLargeIcon(largeIcon)
                 .setAutoCancel(true)
                 .setContentIntent(pendingIntent);
 
-        // Notify
-        notificationManager.notify(notificationId, notificationBuilder.build());
+        notificationManager.notify(notificationId.incrementAndGet(), notificationBuilder.build());
+
+        // Update sent notifications count
+        SharedPreferences.Editor editor = prefs.edit();
+        editor.putInt(SENT_KEY, notificationsSent + 1);
+        editor.apply();
     }
 
     @RequiresApi(api = Build.VERSION_CODES.O)

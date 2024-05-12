@@ -38,6 +38,7 @@ import androidx.core.content.ContextCompat;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.messaging.FirebaseMessaging;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
@@ -59,6 +60,7 @@ import com.medical.my_medicos.activities.login.RegisterActivity;
 
 import java.io.File;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Deque;
@@ -655,7 +657,24 @@ public class PostJobActivity extends AppCompatActivity {
         usermap.put("Salary type", yearstring);
         usermap.put("date", selectedDate);
         usermap.put("Hospital", Hospital);
-        List<String> userTokens = Arrays.asList("dKLCgpwoRtyuYdAarAV4MF:APA91bG_e0LZZGYW3JBnPDVkP13JaZm9q_UI6-aflnZukaxzPVfQ6S0XqHp2ot3pFJBV7W5JtCYmzP8BIgdoWsFwbAnng_e7MndzQay1GtNxbrSgaordZNMltJnzhkrbChRio1PypqDr", "d3mAPIFbQ2iIth_HXJazrY:APA91bGx5Wji_IJsHdFu_WhQgNRjtICcamvEHqZiwcoQ6_Vt9eky29jn0TLBr7-YnS43k9SATryYkeexcJLkU_jnx5OsZkGXuqtUFFR2LU-bXjhYhNOM7d8EGww2KSrAojWBGMYYe-08");
+        List<String> userTokens = new ArrayList<>();
+        dc.collection("users")
+                .whereEqualTo("Interest", speciality)  // Assuming "Speciality" is the field storing user's speciality
+                .get()
+                .addOnSuccessListener(queryDocumentSnapshots -> {
+
+                    for (DocumentSnapshot document : queryDocumentSnapshots) {
+                        if (document.contains("FCM Token")) {
+                            String fcmToken = document.getString("FCM Token");
+                            userTokens.add(fcmToken);
+                            Log.d("FCM tojen 1234",fcmToken);
+                        }
+                    }
+                })
+                .addOnFailureListener(e -> {
+                    Toast.makeText(PostJobActivity.this, "Failed to fetch user tokens: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+                });
+
 
         cmeref.push().setValue(usermap).addOnCompleteListener(new OnCompleteListener<Void>() {
             @Override
