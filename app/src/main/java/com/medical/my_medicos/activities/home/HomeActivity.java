@@ -207,7 +207,7 @@ public class HomeActivity extends AppCompatActivity {
     private void checkNotificationPermission() {
         if (ContextCompat.checkSelfPermission(this, android.Manifest.permission.POST_NOTIFICATIONS) == PackageManager.PERMISSION_GRANTED) {
 
-            Toast.makeText(this, "Notification permission is already granted.", Toast.LENGTH_LONG).show();
+//            Toast.makeText(this, "Notification permission is already granted.", Toast.LENGTH_LONG).show();
         } else {
             // Should we show an explanation?
             if (ActivityCompat.shouldShowRequestPermissionRationale(this, android.Manifest.permission.POST_NOTIFICATIONS)) {

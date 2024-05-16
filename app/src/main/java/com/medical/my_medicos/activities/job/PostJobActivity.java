@@ -659,17 +659,26 @@ public class PostJobActivity extends AppCompatActivity {
         usermap.put("Hospital", Hospital);
         List<String> userTokens = new ArrayList<>();
         dc.collection("users")
-                .whereEqualTo("Interest", speciality)  // Assuming "Speciality" is the field storing user's speciality
+                .whereEqualTo("Interest", speciality)
                 .get()
                 .addOnSuccessListener(queryDocumentSnapshots -> {
+                    FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
+                    currentUser.reload().addOnCompleteListener(task -> { // Ensure the user data is up to date
+                        if (task.isSuccessful()) {
+                            String currentUserPhoneNumber = currentUser.getPhoneNumber(); // Get current user's phone number
 
-                    for (DocumentSnapshot document : queryDocumentSnapshots) {
-                        if (document.contains("FCM Token")) {
-                            String fcmToken = document.getString("FCM Token");
-                            userTokens.add(fcmToken);
-                            Log.d("FCM tojen 1234",fcmToken);
+                            for (DocumentSnapshot document : queryDocumentSnapshots) {
+                                if (document.contains("FCM Token") && document.contains("Phone Number")) {
+                                    String userPhoneNumber = document.getString("Phone Number");
+                                    if (!userPhoneNumber.equals(currentUserPhoneNumber)) {
+                                        String fcmToken = document.getString("FCM Token");
+                                        userTokens.add(fcmToken);
+                                        Log.d("FCM Token", fcmToken);
+                                    }
+                                }
+                            }
                         }
-                    }
+                    });
                 })
                 .addOnFailureListener(e -> {
                     Toast.makeText(PostJobActivity.this, "Failed to fetch user tokens: " + e.getMessage(), Toast.LENGTH_SHORT).show();
