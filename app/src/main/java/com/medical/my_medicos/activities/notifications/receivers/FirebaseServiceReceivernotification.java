@@ -68,7 +68,12 @@ public class FirebaseServiceReceivernotification extends FirebaseMessagingServic
         String contentText = "Organized by " + organiser;
         if (notificationsSent - notificationsOpened > 2) {
             contentText = "More than two jobs in your specialty have been posted!";
+            SharedPreferences.Editor editor = prefs.edit();
+            editor.putInt(OPENED_KEY, notificationsSent);  // This assumes user sees this important notification
+            editor.apply();
         }
+        Log.d("bjckbdskb", String.valueOf(notificationsSent));
+        Log.d("bjckbdskb", String.valueOf(notificationsOpened));
 
         NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder(this, CHANNEL_ID)
                 .setContentTitle("New Opening: " + title)

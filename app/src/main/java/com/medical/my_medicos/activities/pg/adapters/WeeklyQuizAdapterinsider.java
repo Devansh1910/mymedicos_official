@@ -47,7 +47,7 @@ public class WeeklyQuizAdapterinsider extends RecyclerView.Adapter<WeeklyQuizAda
     private MediaPlayer mediaPlayer;
     private boolean isBottomSheetVisible = false;
 
-    private OnCountdownFinishedListener onCountdownFinishedListener;
+//    private OnCountdownFinishedListener onCountdownFinishedListener;
     public WeeklyQuizAdapterinsider(Context context, ArrayList<QuizPGinsider> quiz) {
         this.context = context;
         this.quizquestionsweekly = quiz;
@@ -60,13 +60,13 @@ public class WeeklyQuizAdapterinsider extends RecyclerView.Adapter<WeeklyQuizAda
     public WeeklyQuizQuestionViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(context).inflate(R.layout.question_quiz_design_weekly, parent, false);
         // Initialize textViewTimer here
-        textViewTimer = view.findViewById(R.id.textViewTimer); // Replace with your actual TextView ID
+//        textViewTimer = view.findViewById(R.id.textViewTimer); // Replace with your actual TextView ID
         return new WeeklyQuizQuestionViewHolder(view);
     }
 
-    public void setOnCountdownFinishedListener(OnCountdownFinishedListener listener) {
-        this.onCountdownFinishedListener = listener;
-    }
+//    public void setOnCountdownFinishedListener(OnCountdownFinishedListener listener) {
+//        this.onCountdownFinishedListener = listener;
+//    }
 
     @Override
     public void onBindViewHolder(@NonNull WeeklyQuizQuestionViewHolder holder, @SuppressLint("RecyclerView") int position) {
@@ -78,14 +78,19 @@ public class WeeklyQuizAdapterinsider extends RecyclerView.Adapter<WeeklyQuizAda
         holder.binding.optionB.setText(quizquestion.getOptionB());
         holder.binding.optionC.setText(quizquestion.getOptionC());
         holder.binding.optionD.setText(quizquestion.getOptionD());
-        isOptionSelectionEnabled=true;
 
-        // Set an OnClickListener on the "View Solution" TextView
-        holder.binding.viewsummaryoption.setOnClickListener(view -> {
-            // Call a method to show the bottom sheet again
-            showBottomSheetAgain();
-        });
+        // Reset option styles regardless of the previous state
+        resetOptionStyle(holder);
 
+        // Only set the selected style if there is a saved answer for this question
+        String selectedOption = quizquestion.getSelectedOption();
+        if (selectedOption != null && !selectedOption.isEmpty()) {
+            setOptionSelectedStyle(holder, selectedOption);
+        }
+
+        setOptionClickListeners(holder);
+
+        // Additional logic for images and other interactions
         if (quizquestion.getImage() != null && !quizquestion.getImage().isEmpty()) {
             holder.binding.ifthequestionhavethumbnail.setVisibility(View.VISIBLE);
             Glide.with(context).load(quizquestion.getImage()).into(holder.binding.ifthequestionhavethumbnail);
@@ -93,10 +98,8 @@ public class WeeklyQuizAdapterinsider extends RecyclerView.Adapter<WeeklyQuizAda
         } else {
             holder.binding.ifthequestionhavethumbnail.setVisibility(View.GONE);
         }
-
-        setOptionClickListeners(holder);
-        startTimer();
     }
+
 
     private void setOptionClickListeners(WeeklyQuizQuestionViewHolder holder) {
         holder.binding.optionA.setOnClickListener(view -> handleOptionClick(holder, "A"));
@@ -104,40 +107,45 @@ public class WeeklyQuizAdapterinsider extends RecyclerView.Adapter<WeeklyQuizAda
         holder.binding.optionC.setOnClickListener(view -> handleOptionClick(holder, "C"));
         holder.binding.optionD.setOnClickListener(view -> handleOptionClick(holder, "D"));
     }
+    public void setSelectedOption(String selectedOption) {
 
+        this.selectedOption = selectedOption;
 
-    private void startTimer() {
-        if (countDownTimer != null) {
-            countDownTimer.cancel();
-        }
-
-        countDownTimer = new CountDownTimer(TIME_LIMIT_MILLIS, 1000) {
-            @Override
-            public void onTick(long millisUntilFinished) {
-                long secondsRemaining = millisUntilFinished / 1000;
-                textViewTimer.setText(String.valueOf(secondsRemaining));
-
-                if (secondsRemaining <= 16 && secondsRemaining > 10) {
-                    textViewTimer.setBackgroundResource(R.drawable.counterbkfor16);
-                } else if (secondsRemaining <= 10) {
-                    textViewTimer.setBackgroundResource(R.drawable.counterforbk10);
-                }
-            }
-
-            @Override
-            public void onFinish() {
-                disableOptionSelection();
-                if (onCountdownFinishedListener != null) {
-                    onCountdownFinishedListener.onCountdownFinished();
-                }
-            }
-
-        }.start();
     }
 
-    public interface OnCountdownFinishedListener {
-        void onCountdownFinished();
-    }
+
+//    private void startTimer() {
+//        if (countDownTimer != null) {
+//            countDownTimer.cancel();
+//        }
+//
+//        countDownTimer = new CountDownTimer(TIME_LIMIT_MILLIS, 1000) {
+//            @Override
+//            public void onTick(long millisUntilFinished) {
+//                long secondsRemaining = millisUntilFinished / 1000;
+//                textViewTimer.setText(String.valueOf(secondsRemaining));
+//
+//                if (secondsRemaining <= 16 && secondsRemaining > 10) {
+//                    textViewTimer.setBackgroundResource(R.drawable.counterbkfor16);
+//                } else if (secondsRemaining <= 10) {
+//                    textViewTimer.setBackgroundResource(R.drawable.counterforbk10);
+//                }
+//            }
+//
+//            @Override
+//            public void onFinish() {
+//                disableOptionSelection();
+//                if (onCountdownFinishedListener != null) {
+//                    onCountdownFinishedListener.onCountdownFinished();
+//                }
+//            }
+//
+//        }.start();
+//    }
+//
+//    public interface OnCountdownFinishedListener {
+//        void onCountdownFinished();
+//    }
 
     private void showBottomSheetAgain() {
         QuizPGinsider currentQuestion = quizquestionsweekly.get(currentQuestionIndex);
@@ -151,13 +159,14 @@ public class WeeklyQuizAdapterinsider extends RecyclerView.Adapter<WeeklyQuizAda
 
     private void handleOptionClick(WeeklyQuizQuestionViewHolder holder, String selectedOption) {
         if (isOptionSelectionEnabled) {
-            if (countDownTimer != null) {
-                countDownTimer.cancel();
-                holder.binding.viewsummaryoption.setVisibility(View.VISIBLE);
-            }
+//            if (countDownTimer != null) {
+//                countDownTimer.cancel();
+////                holder.binding.viewsummaryoption.setVisibility(View.VISIBLE);
+//            }
             if (selectedOption == null || selectedOption.isEmpty()) {
                 QuizPGinsider quizquestion = quizquestionsweekly.get(holder.getAdapterPosition());
-                showNoOptionSelectedDialog(quizquestion, holder);
+//                showNoOptionSelectedDialog(quizquestion, holder);
+                resetOptionStyle(holder);
                 return;
             }
             resetOptionStyle(holder);
@@ -165,7 +174,7 @@ public class WeeklyQuizAdapterinsider extends RecyclerView.Adapter<WeeklyQuizAda
 
             QuizPGinsider quizquestion = quizquestionsweekly.get(holder.getAdapterPosition());
             quizquestion.setSelectedOption(selectedOption);
-            showOptionsAndDescription(quizquestion, holder);
+//            showOptionsAndDescription(quizquestion, holder);
         }
     }
 
@@ -190,7 +199,7 @@ public class WeeklyQuizAdapterinsider extends RecyclerView.Adapter<WeeklyQuizAda
         OptionsBottomSheetDialogueFragment bottomSheetDialogFragment = OptionsBottomSheetDialogueFragment.newInstance(correctOption, selectedOption, description);
         bottomSheetDialogFragment.show(((AppCompatActivity) context).getSupportFragmentManager(), "OptionsBottomSheetDialogFragment");
 
-        disableOptionSelection();
+//        disableOptionSelection();
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
@@ -258,27 +267,7 @@ public class WeeklyQuizAdapterinsider extends RecyclerView.Adapter<WeeklyQuizAda
             selectedTextView.setTypeface(null, Typeface.BOLD);
         }
     }
-    public void resetButtonColors(neetexampadapter.NeetQuizQuestionViewHolder holder) {
-        // Reset option A
-        holder.optionA.setBackgroundResource(R.drawable.categorynewbk);
-        holder.optionA.setTextColor(context.getResources().getColor(R.color.black));
-        holder.optionA.setTypeface(null, Typeface.NORMAL);
 
-        // Reset option B
-        holder.optionB.setBackgroundResource(R.drawable.categorynewbk);
-        holder. optionB.setTextColor(context.getResources().getColor(R.color.black));
-        holder.optionB.setTypeface(null, Typeface.NORMAL);
-
-        // Reset option C
-        holder.optionC.setBackgroundResource(R.drawable.categorynewbk);
-        holder.optionC.setTextColor(context.getResources().getColor(R.color.black));
-        holder.optionC.setTypeface(null, Typeface.NORMAL);
-
-        // Reset option D
-        holder. optionD.setBackgroundResource(R.drawable.categorynewbk);
-        holder. optionD.setTextColor(context.getResources().getColor(R.color.black));
-        holder.optionD.setTypeface(null, Typeface.NORMAL);
-    }
 
     private void resetOptionStyle(WeeklyQuizQuestionViewHolder holder) {
         if (holder != null && holder.binding != null) {
@@ -312,6 +301,7 @@ public class WeeklyQuizAdapterinsider extends RecyclerView.Adapter<WeeklyQuizAda
         public WeeklyQuizQuestionViewHolder(@NonNull View itemView) {
             super(itemView);
             binding = QuestionQuizDesignWeeklyBinding.bind(itemView);
+
         }
     }
 

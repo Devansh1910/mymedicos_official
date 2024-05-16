@@ -109,6 +109,12 @@
             android:name=".activities.pg.activites.internalfragments.PreparationSubCategoryActivity"
             android:exported="false" />
         <activity
+            android:name=".activities.pg.activites.NeetExamPayment"
+            android:exported="false" />
+        <activity
+            android:name=".activities.pg.activites.PgPrepPayement"
+            android:exported="false" />
+        <activity
             android:name=".activities.pg.activites.extras.PreparationCategoryDisplayActivity"
             android:exported="false" />
         <activity

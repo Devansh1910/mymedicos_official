@@ -1,5 +1,7 @@
 package com.medical.my_medicos.activities.pg.activites;
 
+import static android.app.PendingIntent.getActivity;
+
 import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
@@ -10,18 +12,23 @@ import android.util.Log;
 import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.HorizontalScrollView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.DialogFragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
@@ -67,8 +74,9 @@ public class Neetexaminsider extends AppCompatActivity implements neetexampadapt
         recyclerView = findViewById(R.id.recycler_view1);
         quizList1 = new ArrayList<>();
         timerTextView = findViewById(R.id.timerTextView);
-        questionNumberLayout = findViewById(R.id.questionNumberLayout);
+
         title =findViewById(R.id.setnamewillbehere);
+         TextView gotoQuestionButton = findViewById(R.id.Navigate);
 
         startTimer();
 
@@ -134,35 +142,15 @@ public class Neetexaminsider extends AppCompatActivity implements neetexampadapt
 
 
 
-        for (int i = 0; i < 200; i++) {
-            TextView questionNumberTextView = new TextView(this);
-            LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(
-                    LinearLayout.LayoutParams.WRAP_CONTENT,
-                    LinearLayout.LayoutParams.WRAP_CONTENT
-            );
-            layoutParams.setMargins(8, 0, 8, 0); // Set margins between TextViews
-            questionNumberTextView.setLayoutParams(layoutParams);
-            questionNumberTextView.setText(String.valueOf(i + 1)); // Question numbers start from 1
 
-            questionNumberTextView.setTextColor(getResources().getColorStateList(R.color.unselected));
-            questionNumberTextView.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
-            questionNumberTextView.setTextSize(TypedValue.COMPLEX_UNIT_SP, 20);
-            questionNumberTextView.setPadding(48, 24, 50, 48);
+        gotoQuestionButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                QuestionBottomSheetDialogFragment bottomSheetDialogFragment = new QuestionBottomSheetDialogFragment();
+                bottomSheetDialogFragment.show(getSupportFragmentManager(), "QuestionNavigator");
+            }
+        });
 
-            // Make TextView circular
-            questionNumberTextView.setBackground(getResources().getDrawable(R.drawable.circle_outline_unanswered));
-
-            questionNumberTextView.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    // Handle click event to navigate to the corresponding question
-                    int questionIndex = Integer.parseInt(((TextView) v).getText().toString()) - 1; // Subtract 1 to get the index (indexes start from 0)
-                    navigateToQuestion(questionIndex);
-                }
-            });
-            questionNumberLayout.addView(questionNumberTextView);
-
-        }
 
         TextView prevButton = findViewById(R.id.BackButtom);
         prevButton.setOnClickListener(new View.OnClickListener() {
@@ -190,13 +178,13 @@ public class Neetexaminsider extends AppCompatActivity implements neetexampadapt
         adapter.setOnOptionSelectedListener(this); // Set the listener
         recyclerView.setAdapter(adapter);
 
-        TextView instructionguide = findViewById(R.id.instructionguide);
-        instructionguide.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                showInstructionDialog();
-            }
-        });
+//        TextView instructionguide = findViewById(R.id.instructionguide);
+//        instructionguide.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                showInstructionDialog();
+//            }
+//        });
 
         LinearLayout toTheBackLayout = findViewById(R.id.totheback1);
         toTheBackLayout.setOnClickListener(new View.OnClickListener() {
@@ -214,6 +202,7 @@ public class Neetexaminsider extends AppCompatActivity implements neetexampadapt
             adapter.setQuizQuestions(Collections.singletonList(quizList1.get(currentQuestionIndex)));
             recyclerView.smoothScrollToPosition(currentQuestionIndex);
             updateQuestionNumber();
+            adapter.setSelectedOption(selectedOptionsList.get(currentQuestionIndex));
             currentQuestionIndex++;
         } else {
             showEndQuizConfirmation();
@@ -271,31 +260,6 @@ public class Neetexaminsider extends AppCompatActivity implements neetexampadapt
     private void updateQuestionNumber() {
         int totalQuestions = quizList1.size();
         String questionNumberText = (currentQuestionIndex + 1) + " / " + totalQuestions;
-        for (int i = 0; i < quizList1.size(); i++) {
-            Neetpg quizQuestion = quizList1.get(i);
-            if (quizQuestion.getSelectedOption() != null) {
-
-                LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(
-                        LinearLayout.LayoutParams.WRAP_CONTENT,
-                        LinearLayout.LayoutParams.WRAP_CONTENT
-                );
-                TextView questionNumberTextView = (TextView) questionNumberLayout.getChildAt(i);
-                layoutParams.setMargins(8, 0, 8, 0); // Set margins between TextViews
-                questionNumberTextView.setLayoutParams(layoutParams);
-
-                questionNumberTextView.setBackground(getResources().getDrawable(R.drawable.circle_answered));
-                questionNumberTextView.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
-                questionNumberTextView.setTextSize(TypedValue.COMPLEX_UNIT_SP, 20);
-                questionNumberTextView.setPadding(48, 24, 48, 24);
-
-            } else {
-                TextView questionNumberTextView = (TextView) questionNumberLayout.getChildAt(i);
-                questionNumberTextView.setBackground(getResources().getDrawable(R.drawable.circle_outline_unanswered));
-            }
-            Log.d("asdfghjklllllllllll", "aaafdsghjkl");
-        }
-
-
         currentquestion.setText(questionNumberText);
     }
 
@@ -433,19 +397,74 @@ public class Neetexaminsider extends AppCompatActivity implements neetexampadapt
     public void onOptionSelected(String selectedOption) {
 
         selectedOptionsList.set(currentQuestionIndex, selectedOption);
-//        Neetpg quizQuestion = quizList1.get(currentQuestionIndex) ;
-//        if (quizQuestion.getSelectedOption() != null) {
 //
-//            TextView questionNumberTextView = (TextView) questionNumberLayout.getChildAt(currentQuestionIndex);
-//
-//            questionNumberTextView.setBackground(getResources().getDrawable(R.drawable.circular_bg));
-//        }
-//        else {
-//            TextView questionNumberTextView = (TextView) questionNumberLayout.getChildAt(currentQuestionIndex);
-//            questionNumberTextView.setBackground(getResources().getDrawable(R.drawable.circular_bg));
-//        }
-//        Log.d("asdfghjklllllllllll","aaafdsghjkl");
 
 
     }
+    // Inside Neetexaminsider activity
+    public static class QuestionBottomSheetDialogFragment extends BottomSheetDialogFragment {
+        private RecyclerView recyclerView;
+        private QuestionNavigationAdapter adapter;
+
+        @SuppressLint("MissingInflatedId")
+        @Nullable
+        @Override
+        public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+            View view = inflater.inflate(R.layout.bottom_sheet_layout_neet, container, false);
+            recyclerView = view.findViewById(R.id.questionListRecyclerView);
+            recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+
+            // Assuming there are 200 questions, adjust according to your actual count
+            adapter = new QuestionNavigationAdapter(200, position -> {
+                ((Neetexaminsider) getActivity()).navigateToQuestion(position);
+                dismiss();
+            });
+            recyclerView.setAdapter(adapter);
+
+            return view;
+        }
+    }
+    public static class QuestionNavigationAdapter extends RecyclerView.Adapter<QuestionNavigationAdapter.ViewHolder> {
+        private final int itemCount;
+        private final OnItemClickListener listener;
+
+        public QuestionNavigationAdapter(int itemCount, OnItemClickListener listener) {
+            this.itemCount = itemCount;
+            this.listener = listener;
+        }
+
+        @NonNull
+        @Override
+        public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+            View view = LayoutInflater.from(parent.getContext()).inflate(android.R.layout.simple_list_item_1, parent, false);
+            return new ViewHolder(view);
+        }
+
+        @Override
+        public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
+            holder.textView.setText(String.format("Question %d", position + 1));
+            holder.itemView.setOnClickListener(v -> listener.onItemClick(position));
+        }
+
+        @Override
+        public int getItemCount() {
+            return itemCount;
+        }
+
+        public interface OnItemClickListener {
+            void onItemClick(int position);
+        }
+
+        static class ViewHolder extends RecyclerView.ViewHolder {
+            TextView textView;
+
+            ViewHolder(View itemView) {
+                super(itemView);
+                textView = itemView.findViewById(android.R.id.text1);
+            }
+        }
+    }
+
+
+
 }

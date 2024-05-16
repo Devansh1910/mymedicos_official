@@ -24,6 +24,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.database.annotations.NotNull;
 import com.medical.my_medicos.R;
+import com.medical.my_medicos.activities.pg.activites.NeetExamPayment;
 import com.medical.my_medicos.activities.pg.activites.Neetexaminsider;
 import com.medical.my_medicos.activities.pg.activites.insiders.WeeklyQuizInsiderActivity;
 import com.medical.my_medicos.activities.pg.model.QuizPG;
@@ -56,8 +57,13 @@ public class ExamQuizAdapter extends RecyclerView.Adapter<ExamQuizAdapter.ExamVi
 
 
         holder.pay.setOnClickListener(v -> {
-            holder.showBottomSheet(quiz);
+            Intent intent = new Intent(v.getContext(), NeetExamPayment.class);
+            intent.putExtra("Title1", quiz.getTitle1());
+            intent.putExtra("Title", quiz.getTitle());
+            intent.putExtra("Due",formatTimestamp(quiz.getTo()));
+            v.getContext().startActivity(intent);
         });
+
     }
     private String formatTimestamp(Timestamp timestamp) {
         // Format the Firebase Timestamp to a string
@@ -66,12 +72,7 @@ public class ExamQuizAdapter extends RecyclerView.Adapter<ExamQuizAdapter.ExamVi
         return dateFormat.format(timestamp.toDate());
     }
 
-    private void showQuizInsiderActivity(QuizPG quiz) {
-        Intent intent = new Intent(context, Neetexaminsider.class);
-        intent.putExtra("Title1", quiz.getTitle1());
-        intent.putExtra("Title", quiz.getTitle());
-        context.startActivity(intent);
-    }
+
 
     @Override
     public int getItemCount() {
@@ -110,37 +111,7 @@ public class ExamQuizAdapter extends RecyclerView.Adapter<ExamQuizAdapter.ExamVi
             final QuizPG finalQuiz = quiz;
 
             click.setOnClickListener(v -> {
-                database.getReference().child("profiles")
-                        .child(currentUid)
-                        .child("coins")
-                        .addListenerForSingleValueEvent(new ValueEventListener() {
-                            @Override
-                            public void onDataChange(@NonNull @NotNull DataSnapshot snapshot) {
-                                Integer coinsValue = snapshot.getValue(Integer.class);
-                                if (coinsValue != null) {
-                                    int newCoinsValue = coinsValue - 30;
-                                    if (newCoinsValue >= 0) {
-                                        showQuizInsiderActivity(finalQuiz);
-                                        Toast.makeText(context, "Welcome", Toast.LENGTH_SHORT).show();
-                                        database.getReference().child("profiles")
-                                                .child(currentUid)
-                                                .child("coins")
-                                                .setValue(newCoinsValue);
-                                        coins = newCoinsValue;
-                                    } else {
-                                        Toast.makeText(context, "Insufficient Credits", Toast.LENGTH_SHORT).show();
-                                        database.getReference().child("profiles")
-                                                .child(currentUid)
-                                                .child("coins")
-                                                .setValue(coinsValue);
-                                    }
-                                }
-                            }
 
-                            @Override
-                            public void onCancelled(@NonNull @NotNull DatabaseError error) {
-                            }
-                        });
             });
 
             bottomSheetDialog.show();
