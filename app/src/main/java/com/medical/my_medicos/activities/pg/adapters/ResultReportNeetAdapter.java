@@ -1,22 +1,22 @@
 package com.medical.my_medicos.activities.pg.adapters;
 
 import android.annotation.SuppressLint;
-        import android.content.Context;
-        import android.view.LayoutInflater;
-        import android.view.View;
-        import android.view.ViewGroup;
-        import android.widget.TextView;
+import android.content.Context;
+import android.text.Html;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.TextView;
 
-        import androidx.annotation.NonNull;
-        import androidx.recyclerview.widget.RecyclerView;
+import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.RecyclerView;
 
-        import com.medical.my_medicos.R;
-        import com.medical.my_medicos.activities.pg.model.Neetpg;
-        import com.medical.my_medicos.activities.pg.model.QuizPGinsider;
+import com.medical.my_medicos.R;
+import com.medical.my_medicos.activities.pg.model.Neetpg;
 
-        import java.util.ArrayList;
+import java.util.ArrayList;
 
-public class  ResultReportNeetAdapter extends RecyclerView.Adapter< ResultReportNeetAdapter.ResultViewHolder> {
+public class ResultReportNeetAdapter extends RecyclerView.Adapter<ResultReportNeetAdapter.ResultViewHolder> {
 
     private Context context;
     private ArrayList<Neetpg> quizList;
@@ -41,9 +41,15 @@ public class  ResultReportNeetAdapter extends RecyclerView.Adapter< ResultReport
         Neetpg quizQuestion = quizList.get(position);
 
         holder.resultQuestion.setText(quizQuestion.getQuestion());
-        holder.resultCorrectOption.setText(quizQuestion.getCorrectAnswer());
-        holder.resultSelectedOption.setText(quizQuestion.getSelectedOption());
-        holder.resultDescription.setText(quizQuestion.getDescription());
+        holder.resultCorrectOption.setText("Correct Option: " + quizQuestion.getCorrectAnswer());
+        holder.resultSelectedOption.setText("Selected Option: " + quizQuestion.getSelectedOption());
+
+        // Handle HTML content in the description
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.N) {
+            holder.resultDescription.setText(Html.fromHtml(quizQuestion.getDescription(), Html.FROM_HTML_MODE_COMPACT));
+        } else {
+            holder.resultDescription.setText(Html.fromHtml(quizQuestion.getDescription()));
+        }
 
         if (quizQuestion.isCorrect()) {
             correctCount++;

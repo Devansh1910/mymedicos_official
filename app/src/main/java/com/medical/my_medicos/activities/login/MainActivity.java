@@ -1,18 +1,17 @@
 package com.medical.my_medicos.activities.login;
 
 import android.annotation.SuppressLint;
-import android.app.AlertDialog;
 import android.app.Dialog;
-import android.app.ProgressDialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.text.Editable;
+import android.text.Html;
 import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.util.Log;
@@ -21,20 +20,15 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
-import android.widget.ArrayAdapter;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
-import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
-import androidx.core.content.PermissionChecker;
 
 import com.airbnb.lottie.LottieAnimationView;
 import com.google.android.gms.ads.MobileAds;
@@ -42,9 +36,7 @@ import com.google.android.gms.ads.initialization.InitializationStatus;
 import com.google.android.gms.ads.initialization.OnInitializationCompleteListener;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
-import com.google.firebase.messaging.FirebaseMessaging;
-import com.medical.my_medicos.R;
-import com.medical.my_medicos.activities.home.HomeActivity;
+import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.google.firebase.FirebaseException;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
@@ -52,35 +44,44 @@ import com.google.firebase.auth.PhoneAuthCredential;
 import com.google.firebase.auth.PhoneAuthProvider;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QuerySnapshot;
+import com.medical.my_medicos.R;
+import com.medical.my_medicos.activities.home.HomeActivity;
+import com.medical.my_medicos.activities.login.bottom_controls.PrivacyPolicyActivity;
+import com.medical.my_medicos.activities.login.bottom_controls.TermsandConditionsActivity;
 
 import java.util.concurrent.TimeUnit;
 
 public class MainActivity extends AppCompatActivity {
 
     EditText phone;
-    Button login;
+    TextView login;
     private Dialog mdialog;
     Toolbar toolbar;
-    Spinner countryCodeSpinner;
     FirebaseAuth mauth;
     FirebaseFirestore db = FirebaseFirestore.getInstance();
-    private static final int SMS_PERMISSION_REQUEST_CODE = 101;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-
-
-
         setupUI();
         setupAdMob();
-        setupCountryCodeSpinner();
         setupPhoneNumberInput();
         setupLoginButton();
-        requestNotificationPermission();  // Add this line to prompt for permission
+
+        // Add the setup for toolbar_help click
+        ImageView toolbarHelp = findViewById(R.id.toolbar_help);
+        toolbarHelp.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showBottomSheetDialog();
+            }
+        });
+
+        TextView textView2 = findViewById(R.id.textidforquote);
+        String htmlText2 = "<strong>Bharat’s</strong> first premier <strong>medical community</strong> app, connecting healthcare experts seamlessly.";
+        textView2.setText(Html.fromHtml(htmlText2, Html.FROM_HTML_MODE_LEGACY));
 
     }
 
@@ -111,47 +112,6 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
-    private void requestNotificationPermission() {
-        new AlertDialog.Builder(this)
-                .setTitle("Notification Permission")
-                .setMessage("Do you want to receive notifications about important news?")
-                .setPositiveButton("Confirm", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        subscribeToTopic();
-                    }
-                })
-                .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        // Optionally handle a rejection.
-                        Toast.makeText(MainActivity.this, "Permission Denied", Toast.LENGTH_SHORT).show();
-                    }
-                })
-                .show();
-    }
-
-    private void subscribeToTopic() {
-        FirebaseMessaging.getInstance().subscribeToTopic("NEWS")
-                .addOnCompleteListener(new OnCompleteListener<Void>() {
-                    @Override
-                    public void onComplete(@NonNull Task<Void> task) {
-                        String msg = "Subscribed to NEWS updates";
-                        if (!task.isSuccessful()) {
-                            msg = "Subscription to NEWS updates failed";
-                        }
-                        Toast.makeText(MainActivity.this, msg, Toast.LENGTH_SHORT).show();
-                    }
-                });
-    }
-
-    private void setupCountryCodeSpinner() {
-        countryCodeSpinner = findViewById(R.id.countryCodeSpinner);
-        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this, R.array.country_codes, android.R.layout.simple_spinner_item);
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        countryCodeSpinner.setAdapter(adapter);
-    }
-
     private void setupPhoneNumberInput() {
         phone = findViewById(R.id.phonenumberedit);
         phone.addTextChangedListener(new TextWatcher() {
@@ -170,7 +130,7 @@ public class MainActivity extends AppCompatActivity {
                 // Check if the text length is exactly 10
                 if (s.length() == 10) {
                     login.setEnabled(true);
-                    login.setBackgroundColor(ContextCompat.getColor(MainActivity.this, R.color.blue));
+                    login.setBackgroundColor(ContextCompat.getColor(MainActivity.this, R.color.unselected));
                 } else {
                     login.setEnabled(false);
                     login.setBackgroundColor(ContextCompat.getColor(MainActivity.this, R.color.grey));
@@ -180,8 +140,6 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void setupLoginButton() {
-
-
         login = findViewById(R.id.lgn_btn);
         mdialog = new Dialog(this);
         mauth = FirebaseAuth.getInstance();
@@ -191,7 +149,6 @@ public class MainActivity extends AppCompatActivity {
         login.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                String selectedCountryCode = countryCodeSpinner.getSelectedItem().toString();
                 String phoneNumber = phone.getText().toString().trim();
 
                 if (TextUtils.isEmpty(phoneNumber)) {
@@ -203,9 +160,7 @@ public class MainActivity extends AppCompatActivity {
                     return;
                 }
 
-                if (!phoneNumber.startsWith(selectedCountryCode)) {
-                    phoneNumber = selectedCountryCode + phoneNumber;
-                }
+                phoneNumber = "+91" + phoneNumber; // Add static "+91" prefix
 
                 checkIfUserExists(phoneNumber);
             }
@@ -252,7 +207,7 @@ public class MainActivity extends AppCompatActivity {
                                                 Intent intent = new Intent(MainActivity.this, EnterOtp.class);
                                                 intent.putExtra("phone", phoneNumber);
                                                 intent.putExtra("verificationId", verificationId);
-                                                Log.e("otp sent",verificationId);
+                                                Log.e("otp sent", verificationId);
                                                 startActivity(intent);
                                             }
                                         }
@@ -260,6 +215,9 @@ public class MainActivity extends AppCompatActivity {
                             } else {
                                 Toast.makeText(MainActivity.this, "Not Registered", Toast.LENGTH_SHORT).show();
                                 Intent intent = new Intent(MainActivity.this, RegisterActivity.class);
+                                // Pass the trimmed phone number (without the country code) to RegistrationActivity
+                                String trimmedPhoneNumber = phone.getText().toString().trim();
+                                intent.putExtra("phone", trimmedPhoneNumber);
                                 startActivity(intent);
                             }
                         } else {
@@ -305,7 +263,6 @@ public class MainActivity extends AppCompatActivity {
                                 mdialog.dismiss();
                             }
                         } else {
-//                            Toast.makeText(getApplicationContext(), "Login Failed", Toast.LENGTH_SHORT).show();
                             mdialog.dismiss();
                         }
                     }
@@ -331,6 +288,50 @@ public class MainActivity extends AppCompatActivity {
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
+        }
+    }
+
+    private void showBottomSheetDialog() {
+        BottomSheetDialog bottomSheetDialog = new BottomSheetDialog(MainActivity.this);
+        View bottomSheetView = getLayoutInflater().inflate(R.layout.bottom_sheet_login_layout, null);
+        bottomSheetView.findViewById(R.id.check_mail).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                sendEmail();
+                bottomSheetDialog.dismiss();
+            }
+        });
+
+        bottomSheetView.findViewById(R.id.check_privacy).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(v.getContext(), PrivacyPolicyActivity.class);
+                v.getContext().startActivity(intent);
+                bottomSheetDialog.dismiss();
+            }
+        });
+
+        bottomSheetView.findViewById(R.id.check_terms).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(v.getContext(), TermsandConditionsActivity.class);
+                v.getContext().startActivity(intent);
+                bottomSheetDialog.dismiss();
+            }
+        });
+
+        bottomSheetDialog.setContentView(bottomSheetView);
+        bottomSheetDialog.show();
+    }
+
+    public void sendEmail() {
+        Intent emailIntent = new Intent(Intent.ACTION_SENDTO);
+        emailIntent.setData(Uri.parse("mailto:")); // only email apps should handle this
+        emailIntent.putExtra(Intent.EXTRA_EMAIL, new String[]{"support@mymedicos.in"});
+        emailIntent.putExtra(Intent.EXTRA_SUBJECT, "Facing issue in {Problem here}");
+
+        if (emailIntent.resolveActivity(getPackageManager()) != null) {
+            startActivity(emailIntent);
         }
     }
 }

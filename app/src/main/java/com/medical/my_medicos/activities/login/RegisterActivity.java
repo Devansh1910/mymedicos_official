@@ -24,6 +24,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.appcompat.widget.TooltipCompat;
 import androidx.core.content.ContextCompat;
 
 import com.google.firebase.messaging.FirebaseMessaging;
@@ -46,7 +47,7 @@ import java.util.Objects;
 import java.util.regex.Pattern;
 
 public class RegisterActivity extends AppCompatActivity {
-    Button register;
+    TextView register;
     private Spinner prefixSpinner, locationSpinner, interestSpinner,interestSpinner2;
     private ArrayAdapter<CharSequence> locationAdapter;
     private ArrayAdapter<CharSequence> interestAdapter;
@@ -89,8 +90,7 @@ public class RegisterActivity extends AppCompatActivity {
             }
         });
 
-
-        TextView  loginreg = findViewById(R.id.loginreg);
+        TextView loginreg = findViewById(R.id.loginreg);
         loginreg.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -99,7 +99,6 @@ public class RegisterActivity extends AppCompatActivity {
                 finish();
             }
         });
-
 
         register = findViewById(R.id.register);
         prefixSpinner = findViewById(R.id.prefixSpinner);
@@ -111,6 +110,13 @@ public class RegisterActivity extends AppCompatActivity {
         phoneNumber = findViewById(R.id.phonenumberededit);
         password = findViewById(R.id.passwordedit);
 
+        // Retrieve the phone number from the intent and set it to the phoneNumber EditText
+        Intent intent = getIntent();
+        if (intent != null && intent.hasExtra("phone")) {
+            String phone = intent.getStringExtra("phone");
+            phoneNumber.setText(phone);
+            phoneNumber.setEnabled(false); // Disable the field programmatically
+        }
 
         mAuth = FirebaseAuth.getInstance();
         progressDialog = new ProgressDialog(this);
@@ -121,6 +127,15 @@ public class RegisterActivity extends AppCompatActivity {
 
         setupSpinners();
         register();
+
+        ImageView lockIcon = findViewById(R.id.lock_icon);
+        lockIcon.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                TooltipCompat.setTooltipText(lockIcon, "The number is locked");
+                Toast.makeText(RegisterActivity.this, "The number is locked", Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 
     private void setupSpinners() {

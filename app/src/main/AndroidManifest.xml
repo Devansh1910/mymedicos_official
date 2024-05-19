@@ -11,12 +11,13 @@
     <uses-permission android:name="android.permission.WAKE_LOCK" />
     <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
     <uses-permission android:name="android.permission.VIBRATE" />
-
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"
+    <uses-permission
+        android:name="android.permission.WRITE_EXTERNAL_STORAGE"
         android:maxSdkVersion="32"
         tools:ignore="ScopedStorage" />
-    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"
-        android:maxSdkVersion="32"/>
+    <uses-permission
+        android:name="android.permission.READ_EXTERNAL_STORAGE"
+        android:maxSdkVersion="32" />
 
     <application
         android:allowBackup="true"
@@ -29,14 +30,34 @@
         android:theme="@style/Theme.My_medicos"
         tools:replace="android:label"
         tools:targetApi="31">
-        <service android:name=".activities.notifications.receivers.FirebaseServiceReceivernotification"
-            android:permission="com.google.android.c2dm.permission.Send"
-            android:exported="true">
+        <activity android:name=".activities.login.bottom_controls.TermsandConditionsActivity"
+            android:exported="false"/>
+        <activity
+            android:name=".activities.login.bottom_controls.PrivacyPolicyActivity"
+            android:exported="false" />
+        <activity
+            android:name=".activities.fmge.activites.FmgeExamActivity"
+            android:exported="false" />
+        <activity
+            android:name=".activities.fmge.activites.SearchFMGEActivity"
+            android:exported="false" />
+        <activity
+            android:name=".activities.fmge.activites.ResultFMGEActivity"
+            android:exported="false" />
+        <activity
+            android:name=".activities.fmge.activites.FmgeActivity"
+            android:exported="false" />
+
+        <service
+            android:name=".activities.notifications.receivers.FirebaseServiceReceivernotification"
+            android:exported="true"
+            android:permission="com.google.android.c2dm.permission.Send">
             <intent-filter>
-                <action android:name="com.google.firebase.MESSAGING_EVENT"/>
-                <action android:name="com.google.android.c2dm.intent.Recieve"/>
+                <action android:name="com.google.firebase.MESSAGING_EVENT" />
+                <action android:name="com.google.android.c2dm.intent.Recieve" />
             </intent-filter>
         </service>
+
         <activity
             android:name=".activities.news.ImportantNoticesNewsActivity"
             android:exported="false" />
@@ -184,16 +205,10 @@
             android:name=".activities.home.sidedrawer.ChooseLanguageActivity"
             android:exported="false" />
         <activity
-            android:name=".activities.home.sidedrawer.PrivacyActivity"
-            android:exported="false" />
-        <activity
             android:name=".activities.home.sidedrawer.SettingsActivity"
             android:exported="false" />
         <activity
             android:name=".activities.home.sidedrawer.HomeSideActivity"
-            android:exported="false" />
-        <activity
-            android:name=".activities.home.sidedrawer.TermsandConditionsActivity"
             android:exported="false" />
         <activity
             android:name=".activities.pg.animations.WrongAnswerActivity"
@@ -446,12 +461,13 @@
                 <data android:host="mymedicos.in" />
             </intent-filter>
         </activity>
+
         <receiver
             android:name=".activities.login.OtpReceiver"
             android:exported="true"
             android:permission="com.google.android.gms.auth.api.phone.permission.SEND">
             <intent-filter>
-                <action android:name="com.google.android.gms.auth.api.phone.SMS_RETRIEVED"/>
+                <action android:name="com.google.android.gms.auth.api.phone.SMS_RETRIEVED" />
             </intent-filter>
         </receiver>
 

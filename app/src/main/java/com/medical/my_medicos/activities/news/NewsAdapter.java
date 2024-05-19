@@ -2,6 +2,7 @@ package com.medical.my_medicos.activities.news;
 
 import android.content.Context;
 import android.content.Intent;
+import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -41,7 +42,12 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.NewsViewHolder
 
         holder.binding.newslabel.setText(news.getLabel());
         holder.binding.timeofnews.setText(news.getFormattedDate());
-        holder.binding.newsdescription.setText(news.getDescription());
+
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.N) {
+            holder.binding.newssubject.setText(Html.fromHtml(news.getDescription(), Html.FROM_HTML_MODE_COMPACT));
+        } else {
+            holder.binding.newssubject.setText(Html.fromHtml(news.getDescription()));
+        }
 
         holder.binding.viewentirenews.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -75,6 +81,7 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.NewsViewHolder
         intent.putExtra("Time", news.getFormattedDate());
         intent.putExtra("URL", news.getUrl());
         intent.putExtra("type", news.getType());
+        intent.putExtra("subject",news.getSubject());
 
         context.startActivity(intent);
     }

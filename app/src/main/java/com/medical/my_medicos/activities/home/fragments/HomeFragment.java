@@ -37,6 +37,7 @@ import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.medical.my_medicos.R;
 import com.medical.my_medicos.activities.cme.CmeActivity;
+import com.medical.my_medicos.activities.fmge.activites.FmgeActivity;
 import com.medical.my_medicos.activities.job.JobsActivity;
 import com.medical.my_medicos.activities.memes.MemeActivity;
 import com.medical.my_medicos.activities.news.NewsActivity;
@@ -92,12 +93,12 @@ public class HomeFragment extends Fragment {
     private FragmentHomeBinding binding;
     private LinearLayout progressBar;
     private SwipeRefreshLayout swipeRefreshLayout;
-    LinearLayout jobs,cme,news,publication,update,pg_prep,ugexams,meme;
+    ImageView jobs,cme,news,publication,update,pg_prep,ugexams,meme;
     MyAdapter adapterjob;
     MyAdapter2 adaptercme;
     String Speciality;
     CardView cardjobs,cardcme;
-    TextView home1,home2,home3,personname,personsuffix,greetingTextView;
+    TextView home1,home2,home3;
     RecyclerView recyclerViewjob;
     RecyclerView recyclerViewcme;
     private ExoPlayer player;
@@ -126,7 +127,7 @@ public class HomeFragment extends Fragment {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             Window window = requireActivity().getWindow();
             window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
-            window.setStatusBarColor(ContextCompat.getColor(requireContext(), R.color.blue));
+            window.setStatusBarColor(ContextCompat.getColor(requireContext(), R.color.teal_700));
         }
 
 //        showTapTargets();
@@ -138,7 +139,6 @@ public class HomeFragment extends Fragment {
         recyclerViewjob = rootView.findViewById(R.id.recyclerview_job1);
 
 //        viewFlipper = rootView.findViewById(R.id.viewFlipper);
-        dotsLayout = rootView.findViewById(R.id.dotsLayout);
         handler = new Handler();
 
 
@@ -161,24 +161,6 @@ public class HomeFragment extends Fragment {
 //        handler.postDelayed(autoScrollRunnable, AUTO_SCROLL_DELAY);
 
         recyclerViewcme = rootView.findViewById(R.id.recyclerview_cme1);
-
-        personname = rootView.findViewById(R.id.personnamewillbehere);
-
-        personsuffix = rootView.findViewById(R.id.personsuffix);
-
-        greetingTextView = rootView.findViewById(R.id.greetingstext);
-
-        Calendar calendar = Calendar.getInstance();
-        int hour = calendar.get(Calendar.HOUR_OF_DAY);
-
-        if (hour >= 0 && hour < 12) {
-            greetingTextView.setText("Good Morning, ");
-        } else if (hour >= 12 && hour < 16) {
-            greetingTextView.setText("Good Afternoon, ");
-        } else {
-            greetingTextView.setText("Good Evening, ");
-        }
-
 
         ugexams = rootView.findViewById(R.id.ugexams);
         ugexams.setOnClickListener(new View.OnClickListener() {
@@ -226,7 +208,7 @@ public class HomeFragment extends Fragment {
         update.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent i = new Intent(getActivity(), UniversityActivity.class);
+                Intent i = new Intent(getActivity(), FmgeActivity.class);
                 startActivity(i);
             }
         });
@@ -705,6 +687,7 @@ public class HomeFragment extends Fragment {
                                             document.getString("Title"),
                                             document.getString("thumbnail"),
                                             document.getString("Description"),
+                                            document.getString("subject"),
                                             document.getString("Time"),
                                             document.getString("URL")
                                     );
@@ -807,7 +790,6 @@ public class HomeFragment extends Fragment {
                                             preferences.put("userphone", userPhone);
                                             preferences.put("docId", docID);
                                             preferences.put("prefix", userPrefix);
-                                            personname.setText(userName);
 
                                             fetchdata();
                                         }
@@ -828,51 +810,12 @@ public class HomeFragment extends Fragment {
             System.out.println("Key '" + "username" + "' exists in preferences.");
             String fullName = preferences.get("username", null);
             Log.d("Something went wrong", fullName);
-
-            // Split the full name by spaces and take the first element (the first name)
-            String firstName = fullName.split(" ")[0];
-
-            // Set the first name to the TextView
-            personname.setText(firstName);
         }
-
-        // Assuming you want to keep the rest of the logic as is
-        String username = preferences.get("username", "");
-        String userPrefix = preferences.get("prefix", "");
-        // personname.setText(username); // This line might be redundant if you're setting the first name above
-        personsuffix.setText(userPrefix);
     }
-
 
     private void initHomeSlider() {
         getsliderHome();
     }
-
-//    private final Runnable autoScrollRunnable = new Runnable() {
-//        @Override
-//        public void run() {
-//            int currentChildIndex = viewFlipper.getDisplayedChild();
-//            int nextChildIndex = (currentChildIndex + 1) % viewFlipper.getChildCount();
-//            viewFlipper.setDisplayedChild(nextChildIndex);
-//            updateDots(nextChildIndex);
-//            handler.postDelayed(this, AUTO_SCROLL_DELAY);
-//        }
-//    };
-//
-//    @SuppressLint("UseCompatLoadingForDrawables")
-//    private void addDots() {
-//        for (int i = 0; i < viewFlipper.getChildCount(); i++) {
-//            ImageView dot = new ImageView(requireContext());
-//            dot.setImageDrawable(getResources().getDrawable(R.drawable.inactive_thumb));
-//            LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(
-//                    LinearLayout.LayoutParams.WRAP_CONTENT,
-//                    LinearLayout.LayoutParams.WRAP_CONTENT
-//            );
-//            params.setMargins(8, 0, 8, 0);
-//            dotsLayout.addView(dot, params);
-//        }
-//        updateDots(0);
-//    }
 
     @Override
     public void onDetach() {

@@ -49,106 +49,98 @@
             <ScrollView
                 android:id="@+id/scrollerforthehome"
                 android:layout_width="match_parent"
+                android:background="@color/blue"
                 android:layout_height="wrap_content">
 
-                <LinearLayout
+                <RelativeLayout
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical">
+                    android:layout_height="wrap_content">
 
-                    <LinearLayout
+                    <ImageView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginBottom="5dp"
-                        android:paddingVertical="@dimen/_5sdp"
-                        android:elevation="2dp"
-                        android:background="@drawable/uptodownforhome"
-                        android:paddingHorizontal="@dimen/_5sdp"
-                        android:orientation="vertical">
-
-                        <LinearLayout
-                            android:layout_width="match_parent"
-                            android:paddingHorizontal="@dimen/_10ssp"
-                            android:elevation="@dimen/_16sdp"
-                            android:layout_marginBottom="@dimen/_8sdp"
-                            android:layout_height="wrap_content">
-
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="Welcome,"
-                                android:textSize="@dimen/_14ssp"
-                                android:id="@+id/greetingstext"
-                                android:textColor="@color/unselected"
-                                android:fontFamily="@font/inter_extrabold"
-                                android:textStyle="bold" />
-
-                            <TextView
-                                android:id="@+id/personsuffix"
-                                android:layout_width="wrap_content"
-                                android:paddingHorizontal="2dp"
-                                android:layout_height="wrap_content"
-                                android:text="Loading..."
-                                android:textColor="@color/unselected"
-                                android:textSize="@dimen/_14ssp"
-                                android:fontFamily="@font/inter_extrabold"
-                                android:textStyle="bold" />
-
-                            <TextView
-                                android:id="@+id/personnamewillbehere"
-                                android:layout_width="0dp"
-                                android:layout_weight="1"
-                                android:paddingHorizontal="2dp"
-                                android:layout_height="wrap_content"
-                                android:text="Loading..."
-                                android:textColor="@color/unselected"
-                                android:textSize="@dimen/_14ssp"
-                                android:fontFamily="@font/inter_extrabold"
-                                android:textStyle="bold" />
-
-                        </LinearLayout>
-
-                        <androidx.cardview.widget.CardView
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_marginHorizontal="8dp"
-                            app:cardCornerRadius="@dimen/_10ssp">
-
-                            <androidx.cardview.widget.CardView
-                                android:layout_width="match_parent"
-                                android:paddingVertical="4dp"
-                                android:layout_height="wrap_content"
-                                app:cardCornerRadius="8dp">
-
-                                <org.imaginativeworld.whynotimagecarousel.ImageCarousel
-                                    android:id="@+id/homecarousel"
-                                    android:layout_width="match_parent"
-                                    android:layout_height="180dp"
-                                    app:autoPlay="true"
-                                    app:showCaption="false"
-                                    app:showNavigationButtons="false" />
-
-                            </androidx.cardview.widget.CardView>
-
-
-                        </androidx.cardview.widget.CardView>
-
-                    </LinearLayout>
+                        android:layout_alignParentTop="true"
+                        android:layout_alignParentStart="true"
+                        android:scaleType="centerCrop"
+                        android:layout_alignParentEnd="true"
+                        android:src="@drawable/vector_toppp" />
 
                     <androidx.cardview.widget.CardView
+                        android:id="@+id/cardviewfull"
+                        android:layout_marginTop="@dimen/_170sdp"
                         android:layout_width="match_parent"
-                        android:layout_marginHorizontal="@dimen/_5sdp"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="5dp"
-                        app:cardCornerRadius="10dp">
+                        app:cardCornerRadius="@dimen/_10ssp"
+                        android:outlineAmbientShadowColor="@color/black"
+                        android:elevation="@dimen/_10ssp"
+                        android:layout_height="wrap_content">
 
                         <LinearLayout
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_gravity="center"
-                            android:padding="@dimen/_5sdp"
-                            android:elevation="@dimen/_5sdp"
                             android:orientation="vertical">
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:paddingVertical="@dimen/_5sdp"
+                                android:elevation="2dp"
+                                android:paddingHorizontal="@dimen/_5sdp"
+                                android:orientation="vertical">
+
+                                <androidx.cardview.widget.CardView
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginHorizontal="@dimen/_5ssp"
+                                    app:cardCornerRadius="@dimen/_10ssp">
+
+                                    <androidx.cardview.widget.CardView
+                                        android:layout_width="match_parent"
+                                        android:paddingVertical="4dp"
+                                        android:layout_height="wrap_content"
+                                        app:cardCornerRadius="8dp">
+
+                                        <org.imaginativeworld.whynotimagecarousel.ImageCarousel
+                                            android:id="@+id/homecarousel"
+                                            android:layout_width="match_parent"
+                                            android:layout_height="100dp"
+                                            android:elevation="@dimen/_10ssp"
+                                            app:autoPlay="true"
+                                            app:showTopShadow="false"
+                                            app:showIndicator="false"
+                                            app:showBottomShadow="false"
+                                            app:showCaption="false"
+                                            app:showNavigationButtons="false" />
+
+                                    </androidx.cardview.widget.CardView>
+
+
+                                </androidx.cardview.widget.CardView>
+
+                            </LinearLayout>
+
+                            <!-- Explore -->
+
+                            <TextView
+                                android:layout_width="match_parent"
+                                android:paddingHorizontal="@dimen/_10ssp"
+                                android:layout_height="match_parent"
+                                android:layout_gravity="center_vertical"
+                                android:gravity="center_vertical"
+                                android:text="Features"
+                                android:fontFamily="@font/inter"
+                                android:textSize="@dimen/_12ssp"
+                                android:textStyle="bold" />
+
+                            <TextView
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginBottom="@dimen/_8ssp"
+                                android:text="Explore the features!"
+                                android:paddingHorizontal="@dimen/_10sdp"
+                                android:fontFamily="@font/inter"
+                                android:textColor="#919392"
+                                android:textSize="@dimen/_10ssp"
+                                android:textStyle="bold" />
 
                             <LinearLayout
                                 android:layout_width="match_parent"
@@ -160,30 +152,24 @@
                                 <LinearLayout
                                     android:layout_width="0dp"
                                     android:layout_weight="1"
+                                    android:layout_gravity="center"
+                                    android:gravity="center"
                                     android:layout_height="wrap_content"
                                     android:orientation="vertical">
 
-                                    <LinearLayout
+                                    <ImageView
                                         android:id="@+id/cme_img1"
-                                        android:layout_width="@dimen/_40sdp"
-                                        android:layout_height="@dimen/_40sdp"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
                                         android:layout_gravity="center"
-                                        android:background="@drawable/back1">
-
-                                        <ImageView
-                                            android:layout_width="@dimen/_25sdp"
-                                            android:layout_height="@dimen/_25sdp"
-                                            android:layout_gravity="center"
-                                            android:layout_marginStart="@dimen/_8sdp"
-                                            android:src="@drawable/cmeicon" />
-
-                                    </LinearLayout>
+                                        android:scaleType="centerCrop"
+                                        android:elevation="@dimen/_10ssp"
+                                        android:src="@drawable/cnen" />
 
                                     <TextView
                                         android:layout_width="wrap_content"
                                         android:layout_height="wrap_content"
                                         android:layout_gravity="center"
-                                        android:layout_marginTop="@dimen/_5sdp"
                                         android:text="CME"
                                         android:textSize="@dimen/_10sdp"
                                         tools:ignore="TextSizeCheck" />
@@ -195,26 +181,19 @@
                                     android:layout_weight="1"                                android:layout_height="wrap_content"
                                     android:orientation="vertical">
 
-                                    <LinearLayout
+                                    <ImageView
                                         android:id="@+id/pub_image"
-                                        android:layout_width="@dimen/_40sdp"
-                                        android:layout_height="@dimen/_40sdp"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
                                         android:layout_gravity="center"
-                                        android:background="@drawable/back2">
-
-                                        <ImageView
-                                            android:layout_width="@dimen/_25sdp"
-                                            android:layout_height="@dimen/_25sdp"
-                                            android:layout_gravity="center"
-                                            android:layout_marginStart="@dimen/_8sdp"
-                                            android:src="@drawable/publicationicon" />
-                                    </LinearLayout>
+                                        android:scaleType="centerCrop"
+                                        android:elevation="@dimen/_10ssp"
+                                        android:src="@drawable/lib_new" />
 
                                     <TextView
                                         android:layout_width="wrap_content"
                                         android:layout_height="wrap_content"
                                         android:layout_gravity="center"
-                                        android:layout_marginTop="@dimen/_5sdp"
                                         android:text="Library"
                                         android:textAlignment="center"
                                         android:textSize="@dimen/_10ssp" />
@@ -225,26 +204,19 @@
                                     android:layout_weight="1"                                android:layout_height="wrap_content"
                                     android:orientation="vertical">
 
-                                    <LinearLayout
+                                    <ImageView
                                         android:id="@+id/news_home"
-                                        android:layout_width="@dimen/_40sdp"
-                                        android:layout_height="@dimen/_40sdp"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
                                         android:layout_gravity="center"
-                                        android:background="@drawable/back1">
-
-                                        <ImageView
-                                            android:layout_width="@dimen/_25sdp"
-                                            android:layout_height="@dimen/_25sdp"
-                                            android:layout_gravity="center"
-                                            android:layout_marginStart="@dimen/_8sdp"
-                                            android:src="@drawable/newsicon" />
-                                    </LinearLayout>
+                                        android:scaleType="centerCrop"
+                                        android:elevation="@dimen/_10ssp"
+                                        android:src="@drawable/news_new" />
 
                                     <TextView
                                         android:layout_width="wrap_content"
                                         android:layout_height="wrap_content"
                                         android:layout_gravity="center"
-                                        android:layout_marginTop="@dimen/_5sdp"
                                         android:text="News"
                                         android:textAlignment="center"
                                         android:textSize="@dimen/_10ssp" />
@@ -255,31 +227,46 @@
                                     android:layout_weight="1"                                android:layout_height="wrap_content"
                                     android:orientation="vertical">
 
-                                    <LinearLayout
+                                    <ImageView
                                         android:id="@+id/jobs_img"
-                                        android:layout_width="@dimen/_40sdp"
-                                        android:layout_height="@dimen/_40sdp"
+                                        android:scaleType="centerCrop"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
                                         android:layout_gravity="center"
-                                        android:background="@drawable/back2">
-
-                                        <ImageView
-                                            android:layout_width="@dimen/_25sdp"
-                                            android:layout_height="@dimen/_25sdp"
-                                            android:layout_gravity="center"
-                                            android:layout_marginStart="@dimen/_8sdp"
-                                            android:src="@drawable/jobicon" />
-                                    </LinearLayout>
+                                        android:elevation="@dimen/_10ssp"
+                                        android:src="@drawable/job_new" />
 
                                     <TextView
                                         android:layout_width="wrap_content"
                                         android:layout_height="wrap_content"
                                         android:layout_gravity="center"
-                                        android:layout_marginTop="@dimen/_5sdp"
                                         android:text="Jobs"
                                         android:textSize="@dimen/_10ssp" />
                                 </LinearLayout>
 
                             </LinearLayout>
+
+                            <TextView
+                                android:layout_width="match_parent"
+                                android:paddingHorizontal="@dimen/_10ssp"
+                                android:layout_height="match_parent"
+                                android:layout_gravity="center_vertical"
+                                android:layout_marginTop="@dimen/_5ssp"
+                                android:gravity="center_vertical"
+                                android:text="Education"
+                                android:fontFamily="@font/inter"
+                                android:textSize="@dimen/_12ssp"
+                                android:textStyle="bold" />
+
+                            <TextView
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:text="Enhancing Education Through Innovation"
+                                android:paddingHorizontal="@dimen/_10sdp"
+                                android:fontFamily="@font/inter"
+                                android:textColor="#919392"
+                                android:textSize="@dimen/_10ssp"
+                                android:textStyle="bold" />
 
                             <LinearLayout
                                 android:layout_width="match_parent"
@@ -293,29 +280,20 @@
                                     android:layout_width="0dp"
                                     android:layout_weight="1"                                android:layout_height="wrap_content"
                                     android:orientation="vertical">
-                                    <LinearLayout
+
+                                    <ImageView
                                         android:id="@+id/ugexams"
-                                        android:layout_width="@dimen/_40sdp"
-                                        android:layout_height="@dimen/_40sdp"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
                                         android:layout_gravity="center"
-                                        android:background="@drawable/back1">
-
-                                        <ImageView
-                                            android:layout_width="@dimen/_25sdp"
-                                            android:layout_height="@dimen/_25sdp"
-                                            android:layout_gravity="center"
-                                            android:layout_marginStart="@dimen/_8sdp"
-                                            android:src="@drawable/ugicon" />
-
-                                    </LinearLayout>
-
-
+                                        android:scaleType="centerCrop"
+                                        android:elevation="@dimen/_10ssp"
+                                        android:src="@drawable/ug_new" />
 
                                     <TextView
                                         android:layout_width="wrap_content"
                                         android:layout_height="wrap_content"
                                         android:layout_gravity="center"
-                                        android:layout_marginTop="@dimen/_5sdp"
                                         android:text="UG exams"
                                         android:textSize="@dimen/_10sdp"
                                         tools:ignore="TextSizeCheck" />
@@ -325,27 +303,20 @@
                                     android:layout_width="0dp"
                                     android:layout_weight="1"                                android:layout_height="wrap_content"
                                     android:orientation="vertical">
-                                    <LinearLayout
+
+                                    <ImageView
                                         android:id="@+id/pg_prep"
-                                        android:layout_width="@dimen/_40sdp"
-                                        android:layout_height="@dimen/_40sdp"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
                                         android:layout_gravity="center"
-                                        android:background="@drawable/back1">
-
-                                        <ImageView
-                                            android:layout_width="@dimen/_25sdp"
-                                            android:layout_height="@dimen/_25sdp"
-                                            android:layout_gravity="center"
-                                            android:layout_marginStart="@dimen/_8sdp"
-                                            android:src="@drawable/pgicon" />
-
-                                    </LinearLayout>
+                                        android:scaleType="centerCrop"
+                                        android:elevation="@dimen/_10ssp"
+                                        android:src="@drawable/pg_new" />
 
                                     <TextView
                                         android:layout_width="wrap_content"
                                         android:layout_height="wrap_content"
                                         android:layout_gravity="center"
-                                        android:layout_marginTop="@dimen/_5sdp"
                                         android:text="PG Neet"
                                         android:textAlignment="center"
                                         android:textSize="@dimen/_10ssp" />
@@ -354,466 +325,409 @@
 
                                 <LinearLayout
                                     android:layout_width="0dp"
-                                    android:layout_weight="1"                                android:layout_height="wrap_content"
+                                    android:layout_weight="1"
+                                    android:layout_height="wrap_content"
                                     android:orientation="vertical">
-                                    <LinearLayout
+
+                                    <ImageView
                                         android:id="@+id/university"
-                                        android:layout_width="@dimen/_40sdp"
-                                        android:layout_height="@dimen/_40sdp"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
                                         android:layout_gravity="center"
-                                        android:background="@drawable/back1">
-
-                                        <ImageView
-                                            android:layout_width="@dimen/_25sdp"
-                                            android:layout_height="@dimen/_25sdp"
-                                            android:layout_gravity="center"
-                                            android:layout_marginStart="@dimen/_8sdp"
-                                            android:src="@drawable/universityicon" />
-
-                                    </LinearLayout>
-
+                                        android:elevation="@dimen/_10ssp"
+                                        android:scaleType="centerCrop"
+                                        android:src="@drawable/cnen" />
 
                                     <TextView
                                         android:layout_width="wrap_content"
                                         android:layout_height="wrap_content"
                                         android:layout_gravity="center"
-                                        android:layout_marginTop="@dimen/_5sdp"
-                                        android:text="Updates"
+                                        android:text="FMGE"
                                         android:textAlignment="center"
                                         android:textSize="@dimen/_10ssp" />
                                 </LinearLayout>
 
                                 <LinearLayout
                                     android:layout_width="0dp"
-                                    android:layout_weight="1"                                android:layout_height="wrap_content"
+                                    android:layout_weight="1"
+                                    android:layout_height="wrap_content"
                                     android:orientation="vertical">
-                                    <LinearLayout
+
+                                    <ImageView
                                         android:id="@+id/meme"
-                                        android:layout_width="@dimen/_40sdp"
-                                        android:layout_height="@dimen/_40sdp"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
                                         android:layout_gravity="center"
-                                        android:background="@drawable/back1">
-
-                                        <ImageView
-                                            android:layout_width="@dimen/_25sdp"
-                                            android:layout_height="@dimen/_25sdp"
-                                            android:layout_gravity="center"
-                                            android:layout_marginStart="@dimen/_8sdp"
-                                            android:src="@drawable/memeicon" />
-
-                                    </LinearLayout>
-
-
+                                        android:scaleType="centerCrop"
+                                        android:elevation="@dimen/_10ssp"
+                                        android:src="@drawable/cnen" />
 
                                     <TextView
                                         android:layout_width="wrap_content"
                                         android:layout_height="wrap_content"
                                         android:layout_gravity="center"
-                                        android:layout_marginTop="@dimen/_5sdp"
-                                        android:text="Memes"
+                                        android:text="Neet ss"
                                         android:textSize="@dimen/_10ssp" />
                                 </LinearLayout>
 
                             </LinearLayout>
 
-                        </LinearLayout>
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:paddingHorizontal="@dimen/_10ssp"
+                                android:layout_marginTop="@dimen/_10ssp"
+                                android:elevation="@dimen/_16sdp"
+                                android:layout_height="wrap_content">
 
-                    </androidx.cardview.widget.CardView>
+                                <TextView
+                                    android:layout_width="0dp"
+                                    android:layout_weight="1"
+                                    android:layout_height="match_parent"
+                                    android:layout_gravity="center_vertical"
+                                    android:gravity="center_vertical"
+                                    android:text="Quick Apply"
+                                    android:fontFamily="@font/inter"
+                                    android:textSize="@dimen/_12ssp"
+                                    android:textStyle="bold" />
 
-<!--                    <ViewFlipper-->
-<!--                        android:id="@+id/viewFlipper"-->
-<!--                        android:autoStart="true"-->
-<!--                        android:paddingVertical="0dp"-->
-<!--                        android:layout_width="match_parent"-->
-<!--                        android:layout_height="wrap_content">-->
-
-<!--                        <TextView-->
-<!--                            android:layout_width="match_parent"-->
-<!--                            android:layout_height="wrap_content"-->
-<!--                            android:paddingVertical="8dp"-->
-<!--                            android:paddingHorizontal="15dp"-->
-<!--                            android:textColor="#595656"-->
-<!--                            android:fontFamily="@font/inter"-->
-<!--                            android:text="To the healer weaving hope: positive vibes, dear doctor!"-->
-<!--                            android:textSize="13sp"-->
-<!--                            android:textStyle="bold" />-->
-
-<!--                        <TextView-->
-<!--                            android:layout_width="match_parent"-->
-<!--                            android:layout_height="wrap_content"-->
-<!--                            android:text="In the world of health, your dedication stands out. Good thoughts to you, doctor!"-->
-<!--                            android:fontFamily="@font/inter"-->
-<!--                            android:textSize="13sp"-->
-<!--                            android:textStyle="bold"-->
-<!--                            android:textColor="#595656"-->
-<!--                            android:paddingVertical="8dp"-->
-<!--                            android:paddingHorizontal="15dp" />-->
-
-<!--                        <TextView-->
-<!--                            android:layout_width="match_parent"-->
-<!--                            android:layout_height="wrap_content"-->
-<!--                            android:text="Amid challenges, your commitment shines. Positive energy, amazing doctor!"-->
-<!--                            android:textSize="13sp"-->
-<!--                            android:fontFamily="@font/inter"-->
-<!--                            android:textStyle="bold"-->
-<!--                            android:paddingVertical="8dp"-->
-<!--                            android:paddingHorizontal="15dp"-->
-<!--                            android:textColor="#595656"/>-->
-
-<!--                    </ViewFlipper>-->
-
-                    <LinearLayout
-                        android:id="@+id/dotsLayout"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginBottom="12dp"
-                        android:orientation="horizontal"
-                        android:gravity="center"/>
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:paddingHorizontal="@dimen/_10ssp"
-                        android:elevation="@dimen/_16sdp"
-                        android:layout_height="wrap_content">
-
-                        <TextView
-                            android:layout_width="0dp"
-                            android:layout_weight="1"
-                            android:layout_height="match_parent"
-                            android:layout_gravity="center_vertical"
-                            android:gravity="center_vertical"
-                            android:text="Quick Apply"
-                            android:fontFamily="@font/inter"
-                            android:textSize="@dimen/_12ssp"
-                            android:textStyle="bold" />
-
-                        <TextView
-                            android:id="@+id/navigatejobs"
-                            android:layout_width="wrap_content"
-                            android:fontFamily="@font/inter"
-                            android:layout_height="wrap_content"
-                            android:text="View All"
-                            android:paddingHorizontal="@dimen/_8sdp"
-                            android:paddingVertical="@dimen/_2sdp"
-                            android:background="@drawable/categoryblackkkkkk"
-                            android:drawablePadding="@dimen/_8ssp"
-                            android:layout_gravity="center"
-                            android:gravity="end"
-                            android:textColor="@color/unselected"
-                            android:textSize="@dimen/_12ssp"
-                            android:textStyle="bold" />
-                    </LinearLayout>
-
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:text="Latest Jobs Opening, Recommended for you!"
-                        android:paddingHorizontal="@dimen/_10sdp"
-                        android:fontFamily="@font/inter"
-                        android:textColor="#919392"
-                        android:textSize="@dimen/_10ssp"
-                        android:textStyle="bold" />
-
-                    <androidx.recyclerview.widget.RecyclerView
-                        android:id="@+id/recyclerview_job1"
-                        android:layout_width="match_parent"
-                        android:paddingVertical="@dimen/_5sdp"
-                        android:layout_height="wrap_content"
-                        android:layout_marginRight="@dimen/_5sdp"
-                        android:layout_marginLeft="@dimen/_5sdp"
-                        android:orientation="horizontal">
-
-                    </androidx.recyclerview.widget.RecyclerView>
-
-                    <androidx.cardview.widget.CardView
-                        android:id="@+id/cardjobs"
-                        app:cardCornerRadius="@dimen/_5sdp"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_margin="8dp"
-                        android:elevation="4dp">
-
-                        <!-- Card Content Layout -->
-                        <LinearLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:orientation="vertical"
-                            android:padding="16dp">
+                                <TextView
+                                    android:id="@+id/navigatejobs"
+                                    android:layout_width="wrap_content"
+                                    android:fontFamily="@font/inter"
+                                    android:layout_height="wrap_content"
+                                    android:text="Explore"
+                                    android:paddingHorizontal="@dimen/_8sdp"
+                                    android:paddingVertical="@dimen/_2sdp"
+                                    android:drawablePadding="@dimen/_8ssp"
+                                    android:layout_gravity="center"
+                                    android:gravity="end"
+                                    android:textColor="@color/blue"
+                                    android:textSize="@dimen/_10ssp"
+                                    android:textStyle="bold" />
+                            </LinearLayout>
 
                             <TextView
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:text="Explore"
+                                android:text="Latest Jobs Opening, Recommended for you!"
+                                android:paddingHorizontal="@dimen/_10sdp"
+                                android:layout_marginBottom="@dimen/_5ssp"
                                 android:fontFamily="@font/inter"
-                                android:textSize="16sp"
-                                android:drawableEnd="@drawable/arrowright"
-                                android:layout_gravity="center_horizontal"
-                                android:textColor="@android:color/black"/>
+                                android:textColor="#919392"
+                                android:textSize="@dimen/_10ssp"
+                                android:textStyle="bold" />
 
-                            <!-- Add more views or customize the layout as needed -->
+                            <androidx.recyclerview.widget.RecyclerView
+                                android:id="@+id/recyclerview_job1"
+                                android:layout_width="match_parent"
+                                android:paddingVertical="@dimen/_5sdp"
+                                android:layout_height="wrap_content"
+                                android:layout_marginRight="@dimen/_5sdp"
+                                android:layout_marginLeft="@dimen/_5sdp"
+                                android:orientation="horizontal">
 
-                        </LinearLayout>
+                            </androidx.recyclerview.widget.RecyclerView>
 
-                    </androidx.cardview.widget.CardView>
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:paddingHorizontal="@dimen/_10ssp"
-                        android:elevation="@dimen/_16sdp"
-                        android:layout_height="wrap_content">
-
-                        <TextView
-                            android:layout_width="0dp"
-                            android:layout_weight="1"
-                            android:layout_height="match_parent"
-                            android:layout_gravity="center_vertical"
-                            android:gravity="center_vertical"
-                            android:text="Quick Explore"
-                            android:textSize="@dimen/_12ssp"
-                            android:fontFamily="@font/inter"
-                            android:textStyle="bold" />
-
-                        <TextView
-                            android:id="@+id/navigatecmeinsider"
-                            android:layout_width="wrap_content"
-                            android:fontFamily="@font/inter"
-                            android:layout_height="wrap_content"
-                            android:text="View All"
-                            android:paddingHorizontal="@dimen/_8sdp"
-                            android:paddingVertical="@dimen/_2sdp"
-                            android:background="@drawable/categoryblackkkkkk"
-                            android:drawablePadding="@dimen/_8ssp"
-                            android:layout_gravity="center"
-                            android:gravity="end"
-                            android:textColor="@color/unselected"
-                            android:textSize="@dimen/_12ssp"
-                            android:textStyle="bold" />
-                    </LinearLayout>
-
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:text="Checkout the latest CME in a Click!"
-                        android:paddingHorizontal="@dimen/_10sdp"
-                        android:fontFamily="@font/inter"
-                        android:textColor="#919392"
-                        android:textSize="@dimen/_10ssp"
-                        android:textStyle="bold" />
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:paddingVertical="@dimen/_5sdp"
-                        android:layout_height="wrap_content"
-                        android:paddingHorizontal="@dimen/_10ssp">
-
-                        <TextView
-                            android:id="@+id/home1"
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_marginEnd="@dimen/_5ssp"
-                            android:layout_weight="1"
-                            android:fontFamily="@font/inter"
-                            android:background="@drawable/colorofhomeactivity"
-                            android:paddingHorizontal="@dimen/_5ssp"
-                            android:paddingVertical="@dimen/_10ssp"
-                            android:text="Upcoming"
-                            android:textAlignment="center"
-                            android:textColor="#454242"
-                            android:textSize="@dimen/_12ssp"
-                            android:textStyle="bold" />
-
-                        <TextView
-                            android:id="@+id/home2"
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_marginEnd="@dimen/_5ssp"
-                            android:layout_weight="1"
-                            android:fontFamily="@font/inter"
-                            android:background="@drawable/colorofhomeactivity"
-                            android:paddingHorizontal="@dimen/_5ssp"
-                            android:paddingVertical="@dimen/_10ssp"
-                            android:text="Past"
-                            android:textAlignment="center"
-                            android:textColor="#454242"
-                            android:textSize="@dimen/_12ssp"
-                            android:textStyle="bold" />
-
-                        <TextView
-                            android:id="@+id/home3"
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:fontFamily="@font/inter"
-                            android:background="@drawable/colorofhomeactivity"
-                            android:paddingHorizontal="@dimen/_5ssp"
-                            android:paddingVertical="@dimen/_10ssp"
-                            android:text="Ongoing"
-                            android:textAlignment="center"
-                            android:textColor="#454242"
-                            android:textSize="@dimen/_12ssp"
-                            android:textStyle="bold" />
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:paddingHorizontal="@dimen/_10ssp"
-                        android:layout_height="wrap_content">
-
-                        <TextView
-                            android:layout_width="0dp"
-                            android:layout_weight="1"
-                            android:fontFamily="@font/inter"
-                            android:layout_height="match_parent"
-                            android:layout_gravity="center_vertical"
-                            android:gravity="center_vertical"
-                            android:text="Featured CME"
-                            android:textSize="@dimen/_12ssp"
-                            android:textStyle="bold" />
-
-                        <TextView
-                            android:id="@+id/navigatecme"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="View All"
-                            android:paddingHorizontal="@dimen/_8sdp"
-                            android:paddingVertical="@dimen/_2sdp"
-                            android:background="@drawable/categoryblackkkkkk"
-                            android:fontFamily="@font/inter"
-                            android:drawablePadding="@dimen/_8ssp"
-                            android:layout_gravity="center"
-                            android:gravity="end"
-                            android:textColor="@color/unselected"
-                            android:textSize="@dimen/_12ssp"
-                            android:textStyle="bold" />
-                    </LinearLayout>
-
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:text="Upscale your knowledge, Listen to the Professionals of your domain."
-                        android:paddingHorizontal="@dimen/_10sdp"
-                        android:fontFamily="@font/inter"
-                        android:textColor="#919392"
-                        android:textSize="@dimen/_10ssp"
-                        android:textStyle="bold" />
-
-                    <androidx.recyclerview.widget.RecyclerView
-                        android:id="@+id/recyclerview_cme1"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="@dimen/_5sdp"
-                        android:layout_marginHorizontal="@dimen/_5sdp"
-                        android:orientation="horizontal">
-
-                    </androidx.recyclerview.widget.RecyclerView>
-
-                    <androidx.cardview.widget.CardView
-                        android:id="@+id/cardcme"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_margin="8dp">
-
-                        <LinearLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:orientation="vertical"
-                            android:padding="16dp">
-
-                            <TextView
-                                android:id="@+id/descriptionTextView"
+                            <androidx.cardview.widget.CardView
+                                android:id="@+id/cardjobs"
+                                app:cardCornerRadius="@dimen/_5sdp"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:text="Explore"
+                                android:layout_margin="8dp"
+                                android:elevation="4dp">
+
+                                <!-- Card Content Layout -->
+                                <LinearLayout
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:orientation="vertical"
+                                    android:padding="16dp">
+
+                                    <TextView
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content"
+                                        android:text="Explore"
+                                        android:fontFamily="@font/inter"
+                                        android:textSize="16sp"
+                                        android:drawableEnd="@drawable/arrowright"
+                                        android:layout_gravity="center_horizontal"
+                                        android:textColor="@android:color/black"/>
+
+                                    <!-- Add more views or customize the layout as needed -->
+
+                                </LinearLayout>
+
+                            </androidx.cardview.widget.CardView>
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:paddingHorizontal="@dimen/_10ssp"
+                                android:elevation="@dimen/_16sdp"
+                                android:layout_marginTop="@dimen/_10ssp"
+                                android:layout_height="wrap_content">
+
+                                <TextView
+                                    android:layout_width="0dp"
+                                    android:layout_weight="1"
+                                    android:layout_height="match_parent"
+                                    android:layout_gravity="center_vertical"
+                                    android:gravity="center_vertical"
+                                    android:text="Quick Explore"
+                                    android:textSize="@dimen/_12ssp"
+                                    android:fontFamily="@font/inter"
+                                    android:textStyle="bold" />
+
+                                <TextView
+                                    android:id="@+id/navigatecmeinsider"
+                                    android:layout_width="wrap_content"
+                                    android:fontFamily="@font/inter"
+                                    android:layout_height="wrap_content"
+                                    android:text="View All"
+                                    android:paddingHorizontal="@dimen/_8sdp"
+                                    android:paddingVertical="@dimen/_2sdp"
+                                    android:background="@drawable/categoryblackkkkkk"
+                                    android:drawablePadding="@dimen/_8ssp"
+                                    android:layout_gravity="center"
+                                    android:gravity="end"
+                                    android:textColor="@color/unselected"
+                                    android:textSize="@dimen/_12ssp"
+                                    android:textStyle="bold" />
+                            </LinearLayout>
+
+                            <TextView
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginBottom="@dimen/_5ssp"
+                                android:text="Checkout the latest CME in a Click!"
+                                android:paddingHorizontal="@dimen/_10sdp"
                                 android:fontFamily="@font/inter"
-                                android:textSize="16sp"
-                                android:drawableEnd="@drawable/arrowright"
-                                android:layout_gravity="center_horizontal"
-                                android:textColor="@android:color/black"/>
+                                android:textColor="#919392"
+                                android:textSize="@dimen/_10ssp"
+                                android:textStyle="bold" />
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginBottom="@dimen/_5ssp"
+                                android:paddingHorizontal="@dimen/_10ssp">
+
+                                <TextView
+                                    android:id="@+id/home1"
+                                    android:layout_width="0dp"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginEnd="@dimen/_5ssp"
+                                    android:layout_weight="1"
+                                    android:fontFamily="@font/inter"
+                                    android:background="@drawable/colorofhomeactivity"
+                                    android:paddingHorizontal="@dimen/_5ssp"
+                                    android:paddingVertical="@dimen/_10ssp"
+                                    android:text="Upcoming"
+                                    android:textAlignment="center"
+                                    android:textColor="#454242"
+                                    android:textSize="@dimen/_12ssp"
+                                    android:textStyle="bold" />
+
+                                <TextView
+                                    android:id="@+id/home2"
+                                    android:layout_width="0dp"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginEnd="@dimen/_5ssp"
+                                    android:layout_weight="1"
+                                    android:fontFamily="@font/inter"
+                                    android:background="@drawable/colorofhomeactivity"
+                                    android:paddingHorizontal="@dimen/_5ssp"
+                                    android:paddingVertical="@dimen/_10ssp"
+                                    android:text="Past"
+                                    android:textAlignment="center"
+                                    android:textColor="#454242"
+                                    android:textSize="@dimen/_12ssp"
+                                    android:textStyle="bold" />
+
+                                <TextView
+                                    android:id="@+id/home3"
+                                    android:layout_width="0dp"
+                                    android:layout_height="wrap_content"
+                                    android:layout_weight="1"
+                                    android:fontFamily="@font/inter"
+                                    android:background="@drawable/colorofhomeactivity"
+                                    android:paddingHorizontal="@dimen/_5ssp"
+                                    android:paddingVertical="@dimen/_10ssp"
+                                    android:text="Ongoing"
+                                    android:textAlignment="center"
+                                    android:textColor="#454242"
+                                    android:textSize="@dimen/_12ssp"
+                                    android:textStyle="bold" />
+                            </LinearLayout>
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_marginTop="@dimen/_5ssp"
+                                android:paddingHorizontal="@dimen/_10ssp"
+                                android:layout_height="wrap_content">
+
+                                <TextView
+                                    android:layout_width="0dp"
+                                    android:layout_weight="1"
+                                    android:fontFamily="@font/inter"
+                                    android:layout_height="match_parent"
+                                    android:layout_gravity="center_vertical"
+                                    android:gravity="center_vertical"
+                                    android:text="Featured CME"
+                                    android:textSize="@dimen/_12ssp"
+                                    android:textStyle="bold" />
+
+                                <TextView
+                                    android:id="@+id/navigatecme"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="View All"
+                                    android:paddingHorizontal="@dimen/_8sdp"
+                                    android:paddingVertical="@dimen/_2sdp"
+                                    android:background="@drawable/categoryblackkkkkk"
+                                    android:fontFamily="@font/inter"
+                                    android:drawablePadding="@dimen/_8ssp"
+                                    android:layout_gravity="center"
+                                    android:gravity="end"
+                                    android:textColor="@color/unselected"
+                                    android:textSize="@dimen/_12ssp"
+                                    android:textStyle="bold" />
+                            </LinearLayout>
+
+                            <TextView
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginBottom="@dimen/_5ssp"
+                                android:text="Upscale your knowledge, Listen to the Professionals of your domain."
+                                android:paddingHorizontal="@dimen/_10sdp"
+                                android:fontFamily="@font/inter"
+                                android:textColor="#919392"
+                                android:textSize="@dimen/_10ssp"
+                                android:textStyle="bold" />
+
+                            <androidx.recyclerview.widget.RecyclerView
+                                android:id="@+id/recyclerview_cme1"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="@dimen/_5sdp"
+                                android:layout_marginHorizontal="@dimen/_5sdp"
+                                android:orientation="horizontal">
+
+                            </androidx.recyclerview.widget.RecyclerView>
+
+                            <androidx.cardview.widget.CardView
+                                android:id="@+id/cardcme"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_margin="8dp">
+
+                                <LinearLayout
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:orientation="vertical"
+                                    android:padding="16dp">
+
+                                    <TextView
+                                        android:id="@+id/descriptionTextView"
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content"
+                                        android:text="Explore"
+                                        android:fontFamily="@font/inter"
+                                        android:textSize="16sp"
+                                        android:drawableEnd="@drawable/arrowright"
+                                        android:layout_gravity="center_horizontal"
+                                        android:textColor="@android:color/black"/>
+
+                                </LinearLayout>
+
+                            </androidx.cardview.widget.CardView>
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:paddingHorizontal="@dimen/_10ssp"
+                                android:elevation="@dimen/_16sdp"
+                                android:layout_marginTop="@dimen/_10ssp"
+                                android:layout_height="wrap_content">
+
+                                <TextView
+                                    android:layout_width="0dp"
+                                    android:layout_weight="1"
+                                    android:layout_height="wrap_content"
+                                    android:text="Recommended Slideshare"
+                                    android:fontFamily="@font/inter"
+                                    android:textSize="@dimen/_12ssp"
+                                    android:textStyle="bold" />
+
+                            </LinearLayout>
+
+                            <androidx.recyclerview.widget.RecyclerView
+                                android:id="@+id/recyclerview_slideshare1"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:paddingVertical="@dimen/_5ssp"
+                                android:layout_marginBottom="@dimen/_5sdp"
+                                android:layout_marginRight="@dimen/_5sdp"
+                                android:layout_marginLeft="@dimen/_5sdp"
+                                android:orientation="horizontal">
+
+                            </androidx.recyclerview.widget.RecyclerView>
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:paddingHorizontal="@dimen/_10ssp"
+                                android:elevation="@dimen/_16sdp"
+                                android:layout_height="wrap_content">
+
+                                <TextView
+                                    android:layout_width="0dp"
+                                    android:layout_weight="1"
+                                    android:layout_height="wrap_content"
+                                    android:text="Live News"
+                                    android:fontFamily="@font/inter"
+                                    android:textSize="@dimen/_12ssp"
+                                    android:textStyle="bold" />
+
+                                <TextView
+                                    android:id="@+id/navigatenews"
+                                    android:layout_width="wrap_content"
+                                    android:fontFamily="@font/inter"
+                                    android:layout_height="wrap_content"
+                                    android:text="View All"
+                                    android:paddingHorizontal="@dimen/_8sdp"
+                                    android:paddingVertical="@dimen/_2sdp"
+                                    android:background="@drawable/categoryblackkkkkk"
+                                    android:drawablePadding="@dimen/_8ssp"
+                                    android:layout_gravity="center"
+                                    android:gravity="end"
+                                    android:textColor="@color/unselected"
+                                    android:textSize="@dimen/_12ssp"
+                                    android:textStyle="bold" />
+                            </LinearLayout>
+
+                            <androidx.recyclerview.widget.RecyclerView
+                                android:id="@+id/recyclerview_news"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:paddingVertical="@dimen/_10sdp"
+                                android:layout_marginBottom="@dimen/_5sdp"
+                                android:layout_marginRight="@dimen/_5sdp"
+                                android:layout_marginLeft="@dimen/_5sdp"
+                                android:orientation="horizontal">
+
+                            </androidx.recyclerview.widget.RecyclerView>
+
+                            <ImageView
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:scaleType="centerCrop"
+                                android:layout_marginBottom="@dimen/_50ssp"
+                                android:src="@drawable/connectfinal"/>
 
                         </LinearLayout>
 
                     </androidx.cardview.widget.CardView>
 
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:paddingHorizontal="@dimen/_10ssp"
-                        android:elevation="@dimen/_16sdp"
-                        android:layout_height="wrap_content">
+                </RelativeLayout>
 
-                        <TextView
-                            android:layout_width="0dp"
-                            android:layout_weight="1"
-                            android:layout_height="wrap_content"
-                            android:text="Recommended Slideshare"
-                            android:fontFamily="@font/inter"
-                            android:textSize="@dimen/_12ssp"
-                            android:textStyle="bold" />
-
-                    </LinearLayout>
-
-                    <androidx.recyclerview.widget.RecyclerView
-                        android:id="@+id/recyclerview_slideshare1"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:paddingVertical="@dimen/_10sdp"
-                        android:layout_marginBottom="@dimen/_5sdp"
-                        android:layout_marginRight="@dimen/_5sdp"
-                        android:layout_marginLeft="@dimen/_5sdp"
-                        android:orientation="horizontal">
-
-                    </androidx.recyclerview.widget.RecyclerView>
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:paddingHorizontal="@dimen/_10ssp"
-                        android:elevation="@dimen/_16sdp"
-                        android:layout_height="wrap_content">
-
-                        <TextView
-                            android:layout_width="0dp"
-                            android:layout_weight="1"
-                            android:layout_height="wrap_content"
-                            android:text="Live News"
-                            android:fontFamily="@font/inter"
-                            android:textSize="@dimen/_12ssp"
-                            android:textStyle="bold" />
-
-                        <TextView
-                            android:id="@+id/navigatenews"
-                            android:layout_width="wrap_content"
-                            android:fontFamily="@font/inter"
-                            android:layout_height="wrap_content"
-                            android:text="View All"
-                            android:paddingHorizontal="@dimen/_8sdp"
-                            android:paddingVertical="@dimen/_2sdp"
-                            android:background="@drawable/categoryblackkkkkk"
-                            android:drawablePadding="@dimen/_8ssp"
-                            android:layout_gravity="center"
-                            android:gravity="end"
-                            android:textColor="@color/unselected"
-                            android:textSize="@dimen/_12ssp"
-                            android:textStyle="bold" />
-                    </LinearLayout>
-
-                    <androidx.recyclerview.widget.RecyclerView
-                        android:id="@+id/recyclerview_news"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:paddingVertical="@dimen/_10sdp"
-                        android:layout_marginBottom="@dimen/_5sdp"
-                        android:layout_marginRight="@dimen/_5sdp"
-                        android:layout_marginLeft="@dimen/_5sdp"
-                        android:orientation="horizontal">
-
-                    </androidx.recyclerview.widget.RecyclerView>
-
-                    <ImageView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:scaleType="centerCrop"
-                        android:src="@drawable/connectfinal"/>
-
-                </LinearLayout>
             </ScrollView>
         </LinearLayout>
 

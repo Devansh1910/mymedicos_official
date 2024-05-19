@@ -58,6 +58,7 @@ public class DrugnDiseasesNewsFragment extends Fragment {
                                     document.getString("Title"),
                                     document.getString("thumbnail"),
                                     document.getString("Description"),
+                                    document.getString("subject"),
                                     document.getString("Time"),
                                     document.getString("URL"),
                                     document.getString("tag") // Assuming you want to include the tag in your News model

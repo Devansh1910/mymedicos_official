@@ -40,6 +40,7 @@ import com.medical.my_medicos.activities.home.sidedrawer.extras.BottomSheetForCh
 import com.medical.my_medicos.activities.home.sidedrawer.extras.BottomSheetForCommunity;
 import com.medical.my_medicos.activities.login.FirstActivity;
 import com.medical.my_medicos.activities.login.GetstartedActivity;
+import com.medical.my_medicos.activities.login.bottom_controls.PrivacyPolicyActivity;
 import com.medical.my_medicos.activities.pg.activites.extras.CreditsActivity;
 import com.medical.my_medicos.activities.profile.Contactinfo;
 import com.medical.my_medicos.activities.profile.Personalinfo;
@@ -229,7 +230,7 @@ public class HomeSideActivity extends AppCompatActivity {
         aboutus.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent i = new Intent(HomeSideActivity.this, PrivacyActivity.class);
+                Intent i = new Intent(HomeSideActivity.this, PrivacyPolicyActivity.class);
                 startActivity(i);
             }
         });

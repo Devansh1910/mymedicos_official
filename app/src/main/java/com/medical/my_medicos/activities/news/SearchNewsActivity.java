@@ -103,6 +103,7 @@ public class SearchNewsActivity extends AppCompatActivity {
                                         title,
                                         document.getString("thumbnail"),
                                         document.getString("Description"),
+                                        document.getString("subject"),
                                         document.getString("Time"),
                                         document.getString("URL"),
                                         document.getString("type")

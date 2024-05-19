@@ -171,6 +171,7 @@ public class PreparationPgFragment extends Fragment {
                                         document.getId(), // Add document ID here
                                         document.getString("Title"),
                                         document.getString("thumbnail"),
+                                        document.getString("subject"),
                                         document.getString("Description"),
                                         document.getString("Time"),
                                         document.getString("URL"),

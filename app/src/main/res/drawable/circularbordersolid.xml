@@ -4,7 +4,7 @@
         <shape android:shape="rectangle">
             <!-- Remove solid fill -->
             <stroke android:color="@color/blue" android:width="2dp" /> <!-- Add stroke with color and width -->
-            <corners android:radius="20dp" />
+            <corners android:radius="10dp" />
         </shape>
     </item>
 </selector>

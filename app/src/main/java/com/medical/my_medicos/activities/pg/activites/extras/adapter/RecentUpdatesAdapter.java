@@ -43,7 +43,7 @@ public class RecentUpdatesAdapter extends RecyclerView.Adapter<RecentUpdatesAdap
 
         holder.binding.newslabel.setText(news.getLabel());
         holder.binding.timeofnews.setText(news.getFormattedDate());
-        holder.binding.newsdescription.setText(news.getDescription());
+        holder.binding.newssubject.setText(news.getDescription());
 
         holder.binding.viewentirenews.setOnClickListener(new View.OnClickListener() {
             @Override

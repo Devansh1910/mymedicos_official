@@ -45,9 +45,9 @@ import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.medical.my_medicos.R;
 import com.medical.my_medicos.activities.home.HomeActivity;
-import com.medical.my_medicos.activities.home.sidedrawer.TermsandConditionsActivity;
 import com.medical.my_medicos.activities.job.JobsApplyActivity;
 import com.medical.my_medicos.activities.job.fragments.TermsandConditionDialogueFragment;
+import com.medical.my_medicos.activities.login.bottom_controls.TermsandConditionsActivity;
 import com.medical.my_medicos.activities.pg.activites.PgprepActivity;
 import com.medical.my_medicos.activities.pg.activites.extras.RecetUpdatesNoticeActivity;
 import com.medical.my_medicos.activities.pg.activites.extras.TermsandConditionsDialogueFragmentPg;
@@ -445,6 +445,7 @@ public class HomePgFragment extends Fragment {
         });
 
     }
+
     void initQuestionsBanks() {
         questionsforpg = new ArrayList<>();
         questionsAdapter = new QuestionBankPGAdapter(getActivity(), questionsforpg);
@@ -484,6 +485,7 @@ public class HomePgFragment extends Fragment {
 
         queue.add(request);
     }
+
 
     private void refreshContent() {
         clearData();

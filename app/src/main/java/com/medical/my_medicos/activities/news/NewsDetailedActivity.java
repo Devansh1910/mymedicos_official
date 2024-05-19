@@ -133,19 +133,27 @@ public class NewsDetailedActivity extends AppCompatActivity {
                 .addOnSuccessListener(documentSnapshot -> {
                     if (documentSnapshot.exists()) {
                         String description = documentSnapshot.getString("Description");
-                        String time = documentSnapshot.getString("Time"); // Example time format: "2024-04-04T05:09:47.458Z"
+
+                        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.N) {
+                            binding.newsDescription.setText(Html.fromHtml(description, Html.FROM_HTML_MODE_COMPACT));
+                        } else {
+                            binding.newsDescription.setText(Html.fromHtml(description));
+                        }
+
+                        String time = documentSnapshot.getString("Time");
                         String url = documentSnapshot.getString("URL");
+                        String subject = documentSnapshot.getString("subject");
                         String thumbnail = documentSnapshot.getString("thumbnail");
                         String type = documentSnapshot.getString("type");
+
 
                         documentid = documentSnapshot.getId();
                         newstitle = documentSnapshot.getString("Title");
                         newstype = type;
                         newsId = documentSnapshot.getId();
 
-                        // Adjust the SimpleDateFormat to include milliseconds
                         SimpleDateFormat originalFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'", Locale.US);
-                        originalFormat.setTimeZone(TimeZone.getTimeZone("UTC")); // Ensure parsing is in UTC
+                        originalFormat.setTimeZone(TimeZone.getTimeZone("UTC"));
                         SimpleDateFormat desiredFormat = new SimpleDateFormat("MMMM, dd HH:mm", Locale.US);
 
                         try {
@@ -168,6 +176,7 @@ public class NewsDetailedActivity extends AppCompatActivity {
                                 documentSnapshot.getString("Title"),
                                 documentSnapshot.getString("thumbnail"),
                                 documentSnapshot.getString("Description"),
+                                documentSnapshot.getString("subject"),
                                 documentSnapshot.getString("Time"),
                                 documentSnapshot.getString("URL"),
                                 documentSnapshot.getString("type")
@@ -195,6 +204,7 @@ public class NewsDetailedActivity extends AppCompatActivity {
                         String time = documentSnapshot.getString("Time"); // Example format: "2024-03-12T09:45:00.458Z"
                         String url = documentSnapshot.getString("URL");
                         String thumbnail = documentSnapshot.getString("thumbnail");
+                        String subject = documentSnapshot .getString("subject");
                         String type = documentSnapshot.getString("type");
                         documentid = documentSnapshot.getId();
                         newstitle = documentSnapshot.getString("Title");
@@ -216,6 +226,7 @@ public class NewsDetailedActivity extends AppCompatActivity {
                         }
 
                         binding.newsDescription.setText(Html.fromHtml(description));
+                        binding.newsSubject.setText(Html.fromHtml(subject));
                         binding.newsTitle.setText(newstitle);
                         Glide.with(this)
                                 .load(thumbnail)
@@ -232,6 +243,7 @@ public class NewsDetailedActivity extends AppCompatActivity {
                                 documentSnapshot.getString("Title"),
                                 documentSnapshot.getString("thumbnail"),
                                 documentSnapshot.getString("Description"),
+                                documentSnapshot.getString("subject"),
                                 documentSnapshot.getString("Time"),
                                 documentSnapshot.getString("URL"),
                                 documentSnapshot.getString("type")

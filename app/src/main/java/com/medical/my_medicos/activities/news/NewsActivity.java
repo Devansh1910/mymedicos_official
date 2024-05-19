@@ -258,7 +258,8 @@ public class  NewsActivity extends AppCompatActivity {
                                             document.getString("thumbnail"),
                                             document.getString("Description"),
                                             document.getString("Time"),
-                                            document.getString("URL")
+                                            document.getString("URL"),
+                                            document.getString("subject")
                                     );
                                     newstoday.add(newsItemToday);
                                 }

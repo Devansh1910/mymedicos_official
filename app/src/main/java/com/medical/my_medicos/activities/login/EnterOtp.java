@@ -6,9 +6,12 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.CountDownTimer;
 import android.text.Editable;
+import android.text.Html;
 import android.text.TextWatcher;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -19,12 +22,13 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
-import androidx.core.content.PermissionChecker;
 
 import com.airbnb.lottie.LottieAnimationView;
 import com.google.android.gms.auth.api.phone.SmsRetriever;
+import com.google.android.gms.auth.api.phone.SmsRetrieverClient;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.FirebaseException;
@@ -40,24 +44,12 @@ import com.medical.my_medicos.databinding.ActivityEnterOtpBinding;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.concurrent.TimeUnit;
-import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
-
-
-import android.content.Intent;
-import android.content.IntentFilter;
-import android.os.Bundle;
-
-import com.google.android.gms.auth.api.phone.SmsRetriever;
-import com.google.android.gms.auth.api.phone.SmsRetrieverClient;
-import com.google.android.material.textfield.TextInputEditText;
-
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+
 public class EnterOtp extends AppCompatActivity {
     private ActivityEnterOtpBinding binding;
     private static final int REQ_USER_CONSENT = 200;
-    TextInputEditText etOTP;
     private String verificationId;
     private OtpReceiver otp_receiver;
     private FirebaseAuth mAuth;
@@ -65,12 +57,16 @@ public class EnterOtp extends AppCompatActivity {
     private PhoneAuthProvider.OnVerificationStateChangedCallbacks mCallbacks;
     private static final int SMS_PERMISSION_REQUEST_CODE = 101;
 
+    private CountDownTimer countDownTimer;
+    private static final long RESEND_OTP_TIMEOUT = 30000; // 30 seconds
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         binding = ActivityEnterOtpBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
         startSmartUserConsent();
+
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             View decorView = getWindow().getDecorView();
             decorView.setSystemUiVisibility(decorView.getSystemUiVisibility() | View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);
@@ -88,20 +84,17 @@ public class EnterOtp extends AppCompatActivity {
             decorView.setSystemUiVisibility(decorView.getSystemUiVisibility() | View.SYSTEM_UI_FLAG_LIGHT_NAVIGATION_BAR);
         }
 
-
-
         mAuth = FirebaseAuth.getInstance();
         editTextInput();
 
         binding.tvMobile.setText(String.format(getIntent().getStringExtra("phone")));
 
         verificationId = getIntent().getStringExtra("verificationId");
-        Log.d("abdksjskjdbd", verificationId);
+        Log.d("Something went wrong", verificationId);
 
         binding.resendOtp.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-//                Toast.makeText(OtpVerifyActivity.this, "OTP Send Successfully.", Toast.LENGTH_SHORT).show();
                 againOtpSend();
             }
         });
@@ -119,6 +112,8 @@ public class EnterOtp extends AppCompatActivity {
                         binding.inputotp5.getText().toString().trim().isEmpty() ||
                         binding.inputotp6.getText().toString().trim().isEmpty()) {
                     Toast.makeText(EnterOtp.this, "OTP is not valid!", Toast.LENGTH_SHORT).show();
+                    mdialog.dismiss();
+                    binding.submitOtp.setVisibility(View.VISIBLE);
                 } else {
                     if (verificationId != null) {
                         String code = binding.inputotp1.getText().toString().trim() +
@@ -127,8 +122,6 @@ public class EnterOtp extends AppCompatActivity {
                                 binding.inputotp4.getText().toString().trim() +
                                 binding.inputotp5.getText().toString().trim() +
                                 binding.inputotp6.getText().toString().trim();
-//                        code = String.valueOf(otp1);
-//                        Log.d("absdjbvjsbvjsdbvbsbdj", String.valueOf(otp1));
 
                         PhoneAuthCredential credential = PhoneAuthProvider.getCredential(verificationId, code);
                         FirebaseAuth
@@ -137,17 +130,15 @@ public class EnterOtp extends AppCompatActivity {
                                 .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
                                     @Override
                                     public void onComplete(@NonNull @NotNull Task<AuthResult> task) {
+                                        mdialog.dismiss();
+                                        binding.submitOtp.setVisibility(View.VISIBLE);
                                         if (task.isSuccessful()) {
-                                            mdialog.dismiss();
-                                            binding.submitOtp.setVisibility(View.INVISIBLE);
                                             Toast.makeText(EnterOtp.this, "Welcome...", Toast.LENGTH_SHORT).show();
                                             Intent intent = new Intent(EnterOtp.this, HomeActivity.class);
                                             intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
                                             startActivity(intent);
                                         } else {
-//
                                             Toast.makeText(EnterOtp.this, "Error in Login...", Toast.LENGTH_SHORT).show();
-//
                                         }
                                     }
                                 });
@@ -155,6 +146,44 @@ public class EnterOtp extends AppCompatActivity {
                 }
             }
         });
+
+        TextView textView1 = findViewById(R.id.help_support1);
+        textView1.findViewById(R.id.help_support1).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                sendEmail();
+            }
+        });
+
+        String htmlText1 = "Having trouble? Reach us on <strong><u>support@mymedicos.in</u></strong>";
+        textView1.setText(Html.fromHtml(htmlText1, Html.FROM_HTML_MODE_LEGACY));
+
+        // Initialize and start the timer
+        initializeResendTimer();
+        startResendTimer();
+    }
+
+    private void initializeResendTimer() {
+        countDownTimer = new CountDownTimer(RESEND_OTP_TIMEOUT, 1000) {
+            @Override
+            public void onTick(long millisUntilFinished) {
+                binding.countdownTimer.setText("00:" + millisUntilFinished / 1000 + " sec");
+                binding.countdownTimer.setTextColor(ContextCompat.getColor(EnterOtp.this, R.color.unselected));
+                binding.countdownTimer.setTextSize(getResources().getDimension(com.intuit.ssp.R.dimen._5ssp));
+                binding.resendOtp.setEnabled(false);
+            }
+
+            @Override
+            public void onFinish() {
+                binding.countdownTimer.setText("");
+                binding.resendOtp.setEnabled(true);
+            }
+        };
+    }
+
+    private void startResendTimer() {
+        binding.resendOtp.setEnabled(false);
+        countDownTimer.start();
     }
 
     private void againOtpSend() {
@@ -163,10 +192,8 @@ public class EnterOtp extends AppCompatActivity {
         binding.submitOtp.setVisibility(View.INVISIBLE);
 
         mCallbacks = new PhoneAuthProvider.OnVerificationStateChangedCallbacks() {
-
             @Override
             public void onVerificationCompleted(PhoneAuthCredential credential) {
-
             }
 
             @Override
@@ -177,21 +204,20 @@ public class EnterOtp extends AppCompatActivity {
             }
 
             @Override
-            public void onCodeSent(@NonNull String verificationId,
-                                   @NonNull PhoneAuthProvider.ForceResendingToken token) {
+            public void onCodeSent(@NonNull String verificationId, @NonNull PhoneAuthProvider.ForceResendingToken token) {
                 mdialog.dismiss();
                 binding.submitOtp.setVisibility(View.VISIBLE);
-                Toast.makeText(EnterOtp.this, "OTP is successfully send.", Toast.LENGTH_SHORT).show();
+                Toast.makeText(EnterOtp.this, "OTP is successfully sent.", Toast.LENGTH_SHORT).show();
+                startResendTimer();
             }
         };
 
-        PhoneAuthOptions options =
-                PhoneAuthOptions.newBuilder(mAuth)
-                        .setPhoneNumber("+91" + getIntent().getStringExtra("phone").trim())
-                        .setTimeout(0L, TimeUnit.SECONDS)
-                        .setActivity(this)
-                        .setCallbacks(mCallbacks)
-                        .build();
+        PhoneAuthOptions options = PhoneAuthOptions.newBuilder(mAuth)
+                .setPhoneNumber("+91" + getIntent().getStringExtra("phone").trim())
+                .setTimeout(0L, TimeUnit.SECONDS)
+                .setActivity(this)
+                .setCallbacks(mCallbacks)
+                .build();
         PhoneAuthProvider.verifyPhoneNumber(options);
     }
 
@@ -199,7 +225,6 @@ public class EnterOtp extends AppCompatActivity {
         binding.inputotp1.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
             }
 
             @Override
@@ -209,14 +234,12 @@ public class EnterOtp extends AppCompatActivity {
 
             @Override
             public void afterTextChanged(Editable s) {
-
             }
         });
 
         binding.inputotp2.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
             }
 
             @Override
@@ -226,14 +249,12 @@ public class EnterOtp extends AppCompatActivity {
 
             @Override
             public void afterTextChanged(Editable s) {
-
             }
         });
 
         binding.inputotp3.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
             }
 
             @Override
@@ -243,14 +264,12 @@ public class EnterOtp extends AppCompatActivity {
 
             @Override
             public void afterTextChanged(Editable s) {
-
             }
         });
 
         binding.inputotp4.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
             }
 
             @Override
@@ -260,14 +279,12 @@ public class EnterOtp extends AppCompatActivity {
 
             @Override
             public void afterTextChanged(Editable s) {
-
             }
         });
 
         binding.inputotp5.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
             }
 
             @Override
@@ -277,7 +294,6 @@ public class EnterOtp extends AppCompatActivity {
 
             @Override
             public void afterTextChanged(Editable s) {
-
             }
         });
     }
@@ -293,7 +309,6 @@ public class EnterOtp extends AppCompatActivity {
         TextView progressText = view.findViewById(R.id.progressText);
         progressText.setText(message);
 
-        // Create a new Dialog instance
         mdialog = new Dialog(this);
         mdialog.setContentView(view);
         mdialog.setCancelable(false);
@@ -301,38 +316,21 @@ public class EnterOtp extends AppCompatActivity {
         mdialog.show();
     }
 
-//    @Override
-//    protected void onDestroy() {
-//        super.onDestroy();
-//        if (otp_receiver != null) {
-//            unregisterReceiver(otp_receiver);
-//        }
-//    }
-
     private void startSmartUserConsent() {
-
         SmsRetrieverClient client = SmsRetriever.getClient(this);
         client.startSmsUserConsent(null);
-
     }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
-        if (requestCode == REQ_USER_CONSENT){
-
-            if ((resultCode == RESULT_OK) && (data != null)){
-
+        if (requestCode == REQ_USER_CONSENT) {
+            if ((resultCode == RESULT_OK) && (data != null)) {
                 String message = data.getStringExtra(SmsRetriever.EXTRA_SMS_MESSAGE);
                 getOtpFromMessage(message);
-
-
             }
-
-
         }
-
     }
 
     private void getOtpFromMessage(String message) {
@@ -347,8 +345,6 @@ public class EnterOtp extends AppCompatActivity {
                 binding.inputotp4.setText(String.valueOf(otp.charAt(3)));
                 binding.inputotp5.setText(String.valueOf(otp.charAt(4)));
                 binding.inputotp6.setText(String.valueOf(otp.charAt(5)));
-
-
             } else {
                 Log.e("getOtpFromMessage", "No OTP found in the message");
             }
@@ -363,7 +359,7 @@ public class EnterOtp extends AppCompatActivity {
         otp_receiver.smsBroadcastReceiverListener = new OtpReceiver.SmsBroadcastReceiverListener() {
             @Override
             public void onSuccess(Intent intent) {
-                Log.d("abskkjfk","error coming");
+                Log.d("abskkjfk", "error coming");
                 startActivityForResult(intent, REQ_USER_CONSENT);
             }
 
@@ -381,15 +377,21 @@ public class EnterOtp extends AppCompatActivity {
         }
     }
 
+    public void sendEmail() {
+        Intent emailIntent = new Intent(Intent.ACTION_SENDTO);
+        emailIntent.setData(Uri.parse("mailto:")); // only email apps should handle this
+        emailIntent.putExtra(Intent.EXTRA_EMAIL, new String[]{"support@mymedicos.in"});
+        emailIntent.putExtra(Intent.EXTRA_SUBJECT, "Facing issue in {Problem here}");
 
-
-//
+        if (emailIntent.resolveActivity(getPackageManager()) != null) {
+            startActivity(emailIntent);
+        }
+    }
 
     @Override
     protected void onStart() {
         super.onStart();
         registerBroadcastReceiver();
-
     }
 
     @Override
@@ -397,5 +399,4 @@ public class EnterOtp extends AppCompatActivity {
         super.onStop();
         unregisterReceiver(otp_receiver);
     }
-
 }

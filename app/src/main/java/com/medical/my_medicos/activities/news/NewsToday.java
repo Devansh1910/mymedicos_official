@@ -9,15 +9,16 @@ import java.util.Locale;
 import java.util.TimeZone;
 
 public class NewsToday {
-    private String label, thumbnail, description, url, date;
+    private String label, thumbnail, description, url, date,subject;
 
     private String documentId; // Add this line
     private static final String DATE_FORMAT_PATTERN = "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'";
 
-    public NewsToday(String documentId,String label, String thumbnail, String description, String date, String url) {
+    public NewsToday(String documentId,String label, String thumbnail, String description, String date, String url, String subject) {
         this.documentId = documentId; // Add this line
         this.label = label;
         this.thumbnail = thumbnail;
+        this.subject = subject;
         this.description = description;
         this.date = date;
         this.url = url;
@@ -37,6 +38,10 @@ public class NewsToday {
 
     public String getDescription() {
         return description;
+    }
+
+    public String getSubject() {
+        return subject;
     }
 
     public String getUrl() {

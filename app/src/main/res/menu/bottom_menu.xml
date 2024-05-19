@@ -2,13 +2,13 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
     <item
         android:title="Home"
-        android:icon="@drawable/homelogobottom"
+        android:icon="@drawable/vector"
         android:id="@+id/home">
     </item>
 
     <item
         android:title="Community"
-        android:icon="@drawable/messagelogobottom"
+        android:icon="@drawable/vector__1_"
         android:id="@+id/work">
     </item>
 

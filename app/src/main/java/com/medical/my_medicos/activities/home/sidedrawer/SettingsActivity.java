@@ -10,6 +10,8 @@ import android.view.View;
 import android.widget.LinearLayout;
 
 import com.medical.my_medicos.R;
+import com.medical.my_medicos.activities.login.bottom_controls.PrivacyPolicyActivity;
+import com.medical.my_medicos.activities.login.bottom_controls.TermsandConditionsActivity;
 
 public class SettingsActivity extends AppCompatActivity {
 
@@ -38,7 +40,7 @@ public class SettingsActivity extends AppCompatActivity {
         privacypage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent i = new Intent(SettingsActivity.this, PrivacyActivity.class);
+                Intent i = new Intent(SettingsActivity.this, PrivacyPolicyActivity.class);
                 startActivity(i);
             }
         });

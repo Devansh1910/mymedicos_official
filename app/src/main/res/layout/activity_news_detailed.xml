@@ -101,11 +101,23 @@
                 android:layout_height="wrap_content"
                 android:paddingVertical="@dimen/_2sdp"
                 android:paddingHorizontal="@dimen/_10sdp"
-                android:paddingBottom="@dimen/_100sdp"
                 android:fontFamily="@font/inter"
                 android:textSize="@dimen/_14sdp"
                 android:textStyle="bold"
                 android:textColor="@color/unselected"
+                android:text="Loading details..." />
+
+            <TextView
+                android:id="@+id/newsSubject"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingVertical="@dimen/_1sdp"
+                android:paddingHorizontal="@dimen/_10sdp"
+                android:paddingBottom="@dimen/_20sdp"
+                android:fontFamily="@font/inter"
+                android:textSize="@dimen/_12sdp"
+                android:textStyle="italic"
+                android:textColor="#B3B3B3"
                 android:text="Loading details..." />
 
             <LinearLayout

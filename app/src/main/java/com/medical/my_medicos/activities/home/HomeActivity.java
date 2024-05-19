@@ -7,6 +7,7 @@ import android.app.Notification;
 import android.app.NotificationManager;
 import android.content.Intent;
 import android.content.IntentSender;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Build;
@@ -22,6 +23,7 @@ import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -70,13 +72,13 @@ import com.medical.my_medicos.activities.publications.activity.ProductDetailedAc
 import com.medical.my_medicos.activities.utils.ConnectvityUtil;
 import com.squareup.picasso.Picasso;
 
+import java.util.Calendar;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
 import java.util.prefs.Preferences;
 import com.google.firebase.messaging.FirebaseMessaging;
-// This is teh Home Activity..
-
+// This is the Home Activity..
 
 public class HomeActivity extends AppCompatActivity {
     BottomNavigationView bottomNavigation;
@@ -94,11 +96,39 @@ public class HomeActivity extends AppCompatActivity {
     LinearLayout opensidehomedrawer;
     private static final int NOTIFICATION_PERMISSION_CODE = 3300;
 
+    private TextView greetingTextView;
+    private TextView personname;
+
     @SuppressLint("MissingInflatedId")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_home);
+
+        // Check if it's the user's first login
+        SharedPreferences preferences = getSharedPreferences("user_prefs", MODE_PRIVATE);
+        boolean isFirstLogin = preferences.getBoolean("isFirstLogin", true);
+
+        if (isFirstLogin) {
+            // Display the loader screen
+            setContentView(R.layout.activity_loader_screen);
+
+            // Fetch data in the background
+            new Handler().postDelayed(() -> {
+                fetchUserData();
+                // After fetching data, mark the first login as false and load the main layout
+                preferences.edit().putBoolean("isFirstLogin", false).apply();
+                setContentView(R.layout.activity_home);
+                initializeHomeActivity();
+            }, 3000); // Show the loader screen for 3 seconds
+        } else {
+            // If not the first login, directly load the main layout
+            setContentView(R.layout.activity_home);
+            initializeHomeActivity();
+        }
+    }
+
+    private void initializeHomeActivity() {
+        // Initialize your HomeActivity components and functionality here
 
         // Network Issue Condition...........
 
@@ -109,11 +139,10 @@ public class HomeActivity extends AppCompatActivity {
             finish(); // Close the current activity
             return; // Exit the method early
         }
-        // Notification permisions
+        // Notification permissions
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
             checkNotificationPermission();
         }
-
 
         // Loader Implementation..............
 
@@ -135,8 +164,8 @@ public class HomeActivity extends AppCompatActivity {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             Window window = getWindow();
             window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
-            window.setStatusBarColor(ContextCompat.getColor(this, R.color.blue));
-            window.setNavigationBarColor(ContextCompat.getColor(this, R.color.blue));
+            window.setStatusBarColor(ContextCompat.getColor(this, R.color.teal_700));
+            window.setNavigationBarColor(ContextCompat.getColor(this, R.color.white));
         }
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
@@ -148,11 +177,10 @@ public class HomeActivity extends AppCompatActivity {
 
         toolbar = findViewById(R.id.toolbar);
 
-
         FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
         if (currentUser != null) {
             String userId = currentUser.getPhoneNumber();
-            Log.d("Something wennt wrong...", Objects.requireNonNull(userId));
+            Log.d("Something went wrong...", Objects.requireNonNull(userId));
         }
 
         fetchUserData();
@@ -162,19 +190,10 @@ public class HomeActivity extends AppCompatActivity {
         Preferences preferences = Preferences.userRoot();
         if (preferences.get("username", null) != null) {
             String username = preferences.get("username", null);
-            Log.d("usernaem2", username);
+            Log.d("username", username);
         }
         LinearLayout openhomedrawerIcon = findViewById(R.id.opensidehomedrawer);
         openhomedrawerIcon.setOnClickListener(v -> openHomeSideActivity());
-
-//        notificationbtn = findViewById(R.id.notificationbtn);
-//        notificationbtn.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                Intent i = new Intent(HomeActivity.this, NotificationActivity.class);
-//                startActivity(i);
-//            }
-//        });
 
         bottomAppBar = findViewById(R.id.bottomappabar);
 
@@ -202,12 +221,16 @@ public class HomeActivity extends AppCompatActivity {
             return true;
         });
 
+        greetingTextView = findViewById(R.id.greetingTextView);
+        personname = findViewById(R.id.personname);
+
+        updateGreetingAndName();
         checkforAppUpdate();
     }
+
     private void checkNotificationPermission() {
         if (ContextCompat.checkSelfPermission(this, android.Manifest.permission.POST_NOTIFICATIONS) == PackageManager.PERMISSION_GRANTED) {
-
-//            Toast.makeText(this, "Notification permission is already granted.", Toast.LENGTH_LONG).show();
+            // Permission granted
         } else {
             // Should we show an explanation?
             if (ActivityCompat.shouldShowRequestPermissionRationale(this, android.Manifest.permission.POST_NOTIFICATIONS)) {
@@ -232,12 +255,13 @@ public class HomeActivity extends AppCompatActivity {
             }
         }
     }
+
     private void openNotificationSettings() {
         Intent intent = new Intent();
-        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             intent.setAction(Settings.ACTION_APP_NOTIFICATION_SETTINGS);
             intent.putExtra(Settings.EXTRA_APP_PACKAGE, getPackageName());
-        } else if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP){
+        } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP){
             intent.setAction(Settings.ACTION_APP_NOTIFICATION_SETTINGS);
             intent.putExtra("app_package", getPackageName());
             intent.putExtra("app_uid", getApplicationInfo().uid);
@@ -247,7 +271,6 @@ public class HomeActivity extends AppCompatActivity {
         }
         startActivity(intent);
     }
-
 
     //....Shareable Link Handler.............
 
@@ -264,7 +287,7 @@ public class HomeActivity extends AppCompatActivity {
                                 handleDeepLinkIntentCME(deepLink);
                             } else if (link.contains("newsdetails?")) {
                                 handleDeepLinkIntentNews(deepLink);
-                            }else if (link.contains("bookdetails?")){
+                            } else if (link.contains("bookdetails?")) {
                                 handleDeepLinkIntentPublication(deepLink);
                             }
                         }
@@ -275,7 +298,7 @@ public class HomeActivity extends AppCompatActivity {
                 });
     }
 
-    //...Handler Extention..........
+    //...Handler Extension..........
 
     private void handleDeepLinkIntentJOB(Uri deepLink) {
         String jobId = deepLink.getQueryParameter("jobId");
@@ -300,7 +323,7 @@ public class HomeActivity extends AppCompatActivity {
         openPublicationsDetailsActivity(bookId);
     }
 
-    //...Cme Handler.............
+    //...CME Handler.............
 
     private void openCmeDetailsActivity(String cmeId, String typefordeep) {
         Log.d("HomeActivity", "Opening CmeDetailsActivity with documentId: " + cmeId);
@@ -323,7 +346,7 @@ public class HomeActivity extends AppCompatActivity {
         Log.d("HomeActivity", "JobDetailsActivity started");
     }
 
-    //...New Handler..............
+    //...News Handler..............
 
     private void openNewsDetailsActivity(String newsId) {
         Log.d("HomeActivity", "Opening NewsDetailsActivity with documentId: " + newsId);
@@ -331,7 +354,7 @@ public class HomeActivity extends AppCompatActivity {
         intent.putExtra("newsId", newsId);
         startActivity(intent);
         finish();
-        Log.d("HomeActivity", "NewsDetailsActivity started");
+        Log.d("HomeActivity", "NewsDetailedActivity started");
     }
 
     //...Publication Handler..............
@@ -364,6 +387,7 @@ public class HomeActivity extends AppCompatActivity {
             super.onBackPressed();
         }
     }
+
     private void showToast(String message) {
         Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
     }
@@ -375,19 +399,22 @@ public class HomeActivity extends AppCompatActivity {
         if (fragment instanceof SlideshowFragment || fragment instanceof ClubFragment) {
             toolbar.setBackgroundColor(ContextCompat.getColor(this, R.color.backgroundcolor));
         } else {
-            toolbar.setBackgroundColor(ContextCompat.getColor(this, R.color.blue));
+            toolbar.setBackgroundColor(ContextCompat.getColor(this, R.color.teal_700));
         }
     }
+
     public void openHomeSideActivity() {
         Intent settingsIntent = new Intent(HomeActivity.this, HomeSideActivity.class);
         startActivity(settingsIntent);
     }
+
     private void replaceFragment(Fragment fragment) {
         FragmentManager fragmentManager = getSupportFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
         fragmentTransaction.replace(R.id.frame_layout, fragment);
         fragmentTransaction.commit();
     }
+
     @SuppressLint("RestrictedApi")
     public void fetchUserData() {
         FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
@@ -453,6 +480,7 @@ public class HomeActivity extends AppCompatActivity {
                             Log.d(TAG, "Error getting documents: ", task.getException());
                         }
                     });
+
             new Handler(Looper.getMainLooper()).postDelayed(() -> {
                 if (!isFinishing()) {
                     loadingCircle.setVisibility(View.GONE);
@@ -460,8 +488,8 @@ public class HomeActivity extends AppCompatActivity {
                 }
             }, 2000);
         }
-
     }
+
     @SuppressLint("RestrictedApi")
     private void uploadFcmTokenToFirestore(String userId, String fcmToken) {
         FirebaseFirestore db = FirebaseFirestore.getInstance();
@@ -496,12 +524,14 @@ public class HomeActivity extends AppCompatActivity {
                     }
                 });
     }
+
     private void updateProfileUI(String userName, String userId, String userEmail) {
         ImageView profileImageView = findViewById(R.id.circularImageView);
         FrameLayout verifiedUser = findViewById(R.id.verifieduser);
         ImageView verifiedprofilebehere = findViewById(R.id.verifiedprofilebehere); // Add this line
 
     }
+
     private void putUserData(String phoneNumber) {
         FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
         if (currentUser != null) {
@@ -509,34 +539,22 @@ public class HomeActivity extends AppCompatActivity {
 
             Query query = db.collection("users").whereEqualTo("Phone Number", phoneNumber);
 
-            query.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                @Override
-                public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                    if (task.isSuccessful()) {
-                        for (QueryDocumentSnapshot document : task.getResult()) {
-                            // Update the found document with the new user data
-                            db.collection("users").document(document.getId())
-                                    .update("realtimeid", currentUser.getUid())
-                                    .addOnSuccessListener(new OnSuccessListener<Void>() {
-                                        @Override
-                                        public void onSuccess(Void aVoid) {
-                                            Log.d("Firestore", "DocumentSnapshot updated successfully!");
-                                        }
-                                    })
-                                    .addOnFailureListener(new OnFailureListener() {
-                                        @Override
-                                        public void onFailure(@NonNull Exception e) {
-                                            Log.w("Firestore", "Error updating document", e);
-                                        }
-                                    });
-                        }
-                    } else {
-                        Log.w("Firestore", "Error getting documents.", task.getException());
+            query.get().addOnCompleteListener(task -> {
+                if (task.isSuccessful()) {
+                    for (QueryDocumentSnapshot document : task.getResult()) {
+                        // Update the found document with the new user data
+                        db.collection("users").document(document.getId())
+                                .update("realtimeid", currentUser.getUid())
+                                .addOnSuccessListener(aVoid -> Log.d("Firestore", "DocumentSnapshot updated successfully!"))
+                                .addOnFailureListener(e -> Log.w("Firestore", "Error updating document", e));
                     }
+                } else {
+                    Log.w("Firestore", "Error getting documents.", task.getException());
                 }
             });
         }
     }
+
     @SuppressLint("RestrictedApi")
     private void fetchUserProfileImage(String userId) {
         FirebaseStorage storage = FirebaseStorage.getInstance();
@@ -547,6 +565,7 @@ public class HomeActivity extends AppCompatActivity {
             Log.e(TAG, "Error fetching profile image: " + exception.getMessage());
         });
     }
+
     @SuppressLint("RestrictedApi")
     private void fetchUserProfileImageVerified(String userId) {
         FirebaseStorage storage = FirebaseStorage.getInstance();
@@ -562,6 +581,7 @@ public class HomeActivity extends AppCompatActivity {
             Log.e(TAG, "Error fetching profile image: " + exception.getMessage());
         });
     }
+
     private void checkforAppUpdate(){
         AppUpdateManager appUpdateManager = AppUpdateManagerFactory.create(this);
         Task<AppUpdateInfo> appUpdateInfoTask = appUpdateManager.getAppUpdateInfo();
@@ -585,7 +605,9 @@ public class HomeActivity extends AppCompatActivity {
             }
         });
     }
-    public void onActivityResult(int requestCode,int resultCode, Intent data) {
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == MY_UPDATE_CODE) {
             if (resultCode != RESULT_OK) {
@@ -594,4 +616,45 @@ public class HomeActivity extends AppCompatActivity {
         }
     }
 
+    @SuppressLint("RestrictedApi")
+    private void updateGreetingAndName() {
+        // Get the current time to determine the greeting
+        Calendar calendar = Calendar.getInstance();
+        int hour = calendar.get(Calendar.HOUR_OF_DAY);
+
+        if (hour >= 0 && hour < 12) {
+            greetingTextView.setText("Good Morning!");
+        } else if (hour >= 12 && hour < 16) {
+            greetingTextView.setText("Good Afternoon!");
+        } else {
+            greetingTextView.setText("Good Evening!");
+        }
+
+        // Retrieve user information from Firebase Firestore
+        FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
+        if (currentUser != null) {
+            String userId = currentUser.getPhoneNumber();
+            FirebaseFirestore db = FirebaseFirestore.getInstance();
+            db.collection("users")
+                    .whereEqualTo("Phone Number", userId)
+                    .get()
+                    .addOnCompleteListener(task -> {
+                        if (task.isSuccessful() && task.getResult() != null) {
+                            for (QueryDocumentSnapshot document : task.getResult()) {
+                                Map<String, Object> dataMap = document.getData();
+                                String userName = (String) dataMap.get("Name");
+                                String userPrefix = (String) dataMap.get("Prefix");
+
+                                Preferences preferences = Preferences.userRoot();
+                                preferences.put("username", userName);
+                                preferences.put("prefix", userPrefix);
+
+                                personname.setText(userPrefix + " " + userName);
+                            }
+                        } else {
+                            Log.d(TAG, "Error getting documents: ", task.getException());
+                        }
+                    });
+        }
+    }
 }

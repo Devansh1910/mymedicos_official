@@ -5,10 +5,12 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.text.Html;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.Fragment;
 
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
 import com.medical.my_medicos.R;
@@ -49,6 +51,12 @@ public class OptionsBottomSheetDialogueFragment extends BottomSheetDialogFragmen
 
         tvCorrectOption.setText("Correct Option: " + correctOption);
         tvSelectedOption.setText("Your Selected Option: " + selectedOption);
-        tvDescription.setText("Description: " + description);
+
+        // Handle HTML content in the description
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.N) {
+            tvDescription.setText(Html.fromHtml(description, Html.FROM_HTML_MODE_COMPACT));
+        } else {
+            tvDescription.setText(Html.fromHtml(description));
+        }
     }
 }
