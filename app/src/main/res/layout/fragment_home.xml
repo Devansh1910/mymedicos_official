@@ -9,6 +9,7 @@
     android:id="@+id/swipeRefreshLayout"
     tools:context=".activities.home.fragments.HomeFragment">
 
+    <!-- Help -->
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:background="@color/backgroundcolor"
