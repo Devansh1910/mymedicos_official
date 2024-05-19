@@ -1,0 +1,174 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:backgroundTint="@color/white"
+    android:orientation="vertical">
+
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/_40sdp"
+        android:background="?attr/colorPrimary"
+        android:elevation="4dp"
+        app:title="PG NEET"
+        android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"/>
+
+    <TextView
+        android:id="@+id/quizNameTextView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Quiz Name"
+        android:fontFamily="@font/inter"
+        android:textSize="24sp"
+        android:gravity="center"
+        android:layout_below="@id/toolbar"
+
+        android:padding="16dp"/>
+    />
+
+    <TextView
+    android:id="@+id/DueDate"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:text="Due Date:22nd April "
+    android:textColor="@color/unselected"
+    android:layout_below="@id/quizNameTextView"
+    android:layout_centerHorizontal="true"
+        android:layout_gravity="center"
+    android:layout_marginBottom="10dp"/>
+    />
+
+
+
+
+
+
+
+
+
+
+
+
+    <LinearLayout
+        android:layout_width="@dimen/_300sdp"
+        android:layout_height="@dimen/_180sdp"
+        android:layout_gravity="center"
+        android:background="@drawable/bordered_textview_bg"
+        android:orientation="vertical">
+        <TextView
+            android:id="@+id/instructionsTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/_5sdp"
+            android:text="Instructions"
+            android:textSize="@dimen/_13sdp"
+            android:fontFamily="@font/inter"
+            android:layout_below="@id/DueDate"
+            android:layout_centerHorizontal="true"
+
+            android:layout_marginTop="20dp"/>
+        <TextView
+            android:id="@+id/Due"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/_5sdp"
+            android:text="Loading ..."
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="10dp"/>
+
+        <TextView
+            android:id="@+id/scoringTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/_5sdp"
+            android:text="This is the Examination based Quiz on the Neet 2023 pattern more predictble question "
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="10dp"/>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+
+                android:textColor="@color/unselected"
+                android:padding="10dp"
+                android:text="&#8226; Instruction 1\n&#8226; Instruction 2\n&#8226; Instruction 3"
+                android:lineSpacingExtra="8dp"/>
+        </LinearLayout>
+
+    </LinearLayout>
+
+
+
+
+    <TextView
+        android:id="@+id/noticesTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Notice:"
+        android:layout_marginLeft="@dimen/_10sdp"
+        android:textSize="@dimen/_15ssp"
+        android:textColor="@color/unselected"
+        android:layout_below="@id/scoringTextView"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="20dp"/>
+    <TextView
+        android:id="@+id/notice"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="In a patient presenting with pain on the lateral aspect of the wrist when facing forward in an anatomical position, which bone is most likely to be involved if the pain is on the thumb side of the wrist?"
+        android:layout_marginLeft="@dimen/_10sdp"
+        android:layout_margin="@dimen/_8sdp"
+        android:textSize="@dimen/_12ssp"
+        android:textColor="@color/unselected"
+        android:layout_below="@id/scoringTextView"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="20dp"/>
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+
+       android:layout_marginLeft="@dimen/_10sdp"
+        android:layout_margin="@dimen/_8sdp"
+        android:text="Pay 50 Med Coin To Start Test"
+        android:textSize="@dimen/_15ssp"
+        android:textColor="@color/unselected"
+        android:layout_below="@id/scoringTextView"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="20dp"/>
+    <LinearLayout
+        android:layout_width="@dimen/_300sdp"
+        android:layout_height="@dimen/_40sdp"
+        android:layout_gravity="center"
+        android:gravity="center"
+        android:id="@+id/startexamination"
+    android:background="@drawable/bordered_textview_bg"
+        android:clickable="true"
+    android:orientation="vertical">
+
+    <TextView
+        android:id="@+id/start"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Start Examination"
+        android:textAlignment="center"
+        android:textSize="@dimen/_12ssp"
+        android:textColor="@color/unselected"
+        android:layout_margin="@dimen/_8sdp"
+        android:paddingLeft="@dimen/_8sdp"
+        android:layout_marginLeft="@dimen/_10sdp"
+        android:layout_below="@id/scoringTextView"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="20dp"/>
+</LinearLayout>
+
+
+
+
+    </LinearLayout>

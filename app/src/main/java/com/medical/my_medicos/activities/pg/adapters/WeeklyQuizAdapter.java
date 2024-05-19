@@ -20,6 +20,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.esafirm.stubutton.StuButton;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.medical.my_medicos.R;
+import com.medical.my_medicos.activities.pg.activites.PgPrepPayement;
 import com.medical.my_medicos.activities.pg.activites.insiders.WeeklyQuizInsiderActivity;
 import com.medical.my_medicos.activities.pg.model.QuizPG;
 import com.medical.my_medicos.activities.publications.activity.PaymentPublicationActivity;
@@ -52,17 +53,22 @@ public class WeeklyQuizAdapter extends RecyclerView.Adapter<WeeklyQuizAdapter.Vi
         holder.time.setText(formatTimestamp(quiz.getTo()));
 
         holder.pay.setOnClickListener(v -> {
-            holder.showBottomSheet(quiz);
+//            holder.showBottomSheet(quiz);
+            Intent intent = new Intent(context, PgPrepPayement.class);
+            intent.putExtra("Title1", quiz.getTitle1());
+            intent.putExtra("Title", quiz.getTitle());
+            intent.putExtra("Due",formatTimestamp(quiz.getTo()));
+            context.startActivity(intent);
         });
     }
 
 
-    private void showQuizInsiderActivity(QuizPG quiz) {
-        Intent intent = new Intent(context, WeeklyQuizInsiderActivity.class);
-        intent.putExtra("Title1", quiz.getTitle1());
-        intent.putExtra("Title", quiz.getTitle());
-        context.startActivity(intent);
-    }
+//    private void showQuizInsiderActivity(QuizPG quiz) {
+//        Intent intent = new Intent(context, WeeklyQuizInsiderActivity.class);
+//        intent.putExtra("Title1", quiz.getTitle1());
+//        intent.putExtra("Title", quiz.getTitle());
+//        context.startActivity(intent);
+//    }
 
     @Override
     public int getItemCount() {
@@ -105,8 +111,8 @@ public class WeeklyQuizAdapter extends RecyclerView.Adapter<WeeklyQuizAdapter.Vi
                     if (progress <= max * 0.75) {
                         seekBar.setProgress(0);
                     } else {
-                        showQuizInsiderActivity(quiz);
-                        bottomSheetDialog.dismiss();
+//                        showQuizInsiderActivity(quiz);
+//                        bottomSheetDialog.dismiss();
                     }
                 }
             });

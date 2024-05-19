@@ -120,7 +120,7 @@
                     app:dividerColor="@color/backgroundcolor"/>
 
                 <TextView
-                    android:id="@+id/instructionguide"
+                    android:id="@+id/Navigate"
                     android:layout_width="wrap_content"
                     android:textColor="@color/backgroundcolor"
                     android:paddingHorizontal="@dimen/_10sdp"
@@ -129,7 +129,7 @@
                     android:background="@drawable/instructionsbk"
                     android:layout_height="wrap_content"
                     android:textSize="@dimen/_14sdp"
-                    android:text="Instructions"/>
+                    android:text="Navigate"/>
 
             </LinearLayout>
 
@@ -149,19 +149,8 @@
                 android:textSize="@dimen/_16sdp"
                 android:textStyle="bold"/>
 
-            <HorizontalScrollView
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/_40sdp"
-                android:scrollbars="none"
-                android:layout_marginTop="10dp">
-                <LinearLayout
-                    android:id="@+id/questionNumberLayout"
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:orientation="horizontal">
 
-                </LinearLayout>
-            </HorizontalScrollView>
+
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/recycler_view1"
