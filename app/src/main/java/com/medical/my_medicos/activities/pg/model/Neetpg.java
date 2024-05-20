@@ -28,6 +28,23 @@ public class Neetpg implements Item, Serializable {
         this.description = description;
         this.remainingTimeInMillis = -1;
     }
+    private boolean markedForReview;
+    private boolean isSelected;
+
+    public boolean isSelected() {
+        return isSelected;
+    }
+
+    public void setSelected(boolean selected) {
+        this.isSelected = selected;
+    }
+    public boolean isMarkedForReview() {
+        return markedForReview;
+    }
+
+    public void setMarkedForReview(boolean markedForReview) {
+        this.markedForReview = markedForReview;
+    }
 
     public String getQuestion() {
         return question;

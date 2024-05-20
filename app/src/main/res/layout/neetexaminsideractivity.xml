@@ -133,21 +133,37 @@
 
             </LinearLayout>
 
-            <TextView
-                android:id="@+id/currentquestion"
+            <LinearLayout
+                android:id="@+id/markForReviewLayout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:paddingVertical="@dimen/_8sdp"
-                android:elevation="@dimen/_5sdp"
-                android:layout_gravity="end"
-                android:fontFamily="@font/inter"
-                android:gravity="end"
-                android:paddingHorizontal="@dimen/_16sdp"
-                android:text="18"
-                android:textAllCaps="true"
-                android:textColor="@color/unselected"
-                android:textSize="@dimen/_16sdp"
-                android:textStyle="bold"/>
+                android:orientation="horizontal"
+                android:padding="16dp"
+                android:gravity="center_vertical">
+
+                <CheckBox
+                    android:id="@+id/markForReviewCheckBox1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Mark for Review"
+                    android:textColor="@color/unselected" />
+                <TextView
+                    android:id="@+id/currentquestion"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingVertical="@dimen/_8sdp"
+                    android:elevation="@dimen/_5sdp"
+                    android:layout_gravity="end"
+                    android:fontFamily="@font/inter"
+                    android:gravity="end"
+                    android:paddingHorizontal="@dimen/_16sdp"
+                    android:text="18"
+                    android:textAllCaps="true"
+                    android:textColor="@color/unselected"
+                    android:textSize="@dimen/_16sdp"
+                    android:textStyle="bold"/>
+
+            </LinearLayout>
 
 
 

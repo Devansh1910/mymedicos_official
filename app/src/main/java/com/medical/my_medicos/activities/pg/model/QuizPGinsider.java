@@ -14,6 +14,7 @@ public class QuizPGinsider implements Item, Serializable {
     private String description;
 
     private String image;
+    private boolean markedForReview;
 
     public QuizPGinsider(String question, String optionA, String optionB, String optionC, String optionD, String correctAnswer, String image, String description) {
         this.question = question;
@@ -24,7 +25,26 @@ public class QuizPGinsider implements Item, Serializable {
         this.correctAnswer = correctAnswer;
         this.image = image;
         this.description = description;
+
     }
+    // In your QuizPGinsider model
+    private boolean isSelected;
+
+    public boolean isSelected() {
+        return isSelected;
+    }
+
+    public void setSelected(boolean selected) {
+        this.isSelected = selected;
+    }
+    public boolean isMarkedForReview() {
+        return markedForReview;
+    }
+
+    public void setMarkedForReview(boolean markedForReview) {
+        this.markedForReview = markedForReview;
+    }
+
 
 
     public String getQuestion() {

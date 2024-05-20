@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.Typeface;
 import android.os.CountDownTimer;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -36,11 +37,14 @@ public class neetexampadapter extends RecyclerView.Adapter<neetexampadapter.Neet
     private boolean isOptionSelectionEnabled = true;
     private int currentQuestionIndex = 0;
     private OnOptionSelectedListener onOptionSelectedListener;
+    private OnOptionInteractionListener interactionListener;
 
-    public neetexampadapter(Context context, ArrayList<Neetpg> quizList1) {
+
+    public neetexampadapter(Context context, ArrayList<Neetpg> quizList1, OnOptionInteractionListener interactionListener) {
         this.context = context;
         this.quizquestionsweekly = quizList1;
         this.selectedOption = null;
+        this.interactionListener = interactionListener;
     }
 
     @NonNull
@@ -50,10 +54,11 @@ public class neetexampadapter extends RecyclerView.Adapter<neetexampadapter.Neet
         return new NeetQuizQuestionViewHolder(view);
     }
 
+
     @Override
     public void onBindViewHolder(@NonNull NeetQuizQuestionViewHolder holder, int position) {
         Neetpg quizQuestion = quizquestionsweekly.get(holder.getAdapterPosition());
-        currentQuestionIndex = holder.getAdapterPosition();
+//        currentQuestionIndex = holder.getAdapterPosition();
         holder.questionspan.setText(quizQuestion.getQuestion());
         holder.optionA.setText(quizQuestion.getOptionA());
         holder.optionB.setText(quizQuestion.getOptionB());
@@ -62,10 +67,16 @@ public class neetexampadapter extends RecyclerView.Adapter<neetexampadapter.Neet
         resetOptionStyle(holder);
         isOptionSelectionEnabled = true;
 
+
         if (quizQuestion.getImage() != null && !quizQuestion.getImage().isEmpty()) {
-            holder.ifthequestionhavethumbnail.setVisibility(View.VISIBLE);
-            Glide.with(context).load(quizQuestion.getImage()).into((ImageView) holder.ifthequestionhavethumbnail);
-            holder.ifthequestionhavethumbnail.setOnClickListener(view -> showImagePopup(quizQuestion.getImage()));
+            if (quizQuestion.getImage().compareTo("https://res.cloudinary.com/dmzp6notl/image/upload/v1711436528/noimage_qtiaxj.jpg")!=0){
+                holder.ifthequestionhavethumbnail.setVisibility(View.GONE);
+            }
+            else {
+                holder.ifthequestionhavethumbnail.setVisibility(View.VISIBLE);
+                Glide.with(context).load(quizQuestion.getImage()).into((ImageView) holder.ifthequestionhavethumbnail);
+                holder.ifthequestionhavethumbnail.setOnClickListener(view -> showImagePopup(quizQuestion.getImage()));
+            }
         } else {
             holder.ifthequestionhavethumbnail.setVisibility(View.GONE);
         }
@@ -78,6 +89,10 @@ public class neetexampadapter extends RecyclerView.Adapter<neetexampadapter.Neet
 
         setOptionClickListeners(holder);
     }
+    public interface OnOptionInteractionListener {
+        void onOptionSelected(int questionIndex, String selectedOption);
+    }
+
 
     public void setSelectedOption(String selectedOption) {
         this.selectedOption = selectedOption;
@@ -88,6 +103,13 @@ public class neetexampadapter extends RecyclerView.Adapter<neetexampadapter.Neet
 
     public interface OnOptionSelectedListener {
         void onOptionSelected(String selectedOption);
+    }
+
+    public void setcurrentquestionindex(int currentQuestionIndex){
+        this.currentQuestionIndex=currentQuestionIndex;
+
+        Log.d("BottomSheetFragment 20", "Index " + this.currentQuestionIndex );
+
     }
 
     private void setOptionClickListeners(NeetQuizQuestionViewHolder holder) {
@@ -102,6 +124,11 @@ public class neetexampadapter extends RecyclerView.Adapter<neetexampadapter.Neet
             // Check if the clicked option is already selected
             Neetpg quizquestion = quizquestionsweekly.get(holder.getAdapterPosition());
             String currentSelectedOption = quizquestion.getSelectedOption();
+            if (interactionListener != null) {
+
+                Log.d("BottomSheetFragment 7","Intercation Listener"+String.valueOf(this.currentQuestionIndex));
+                interactionListener.onOptionSelected(this.currentQuestionIndex, selectedOption);
+            }
             if (currentSelectedOption != null && currentSelectedOption.equals(selectedOption)) {
                 resetOptionStyle(holder);
                 quizquestion.setSelectedOption(null);
