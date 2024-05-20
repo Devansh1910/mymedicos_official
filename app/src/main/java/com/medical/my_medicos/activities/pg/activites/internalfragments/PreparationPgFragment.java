@@ -1,57 +1,58 @@
 package com.medical.my_medicos.activities.pg.activites.internalfragments;
 
+import static androidx.fragment.app.FragmentManager.TAG;
+
 import android.annotation.SuppressLint;
-import android.content.Intent;
+import android.content.ContentValues;
 import android.os.Bundle;
 
-import androidx.cardview.widget.CardView;
+import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
-import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
-import android.os.Handler;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.ProgressBar;
-import android.widget.TextView;
-import android.widget.Toast;
-import android.widget.ViewFlipper;
 
+import com.airbnb.lottie.LottieAnimationView;
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
 import com.medical.my_medicos.R;
-import com.medical.my_medicos.activities.news.News;
-import com.medical.my_medicos.activities.pg.activites.extras.PreparationCategoryDisplayActivity;
-import com.medical.my_medicos.activities.pg.activites.extras.PreparationCategoryMaterialDisplayActivity;
-import com.medical.my_medicos.activities.pg.activites.extras.adapter.ImportantPreprationAdapter;
-import com.medical.my_medicos.activities.utils.UpdatingScreen;
+import com.medical.my_medicos.activities.pg.adapters.PerDayPGAdapter;
+import com.medical.my_medicos.activities.pg.model.PerDayPG;
+import com.medical.my_medicos.activities.utils.ConstantsDashboard;
 import com.medical.my_medicos.databinding.FragmentPreparationPgBinding;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.util.ArrayList;
-import java.util.Calendar;
+import java.util.Map;
 
 public class PreparationPgFragment extends Fragment {
 
     FragmentPreparationPgBinding binding;
-    private ProgressBar progressBar;
-    private TextView progressText;
     SwipeRefreshLayout swipeRefreshLayoutPreparation;
-
-    private ViewFlipper viewFlipperPrepration;
-    private Handler handlerprepration;
-    private LinearLayout dotsLayoutprepration;
-
-    ImportantPreprationAdapter newsupdatespreparationAdapter;
-    ArrayList<News> newsprepration;
-    private final int AUTO_SCROLL_DELAY = 3000;
-
-    CardView practivemcq,material;
-
-
-    int i = 0;
+    LottieAnimationView timer;
+    String quiztiddaya;
+    PerDayPGAdapter perDayPGAdapter;
+    ArrayList<PerDayPG> dailyquestionspg;
+    FirebaseUser currentUser;
+    LinearLayout nocardp;
 
     public static PreparationPgFragment newInstance() {
         PreparationPgFragment fragment = new PreparationPgFragment();
@@ -66,172 +67,171 @@ public class PreparationPgFragment extends Fragment {
         binding = FragmentPreparationPgBinding.inflate(inflater, container, false);
         View rootView = binding.getRoot();
 
+        // Initialize currentUser
+        currentUser = FirebaseAuth.getInstance().getCurrentUser();
+
+        if (currentUser != null) {
+            String userId = currentUser.getPhoneNumber();
+        }
+
         swipeRefreshLayoutPreparation = binding.getRoot().findViewById(R.id.swipeRefreshLayoutPreparation);
         swipeRefreshLayoutPreparation.setOnRefreshListener(this::refreshContent);
 
-        progressBar = rootView.findViewById(R.id.progress_bar);
-        progressText = rootView.findViewById(R.id.progress_text);
+        RecyclerView perDayQuestionsRecyclerView = binding.getRoot().findViewById(R.id.perdayquestions);
 
-        final Handler handler = new Handler();
-        handler.postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                if (i <= 100) {
-                    progressText.setText("" + i);
-                    progressBar.setProgress(i);
-                    i++;
-                    handler.postDelayed(this, 200);
-                } else {
-                    handler.removeCallbacks(this);
-                }
-            }
-        }, 200);
+        if (perDayQuestionsRecyclerView == null) {
+            Log.e("Fragment", "Empty");
+            return rootView;
+        }
 
+        nocardp = binding.getRoot().findViewById(R.id.nocardpg);
+        timer = binding.getRoot().findViewById(R.id.timer);
 
-        viewFlipperPrepration = rootView.findViewById(R.id.viewFlipperPrepration);
-        dotsLayoutprepration = rootView.findViewById(R.id.dotsLayoutPrepration);
-        handlerprepration = new Handler();
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+        if (currentUser != null) {
+            String userId = currentUser.getPhoneNumber();
+            db.collection("users")
+                    .get()
+                    .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                        @SuppressLint("RestrictedApi")
+                        @Override
+                        public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                            if (task.isSuccessful()) {
+                                for (QueryDocumentSnapshot document : task.getResult()) {
+                                    Log.d(TAG, document.getId() + " => " + document.getData());
 
-        addDotsPrepration();
+                                    Map<String, Object> dataMap = document.getData();
+                                    String field1 = (String) dataMap.get("Phone Number");
 
-        handlerprepration.postDelayed(autoScrollRunnable, AUTO_SCROLL_DELAY);
+                                    if (field1 != null && currentUser.getPhoneNumber() != null) {
+                                        int a = field1.compareTo(userId);
+                                        Log.d("Issue with the userID", String.valueOf(a));
 
-        practivemcq = rootView.findViewById(R.id.practivemcq);
-//        practivemcq.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                Intent i = new Intent(getActivity(), PreparationCategoryDisplayActivity.class);
-//                startActivity(i);
-//            }
-//        });
+                                        if (a == 0) {
+                                            Log.d("Can't get it", String.valueOf(a));
+                                            quiztiddaya = ((String) dataMap.get("QuizToday"));
+                                            break;
+                                        } else {
+                                            quiztiddaya = null;
+                                        }
+                                    }
+                                }
+                            } else {
+                                Log.d(ContentValues.TAG, "Error getting documents: ", task.getException());
+                            }
+                        }
+                    });
+        } else {
+            Log.e("Fragment", "CurrentUser is null");
+        }
 
-        practivemcq.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Calendar today = Calendar.getInstance();
-
-                // Set the target date to April 1st, 2024
-                Calendar targetDate = Calendar.getInstance();
-                targetDate.set(2024, Calendar.APRIL, 8); // Note: Months are 0-based in Calendar
-
-                Intent i;
-                if (today.before(targetDate)) {
-                    i = new Intent(getActivity(), UpdatingScreen.class);
-                    Toast.makeText(getActivity(), "This feature will be available soon!", Toast.LENGTH_SHORT).show();
-                } else {
-                    i = new Intent(getActivity(), PreparationCategoryDisplayActivity.class);
-                }
-                startActivity(i);
-            }
-        });
-
-
-        material = rootView.findViewById(R.id.material);
-        material.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent i = new Intent(getActivity(), PreparationCategoryMaterialDisplayActivity.class);
-                startActivity(i);
-            }
-        });
-
-
-        initImportantUpdatesInPreparation();
+        initPerDayQuestions(quiztiddaya);
+        getPerDayQuestions(quiztiddaya);
 
         return rootView;
     }
 
-    void initImportantUpdatesInPreparation() {
-        newsprepration = new ArrayList<News>();
-        newsupdatespreparationAdapter = new ImportantPreprationAdapter(getContext(), newsprepration);
-        getRecentNewsUpdatesPrepration();
+    void initPerDayQuestions(String QuiaToday) {
+        dailyquestionspg = new ArrayList<>();
+        perDayPGAdapter = new PerDayPGAdapter(getActivity(), dailyquestionspg);
 
-        // Use LinearLayoutManager with horizontal orientation
-        LinearLayoutManager layoutManager = new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false);
-        binding.noticesexam.setLayoutManager(layoutManager);
+        getPerDayQuestions(QuiaToday);
 
-        binding.noticesexam.setAdapter(newsupdatespreparationAdapter);
+        GridLayoutManager layoutManager = new GridLayoutManager(getActivity(), 1);
+        binding.perdayquestions.setLayoutManager(layoutManager);
+        binding.perdayquestions.setAdapter(perDayPGAdapter);
     }
 
+    void getPerDayQuestions(String quiz) {
+        Log.d("DEBUG", "getPerDayQuestions: Making API request");
+        RequestQueue queue = Volley.newRequestQueue(getContext());
 
+        String url = ConstantsDashboard.GET_DAILY_QUESTIONS_URL;
+        StringRequest request = new StringRequest(Request.Method.GET, url, response -> {
+            Log.d("VolleyResponse", response);
+            try {
+                Log.d("DEBUG", "getPerDayQuestions: Response received");
+                JSONObject object = new JSONObject(response);
+                if (object.getString("status").equals("success")) {
+                    JSONArray perdayArray = object.getJSONArray("data");
 
-    void getRecentNewsUpdatesPrepration() {
-        FirebaseFirestore db = FirebaseFirestore.getInstance();
+                    boolean questionFound = false;
 
-        db.collection("MedicalNews")
-                .get()
-                .addOnCompleteListener(task -> {
-                    if (task.isSuccessful()) {
-                        newsprepration.clear(); // Clear the list to ensure fresh data on refresh
-                        for (QueryDocumentSnapshot document : task.getResult()) {
-                            String newsType = document.getString("type");
+                    for (int i = 0; i < perdayArray.length(); i++) {
+                        JSONObject childObj = perdayArray.getJSONObject(i);
+                        PerDayPG perday = new PerDayPG(
+                                childObj.getString("Question"),
+                                childObj.getString("A"),
+                                childObj.getString("B"),
+                                childObj.getString("C"),
+                                childObj.getString("D"),
+                                childObj.getString("Correct"),
+                                childObj.getString("id"),
+                                childObj.getString("Description")
+                        );
+                        String questionId = childObj.getString("id");
+                        Log.d("questionid", questionId);
 
-                            if ("Notice".equals(newsType)) {
-                                News newsItem = new News(
-                                        document.getId(), // Add document ID here
-                                        document.getString("Title"),
-                                        document.getString("thumbnail"),
-                                        document.getString("subject"),
-                                        document.getString("Description"),
-                                        document.getString("Time"),
-                                        document.getString("URL"),
-                                        newsType
-                                );
-                                newsprepration.add(newsItem);
+                        if ((questionId != null) && (quiztiddaya != null)) {
+                            if (!containsQuestionId(dailyquestionspg, questionId)) {
+                                int a = questionId.compareTo(quiztiddaya);
+
+                                if (a != 0) {
+                                    dailyquestionspg.add(perday);
+                                    questionFound = true;
+                                }
+
+                            } else {
+                                questionFound = true;
                             }
                         }
-                        newsupdatespreparationAdapter.notifyDataSetChanged();
-                    } else {
-
                     }
-                });
+
+                    if (questionFound) {
+                        nocardp.setVisibility(View.GONE);
+                    } else {
+                        nocardp.setVisibility(View.VISIBLE);
+                    }
+
+                    if (!dailyquestionspg.isEmpty()) {
+                        perDayPGAdapter.notifyDataSetChanged();
+                        Log.d("DEBUG", "getPerDayQuestions: Data added to the list");
+                    }
+                }
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        }, error -> {
+            Log.e("VolleyError", "Error: " + error.getMessage());
+        });
+        queue.add(request);
+    }
+
+    private boolean containsQuestionId(ArrayList<PerDayPG> list, String questionId) {
+        for (PerDayPG question : list) {
+            if (question.getidQuestion().equals(questionId)) {
+                return true;
+            }
+        }
+        return false;
     }
 
     private void refreshContent() {
+        clearData();
+        fetchData();
         swipeRefreshLayoutPreparation.setRefreshing(false);
     }
 
+    private void clearData() {
+        dailyquestionspg.clear();
+    }
 
-    private final Runnable autoScrollRunnable = new Runnable() {
-        @Override
-        public void run() {
-            int currentChildIndex = viewFlipperPrepration.getDisplayedChild();
-            int nextChildIndex = (currentChildIndex + 1) % viewFlipperPrepration.getChildCount();
-            viewFlipperPrepration.setDisplayedChild(nextChildIndex);
-            updateDotsPrepration(nextChildIndex);
-            handlerprepration.postDelayed(this, AUTO_SCROLL_DELAY);
-        }
-    };
-
-    private void addDotsPrepration() {
-        for (int i = 0; i < viewFlipperPrepration.getChildCount(); i++) {
-            ImageView dot = new ImageView(requireContext());
-            dot.setImageDrawable(getResources().getDrawable(R.drawable.inactive_thumb));
-            LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(
-                    LinearLayout.LayoutParams.WRAP_CONTENT,
-                    LinearLayout.LayoutParams.WRAP_CONTENT
-            );
-            params.setMargins(8, 0, 8, 0);
-            dotsLayoutprepration.addView(dot, params);
-        }
-        updateDotsPrepration(0);
+    void fetchData() {
+        getPerDayQuestions(quiztiddaya);
     }
 
     @Override
     public void onDetach() {
         super.onDetach();
-        handlerprepration.removeCallbacksAndMessages(null);
-    }
-    @SuppressLint("UseCompatLoadingForDrawables")
-    private void updateDotsPrepration(int currentDotIndex) {
-        if (!isAdded()) {
-            return;
-        }
-        for (int i = 0; i < dotsLayoutprepration.getChildCount(); i++) {
-            ImageView dot = (ImageView) dotsLayoutprepration.getChildAt(i);
-            dot.setImageDrawable(getResources().getDrawable(
-                    i == currentDotIndex ? R.drawable.custom_thumb : R.drawable.inactive_thumb
-            ));
-        }
     }
 }

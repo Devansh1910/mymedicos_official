@@ -10,316 +10,238 @@
     <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
         android:id="@+id/swipeRefreshLayoutPg"
         android:layout_width="match_parent"
-        android:background="@color/backgroundcolor"
+        android:background="@color/white"
         android:layout_height="match_parent">
 
-        <androidx.core.widget.NestedScrollView
+        <ScrollView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="@color/backgroundcolor"
+            android:background="@color/colorPrimary"
             android:fillViewport="true"
             app:layout_constraintBottom_toTopOf="@id/bottomappabarpg"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/appBarLayout">
 
-            <LinearLayout
+            <RelativeLayout
                 android:layout_width="match_parent"
-                android:background="@color/backgroundcolor"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:padding="10dp">
+                android:layout_height="wrap_content">
 
-                <com.airbnb.lottie.LottieAnimationView
-                    android:id="@+id/shimmercomeup"
+                <ImageView
+                    android:id="@+id/vector_home"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    app:lottie_autoPlay="true"
-                    android:visibility="gone"
-                    app:lottie_loop="true"
-                    app:lottie_rawRes="@raw/shimmer"
-                    app:lottie_speed="1" />
+                    android:layout_alignParentTop="true"
+                    android:layout_alignParentEnd="true"
+                    android:layout_alignParentStart="true"
+                    android:scaleType="centerCrop"
+                    android:src="@drawable/pg_new_banner_top" />
 
                 <androidx.cardview.widget.CardView
+                    android:layout_marginTop="@dimen/_140sdp"
                     android:layout_width="match_parent"
+                    android:elevation="@dimen/_10sdp"
                     android:layout_height="wrap_content"
-                    app:cardCornerRadius="10dp">
-
-                    <FrameLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content">
-
-                        <ImageView
-                            android:id="@+id/urlopener"
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:src="@drawable/justforbannerdrawable"/>
-
-                        <org.imaginativeworld.whynotimagecarousel.ImageCarousel
-                            android:id="@+id/carouselpghome"
-                            android:layout_width="match_parent"
-                            android:layout_height="150dp"
-                            app:showNavigationButtons="false"
-                            app:showCaption="false"
-                            app:autoPlay="true"/>
-
-                    </FrameLayout>
-
-                </androidx.cardview.widget.CardView>
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_gravity="center"
-                    android:gravity="center_vertical"
-                    android:layout_height="wrap_content">
-
-                    <com.airbnb.lottie.LottieAnimationView
-                        android:id="@+id/questionanime"
-                        android:layout_width="40dp"
-                        android:layout_height="40dp"
-                        app:lottie_autoPlay="true"
-                        app:lottie_loop="false"
-                        app:lottie_rawRes="@raw/questionnn"
-                        app:lottie_speed="1" />
-
-                    <TextView
-                        android:layout_width="0dp"
-                        android:layout_weight="1"
-                        android:layout_margin="@dimen/_5sdp"
-                        android:background="@color/backgroundcolor"
-                        android:layout_height="wrap_content"
-                        android:text="DAILY BRAINSTORM"
-                        android:textColor="@color/unselected"
-                        android:layout_gravity="center_vertical"
-                        android:gravity="start"
-                        android:padding="@dimen/_8sdp"
-                        android:textSize="@dimen/_12ssp"
-                        android:textStyle="bold" />
-
-                </LinearLayout>
-
-                <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/perdayquestions"
-                    android:layout_width="match_parent"
-                    android:elevation="@dimen/_2sdp"
-                    tools:listitem="1"
-                    android:layout_height="wrap_content"/>
+                    app:cardCornerRadius="@dimen/_10ssp">
 
                     <LinearLayout
                         android:layout_width="match_parent"
-                        android:id="@+id/nocardpg"
+                        android:background="@color/white"
                         android:layout_height="wrap_content"
-                        android:background="#26808080"
-                        android:layout_gravity="center_vertical"
-                        android:paddingHorizontal="@dimen/_5sdp"
-                        android:visibility="visible"
-                        android:gravity="center_vertical"
-                        android:orientation="vertical">
+                        android:orientation="vertical"
+                        android:padding="10dp">
 
-                        <com.airbnb.lottie.LottieAnimationView
-                            android:id="@+id/timer"
-                            android:layout_width="100dp"
-                            android:layout_height="100dp"
-                            app:lottie_autoPlay="true"
-                            app:lottie_loop="true"
-                            android:layout_gravity="center_horizontal"
-                            app:lottie_rawRes="@raw/clock"
-                            app:lottie_speed="1" />
+                        <ImageView
+                            android:layout_width="wrap_content"
+                            android:layout_gravity="center"
+                            android:layout_height="match_parent"
+                            android:scaleType="centerCrop"
+                            android:src="@drawable/line_horizontal" />
 
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_marginVertical="@dimen/_5ssp"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal">
+
+                            <TextView
+                                android:id="@+id/practivemcq"
+                                android:layout_width="0dp"
+                                android:drawableEnd="@drawable/person_practice"
+                                android:background="@drawable/backofpgmaterials"
+                                android:layout_weight="1"
+                                android:drawablePadding="@dimen/_2ssp"
+                                android:layout_height="wrap_content"
+                                android:elevation="@dimen/_10sdp"
+                                android:text="PRACTICE MCQs"
+                                android:textColor="@color/unselected"
+                                android:layout_gravity="center_vertical"
+                                android:gravity="center"
+                                android:paddingVertical="@dimen/_10sdp"
+                                android:paddingHorizontal="@dimen/_10ssp"
+                                android:textSize="@dimen/_10ssp"
+                                android:textStyle="normal" />
+
+                            <com.google.android.material.divider.MaterialDivider
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="0.05"
+                                app:dividerColor="@color/white"
+                                app:dividerThickness="@dimen/_1ssp"/>
+
+
+                            <TextView
+                                android:id="@+id/material"
+                                android:layout_width="0dp"
+                                android:drawableEnd="@drawable/practice_prep"
+                                android:background="@drawable/backofpgmaterials"
+                                android:layout_weight="1"
+                                android:drawablePadding="@dimen/_2ssp"
+                                android:layout_height="wrap_content"
+                                android:elevation="@dimen/_10sdp"
+                                android:text="MATERIAL"
+                                android:textColor="@color/unselected"
+                                android:layout_gravity="center_vertical"
+                                android:gravity="center"
+                                android:paddingVertical="@dimen/_10sdp"
+                                android:paddingHorizontal="@dimen/_10ssp"
+                                android:textSize="@dimen/_10ssp"
+                                android:textStyle="normal" />
+
+                        </LinearLayout>
 
                         <TextView
                             android:layout_width="match_parent"
+                            android:background="@color/white"
                             android:layout_height="wrap_content"
-                            android:text="Out of Quiz, Come back Tomorrow"
-                            android:textSize="16sp"
-                            android:gravity="center_horizontal"
-                            android:paddingHorizontal="@dimen/_10sdp"
-                            android:paddingVertical="@dimen/_10sdp"
-                            android:fontFamily="@font/inter_extrabold"
-                            android:layout_gravity="center_horizontal"
-                            android:textColor="@color/unselected"/>
+                            android:text="SUGGEST GRAND EXAMS"
+                            android:textColor="@color/unselected"
+                            android:fontFamily="@font/inter_semibold"
+                            android:layout_gravity="center_vertical"
+                            android:gravity="start"
+                            android:paddingVertical="@dimen/_8sdp"
+                            android:textSize="@dimen/_10ssp"
+                            android:textStyle="normal" />
+
+                        <androidx.recyclerview.widget.RecyclerView
+                            android:id="@+id/specialexam"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"/>
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:background="@color/white"
+                            android:layout_height="wrap_content"
+                            android:text="ADVERTISEMENT"
+                            android:textColor="@color/unselected"
+                            android:fontFamily="@font/inter_semibold"
+                            android:layout_gravity="center_vertical"
+                            android:gravity="start"
+                            android:paddingVertical="@dimen/_8sdp"
+                            android:textSize="@dimen/_10ssp"
+                            android:textStyle="normal" />
+
+                        <androidx.cardview.widget.CardView
+                            android:layout_marginTop="@dimen/_5ssp"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            app:cardCornerRadius="10dp">
+
+                            <FrameLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content">
+
+                                <ImageView
+                                    android:id="@+id/urlopener"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="match_parent"
+                                    android:src="@drawable/justforbannerdrawable"/>
+
+                                <org.imaginativeworld.whynotimagecarousel.ImageCarousel
+                                    android:id="@+id/carouselpghome"
+                                    android:layout_width="match_parent"
+                                    app:showTopShadow="false"
+                                    app:showBottomShadow="false"
+                                    android:layout_height="@dimen/_80ssp"
+                                    app:showNavigationButtons="false"
+                                    app:showCaption="false"
+                                    app:autoPlay="true"/>
+
+                            </FrameLayout>
+
+                        </androidx.cardview.widget.CardView>
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:background="@color/white"
+                            android:fontFamily="@font/inter_semibold"
+                            android:layout_height="wrap_content"
+                            android:text="SUGGESTED QUESTION BANKS"
+                            android:textColor="@color/unselected"
+                            android:layout_gravity="center_vertical"
+                            android:gravity="start"
+                            android:paddingVertical="@dimen/_8sdp"
+                            android:textSize="@dimen/_10ssp"
+                            android:textStyle="normal" />
+
+                        <androidx.recyclerview.widget.RecyclerView
+                            android:id="@+id/QB"
+                            android:layout_width="match_parent"
+                            android:elevation="@dimen/_2sdp"
+                            android:layout_height="wrap_content"/>
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:background="@color/white"
+                            android:layout_height="wrap_content"
+                            android:text="IMPORTANT NOTICES"
+                            android:textColor="@color/unselected"
+                            android:layout_gravity="center_vertical"
+                            android:gravity="start"
+                            android:paddingVertical="@dimen/_8sdp"
+                            android:textSize="@dimen/_10ssp"
+                            android:textStyle="bold" />
+
+                        <androidx.cardview.widget.CardView
+                            android:id="@+id/gotoupdatesofpg"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginHorizontal="@dimen/_2sdp"
+                            android:layout_marginVertical="@dimen/_10sdp"
+                            app:cardCornerRadius="@dimen/_5sdp"
+                            android:background="@color/white"
+                            android:elevation="@dimen/_10sdp">
+
+                            <TextView
+                                android:layout_width="match_parent"
+                                android:layout_weight="1"
+                                android:layout_margin="@dimen/_5sdp"
+                                android:background="@color/white"
+                                android:layout_height="wrap_content"
+                                android:padding="@dimen/_20sdp"
+                                android:text="GET THE RECENT UPDATES"
+                                android:textColor="@color/unselected"
+                                android:layout_gravity="center_vertical"
+                                android:gravity="center"
+                                android:textSize="@dimen/_14ssp"
+                                android:textStyle="bold" />
+
+
+                        </androidx.cardview.widget.CardView>
+
+                        <ImageView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:scaleType="centerCrop"
+                            android:src="@drawable/connectfinal"/>
 
                     </LinearLayout>
 
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_gravity="center"
-                    android:gravity="center_vertical"
-                    android:layout_height="wrap_content">
-
-                    <com.airbnb.lottie.LottieAnimationView
-                        android:id="@+id/exploreanime"
-                        android:layout_width="40dp"
-                        android:layout_height="40dp"
-                        app:lottie_autoPlay="true"
-                        android:scaleX="1.2"
-                        android:scaleY="1.2"
-                        app:lottie_loop="true"
-                        app:lottie_rawRes="@raw/suggestanime"
-                        app:lottie_speed="1" />
-
-                    <TextView
-                        android:layout_width="0dp"
-                        android:layout_weight="1"
-                        android:layout_margin="@dimen/_5sdp"
-                        android:background="@color/backgroundcolor"
-                        android:layout_height="wrap_content"
-                        android:text="SUGGESTED TEST"
-                        android:textColor="@color/unselected"
-                        android:layout_gravity="center_vertical"
-                        android:gravity="start"
-                        android:padding="@dimen/_8sdp"
-                        android:textSize="@dimen/_12ssp"
-                        android:textStyle="bold" />
-
-                </LinearLayout>
-
-                <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/specialexam"
-                    android:layout_width="match_parent"
-                    android:elevation="@dimen/_2sdp"
-                    android:layout_height="wrap_content"/>
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_gravity="center"
-                    android:gravity="center_vertical"
-                    android:layout_height="wrap_content">
-
-                    <com.airbnb.lottie.LottieAnimationView
-                        android:layout_width="40dp"
-                        android:layout_height="40dp"
-                        app:lottie_autoPlay="true"
-                        android:scaleX="1.2"
-                        android:scaleY="1.2"
-                        app:lottie_loop="true"
-                        app:lottie_rawRes="@raw/suggestanime"
-                        app:lottie_speed="1" />
-
-                    <TextView
-                        android:layout_width="0dp"
-                        android:layout_weight="1"
-                        android:layout_margin="@dimen/_5sdp"
-                        android:background="@color/backgroundcolor"
-                        android:layout_height="wrap_content"
-                        android:text="SUGGESTED QUESTION BANKS"
-                        android:textColor="@color/unselected"
-                        android:layout_gravity="center_vertical"
-                        android:gravity="start"
-                        android:padding="@dimen/_8sdp"
-                        android:textSize="@dimen/_12ssp"
-                        android:textStyle="bold" />
-
-                </LinearLayout>
-
-                <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/QB"
-                    android:layout_width="match_parent"
-                    android:elevation="@dimen/_2sdp"
-                    android:layout_height="wrap_content"/>
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_gravity="center"
-                    android:gravity="center_vertical"
-                    android:layout_height="wrap_content">
-
-                    <com.airbnb.lottie.LottieAnimationView
-                        android:layout_width="40dp"
-                        android:layout_height="40dp"
-                        app:lottie_autoPlay="true"
-                        android:scaleX="1.2"
-                        android:scaleY="1.2"
-                        app:lottie_loop="true"
-                        app:lottie_rawRes="@raw/suggestanime"
-                        app:lottie_speed="1" />
-
-                    <TextView
-                        android:layout_width="0dp"
-                        android:layout_weight="1"
-                        android:layout_margin="@dimen/_5sdp"
-                        android:background="@color/backgroundcolor"
-                        android:layout_height="wrap_content"
-                        android:text="IMPORTANT NOTICES"
-                        android:textColor="@color/unselected"
-                        android:layout_gravity="center_vertical"
-                        android:gravity="start"
-                        android:padding="@dimen/_8sdp"
-                        android:textSize="@dimen/_12ssp"
-                        android:textStyle="bold" />
-
-                </LinearLayout>
-
-                <androidx.cardview.widget.CardView
-                    android:id="@+id/gotoupdatesofpg"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginHorizontal="@dimen/_2sdp"
-                    android:layout_marginVertical="@dimen/_10sdp"
-                    app:cardCornerRadius="@dimen/_5sdp"
-                    android:background="@color/white"
-                    android:elevation="@dimen/_10sdp">
-
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_weight="1"
-                        android:layout_margin="@dimen/_5sdp"
-                        android:background="@color/white"
-                        android:layout_height="wrap_content"
-                        android:padding="@dimen/_20sdp"
-                        android:text="GET THE RECENT UPDATES"
-                        android:textColor="@color/unselected"
-                        android:layout_gravity="center_vertical"
-                        android:gravity="center"
-                        android:textSize="@dimen/_14ssp"
-                        android:textStyle="bold" />
-
-
                 </androidx.cardview.widget.CardView>
 
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_gravity="center_vertical"
-                    android:gravity="center_vertical"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal">
+            </RelativeLayout>
 
-                    <TextView
-                        android:layout_width="0dp"
-                        android:layout_weight="0.5"
-                        android:id="@+id/promotebtn"
-                        android:background="@drawable/sharedarkbtnforpromotion"
-                        android:layout_height="wrap_content"
-                        android:text="PROMOTE"
-                        android:layout_marginVertical="@dimen/_10sdp"
-                        android:drawableEnd="@drawable/share"
-                        android:textColor="@color/white"
-                        android:drawablePadding="@dimen/_5sdp"
-                        android:layout_gravity="center_vertical"
-                        android:gravity="center_vertical"
-                        android:padding="@dimen/_8sdp"
-                        android:textSize="@dimen/_12ssp"
-                        android:textStyle="bold" />
-
-                    <TextView
-                        android:layout_width="0dp"
-                        android:layout_weight="1"
-                        android:layout_height="wrap_content"
-                        android:text="with Love"
-                        android:layout_marginVertical="@dimen/_10sdp"
-                        android:textColor="@color/unselected"
-                        android:drawablePadding="@dimen/_5sdp"
-                        android:layout_gravity="center_vertical"
-                        android:gravity="center_vertical"
-                        android:padding="@dimen/_8sdp"
-                        android:textSize="@dimen/_12ssp"
-                        android:textStyle="bold" />
-
-                </LinearLayout>
-
-            </LinearLayout>
-
-        </androidx.core.widget.NestedScrollView>
+        </ScrollView>
 
     </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 

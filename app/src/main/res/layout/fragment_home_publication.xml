@@ -17,9 +17,11 @@
             android:layout_height="wrap_content">
 
             <org.imaginativeworld.whynotimagecarousel.ImageCarousel
-                android:id="@+id/carousel"
+                android:id="@+id/libcarousel"
                 android:layout_width="match_parent"
                 android:layout_height="180dp"
+                app:showBottomShadow="true"
+                app:showTopShadow="false"
                 app:autoPlay="true"
                 app:showCaption="false"
                 app:showNavigationButtons="false" />

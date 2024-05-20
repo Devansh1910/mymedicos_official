@@ -107,18 +107,6 @@
                 android:textColor="@color/unselected"
                 android:text="Loading details..." />
 
-            <TextView
-                android:id="@+id/newsSubject"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:paddingVertical="@dimen/_1sdp"
-                android:paddingHorizontal="@dimen/_10sdp"
-                android:paddingBottom="@dimen/_20sdp"
-                android:fontFamily="@font/inter"
-                android:textSize="@dimen/_12sdp"
-                android:textStyle="italic"
-                android:textColor="#B3B3B3"
-                android:text="Loading details..." />
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -156,22 +144,6 @@
                 android:paddingBottom="@dimen/_100sdp"
                 android:textColor="@color/unselected"
                 android:text="Loading details..." />
-
-            <TextView
-                android:id="@+id/readmoreBtn"
-                android:layout_width="match_parent"
-                android:elevation="@dimen/_1sdp"
-                android:layout_height="wrap_content"
-                android:text="Read Entire Blog"
-                android:paddingHorizontal="@dimen/_10sdp"
-                android:layout_margin="@dimen/_10sdp"
-                android:paddingVertical="@dimen/_10sdp"
-                android:background="@drawable/bottomuploadbtnbkforug"
-                android:textAlignment="center"
-                android:textSize="@dimen/_14sdp"
-                android:textColor="@color/unselected"
-                android:fontFamily="@font/inter"
-                android:textStyle="bold" />
 
         </LinearLayout>
 

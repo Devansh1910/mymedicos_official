@@ -13,7 +13,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:layout_constraintEnd_toEndOf="parent"
-            android:background="@color/backgroundcolor"
+            android:background="@color/colorPrimary"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent">
 
@@ -24,7 +24,7 @@
                 android:gravity="center"
                 android:layout_width="match_parent"
                 android:layout_height="?attr/actionBarSize"
-                android:background="@color/green"
+                android:background="@color/colorPrimary"
                 app:menu="@menu/home_menu">
 
                 <LinearLayout
@@ -47,16 +47,18 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:padding="@dimen/_10sdp"
-                            android:src="@drawable/arrow_bk"
+                            android:src="@drawable/arrow_bkwhite"
                             android:layout_marginEnd="@dimen/_10sdp"/>
 
                         <TextView
+                            android:id="@+id/toolbarheading"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:text="PG NEET"
                             android:layout_weight="1"
+                            android:textColor="@color/white"
                             android:textSize="@dimen/_18sdp"
-                            android:fontFamily="@font/roboto_bold"/>
+                            android:fontFamily="@font/inter_semibold"/>
 
                     </LinearLayout>
 
@@ -108,36 +110,44 @@
             app:layout_constraintTop_toBottomOf="@+id/appBarLayout">
         </FrameLayout>
 
-        <com.google.android.material.bottomappbar.BottomAppBar
-            android:id="@+id/bottomappabarpginsider"
+    <com.google.android.material.divider.MaterialDivider
+        android:layout_width="match_parent"
+        android:elevation="@dimen/_10ssp"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toTopOf="@id/bottomappabarpginsider"
+        app:dividerThickness="@dimen/_1ssp"
+        app:dividerColor="@color/unselected"/>
+
+    <com.google.android.material.bottomappbar.BottomAppBar
+        android:id="@+id/bottomappabarpginsider"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/_60ssp"
+        android:layout_gravity="bottom"
+        android:gravity="bottom"
+        android:backgroundTint="@color/white"
+        app:itemActiveIndicatorStyle="@color/white"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        tools:ignore="BottomAppBar">
+
+        <com.google.android.material.bottomnavigation.BottomNavigationView
+            android:id="@+id/bottomNavigationViewpginsider"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
+            android:background="@color/white"
             android:layout_gravity="bottom"
-            android:gravity="bottom"
-            android:backgroundTint="@color/green"
-            app:itemActiveIndicatorStyle="@color/green"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            tools:ignore="BottomAppBar">
+            app:itemHorizontalTranslationEnabled="true"
+            app:itemIconSize="@dimen/_25sdp"
+            app:itemActiveIndicatorStyle="@drawable/item_tint_selector_pg"
+            app:itemIconTint="@drawable/item_tint_selector_pg"
+            app:itemTextColor="@drawable/item_tint_selector_pg"
+            app:labelVisibilityMode="labeled"
+            app:menu="@menu/bottom_navigation_for_pg">
 
-            <com.google.android.material.bottomnavigation.BottomNavigationView
-                android:id="@+id/bottomNavigationViewpginsider"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:background="@color/green"
-                android:layout_gravity="bottom"
-                app:itemHorizontalTranslationEnabled="true"
-                app:itemIconSize="@dimen/_25sdp"
-                app:itemActiveIndicatorStyle="@drawable/item_tint_selector"
-                app:itemIconTint="@drawable/item_tint_selector"
-                app:itemTextColor="@drawable/item_tint_selector"
-                app:labelVisibilityMode="labeled"
-                app:menu="@menu/bottom_navigation_for_pg">
+        </com.google.android.material.bottomnavigation.BottomNavigationView>
 
-            </com.google.android.material.bottomnavigation.BottomNavigationView>
-
-        </com.google.android.material.bottomappbar.BottomAppBar>
+    </com.google.android.material.bottomappbar.BottomAppBar>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
 

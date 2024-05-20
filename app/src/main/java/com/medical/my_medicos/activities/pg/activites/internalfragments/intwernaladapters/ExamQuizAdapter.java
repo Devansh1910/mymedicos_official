@@ -82,7 +82,7 @@ public class ExamQuizAdapter extends RecyclerView.Adapter<ExamQuizAdapter.ExamVi
     public class ExamViewHolder extends RecyclerView.ViewHolder {
         TextView titleTextView,time;
         Button payforsets;
-        CardView pay;
+        LinearLayout pay;
         FirebaseDatabase database;
         String currentUid;
         int coins= 50;

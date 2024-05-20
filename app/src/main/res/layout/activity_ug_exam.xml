@@ -24,7 +24,7 @@
             android:gravity="center"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
-            android:background="@color/green"
+            android:background="@color/white"
             app:menu="@menu/home_menu">
 
             <LinearLayout
@@ -68,7 +68,7 @@
             android:id="@+id/linearLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@color/blue"
+            android:background="@color/white"
             android:paddingHorizontal="@dimen/_5sdp"
             android:orientation="horizontal"
             android:paddingVertical="5dp"
@@ -108,14 +108,22 @@
         app:navGraph="@navigation/mobile_navigation_ug"
         tools:ignore="NotSibling" />
 
+    <com.google.android.material.divider.MaterialDivider
+        android:layout_width="match_parent"
+        android:elevation="@dimen/_10ssp"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toTopOf="@id/bottomappabarug"
+        app:dividerThickness="@dimen/_1ssp"
+        app:dividerColor="@color/unselected"/>
+
     <com.google.android.material.bottomappbar.BottomAppBar
         android:id="@+id/bottomappabarug"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="@dimen/_60ssp"
         android:layout_gravity="bottom"
         android:gravity="bottom"
-        android:backgroundTint="@color/green"
-        app:itemActiveIndicatorStyle="@color/green"
+        android:backgroundTint="@color/white"
+        app:itemActiveIndicatorStyle="@color/white"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -125,14 +133,14 @@
             android:id="@+id/bottomNavigationViewug"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="@color/green"
+            android:background="@color/white"
             android:layout_gravity="bottom"
             app:itemHorizontalTranslationEnabled="true"
             app:itemIconSize="@dimen/_25sdp"
             app:itemActiveIndicatorStyle="@drawable/item_tint_selector"
             app:itemIconTint="@drawable/item_tint_selector"
             app:itemTextColor="@drawable/item_tint_selector"
-            app:labelVisibilityMode="unlabeled"
+            app:labelVisibilityMode="labeled"
             app:menu="@menu/bottom_nav_menu_ug">
 
         </com.google.android.material.bottomnavigation.BottomNavigationView>

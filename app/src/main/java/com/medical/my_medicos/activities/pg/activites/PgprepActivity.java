@@ -4,6 +4,7 @@ import static androidx.fragment.app.FragmentManager.TAG;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
@@ -19,9 +20,9 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -40,7 +41,9 @@ import com.medical.my_medicos.R;
 import com.medical.my_medicos.activities.guide.NewsGuideActivity;
 import com.medical.my_medicos.activities.guide.PgGuideActivity;
 import com.medical.my_medicos.activities.home.HomeActivity;
+import com.medical.my_medicos.activities.home.fragments.ClubFragment;
 import com.medical.my_medicos.activities.home.fragments.HomeFragment;
+import com.medical.my_medicos.activities.home.fragments.SlideshowFragment;
 import com.medical.my_medicos.activities.news.NewsActivity;
 import com.medical.my_medicos.activities.pg.activites.extras.CreditsActivity;
 import com.medical.my_medicos.activities.pg.activites.internalfragments.HomePgFragment;
@@ -49,16 +52,12 @@ import com.medical.my_medicos.activities.pg.activites.internalfragments.Preparat
 import com.medical.my_medicos.databinding.ActivityPgprepBinding;
 
 import java.util.Map;
-
-public class  PgprepActivity extends AppCompatActivity {
+public class PgprepActivity extends AppCompatActivity {
     ActivityPgprepBinding binding;
     BottomNavigationView bottomNavigationPg;
     BottomAppBar bottomAppBarPg;
-
     private ImageView backtothehomefrompg;
-
     private int lastSelectedItemId = 0;
-
     private SwipeRefreshLayout swipeRefreshLayout;
 
     @Override
@@ -67,30 +66,10 @@ public class  PgprepActivity extends AppCompatActivity {
         binding = ActivityPgprepBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            View decorView = getWindow().getDecorView();
-            decorView.setSystemUiVisibility(decorView.getSystemUiVisibility() | View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);
-        }
-
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            Window window = getWindow();
-            window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
-            window.setStatusBarColor(ContextCompat.getColor(this, R.color.green));
-            window.setNavigationBarColor(ContextCompat.getColor(this, R.color.backgroundcolor));
-        }
-
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            View decorView = getWindow().getDecorView();
-            decorView.setSystemUiVisibility(decorView.getSystemUiVisibility() | View.SYSTEM_UI_FLAG_LIGHT_NAVIGATION_BAR);
-        }
-
         backtothehomefrompg = findViewById(R.id.backtothehomefrompg);
-        backtothehomefrompg.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent i = new Intent(PgprepActivity.this, HomeActivity.class);
-                startActivity(i);
-            }
+        backtothehomefrompg.setOnClickListener(view -> {
+            Intent i = new Intent(PgprepActivity.this, HomeActivity.class);
+            startActivity(i);
         });
 
         View decorView = getWindow().getDecorView();
@@ -123,17 +102,54 @@ public class  PgprepActivity extends AppCompatActivity {
                         }
                     });
         }
+
         setupBottomAppBar();
 
         HomePgFragment homeFragment = HomePgFragment.newInstance();
         replaceFragment(homeFragment);
         LinearLayout openpgdrawerIcon = findViewById(R.id.creditscreen);
         openpgdrawerIcon.setOnClickListener(v -> openHomeSidePgActivity());
+
+        configureWindow();
+    }
+
+    private void configureWindow() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            Window window = getWindow();
+            window.setStatusBarColor(ContextCompat.getColor(this, R.color.colorPrimary));
+            window.setNavigationBarColor(ContextCompat.getColor(this, R.color.backgroundcolor));
+            View decorView = window.getDecorView();
+            decorView.setSystemUiVisibility(decorView.getSystemUiVisibility() | View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR | View.SYSTEM_UI_FLAG_LIGHT_NAVIGATION_BAR);
+        }
+    }
+
+    private void updateToolbarColor(Fragment fragment) {
+        Toolbar toolbar = findViewById(R.id.toolbar);
+        TextView toolbarheading = findViewById(R.id.toolbarheading);
+        ImageView backtothehomefrompg = findViewById(R.id.backtothehomefrompg);
+        LinearLayout creditscreen = findViewById(R.id.creditscreen);
+        TextView currentcoinspg = findViewById(R.id.currentcoinspg);
+
+        if (fragment instanceof NeetExamFragment || fragment instanceof PreparationPgFragment) {
+            toolbar.setBackgroundColor(ContextCompat.getColor(this, R.color.backgroundcolor));
+            toolbarheading.setTextColor(ContextCompat.getColor(this, R.color.unselected));
+            backtothehomefrompg.setImageDrawable(ContextCompat.getDrawable(this, R.drawable.arrow_bk));
+            creditscreen.setBackground(ContextCompat.getDrawable(this, R.drawable.categoryblack));
+            currentcoinspg.setTextColor(ContextCompat.getColor(this, R.color.white));
+            getWindow().setStatusBarColor(ContextCompat.getColor(this, R.color.backgroundcolor));
+        } else {
+            toolbar.setBackgroundColor(ContextCompat.getColor(this, R.color.colorPrimary));
+            toolbarheading.setTextColor(ContextCompat.getColor(this, R.color.white));
+            backtothehomefrompg.setImageDrawable(ContextCompat.getDrawable(this, R.drawable.arrow_bkwhite));
+            creditscreen.setBackground(ContextCompat.getDrawable(this, R.drawable.categorywhite));
+            currentcoinspg.setTextColor(ContextCompat.getColor(this, R.color.unselected));
+            getWindow().setStatusBarColor(ContextCompat.getColor(this, R.color.colorPrimary));
+        }
     }
 
     private void setupBottomAppBar() {
-        BottomAppBar bottomAppBar = binding.bottomappabarpginsider;
-        bottomNavigationPg = bottomAppBar.findViewById(R.id.bottomNavigationViewpginsider);
+        bottomAppBarPg = binding.bottomappabarpginsider;
+        bottomNavigationPg = bottomAppBarPg.findViewById(R.id.bottomNavigationViewpginsider);
         bottomNavigationPg.setBackground(null);
 
         bottomNavigationPg.setOnItemSelectedListener(item -> {
@@ -147,13 +163,13 @@ public class  PgprepActivity extends AppCompatActivity {
                 return true;
             } else if (itemId == R.id.navigation_pgneet) {
                 if (lastSelectedItemId != R.id.navigation_pgneet) {
-                    replaceFragment(NeetExamFragment.newInstance());
+                    replaceFragment(PreparationPgFragment.newInstance());
                     lastSelectedItemId = R.id.navigation_pgneet;
                 }
                 return true;
             } else if (itemId == R.id.navigation_pgpreparation) {
                 if (lastSelectedItemId != R.id.navigation_pgpreparation) {
-                    replaceFragment(PreparationPgFragment.newInstance());
+                    replaceFragment(NeetExamFragment.newInstance());
                     lastSelectedItemId = R.id.navigation_pgpreparation;
                 }
                 return true;
@@ -161,8 +177,6 @@ public class  PgprepActivity extends AppCompatActivity {
 
             return false;
         });
-
-
     }
 
     public void openHomeSidePgActivity() {
@@ -170,18 +184,17 @@ public class  PgprepActivity extends AppCompatActivity {
         startActivity(settingsIntent);
     }
 
+    @SuppressLint("RestrictedApi")
     private void replaceFragment(Fragment fragment) {
+        Log.d(TAG, "Replacing fragment with: " + fragment.getClass().getSimpleName());
         FragmentManager fragmentManager = getSupportFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
         fragmentTransaction.replace(R.id.frame_layout_pg, fragment);
         fragmentTransaction.addToBackStack(null);
         fragmentTransaction.commit();
+        updateToolbarColor(fragment);
     }
 
-//    @Override
-//    public void onBackPressed(){
-////        Toast.makeText(ResultActivity.this, "", Toast.LENGTH_SHORT).show();
-//    }
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
@@ -198,5 +211,4 @@ public class  PgprepActivity extends AppCompatActivity {
         finish();
         return super.onSupportNavigateUp();
     }
-
 }

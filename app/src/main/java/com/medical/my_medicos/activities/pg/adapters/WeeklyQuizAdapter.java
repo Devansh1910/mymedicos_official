@@ -78,7 +78,7 @@ public class WeeklyQuizAdapter extends RecyclerView.Adapter<WeeklyQuizAdapter.Vi
     public class ViewHolder extends RecyclerView.ViewHolder {
         TextView titleTextView,time;
         Button payforsets;
-        CardView pay;
+        LinearLayout pay;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);

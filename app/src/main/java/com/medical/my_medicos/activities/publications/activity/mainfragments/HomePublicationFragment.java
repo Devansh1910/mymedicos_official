@@ -9,6 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -42,10 +43,9 @@ import java.util.Set;
 public class HomePublicationFragment extends Fragment {
 
     private FragmentHomePublicationBinding binding;
-
     private Context context;
 
-    private BookoftheDayAdapter BookofthedayAdapter;
+    private BookoftheDayAdapter bookofthedayAdapter;
     private ArrayList<Product> bookoftheday;
     private ProductAdapter productAdapter;
     private ArrayList<Product> products;
@@ -55,9 +55,20 @@ public class HomePublicationFragment extends Fragment {
     private ArrayList<Product> sponsoredProduct;
     private LottieAnimationView loader;
 
+    private static final String PREFS_NAME = "HomePublicationPrefs";
+    private static final String KEY_BOOK_OF_THE_DAY = "BookOfTheDay";
+    private static final String KEY_RECENT_HOME_PRODUCTS = "RecentHomeProducts";
+    private static final String KEY_SPONSORED_PRODUCTS = "SponsoredProducts";
+
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         binding = FragmentHomePublicationBinding.inflate(inflater, container, false);
+        return binding.getRoot();
+    }
+
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
         context = getContext();
 
         if (context != null) {
@@ -68,52 +79,69 @@ public class HomePublicationFragment extends Fragment {
             initSponsorProduct();
             initBookReadables();
         }
-
-        return binding.getRoot();
     }
+
     @Override
     public void onDestroyView() {
         super.onDestroyView();
         binding = null; // Clean up the binding reference
     }
 
-    //... Normal Slider.....
+    private void saveDataToPreferences(String key, String jsonData) {
+        SharedPreferences prefs = context.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = prefs.edit();
+        editor.putString(key, jsonData);
+        editor.apply();
+    }
+
+    private String loadDataFromPreferences(String key) {
+        SharedPreferences prefs = context.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE);
+        return prefs.getString(key, null);
+    }
+
     private void initSlider() {
         getRecentOffers();
     }
 
     void getRecentOffers() {
-        RequestQueue queue = Volley.newRequestQueue(requireContext());
+        if (!isAdded()) {
+            return;
+        }
+        RequestQueue queue = Volley.newRequestQueue(context); // Use context
 
         StringRequest request = new StringRequest(Request.Method.GET, ConstantsDashboard.GET_PUBLICATION_SLIDER_URL, response -> {
             try {
-                JSONObject object = new JSONObject(response);
-                if(object.getString("status").equals("success")) {
-                    JSONArray offerArray = object.getJSONArray("news_infos");
-                    for(int i =0; i < offerArray.length(); i++) {
-                        JSONObject childObj =  offerArray.getJSONObject(i);
-                        binding.carousel.addData(
-                                new CarouselItem(
-                                        Constants.NEWS_IMAGE_URL + childObj.getString("image"),
-                                        childObj.getString("title")
-                                )
-                        );
-                    }
+                JSONArray newssliderArray = new JSONArray(response);
+                for (int i = 0; i < newssliderArray.length(); i++) {
+                    JSONObject childObj = newssliderArray.getJSONObject(i);
+                    binding.libcarousel.addData(
+                            new CarouselItem(
+                                    childObj.getString("url"),
+                                    childObj.getString("action")
+                            )
+                    );
                 }
             } catch (JSONException e) {
                 e.printStackTrace();
             }
-        }, error -> {});
+        }, error -> {
+            // Handle error if needed
+        });
+
         queue.add(request);
     }
 
     //....... Sponsored Slider.....
+
     private void initSponsorSlider() {
         getRecentSliderSponsored();
     }
 
     void getRecentSliderSponsored() {
-        RequestQueue queue = Volley.newRequestQueue(requireContext());
+        if (!isAdded()) {
+            return;
+        }
+        RequestQueue queue = Volley.newRequestQueue(context);
 
         StringRequest request = new StringRequest(Request.Method.GET, ConstantsDashboard.GET_SPONSORS_SLIDER_URL, response -> {
             try {
@@ -133,36 +161,72 @@ public class HomePublicationFragment extends Fragment {
     }
 
     private void loadImageIntoView(String imageUrl) {
-        Glide.with(requireContext())
+        if (!isAdded()) {
+            return;
+        }
+        Glide.with(context)
                 .load(imageUrl)
                 .into(binding.imagesponsor);
     }
 
-    void initTopExploredReadables() {
+    private void initTopExploredReadables() {
         recentHomeProducts = new ArrayList<>();
-        recentHomeProductsAdapter = new RecentHomeProductsAdapter(requireContext(), recentHomeProducts);
+        recentHomeProductsAdapter = new RecentHomeProductsAdapter(context, recentHomeProducts);
 
-        getTopExploredReadables();
+        String savedData = loadDataFromPreferences(KEY_RECENT_HOME_PRODUCTS);
+        if (savedData != null) {
+            try {
+                JSONArray recenthomeproductsArray = new JSONArray(savedData);
+                for (int i = 0; i < recenthomeproductsArray.length(); i++) {
+                    JSONObject childObj = recenthomeproductsArray.getJSONObject(i);
+                    JSONObject recenthomeproductObj = childObj.getJSONObject("data");
 
-        LinearLayoutManager layoutManager = new LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false);
+                    Product recenthomeproduct = new Product(
+                            recenthomeproductObj.getString("id"),
+                            recenthomeproductObj.getString("Title"),
+                            recenthomeproductObj.getString("thumbnail"),
+                            recenthomeproductObj.getString("Author"),
+                            recenthomeproductObj.getDouble("Price"),
+                            recenthomeproductObj.getString("Type"),
+                            recenthomeproductObj.getString("Category"),
+                            recenthomeproductObj.getString("Subject"),
+                            recenthomeproductObj.getString("URL")
+                    );
+
+                    recentHomeProducts.add(recenthomeproduct);
+                }
+                recentHomeProductsAdapter.notifyDataSetChanged();
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        } else {
+            getTopExploredReadables();
+        }
+
+        LinearLayoutManager layoutManager = new LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false);
         binding.recentaddedbooksList.setLayoutManager(layoutManager);
         binding.recentaddedbooksList.setAdapter(recentHomeProductsAdapter);
     }
 
-    void getTopExploredReadables() {
-        RequestQueue queue = Volley.newRequestQueue(requireContext());
+    private void getTopExploredReadables() {
+        if (!isAdded()) {
+            return;
+        }
+        RequestQueue queue = Volley.newRequestQueue(context);
 
         String url = ConstantsDashboard.GET_SPECIALITY_ALL_PRODUCT_HOME;
         @SuppressLint("NotifyDataSetChanged") StringRequest request = new StringRequest(Request.Method.GET, url, response -> {
+            if (!isAdded() || context == null) {
+                return;
+            }
             try {
                 JSONObject object = new JSONObject(response);
-                if(object.getString("status").equals("success")){
+                if (object.getString("status").equals("success")) {
                     JSONArray recenthomeproductsArray = object.getJSONArray("data");
-                    for(int i =0; i< recenthomeproductsArray.length(); i++) {
+                    recentHomeProducts.clear();
+                    for (int i = 0; i < recenthomeproductsArray.length(); i++) {
                         JSONObject childObj = recenthomeproductsArray.getJSONObject(i);
                         JSONObject recenthomeproductObj = childObj.getJSONObject("data");
-
-                        String documentId = childObj.getString("id");
 
                         Product recenthomeproduct = new Product(
                                 recenthomeproductObj.getString("id"),
@@ -179,6 +243,7 @@ public class HomePublicationFragment extends Fragment {
                         recentHomeProducts.add(recenthomeproduct);
                     }
                     recentHomeProductsAdapter.notifyDataSetChanged();
+                    saveDataToPreferences(KEY_RECENT_HOME_PRODUCTS, recenthomeproductsArray.toString());
                 }
             } catch (JSONException e) {
                 e.printStackTrace();
@@ -188,24 +253,50 @@ public class HomePublicationFragment extends Fragment {
         queue.add(request);
     }
 
-    //......For Book Read...........
-
-    void initBookReadables() {
+    private void initBookReadables() {
         bookoftheday = new ArrayList<>();
-        BookofthedayAdapter = new BookoftheDayAdapter(requireContext(), bookoftheday);
+        bookofthedayAdapter = new BookoftheDayAdapter(context, bookoftheday);
 
-        getBookReadables();
+        String savedData = loadDataFromPreferences(KEY_BOOK_OF_THE_DAY);
+        if (savedData != null) {
+            try {
+                JSONObject savedBookObj = new JSONObject(savedData);
+                Product savedBook = new Product(
+                        savedBookObj.getString("id"),
+                        savedBookObj.getString("Title"),
+                        savedBookObj.getString("thumbnail"),
+                        savedBookObj.getString("Author"),
+                        savedBookObj.getDouble("Price"),
+                        savedBookObj.getString("Type"),
+                        savedBookObj.getString("Category"),
+                        savedBookObj.getString("Subject"),
+                        savedBookObj.getString("URL")
+                );
+                bookoftheday.add(savedBook);
+                bookofthedayAdapter.notifyDataSetChanged();
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        } else {
+            getBookReadables();
+        }
 
-        LinearLayoutManager layoutManager = new LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false);
+        LinearLayoutManager layoutManager = new LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false);
         binding.bookoftheday.setLayoutManager(layoutManager);
-        binding.bookoftheday.setAdapter(BookofthedayAdapter);
+        binding.bookoftheday.setAdapter(bookofthedayAdapter);
     }
 
-    void getBookReadables() {
-        RequestQueue queue = Volley.newRequestQueue(requireContext());
+    private void getBookReadables() {
+        if (!isAdded()) {
+            return;
+        }
+        RequestQueue queue = Volley.newRequestQueue(context);
         String url = ConstantsDashboard.GET_SPECIALITY_ALL_PRODUCT;
 
         @SuppressLint("NotifyDataSetChanged") StringRequest request = new StringRequest(Request.Method.GET, url, response -> {
+            if (!isAdded() || context == null) {
+                return;
+            }
             try {
                 JSONObject object = new JSONObject(response);
                 if (object.getString("status").equals("success")) {
@@ -229,11 +320,12 @@ public class HomePublicationFragment extends Fragment {
                         allProducts.add(product);
                     }
 
-                    Product selectedBook = selectRandomBook(allProducts, requireContext());
+                    Product selectedBook = selectRandomBook(allProducts, context);
                     if (selectedBook != null) {
                         bookoftheday.clear();
                         bookoftheday.add(selectedBook);
-                        BookofthedayAdapter.notifyDataSetChanged();
+                        bookofthedayAdapter.notifyDataSetChanged();
+                        saveDataToPreferences(KEY_BOOK_OF_THE_DAY, selectedBook.toJson().toString());
                     }
                 }
             } catch (JSONException e) {
@@ -245,7 +337,8 @@ public class HomePublicationFragment extends Fragment {
         queue.add(request);
     }
 
-    Product selectRandomBook(List<Product> products, Context context) {
+
+    private Product selectRandomBook(List<Product> products, Context context) {
         Set<String> displayedBookIds = loadDisplayedBookIds(context);
 
         List<Product> filteredProducts = new ArrayList<>();
@@ -264,12 +357,12 @@ public class HomePublicationFragment extends Fragment {
         return null;
     }
 
-    Set<String> loadDisplayedBookIds(Context context) {
+    private Set<String> loadDisplayedBookIds(Context context) {
         SharedPreferences prefs = context.getSharedPreferences("BookDisplayHistory", Context.MODE_PRIVATE);
         return prefs.getStringSet("DisplayedBookIds", new HashSet<>());
     }
 
-    void updateDisplayedBookIds(String newBookId, Context context) {
+    private void updateDisplayedBookIds(String newBookId, Context context) {
         SharedPreferences prefs = context.getSharedPreferences("BookDisplayHistory", Context.MODE_PRIVATE);
         Set<String> displayedBookIds = new HashSet<>(prefs.getStringSet("DisplayedBookIds", new HashSet<>()));
         if (displayedBookIds.size() >= 3) {
@@ -281,34 +374,64 @@ public class HomePublicationFragment extends Fragment {
         prefs.edit().putStringSet("DisplayedBookIds", displayedBookIds).apply();
     }
 
-
-    //.....For the Sponsor
-
-    void initSponsorProduct() {
+    private void initSponsorProduct() {
         sponsoredProduct = new ArrayList<>();
-        sponsoredProductsAdapter = new SponsoredProductAdapter(requireContext(), sponsoredProduct);
+        sponsoredProductsAdapter = new SponsoredProductAdapter(context, sponsoredProduct);
 
-        getSponsorProduct();
+        String savedData = loadDataFromPreferences(KEY_SPONSORED_PRODUCTS);
+        if (savedData != null) {
+            try {
+                JSONArray sponsoredproductsArray = new JSONArray(savedData);
+                for (int i = 0; i < sponsoredproductsArray.length(); i++) {
+                    JSONObject childObj = sponsoredproductsArray.getJSONObject(i);
+                    JSONObject sponsorproductObj = childObj.getJSONObject("data");
 
-        LinearLayoutManager layoutManager = new LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false);
+                    Product sponsoredproduct = new Product(
+                            sponsorproductObj.getString("id"),
+                            sponsorproductObj.getString("Title"),
+                            sponsorproductObj.getString("thumbnail"),
+                            sponsorproductObj.getString("Author"),
+                            sponsorproductObj.getDouble("Price"),
+                            sponsorproductObj.getString("Type"),
+                            sponsorproductObj.getString("Category"),
+                            sponsorproductObj.getString("Subject"),
+                            sponsorproductObj.getString("URL")
+                    );
+
+                    sponsoredProduct.add(sponsoredproduct);
+                }
+                sponsoredProductsAdapter.notifyDataSetChanged();
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        } else {
+            getSponsorProduct();
+        }
+
+        LinearLayoutManager layoutManager = new LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false);
         binding.specialproductList.setLayoutManager(layoutManager);
         binding.specialproductList.setAdapter(sponsoredProductsAdapter);
     }
 
-    void getSponsorProduct() {
-        RequestQueue queue = Volley.newRequestQueue(requireContext());
+    private void getSponsorProduct() {
+        if (!isAdded()) {
+            return;
+        }
+        RequestQueue queue = Volley.newRequestQueue(context);
 
         String url = ConstantsDashboard.GET_SPECIALITY_ALL_PRODUCT_SPONSORED;
         @SuppressLint("NotifyDataSetChanged") StringRequest request = new StringRequest(Request.Method.GET, url, response -> {
+            if (!isAdded() || context == null) {
+                return;
+            }
             try {
                 JSONObject object = new JSONObject(response);
-                if(object.getString("status").equals("success")){
+                if (object.getString("status").equals("success")) {
                     JSONArray sponsoredproductsArray = object.getJSONArray("data");
-                    for(int i =0; i< sponsoredproductsArray.length(); i++) {
+                    sponsoredProduct.clear();
+                    for (int i = 0; i < sponsoredproductsArray.length(); i++) {
                         JSONObject childObj = sponsoredproductsArray.getJSONObject(i);
                         JSONObject sponsorproductObj = childObj.getJSONObject("data");
-
-                        String documentId = childObj.getString("id");
 
                         Product sponsoredproduct = new Product(
                                 sponsorproductObj.getString("id"),
@@ -325,6 +448,7 @@ public class HomePublicationFragment extends Fragment {
                         sponsoredProduct.add(sponsoredproduct);
                     }
                     sponsoredProductsAdapter.notifyDataSetChanged();
+                    saveDataToPreferences(KEY_SPONSORED_PRODUCTS, sponsoredproductsArray.toString());
                 }
             } catch (JSONException e) {
                 e.printStackTrace();
@@ -334,34 +458,64 @@ public class HomePublicationFragment extends Fragment {
         queue.add(request);
     }
 
-    //....ShowCase Products.....
-
-    void initProducts() {
+    private void initProducts() {
         products = new ArrayList<>();
-        productAdapter = new ProductAdapter(requireContext(), products);
+        productAdapter = new ProductAdapter(context, products);
 
-        getRecentProducts();
+        String savedData = loadDataFromPreferences("RecentProducts");
+        if (savedData != null) {
+            try {
+                JSONArray productsArray = new JSONArray(savedData);
+                for (int i = 0; i < productsArray.length(); i++) {
+                    JSONObject childObj = productsArray.getJSONObject(i);
+                    JSONObject productObj = childObj.getJSONObject("data");
 
-        LinearLayoutManager layoutManager = new LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false);
+                    Product product = new Product(
+                            productObj.getString("id"),
+                            productObj.getString("Title"),
+                            productObj.getString("thumbnail"),
+                            productObj.getString("Author"),
+                            productObj.getDouble("Price"),
+                            productObj.getString("Type"),
+                            productObj.getString("Category"),
+                            productObj.getString("Subject"),
+                            productObj.getString("URL")
+                    );
+
+                    products.add(product);
+                }
+                productAdapter.notifyDataSetChanged();
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        } else {
+            getRecentProducts();
+        }
+
+        LinearLayoutManager layoutManager = new LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false);
         binding.productList.setLayoutManager(layoutManager);
         binding.productList.setAdapter(productAdapter);
-
     }
 
-    void getRecentProducts() {
-        RequestQueue queue = Volley.newRequestQueue(requireContext());
+    private void getRecentProducts() {
+        if (!isAdded()) {
+            return;
+        }
+        RequestQueue queue = Volley.newRequestQueue(context);
 
         String url = ConstantsDashboard.GET_SPECIALITY_ALL_PRODUCT;
         @SuppressLint("NotifyDataSetChanged") StringRequest request = new StringRequest(Request.Method.GET, url, response -> {
+            if (!isAdded() || context == null) {
+                return;
+            }
             try {
                 JSONObject object = new JSONObject(response);
-                if(object.getString("status").equals("success")){
+                if (object.getString("status").equals("success")) {
                     JSONArray productsArray = object.getJSONArray("data");
-                    for(int i =0; i< productsArray.length(); i++) {
+                    products.clear();
+                    for (int i = 0; i < productsArray.length(); i++) {
                         JSONObject childObj = productsArray.getJSONObject(i);
                         JSONObject productObj = childObj.getJSONObject("data");
-
-                        String documentId = childObj.getString("id");
 
                         Product product = new Product(
                                 productObj.getString("id"),
@@ -378,6 +532,7 @@ public class HomePublicationFragment extends Fragment {
                         products.add(product);
                     }
                     productAdapter.notifyDataSetChanged();
+                    saveDataToPreferences("RecentProducts", productsArray.toString());
                 }
             } catch (JSONException e) {
                 e.printStackTrace();
@@ -386,8 +541,4 @@ public class HomePublicationFragment extends Fragment {
 
         queue.add(request);
     }
-
-    //....Navigate Back Statement...
-
-
 }

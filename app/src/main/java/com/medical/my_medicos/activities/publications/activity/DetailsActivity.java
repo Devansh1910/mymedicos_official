@@ -1,25 +1,36 @@
 package com.medical.my_medicos.activities.publications.activity;
 
 import android.Manifest;
-import android.content.DialogInterface;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
+import android.os.Build;
 import android.os.Bundle;
-import android.util.Log;
+import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.ProgressBar;
+import android.widget.SeekBar;
+import android.widget.TextView;
 import android.widget.Toast;
-import androidx.activity.result.ActivityResultLauncher;
-import androidx.activity.result.contract.ActivityResultContracts;
-import androidx.appcompat.app.AlertDialog;
+
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.cardview.widget.CardView;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
+
+import com.github.barteksc.pdfviewer.PDFView;
+import com.github.barteksc.pdfviewer.listener.OnPageChangeListener;
+import com.github.barteksc.pdfviewer.listener.OnRenderListener;
+import com.github.barteksc.pdfviewer.scroll.DefaultScrollHandle;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.medical.my_medicos.R;
-import com.medical.my_medicos.databinding.ActivityDetailsBinding;
-import com.github.barteksc.pdfviewer.PDFView;
+
 import java.io.File;
 import java.io.IOException;
+
 import okhttp3.Call;
 import okhttp3.Callback;
 import okhttp3.OkHttpClient;
@@ -30,19 +41,76 @@ import okio.Okio;
 
 public class DetailsActivity extends AppCompatActivity {
 
-    private ActivityDetailsBinding binding;
     private PDFView pdfView;
-    private static final int STORAGE_PERMISSION_CODE = 1;
+    private ProgressBar progressBar;
+    private SeekBar seekBar;
+    private TextView bookNameTextView;
+    private TextView authorNameTextView;
+    private TextView leftSwipeTextView;
+    private TextView rightSwipeTextView;
+    private TextView currentPageTextView;
+    private TextView totalPageTextView;
+    private LinearLayout topLayout;
+    private CardView seekbarCardView;
+    private TextView focusModeTextView;
+    private LinearLayout normalModeLayout;
+    private ImageView backToPreviousImageView;
+    private boolean isFocusMode = false; // Track focus mode state
     private SharedPreferences sharedPreferences;
+    private int currentPage = 0;  // Track the current page
+    private static final int STORAGE_PERMISSION_CODE = 1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        binding = ActivityDetailsBinding.inflate(getLayoutInflater());
-        setContentView(binding.getRoot());
+        setContentView(R.layout.activity_details);
 
-        pdfView = findViewById(R.id.pdfView); // Assuming you have a PDFView in your layout with id pdfView
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            View decorView = getWindow().getDecorView();
+            decorView.setSystemUiVisibility(decorView.getSystemUiVisibility() | View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);
+        }
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            Window window = getWindow();
+            window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
+            window.setStatusBarColor(ContextCompat.getColor(this, R.color.white));
+            window.setNavigationBarColor(ContextCompat.getColor(this, R.color.white));
+        }
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            View decorView = getWindow().getDecorView();
+            decorView.setSystemUiVisibility(decorView.getSystemUiVisibility() | View.SYSTEM_UI_FLAG_LIGHT_NAVIGATION_BAR);
+        }
+
+
+        // Initialize views
+        pdfView = findViewById(R.id.pdfView);
+        progressBar = findViewById(R.id.progress);
+        seekBar = findViewById(R.id.seekBar);
+        bookNameTextView = findViewById(R.id.bookname);
+        authorNameTextView = findViewById(R.id.authorname);
+        leftSwipeTextView = findViewById(R.id.leftswipe);
+        rightSwipeTextView = findViewById(R.id.rightswipe);
+        currentPageTextView = findViewById(R.id.currentpage);
+        totalPageTextView = findViewById(R.id.totalpage);
+        topLayout = findViewById(R.id.toplayout);
+        seekbarCardView = findViewById(R.id.seekbarcardview);
+        focusModeTextView = findViewById(R.id.focusmode);
+        normalModeLayout = findViewById(R.id.normalmode_layout);
+        backToPreviousImageView = findViewById(R.id.backtoprevious);
         sharedPreferences = getSharedPreferences("Permissions", MODE_PRIVATE);
+
+        // Retrieve book and author names from Intent extras
+        String bookName = getIntent().getStringExtra("bookName");
+        String authorName = getIntent().getStringExtra("authorName");
+
+        // Set the book and author names to the TextViews
+        if (bookName != null) {
+            bookNameTextView.setText(bookName);
+        }
+        if (authorName != null) {
+            authorNameTextView.setText(authorName);
+        }
 
         // Check and request storage permissions if not granted previously
         if (!hasStoragePermission() && !isStoragePermissionDeniedForever()) {
@@ -50,6 +118,74 @@ public class DetailsActivity extends AppCompatActivity {
         } else {
             fetchPdf();
         }
+
+        // Set SeekBar listener
+        seekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+            @Override
+            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+                if (fromUser && pdfView.getPageCount() > 0) {
+                    pdfView.jumpTo(progress, true);
+                }
+            }
+
+            @Override
+            public void onStartTrackingTouch(SeekBar seekBar) {}
+
+            @Override
+            public void onStopTrackingTouch(SeekBar seekBar) {}
+        });
+
+        // Set click listeners for left and right swipe TextViews
+        leftSwipeTextView.setOnClickListener(view -> {
+            if (currentPage > 0) {
+                currentPage--;
+                pdfView.jumpTo(currentPage, true);
+                seekBar.setProgress(currentPage);
+                updatePageTextViews(currentPage, pdfView.getPageCount());
+            }
+        });
+
+        rightSwipeTextView.setOnClickListener(view -> {
+            if (currentPage < pdfView.getPageCount() - 1) {
+                currentPage++;
+                pdfView.jumpTo(currentPage, true);
+                seekBar.setProgress(currentPage);
+                updatePageTextViews(currentPage, pdfView.getPageCount());
+            }
+        });
+
+        // Set click listener for focus mode
+        focusModeTextView.setOnClickListener(view -> toggleFocusMode());
+
+        // Set click listener for normal mode
+        findViewById(R.id.normalmode).setOnClickListener(view -> toggleFocusMode());
+
+        // Set click listener for back functionality
+        backToPreviousImageView.setOnClickListener(view -> finish());
+    }
+
+    private void toggleFocusMode() {
+        if (isFocusMode) {
+            // Disable focus mode
+            topLayout.setVisibility(View.VISIBLE);
+            seekbarCardView.setVisibility(View.VISIBLE);
+            normalModeLayout.setVisibility(View.GONE);
+            pdfView.setBackgroundColor(getResources().getColor(R.color.backgroundcolor));
+            focusModeTextView.setText("Focus");
+        } else {
+            // Enable focus mode
+            topLayout.setVisibility(View.GONE);
+            seekbarCardView.setVisibility(View.GONE);
+            normalModeLayout.setVisibility(View.VISIBLE);
+            pdfView.setBackgroundColor(getResources().getColor(R.color.unselected));
+            focusModeTextView.setText("Exit Focus");
+        }
+        isFocusMode = !isFocusMode;
+    }
+
+    private void updatePageTextViews(int currentPage, int totalPageCount) {
+        currentPageTextView.setText(String.format("%02d", currentPage + 1));
+        totalPageTextView.setText(String.format("%02d", totalPageCount));
     }
 
     private boolean hasStoragePermission() {
@@ -124,6 +260,7 @@ public class DetailsActivity extends AppCompatActivity {
             @Override
             public void onFailure(Call call, IOException e) {
                 runOnUiThread(() -> {
+                    progressBar.setVisibility(ProgressBar.GONE);
                     Toast.makeText(DetailsActivity.this, "Failed to download file", Toast.LENGTH_SHORT).show();
                 });
             }
@@ -132,6 +269,7 @@ public class DetailsActivity extends AppCompatActivity {
             public void onResponse(Call call, Response response) throws IOException {
                 if (!response.isSuccessful()) {
                     runOnUiThread(() -> {
+                        progressBar.setVisibility(ProgressBar.GONE);
                         Toast.makeText(DetailsActivity.this, "Failed to download file: " + response.message(), Toast.LENGTH_SHORT).show();
                     });
                     return;
@@ -144,11 +282,34 @@ public class DetailsActivity extends AppCompatActivity {
                     sink.close();
 
                     runOnUiThread(() -> {
-                        pdfView.fromFile(file).load();
+                        pdfView.fromFile(file)
+                                .defaultPage(0)
+                                .enableSwipe(true) // enables swiping
+                                .swipeHorizontal(true) // enables horizontal swiping
+                                .onPageChange(new OnPageChangeListener() {
+                                    @Override
+                                    public void onPageChanged(int page, int pageCount) {
+                                        currentPage = page;  // Update current page
+                                        seekBar.setMax(pageCount - 1);
+                                        seekBar.setProgress(page);
+                                        updatePageTextViews(page, pageCount);
+                                    }
+                                })
+                                .onRender(new OnRenderListener() {
+                                    @Override
+                                    public void onInitiallyRendered(int nbPages) {
+                                        pdfView.fitToWidth(0); // Fit the PDF to the width of the view
+                                        progressBar.setVisibility(ProgressBar.GONE);
+                                        updatePageTextViews(currentPage, nbPages);
+                                    }
+                                })
+                                .scrollHandle(new DefaultScrollHandle(DetailsActivity.this))
+                                .load();
                     });
                 } catch (IOException e) {
                     e.printStackTrace();
                     runOnUiThread(() -> {
+                        progressBar.setVisibility(ProgressBar.GONE);
                         Toast.makeText(DetailsActivity.this, "Failed to save file", Toast.LENGTH_SHORT).show();
                     });
                 }

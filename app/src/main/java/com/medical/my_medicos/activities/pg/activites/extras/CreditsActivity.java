@@ -81,24 +81,6 @@ public class CreditsActivity extends AppCompatActivity {
         progressDialog.setCancelable(false);
         progressDialog.setMessage("Processing...");
 
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            View decorView = getWindow().getDecorView();
-            decorView.setSystemUiVisibility(decorView.getSystemUiVisibility() | View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);
-        }
-
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            Window window = getWindow();
-            window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
-            window.setStatusBarColor(ContextCompat.getColor(this, R.color.backgroundcolor));
-            window.setNavigationBarColor(ContextCompat.getColor(this, R.color.backgroundcolor));
-        }
-
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            View decorView = getWindow().getDecorView();
-            decorView.setSystemUiVisibility(decorView.getSystemUiVisibility() | View.SYSTEM_UI_FLAG_LIGHT_NAVIGATION_BAR);
-        }
-
-
         backtothehomesideactivity = findViewById(R.id.backtothehomesideactivity);
         backtothehomesideactivity.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -135,19 +117,6 @@ public class CreditsActivity extends AppCompatActivity {
 
                     }
                 });
-
-//        binding.viewad1.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                if (canClickVideo("video1")) {
-//
-//                    showRewardedAd("video1");
-//
-//                } else {
-//                    showDialog("Free Redeem Coins will be available after 24 hrs");
-//                }
-//            }
-//        });
         binding.viewad1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -163,20 +132,6 @@ public class CreditsActivity extends AppCompatActivity {
             }
         });
 
-
-
-//        binding.viewad2.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                if (canClickVideo("video2")) {
-//
-//                    showRewardedAd("video2");
-//
-//                } else {
-//                    showDialog("Free Redeem Coins will be available after 24 hrs");
-//                }
-//            }
-//        });
         binding.puchase100credits.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -206,7 +161,22 @@ public class CreditsActivity extends AppCompatActivity {
 
         previousCoinCount = currentCoins;
 
+        configureWindow();
+
     }
+
+
+    private void configureWindow() {
+//        getWindow().setFlags(WindowManager.LayoutParams.FLAG_SECURE, WindowManager.LayoutParams.FLAG_SECURE);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            Window window = getWindow();
+            window.setStatusBarColor(ContextCompat.getColor(this, R.color.backgroundcolor));
+            window.setNavigationBarColor(ContextCompat.getColor(this, R.color.backgroundcolor));
+            View decorView = window.getDecorView();
+            decorView.setSystemUiVisibility(decorView.getSystemUiVisibility() | View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR | View.SYSTEM_UI_FLAG_LIGHT_NAVIGATION_BAR);
+        }
+    }
+
     private void checkVideoClickEligibility(String videoName) {
         DatabaseReference videoRef = FirebaseDatabase.getInstance().getReference()
                 .child("profiles")

@@ -44,29 +44,22 @@
 
     </FrameLayout>
 
-<!--    <androidx.cardview.widget.CardView-->
-<!--        android:id="@+id/cardView"-->
-<!--        android:layout_width="match_parent"-->
-<!--        android:layout_height="wrap_content"-->
-<!--        android:elevation="0dp"-->
-<!--        android:outlineSpotShadowColor="@color/white"-->
-<!--        app:cardCornerRadius="10dp"-->
-<!--        app:layout_constraintTop_toBottomOf="@id/publicationtoolbar_container">-->
-
-<!--        <androidx.recyclerview.widget.RecyclerView-->
-<!--            android:id="@+id/specialityinsidercontentList"-->
-<!--            android:layout_width="match_parent"-->
-<!--            android:layout_height="wrap_content" />-->
-<!--    </androidx.cardview.widget.CardView>-->
+    <com.google.android.material.divider.MaterialDivider
+        android:layout_width="match_parent"
+        android:elevation="@dimen/_10ssp"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toTopOf="@id/bottomappabarpg"
+        app:dividerThickness="@dimen/_1ssp"
+        app:dividerColor="@color/unselected"/>
 
     <com.google.android.material.bottomappbar.BottomAppBar
         android:id="@+id/bottomappabarpg"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="@dimen/_60ssp"
         android:layout_gravity="bottom"
         android:gravity="bottom"
-        android:backgroundTint="@color/green"
-        app:itemActiveIndicatorStyle="@color/green"
+        android:backgroundTint="@color/white"
+        app:itemActiveIndicatorStyle="@color/white"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -76,7 +69,7 @@
             android:id="@+id/bottomNavigationViewpg"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="@color/green"
+            android:background="@color/white"
             android:layout_gravity="bottom"
             app:itemHorizontalTranslationEnabled="true"
             app:itemIconSize="@dimen/_25sdp"

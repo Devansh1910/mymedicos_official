@@ -5,9 +5,9 @@
             android:shape="rectangle">
             <solid android:color="#00000000" /> <!-- Transparent background -->
             <stroke
-                android:color="#BFC1C0"
-                android:dashWidth="8dp"
-                android:width="@dimen/_2ssp"/>
+                android:color="#F5A623"
+                android:dashWidth="1dp"
+                android:width="@dimen/_1ssp"/>
             <corners
                 android:radius="@dimen/_10sdp"/>
         </shape>

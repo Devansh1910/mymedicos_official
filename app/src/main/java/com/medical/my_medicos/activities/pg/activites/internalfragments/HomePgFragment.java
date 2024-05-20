@@ -9,6 +9,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.os.Handler;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -16,8 +17,10 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
+import android.widget.ViewFlipper;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -49,6 +52,8 @@ import com.medical.my_medicos.activities.job.JobsApplyActivity;
 import com.medical.my_medicos.activities.job.fragments.TermsandConditionDialogueFragment;
 import com.medical.my_medicos.activities.login.bottom_controls.TermsandConditionsActivity;
 import com.medical.my_medicos.activities.pg.activites.PgprepActivity;
+import com.medical.my_medicos.activities.pg.activites.extras.PreparationCategoryDisplayActivity;
+import com.medical.my_medicos.activities.pg.activites.extras.PreparationCategoryMaterialDisplayActivity;
 import com.medical.my_medicos.activities.pg.activites.extras.RecetUpdatesNoticeActivity;
 import com.medical.my_medicos.activities.pg.activites.extras.TermsandConditionsDialogueFragmentPg;
 import com.medical.my_medicos.activities.pg.activites.internalfragments.intwernaladapters.ExamQuizAdapter;
@@ -58,6 +63,7 @@ import com.medical.my_medicos.activities.pg.model.PerDayPG;
 import com.medical.my_medicos.activities.pg.model.QuestionPG;
 import com.medical.my_medicos.activities.pg.model.QuizPG;
 import com.medical.my_medicos.activities.utils.ConstantsDashboard;
+import com.medical.my_medicos.activities.utils.UpdatingScreen;
 import com.medical.my_medicos.databinding.FragmentHomePgBinding;
 import org.imaginativeworld.whynotimagecarousel.model.CarouselItem;
 import org.json.JSONArray;
@@ -65,14 +71,12 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 import java.util.Map;
 
 public class HomePgFragment extends Fragment {
-
-    LottieAnimationView timer;
     FragmentHomePgBinding binding;
-    PerDayPGAdapter perDayPGAdapter;
     ArrayList<PerDayPG> dailyquestionspg;
     SwipeRefreshLayout swipeRefreshLayout;
     String quiztiddaya;
@@ -80,12 +84,20 @@ public class HomePgFragment extends Fragment {
     FirebaseUser currentUser;
     QuestionBankPGAdapter questionsAdapter;
     ArrayList<QuestionPG> questionsforpg;
+    private Handler handlerprepration;
     private ExamQuizAdapter quizAdapter;
     CardView gotoupdatesofpg;
     private ArrayList<QuizPG> quizpg;
     String title1;
 
+    TextView practivemcq,material;
+
     private TermsandConditionsDialogueFragmentPg dialog;
+
+    private final int AUTO_SCROLL_DELAY = 3000;
+
+    int i = 0;
+
 
     public static HomePgFragment newInstance() {
         HomePgFragment fragment = new HomePgFragment();
@@ -126,25 +138,64 @@ public class HomePgFragment extends Fragment {
             }
         });
 
-        TextView promoteBtn = view.findViewById(R.id.promotebtn);
-        promoteBtn.setOnClickListener(new View.OnClickListener() {
+        practivemcq = view.findViewById(R.id.practivemcq);
+        practivemcq.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) {
-                // Customize the content to share
-                String appLink = "https://play.google.com/store/apps/details?id=com.medical.my_medicos";
-                String message = "Check out our medical app!\nDownload now: " + appLink;
+            public void onClick(View view) {
+                Calendar today = Calendar.getInstance();
 
-                // Create an Intent with ACTION_SEND
-                Intent shareIntent = new Intent(Intent.ACTION_SEND);
-                shareIntent.setType("text/plain");
-                shareIntent.putExtra(Intent.EXTRA_TEXT, message);
+                // Set the target date to April 1st, 2024
+                Calendar targetDate = Calendar.getInstance();
+                targetDate.set(2024, Calendar.APRIL, 8); // Note: Months are 0-based in Calendar
 
-                // Check if there's an app to handle the Intent
-                if (shareIntent.resolveActivity(requireContext().getPackageManager()) != null) {
-                    startActivity(Intent.createChooser(shareIntent, "Share via"));
+                Intent i;
+                if (today.before(targetDate)) {
+                    i = new Intent(getActivity(), UpdatingScreen.class);
+                    Toast.makeText(getActivity(), "This feature will be available soon!", Toast.LENGTH_SHORT).show();
+                } else {
+                    i = new Intent(getActivity(), PreparationCategoryDisplayActivity.class);
                 }
+                startActivity(i);
             }
         });
+
+
+        material = view.findViewById(R.id.material);
+        material.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent i = new Intent(getActivity(), PreparationCategoryMaterialDisplayActivity.class);
+                startActivity(i);
+            }
+        });
+
+//        TextView promoteBtn = view.findViewById(R.id.promotebtn);
+//        promoteBtn.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                // Customize the content to share
+//                String appLink = "https://play.google.com/store/apps/details?id=com.medical.my_medicos";
+//                String message = "Check out our medical app!\nDownload now: " + appLink;
+//
+//                // Create an Intent with ACTION_SEND
+//                Intent shareIntent = new Intent(Intent.ACTION_SEND);
+//                shareIntent.setType("text/plain");
+//                shareIntent.putExtra(Intent.EXTRA_TEXT, message);
+//
+//                // Check if there's an app to handle the Intent
+//                if (shareIntent.resolveActivity(requireContext().getPackageManager()) != null) {
+//                    startActivity(Intent.createChooser(shareIntent, "Share via"));
+//                }
+//            }
+//        });
+
+//        viewFlipperPrepration = view.findViewById(R.id.viewFlipperPrepration);
+//        dotsLayoutprepration = view.findViewById(R.id.dotsLayoutPrepration);
+        handlerprepration = new Handler();
+
+//        addDotsPrepration();
+
+//        handlerprepration.postDelayed(autoScrollRunnable, AUTO_SCROLL_DELAY);
 
         return view;
     }
@@ -202,18 +253,6 @@ public class HomePgFragment extends Fragment {
         swipeRefreshLayout = binding.getRoot().findViewById(R.id.swipeRefreshLayoutPg);
         swipeRefreshLayout.setOnRefreshListener(this::refreshContent);
 
-        RecyclerView perDayQuestionsRecyclerView = binding.getRoot().findViewById(R.id.perdayquestions);
-
-        if (perDayQuestionsRecyclerView == null) {
-            Log.e("Fragment", "Empty");
-            return;
-        }
-
-        nocardp = binding.getRoot().findViewById(R.id.nocardpg);
-        timer = binding.getRoot().findViewById(R.id.timer);
-
-        showShimmer(true);
-
         FirebaseFirestore db = FirebaseFirestore.getInstance();
         String userId = currentUser.getPhoneNumber();
         db.collection("users")
@@ -222,7 +261,6 @@ public class HomePgFragment extends Fragment {
                     @SuppressLint("RestrictedApi")
                     @Override
                     public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                        showShimmer(false);
                         if (task.isSuccessful()) {
                             for (QueryDocumentSnapshot document : task.getResult()) {
                                 Log.d(TAG, document.getId() + " => " + document.getData());
@@ -249,14 +287,11 @@ public class HomePgFragment extends Fragment {
                     }
                 });
 
-        initPerDayQuestions(quiztiddaya);
         initSliderPg();
         initQuestionsBanks();
-        getPerDayQuestions(quiztiddaya);
     }
 
 
-    // For the Slider
     private void initSliderPg() {
         getRecentPgSlider();
     }
@@ -285,101 +320,13 @@ public class HomePgFragment extends Fragment {
         queue.add(request);
     }
 
-    // For the Per Day Questions
-    void initPerDayQuestions(String QuiaToday) {
-        dailyquestionspg = new ArrayList<>();
-        perDayPGAdapter = new PerDayPGAdapter(getActivity(), dailyquestionspg);
-
-        getPerDayQuestions(QuiaToday);
-
-        GridLayoutManager layoutManager = new GridLayoutManager(getActivity(), 1);
-        binding.perdayquestions.setLayoutManager(layoutManager);
-        binding.perdayquestions.setAdapter(perDayPGAdapter);
-    }
-
-    void getPerDayQuestions(String quiz) {
-        Log.d("DEBUG", "getPerDayQuestions: Making API request");
-        RequestQueue queue = Volley.newRequestQueue(getContext());
-
-        String url = ConstantsDashboard.GET_DAILY_QUESTIONS_URL;
-        StringRequest request = new StringRequest(Request.Method.GET, url, response -> {
-            Log.d("VolleyResponse", response);
-            try {
-                Log.d("DEBUG", "getPerDayQuestions: Response received");
-                JSONObject object = new JSONObject(response);
-                if (object.getString("status").equals("success")) {
-                    JSONArray perdayArray = object.getJSONArray("data");
-
-                    boolean questionFound = false;
-
-                    for (int i = 0; i < perdayArray.length(); i++) {
-                        JSONObject childObj = perdayArray.getJSONObject(i);
-                        PerDayPG perday = new PerDayPG(
-                                childObj.getString("Question"),
-                                childObj.getString("A"),
-                                childObj.getString("B"),
-                                childObj.getString("C"),
-                                childObj.getString("D"),
-                                childObj.getString("Correct"),
-                                childObj.getString("id"),
-                                childObj.getString("Description")
-                        );
-                        String questionId = childObj.getString("id");
-                        Log.d("questionid", questionId);
-
-                        if ((questionId != null) && (quiztiddaya != null)) {
-                            if (!containsQuestionId(dailyquestionspg, questionId)) {
-                                int a = questionId.compareTo(quiztiddaya);
-
-                                if(a != 0){
-                                    dailyquestionspg.add(perday);
-                                    questionFound = true;
-                                }
-
-                            } else {
-                                questionFound = true;
-                            }
-                        }
-                    }
-
-                    if (questionFound) {
-                        nocardp.setVisibility(View.GONE);
-                    } else {
-                        nocardp.setVisibility(View.VISIBLE);
-                    }
-
-                    if (!dailyquestionspg.isEmpty()) {
-                        perDayPGAdapter.notifyDataSetChanged();
-                        Log.d("DEBUG", "getPerDayQuestions: Data added to the list");
-                    }
-                }
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
-        }, error -> {
-            Log.e("VolleyError", "Error: " + error.getMessage());
-        });
-        queue.add(request);
-    }
-
-    private boolean containsQuestionId(ArrayList<PerDayPG> list, String questionId) {
-        for (PerDayPG question : list) {
-            if (question.getidQuestion().equals(questionId)) {
-                return true;
-            }
-        }
-        return false;
-    }
-
     // For the Suggested Exam
     void getPaidExam(String title) {
-        showShimmer(true);
         FirebaseFirestore db = FirebaseFirestore.getInstance();
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
         List<String> subcollectionIds = new ArrayList<>();
 
         if (user != null) {
-            showShimmer(false);
             String userId = user.getUid();
 
             CollectionReference quizResultsCollection = db.collection("QuizResults").document(userId).collection("Exam");
@@ -486,30 +433,8 @@ public class HomePgFragment extends Fragment {
         queue.add(request);
     }
 
-
     private void refreshContent() {
-        clearData();
-        fetchData();
         swipeRefreshLayout.setRefreshing(false);
-    }
-
-    private void showShimmer(boolean show) {
-        if (show) {
-            binding.shimmercomeup.setVisibility(View.VISIBLE);
-            binding.shimmercomeup.playAnimation();
-        } else {
-            binding.shimmercomeup.setVisibility(View.GONE);
-            binding.shimmercomeup.cancelAnimation();
-        }
-    }
-
-
-    private void clearData() {
-        dailyquestionspg.clear();
-    }
-
-    void fetchData() {
-        getPerDayQuestions(quiztiddaya);
     }
 
 }

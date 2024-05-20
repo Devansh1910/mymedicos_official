@@ -17,7 +17,7 @@
 
         <androidx.appcompat.widget.Toolbar
             android:id="@+id/memestoolbar"
-            app:title="Memes"
+            app:title="Neet SS"
             app:navigationIcon="@drawable/arrow_bk"
             app:titleTextColor="@color/black"
             android:layout_width="match_parent"

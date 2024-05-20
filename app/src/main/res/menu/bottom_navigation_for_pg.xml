@@ -3,16 +3,16 @@
 
     <item
         android:id="@+id/navigation_pghome"
-        android:icon="@drawable/homedark"
+        android:icon="@drawable/home_pg_icon"
         android:title="Home" />
     <item
         android:id="@+id/navigation_pgneet"
-        android:icon="@drawable/exam"
-        android:title="NEET PG Exam" />
+        android:icon="@drawable/day_daily"
+        android:title="Daily Questions" />
 
     <item
         android:id="@+id/navigation_pgpreparation"
-        android:icon="@drawable/stair"
-        android:title="Prepration" />
+        android:icon="@drawable/gt_icon"
+        android:title="Grand Test" />
 
 </menu>

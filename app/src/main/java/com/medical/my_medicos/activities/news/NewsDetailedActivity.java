@@ -99,13 +99,6 @@ public class NewsDetailedActivity extends AppCompatActivity {
         binding.newsTitle.setText(name);
         binding.newsTime.setText(time);
 
-        binding.readmoreBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                // Open the URL in a web browser
-                openUrlInBrowser(url);
-            }
-        });
 
         // Enable the back button in the toolbar
         setSupportActionBar(binding.newsstoolbar);
@@ -226,17 +219,10 @@ public class NewsDetailedActivity extends AppCompatActivity {
                         }
 
                         binding.newsDescription.setText(Html.fromHtml(description));
-                        binding.newsSubject.setText(Html.fromHtml(subject));
                         binding.newsTitle.setText(newstitle);
                         Glide.with(this)
                                 .load(thumbnail)
                                 .into(binding.newsthumbnail);
-
-                        binding.readmoreBtn.setOnClickListener(view -> {
-                            Intent intent = new Intent(Intent.ACTION_VIEW);
-                            intent.setData(Uri.parse(url));
-                            startActivity(intent);
-                        });
 
                         currentNews = new News(
                                 documentid,

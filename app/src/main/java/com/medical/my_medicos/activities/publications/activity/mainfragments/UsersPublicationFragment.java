@@ -30,9 +30,15 @@ public class UsersPublicationFragment extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         binding = FragmentUsersPublicationBinding.inflate(inflater, container, false);
+
+
+
         fetchUserData();
         return binding.getRoot();
+
+
     }
+
 
     private void fetchUserData() {
         FirebaseAuth mAuth = FirebaseAuth.getInstance();

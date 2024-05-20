@@ -91,25 +91,25 @@ import uk.co.samuelwall.materialtaptargetprompt.extras.focals.CirclePromptFocal;
 public class HomeFragment extends Fragment {
 
     private FragmentHomeBinding binding;
-    private LinearLayout progressBar;
     private SwipeRefreshLayout swipeRefreshLayout;
-    ImageView jobs,cme,news,publication,update,pg_prep,ugexams,meme;
+    ImageView jobs, cme, news, publication, update, pg_prep, ugexams, vector_home;
+
+    LinearLayout meme;
     MyAdapter adapterjob;
     MyAdapter2 adaptercme;
     String Speciality;
-    CardView cardjobs,cardcme;
-    TextView home1,home2,home3;
+    CardView cardjobs, cardcme;
+    TextView home1, home2, home3;
     RecyclerView recyclerViewjob;
     RecyclerView recyclerViewcme;
     private ExoPlayer player;
     TodayNewsAdapter todayNewsAdapter;
-    ArrayList<NewsToday>  newstoday;
+    ArrayList<NewsToday> newstoday;
     String videoURL = "https://res.cloudinary.com/dmzp6notl/video/upload/v1701512080/videoforhome_gzfpen.mp4";
-    TextView navigatetojobs, navigatetocme, navigatecmeinsider,navigatenews;
+    TextView navigatetojobs, navigatetocme, navigatecmeinsider, navigatenews;
     public static final String INTENT_KEY_SPECIALITY = "speciality";
     public static final String INTENT_KEY_USER_PHONE = "user_phone";
 
-//    private ViewFlipper viewFlipper;
     private boolean dataLoaded = false;
 
     private PaidSlideshowAdapter paidslideshowAdapter;
@@ -117,6 +117,7 @@ public class HomeFragment extends Fragment {
     private Handler handler;
     private LinearLayout dotsLayout;
     private final int AUTO_SCROLL_DELAY = 3000;
+
     @SuppressLint({"MissingInflatedId", "RestrictedApi"})
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -130,18 +131,8 @@ public class HomeFragment extends Fragment {
             window.setStatusBarColor(ContextCompat.getColor(requireContext(), R.color.teal_700));
         }
 
-//        showTapTargets();
-
-        progressBar = rootView.findViewById(R.id.progressBar);
-
-        showProgressBar(progressBar);
-
         recyclerViewjob = rootView.findViewById(R.id.recyclerview_job1);
-
-//        viewFlipper = rootView.findViewById(R.id.viewFlipper);
         handler = new Handler();
-
-
         ScrollView scrollView = rootView.findViewById(R.id.scrollerforthehome);
         swipeRefreshLayout = rootView.findViewById(R.id.swipeRefreshLayout);
         MediaPlayer mediaPlayer = MediaPlayer.create(getContext(), R.raw.beepsound);
@@ -155,187 +146,130 @@ public class HomeFragment extends Fragment {
             mediaPlayer.start();
             refreshData();
         });
-//
-//        addDots();
-//
-//        handler.postDelayed(autoScrollRunnable, AUTO_SCROLL_DELAY);
 
         recyclerViewcme = rootView.findViewById(R.id.recyclerview_cme1);
 
         ugexams = rootView.findViewById(R.id.ugexams);
-        ugexams.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent i = new Intent(getActivity(), UgExamActivity.class);
-                startActivity(i);
-            }
+        ugexams.setOnClickListener(view -> {
+            Intent i = new Intent(getActivity(), UgExamActivity.class);
+            startActivity(i);
         });
 
         pg_prep = rootView.findViewById(R.id.pg_prep);
-        pg_prep.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent i = new Intent(getActivity(), PgprepActivity.class);
-                startActivity(i);
-            }
+        pg_prep.setOnClickListener(view -> {
+            Intent i = new Intent(getActivity(), PgprepActivity.class);
+            startActivity(i);
         });
-        home1=rootView.findViewById(R.id.home1);
-        home2=rootView.findViewById(R.id.home2);
-        home3=rootView.findViewById(R.id.home3);
-        home1.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent i = new Intent(getActivity(), CmeActivity.class);
-                startActivity(i);
-            }
-        });
-        home2.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent i = new Intent(getActivity(), CmeActivity.class);
-                startActivity(i);
-            }
-        });
-        home3.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent i = new Intent(getActivity(), CmeActivity.class);
-                startActivity(i);
-            }
-        });
-        update = rootView.findViewById(R.id.university);
 
-        update.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent i = new Intent(getActivity(), FmgeActivity.class);
-                startActivity(i);
-            }
+        home1 = rootView.findViewById(R.id.home1);
+        home2 = rootView.findViewById(R.id.home2);
+        home3 = rootView.findViewById(R.id.home3);
+
+        home1.setOnClickListener(view -> {
+            Intent i = new Intent(getActivity(), CmeActivity.class);
+            startActivity(i);
+        });
+
+        home2.setOnClickListener(view -> {
+            Intent i = new Intent(getActivity(), CmeActivity.class);
+            startActivity(i);
+        });
+
+        home3.setOnClickListener(view -> {
+            Intent i = new Intent(getActivity(), CmeActivity.class);
+            startActivity(i);
+        });
+
+        update = rootView.findViewById(R.id.university);
+        update.setOnClickListener(view -> {
+            Intent i = new Intent(getActivity(), FmgeActivity.class);
+            startActivity(i);
         });
 
         cme = rootView.findViewById(R.id.cme_img1);
-
-        cme.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent i = new Intent(getActivity(), CmeActivity.class);
-                startActivity(i);
-            }
+        cme.setOnClickListener(view -> {
+            Intent i = new Intent(getActivity(), CmeActivity.class);
+            startActivity(i);
         });
 
-
         jobs = rootView.findViewById(R.id.jobs_img);
-
-        jobs.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent i = new Intent(getActivity(), JobsActivity.class);
-                startActivity(i);
-            }
+        jobs.setOnClickListener(view -> {
+            Intent i = new Intent(getActivity(), JobsActivity.class);
+            startActivity(i);
         });
 
         news = rootView.findViewById(R.id.news_home);
-        news.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent i = new Intent(getActivity(), NewsActivity.class);
-                startActivity(i);
-            }
+        news.setOnClickListener(view -> {
+            Intent i = new Intent(getActivity(), NewsActivity.class);
+            startActivity(i);
         });
 
         navigatetojobs = rootView.findViewById(R.id.navigatejobs);
-
-        navigatetojobs.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent i = new Intent(getActivity(), JobsActivity.class);
-                startActivity(i);
-            }
+        navigatetojobs.setOnClickListener(view -> {
+            Intent i = new Intent(getActivity(), JobsActivity.class);
+            startActivity(i);
         });
 
         cardjobs = rootView.findViewById(R.id.cardjobs);
-
-        cardjobs.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent i = new Intent(getActivity(), JobsActivity.class);
-                startActivity(i);
-            }
-        });
-
-        cardcme=rootView.findViewById(R.id.cardcme);
-        cardjobs=rootView.findViewById(R.id.cardjobs);
-        cardcme.setVisibility(View.GONE);
-        cardjobs.setVisibility(View.GONE);
-        home1=rootView.findViewById(R.id.home1);
-        home2=rootView.findViewById(R.id.home2);
-        home3=rootView.findViewById(R.id.home3);
-        home1.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent i = new Intent(getActivity(), CmeActivity.class);
-                startActivity(i);
-            }
-        });
-        home2.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent i = new Intent(getActivity(), CmeActivity.class);
-                startActivity(i);
-            }
-        });
-        home3.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent i = new Intent(getActivity(), CmeActivity.class);
-                startActivity(i);
-            }
-        });
-
-        navigatetocme = rootView.findViewById(R.id.navigatecme);
-
-        navigatetocme.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent i = new Intent(getActivity(), CmeActivity.class);
-                startActivity(i);
-            }
+        cardjobs.setOnClickListener(view -> {
+            Intent i = new Intent(getActivity(), JobsActivity.class);
+            startActivity(i);
         });
 
         cardcme = rootView.findViewById(R.id.cardcme);
+        cardcme.setVisibility(View.GONE);
+        cardjobs.setVisibility(View.GONE);
 
-        cardcme.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent i = new Intent(getActivity(), CmeActivity.class);
-                startActivity(i);
-            }
+        home1 = rootView.findViewById(R.id.home1);
+        home2 = rootView.findViewById(R.id.home2);
+        home3 = rootView.findViewById(R.id.home3);
+
+        home1.setOnClickListener(view -> {
+            Intent i = new Intent(getActivity(), CmeActivity.class);
+            startActivity(i);
+        });
+
+        home2.setOnClickListener(view -> {
+            Intent i = new Intent(getActivity(), CmeActivity.class);
+            startActivity(i);
+        });
+
+        home3.setOnClickListener(view -> {
+            Intent i = new Intent(getActivity(), CmeActivity.class);
+            startActivity(i);
+        });
+
+        navigatetocme = rootView.findViewById(R.id.navigatecme);
+        navigatetocme.setOnClickListener(view -> {
+            Intent i = new Intent(getActivity(), CmeActivity.class);
+            startActivity(i);
+        });
+
+        cardcme = rootView.findViewById(R.id.cardcme);
+        cardcme.setOnClickListener(view -> {
+            Intent i = new Intent(getActivity(), CmeActivity.class);
+            startActivity(i);
         });
 
         navigatecmeinsider = rootView.findViewById(R.id.navigatecmeinsider);
-
-        navigatecmeinsider.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent i = new Intent(getActivity(), CmeActivity.class);
-                startActivity(i);
-            }
-
-
+        navigatecmeinsider.setOnClickListener(view -> {
+            Intent i = new Intent(getActivity(), CmeActivity.class);
+            startActivity(i);
         });
 
         meme = rootView.findViewById(R.id.meme);
+        meme.setOnClickListener(view -> {
+            Intent i = new Intent(getActivity(), MemeActivity.class);
+            startActivity(i);
+        });
 
-        meme.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent i = new Intent(getActivity(), MemeActivity.class);
-                startActivity(i);
-            }
+        vector_home = rootView.findViewById(R.id.vector_home); // Add this line to initialize the ImageView
+        vector_home.setOnClickListener(view -> {
+            Intent i = new Intent(getActivity(), FmgeActivity.class);
+            startActivity(i);
         });
 
         FirebaseFirestore checking = FirebaseFirestore.getInstance();
-// ......
         checking.collection("users")
                 .get()
                 .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
@@ -350,12 +284,8 @@ public class HomeFragment extends Fragment {
                                 Map<String, Object> dataMap = document.getData();
                                 String phoneNumberFromFirestore = (String) dataMap.get("Phone Number");
                                 String current = (String) dataMap.get("Phone Number");
-                                if (current!=null) {
-
-
+                                if (current != null) {
                                     int a = current.compareTo(user.getPhoneNumber());
-
-
                                     if (a == 0) {
                                         Speciality = (String) dataMap.get("Interest");
                                         Log.d("Speciality", Speciality);
@@ -390,17 +320,16 @@ public class HomeFragment extends Fragment {
                                 String Title = ((String) dataMap.get("JOB Title"));
                                 String Category = ((String) dataMap.get("Job type"));
                                 String documentid = ((String) dataMap.get("documentId"));
-                                Log.d("Error in Speciality",speciality);
-                                String User=((String) dataMap.get("User"));
-                                Log.d("user2",user.getPhoneNumber());
+                                Log.d("Error in Speciality", speciality);
+                                String User = ((String) dataMap.get("User"));
+                                Log.d("user2", user.getPhoneNumber());
 
-
-                                if ((speciality!=null)&&(Speciality!=null)) {
-                                    int b=(user.getPhoneNumber()).compareTo(User);
+                                if ((speciality != null) && (Speciality != null)) {
+                                    int b = (user.getPhoneNumber()).compareTo(User);
                                     int a = Speciality.compareTo(speciality);
                                     Log.d("phonenumber", String.valueOf(b));
-                                    if ((a == 0)&&(b != 0)) {
-                                        Log.d("Speciality",String.valueOf(a));
+                                    if ((a == 0) && (b != 0)) {
+                                        Log.d("Speciality", String.valueOf(a));
                                         Log.d("phonenumber", String.valueOf(b));
 
                                         jobitem c = new jobitem(speciality, Organiser, Location, date, Title, Category, documentid);
@@ -414,12 +343,11 @@ public class HomeFragment extends Fragment {
                                 recyclerViewjob.setAdapter(adapterjob);
                             }
                             Log.d("Something went wrong!", joblist.toString());
-                            if (joblist.isEmpty()){
+                            if (joblist.isEmpty()) {
                                 cardjobs.setVisibility(View.VISIBLE);
-                                TextView nocontent=rootView.findViewById(R.id.descriptionTextView);
+                                TextView nocontent = rootView.findViewById(R.id.descriptionTextView);
                             }
-                        }
-                        else {
+                        } else {
                         }
 
                     }
@@ -427,7 +355,6 @@ public class HomeFragment extends Fragment {
 
         FirebaseFirestore db = FirebaseFirestore.getInstance();
         List<cmeitem2> myitem = new ArrayList<cmeitem2>();
-        //......
         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
             Query query = db.collection("CME").orderBy("Time", Query.Direction.DESCENDING);
 
@@ -447,22 +374,16 @@ public class HomeFragment extends Fragment {
                                     String Time = document.getString("Selected Time");
                                     String date = document.getString("Selected Date");
 
-                                    //
                                     LocalTime parsedTime = null;
                                     LocalDate parsedDate = null;
                                     try {
-                                        // Parse the time string into a LocalTime object
-                                        parsedTime = null;
                                         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
                                             parsedTime = LocalTime.parse(Time, formatter);
                                             parsedDate = LocalDate.parse(date, formatter1);
-
                                         }
-
                                         System.out.println("Parsed Time: " + parsedTime);
                                     } catch (DateTimeParseException e) {
                                         System.err.println("Error parsing time: " + e.getMessage());
-
                                     }
                                     LocalTime currentTime = null;
                                     LocalDate currentDate = null;
@@ -470,7 +391,6 @@ public class HomeFragment extends Fragment {
                                         currentTime = LocalTime.now();
                                         currentDate = LocalDate.now();
                                     }
-
 
                                     if (parsedTime != null && currentTime != null) {
                                         int r = parsedTime.compareTo(currentTime);
@@ -489,21 +409,20 @@ public class HomeFragment extends Fragment {
                                             String time = ((String) dataMap.get("Selected Time"));
                                             String documentid = ((String) dataMap.get("documentId"));
                                             String end = ((String) dataMap.get("endtime"));
-                                            Log.d("user2",user.getPhoneNumber());
+                                            Log.d("user2", user.getPhoneNumber());
 
-                                            if ((Speciality!=null)&&(field2!=null)) {
+                                            if ((Speciality != null) && (field2 != null)) {
                                                 int a = Speciality.compareTo(field2);
-                                                Log.d("user2",user.getPhoneNumber());
-                                                int b=(user.getPhoneNumber()).compareTo(field5);
+                                                Log.d("user2", user.getPhoneNumber());
+                                                int b = (user.getPhoneNumber()).compareTo(field5);
                                                 Log.d("phonenumber", String.valueOf(b));
                                                 Log.d("phonenumber", String.valueOf(b));
-                                                cmeitem2 c = new cmeitem2(field1, field2, Date, field3, field4, 5, time, field5, "PAST", documentid,field6);
-                                                if ((end != null) && (a == 0)&&(b!=0)) {
+                                                cmeitem2 c = new cmeitem2(field1, field2, Date, field3, field4, 5, time, field5, "PAST", documentid, field6);
+                                                if ((end != null) && (a == 0) && (b != 0)) {
                                                     myitem.add(c);
 
                                                 }
                                             }
-
 
                                         } else if ((r < 0) && (r1 == 0)) {
                                             String field3 = ((String) dataMap.get("CME Title"));
@@ -517,16 +436,15 @@ public class HomeFragment extends Fragment {
                                             String Date = ((String) dataMap.get("Selected Date"));
                                             String documentid = ((String) dataMap.get("documentId"));
                                             String end = ((String) dataMap.get("endtime"));
-                                            Log.d("user2",user.getPhoneNumber());
+                                            Log.d("user2", user.getPhoneNumber());
 
-
-                                            if ((Speciality!=null)&&(field2!=null)) {
+                                            if ((Speciality != null) && (field2 != null)) {
                                                 int a = Speciality.compareTo(field2);
-                                                int b=(user.getPhoneNumber()).compareTo(field5);
+                                                int b = (user.getPhoneNumber()).compareTo(field5);
                                                 Log.d("phonenumber", String.valueOf(b));
                                                 Log.d("phonenumber", String.valueOf(b));
-                                                cmeitem2 c = new cmeitem2(field1, field2, Date, field3, field4, 5, time, field5, "PAST", documentid,field6);
-                                                if ((end != null) && (a == 0)&&(b!=0)) {
+                                                cmeitem2 c = new cmeitem2(field1, field2, Date, field3, field4, 5, time, field5, "PAST", documentid, field6);
+                                                if ((end != null) && (a == 0) && (b != 0)) {
                                                     myitem.add(c);
 
                                                 }
@@ -538,7 +456,7 @@ public class HomeFragment extends Fragment {
                                     }
                                 }
                                 Log.d("myitem", myitem.toString());
-                                if (myitem.isEmpty()){
+                                if (myitem.isEmpty()) {
                                     cardcme.setVisibility(View.VISIBLE);
                                 }
                                 recyclerViewcme.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false));
@@ -550,21 +468,15 @@ public class HomeFragment extends Fragment {
                     });
 
             publication = rootView.findViewById(R.id.pub_image);
-            publication.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    Intent i = new Intent(getActivity(), PublicationActivity.class);
-                    startActivity(i);
-                }
+            publication.setOnClickListener(view -> {
+                Intent i = new Intent(getActivity(), PublicationActivity.class);
+                startActivity(i);
             });
 
             navigatenews = rootView.findViewById(R.id.navigatenews);
-            navigatenews.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    Intent i = new Intent(getActivity(), NewsActivity.class);
-                    startActivity(i);
-                }
+            navigatenews.setOnClickListener(view -> {
+                Intent i = new Intent(getActivity(), NewsActivity.class);
+                startActivity(i);
             });
 
             initHomeSlider();
@@ -589,7 +501,6 @@ public class HomeFragment extends Fragment {
         swipeRefreshLayout.setRefreshing(false);
     }
 
-    //.......
     void initSliderContent() {
         paidslideshows = new ArrayList<>();
         paidslideshowAdapter = new PaidSlideshowAdapter(getActivity(), paidslideshows);
@@ -600,6 +511,7 @@ public class HomeFragment extends Fragment {
         binding.recyclerviewSlideshare1.setLayoutManager(layoutManager);
         binding.recyclerviewSlideshare1.setAdapter(paidslideshowAdapter);
     }
+
     void getSlideshowRecent() {
         RequestQueue queue = Volley.newRequestQueue(requireContext());
 
@@ -625,12 +537,10 @@ public class HomeFragment extends Fragment {
                                 String imageId = imageObj.optString("id");
                                 images.add(new Slideshow.Image(imageId, imageUrl));
                             }
-                            // Now you can create your Slideshow object with images
-                            Slideshow slideshowItem = new Slideshow(title, images, fileUrl,type);
+                            Slideshow slideshowItem = new Slideshow(title, images, fileUrl, type);
                             paidslideshows.add(slideshowItem);
                         } else {
-                            // If "images" array does not exist, create Slideshow without images
-                            Slideshow slideshowItem = new Slideshow(title, new ArrayList<>(), fileUrl,type);
+                            Slideshow slideshowItem = new Slideshow(title, new ArrayList<>(), fileUrl, type);
                             paidslideshows.add(slideshowItem);
                         }
                     }
@@ -645,14 +555,12 @@ public class HomeFragment extends Fragment {
 
         queue.add(request);
     }
-    //.......
 
     void initTodaysSlider() {
         newstoday = new ArrayList<>();
         todayNewsAdapter = new TodayNewsAdapter(getContext(), newstoday);
         getTodayNews();
 
-        // Use LinearLayoutManager with horizontal orientation
         LinearLayoutManager layoutManager = new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false);
 
         binding.recyclerviewNews.setLayoutManager(layoutManager);
@@ -662,7 +570,6 @@ public class HomeFragment extends Fragment {
     void getTodayNews() {
         FirebaseFirestore db = FirebaseFirestore.getInstance();
 
-        // Calculate the time 24 hours ago
         Calendar calendar = Calendar.getInstance();
         calendar.add(Calendar.DAY_OF_MONTH, -1);
         long twentyFourHoursAgo = calendar.getTimeInMillis();
@@ -673,14 +580,11 @@ public class HomeFragment extends Fragment {
                     if (task.isSuccessful()) {
                         for (QueryDocumentSnapshot document : task.getResult()) {
                             try {
-                                // Parse the timestamp string to a Date object
                                 SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSX", Locale.US);
                                 Date newsDate = dateFormat.parse(document.getString("Time"));
 
-                                // Get the timestamp as a long
                                 long newsTime = newsDate.getTime();
 
-                                // Check if the news was posted within the last 24 hours and has the type "News"
                                 if (newsTime >= twentyFourHoursAgo && "News".equals(document.getString("type"))) {
                                     NewsToday newsItemToday = new NewsToday(
                                             document.getId(),
@@ -704,18 +608,6 @@ public class HomeFragment extends Fragment {
                 });
     }
 
-    //.....
-
-    private void showProgressBar(LinearLayout progressBar) {
-        this.progressBar.setVisibility(View.VISIBLE);
-        new Handler().postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                HomeFragment.this.progressBar.setVisibility(View.GONE);
-            }
-        }, 3000);
-    }
-
     @Override
     public void onStop() {
         super.onStop();
@@ -727,7 +619,7 @@ public class HomeFragment extends Fragment {
     }
 
     void getsliderHome() {
-        RequestQueue queue = Volley.newRequestQueue(requireContext()); // Use requireContext()
+        RequestQueue queue = Volley.newRequestQueue(requireContext());
 
         StringRequest request = new StringRequest(Request.Method.GET, ConstantsDashboard.GET_HOME_SLIDER_URL, response -> {
             try {
@@ -778,9 +670,6 @@ public class HomeFragment extends Fragment {
                                             String userInterest = (String) dataMap.get("Interest");
                                             String userPhone = (String) dataMap.get("Phone Number");
                                             String userPrefix = (String) dataMap.get("Prefix");
-                                            String userAuthorized = (String) dataMap.get("authorized");
-
-                                            Boolean mcnVerified = (Boolean) dataMap.get("MCN verified");
 
                                             Preferences preferences = Preferences.userRoot();
                                             preferences.put("username", userName);
@@ -804,6 +693,7 @@ public class HomeFragment extends Fragment {
                     });
         }
     }
+
     private void fetchdata() {
         Preferences preferences = Preferences.userRoot();
         if (preferences.get("username", null) != null) {
@@ -824,12 +714,14 @@ public class HomeFragment extends Fragment {
     }
 
     private MyAsyncTask myAsyncTask;
+
     private void startAsyncTask() {
         if (isAdded()) {
             myAsyncTask = new MyAsyncTask();
             myAsyncTask.execute();
         }
     }
+
     private class MyAsyncTask extends AsyncTask<Void, Void, Void> {
         @Override
         protected Void doInBackground(Void... voids) {
@@ -837,6 +729,7 @@ public class HomeFragment extends Fragment {
             }
             return null;
         }
+
         @Override
         protected void onPostExecute(Void result) {
             if (isAdded()) {
@@ -844,6 +737,7 @@ public class HomeFragment extends Fragment {
             }
         }
     }
+
     @Override
     public void onDestroy() {
         super.onDestroy();

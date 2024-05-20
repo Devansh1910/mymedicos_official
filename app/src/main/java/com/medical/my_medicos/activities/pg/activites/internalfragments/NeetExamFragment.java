@@ -1,9 +1,11 @@
 package com.medical.my_medicos.activities.pg.activites.internalfragments;
 
+import static android.content.Context.MODE_PRIVATE;
 import static androidx.fragment.app.FragmentManager.TAG;
 
 import android.annotation.SuppressLint;
 import android.content.ContentValues;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -58,6 +60,10 @@ public class NeetExamFragment extends Fragment {
 
     private final int AUTO_SCROLL_DELAY = 3000;
 
+    private static final String PREFS_NAME = "NeetExamPrefs";
+    private static final String KEY_DATA_LOADED = "isDataLoadedNeet";
+
+
     public static NeetExamFragment newInstance() {
         NeetExamFragment fragment = new NeetExamFragment();
         Bundle args = new Bundle();
@@ -66,25 +72,32 @@ public class NeetExamFragment extends Fragment {
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         binding = FragmentNeetExamBinding.inflate(inflater, container, false);
         View rootView = binding.getRoot();
 
-        Bundle args = getArguments();
-        if (args != null) {
+        SharedPreferences prefs = getActivity().getSharedPreferences(PREFS_NAME, MODE_PRIVATE);
+        boolean isDataLoaded = prefs.getBoolean(KEY_DATA_LOADED, false);
 
-            quizpgneet = new ArrayList<>();
-            quizAdapterneet = new ExamQuizAdapter(requireContext(), quizpgneet);
+        if (!isDataLoaded) {
+            Bundle args = getArguments();
+            if (args != null) {
+                quizpgneet = new ArrayList<>();
+                quizAdapterneet = new ExamQuizAdapter(requireContext(), quizpgneet);
 
-            RecyclerView recyclerViewVideos = binding.specialexam;
-            LinearLayoutManager layoutManagerVideos = new LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false);
-            recyclerViewVideos.setLayoutManager(layoutManagerVideos);
-            recyclerViewVideos.setAdapter(quizAdapterneet);
+                RecyclerView recyclerViewVideos = binding.specialexam;
+                LinearLayoutManager layoutManagerVideos = new LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false);
+                recyclerViewVideos.setLayoutManager(layoutManagerVideos);
+                recyclerViewVideos.setAdapter(quizAdapterneet);
 
-            getPaidExamNeet(title2);
-        } else {
-            Log.e("ERROR", "Arguments are null in WeeklyQuizFragment");
+                getPaidExamNeet(title2);
+
+                SharedPreferences.Editor editor = prefs.edit();
+                editor.putBoolean(KEY_DATA_LOADED, true);
+                editor.apply();
+            } else {
+                Log.e("ERROR", "Arguments are null in WeeklyQuizFragment");
+            }
         }
 
         viewFlipperPg = rootView.findViewById(R.id.viewFlipperpg);
@@ -96,7 +109,6 @@ public class NeetExamFragment extends Fragment {
         handlerpg.postDelayed(autoScrollRunnable, AUTO_SCROLL_DELAY);
         return rootView;
     }
-
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);

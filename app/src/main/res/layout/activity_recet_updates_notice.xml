@@ -29,12 +29,11 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:background="@color/white"
-            android:backgroundTint="@color/blue"
-            app:navigationIcon="@drawable/arrowwhite"
-            app:subtitleTextAppearance="@color/white"
-            app:subtitleTextColor="@color/white"
+            app:navigationIcon="@drawable/arrow_bk"
+            app:subtitleTextAppearance="@color/unselected"
+            app:subtitleTextColor="@color/unselected"
             app:title="IMPORTANT UPDATES"
-            app:titleTextColor="@color/white">
+            app:titleTextColor="@color/unselected">
 
         </androidx.appcompat.widget.Toolbar>
 

@@ -104,7 +104,6 @@ public class HomeActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        // Check if it's the user's first login
         SharedPreferences preferences = getSharedPreferences("user_prefs", MODE_PRIVATE);
         boolean isFirstLogin = preferences.getBoolean("isFirstLogin", true);
 
@@ -119,7 +118,7 @@ public class HomeActivity extends AppCompatActivity {
                 preferences.edit().putBoolean("isFirstLogin", false).apply();
                 setContentView(R.layout.activity_home);
                 initializeHomeActivity();
-            }, 3000); // Show the loader screen for 3 seconds
+            }, 5000); // Show the loader screen for 3 seconds
         } else {
             // If not the first login, directly load the main layout
             setContentView(R.layout.activity_home);
@@ -130,6 +129,13 @@ public class HomeActivity extends AppCompatActivity {
     private void initializeHomeActivity() {
         // Initialize your HomeActivity components and functionality here
 
+        // Initialize views
+        greetingTextView = findViewById(R.id.greetingTextView);
+        personname = findViewById(R.id.personname);
+        verifiedUser = findViewById(R.id.verifieduser);
+        profileImageView = findViewById(R.id.circularImageView);
+        verifiedprofilebehere = findViewById(R.id.verifiedprofilebehere);
+
         // Network Issue Condition...........
 
         if (!ConnectvityUtil.isConnectedToInternet(this)) {
@@ -139,6 +145,7 @@ public class HomeActivity extends AppCompatActivity {
             finish(); // Close the current activity
             return; // Exit the method early
         }
+
         // Notification permissions
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
             checkNotificationPermission();
@@ -220,9 +227,6 @@ public class HomeActivity extends AppCompatActivity {
 
             return true;
         });
-
-        greetingTextView = findViewById(R.id.greetingTextView);
-        personname = findViewById(R.id.personname);
 
         updateGreetingAndName();
         checkforAppUpdate();
@@ -316,7 +320,6 @@ public class HomeActivity extends AppCompatActivity {
         Log.d("DeepLink", "Received deep link with cmeId: " + cmeId + " and typefordeep: " + typefordeep);
         openCmeDetailsActivity(cmeId, typefordeep); // Pass typefordeep to openCmeDetailsActivity method
     }
-
     private void handleDeepLinkIntentPublication(Uri deepLink) {
         String bookId = deepLink.getQueryParameter("bookId");
         Log.d("DeepLink", "Received deep link with bookId: " + bookId);
@@ -424,6 +427,7 @@ public class HomeActivity extends AppCompatActivity {
             putUserData(userId);
 
             db.collection("users")
+                    .whereEqualTo("Phone Number", userId)
                     .get()
                     .addOnCompleteListener(task -> {
                         if (task.isSuccessful()) {
@@ -436,7 +440,13 @@ public class HomeActivity extends AppCompatActivity {
                                     String userName = (String) dataMap.get("Name");
                                     String userEmail = (String) dataMap.get("Email ID");
                                     Boolean mcnVerified = (Boolean) dataMap.get("MCN verified");
-                                    Preferences preferences = Preferences.userRoot();
+
+                                    // Store user data in SharedPreferences
+                                    SharedPreferences.Editor editor = getSharedPreferences("user_prefs", MODE_PRIVATE).edit();
+                                    editor.putString("userName", userName);
+                                    editor.putString("userEmail", userEmail);
+                                    editor.putBoolean("mcnVerified", mcnVerified != null && mcnVerified);
+                                    editor.apply();
 
                                     // Obtain FCM token
                                     FirebaseMessaging.getInstance().getToken()
@@ -455,12 +465,12 @@ public class HomeActivity extends AppCompatActivity {
                                     profileImageView = findViewById(R.id.circularImageView);
 
                                     if (mcnVerified != null && mcnVerified) {
-                                        preferences.putBoolean("mcn_verified", true);
+                                        Preferences.userRoot().putBoolean("mcn_verified", true);
                                         verifiedUser.setVisibility(View.VISIBLE);
                                         profileImageView.setVisibility(View.GONE);
                                         fetchUserProfileImageVerified(userId);
                                     } else {
-                                        preferences.putBoolean("mcn_verified", false);
+                                        Preferences.userRoot().putBoolean("mcn_verified", false);
                                         verifiedUser.setVisibility(View.GONE);
                                         profileImageView.setVisibility(View.VISIBLE);
                                         fetchUserProfileImage(userId);
@@ -472,7 +482,7 @@ public class HomeActivity extends AppCompatActivity {
 
                                     // Update the UI based on user authentication status
                                     runOnUiThread(() -> {
-                                        updateProfileUI(userName, userId, userEmail);
+                                        updateProfileUI(userName, userId, userEmail, mcnVerified != null && mcnVerified);
                                     });
                                 }
                             }
@@ -525,13 +535,20 @@ public class HomeActivity extends AppCompatActivity {
                 });
     }
 
-    private void updateProfileUI(String userName, String userId, String userEmail) {
-        ImageView profileImageView = findViewById(R.id.circularImageView);
-        FrameLayout verifiedUser = findViewById(R.id.verifieduser);
-        ImageView verifiedprofilebehere = findViewById(R.id.verifiedprofilebehere); // Add this line
+    private void updateProfileUI(String userName, String userId, String userEmail, boolean mcnVerified) {
+        if (mcnVerified) {
+            verifiedUser.setVisibility(View.VISIBLE);
+            profileImageView.setVisibility(View.GONE);
+            fetchUserProfileImageVerified(userId);
+        } else {
+            verifiedUser.setVisibility(View.GONE);
+            profileImageView.setVisibility(View.VISIBLE);
+            fetchUserProfileImage(userId);
+        }
 
+        // Set the user's name
+        personname.setText(userName);
     }
-
     private void putUserData(String phoneNumber) {
         FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
         if (currentUser != null) {
@@ -630,31 +647,49 @@ public class HomeActivity extends AppCompatActivity {
             greetingTextView.setText("Good Evening!");
         }
 
-        // Retrieve user information from Firebase Firestore
-        FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
-        if (currentUser != null) {
-            String userId = currentUser.getPhoneNumber();
-            FirebaseFirestore db = FirebaseFirestore.getInstance();
-            db.collection("users")
-                    .whereEqualTo("Phone Number", userId)
-                    .get()
-                    .addOnCompleteListener(task -> {
-                        if (task.isSuccessful() && task.getResult() != null) {
-                            for (QueryDocumentSnapshot document : task.getResult()) {
-                                Map<String, Object> dataMap = document.getData();
-                                String userName = (String) dataMap.get("Name");
-                                String userPrefix = (String) dataMap.get("Prefix");
+        // Retrieve user information from SharedPreferences
+        SharedPreferences preferences = getSharedPreferences("user_prefs", MODE_PRIVATE);
+        String userName = preferences.getString("userName", null);
+        String userPrefix = preferences.getString("userPrefix", "");
+        boolean mcnVerified = preferences.getBoolean("mcnVerified", false);
 
-                                Preferences preferences = Preferences.userRoot();
-                                preferences.put("username", userName);
-                                preferences.put("prefix", userPrefix);
+        if (userName != null) {
+            // Use stored user data
+            personname.setText(userPrefix + " " + userName);
+            updateProfileUI(userName, userPrefix, null, mcnVerified);
+        } else {
+            // Retrieve user information from Firebase Firestore
+            FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
+            if (currentUser != null) {
+                String userId = currentUser.getPhoneNumber();
+                FirebaseFirestore db = FirebaseFirestore.getInstance();
+                db.collection("users")
+                        .whereEqualTo("Phone Number", userId)
+                        .get()
+                        .addOnCompleteListener(task -> {
+                            if (task.isSuccessful() && task.getResult() != null) {
+                                for (QueryDocumentSnapshot document : task.getResult()) {
+                                    Map<String, Object> dataMap = document.getData();
+                                    String fetchedUserName = (String) dataMap.get("Name");
+                                    String fetchedUserPrefix = (String) dataMap.get("Prefix");
+                                    Boolean fetchedMcnVerified = (Boolean) dataMap.get("MCN verified");
 
-                                personname.setText(userPrefix + " " + userName);
+                                    // Store fetched user data in SharedPreferences
+                                    SharedPreferences.Editor editor = preferences.edit();
+                                    editor.putString("userName", fetchedUserName);
+                                    editor.putString("userPrefix", fetchedUserPrefix);
+                                    editor.putBoolean("mcnVerified", fetchedMcnVerified != null && fetchedMcnVerified);
+                                    editor.apply();
+
+                                    personname.setText(fetchedUserPrefix + " " + fetchedUserName);
+                                    updateProfileUI(fetchedUserName, fetchedUserPrefix, null, fetchedMcnVerified != null && fetchedMcnVerified);
+                                }
+                            } else {
+                                Log.d(TAG, "Error getting documents: ", task.getException());
                             }
-                        } else {
-                            Log.d(TAG, "Error getting documents: ", task.getException());
-                        }
-                    });
+                        });
+            }
         }
     }
+
 }
