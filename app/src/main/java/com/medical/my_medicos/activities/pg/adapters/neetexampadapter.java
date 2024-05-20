@@ -69,14 +69,14 @@ public class neetexampadapter extends RecyclerView.Adapter<neetexampadapter.Neet
 
 
         if (quizQuestion.getImage() != null && !quizQuestion.getImage().isEmpty()) {
-            if (quizQuestion.getImage().compareTo("https://res.cloudinary.com/dmzp6notl/image/upload/v1711436528/noimage_qtiaxj.jpg")!=0){
-                holder.ifthequestionhavethumbnail.setVisibility(View.GONE);
-            }
-            else {
+//            if (quizQuestion.getImage().compareTo("https://res.cloudinary.com/dmzp6notl/image/upload/v1711436528/noimage_qtiaxj.jpg")!=0){
+//                holder.ifthequestionhavethumbnail.setVisibility(View.GONE);
+//            }
+//            else {
                 holder.ifthequestionhavethumbnail.setVisibility(View.VISIBLE);
                 Glide.with(context).load(quizQuestion.getImage()).into((ImageView) holder.ifthequestionhavethumbnail);
                 holder.ifthequestionhavethumbnail.setOnClickListener(view -> showImagePopup(quizQuestion.getImage()));
-            }
+//            }
         } else {
             holder.ifthequestionhavethumbnail.setVisibility(View.GONE);
         }
