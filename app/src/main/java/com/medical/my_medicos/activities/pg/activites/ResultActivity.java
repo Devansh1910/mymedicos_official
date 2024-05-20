@@ -34,10 +34,14 @@ public class ResultActivity extends AppCompatActivity {
     private FirebaseFirestore db;
     private FirebaseAuth auth;
     private ResultReportAdapter resultAdapter;
-    private Button gotopghome;
+    private TextView gotopghome;
     private TextView correctAnswersTextView;
     private TextView totalQuestionsTextView;
+    private TextView result;
 
+
+
+    @SuppressLint("MissingInflatedId")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -64,6 +68,7 @@ public class ResultActivity extends AppCompatActivity {
         resultRecyclerView.setLayoutManager(layoutManager);
         db = FirebaseFirestore.getInstance();
         auth = FirebaseAuth.getInstance();
+        result=findViewById(R.id.result_score1);
 
         Intent intent = getIntent();
         ArrayList<QuizPGinsider> questions = (ArrayList<QuizPGinsider>) intent.getSerializableExtra("questions");
@@ -78,6 +83,7 @@ public class ResultActivity extends AppCompatActivity {
         Log.d("Correct Answer", String.valueOf(totalQuestions));
 
         int score = calculateScore(questions);
+        result.setText(String.valueOf(score));
 
         correctAnswersTextView.setText("" + correctAnswers);
         totalQuestionsTextView.setText("" + totalQuestions);

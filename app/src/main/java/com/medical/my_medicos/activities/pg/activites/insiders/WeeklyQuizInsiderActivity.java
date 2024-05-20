@@ -2,18 +2,15 @@ package com.medical.my_medicos.activities.pg.activites.insiders;
 
 import android.annotation.SuppressLint;
 import android.app.AlertDialog;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.util.Log;
-import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.CheckBox;
-import android.widget.CompoundButton;
 import android.widget.GridView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -37,6 +34,7 @@ import com.google.firebase.firestore.QuerySnapshot;
 import com.medical.my_medicos.R;
 import com.medical.my_medicos.activities.pg.activites.PgprepActivity;
 import com.medical.my_medicos.activities.pg.activites.ResultActivity;
+import com.medical.my_medicos.activities.pg.activites.ResultActivityNeet;
 import com.medical.my_medicos.activities.pg.adapters.WeeklyQuizAdapterinsider;
 import com.medical.my_medicos.activities.pg.model.QuizPGinsider;
 
@@ -55,6 +53,7 @@ public class WeeklyQuizInsiderActivity extends AppCompatActivity implements Week
     private CountDownTimer countDownTimer;
     private TextView currentquestion;
     private TextView timerTextView;
+    int skippedQuestions = 0;
     private long timeLeftInMillis = 25 * 60 * 1000;
     private long remainingTimeInMillis;
     public ArrayList<String> selectedOptionsList = new ArrayList<>();
@@ -241,7 +240,7 @@ public class WeeklyQuizInsiderActivity extends AppCompatActivity implements Week
             adapter.setQuizQuestions(Collections.singletonList(currentQuestion));
             recyclerView.smoothScrollToPosition(currentQuestionIndex);
             updateQuestionNumber();
-            currentQuestionIndex++;
+
             markForReviewCheckBox.setOnCheckedChangeListener(null);
             markForReviewCheckBox.setChecked(copy.get(currentQuestionIndex).isMarkedForReview());
             markForReviewCheckBox.setOnCheckedChangeListener((buttonView, isChecked) -> {
@@ -249,6 +248,7 @@ public class WeeklyQuizInsiderActivity extends AppCompatActivity implements Week
                 currentQuestion.setMarkedForReview(isChecked);
                 refreshNavigationGrid();
             });
+            currentQuestionIndex++;
         } else {
             Log.d("abasjdnajs", "Current Question Index: " + currentQuestionIndex);
             Log.d("abasjdnajs", "Quiz List Size: " + quizList.size());
@@ -310,7 +310,7 @@ public class WeeklyQuizInsiderActivity extends AppCompatActivity implements Week
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setTitle("Time's Up!");
         builder.setMessage("Sorry, you've run out of time. The quiz will be ended.");
-        builder.setPositiveButton("OK", (dialog, which) -> navigateToResultActivity());
+        builder.setPositiveButton("OK", (dialog, which) -> navigateToResultActivity(skippedQuestions));
         builder.setCancelable(false);
         AlertDialog dialog = builder.create();
         dialog.show();
@@ -325,48 +325,25 @@ public class WeeklyQuizInsiderActivity extends AppCompatActivity implements Week
 
     private void handleEndButtonClick() {
         ArrayList<String> userSelectedOptions = new ArrayList<>();
+
         for (QuizPGinsider quizQuestion : quizList) {
-            if (quizQuestion.getSelectedOption() == null || quizQuestion.getSelectedOption().isEmpty()) {
-                userSelectedOptions.add("Skip");
+            String selectedOption = quizQuestion.getSelectedOption() != null ? quizQuestion.getSelectedOption() : "Skip";
+            if ("Skip".equals(selectedOption)) {
+                skippedQuestions++;
             }
-            userSelectedOptions.add(quizQuestion.getSelectedOption());
+            userSelectedOptions.add(selectedOption);
         }
-        ArrayList<String> results = compareAnswers(userSelectedOptions);
+        remainingTimeInMillis = timeLeftInMillis;
+        countDownTimer.cancel();
+        navigateToResultActivity(skippedQuestions);
+    }
+
+    private void navigateToResultActivity(int skippedQuestions) {
         Intent intent = new Intent(WeeklyQuizInsiderActivity.this, ResultActivity.class);
         intent.putExtra("questions", copy);
-        intent.putExtra("id", id);
-        startActivity(intent);
-    }
-
-    private void showCustomToast(String message) {
-        LayoutInflater inflater = getLayoutInflater();
-        View layout = inflater.inflate(R.layout.custom_toast, findViewById(R.id.customToastLayout));
-        @SuppressLint({"MissingInflatedId", "LocalSuppress"})
-        TextView text = layout.findViewById(R.id.customToastText);
-        text.setText(message);
-        Toast toast = new Toast(getApplicationContext());
-        toast.setDuration(Toast.LENGTH_SHORT);
-        toast.setView(layout);
-        toast.show();
-    }
-
-    private ArrayList<String> compareAnswers(ArrayList<String> userSelectedOptions) {
-        ArrayList<String> results = new ArrayList<>();
-        for (int i = 0; i < quizList.size(); i++) {
-            QuizPGinsider quizQuestion = quizList.get(i);
-            String correctAnswer = quizQuestion.getCorrectAnswer();
-            String userAnswer = userSelectedOptions.get(i);
-            boolean isCorrect = correctAnswer.equals(userAnswer);
-            results.add("Answer of Question " + (i + 1) + " is " + (isCorrect ? "Correct" : "Wrong"));
-        }
-        return results;
-    }
-
-    private void navigateToResultActivity() {
-        Intent intent = new Intent(WeeklyQuizInsiderActivity.this, ResultActivity.class);
-        intent.putExtra("questions", quizList);
         intent.putExtra("remainingTime", remainingTimeInMillis);
         intent.putExtra("id", id);
+        intent.putExtra("skippedQuestions", skippedQuestions); // Passing the number of skipped questions
         startActivity(intent);
         finish();
     }

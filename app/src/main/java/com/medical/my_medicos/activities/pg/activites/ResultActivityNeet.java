@@ -78,6 +78,8 @@ public class ResultActivityNeet extends AppCompatActivity {
         ArrayList<Neetpg> questions = (ArrayList<Neetpg>) intent.getSerializableExtra("questions");
         long remainingTimeInMillis = intent.getLongExtra("remainingTime", 0);
         String id = intent.getStringExtra("id");
+        int skip = intent.getIntExtra("skippedQuestions",0);
+
         Log.d("document id 1",id);
 
 
@@ -96,7 +98,7 @@ public class ResultActivityNeet extends AppCompatActivity {
         Log.d("Formatted Remaining Time", remainingTimeFormatted);
         uploadResultsToFirestore(correctAnswers, totalQuestions, remainingTimeFormatted,id);
 
-        int score = calculateScore(questions);
+        int score = calculateScore(questions,skip);
 
 //        correctAnswersTextView.setText("" + score);
 
@@ -130,7 +132,7 @@ public class ResultActivityNeet extends AppCompatActivity {
 
     }
 
-    private int calculateScore(ArrayList<Neetpg> questions) {
+    private int calculateScore(ArrayList<Neetpg> questions,int skip) {
         int score = 0;
 
         for (Neetpg question : questions) {
@@ -140,7 +142,7 @@ public class ResultActivityNeet extends AppCompatActivity {
                 score -= 1;
             }
         }
-        return Math.max(0, score);
+        return Math.max(0, score+skip);
     }
 
     @Override

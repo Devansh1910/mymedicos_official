@@ -140,15 +140,22 @@ public class Neetexaminsider extends AppCompatActivity implements neetexampadapt
             recyclerView.smoothScrollToPosition(currentQuestionIndex);
             updateQuestionNumber();
             adapter.setcurrentquestionindex(currentQuestionIndex);
+            Log.d("vskjdbkjbvdsb", String.valueOf(currentQuestionIndex));
             adapter.setSelectedOption(selectedOptionsList.get(currentQuestionIndex));
             markForReviewCheckBox.setOnCheckedChangeListener(null);
-            markForReviewCheckBox.setChecked(quizList1.get(currentQuestionIndex).isMarkedForReview());
-            markForReviewCheckBox.setOnCheckedChangeListener((buttonView, isChecked) -> {
-                Neetpg currentQuestion = quizList1.get(currentQuestionIndex);
-                currentQuestion.setMarkedForReview(isChecked);
-                refreshNavigationGrid();
-            });
-            currentQuestionIndex++;
+            if (currentQuestionIndex < quizList1.size()) {
+                Log.d("vskjdbkjbvdsb", String.valueOf(currentQuestionIndex));
+
+                markForReviewCheckBox.setChecked(quizList1.get(currentQuestionIndex).isMarkedForReview());
+                Log.d("vskjdbkjbvdsb", String.valueOf(currentQuestionIndex));
+                markForReviewCheckBox.setOnCheckedChangeListener((buttonView, isChecked) -> {
+                    Neetpg currentQuestion = quizList1.get(currentQuestionIndex - 1);
+                    Log.d("vskjdbkjbvdsb", String.valueOf(currentQuestionIndex));
+                    currentQuestion.setMarkedForReview(isChecked);
+                    refreshNavigationGrid();
+                });
+                currentQuestionIndex++;
+            }
         } else {
             showEndQuizConfirmation();
         }
@@ -235,19 +242,25 @@ public class Neetexaminsider extends AppCompatActivity implements neetexampadapt
 
     private void handleEndButtonClick() {
         ArrayList<String> userSelectedOptions = new ArrayList<>();
+        int skippedQuestions = 0;
         for (Neetpg quizQuestion : quizList1) {
-            userSelectedOptions.add(quizQuestion.getSelectedOption() != null ? quizQuestion.getSelectedOption() : "Skip");
+            String selectedOption = quizQuestion.getSelectedOption() != null ? quizQuestion.getSelectedOption() : "Skip";
+            if ("Skip".equals(selectedOption)) {
+                skippedQuestions++;
+            }
+            userSelectedOptions.add(selectedOption);
         }
         remainingTimeInMillis = timeLeftInMillis;
         countDownTimer.cancel();
-        navigateToResultActivity();
+        navigateToResultActivity(skippedQuestions);
     }
 
-    private void navigateToResultActivity() {
+    private void navigateToResultActivity(int skippedQuestions) {
         Intent intent = new Intent(Neetexaminsider.this, ResultActivityNeet.class);
         intent.putExtra("questions", quizList1);
         intent.putExtra("remainingTime", remainingTimeInMillis);
         intent.putExtra("id", id);
+        intent.putExtra("skippedQuestions", skippedQuestions); // Passing the number of skipped questions
         startActivity(intent);
         finish();
     }
@@ -271,7 +284,7 @@ public class Neetexaminsider extends AppCompatActivity implements neetexampadapt
         new AlertDialog.Builder(this)
                 .setTitle("Time's Up!")
                 .setMessage("Sorry, you've run out of time. The quiz will be ended.")
-                .setPositiveButton("OK", (dialog, which) -> navigateToResultActivity())
+                .setPositiveButton("OK", (dialog, which) -> navigateToResultActivity(0))
                 .setCancelable(false)
                 .create()
                 .show();
