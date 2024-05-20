@@ -3,15 +3,18 @@ package com.medical.my_medicos.activities.pg.activites;
 import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
 import android.widget.BaseAdapter;
 import android.widget.CheckBox;
 import android.widget.GridView;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -71,7 +74,7 @@ public class Neetexaminsider extends AppCompatActivity implements neetexampadapt
         timerTextView = findViewById(R.id.timerTextView);
         markForReviewCheckBox = findViewById(R.id.markForReviewCheckBox1);
         TextView title = findViewById(R.id.setnamewillbehere);
-        TextView gotoQuestionButton = findViewById(R.id.Navigate);
+        ImageView gotoQuestionButton = findViewById(R.id.Navigate);
 
         startTimer();
 
@@ -132,6 +135,19 @@ public class Neetexaminsider extends AppCompatActivity implements neetexampadapt
         recyclerView.setAdapter(adapter);
 
         findViewById(R.id.totheback1).setOnClickListener(v -> showConfirmationDialog());
+
+        configureWindow();
+    }
+
+    private void configureWindow() {
+//        getWindow().setFlags(WindowManager.LayoutParams.FLAG_SECURE, WindowManager.LayoutParams.FLAG_SECURE);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            Window window = getWindow();
+            window.setStatusBarColor(ContextCompat.getColor(this, R.color.backgroundcolor));
+            window.setNavigationBarColor(ContextCompat.getColor(this, R.color.backgroundcolor));
+            View decorView = window.getDecorView();
+            decorView.setSystemUiVisibility(decorView.getSystemUiVisibility() | View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR | View.SYSTEM_UI_FLAG_LIGHT_NAVIGATION_BAR);
+        }
     }
 
     private void loadNextQuestion() {
@@ -366,6 +382,7 @@ public class Neetexaminsider extends AppCompatActivity implements neetexampadapt
                 convertView = LayoutInflater.from(parent.getContext()).inflate(R.layout.grid_item_layout, parent, false);
                 holder = new ViewHolder();
                 holder.textView = convertView.findViewById(R.id.grid_item_text);
+                holder.layout = convertView.findViewById(R.id.grid_item_layout);
                 convertView.setTag(holder);
             } else {
                 holder = (ViewHolder) convertView.getTag();
@@ -373,11 +390,11 @@ public class Neetexaminsider extends AppCompatActivity implements neetexampadapt
             holder.textView.setText(String.valueOf(position + 1));
             Neetpg quizQuestion = quizQuestions.get(position);
             if (quizQuestion.isMarkedForReview()) {
-                holder.textView.setBackgroundColor(ContextCompat.getColor(parent.getContext(), R.color.colorPrimary)); // Different color for review
+                holder.layout.setBackgroundColor(ContextCompat.getColor(parent.getContext(), R.color.yellow)); // Different color for review
             } else if (selectedOptions.get(position) != null) {
-                holder.textView.setBackgroundColor(ContextCompat.getColor(parent.getContext(), R.color.green));
+                holder.layout.setBackgroundColor(ContextCompat.getColor(parent.getContext(), R.color.green));
             } else {
-                holder.textView.setBackgroundColor(ContextCompat.getColor(parent.getContext(), R.color.grey));
+                holder.layout.setBackgroundColor(ContextCompat.getColor(parent.getContext(), R.color.grey));
             }
             convertView.setOnClickListener(v -> listener.onItemClick(position));
             return convertView;
@@ -389,10 +406,12 @@ public class Neetexaminsider extends AppCompatActivity implements neetexampadapt
 
         static class ViewHolder {
             TextView textView;
+            LinearLayout layout;
         }
 
         public interface OnItemClickListener {
             void onItemClick(int position);
         }
     }
+
 }

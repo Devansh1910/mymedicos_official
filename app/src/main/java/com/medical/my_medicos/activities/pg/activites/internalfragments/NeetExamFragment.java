@@ -1,11 +1,9 @@
 package com.medical.my_medicos.activities.pg.activites.internalfragments;
 
-import static android.content.Context.MODE_PRIVATE;
 import static androidx.fragment.app.FragmentManager.TAG;
 
 import android.annotation.SuppressLint;
 import android.content.ContentValues;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -24,7 +22,6 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ViewFlipper;
 
-import com.airbnb.lottie.LottieAnimationView;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.Timestamp;
@@ -37,9 +34,7 @@ import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.medical.my_medicos.R;
 import com.medical.my_medicos.activities.pg.activites.internalfragments.intwernaladapters.ExamQuizAdapter;
-import com.medical.my_medicos.activities.pg.adapters.WeeklyQuizAdapter;
 import com.medical.my_medicos.activities.pg.model.QuizPG;
-import com.medical.my_medicos.databinding.FragmentHomeBinding;
 import com.medical.my_medicos.databinding.FragmentNeetExamBinding;
 
 import java.util.ArrayList;
@@ -60,10 +55,6 @@ public class NeetExamFragment extends Fragment {
 
     private final int AUTO_SCROLL_DELAY = 3000;
 
-    private static final String PREFS_NAME = "NeetExamPrefs";
-    private static final String KEY_DATA_LOADED = "isDataLoadedNeet";
-
-
     public static NeetExamFragment newInstance() {
         NeetExamFragment fragment = new NeetExamFragment();
         Bundle args = new Bundle();
@@ -76,28 +67,19 @@ public class NeetExamFragment extends Fragment {
         binding = FragmentNeetExamBinding.inflate(inflater, container, false);
         View rootView = binding.getRoot();
 
-        SharedPreferences prefs = getActivity().getSharedPreferences(PREFS_NAME, MODE_PRIVATE);
-        boolean isDataLoaded = prefs.getBoolean(KEY_DATA_LOADED, false);
+        Bundle args = getArguments();
+        if (args != null) {
+            quizpgneet = new ArrayList<>();
+            quizAdapterneet = new ExamQuizAdapter(requireContext(), quizpgneet);
 
-        if (!isDataLoaded) {
-            Bundle args = getArguments();
-            if (args != null) {
-                quizpgneet = new ArrayList<>();
-                quizAdapterneet = new ExamQuizAdapter(requireContext(), quizpgneet);
+            RecyclerView recyclerViewVideos = binding.specialexam;
+            LinearLayoutManager layoutManagerVideos = new LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false);
+            recyclerViewVideos.setLayoutManager(layoutManagerVideos);
+            recyclerViewVideos.setAdapter(quizAdapterneet);
 
-                RecyclerView recyclerViewVideos = binding.specialexam;
-                LinearLayoutManager layoutManagerVideos = new LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false);
-                recyclerViewVideos.setLayoutManager(layoutManagerVideos);
-                recyclerViewVideos.setAdapter(quizAdapterneet);
-
-                getPaidExamNeet(title2);
-
-                SharedPreferences.Editor editor = prefs.edit();
-                editor.putBoolean(KEY_DATA_LOADED, true);
-                editor.apply();
-            } else {
-                Log.e("ERROR", "Arguments are null in WeeklyQuizFragment");
-            }
+            getPaidExamNeet(title2);
+        } else {
+            Log.e("ERROR", "Arguments are null in WeeklyQuizFragment");
         }
 
         viewFlipperPg = rootView.findViewById(R.id.viewFlipperpg);
@@ -109,6 +91,7 @@ public class NeetExamFragment extends Fragment {
         handlerpg.postDelayed(autoScrollRunnable, AUTO_SCROLL_DELAY);
         return rootView;
     }
+
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
@@ -141,6 +124,7 @@ public class NeetExamFragment extends Fragment {
                     }
                 });
     }
+
     void getPaidExamNeet(String title) {
         FirebaseFirestore db = FirebaseFirestore.getInstance();
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
@@ -218,6 +202,7 @@ public class NeetExamFragment extends Fragment {
             handlerpg.postDelayed(this, AUTO_SCROLL_DELAY);
         }
     };
+
     private void addDotspg() {
         for (int i = 0; i < viewFlipperPg.getChildCount(); i++) {
             ImageView dot = new ImageView(requireContext());
@@ -231,11 +216,13 @@ public class NeetExamFragment extends Fragment {
         }
         updateDotspg(0);
     }
+
     @Override
     public void onDetach() {
         super.onDetach();
         handlerpg.removeCallbacksAndMessages(null);
     }
+
     @SuppressLint("UseCompatLoadingForDrawables")
     private void updateDotspg(int currentDotIndex) {
         if (!isAdded()) {
@@ -248,6 +235,7 @@ public class NeetExamFragment extends Fragment {
             ));
         }
     }
+
     private void showShimmer(boolean show) {
         if (show) {
             binding.shimmercomeup.setVisibility(View.VISIBLE);

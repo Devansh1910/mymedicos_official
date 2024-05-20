@@ -17,6 +17,7 @@
     <color name="teal_700">#2CD0BF</color>
     <color name="lavender">#8692f7</color>
     <color name="red">#FF0000</color>
+    <color name="yellow">#FFFF00</color>
     <color name="grey">#B8B8B8</color>
     <color name="backgroundcolor">@color/white</color>
     <color name="getstartedbottom">#F1EEEE</color>

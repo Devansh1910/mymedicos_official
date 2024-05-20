@@ -58,25 +58,25 @@ public class neetexampadapter extends RecyclerView.Adapter<neetexampadapter.Neet
     @Override
     public void onBindViewHolder(@NonNull NeetQuizQuestionViewHolder holder, int position) {
         Neetpg quizQuestion = quizquestionsweekly.get(holder.getAdapterPosition());
-//        currentQuestionIndex = holder.getAdapterPosition();
+
         holder.questionspan.setText(quizQuestion.getQuestion());
         holder.optionA.setText(quizQuestion.getOptionA());
         holder.optionB.setText(quizQuestion.getOptionB());
         holder.optionC.setText(quizQuestion.getOptionC());
         holder.optionD.setText(quizQuestion.getOptionD());
+
         resetOptionStyle(holder);
         isOptionSelectionEnabled = true;
 
-
+        // Check if the image URL matches the specific URL to hide the thumbnail
         if (quizQuestion.getImage() != null && !quizQuestion.getImage().isEmpty()) {
-//            if (quizQuestion.getImage().compareTo("https://res.cloudinary.com/dmzp6notl/image/upload/v1711436528/noimage_qtiaxj.jpg")!=0){
-//                holder.ifthequestionhavethumbnail.setVisibility(View.GONE);
-//            }
-//            else {
+            if (quizQuestion.getImage().equals("https://res.cloudinary.com/dmzp6notl/image/upload/v1711436528/noimage_qtiaxj.jpg")) {
+                holder.ifthequestionhavethumbnail.setVisibility(View.GONE);
+            } else {
                 holder.ifthequestionhavethumbnail.setVisibility(View.VISIBLE);
                 Glide.with(context).load(quizQuestion.getImage()).into((ImageView) holder.ifthequestionhavethumbnail);
                 holder.ifthequestionhavethumbnail.setOnClickListener(view -> showImagePopup(quizQuestion.getImage()));
-//            }
+            }
         } else {
             holder.ifthequestionhavethumbnail.setVisibility(View.GONE);
         }
@@ -89,6 +89,7 @@ public class neetexampadapter extends RecyclerView.Adapter<neetexampadapter.Neet
 
         setOptionClickListeners(holder);
     }
+
     public interface OnOptionInteractionListener {
         void onOptionSelected(int questionIndex, String selectedOption);
     }

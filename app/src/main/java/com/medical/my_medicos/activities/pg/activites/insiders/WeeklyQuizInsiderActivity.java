@@ -3,15 +3,18 @@ package com.medical.my_medicos.activities.pg.activites.insiders;
 import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
 import android.widget.BaseAdapter;
 import android.widget.CheckBox;
 import android.widget.GridView;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -127,7 +130,7 @@ public class WeeklyQuizInsiderActivity extends AppCompatActivity implements Week
             refreshNavigationGrid();
         });
 
-        TextView gotoQuestionButton = findViewById(R.id.Navigate);
+        ImageView gotoQuestionButton = findViewById(R.id.Navigate);
         gotoQuestionButton.setOnClickListener(v -> {
             WeeklyQuizInsiderActivity.QuestionBottomSheetDialogFragment bottomSheetDialogFragment = WeeklyQuizInsiderActivity.QuestionBottomSheetDialogFragment.newInstance(selectedOptionsList, copy);
             bottomSheetDialogFragment.show(getSupportFragmentManager(), "QuestionNavigator");
@@ -149,6 +152,19 @@ public class WeeklyQuizInsiderActivity extends AppCompatActivity implements Week
 
         LinearLayout toTheBackLayout = findViewById(R.id.totheback);
         toTheBackLayout.setOnClickListener(v -> showConfirmationDialog());
+
+        configureWindow();
+    }
+
+    private void configureWindow() {
+//        getWindow().setFlags(WindowManager.LayoutParams.FLAG_SECURE, WindowManager.LayoutParams.FLAG_SECURE);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            Window window = getWindow();
+            window.setStatusBarColor(ContextCompat.getColor(this, R.color.backgroundcolor));
+            window.setNavigationBarColor(ContextCompat.getColor(this, R.color.backgroundcolor));
+            View decorView = window.getDecorView();
+            decorView.setSystemUiVisibility(decorView.getSystemUiVisibility() | View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR | View.SYSTEM_UI_FLAG_LIGHT_NAVIGATION_BAR);
+        }
     }
 
     private void loadPreviousQuestion() {
@@ -429,6 +445,7 @@ public class WeeklyQuizInsiderActivity extends AppCompatActivity implements Week
                 convertView = LayoutInflater.from(parent.getContext()).inflate(R.layout.grid_item_layout, parent, false);
                 holder = new ViewHolder();
                 holder.textView = convertView.findViewById(R.id.grid_item_text);
+                holder.layout = convertView.findViewById(R.id.grid_item_layout);
                 convertView.setTag(holder);
             } else {
                 holder = (ViewHolder) convertView.getTag();
@@ -437,11 +454,11 @@ public class WeeklyQuizInsiderActivity extends AppCompatActivity implements Week
             QuizPGinsider quizQuestion = quizQuestions.get(position);
             Log.d("QuestionNavigationAdapter", "Green color at index1" + position + ": " + selectedOptions.get(position));
             if (quizQuestion.isMarkedForReview()) {
-                holder.textView.setBackgroundColor(ContextCompat.getColor(parent.getContext(), R.color.colorPrimary)); // Different color for review
+                holder.layout.setBackgroundColor(ContextCompat.getColor(parent.getContext(), R.color.colorPrimary)); // Different color for review
             } else if (selectedOptions.get(position) != null) {
-                holder.textView.setBackgroundColor(ContextCompat.getColor(parent.getContext(), R.color.green));
+                holder.layout.setBackgroundColor(ContextCompat.getColor(parent.getContext(), R.color.green));
             } else {
-                holder.textView.setBackgroundColor(ContextCompat.getColor(parent.getContext(), R.color.grey));
+                holder.layout.setBackgroundColor(ContextCompat.getColor(parent.getContext(), R.color.grey));
             }
             convertView.setOnClickListener(v -> listener.onItemClick(position));
             return convertView;
@@ -453,6 +470,7 @@ public class WeeklyQuizInsiderActivity extends AppCompatActivity implements Week
 
         static class ViewHolder {
             TextView textView;
+            LinearLayout layout;
         }
 
         public interface OnItemClickListener {

@@ -66,19 +66,12 @@
         @Override
         public WeeklyQuizQuestionViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
             View view = LayoutInflater.from(context).inflate(R.layout.question_quiz_design_weekly, parent, false);
-            // Initialize textViewTimer here
-    //        textViewTimer = view.findViewById(R.id.textViewTimer); // Replace with your actual TextView ID
             return new WeeklyQuizQuestionViewHolder(view);
         }
-
-    //    public void setOnCountdownFinishedListener(OnCountdownFinishedListener listener) {
-    //        this.onCountdownFinishedListener = listener;
-    //    }
 
         @Override
         public void onBindViewHolder(@NonNull WeeklyQuizQuestionViewHolder holder, @SuppressLint("RecyclerView") int position) {
             QuizPGinsider quizquestion = quizquestionsweekly.get(position);
-//            currentQuestionIndex = position;
 
             holder.binding.questionspan.setText(quizquestion.getQuestion());
             holder.binding.optionA.setText(quizquestion.getOptionA());
@@ -86,10 +79,8 @@
             holder.binding.optionC.setText(quizquestion.getOptionC());
             holder.binding.optionD.setText(quizquestion.getOptionD());
 
-            // Reset option styles regardless of the previous state
             resetOptionStyle(holder);
 
-            // Only set the selected style if there is a saved answer for this question
             String selectedOption = quizquestion.getSelectedOption();
             if (selectedOption != null && !selectedOption.isEmpty()) {
                 setOptionSelectedStyle(holder, selectedOption);
@@ -97,18 +88,19 @@
 
             setOptionClickListeners(holder);
 
-            // Additional logic for images and other interactions
             if (quizquestion.getImage() != null && !quizquestion.getImage().isEmpty()) {
-                if (quizquestion.getImage().compareTo("https://res.cloudinary.com/dmzp6notl/image/upload/v1711436528/noimage_qtiaxj.jpg")!=0){
+                if (quizquestion.getImage().equals("https://res.cloudinary.com/dmzp6notl/image/upload/v1711436528/noimage_qtiaxj.jpg")) {
                     holder.binding.ifthequestionhavethumbnail.setVisibility(View.GONE);
+                } else {
+                    holder.binding.ifthequestionhavethumbnail.setVisibility(View.VISIBLE);
+                    Glide.with(context).load(quizquestion.getImage()).into(holder.binding.ifthequestionhavethumbnail);
+                    holder.binding.ifthequestionhavethumbnail.setOnClickListener(view -> showImagePopup(quizquestion.getImage()));
                 }
-                holder.binding.ifthequestionhavethumbnail.setVisibility(View.VISIBLE);
-                Glide.with(context).load(quizquestion.getImage()).into(holder.binding.ifthequestionhavethumbnail);
-                holder.binding.ifthequestionhavethumbnail.setOnClickListener(view -> showImagePopup(quizquestion.getImage()));
             } else {
                 holder.binding.ifthequestionhavethumbnail.setVisibility(View.GONE);
             }
         }
+
 
 
         private void setOptionClickListeners(WeeklyQuizQuestionViewHolder holder) {
