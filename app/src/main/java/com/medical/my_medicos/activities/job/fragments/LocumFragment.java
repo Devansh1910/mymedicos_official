@@ -17,6 +17,7 @@ import com.medical.my_medicos.adapter.job.items.jobitem1;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
@@ -35,19 +36,22 @@ public class LocumFragment extends Fragment {
         Bundle args = getArguments();
         if (args != null) {
             title = args.getString("Title");
-            Log.d("Title",title);
+            Log.d("Title", title);
         }
         return view;
     }
+
     @Override
     public void onResume() {
         super.onResume();
         loadDataLocum();
     }
-    public void loadDataLocum(){
-        FirebaseFirestore dc = FirebaseFirestore.getInstance();
+
+    public void loadDataLocum() {
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
         List<jobitem1> locumJobList = new ArrayList<>();
-        dc.collection("JOB")
+        db.collection("JOB")
+                .orderBy("date", Query.Direction.ASCENDING) // Ensure the date field is in a sortable format
                 .get()
                 .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                     @Override
@@ -55,22 +59,22 @@ public class LocumFragment extends Fragment {
                         if (task.isSuccessful()) {
                             for (QueryDocumentSnapshot document : task.getResult()) {
                                 Map<String, Object> dataMap = document.getData();
-                                String Category = (String) dataMap.get("Job type");
+                                String category = (String) dataMap.get("Job type");
 
-                                if ("Locum".equalsIgnoreCase(Category)) {
-                                    String Organiser = (String) dataMap.get("JOB Organiser");
-                                    String Location = (String) dataMap.get("Location");
+                                if ("Locum".equalsIgnoreCase(category)) {
+                                    String organiser = (String) dataMap.get("JOB Organiser");
+                                    String location = (String) dataMap.get("Location");
                                     String date = (String) dataMap.get("date");
                                     String speciality = (String) dataMap.get("Speciality");
                                     String user = (String) dataMap.get("User");
-                                    String Title = (String) dataMap.get("JOB Title");
-                                    String Documentid = (String) dataMap.get("documentId");
-                                    Log.d("title",speciality);
-                                    int r=title.compareTo(speciality);
+                                    String title = (String) dataMap.get("JOB Title");
+                                    String documentId = (String) dataMap.get("documentId");
+                                    Log.d("Title", speciality);
+                                    int r = title.compareTo(speciality);
 
-                                    if (r==0) {
-                                        jobitem1 c = new jobitem1(speciality, Organiser, Location, date, user, Title, Category,Documentid);
-                                        locumJobList.add(c);
+                                    if (r == 0) {
+                                        jobitem1 job = new jobitem1(speciality, organiser, location, date, user, title, category, documentId);
+                                        locumJobList.add(job);
                                     }
                                 }
                             }

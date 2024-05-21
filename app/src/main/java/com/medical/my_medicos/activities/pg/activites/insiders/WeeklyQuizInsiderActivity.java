@@ -454,7 +454,7 @@ public class WeeklyQuizInsiderActivity extends AppCompatActivity implements Week
             QuizPGinsider quizQuestion = quizQuestions.get(position);
             Log.d("QuestionNavigationAdapter", "Green color at index1" + position + ": " + selectedOptions.get(position));
             if (quizQuestion.isMarkedForReview()) {
-                holder.layout.setBackgroundColor(ContextCompat.getColor(parent.getContext(), R.color.colorPrimary)); // Different color for review
+                holder.layout.setBackgroundColor(ContextCompat.getColor(parent.getContext(), R.color.yellow)); // Different color for review
             } else if (selectedOptions.get(position) != null) {
                 holder.layout.setBackgroundColor(ContextCompat.getColor(parent.getContext(), R.color.green));
             } else {

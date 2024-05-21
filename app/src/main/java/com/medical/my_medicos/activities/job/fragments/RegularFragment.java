@@ -2,7 +2,6 @@ package com.medical.my_medicos.activities.job.fragments;
 
 import static android.content.ContentValues.TAG;
 
-import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -20,6 +19,7 @@ import com.medical.my_medicos.adapter.job.items.jobitem1;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
@@ -27,7 +27,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-public class RegularFragment extends Fragment  {
+public class RegularFragment extends Fragment {
     RecyclerView recyclerView;
     String title;
 
@@ -40,43 +40,44 @@ public class RegularFragment extends Fragment  {
 
         if (args != null) {
             title = args.getString("Title");
-            Log.d("Title",title);
+            Log.d("Title", title);
         }
         return view;
     }
+
     @Override
     public void onResume() {
         super.onResume();
         loadDataRegular();
     }
-    public void loadDataRegular(){
-        FirebaseFirestore dc = FirebaseFirestore.getInstance();
-        List<jobitem1> regularJobList = new ArrayList<jobitem1>();
-        dc.collection("JOB")
+
+    public void loadDataRegular() {
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+        List<jobitem1> regularJobList = new ArrayList<>();
+        db.collection("JOB")
+                .orderBy("date", Query.Direction.ASCENDING) // Ensure the date field is in a sortable format
                 .get()
                 .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                     @Override
                     public void onComplete(@NonNull Task<QuerySnapshot> task) {
-
                         if (task.isSuccessful()) {
                             for (QueryDocumentSnapshot document : task.getResult()) {
-
                                 Map<String, Object> dataMap = document.getData();
-                                String Category = (String) dataMap.get("Job type");
+                                String category = (String) dataMap.get("Job type");
 
-                                if ("Regular".equalsIgnoreCase(Category)) {
-                                    String Organiser = (String) dataMap.get("JOB Organiser");
-                                    String Location = (String) dataMap.get("Location");
+                                if ("Regular".equalsIgnoreCase(category)) {
+                                    String organiser = (String) dataMap.get("JOB Organiser");
+                                    String location = (String) dataMap.get("Location");
                                     String date = (String) dataMap.get("date");
                                     String speciality = (String) dataMap.get("Speciality");
                                     String user = (String) dataMap.get("User");
-                                    String Title = (String) dataMap.get("JOB Title");
-                                    Log.d("title",speciality);
-                                    String Documentid = (String) dataMap.get("documentId");
-                                    int r=title.compareTo(speciality);
-                                    if (r==0) {
-                                        jobitem1 c = new jobitem1(speciality, Organiser, Location, date, user, Title, Category,Documentid);
-                                        regularJobList.add(c);
+                                    String title = (String) dataMap.get("JOB Title");
+                                    Log.d("Title", speciality);
+                                    String documentId = (String) dataMap.get("documentId");
+
+                                    if (title.compareTo(speciality) == 0) {
+                                        jobitem1 job = new jobitem1(speciality, organiser, location, date, user, title, category, documentId);
+                                        regularJobList.add(job);
                                     }
                                 }
                             }

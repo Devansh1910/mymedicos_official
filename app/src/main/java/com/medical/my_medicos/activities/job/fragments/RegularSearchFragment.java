@@ -14,9 +14,8 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.medical.my_medicos.adapter.job.MyAdapter6;
 import com.medical.my_medicos.R;
 import com.medical.my_medicos.adapter.job.items.jobitem1;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
@@ -51,9 +50,10 @@ public class RegularSearchFragment extends Fragment {
 
         List<jobitem1> regularJobList = new ArrayList<>();
 
-        FirebaseFirestore dc = FirebaseFirestore.getInstance();
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
 
-        dc.collection("JOB")
+        db.collection("JOB")
+                .orderBy("date", Query.Direction.ASCENDING) // Ensure the date field is in a sortable format
                 .get()
                 .addOnCompleteListener(task -> {
                     if (task.isSuccessful()) {
@@ -61,25 +61,23 @@ public class RegularSearchFragment extends Fragment {
                             Map<String, Object> dataMap = document.getData();
                             String category = (String) dataMap.get("Job type");
 
-                            // Check if the job type is "Regular" and speciality is "YourSpeciality"
+                            // Check if the job type is "Regular" and speciality matches
                             if ("Regular".equalsIgnoreCase(category)) {
-                                int r = 0;
-                                r = fragmentSpeciality.compareTo((String) dataMap.get("Location"));
-                                if (r == 0) {
+                                String jobSpeciality = (String) dataMap.get("Speciality");
+                                String location = (String) dataMap.get("Location");
+                                if (fragmentSpeciality.equalsIgnoreCase(location)) {
                                     String organiser = (String) dataMap.get("JOB Organiser");
-                                    String location = (String) dataMap.get("Location");
                                     String date = (String) dataMap.get("date");
-                                    String speciality = (String) dataMap.get("Speciality");
                                     String user = (String) dataMap.get("User");
                                     String jobTitle = (String) dataMap.get("JOB Title");
                                     String documentId = (String) dataMap.get("documentId");
-                                    Log.d("title", speciality);
+                                    Log.d("Title", jobSpeciality);
 
                                     // Use case-insensitive contains check
-                                    if (title.toLowerCase().contains(speciality.toLowerCase())
-                                            || speciality.toLowerCase().contains(title.toLowerCase())) {
-                                        jobitem1 c = new jobitem1(speciality, organiser, location, date, user, jobTitle, category, documentId);
-                                        regularJobList.add(c);
+                                    if (title.toLowerCase().contains(jobSpeciality.toLowerCase())
+                                            || jobSpeciality.toLowerCase().contains(title.toLowerCase())) {
+                                        jobitem1 job = new jobitem1(jobSpeciality, organiser, location, date, user, jobTitle, category, documentId);
+                                        regularJobList.add(job);
                                     }
                                 }
                             }
