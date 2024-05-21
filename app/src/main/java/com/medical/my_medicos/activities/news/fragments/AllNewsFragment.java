@@ -2,6 +2,8 @@ package com.medical.my_medicos.activities.news.fragments;
 
 import android.os.Bundle;
 import androidx.fragment.app.Fragment;
+
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -54,6 +56,7 @@ public class AllNewsFragment extends Fragment {
                     if (task.isSuccessful()) {
                         for (QueryDocumentSnapshot document : task.getResult()) {
                             String newsType = document.getString("type");
+                            Log.d("Data of the all ",document.getString("Time"));
                             if ("News".equals(newsType)) {
                                 News newsItem = new News(
                                         document.getId(),

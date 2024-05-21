@@ -103,7 +103,7 @@ public class HomeSideActivity extends AppCompatActivity {
 
             // Retrieve coins
             database.getReference().child("profiles")
-                    .child(currentUid)
+                    .child(phoneNumber)
                     .child("coins")
                     .addValueEventListener(new ValueEventListener() {
                         @Override
@@ -125,7 +125,7 @@ public class HomeSideActivity extends AppCompatActivity {
 
             // Update phone number
             database.getReference().child("profiles")
-                    .child(currentUid)
+                    .child(phoneNumber)
                     .child("phoneNumber")
                     .setValue(phoneNumber)
                     .addOnSuccessListener(new OnSuccessListener<Void>() {

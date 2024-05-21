@@ -3,6 +3,7 @@ package com.medical.my_medicos.activities.news;
 import android.content.Context;
 import android.content.Intent;
 import android.text.Html;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -42,6 +43,7 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.NewsViewHolder
 
         holder.binding.newslabel.setText(news.getLabel());
         holder.binding.timeofnews.setText(news.getFormattedDate());
+        Log.d("Date of news in the format ",news.getFormattedDate());
 
         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.N) {
             holder.binding.newssubject.setText(Html.fromHtml(news.getDescription(), Html.FROM_HTML_MODE_COMPACT));

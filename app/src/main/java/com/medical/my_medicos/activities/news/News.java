@@ -1,6 +1,7 @@
 package com.medical.my_medicos.activities.news;
 
 import android.text.format.DateUtils;
+import android.util.Log;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -14,7 +15,7 @@ public class News {
     private String documentId; // Add this line
     private static final String DATE_FORMAT_PATTERN = "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'";
 
-    public News(String documentId,String label, String thumbnail, String description, String date, String url,String type, String subject) {
+    public News(String documentId,String label, String thumbnail, String description, String subject, String date, String url,String type) {
         this.documentId = documentId; // Add this line
         this.label = label;
         this.thumbnail = thumbnail;
@@ -52,25 +53,26 @@ public class News {
     public String getType() {
         return type;
     }
+    public String getDate(){
+        return date;
+    }
 
 
     public String getFormattedDate() {
         long timestamp = convertStringToTimestamp(date);
 
-        // Get the current time in milliseconds
-        long currentTime = System.currentTimeMillis();
+        // Convert the timestamp to a Date object
+        Date newsDate = new Date(timestamp);
 
-        // Calculate the difference between the current time and the news timestamp
-        long timeDifference = currentTime - timestamp;
+        // Format the Date object as desired (e.g., "11 May 2024")
+        SimpleDateFormat dateFormat = new SimpleDateFormat("dd MMMM yyyy", Locale.getDefault());
+        Log.d("Date of adapter ", String.valueOf(timestamp));
+        Log.d("Date of adapter", String.valueOf(dateFormat));
 
-        // Use DateUtils.getRelativeTimeSpanString to get a human-readable time difference
-        return DateUtils.getRelativeTimeSpanString(
-                timestamp,
-                currentTime,
-                DateUtils.MINUTE_IN_MILLIS,
-                DateUtils.FORMAT_ABBREV_RELATIVE
-        ).toString();
+
+        return dateFormat.format(newsDate);
     }
+
 
     // Helper method to convert the string date to a timestamp
     private long convertStringToTimestamp(String dateString) {

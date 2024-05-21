@@ -251,6 +251,7 @@ public class  NewsActivity extends AppCompatActivity {
                                 SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSX", Locale.US);
                                 Date newsDate = dateFormat.parse(document.getString("Time"));
                                 long newsTime = newsDate.getTime();
+                                Log.d("Date of activity", String.valueOf(newsDate));
                                 if (newsTime >= twentyFourHoursAgo && "News".equals(document.getString("type"))) {
                                     NewsToday newsItemToday = new NewsToday(
                                             document.getId(),
