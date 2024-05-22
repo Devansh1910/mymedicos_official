@@ -1,6 +1,8 @@
 package com.medical.my_medicos.activities.publications.activity;
 
 import android.Manifest;
+import android.app.AlertDialog;
+import android.app.Dialog;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.os.Build;
@@ -8,6 +10,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
@@ -161,7 +164,7 @@ public class DetailsActivity extends AppCompatActivity {
         findViewById(R.id.normalmode).setOnClickListener(view -> toggleFocusMode());
 
         // Set click listener for back functionality
-        backToPreviousImageView.setOnClickListener(view -> finish());
+        backToPreviousImageView.setOnClickListener(view -> showLeaveConfirmationDialog());
     }
 
     private void toggleFocusMode() {
@@ -183,6 +186,15 @@ public class DetailsActivity extends AppCompatActivity {
         isFocusMode = !isFocusMode;
     }
 
+    private void showLeaveConfirmationDialog() {
+        new AlertDialog.Builder(this)
+                .setTitle("Leaving ?")
+                .setMessage("Are you sure you want to leave?")
+                .setPositiveButton("Yes", (dialog, which) -> finish())
+                .setNegativeButton("No", (dialog, which) -> dialog.dismiss())
+                .setCancelable(false)
+                .show();
+    }
     private void updatePageTextViews(int currentPage, int totalPageCount) {
         currentPageTextView.setText(String.format("%02d", currentPage + 1));
         totalPageTextView.setText(String.format("%02d", totalPageCount));

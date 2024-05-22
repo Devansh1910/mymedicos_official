@@ -1,4 +1,3 @@
-<?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
@@ -88,7 +87,6 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"/>
 
-
         <androidx.cardview.widget.CardView
             android:id="@+id/cardviewbottom"
             android:layout_width="match_parent"
@@ -101,39 +99,42 @@
             app:cardElevation="@dimen/_120sdp">
 
             <com.google.android.material.divider.MaterialDivider
+                android:id="@+id/bottombar"
                 android:layout_width="match_parent"
+                android:elevation="@dimen/_50ssp"
                 android:layout_height="wrap_content"
                 app:dividerColor="@color/unselected"/>
 
             <LinearLayout
                 android:layout_width="match_parent"
+                android:elevation="@dimen/_50ssp"
                 android:gravity="center"
                 android:layout_gravity="center_vertical"
                 android:layout_height="match_parent"
                 android:orientation="horizontal">
 
-                    <LinearLayout
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:padding="12dp"
+                    android:layout_height="match_parent"
+                    android:orientation="horizontal">
+
+                    <ImageView
                         android:layout_width="0dp"
                         android:layout_weight="1"
-                        android:padding="12dp"
-                        android:layout_height="match_parent"
-                        android:orientation="horizontal">
+                        android:id="@+id/libicon"
+                        android:layout_height="30dp"
+                        android:src="@drawable/libraryicons"/>
 
-                        <ImageView
-                            android:layout_width="0dp"
-                            android:layout_weight="1"
-                            android:id="@+id/libicon"
-                            android:layout_height="30dp"
-                            android:src="@drawable/libraryicons"/>
+                    <ImageView
+                        android:id="@+id/searchpage"
+                        android:layout_width="0dp"
+                        android:layout_weight="1"
+                        android:layout_height="30dp"
+                        android:src="@drawable/search"/>
 
-                        <ImageView
-                            android:id="@+id/searchpage"
-                            android:layout_width="0dp"
-                            android:layout_weight="1"
-                            android:layout_height="30dp"
-                            android:src="@drawable/search"/>
-
-                    </LinearLayout>
+                </LinearLayout>
 
                 <com.google.android.material.divider.MaterialDivider
                     android:layout_width="0dp"
@@ -141,30 +142,30 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="0.5"/>
 
-                    <LinearLayout
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:padding="12dp"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <ImageView
+                        android:id="@+id/cartpage"
                         android:layout_width="0dp"
                         android:layout_weight="1"
-                        android:padding="12dp"
-                        android:layout_height="wrap_content"
-                        android:orientation="horizontal">
+                        android:layout_height="30dp"
+                        android:src="@drawable/carticon"/>
 
-                        <ImageView
-                            android:id="@+id/cartpage"
-                            android:layout_width="0dp"
-                            android:layout_weight="1"
-                            android:layout_height="30dp"
-                            android:src="@drawable/carticon"/>
-
-                        <ImageView
-                            android:id="@+id/contentpage"
-                            android:layout_width="0dp"
-                            android:layout_weight="1"
-                            android:layout_height="30dp"
-                            android:src="@drawable/contenticobn"/>
-
-                    </LinearLayout>
+                    <ImageView
+                        android:id="@+id/contentpage"
+                        android:layout_width="0dp"
+                        android:layout_weight="1"
+                        android:layout_height="30dp"
+                        android:src="@drawable/contenticobn"/>
 
                 </LinearLayout>
+
+            </LinearLayout>
 
             <com.airbnb.lottie.LottieAnimationView
                 android:id="@+id/robotcall"
@@ -179,7 +180,6 @@
                 app:lottie_loop="true"
                 app:lottie_rawRes="@raw/medrobot"
                 app:lottie_speed="1" />
-
 
         </androidx.cardview.widget.CardView>
 
@@ -235,7 +235,7 @@
                         android:fontFamily="@font/inter"
                         android:textColor="@color/unselected"
                         android:textStyle="bold"
-                        android:text="Greatings!"/>
+                        android:text="Greetings!"/>
 
                     <TextView
                         android:layout_width="match_parent"
