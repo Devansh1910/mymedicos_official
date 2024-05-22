@@ -267,7 +267,7 @@
                                         android:layout_gravity="center"
                                         android:scaleType="centerCrop"
                                         android:elevation="@dimen/_10ssp"
-                                        android:src="@drawable/ug_new" />
+                                        android:src="@drawable/pg_new" />
 
                                     <TextView
                                         android:layout_width="wrap_content"
@@ -290,13 +290,13 @@
                                         android:layout_gravity="center"
                                         android:scaleType="centerCrop"
                                         android:elevation="@dimen/_10ssp"
-                                        android:src="@drawable/pg_new" />
+                                        android:src="@drawable/ug_new" />
 
                                     <TextView
                                         android:layout_width="wrap_content"
                                         android:layout_height="wrap_content"
                                         android:layout_gravity="center"
-                                        android:text="PG Neet"
+                                        android:text="PG NEET"
                                         android:textAlignment="center"
                                         android:textSize="@dimen/_10ssp" />
 
@@ -357,7 +357,7 @@
                                         android:layout_width="wrap_content"
                                         android:layout_height="wrap_content"
                                         android:layout_gravity="center"
-                                        android:text="Neet ss"
+                                        android:text="NEET SS"
                                         android:textSize="@dimen/_10ssp" />
                                 </LinearLayout>
 

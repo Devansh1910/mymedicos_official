@@ -81,7 +81,7 @@
                     android:fontFamily="@font/inter"
                     android:maxLines="3"
                     android:ellipsize="end"
-                    android:textColor="@color/unselected" />
+                    android:textColor="@color/white" />
 
             </LinearLayout>
 

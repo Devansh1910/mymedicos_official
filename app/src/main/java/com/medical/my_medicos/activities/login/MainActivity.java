@@ -80,7 +80,7 @@ public class MainActivity extends AppCompatActivity {
         });
 
         TextView textView2 = findViewById(R.id.textidforquote);
-        String htmlText2 = "<strong>Bharat’s</strong> first premier <strong>medical community</strong> app, connecting healthcare experts seamlessly.";
+        String htmlText2 = "<strong>India’s</strong> first premier <strong>medical community</strong> app, connecting healthcare experts seamlessly.";
         textView2.setText(Html.fromHtml(htmlText2, Html.FROM_HTML_MODE_LEGACY));
 
     }

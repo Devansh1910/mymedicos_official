@@ -19,7 +19,7 @@
         <androidx.appcompat.widget.Toolbar
             android:id="@+id/publicationstoolbar"
             app:title="Genres"
-            app:navigationIcon="@drawable/arrowbackforappbar"
+            app:navigationIcon="@drawable/arrow_bk"
             app:titleTextColor="@color/black"
             app:subtitleTextColor="@color/white"
             app:subtitleTextAppearance="@color/white"

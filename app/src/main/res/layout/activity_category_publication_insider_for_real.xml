@@ -14,20 +14,22 @@
         app:layout_constraintEnd_toEndOf="parent"
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
-        android:background="@color/blue">
+        android:background="@color/white">
 
         <ImageView
             android:id="@+id/backtothemoreactivity"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@drawable/arrow_bkwhite"
+            android:src="@drawable/arrow_bk"
             android:layout_marginEnd="@dimen/_5sdp"
             android:padding="@dimen/_8sdp"/>
 
         <com.mancj.materialsearchbar.MaterialSearchBar
             android:id="@+id/searchBar"
             android:layout_width="match_parent"
-            android:outlineSpotShadowColor="@color/black"
+            android:outlineSpotShadowColor="@color/unselected"
+            android:padding="@dimen/_1ssp"
+            android:background="@color/unselected"
             android:layout_height="wrap_content"
             app:mt_hint="Search your favorite book"
             android:layout_marginEnd="@dimen/_5sdp"

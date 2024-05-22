@@ -74,15 +74,15 @@
                 android:layout_height="wrap_content"
                 android:text="Download"
                 android:layout_marginTop="@dimen/_2sdp"
-                android:paddingVertical="@dimen/_4ssp"
+                android:paddingVertical="@dimen/_5ssp"
                 android:layout_gravity="center"
                 android:gravity="center"
                 android:background="@drawable/downloadslider"
                 android:textSize="16dp"
                 android:textStyle="bold"
-                android:fontFamily="@font/roboto_bold"
+                android:fontFamily="@font/inter_semibold"
                 android:maxLines="1"
-                android:textColor="@color/black" />
+                android:textColor="@color/white" />
         </LinearLayout>
 
     </LinearLayout>

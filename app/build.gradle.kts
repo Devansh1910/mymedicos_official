@@ -15,6 +15,7 @@ android {
         applicationId = "com.medical.my_medicos"
         minSdk = 24
         targetSdk = 34
+        // 69 is for Job ascending update inside the fragment
         versionCode = 69
         versionName = "4.9.0"
 
@@ -141,4 +142,7 @@ dependencies {
     //....Retrofit............
     implementation ("com.squareup.retrofit2:converter-gson:2.11.0")
     implementation ("com.squareup.retrofit2:retrofit:2.11.0")
+    //...Shimmer.............
+    implementation ("com.facebook.shimmer:shimmer:0.1.0@aar")
+
 }

@@ -282,7 +282,7 @@
                                 android:textSize="@dimen/_14sdp"
                                 android:padding="@dimen/_8sdp"
                                 android:visibility="visible"
-                                android:background="@drawable/bkforthelogo"
+                                android:background="@drawable/bkgottheaddtocart"
                                 android:fontFamily="@font/inter_extrabold"
                                 android:layout_gravity="center"
                                 android:gravity="center"

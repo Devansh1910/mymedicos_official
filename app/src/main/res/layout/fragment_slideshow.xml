@@ -38,7 +38,7 @@
                         <com.mancj.materialsearchbar.MaterialSearchBar
                             android:id="@+id/searchBar"
                             android:layout_width="match_parent"
-                            android:background="@color/blue"
+                            android:background="@color/unselected"
                             android:padding="@dimen/_1sdp"
                             android:outlineSpotShadowColor="@color/black"
                             android:layout_height="wrap_content"

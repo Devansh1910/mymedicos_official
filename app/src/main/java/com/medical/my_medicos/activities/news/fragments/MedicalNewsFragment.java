@@ -5,9 +5,12 @@ import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
+
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.airbnb.lottie.LottieAnimationView;
 import com.google.firebase.firestore.Query;
 import com.medical.my_medicos.R;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -21,6 +24,8 @@ public class MedicalNewsFragment extends Fragment {
 
     private ArrayList<News> news;
     private NewsAdapter newsAdapter;
+    private LottieAnimationView loadingAnimation;
+    private LottieAnimationView noDataAnimation;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -30,6 +35,8 @@ public class MedicalNewsFragment extends Fragment {
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        loadingAnimation = view.findViewById(R.id.loading_animation);
+        noDataAnimation = view.findViewById(R.id.no_data_animation);
         initNewsSlider();
     }
 
@@ -45,12 +52,14 @@ public class MedicalNewsFragment extends Fragment {
 
     void getRecentNews() {
         FirebaseFirestore db = FirebaseFirestore.getInstance();
+        loadingAnimation.setVisibility(View.GONE);
         db.collection("MedicalNews")
                 .whereEqualTo("type", "News")
                 .whereEqualTo("tag", "Law in Medicine")
                 .orderBy("Time", Query.Direction.DESCENDING)
                 .get()
                 .addOnCompleteListener(task -> {
+                    loadingAnimation.setVisibility(View.GONE);
                     if (task.isSuccessful()) {
                         for (QueryDocumentSnapshot document : task.getResult()) {
                             News newsItem = new News(
@@ -66,8 +75,12 @@ public class MedicalNewsFragment extends Fragment {
                             news.add(newsItem);
                         }
                         newsAdapter.notifyDataSetChanged();
+                        if (news.isEmpty()) {
+                            noDataAnimation.setVisibility(View.VISIBLE);
+                        }
                     } else {
-                        // Handle the failure
+                        Toast.makeText(requireContext(), "Something went wrong!", Toast.LENGTH_SHORT).show();
+                        noDataAnimation.setVisibility(View.VISIBLE);
                     }
                 });
     }

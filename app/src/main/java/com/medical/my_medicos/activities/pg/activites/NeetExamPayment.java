@@ -64,7 +64,6 @@ public class NeetExamPayment extends AppCompatActivity {
         currentUid =current.getPhoneNumber();
 
         database = FirebaseDatabase.getInstance().getReference();
-        currentUid = FirebaseAuth.getInstance().getUid();
         user_name_dr = findViewById(R.id.currentusernamewillcomehere);
         profilepicture = findViewById(R.id.profilepicture);
         user_email_dr = findViewById(R.id.currentuseremailid);

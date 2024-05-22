@@ -12,9 +12,8 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
-import android.widget.Button;
 import android.widget.ImageView;
-import android.widget.TextView;
+import android.widget.ProgressBar;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -43,12 +42,13 @@ public class NewsDetailedActivity extends AppCompatActivity {
     ActivityNewsDetailedBinding binding;
     News currentNews;
     String documentid;
-    String newstitle,newstype;
+    String newstitle, newstype;
     FirebaseAuth auth = FirebaseAuth.getInstance();
     FirebaseUser user = auth.getCurrentUser();
-    String current=user.getPhoneNumber();
+    String current = user.getPhoneNumber();
     ImageView sharenews;
     String newsId;
+    ProgressBar progressBar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,15 +56,19 @@ public class NewsDetailedActivity extends AppCompatActivity {
         binding = ActivityNewsDetailedBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
+        progressBar = findViewById(R.id.progressBar); // Add this line to find the ProgressBar
+
         String documentId = getIntent().getStringExtra("id");
         String documentId2 = getIntent().getStringExtra("id");
 
         if (documentId != null && !documentId.isEmpty()) {
+            progressBar.setVisibility(View.VISIBLE); // Show loader
             getNewsDetails(documentId);
-        }else{
-            Log.e(TAG,"DocumentId is null or empty");
+        } else {
+            Log.e(TAG, "DocumentId is null or empty");
             documentId2 = getIntent().getStringExtra("newsId");
-            Log.e(documentId2,"print");
+            Log.e(documentId2, "print");
+            progressBar.setVisibility(View.VISIBLE); // Show loader
             getNewsDetails2(documentId2);
         }
 
@@ -99,7 +103,6 @@ public class NewsDetailedActivity extends AppCompatActivity {
         binding.newsTitle.setText(name);
         binding.newsTime.setText(time);
 
-
         // Enable the back button in the toolbar
         setSupportActionBar(binding.newsstoolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -110,13 +113,12 @@ public class NewsDetailedActivity extends AppCompatActivity {
         sharenews.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                createlink(current, documentid, newstitle,newstype);
+                createlink(current, documentid, newstitle, newstype);
             }
         });
 
         handleDeepLink();
     }
-
     public void getNewsDetails(String documentId) {
         FirebaseFirestore db = FirebaseFirestore.getInstance();
 
@@ -124,6 +126,7 @@ public class NewsDetailedActivity extends AppCompatActivity {
                 .document(documentId)
                 .get()
                 .addOnSuccessListener(documentSnapshot -> {
+                    progressBar.setVisibility(View.GONE); // Hide loader
                     if (documentSnapshot.exists()) {
                         String description = documentSnapshot.getString("Description");
 
@@ -138,7 +141,6 @@ public class NewsDetailedActivity extends AppCompatActivity {
                         String subject = documentSnapshot.getString("subject");
                         String thumbnail = documentSnapshot.getString("thumbnail");
                         String type = documentSnapshot.getString("type");
-
 
                         documentid = documentSnapshot.getId();
                         newstitle = documentSnapshot.getString("Title");
@@ -181,10 +183,11 @@ public class NewsDetailedActivity extends AppCompatActivity {
                     }
                 })
                 .addOnFailureListener(e -> {
+                    progressBar.setVisibility(View.GONE); // Hide loader in case of failure
                     // Handle the error
                     Log.e(TAG, "Error fetching news details for name: " + documentId, e);
                 });
-    }
+        }
     void getNewsDetails2(String documentId2) {
         FirebaseFirestore db = FirebaseFirestore.getInstance();
 
@@ -192,12 +195,13 @@ public class NewsDetailedActivity extends AppCompatActivity {
                 .document(documentId2)
                 .get()
                 .addOnSuccessListener(documentSnapshot -> {
+                    progressBar.setVisibility(View.GONE); // Hide loader
                     if (documentSnapshot.exists()) {
                         String description = documentSnapshot.getString("Description");
                         String time = documentSnapshot.getString("Time"); // Example format: "2024-03-12T09:45:00.458Z"
                         String url = documentSnapshot.getString("URL");
                         String thumbnail = documentSnapshot.getString("thumbnail");
-                        String subject = documentSnapshot .getString("subject");
+                        String subject = documentSnapshot.getString("subject");
                         String type = documentSnapshot.getString("type");
                         documentid = documentSnapshot.getId();
                         newstitle = documentSnapshot.getString("Title");
@@ -239,98 +243,99 @@ public class NewsDetailedActivity extends AppCompatActivity {
                         Log.e(TAG, "No such document with name: " + documentId2);
                     }
                 })
-                .addOnFailureListener(e -> Log.e(TAG, "Error fetching news details for name: " + documentId2, e));
+                .addOnFailureListener(e -> {
+                    progressBar.setVisibility(View.GONE); // Hide loader in case of failure
+                    Log.e(TAG, "Error fetching news details for name: " + documentId2, e);
+                });
     }
     private void openUrlInBrowser(String url) {
-        Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
-        startActivity(intent);
-    }
-
-    public void createlink(String custid, String newsId,String newstitle, String newsdescription){
-        Log.e("main","create link");
-
-        DynamicLink dynamicLink = FirebaseDynamicLinks.getInstance().createDynamicLink()
-                .setLink(Uri.parse("https://www.mymedicos.in/newsdetails?custid=" + custid + "&newsId=" + newsId))
-                .setDomainUriPrefix("https://app.mymedicos.in")
-                .setAndroidParameters(new DynamicLink.AndroidParameters.Builder().build())
-                .setIosParameters(new DynamicLink.IosParameters.Builder("com.example.ios").build())
-                .buildDynamicLink();
-
-        Uri dynamicLinkUri = dynamicLink.getUri();
-        Log.e("main"," Long refer "+ dynamicLink.getUri());
-
-        createreferlink(custid, newsId);
-    }
-    public void createreferlink(String custid, String newsId) {
-        FirebaseFirestore db = FirebaseFirestore.getInstance();
-        DocumentReference docRef = db.collection("MedicalNews").document(newsId);
-
-        docRef.get().addOnSuccessListener(documentSnapshot -> {
-            if (documentSnapshot.exists()) {
-                String newsTitle = documentSnapshot.getString("Title");
-                String newsThumbnail = documentSnapshot.getString("thumbnail");
-
-                String encodedNewsTitle = encode(newsTitle);
-                String encodedNewsThumbnail = encode(newsThumbnail); // Assuming you want to include this in the URL for some reason
-
-                // The shared text format
-                String sharelinktext = newsTitle + "\n\n For entire detail visit: " +
-                        "https://app.mymedicos.in/?" +
-                        "link=http://www.mymedicos.in/newsdetails?newsId=" + newsId +
-                        "&st=" + encodedNewsTitle +
-                        "&apn=" + getPackageName() +
-                        "&si=" + encodedNewsThumbnail; // This will not make the thumbnail appear in the share text directly
-
-                Log.e("NewsDetailedActivity", "Sharelink - " + sharelinktext);
-
-                Intent intent = new Intent();
-                intent.setAction(Intent.ACTION_SEND);
-                intent.putExtra(Intent.EXTRA_TEXT, sharelinktext);
-                intent.setType("text/plain");
-                startActivity(intent);
-
-            } else {
-                Log.e(TAG, "No such document with documentId: " + newsId);
-            }
-        }).addOnFailureListener(e -> {
-            Log.e(TAG, "Error fetching news details for documentId: " + newsId, e);
-        });
-    }
-    private String encode(String s) {
-        try {
-            return URLEncoder.encode(s, StandardCharsets.UTF_8.toString());
-        } catch (UnsupportedEncodingException e) {
-            return URLEncoder.encode(s);
+            Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
+            startActivity(intent);
         }
-    }
-    private void handleDeepLink() {
-        FirebaseDynamicLinks.getInstance().getDynamicLink(getIntent())
-                .addOnSuccessListener(this, pendingDynamicLinkData -> {
-                    if (pendingDynamicLinkData != null) {
-                        Uri deepLink = pendingDynamicLinkData.getLink();
-                        if (deepLink != null) {
-                            String newsId = deepLink.getQueryParameter("newsId");
-                            Intent intent = getIntent();
-                            intent.putExtra("newsId", newsId);
-                            setIntent(intent);
-                        }
-                    }
-                })
-                .addOnFailureListener(this, e -> Log.w("DeepLink", "getDynamicLink:onFailure", e));
-    }
+    public void createlink(String custid, String newsId, String newstitle, String newsdescription) {
+            Log.e("main", "create link");
 
+            DynamicLink dynamicLink = FirebaseDynamicLinks.getInstance().createDynamicLink()
+                    .setLink(Uri.parse("https://www.mymedicos.in/newsdetails?custid=" + custid + "&newsId=" + newsId))
+                    .setDomainUriPrefix("https://app.mymedicos.in")
+                    .setAndroidParameters(new DynamicLink.AndroidParameters.Builder().build())
+                    .setIosParameters(new DynamicLink.IosParameters.Builder("com.example.ios").build())
+                    .buildDynamicLink();
+
+            Uri dynamicLinkUri = dynamicLink.getUri();
+            Log.e("main", " Long refer " + dynamicLink.getUri());
+
+            createreferlink(custid, newsId);
+        }
+    public void createreferlink(String custid, String newsId) {
+            FirebaseFirestore db = FirebaseFirestore.getInstance();
+            DocumentReference docRef = db.collection("MedicalNews").document(newsId);
+
+            docRef.get().addOnSuccessListener(documentSnapshot -> {
+                if (documentSnapshot.exists()) {
+                    String newsTitle = documentSnapshot.getString("Title");
+                    String newsThumbnail = documentSnapshot.getString("thumbnail");
+
+                    String encodedNewsTitle = encode(newsTitle);
+                    String encodedNewsThumbnail = encode(newsThumbnail); // Assuming you want to include this in the URL for some reason
+
+                    // The shared text format
+                    String sharelinktext = newsTitle + "\n\n For entire detail visit: " +
+                            "https://app.mymedicos.in/?" +
+                            "link=http://www.mymedicos.in/newsdetails?newsId=" + newsId +
+                            "&st=" + encodedNewsTitle +
+                            "&apn=" + getPackageName() +
+                            "&si=" + encodedNewsThumbnail; // This will not make the thumbnail appear in the share text directly
+
+                    Log.e("NewsDetailedActivity", "Sharelink - " + sharelinktext);
+
+                    Intent intent = new Intent();
+                    intent.setAction(Intent.ACTION_SEND);
+                    intent.putExtra(Intent.EXTRA_TEXT, sharelinktext);
+                    intent.setType("text/plain");
+                    startActivity(intent);
+
+                } else {
+                    Log.e(TAG, "No such document with documentId: " + newsId);
+                }
+            }).addOnFailureListener(e -> {
+                Log.e(TAG, "Error fetching news details for documentId: " + newsId, e);
+            });
+        }
+    private String encode(String s) {
+            try {
+                return URLEncoder.encode(s, StandardCharsets.UTF_8.toString());
+            } catch (UnsupportedEncodingException e) {
+                return URLEncoder.encode(s);
+            }
+        }
+    private void handleDeepLink() {
+            FirebaseDynamicLinks.getInstance().getDynamicLink(getIntent())
+                    .addOnSuccessListener(this, pendingDynamicLinkData -> {
+                        if (pendingDynamicLinkData != null) {
+                            Uri deepLink = pendingDynamicLinkData.getLink();
+                            if (deepLink != null) {
+                                String newsId = deepLink.getQueryParameter("newsId");
+                                Intent intent = getIntent();
+                                intent.putExtra("newsId", newsId);
+                                setIntent(intent);
+                            }
+                        }
+                    })
+                    .addOnFailureListener(this, e -> Log.w("DeepLink", "getDynamicLink:onFailure", e));
+        }
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-        if (item.getItemId() == android.R.id.home) {
-            onBackPressed();
-            return true;
+            if (item.getItemId() == android.R.id.home) {
+                onBackPressed();
+                return true;
+            }
+            return super.onOptionsItemSelected(item);
         }
-        return super.onOptionsItemSelected(item);
-    }
-
     @Override
     public boolean onSupportNavigateUp() {
-        finish();
-        return super.onSupportNavigateUp();
-    }
+            finish();
+            return super.onSupportNavigateUp();
+        }
+
 }

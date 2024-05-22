@@ -291,7 +291,7 @@
                         android:id="@+id/timelineduration"
                         android:layout_width="wrap_content"
                         android:paddingHorizontal="@dimen/_25sdp"
-                        android:background="@drawable/categorydark"
+                        android:background="@drawable/btnbg"
                         android:layout_height="match_parent"
                         android:paddingVertical="@dimen/_10sdp"/>
 
@@ -335,14 +335,15 @@
                         android:layout_weight="0.5"
                         android:layout_height="match_parent"
                         android:paddingHorizontal="@dimen/_10ssp"
-                        android:textStyle="bold"
+                        android:textStyle="normal"
+                        android:fontFamily="@font/inter_semibold"
                         android:paddingVertical="@dimen/_10ssp"
                         android:gravity="center"
                         android:textSize="@dimen/_12ssp"
                         android:text="Select"
-                        android:background="@drawable/categorydark"
+                        android:background="@drawable/btnbg"
                         app:layout_constraintEnd_toEndOf="parent"
-                        android:textColor="#FFFFFF"/>
+                        android:textColor="@color/unselected"/>
 
                 </LinearLayout>
 
@@ -465,9 +466,10 @@
                         android:gravity="center"
                         android:textSize="@dimen/_12ssp"
                         android:text="Upload"
-                        android:background="@drawable/categorydark"
+                        android:fontFamily="@font/inter_semibold"
+                        android:background="@drawable/btnbg"
                         app:layout_constraintEnd_toEndOf="parent"
-                        android:textColor="#FFFFFF"/>
+                        android:textColor="@color/unselected"/>
 
                 </LinearLayout>
 

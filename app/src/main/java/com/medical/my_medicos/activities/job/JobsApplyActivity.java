@@ -56,7 +56,7 @@ public class JobsApplyActivity extends AppCompatActivity {
     FirebaseAuth auth = FirebaseAuth.getInstance();
     FirebaseUser user = auth.getCurrentUser();
     String current = user.getPhoneNumber();
-    String field3,field4;
+    String field3,field4,field5;
     private Uri pdfData;
     static final int REQ = 1;
     private DatabaseReference databasereference;
@@ -66,7 +66,7 @@ public class JobsApplyActivity extends AppCompatActivity {
     private ProgressDialog pd;
     private String pdfName;
 
-    EditText applicantname, jobage, jobcover;
+    EditText applicantname, jobage, jobcover, jobemail;
     Button applyjob;
 
     Spinner jobgender;
@@ -115,6 +115,7 @@ public class JobsApplyActivity extends AppCompatActivity {
         });
 
         applicantname = findViewById(R.id.name);
+        jobemail = findViewById(R.id.Email);
         jobage = findViewById(R.id.Age);
         jobgender = findViewById(R.id.genderapplicant);
         jobcover = findViewById(R.id.cover);
@@ -170,7 +171,11 @@ public class JobsApplyActivity extends AppCompatActivity {
                         if (r==0){
                             field4 = ((String) dataMap.get("Name"));
                             Log.d("Issue in Fetching the name...",field4);
+                            field5 = ((String) dataMap.get("Email ID"));
+                            Log.d("Issue in Fetching the name...",field5);
                             applicantname.setText(field4);
+                            jobemail.setText(field5);
+
                         }
                     }
                 } else {
@@ -183,6 +188,9 @@ public class JobsApplyActivity extends AppCompatActivity {
         applicantname.setTextColor(Color.parseColor("#80000000"));
         applicantname.setBackgroundResource(R.drawable.rounded_edittext_background);
 
+        jobemail.setEnabled(false);
+        jobemail.setTextColor(Color.parseColor("#80000000"));
+        jobemail.setBackgroundResource(R.drawable.rounded_edittext_background);
 
 
         applyjob = findViewById(R.id.post_btn2);
@@ -302,6 +310,10 @@ public class JobsApplyActivity extends AppCompatActivity {
             applicantname.setError("Applicant Name Required");
             return;
         }
+        if (TextUtils.isEmpty(field5)) {
+            jobemail.setError("Email Required");
+            return;
+        }
         if (TextUtils.isEmpty(age)) {
             jobage.setError("Age Required");
             return;
@@ -313,6 +325,7 @@ public class JobsApplyActivity extends AppCompatActivity {
 
         HashMap<String, Object> usermap = new HashMap<>();
         usermap.put("Full name", field4);
+        usermap.put("Email ID", field5);
         usermap.put("Age", age);
         usermap.put("Gender", gender);
         usermap.put("cover", cover);

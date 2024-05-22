@@ -172,7 +172,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_margin="10dp"
-                        android:background="@drawable/spinner_back"
+                        android:background="@drawable/sahrebkforprod"
                         android:ems="10"
                         android:hint="Additional Comments"
                         android:inputType="textPersonName"
@@ -217,13 +217,20 @@
                 </LinearLayout>
             </androidx.cardview.widget.CardView>
 
-            <Button
+            <TextView
                 android:id="@+id/checkoutBtn"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                android:backgroundTint="@color/green"
-                android:text="Process Checkout" />
+                android:layout_marginBottom="@dimen/_10sdp"
+                android:textColor="@color/white"
+                android:textSize="@dimen/_14sdp"
+                android:padding="@dimen/_10sdp"
+                android:background="@color/unselected"
+                android:fontFamily="@font/inter"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:text="Proceed to Checkout"/>
+
         </LinearLayout>
     </androidx.core.widget.NestedScrollView>
 </LinearLayout>

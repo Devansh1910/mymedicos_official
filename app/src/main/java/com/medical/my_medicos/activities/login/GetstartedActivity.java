@@ -67,7 +67,7 @@ public class GetstartedActivity extends AppCompatActivity {
         parttoshow.setVisibility(View.GONE);
 
         TextView textView = findViewById(R.id.textforcoats);
-        String htmlText = "<strong>Bharat’s</strong> first premier <strong>medical community</strong> app, connecting healthcare experts seamlessly.";
+        String htmlText = "<strong>Revolutionizing Care :<strong>Your Trusted Medical Hub";
         textView.setText(Html.fromHtml(htmlText, Html.FROM_HTML_MODE_LEGACY));
 
         TextView textView1 = findViewById(R.id.help_support);
