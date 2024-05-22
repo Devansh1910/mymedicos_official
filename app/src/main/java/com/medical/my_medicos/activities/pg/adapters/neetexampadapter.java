@@ -123,17 +123,10 @@ public class neetexampadapter extends RecyclerView.Adapter<neetexampadapter.Neet
 
     private void handleOptionClick(NeetQuizQuestionViewHolder holder, String selectedOption) {
         if (isOptionSelectionEnabled) {
-            // Check if the clicked option is already selected
             Neetpg quizquestion = quizquestionsweekly.get(holder.getAdapterPosition());
             String currentSelectedOption = quizquestion.getSelectedOption();
             if (interactionListener != null) {
-
-                Log.d("BottomSheetFragment 7","Intercation Listener"+String.valueOf(this.currentQuestionIndex));
                 interactionListener.onOptionSelected(this.currentQuestionIndex, selectedOption);
-            }
-            else {
-                interactionListener.onOptionSelected(this.currentQuestionIndex, "Skip");
-
             }
             if (currentSelectedOption != null && currentSelectedOption.equals(selectedOption)) {
                 resetOptionStyle(holder);
@@ -142,6 +135,9 @@ public class neetexampadapter extends RecyclerView.Adapter<neetexampadapter.Neet
                 resetOptionStyle(holder);
                 setOptionSelectedStyle(holder, selectedOption);
                 quizquestion.setSelectedOption(selectedOption);
+            }
+            if (interactionListener != null) {
+                interactionListener.onOptionSelected(holder.getAdapterPosition(), quizquestion.getSelectedOption());
             }
         }
     }

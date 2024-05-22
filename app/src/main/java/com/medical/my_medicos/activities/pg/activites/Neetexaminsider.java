@@ -159,7 +159,6 @@ public class Neetexaminsider extends AppCompatActivity implements neetexampadapt
             recyclerView.smoothScrollToPosition(currentQuestionIndex);
             updateQuestionNumber();
             adapter.setcurrentquestionindex(currentQuestionIndex);
-            Log.d("vskjdbkjbvdsb", String.valueOf(currentQuestionIndex));
             adapter.setSelectedOption(selectedOptionsList.get(currentQuestionIndex));
             markForReviewCheckBox.setOnCheckedChangeListener(null);
             if (currentQuestionIndex < quizList1.size()) {
@@ -185,6 +184,7 @@ public class Neetexaminsider extends AppCompatActivity implements neetexampadapt
         }
         refreshNavigationGrid();
     }
+
 
     public void refreshNavigationGrid() {
         Fragment fragment = getSupportFragmentManager().findFragmentByTag("QuestionNavigator");
@@ -335,8 +335,8 @@ public class Neetexaminsider extends AppCompatActivity implements neetexampadapt
         private TextView unansweredCount;
         private TextView notVisitedCount;
 
-        public static Neetexaminsider.QuestionBottomSheetDialogFragment newInstance(ArrayList<String> selectedOptionsList, ArrayList<Neetpg> quizQuestions) {
-            Neetexaminsider.QuestionBottomSheetDialogFragment fragment = new Neetexaminsider.QuestionBottomSheetDialogFragment();
+        public static QuestionBottomSheetDialogFragment newInstance(ArrayList<String> selectedOptionsList, ArrayList<Neetpg> quizQuestions) {
+            QuestionBottomSheetDialogFragment fragment = new QuestionBottomSheetDialogFragment();
             Bundle args = new Bundle();
             args.putStringArrayList("selectedOptionsList", selectedOptionsList);
             args.putSerializable("quizQuestions", quizQuestions);
@@ -374,7 +374,7 @@ public class Neetexaminsider extends AppCompatActivity implements neetexampadapt
 
         private void updateQuestionCounts(ArrayList<String> selectedOptionsList) {
             int answered = 0;
-            int unanswered = -1;
+            int unanswered = 0;
             int notVisited = 0;
 
             for (String option : selectedOptionsList) {
@@ -392,6 +392,7 @@ public class Neetexaminsider extends AppCompatActivity implements neetexampadapt
             notVisitedCount.setText(String.valueOf(notVisited));
         }
     }
+
 
     public static class QuestionNavigationAdapter extends BaseAdapter {
         private final int itemCount;
@@ -437,7 +438,7 @@ public class Neetexaminsider extends AppCompatActivity implements neetexampadapt
             Neetpg quizQuestion = quizQuestions.get(position);
             if (quizQuestion.isMarkedForReview()) {
                 holder.layout.setBackgroundColor(ContextCompat.getColor(parent.getContext(), R.color.yellow)); // Different color for review
-            } else if (selectedOptions.get(position) != null) {
+            } else if (selectedOptions.get(position) != null && selectedOptions.get(position).compareTo("Skip")!=0) {
                 holder.layout.setBackgroundColor(ContextCompat.getColor(parent.getContext(), R.color.green));
             } else {
                 holder.layout.setBackgroundColor(ContextCompat.getColor(parent.getContext(), R.color.grey));
@@ -459,4 +460,5 @@ public class Neetexaminsider extends AppCompatActivity implements neetexampadapt
             void onItemClick(int position);
         }
     }
+
 }

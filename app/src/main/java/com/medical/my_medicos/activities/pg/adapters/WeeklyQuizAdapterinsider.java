@@ -170,30 +170,29 @@
         }
 
 
-        private void handleOptionClick(WeeklyQuizQuestionViewHolder holder, String selectedOption) {
+        private void handleOptionClick(WeeklyQuizQuestionViewHolder holder, String option) {
             if (isOptionSelectionEnabled) {
-                if (selectedOption == null || selectedOption.isEmpty()) {
-                    QuizPGinsider quizquestion = quizquestionsweekly.get(0);
+                QuizPGinsider quizquestion = quizquestionsweekly.get(0);
+                String selectedOption = quizquestion.getSelectedOption();
+
+                // Check if the clicked option is the same as the currently selected one
+                if (option.equals(selectedOption)) {
+                    // Deselect the option
+                    quizquestion.setSelectedOption(null);
                     resetOptionStyle(holder);
-                    return;
+                } else {
+                    // Select the new option
+                    quizquestion.setSelectedOption(option);
+                    resetOptionStyle(holder);
+                    setOptionSelectedStyle(holder, option);
                 }
 
-                resetOptionStyle(holder);
-                setOptionSelectedStyle(holder, selectedOption);
-
-                QuizPGinsider quizquestion = quizquestionsweekly.get(0);
-                quizquestion.setSelectedOption(selectedOption);
-                quizquestion.setSelected(true);
-
-                // Notify the activity that an option has been selected
+                // Notify the activity that an option has been selected or deselected
                 if (interactionListener != null) {
-
-                    Log.d("BottomSheetFragment 7","Intercation Listener"+String.valueOf(this.currentQuestionIndex));
-                    interactionListener.onOptionSelected(this.currentQuestionIndex, selectedOption);
+                    interactionListener.onOptionSelected(currentQuestionIndex, quizquestion.getSelectedOption());
                 }
             }
         }
-
 
     //    public void refreshNavigationGrid() {
     //        Fragment fragment = getSupportFragmentManager().findFragmentByTag("QuestionNavigator");

@@ -159,40 +159,18 @@ public class WeeklyQuizInsiderActivity extends AppCompatActivity implements Week
         }
     }
 
-    private void loadPreviousQuestion() {
-        if (!selectedOptionsList.isEmpty()) {
-            if (currentQuestionIndex > 0) {
-                currentQuestionIndex--;
-                adapter.setQuizQuestions(Collections.singletonList(copy.get(currentQuestionIndex)));
-                adapter.setSelectedOption(selectedOptionsList.get(currentQuestionIndex));
-                recyclerView.smoothScrollToPosition(currentQuestionIndex);
-                adapter.setcurrentquestionindex(currentQuestionIndex);
-                updateQuestionNumber();
-                markForReviewCheckBox.setOnCheckedChangeListener(null);
-                markForReviewCheckBox.setChecked(copy.get(currentQuestionIndex).isMarkedForReview());
-                markForReviewCheckBox.setOnCheckedChangeListener((buttonView, isChecked) -> {
-                    QuizPGinsider currentQuestion = copy.get(currentQuestionIndex);
-                    currentQuestion.setMarkedForReview(isChecked);
-                    refreshNavigationGrid();
-                });
-            } else {
-                Toast.makeText(this, "This is the first question", Toast.LENGTH_SHORT).show();
-            }
-        } else {
-            Toast.makeText(this, "No selected options available", Toast.LENGTH_SHORT).show();
-        }
-    }
+
 
     @Override
     public void onOptionSelected(int questionIndex, String selectedOption) {
-        selectedOptionsList.set(questionIndex, selectedOption);
-        Log.d("BottomSheetFragment", "Selected options list size: " + selectedOptionsList.size());
-        for (int i = 0; i < selectedOptionsList.size(); i++) {
-            Log.d("BottomSheetFragment 5", "Index " + i + ": " + selectedOptionsList.get(i));
+        if (selectedOption == null || selectedOption.isEmpty()) {
+            selectedOptionsList.set(questionIndex, "Skip");
+        } else {
+            selectedOptionsList.set(questionIndex, selectedOption);
         }
-        Log.d("WeeklyQuizInsiderActivity", "Selected option at index " + questionIndex + ": " + selectedOption);
         refreshNavigationGrid();
     }
+
 
     public void refreshNavigationGrid() {
         Fragment fragment = getSupportFragmentManager().findFragmentByTag("QuestionNavigator");
@@ -270,6 +248,30 @@ public class WeeklyQuizInsiderActivity extends AppCompatActivity implements Week
                 Log.d("QuizPGinsider", "Question " + (i + 1) + ": " + quizQuestion.getQuestion());
             }
             showEndQuizConfirmation();
+        }
+    }
+
+    private void loadPreviousQuestion() {
+        if (!selectedOptionsList.isEmpty()) {
+            if (currentQuestionIndex > 0) {
+                currentQuestionIndex--;
+                adapter.setQuizQuestions(Collections.singletonList(copy.get(currentQuestionIndex)));
+                adapter.setSelectedOption(selectedOptionsList.get(currentQuestionIndex));
+                recyclerView.smoothScrollToPosition(currentQuestionIndex);
+                adapter.setcurrentquestionindex(currentQuestionIndex);
+                updateQuestionNumber();
+                markForReviewCheckBox.setOnCheckedChangeListener(null);
+                markForReviewCheckBox.setChecked(copy.get(currentQuestionIndex).isMarkedForReview());
+                markForReviewCheckBox.setOnCheckedChangeListener((buttonView, isChecked) -> {
+                    QuizPGinsider currentQuestion = copy.get(currentQuestionIndex);
+                    currentQuestion.setMarkedForReview(isChecked);
+                    refreshNavigationGrid();
+                });
+            } else {
+                Toast.makeText(this, "This is the first question", Toast.LENGTH_SHORT).show();
+            }
+        } else {
+            Toast.makeText(this, "No selected options available", Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -408,7 +410,7 @@ public class WeeklyQuizInsiderActivity extends AppCompatActivity implements Week
 
         private void updateCounts(ArrayList<String> selectedOptions, ArrayList<QuizPGinsider> quizQuestions) {
             int answeredCount = 0;
-            int unansweredCount = -1;
+            int unansweredCount = 0;
             int notVisitedCount = 0;
 
             for (int i = 0; i < quizQuestions.size(); i++) {
@@ -436,11 +438,12 @@ public class WeeklyQuizInsiderActivity extends AppCompatActivity implements Week
         }
     }
 
+
     public static class QuestionNavigationAdapter extends BaseAdapter {
         private final int itemCount;
         private List<String> selectedOptions;
         private final OnItemClickListener listener;
-        private List<QuizPGinsider> quizQuestions;
+        private final List<QuizPGinsider> quizQuestions;
 
         public QuestionNavigationAdapter(int itemCount, List<String> selectedOptions, List<QuizPGinsider> quizQuestions, OnItemClickListener listener) {
             this.itemCount = itemCount;
@@ -478,10 +481,9 @@ public class WeeklyQuizInsiderActivity extends AppCompatActivity implements Week
             }
             holder.textView.setText(String.valueOf(position + 1));
             QuizPGinsider quizQuestion = quizQuestions.get(position);
-            Log.d("QuestionNavigationAdapter", "Green color at index1" + position + ": " + selectedOptions.get(position));
             if (quizQuestion.isMarkedForReview()) {
                 holder.layout.setBackgroundColor(ContextCompat.getColor(parent.getContext(), R.color.yellow)); // Different color for review
-            } else if (selectedOptions.get(position) != null) {
+            } else if (selectedOptions.get(position) != null && selectedOptions.get(position).compareTo("Skip")!=0) {
                 holder.layout.setBackgroundColor(ContextCompat.getColor(parent.getContext(), R.color.green));
             } else {
                 holder.layout.setBackgroundColor(ContextCompat.getColor(parent.getContext(), R.color.grey));
@@ -507,4 +509,5 @@ public class WeeklyQuizInsiderActivity extends AppCompatActivity implements Week
             void onItemClick(int position);
         }
     }
+
 }
