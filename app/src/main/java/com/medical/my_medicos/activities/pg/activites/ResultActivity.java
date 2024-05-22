@@ -73,6 +73,8 @@ public class ResultActivity extends AppCompatActivity {
         Intent intent = getIntent();
         ArrayList<QuizPGinsider> questions = (ArrayList<QuizPGinsider>) intent.getSerializableExtra("questions");
         String id = intent.getStringExtra("id");
+        String skipped = intent.getStringExtra("skippedQuestions");
+        String remainingTime = intent.getStringExtra("remainingTime");
 
         resultAdapter = new ResultReportAdapter(this, questions);
         resultRecyclerView.setAdapter(resultAdapter);
@@ -83,11 +85,11 @@ public class ResultActivity extends AppCompatActivity {
         Log.d("Correct Answer", String.valueOf(totalQuestions));
 
         int score = calculateScore(questions);
-        result.setText(String.valueOf(score));
+        result.setText(String.valueOf(score+skipped));
 
         correctAnswersTextView.setText("" + correctAnswers);
         totalQuestionsTextView.setText("" + totalQuestions);
-        uploadResultsToFirestore(correctAnswers, totalQuestions, null,id);
+        uploadResultsToFirestore(correctAnswers, totalQuestions, remainingTime,id);
 
         double percentage = ((double) score / (totalQuestions * 4)) * 100;
 
@@ -143,7 +145,7 @@ public class ResultActivity extends AppCompatActivity {
     private void uploadResultsToFirestore(int correctAnswers, int totalQuestions, String remainingTime, String id) {
         FirebaseUser user = auth.getCurrentUser();
         if (user != null) {
-            String userId = user.getUid();
+            String userId = user.getPhoneNumber();
             DocumentReference userDocumentRef = db.collection("QuizResults").document(userId);
             CollectionReference idSubcollectionRef = userDocumentRef.collection("Weekley");
             if (id!=null) {

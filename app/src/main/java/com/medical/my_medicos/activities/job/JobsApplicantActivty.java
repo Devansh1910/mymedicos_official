@@ -107,7 +107,7 @@ public class JobsApplicantActivty extends AppCompatActivity {
 
 
                                 if (r==0) {
-                                    jobitem c = new jobitem(user, Organiser, Location, date, Title, pdf,Documentid);
+                                    jobitem c = new jobitem(user, Organiser, Location, date, Title, pdf,Documentid,user);
                                     locumJobList.add(c);
                                     recyclerView.setLayoutManager(new LinearLayoutManager(getApplication(), LinearLayoutManager.VERTICAL, false));
                                     recyclerView.setAdapter(new AdapterforApplicants(getApplication(), locumJobList));

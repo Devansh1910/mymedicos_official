@@ -4,9 +4,9 @@ public class jobitem {
 
     String position,speciality,Location,Organiser,date;
     String hospital;
-    String location,title,category,documentid;
+    String location,title,category,documentid,User;
 
-    public jobitem(String position, String hospital, String location,String date,String title,String category,String documentid) {
+    public jobitem(String position, String hospital, String location,String date,String title,String category,String documentid,String User) {
 
         this.position = position;
         this.hospital = hospital;
@@ -15,6 +15,7 @@ public class jobitem {
         this.title=title;
         this.documentid=documentid;
         this.category= category;
+        this.User=User;
 
     }
 
@@ -54,6 +55,11 @@ public class jobitem {
     public String getCategory() {
         return category;
     }
+
+    public String getUser() {
+        return User;
+    }
+
 
     public void setCategory(String category) {
         this.category = category;

@@ -36,7 +36,6 @@ import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.medical.my_medicos.R;
 import com.medical.my_medicos.activities.pg.activites.ResultActivityNeet;
-
 import com.medical.my_medicos.activities.pg.adapters.neetexampadapter;
 import com.medical.my_medicos.activities.pg.model.Neetpg;
 
@@ -140,7 +139,6 @@ public class Neetexaminsider extends AppCompatActivity implements neetexampadapt
     }
 
     private void configureWindow() {
-//        getWindow().setFlags(WindowManager.LayoutParams.FLAG_SECURE, WindowManager.LayoutParams.FLAG_SECURE);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             Window window = getWindow();
             window.setStatusBarColor(ContextCompat.getColor(this, R.color.backgroundcolor));
@@ -152,6 +150,11 @@ public class Neetexaminsider extends AppCompatActivity implements neetexampadapt
 
     private void loadNextQuestion() {
         if (currentQuestionIndex < quizList1.size()) {
+            // Check if the selected option at the current index is null
+            if (selectedOptionsList.get(currentQuestionIndex) == null) {
+                onOptionSelected(currentQuestionIndex, "Skip");
+            }
+
             adapter.setQuizQuestions(Collections.singletonList(quizList1.get(currentQuestionIndex)));
             recyclerView.smoothScrollToPosition(currentQuestionIndex);
             updateQuestionNumber();
@@ -160,13 +163,9 @@ public class Neetexaminsider extends AppCompatActivity implements neetexampadapt
             adapter.setSelectedOption(selectedOptionsList.get(currentQuestionIndex));
             markForReviewCheckBox.setOnCheckedChangeListener(null);
             if (currentQuestionIndex < quizList1.size()) {
-                Log.d("vskjdbkjbvdsb", String.valueOf(currentQuestionIndex));
-
                 markForReviewCheckBox.setChecked(quizList1.get(currentQuestionIndex).isMarkedForReview());
-                Log.d("vskjdbkjbvdsb", String.valueOf(currentQuestionIndex));
                 markForReviewCheckBox.setOnCheckedChangeListener((buttonView, isChecked) -> {
-                    Neetpg currentQuestion = quizList1.get(currentQuestionIndex - 1);
-                    Log.d("vskjdbkjbvdsb", String.valueOf(currentQuestionIndex));
+                    Neetpg currentQuestion = quizList1.get(currentQuestionIndex);
                     currentQuestion.setMarkedForReview(isChecked);
                     refreshNavigationGrid();
                 });
@@ -175,6 +174,16 @@ public class Neetexaminsider extends AppCompatActivity implements neetexampadapt
         } else {
             showEndQuizConfirmation();
         }
+    }
+
+    @Override
+    public void onOptionSelected(int questionIndex, String selectedOption) {
+        if (selectedOption == null || selectedOption.isEmpty()) {
+            selectedOptionsList.set(questionIndex, "Skip");
+        } else {
+            selectedOptionsList.set(questionIndex, selectedOption);
+        }
+        refreshNavigationGrid();
     }
 
     public void refreshNavigationGrid() {
@@ -228,12 +237,6 @@ public class Neetexaminsider extends AppCompatActivity implements neetexampadapt
         int totalQuestions = quizList1.size();
         String questionNumberText = (currentQuestionIndex + 1) + " / " + totalQuestions;
         currentquestion.setText(questionNumberText);
-    }
-
-    @Override
-    public void onOptionSelected(int questionIndex, String selectedOption) {
-        selectedOptionsList.set(questionIndex, selectedOption);
-        refreshNavigationGrid();
     }
 
     private void showEndQuizConfirmation() {
@@ -297,10 +300,21 @@ public class Neetexaminsider extends AppCompatActivity implements neetexampadapt
     }
 
     private void handleQuizEnd() {
+        int skippedQuestions = 0;
+        for (Neetpg quizQuestion : quizList1) {
+            String selectedOption = quizQuestion.getSelectedOption() != null ? quizQuestion.getSelectedOption() : "Skip";
+            if ("Skip".equals(selectedOption)) {
+                skippedQuestions++;
+            }
+        }
+        remainingTimeInMillis = timeLeftInMillis;
+
+        // Show alert dialog
+        int finalSkippedQuestions = skippedQuestions;
         new AlertDialog.Builder(this)
                 .setTitle("Time's Up!")
                 .setMessage("Sorry, you've run out of time. The quiz will be ended.")
-                .setPositiveButton("OK", (dialog, which) -> navigateToResultActivity(0))
+                .setPositiveButton("OK", (dialog, which) -> navigateToResultActivity(finalSkippedQuestions))
                 .setCancelable(false)
                 .create()
                 .show();
@@ -317,6 +331,9 @@ public class Neetexaminsider extends AppCompatActivity implements neetexampadapt
     public static class QuestionBottomSheetDialogFragment extends BottomSheetDialogFragment {
         private GridView gridView;
         private QuestionNavigationAdapter adapter;
+        private TextView answeredCount;
+        private TextView unansweredCount;
+        private TextView notVisitedCount;
 
         public static Neetexaminsider.QuestionBottomSheetDialogFragment newInstance(ArrayList<String> selectedOptionsList, ArrayList<Neetpg> quizQuestions) {
             Neetexaminsider.QuestionBottomSheetDialogFragment fragment = new Neetexaminsider.QuestionBottomSheetDialogFragment();
@@ -332,10 +349,18 @@ public class Neetexaminsider extends AppCompatActivity implements neetexampadapt
         public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
             View view = inflater.inflate(R.layout.bottom_sheet_layout_neet, container, false);
             gridView = view.findViewById(R.id.grid_view);
+            answeredCount = view.findViewById(R.id.answered_count);
+            unansweredCount = view.findViewById(R.id.unanswered_count);
+            notVisitedCount = view.findViewById(R.id.not_visited_count);
+
             ArrayList<String> selectedOptions = getArguments() != null ? getArguments().getStringArrayList("selectedOptionsList") : new ArrayList<>();
             ArrayList<Neetpg> quizQuestions = (ArrayList<Neetpg>) getArguments().getSerializable("quizQuestions");
+
             adapter = new QuestionNavigationAdapter(selectedOptions.size(), selectedOptions, quizQuestions, position -> ((Neetexaminsider) requireActivity()).navigateToQuestion(position));
             gridView.setAdapter(adapter);
+
+            updateQuestionCounts(selectedOptions);
+
             return view;
         }
 
@@ -343,7 +368,28 @@ public class Neetexaminsider extends AppCompatActivity implements neetexampadapt
             if (adapter != null) {
                 adapter.setSelectedOptions(selectedOptionsList);
                 adapter.notifyDataSetChanged();
+                updateQuestionCounts(selectedOptionsList);
             }
+        }
+
+        private void updateQuestionCounts(ArrayList<String> selectedOptionsList) {
+            int answered = 0;
+            int unanswered = -1;
+            int notVisited = 0;
+
+            for (String option : selectedOptionsList) {
+                if (option == null) {
+                    notVisited++;
+                } else if ("Skip".equals(option)) {
+                    unanswered++;
+                } else {
+                    answered++;
+                }
+            }
+
+            answeredCount.setText(String.valueOf(answered));
+            unansweredCount.setText(String.valueOf(unanswered));
+            notVisitedCount.setText(String.valueOf(notVisited));
         }
     }
 
@@ -413,5 +459,4 @@ public class Neetexaminsider extends AppCompatActivity implements neetexampadapt
             void onItemClick(int position);
         }
     }
-
 }

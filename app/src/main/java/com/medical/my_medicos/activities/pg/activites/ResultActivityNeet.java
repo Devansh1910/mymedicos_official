@@ -173,7 +173,7 @@ public class ResultActivityNeet extends AppCompatActivity {
     private void uploadResultsToFirestore(int correctAnswers, int totalQuestions, String remainingTime, String id) {
         FirebaseUser user = auth.getCurrentUser();
         if (user != null) {
-            String userId = user.getUid();
+            String userId = user.getPhoneNumber();
             DocumentReference userDocumentRef = db.collection("QuizResults").document(userId);
             CollectionReference idSubcollectionRef = userDocumentRef.collection("Exam");
             Map<String, Object> resultData = new HashMap<>();

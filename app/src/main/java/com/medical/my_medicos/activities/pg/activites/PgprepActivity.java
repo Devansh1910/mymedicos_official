@@ -78,7 +78,7 @@ public class PgprepActivity extends AppCompatActivity {
 
         FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
         if (currentUser != null) {
-            String currentUid = currentUser.getUid();
+            String currentUid = currentUser.getPhoneNumber();
             FirebaseDatabase database = FirebaseDatabase.getInstance();
 
             database.getReference().child("profiles")

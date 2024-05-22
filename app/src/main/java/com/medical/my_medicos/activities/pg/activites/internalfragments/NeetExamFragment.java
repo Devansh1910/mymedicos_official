@@ -131,7 +131,7 @@ public class NeetExamFragment extends Fragment {
         List<String> subcollectionIds = new ArrayList<>();
 
         if (user != null) {
-            String userId = user.getUid();
+            String userId = user.getPhoneNumber();
 
             CollectionReference quizResultsCollection = db.collection("QuizResults").document(userId).collection("Exam");
 

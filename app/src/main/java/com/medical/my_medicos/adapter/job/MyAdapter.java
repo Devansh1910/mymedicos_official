@@ -1,5 +1,6 @@
 package com.medical.my_medicos.adapter.job;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.view.LayoutInflater;
@@ -12,6 +13,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.medical.my_medicos.R;
+import com.medical.my_medicos.activities.job.JobDetailsActivity;
 import com.medical.my_medicos.activities.job.JobsApplyActivity;
 import com.medical.my_medicos.adapter.job.items.jobitem;
 
@@ -33,12 +35,23 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
     }
 
     @Override
-    public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull MyViewHolder holder, @SuppressLint("RecyclerView") int position) {
         holder.title.setText(joblist.get(position).getTitle());
         holder.hosp.setText(joblist.get(position).getHospital());
         holder.loc.setText(joblist.get(position).getLocation());
         holder.date.setText(joblist.get(position).getDate());
         holder.cat.setText(joblist.get(position).getCategory());
+        holder.apply.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Context context = view.getContext();
+                Intent j=new Intent(context, JobDetailsActivity.class);
+                j.putExtra("documentid",joblist.get(position).getDocumentid());
+                j.putExtra("user",joblist.get(position).getUser());
+                j.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                context.startActivity(j);
+            }
+        });
     }
 
     @Override
@@ -58,15 +71,7 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
             date = itemView.findViewById(R.id.job_date);
             apply = itemView.findViewById(R.id.Apply);
             cat = itemView.findViewById(R.id.Category);
-            apply.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    Context context = view.getContext();
-                    Intent j=new Intent(context, JobsApplyActivity.class);
-                    j.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                    context.startActivity(j);
-                }
-            });
+
         }
     }
 }

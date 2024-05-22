@@ -302,6 +302,7 @@ public class HomeFragment extends Fragment {
         recyclerViewjob.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.HORIZONTAL, false));
         FirebaseFirestore dc = FirebaseFirestore.getInstance();
         dc.collection("JOB")
+                .orderBy("date", Query.Direction.ASCENDING)
                 .get()
                 .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                     @Override
@@ -332,7 +333,7 @@ public class HomeFragment extends Fragment {
                                         Log.d("Speciality", String.valueOf(a));
                                         Log.d("phonenumber", String.valueOf(b));
 
-                                        jobitem c = new jobitem(speciality, Organiser, Location, date, Title, Category, documentid);
+                                        jobitem c = new jobitem(speciality, Organiser, Location, date, Title, Category, documentid,User);
                                         joblist.add(c);
                                     }
                                 }

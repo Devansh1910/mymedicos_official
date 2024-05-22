@@ -62,7 +62,9 @@ public class PgPrepPayement extends AppCompatActivity {
         setContentView(R.layout.activity_pg_prep_payment);
 
         database = FirebaseDatabase.getInstance().getReference();
-        currentUid = FirebaseAuth.getInstance().getUid();
+        FirebaseUser current =FirebaseAuth.getInstance().getCurrentUser();
+
+        currentUid =current.getPhoneNumber();
         user_name_dr = findViewById(R.id.currentusernamewillcomehere);
         profilepicture = findViewById(R.id.profilepicture);
         user_email_dr = findViewById(R.id.currentuseremailid);
@@ -97,7 +99,7 @@ public class PgPrepPayement extends AppCompatActivity {
 
         FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
         if (currentUser != null) {
-            String currentUid = currentUser.getUid();
+            String currentUid = currentUser.getPhoneNumber();
             FirebaseDatabase database = FirebaseDatabase.getInstance();
 
             database.getReference().child("profiles")
@@ -137,7 +139,6 @@ public class PgPrepPayement extends AppCompatActivity {
                 }
             }
         });
-
         // Set OnClickListener on start examination layout
         startExamLayout.setOnClickListener(new View.OnClickListener() {
             @Override

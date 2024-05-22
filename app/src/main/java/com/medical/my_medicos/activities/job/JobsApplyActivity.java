@@ -299,11 +299,11 @@ public class JobsApplyActivity extends AppCompatActivity {
         String cover = jobcover.getText().toString().trim();
 
         if (TextUtils.isEmpty(field4)) {
-            applicantname.setError("Title Required");
+            applicantname.setError("Applicant Name Required");
             return;
         }
         if (TextUtils.isEmpty(age)) {
-            jobage.setError("Organizer Required");
+            jobage.setError("Age Required");
             return;
         }
         if (TextUtils.isEmpty(cover)) {

@@ -27,17 +27,13 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
-import com.google.firebase.firestore.QuerySnapshot;
 import com.medical.my_medicos.R;
 import com.medical.my_medicos.activities.pg.activites.PgprepActivity;
 import com.medical.my_medicos.activities.pg.activites.ResultActivity;
-import com.medical.my_medicos.activities.pg.activites.ResultActivityNeet;
 import com.medical.my_medicos.activities.pg.adapters.WeeklyQuizAdapterinsider;
 import com.medical.my_medicos.activities.pg.model.QuizPGinsider;
 
@@ -147,9 +143,6 @@ public class WeeklyQuizInsiderActivity extends AppCompatActivity implements Week
         Log.d("BottomSheetFragment 10", "Weeklyquizinsider activity" + currentQuestionIndex);
         recyclerView.setAdapter(adapter);
 
-        TextView endButton = findViewById(R.id.endenabled);
-        endButton.setOnClickListener(v -> handleEndButtonClick());
-
         LinearLayout toTheBackLayout = findViewById(R.id.totheback);
         toTheBackLayout.setOnClickListener(v -> showConfirmationDialog());
 
@@ -157,7 +150,6 @@ public class WeeklyQuizInsiderActivity extends AppCompatActivity implements Week
     }
 
     private void configureWindow() {
-//        getWindow().setFlags(WindowManager.LayoutParams.FLAG_SECURE, WindowManager.LayoutParams.FLAG_SECURE);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             Window window = getWindow();
             window.setStatusBarColor(ContextCompat.getColor(this, R.color.backgroundcolor));
@@ -251,6 +243,12 @@ public class WeeklyQuizInsiderActivity extends AppCompatActivity implements Week
                 QuizPGinsider quizQuestion = copy.get(i);
                 Log.d("QuizPGinsider", "Question " + (i + 1) + ": " + quizQuestion.getQuestion());
             }
+
+            // Check if the selected option at the current index is null
+            if (selectedOptionsList.get(currentQuestionIndex) == null) {
+                onOptionSelected(currentQuestionIndex, "Skip");
+            }
+
             adapter.setcurrentquestionindex(currentQuestionIndex);
             final QuizPGinsider currentQuestion = copy.get(currentQuestionIndex);
             adapter.setQuizQuestions(Collections.singletonList(currentQuestion));
@@ -260,7 +258,6 @@ public class WeeklyQuizInsiderActivity extends AppCompatActivity implements Week
             markForReviewCheckBox.setOnCheckedChangeListener(null);
             markForReviewCheckBox.setChecked(copy.get(currentQuestionIndex).isMarkedForReview());
             markForReviewCheckBox.setOnCheckedChangeListener((buttonView, isChecked) -> {
-
                 currentQuestion.setMarkedForReview(isChecked);
                 refreshNavigationGrid();
             });
@@ -319,17 +316,17 @@ public class WeeklyQuizInsiderActivity extends AppCompatActivity implements Week
     }
 
     private void handleQuizEnd() {
-        if (countDownTimer != null) {
-            countDownTimer.cancel();
-        }
+        int skippedQuestions = (int) copy.stream().map(quizQuestion -> quizQuestion.getSelectedOption() != null ? quizQuestion.getSelectedOption() : "Skip").filter("Skip"::equals).count();
         remainingTimeInMillis = timeLeftInMillis;
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setTitle("Time's Up!");
-        builder.setMessage("Sorry, you've run out of time. The quiz will be ended.");
-        builder.setPositiveButton("OK", (dialog, which) -> navigateToResultActivity(skippedQuestions));
-        builder.setCancelable(false);
-        AlertDialog dialog = builder.create();
-        dialog.show();
+
+        // Show alert dialog
+        new AlertDialog.Builder(this)
+                .setTitle("Time's Up!")
+                .setMessage("Sorry, you've run out of time. The quiz will be ended.")
+                .setPositiveButton("OK", (dialog, which) -> navigateToResultActivity(skippedQuestions))
+                .setCancelable(false)
+                .create()
+                .show();
     }
 
     private void updateTimerText() {
@@ -371,6 +368,9 @@ public class WeeklyQuizInsiderActivity extends AppCompatActivity implements Week
     public static class QuestionBottomSheetDialogFragment extends BottomSheetDialogFragment {
         private GridView gridView;
         private QuestionNavigationAdapter adapter;
+        private TextView answeredCountTextView;
+        private TextView unansweredCountTextView;
+        private TextView notVisitedCountTextView;
 
         public static QuestionBottomSheetDialogFragment newInstance(ArrayList<String> selectedOptionsList, ArrayList<QuizPGinsider> quizQuestions) {
             QuestionBottomSheetDialogFragment fragment = new QuestionBottomSheetDialogFragment();
@@ -385,11 +385,15 @@ public class WeeklyQuizInsiderActivity extends AppCompatActivity implements Week
             return fragment;
         }
 
+        @SuppressLint("MissingInflatedId")
         @Nullable
         @Override
         public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
             View view = inflater.inflate(R.layout.bottom_sheet_layout_neet, container, false);
             gridView = view.findViewById(R.id.grid_view);
+            answeredCountTextView = view.findViewById(R.id.answered_count);
+            unansweredCountTextView = view.findViewById(R.id.unanswered_count);
+            notVisitedCountTextView = view.findViewById(R.id.not_visited_count);
             ArrayList<String> selectedOptions = getArguments() != null ? getArguments().getStringArrayList("selectedOptionsList") : new ArrayList<>();
             Log.d("BottomSheetFragment", "Selected options list size: " + selectedOptions.size());
             ArrayList<QuizPGinsider> quizQuestions = (ArrayList<QuizPGinsider>) getArguments().getSerializable("quizQuestions");
@@ -398,7 +402,28 @@ public class WeeklyQuizInsiderActivity extends AppCompatActivity implements Week
             }
             adapter = new QuestionNavigationAdapter(selectedOptions.size(), selectedOptions, quizQuestions, position -> ((WeeklyQuizInsiderActivity) requireActivity()).navigateToQuestion(position));
             gridView.setAdapter(adapter);
+            updateCounts(selectedOptions, quizQuestions);
             return view;
+        }
+
+        private void updateCounts(ArrayList<String> selectedOptions, ArrayList<QuizPGinsider> quizQuestions) {
+            int answeredCount = 0;
+            int unansweredCount = -1;
+            int notVisitedCount = 0;
+
+            for (int i = 0; i < quizQuestions.size(); i++) {
+                if (selectedOptions.get(i) == null) {
+                    notVisitedCount++;
+                } else if ("Skip".equals(selectedOptions.get(i))) {
+                    unansweredCount++;
+                } else {
+                    answeredCount++;
+                }
+            }
+
+            answeredCountTextView.setText(String.valueOf(answeredCount));
+            unansweredCountTextView.setText(String.valueOf(unansweredCount));
+            notVisitedCountTextView.setText(String.valueOf(notVisitedCount));
         }
 
         public void updateGrid(ArrayList<String> selectedOptionsList) {
@@ -406,6 +431,7 @@ public class WeeklyQuizInsiderActivity extends AppCompatActivity implements Week
             if (adapter != null) {
                 adapter.setSelectedOptions(selectedOptionsList);
                 adapter.notifyDataSetChanged();
+                updateCounts(selectedOptionsList, adapter.getQuizQuestions());
             }
         }
     }
@@ -466,6 +492,10 @@ public class WeeklyQuizInsiderActivity extends AppCompatActivity implements Week
 
         public void setSelectedOptions(List<String> selectedOptions) {
             this.selectedOptions = selectedOptions;
+        }
+
+        public ArrayList<QuizPGinsider> getQuizQuestions() {
+            return (ArrayList<QuizPGinsider>) quizQuestions;
         }
 
         static class ViewHolder {

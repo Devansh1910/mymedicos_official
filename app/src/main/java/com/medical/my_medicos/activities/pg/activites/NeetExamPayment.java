@@ -59,6 +59,9 @@ public class NeetExamPayment extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_neet_exam_payment);
+        FirebaseUser current =FirebaseAuth.getInstance().getCurrentUser();
+
+        currentUid =current.getPhoneNumber();
 
         database = FirebaseDatabase.getInstance().getReference();
         currentUid = FirebaseAuth.getInstance().getUid();
@@ -99,7 +102,7 @@ public class NeetExamPayment extends AppCompatActivity {
 
         FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
         if (currentUser != null) {
-            String currentUid = currentUser.getUid();
+            String currentUid = currentUser.getPhoneNumber();
             FirebaseDatabase database = FirebaseDatabase.getInstance();
 
             database.getReference().child("profiles")

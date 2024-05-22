@@ -20,12 +20,10 @@ public class ResultReportAdapter extends RecyclerView.Adapter<ResultReportAdapte
 
     private Context context;
     private ArrayList<QuizPGinsider> quizList;
-    private int correctCount;  // Add this variable
 
     public ResultReportAdapter(Context context, ArrayList<QuizPGinsider> quizList) {
         this.context = context;
         this.quizList = quizList;
-        this.correctCount = 0;  // Initialize the count
     }
 
     @NonNull
@@ -35,30 +33,38 @@ public class ResultReportAdapter extends RecyclerView.Adapter<ResultReportAdapte
         return new ResultViewHolder(view);
     }
 
+    @SuppressLint("SetTextI18n")
     @Override
     public void onBindViewHolder(@NonNull ResultViewHolder holder, int position) {
         QuizPGinsider quizQuestion = quizList.get(position);
 
         holder.resultQuestion.setText(quizQuestion.getQuestion());
         holder.resultCorrectOption.setText("Correct Option: " + quizQuestion.getCorrectAnswer());
-        holder.resultSelectedOption.setText("Selected Option: " + quizQuestion.getSelectedOption());
 
+        // Check if the selected option is null and display "Skip" if it is
         String selectedOption = quizQuestion.getSelectedOption();
-        String correctAnswer = quizQuestion.getCorrectAnswer();
+        if (selectedOption == null || selectedOption.isEmpty()) {
+            holder.resultSelectedOption.setText("Selected Option: Skip");
+        } else {
+            holder.resultSelectedOption.setText("Selected Option: " + selectedOption);
+        }
 
-        // Check if selectedOption or correctAnswer is null before calling equals
+        // Handle HTML content in the description
         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.N) {
             holder.resultDescription.setText(Html.fromHtml(quizQuestion.getDescription(), Html.FROM_HTML_MODE_COMPACT));
         } else {
             holder.resultDescription.setText(Html.fromHtml(quizQuestion.getDescription()));
         }
 
-        if (quizQuestion.isCorrect()) {
-            correctCount++;
-        }
+        holder.showResultDescription.setOnClickListener(view -> {
+            // Toggle visibility of resultDescription
+            if (holder.resultDescription.getVisibility() == View.VISIBLE) {
+                holder.resultDescription.setVisibility(View.GONE);
+            } else {
+                holder.resultDescription.setVisibility(View.VISIBLE);
+            }
+        });
     }
-
-
 
     @Override
     public int getItemCount() {
@@ -79,17 +85,6 @@ public class ResultReportAdapter extends RecyclerView.Adapter<ResultReportAdapte
             resultSelectedOption = itemView.findViewById(R.id.resultSelectedOption);
             resultDescription = itemView.findViewById(R.id.resultdescription);
             showResultDescription = itemView.findViewById(R.id.showresultdescription);
-            showResultDescription.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    // Toggle visibility of resultDescription
-                    if (resultDescription.getVisibility() == View.VISIBLE) {
-                        resultDescription.setVisibility(View.GONE);
-                    } else {
-                        resultDescription.setVisibility(View.VISIBLE);
-                    }
-                }
-            });
         }
     }
 }

@@ -20,12 +20,10 @@ public class ResultReportNeetAdapter extends RecyclerView.Adapter<ResultReportNe
 
     private Context context;
     private ArrayList<Neetpg> quizList;
-    private int correctCount;
 
     public ResultReportNeetAdapter(Context context, ArrayList<Neetpg> quizList) {
         this.context = context;
         this.quizList = quizList;
-        this.correctCount = 0;  // Initialize the count
     }
 
     @NonNull
@@ -42,7 +40,14 @@ public class ResultReportNeetAdapter extends RecyclerView.Adapter<ResultReportNe
 
         holder.resultQuestion.setText(quizQuestion.getQuestion());
         holder.resultCorrectOption.setText("Correct Option: " + quizQuestion.getCorrectAnswer());
-        holder.resultSelectedOption.setText("Selected Option: " + quizQuestion.getSelectedOption());
+
+        // Check if the selected option is null and display "Skip" if it is
+        String selectedOption = quizQuestion.getSelectedOption();
+        if (selectedOption == null || selectedOption.isEmpty()) {
+            holder.resultSelectedOption.setText("Selected Option: Skip");
+        } else {
+            holder.resultSelectedOption.setText("Selected Option: " + selectedOption);
+        }
 
         // Handle HTML content in the description
         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.N) {
@@ -51,9 +56,14 @@ public class ResultReportNeetAdapter extends RecyclerView.Adapter<ResultReportNe
             holder.resultDescription.setText(Html.fromHtml(quizQuestion.getDescription()));
         }
 
-        if (quizQuestion.isCorrect()) {
-            correctCount++;
-        }
+        holder.showResultDescription.setOnClickListener(view -> {
+            // Toggle visibility of resultDescription
+            if (holder.resultDescription.getVisibility() == View.VISIBLE) {
+                holder.resultDescription.setVisibility(View.GONE);
+            } else {
+                holder.resultDescription.setVisibility(View.VISIBLE);
+            }
+        });
     }
 
     @Override
@@ -75,18 +85,6 @@ public class ResultReportNeetAdapter extends RecyclerView.Adapter<ResultReportNe
             resultSelectedOption = itemView.findViewById(R.id.resultSelectedOption);
             resultDescription = itemView.findViewById(R.id.resultdescription);
             showResultDescription = itemView.findViewById(R.id.showresultdescription);
-
-            showResultDescription.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    // Toggle visibility of resultDescription
-                    if (resultDescription.getVisibility() == View.VISIBLE) {
-                        resultDescription.setVisibility(View.GONE);
-                    } else {
-                        resultDescription.setVisibility(View.VISIBLE);
-                    }
-                }
-            });
         }
     }
 }

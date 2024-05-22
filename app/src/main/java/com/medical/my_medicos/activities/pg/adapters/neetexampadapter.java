@@ -87,6 +87,7 @@ public class neetexampadapter extends RecyclerView.Adapter<neetexampadapter.Neet
             setOptionSelectedStyle(holder, selectedOption);
         }
 
+
         setOptionClickListeners(holder);
     }
 
@@ -129,6 +130,10 @@ public class neetexampadapter extends RecyclerView.Adapter<neetexampadapter.Neet
 
                 Log.d("BottomSheetFragment 7","Intercation Listener"+String.valueOf(this.currentQuestionIndex));
                 interactionListener.onOptionSelected(this.currentQuestionIndex, selectedOption);
+            }
+            else {
+                interactionListener.onOptionSelected(this.currentQuestionIndex, "Skip");
+
             }
             if (currentSelectedOption != null && currentSelectedOption.equals(selectedOption)) {
                 resetOptionStyle(holder);

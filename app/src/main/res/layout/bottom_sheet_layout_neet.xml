@@ -22,7 +22,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:paddingBottom="@dimen/_5ssp"
-        android:text="Go to any question directly by clicking on it's serial number."
+        android:text="Go to any question directly by clicking on its serial number."
         android:fontFamily="@font/inter_semibold"
         android:textColor="#6E6E6E"
         android:textSize="@dimen/_10ssp"
@@ -39,6 +39,65 @@
         android:layout_height="wrap_content"
         android:orientation="vertical"
         android:padding="16dp">
+
+        <TextView
+            android:id="@+id/answered_count_label"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Answered: "
+            android:fontFamily="@font/inter_semibold"
+            android:textColor="@color/black"
+            android:textSize="@dimen/_12ssp" />
+
+        <TextView
+            android:id="@+id/answered_count"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="0"
+            android:fontFamily="@font/inter_semibold"
+            android:textColor="@color/black"
+            android:textSize="@dimen/_12ssp"
+            android:paddingStart="4dp" />
+
+        <TextView
+            android:id="@+id/unanswered_count_label"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Unanswered: "
+            android:fontFamily="@font/inter_semibold"
+            android:textColor="@color/black"
+            android:textSize="@dimen/_12ssp"
+            android:paddingTop="8dp" />
+
+        <TextView
+            android:id="@+id/unanswered_count"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="0"
+            android:fontFamily="@font/inter_semibold"
+            android:textColor="@color/black"
+            android:textSize="@dimen/_12ssp"
+            android:paddingStart="4dp" />
+
+        <TextView
+            android:id="@+id/not_visited_count_label"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Not Visited: "
+            android:fontFamily="@font/inter_semibold"
+            android:textColor="@color/black"
+            android:textSize="@dimen/_12ssp"
+            android:paddingTop="8dp" />
+
+        <TextView
+            android:id="@+id/not_visited_count"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="0"
+            android:fontFamily="@font/inter_semibold"
+            android:textColor="@color/black"
+            android:textSize="@dimen/_12ssp"
+            android:paddingStart="4dp" />
 
         <GridView
             android:id="@+id/grid_view"

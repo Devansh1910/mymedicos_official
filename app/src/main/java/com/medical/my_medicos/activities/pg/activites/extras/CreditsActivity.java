@@ -65,6 +65,7 @@ public class CreditsActivity extends AppCompatActivity {
     AlertDialog alertDialog;
     FirebaseDatabase database;
     String currentUid;
+    String phoneNumber;
     private Context context;
     int coins= 300;
     private ImageView backtothehomesideactivity;
@@ -92,12 +93,18 @@ public class CreditsActivity extends AppCompatActivity {
 
 
         context = CreditsActivity.this;
+        FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
         database = FirebaseDatabase.getInstance();
         currentUid = FirebaseAuth.getInstance().getUid();
+
+        if (currentUser!=null) {
+
+         phoneNumber = currentUser.getPhoneNumber();
+        }
         loadAd();
 
         database.getReference().child("profiles")
-                .child(currentUid)
+                .child(phoneNumber)
                 .child("coins")
                 .addValueEventListener(new ValueEventListener() {
                     @Override
@@ -180,7 +187,7 @@ public class CreditsActivity extends AppCompatActivity {
     private void checkVideoClickEligibility(String videoName) {
         DatabaseReference videoRef = FirebaseDatabase.getInstance().getReference()
                 .child("profiles")
-                .child(currentUid);
+                .child(phoneNumber);
 
         videoRef.child(videoName + "_last_watched_time").addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
@@ -268,10 +275,10 @@ public class CreditsActivity extends AppCompatActivity {
 
     // Add this method to update the Realtime Database with video watched status
 private void updateVideoWatchedStatus(String videoName) {
-        if (currentUid != null) {
+        if (phoneNumber != null) {
 
             database.getReference().child("profiles")
-                    .child(currentUid)
+                    .child(phoneNumber)
                     .child(videoName + "_last_watched_time")
                     .setValue(System.currentTimeMillis());
         }
@@ -283,8 +290,8 @@ private void handleRewardedAdCompletion() {
         Log.d(TAG, "Updated Coins Value: " + updatedCoins);
     }
     private void updateVideoStatus(String currentUid, String videoName) {
-        if (currentUid != null) {
-            DatabaseReference videoRef = database.getReference().child("profiles").child(currentUid).child(videoName);
+        if (phoneNumber != null) {
+            DatabaseReference videoRef = database.getReference().child("profiles").child(phoneNumber).child(videoName);
 
             videoRef.addListenerForSingleValueEvent(new ValueEventListener() {
                 @Override
@@ -292,7 +299,7 @@ private void handleRewardedAdCompletion() {
                     Boolean isWatched = snapshot.getValue(Boolean.class);
                     if (isWatched != null && isWatched && isWatched!=false) {
                         // Check the last watched time
-                        DatabaseReference lastWatchedTimeRef = database.getReference().child("profiles").child(currentUid).child(videoName + "_last_watched_time");
+                        DatabaseReference lastWatchedTimeRef = database.getReference().child("profiles").child(phoneNumber).child(videoName + "_last_watched_time");
 
                         lastWatchedTimeRef.addListenerForSingleValueEvent(new ValueEventListener() {
                             @Override
@@ -329,9 +336,9 @@ private void handleRewardedAdCompletion() {
 
     private boolean isVideoAlreadyWatched(String videoName) {
         final boolean[] isVideoWatched = {true};
-        if (currentUid != null) {
+        if (phoneNumber != null) {
             DatabaseReference videoRef = database.getReference().child("profiles")
-                    .child(currentUid)
+                    .child(phoneNumber)
                     .child(videoName);
 
 
@@ -406,7 +413,7 @@ private void handleRewardedAdCompletion() {
     }
     private void updateCoinsInDatabase(int updatedCoins) {
         database.getReference().child("profiles")
-                .child(currentUid)
+                .child(phoneNumber)
                 .child("coins")
                 .setValue(updatedCoins);
     }
@@ -459,12 +466,12 @@ private void handleRewardedAdCompletion() {
         FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
 
         if (currentUser != null) {
-            String userId = currentUser.getUid();
+            String userId = currentUser.getPhoneNumber();
 
             FirebaseFirestore db = FirebaseFirestore.getInstance();
             CollectionReference usersRef = db.collection("users");
 
-            usersRef.whereEqualTo("realtimeid", userId)
+            usersRef.whereEqualTo("Phone Number", userId)
                     .get()
                     .addOnCompleteListener(task -> {
                         if (task.isSuccessful()) {
@@ -525,11 +532,11 @@ private void handleRewardedAdCompletion() {
         progressDialog.show();
         FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
         if (currentUser != null) {
-            String userId = currentUser.getUid();
+            String userId = currentUser.getPhoneNumber();
             FirebaseFirestore db = FirebaseFirestore.getInstance();
             CollectionReference usersRef = db.collection("users");
 
-            usersRef.whereEqualTo("realtimeid", userId)
+            usersRef.whereEqualTo("Phone Number", userId)
                     .get()
                     .addOnCompleteListener(task -> {
                         if (task.isSuccessful()) {
@@ -591,12 +598,12 @@ private void handleRewardedAdCompletion() {
         FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
 
         if (currentUser != null) {
-            String userId = currentUser.getUid();
+            String userId = currentUser.getPhoneNumber();
 
             FirebaseFirestore db = FirebaseFirestore.getInstance();
             CollectionReference usersRef = db.collection("users");
 
-            usersRef.whereEqualTo("realtimeid", userId)
+            usersRef.whereEqualTo("Phone Number", userId)
                     .get()
                     .addOnCompleteListener(task -> {
                         if (task.isSuccessful()) {

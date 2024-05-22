@@ -199,7 +199,7 @@ public class JobsActivity extends AppCompatActivity {
                                         Log.d("Speciality",String.valueOf(a));
                                         Log.d("phonenumber", String.valueOf(b));
 
-                                        jobitem c = new jobitem(speciality, Organiser, Location, date, Title, Category, documentid);
+                                        jobitem c = new jobitem(speciality, Organiser, Location, date, Title, Category, documentid,User);
                                         joblist.add(c);
                                     }
                                 }
