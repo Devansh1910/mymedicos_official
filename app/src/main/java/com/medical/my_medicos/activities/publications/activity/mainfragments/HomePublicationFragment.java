@@ -44,7 +44,6 @@ public class HomePublicationFragment extends Fragment {
 
     private FragmentHomePublicationBinding binding;
     private Context context;
-
     private BookoftheDayAdapter bookofthedayAdapter;
     private ArrayList<Product> bookoftheday;
     private ProductAdapter productAdapter;
@@ -337,7 +336,6 @@ public class HomePublicationFragment extends Fragment {
         queue.add(request);
     }
 
-
     private Product selectRandomBook(List<Product> products, Context context) {
         Set<String> displayedBookIds = loadDisplayedBookIds(context);
 
@@ -373,7 +371,6 @@ public class HomePublicationFragment extends Fragment {
         displayedBookIds.add(newBookId);
         prefs.edit().putStringSet("DisplayedBookIds", displayedBookIds).apply();
     }
-
     private void initSponsorProduct() {
         sponsoredProduct = new ArrayList<>();
         sponsoredProductsAdapter = new SponsoredProductAdapter(context, sponsoredProduct);

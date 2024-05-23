@@ -15,9 +15,9 @@ android {
         applicationId = "com.medical.my_medicos"
         minSdk = 24
         targetSdk = 34
-        // 69 is for Job ascending update inside the fragment
-        versionCode = 69
-        versionName = "4.9.0"
+        // 70 is for PG NEET BOTTOM SHEET UPDATES
+        versionCode = 70
+        versionName = "4.10.0"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
@@ -25,8 +25,8 @@ android {
 
     buildTypes {
         release {
-            isMinifyEnabled = false
-            isShrinkResources = false
+            isMinifyEnabled = true
+            isShrinkResources = true
             proguardFiles(
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro"

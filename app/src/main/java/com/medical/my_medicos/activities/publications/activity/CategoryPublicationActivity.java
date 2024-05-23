@@ -63,7 +63,7 @@ public class CategoryPublicationActivity extends AppCompatActivity {
 
         getProducts(catId);
 
-        GridLayoutManager layoutManager = new GridLayoutManager(this, 1);
+        GridLayoutManager layoutManager = new GridLayoutManager(this, 3);
         binding.productList.setLayoutManager(layoutManager);
         binding.productList.setAdapter(productAdapter);
 

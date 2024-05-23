@@ -44,6 +44,7 @@ public class WaitlistPublicationFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         binding = FragmentWaitlistPublicationBinding.inflate(inflater, container, false);
 
+
         progressDialog = new ProgressDialog(getContext());
         progressDialog.setCancelable(false);
         progressDialog.setMessage("Processing...");

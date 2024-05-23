@@ -482,11 +482,11 @@ public class WeeklyQuizInsiderActivity extends AppCompatActivity implements Week
             holder.textView.setText(String.valueOf(position + 1));
             QuizPGinsider quizQuestion = quizQuestions.get(position);
             if (quizQuestion.isMarkedForReview()) {
-                holder.layout.setBackgroundColor(ContextCompat.getColor(parent.getContext(), R.color.yellow)); // Different color for review
-            } else if (selectedOptions.get(position) != null && selectedOptions.get(position).compareTo("Skip")!=0) {
-                holder.layout.setBackgroundColor(ContextCompat.getColor(parent.getContext(), R.color.green));
+                holder.layout.setBackgroundResource(R.drawable.notvisited_bk); // Replace with your drawable resource
+            } else if (selectedOptions.get(position) != null && selectedOptions.get(position).compareTo("Skip") != 0) {
+                holder.layout.setBackgroundResource(R.drawable.backgroundofanswered); // Replace with your drawable resource
             } else {
-                holder.layout.setBackgroundColor(ContextCompat.getColor(parent.getContext(), R.color.grey));
+                holder.layout.setBackgroundResource(R.drawable.backgroundoftheunselected); // Replace with your drawable resource
             }
             convertView.setOnClickListener(v -> listener.onItemClick(position));
             return convertView;

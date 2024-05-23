@@ -54,24 +54,6 @@ public class CategoryPublicationInsiderForRealActivity extends AppCompatActivity
 
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_SECURE, WindowManager.LayoutParams.FLAG_SECURE);
 
-
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            View decorView = getWindow().getDecorView();
-            decorView.setSystemUiVisibility(decorView.getSystemUiVisibility() | View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);
-        }
-
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            Window window = getWindow();
-            window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
-            window.setStatusBarColor(ContextCompat.getColor(this, R.color.blue));
-            window.setNavigationBarColor(ContextCompat.getColor(this, R.color.backgroundcolor));
-        }
-
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            View decorView = getWindow().getDecorView();
-            decorView.setSystemUiVisibility(decorView.getSystemUiVisibility() | View.SYSTEM_UI_FLAG_LIGHT_NAVIGATION_BAR);
-        }
-
         //..........Search Bar......
 
         binding.searchBar.addTextChangeListener(new TextWatcher() {
@@ -126,7 +108,19 @@ public class CategoryPublicationInsiderForRealActivity extends AppCompatActivity
         });
 
         initCategories();
+        configureWindow();
 
+    }
+
+    private void configureWindow() {
+//        getWindow().setFlags(WindowManager.LayoutParams.FLAG_SECURE, WindowManager.LayoutParams.FLAG_SECURE);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            Window window = getWindow();
+            window.setStatusBarColor(ContextCompat.getColor(this, R.color.backgroundcolor));
+            window.setNavigationBarColor(ContextCompat.getColor(this, R.color.backgroundcolor));
+            View decorView = window.getDecorView();
+            decorView.setSystemUiVisibility(decorView.getSystemUiVisibility() | View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR | View.SYSTEM_UI_FLAG_LIGHT_NAVIGATION_BAR);
+        }
     }
 
     void initCategories() {

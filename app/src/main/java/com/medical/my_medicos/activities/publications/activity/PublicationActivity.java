@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.Window;
+import android.view.WindowManager;
 import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
 
@@ -32,6 +33,9 @@ public class PublicationActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         binding = ActivityPublicationBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
+
+        getWindow().setFlags(WindowManager.LayoutParams.FLAG_SECURE, WindowManager.LayoutParams.FLAG_SECURE);
+
 
         ImageView backToHomeImageView = findViewById(R.id.backtothehomefrompublication);
         backToHomeImageView.setOnClickListener(new View.OnClickListener() {

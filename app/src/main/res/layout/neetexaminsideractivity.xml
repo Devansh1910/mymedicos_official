@@ -255,23 +255,4 @@
 
     </LinearLayout>
 
-    <TextView
-        android:id="@+id/endenabled"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@drawable/backofpgmaterials"
-        android:layout_margin="@dimen/_5ssp"
-        android:elevation="10dp"
-        android:fontFamily="@font/inter"
-        android:paddingVertical="10dp"
-        android:text="End"
-        android:textAlignment="center"
-        android:textColor="@color/unselected"
-        android:textSize="18dp"
-        android:textStyle="bold"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent" />
-
 </androidx.constraintlayout.widget.ConstraintLayout>

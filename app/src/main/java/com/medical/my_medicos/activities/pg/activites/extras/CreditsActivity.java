@@ -53,7 +53,6 @@ import com.medical.my_medicos.activities.publications.activity.PaymentPublicatio
 import com.medical.my_medicos.activities.utils.ConstantsDashboard;
 import com.medical.my_medicos.databinding.ActivityCreditsBinding;
 import org.json.JSONObject;
-
 public class CreditsActivity extends AppCompatActivity {
 
     private static final String PREFS_NAME = "MyPrefs";
@@ -67,7 +66,7 @@ public class CreditsActivity extends AppCompatActivity {
     String currentUid;
     String phoneNumber;
     private Context context;
-    int coins= 300;
+    int coins = 300;
     private ImageView backtothehomesideactivity;
     private int previousCoinCount = 0;
     ProgressDialog progressDialog;
@@ -91,15 +90,13 @@ public class CreditsActivity extends AppCompatActivity {
             }
         });
 
-
         context = CreditsActivity.this;
         FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
         database = FirebaseDatabase.getInstance();
         currentUid = FirebaseAuth.getInstance().getUid();
 
-        if (currentUser!=null) {
-
-         phoneNumber = currentUser.getPhoneNumber();
+        if (currentUser != null) {
+            phoneNumber = currentUser.getPhoneNumber();
         }
         loadAd();
 
@@ -124,6 +121,7 @@ public class CreditsActivity extends AppCompatActivity {
 
                     }
                 });
+
         binding.viewad1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -172,9 +170,7 @@ public class CreditsActivity extends AppCompatActivity {
 
     }
 
-
     private void configureWindow() {
-//        getWindow().setFlags(WindowManager.LayoutParams.FLAG_SECURE, WindowManager.LayoutParams.FLAG_SECURE);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             Window window = getWindow();
             window.setStatusBarColor(ContextCompat.getColor(this, R.color.backgroundcolor));
@@ -217,16 +213,13 @@ public class CreditsActivity extends AppCompatActivity {
         });
     }
 
-
     private void enableButtonAndShowAd(String videoName) {
         // Enable the button
-        if (videoName=="video1") {
+        if (videoName.equals("video1")) {
             binding.viewad1.setEnabled(true);
-        }
-        else if (videoName=="video2") {
+        } else if (videoName.equals("video2")) {
             binding.viewad2.setEnabled(true);
         }
-
 
         // Show the rewarded ad
         showRewardedAd(videoName);
@@ -234,10 +227,9 @@ public class CreditsActivity extends AppCompatActivity {
 
     private void disableButtonAndShowDialog(String videoName) {
         // Disable the button
-        if (videoName=="video1") {
+        if (videoName.equals("video1")) {
             binding.viewad1.setEnabled(false);
-        }
-        else if (videoName=="video2") {
+        } else if (videoName.equals("video2")) {
             binding.viewad2.setEnabled(false);
         }
 
@@ -245,50 +237,59 @@ public class CreditsActivity extends AppCompatActivity {
         showDialog("Free Redeem Coins will be available after 24 hrs");
     }
 
-
-
     private void showRewardedAd(String videoName) {
+        // Show the progress dialog
+        progressDialog.setMessage("Loading ad...");
+        progressDialog.show();
+
+        // Set a timeout to dismiss the dialog and show a toast after 10 seconds
+        new Handler().postDelayed(() -> {
+            if (progressDialog.isShowing()) {
+                progressDialog.dismiss();
+                Toast.makeText(CreditsActivity.this, "This issue might have arised due to some device issue. Check your internet connection or for any active ad blocker.", Toast.LENGTH_LONG).show();
+            }
+        }, 10000);
+
         if (mRewardedAd != null) {
             Activity activityContext = CreditsActivity.this;
 
-
-                mRewardedAd.show(activityContext, new OnUserEarnedRewardListener() {
-                    @Override
-                    public void onUserEarnedReward(@NonNull RewardItem rewardItem) {
-                        loadAd();
-                        coins += (videoName.equals("video1") ? 10 : 20);
-                        updateCoinsInDatabase(coins);
-                        updateVideoWatchedStatus(videoName); // Update Realtime Database
-                        handleRewardedAdCompletion();
-                        showDialog("MedCoins Credited: " + (videoName.equals("video1") ? 10 : 20));
-
-//                        updateLastClickTime(videoName);
-
+            mRewardedAd.show(activityContext, new OnUserEarnedRewardListener() {
+                @Override
+                public void onUserEarnedReward(@NonNull RewardItem rewardItem) {
+                    // Dismiss the progress dialog when the ad is loaded
+                    if (progressDialog.isShowing()) {
+                        progressDialog.dismiss();
                     }
-                });
+                    loadAd();
+                    coins += (videoName.equals("video1") ? 10 : 20);
+                    updateCoinsInDatabase(coins);
+                    updateVideoWatchedStatus(videoName); // Update Realtime Database
+                    handleRewardedAdCompletion();
+                    showDialog("MedCoins Credited: " + (videoName.equals("video1") ? 10 : 20));
+                }
+            });
 
         } else {
             Log.e("Something went wrong", "Error");
         }
     }
 
-
     // Add this method to update the Realtime Database with video watched status
-private void updateVideoWatchedStatus(String videoName) {
+    private void updateVideoWatchedStatus(String videoName) {
         if (phoneNumber != null) {
-
             database.getReference().child("profiles")
                     .child(phoneNumber)
                     .child(videoName + "_last_watched_time")
                     .setValue(System.currentTimeMillis());
         }
-        }
+    }
 
-private void handleRewardedAdCompletion() {
+    private void handleRewardedAdCompletion() {
         loadAd();
         int updatedCoins = Integer.parseInt(binding.currentcoins.getText().toString());
         Log.d(TAG, "Updated Coins Value: " + updatedCoins);
     }
+
     private void updateVideoStatus(String currentUid, String videoName) {
         if (phoneNumber != null) {
             DatabaseReference videoRef = database.getReference().child("profiles").child(phoneNumber).child(videoName);
@@ -297,7 +298,7 @@ private void handleRewardedAdCompletion() {
                 @Override
                 public void onDataChange(@NonNull DataSnapshot snapshot) {
                     Boolean isWatched = snapshot.getValue(Boolean.class);
-                    if (isWatched != null && isWatched && isWatched!=false) {
+                    if (isWatched != null && isWatched && isWatched != false) {
                         // Check the last watched time
                         DatabaseReference lastWatchedTimeRef = database.getReference().child("profiles").child(phoneNumber).child(videoName + "_last_watched_time");
 
@@ -341,7 +342,6 @@ private void handleRewardedAdCompletion() {
                     .child(phoneNumber)
                     .child(videoName);
 
-
             videoRef.addListenerForSingleValueEvent(new ValueEventListener() {
                 @Override
                 public void onDataChange(@NonNull DataSnapshot snapshot) {
@@ -349,7 +349,6 @@ private void handleRewardedAdCompletion() {
                     String stringValue = value.toString();
                     Boolean isWatched = snapshot.getValue(Boolean.class);
                     Log.d("credits5", stringValue);
-
 
                     if (stringValue.equals("true")) {
                         // Video has already been watched
@@ -374,8 +373,8 @@ private void handleRewardedAdCompletion() {
         }
 
         return isVideoWatched[0];
-
     }
+
     private void enableButtonAfterCooldown() {
         new Handler().postDelayed(new Runnable() {
             @Override
@@ -384,7 +383,6 @@ private void handleRewardedAdCompletion() {
             }
         }, COOLDOWN_PERIOD);
     }
-
 
     private boolean canClickVideo(String videoName) {
         if (!isVideoAlreadyWatched(videoName)) {
@@ -403,14 +401,21 @@ private void handleRewardedAdCompletion() {
                     @Override
                     public void onAdFailedToLoad(@NonNull LoadAdError loadAdError) {
                         mRewardedAd = null;
+                        if (progressDialog.isShowing()) {
+                            progressDialog.dismiss();
+                        }
                     }
 
                     @Override
                     public void onAdLoaded(@NonNull RewardedAd rewardedAd) {
                         mRewardedAd = rewardedAd;
+                        if (progressDialog.isShowing()) {
+                            progressDialog.dismiss();
+                        }
                     }
                 });
     }
+
     private void updateCoinsInDatabase(int updatedCoins) {
         database.getReference().child("profiles")
                 .child(phoneNumber)
@@ -684,7 +689,6 @@ private void handleRewardedAdCompletion() {
         }, 3000);
     }
 
-
     private void showDialog(String message) {
         AlertDialog.Builder builder = new AlertDialog.Builder(CreditsActivity.this, R.style.CustomAlertDialog);
         LayoutInflater inflater = getLayoutInflater();
@@ -720,6 +724,4 @@ private void handleRewardedAdCompletion() {
         dialog.show();
         alertDialog = dialog;
     }
-
-
 }

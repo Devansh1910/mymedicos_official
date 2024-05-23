@@ -82,6 +82,9 @@ public class ProductDetailedActivity extends AppCompatActivity {
         binding = ActivityProductDetailedBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
+        getWindow().setFlags(WindowManager.LayoutParams.FLAG_SECURE, WindowManager.LayoutParams.FLAG_SECURE);
+
+
         String documentId = getIntent().getStringExtra("id");
         String documentId2 = getIntent().getStringExtra("id");
 
