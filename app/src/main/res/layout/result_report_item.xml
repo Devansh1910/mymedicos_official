@@ -34,7 +34,7 @@
             android:drawableStart="@drawable/correcticon"
             android:textSize="@dimen/_12ssp"
             android:textColor="@color/black"
-            android:background="@drawable/categorydark"
+            android:background="@drawable/categoryblackkkkkk"
             android:textAlignment="gravity"
             android:clickable="true"
             android:drawablePadding="@dimen/_10sdp"

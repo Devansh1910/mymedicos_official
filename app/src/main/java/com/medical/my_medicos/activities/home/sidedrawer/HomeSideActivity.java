@@ -226,15 +226,6 @@ public class HomeSideActivity extends AppCompatActivity {
             }
         });
 
-        LinearLayout aboutus = findViewById(R.id.aboutus);
-        aboutus.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent i = new Intent(HomeSideActivity.this, PrivacyPolicyActivity.class);
-                startActivity(i);
-            }
-        });
-
         LinearLayout whatsappLayout = findViewById(R.id.whatsapp);
         whatsappLayout.setOnClickListener(new View.OnClickListener() {
             @Override

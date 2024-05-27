@@ -565,6 +565,7 @@
             android:textColor="#FFFFFF"
             android:textSize="12sp" />
 
+
         <Button
             android:id="@+id/applycant"
             android:layout_width="0dp"

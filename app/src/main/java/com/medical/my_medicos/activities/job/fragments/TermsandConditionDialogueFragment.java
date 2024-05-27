@@ -6,6 +6,8 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
+import android.widget.TextView;
+
 import androidx.annotation.NonNull;
 import androidx.fragment.app.DialogFragment;
 import com.medical.my_medicos.R;
@@ -29,8 +31,8 @@ public class TermsandConditionDialogueFragment extends DialogFragment {
         LayoutInflater inflater = getActivity().getLayoutInflater();
         View view = inflater.inflate(R.layout.custompopupforjob, null);
 
-        Button agreeButton = view.findViewById(R.id.agree);
-        Button disagreeButton = view.findViewById(R.id.disagree);
+        TextView agreeButton = view.findViewById(R.id.agree);
+        TextView disagreeButton = view.findViewById(R.id.disagree);
 
         agreeButton.setOnClickListener(new View.OnClickListener() {
             @Override

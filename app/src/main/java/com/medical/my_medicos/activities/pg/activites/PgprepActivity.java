@@ -47,6 +47,7 @@ import com.medical.my_medicos.activities.home.fragments.SlideshowFragment;
 import com.medical.my_medicos.activities.news.NewsActivity;
 import com.medical.my_medicos.activities.pg.activites.extras.CreditsActivity;
 import com.medical.my_medicos.activities.pg.activites.internalfragments.HomePgFragment;
+import com.medical.my_medicos.activities.pg.activites.internalfragments.MePgFragment;
 import com.medical.my_medicos.activities.pg.activites.internalfragments.NeetExamFragment;
 import com.medical.my_medicos.activities.pg.activites.internalfragments.PreparationPgFragment;
 import com.medical.my_medicos.databinding.ActivityPgprepBinding;
@@ -173,6 +174,13 @@ public class PgprepActivity extends AppCompatActivity {
                     lastSelectedItemId = R.id.navigation_pgpreparation;
                 }
                 return true;
+//            } else if (itemId == R.id.navigation_userprepprofile) {
+//                if (lastSelectedItemId != R.id.navigation_userprepprofile) {
+//                    replaceFragment(MePgFragment.newInstance());
+//                    lastSelectedItemId = R.id.navigation_userprepprofile;
+//                }
+//                return true;
+//            }
             }
 
             return false;

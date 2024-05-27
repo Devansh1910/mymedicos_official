@@ -54,9 +54,9 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:fontFamily="@font/inter"
+                    android:fontFamily="@font/inter_semibold"
                     android:text="Basic Details"
-                    android:textColor="@color/black"
+                    android:textColor="@color/unselected"
                     android:textSize="15sp"
                     android:textStyle="bold" />
 
@@ -77,21 +77,21 @@
                 android:orientation="horizontal">
 
                 <RelativeLayout
-                    android:layout_width="150dp"
-                    android:layout_height="150dp"
+                    android:layout_width="100dp"
+                    android:layout_height="100dp"
                     android:layout_gravity="center">
 
                     <de.hdodenhof.circleimageview.CircleImageView
                         android:id="@+id/avatarImageView"
-                        android:layout_width="150dp"
-                        android:layout_height="150dp"
+                        android:layout_width="100dp"
+                        android:layout_height="100dp"
                         android:layout_gravity="center"
                         android:src="@drawable/upload" />
 
                     <de.hdodenhof.circleimageview.CircleImageView
                         android:id="@+id/currentImageView"
-                        android:layout_width="60dp"
-                        android:layout_height="60dp"
+                        android:layout_width="50dp"
+                        android:layout_height="50dp"
                         android:layout_gravity="center"
                         android:layout_alignParentBottom="true"
                         android:layout_alignParentRight="true"
@@ -109,29 +109,35 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="@dimen/_10ssp"
-                        android:fontFamily="@font/inter"
+                        android:fontFamily="@font/inter_semibold"
                         android:paddingHorizontal="@dimen/_5ssp"
                         android:paddingVertical="@dimen/_4ssp"
-                        android:text="Complete your doctor verification enter your Registered Medical Council number to proceed further"
+                        android:text="Remeber : Completing your information details benifits in long term."
                         android:textColor="#939393"
-                        android:textSize="@dimen/_8ssp"
+                        android:textSize="@dimen/_10ssp"
                         android:textStyle="bold" />
 
-                    <Button
+                    <androidx.cardview.widget.CardView
                         android:id="@+id/upload_avatar"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_gravity="center"
-                        android:layout_marginTop="@dimen/_5ssp"
-                        android:layout_weight="1"
-                        android:backgroundTint="@color/green"
-                        android:fontFamily="@font/montserrat_medium"
-                        android:paddingHorizontal="@dimen/_5ssp"
-                        android:paddingVertical="@dimen/_10ssp"
-                        android:text="Upload Avatar"
-                        android:textColor="@color/white"
-                        android:textSize="@dimen/_12ssp"
-                        android:textStyle="bold" />
+                        android:backgroundTint="@color/unselected"
+                        app:cardCornerRadius="@dimen/_5sdp">
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:gravity="center"
+                            android:fontFamily="@font/inter_semibold"
+                            android:paddingHorizontal="@dimen/_2ssp"
+                            android:paddingVertical="@dimen/_8ssp"
+                            android:text="Upload Avatar"
+                            android:textColor="@color/white"
+                            android:textSize="@dimen/_12ssp"
+                            android:textStyle="bold" />
+
+                    </androidx.cardview.widget.CardView>
 
                 </LinearLayout>
 
@@ -141,10 +147,10 @@
                 android:id="@+id/phonenumberll"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="20dp"
+                android:layout_marginTop="@dimen/_10ssp"
                 android:background="@drawable/circularbordersolid"
                 android:gravity="center_vertical"
-                android:padding="15dp">
+                android:padding="@dimen/_10ssp">
 
                 <ImageView
                     android:layout_width="25dp"
@@ -168,10 +174,10 @@
                 android:id="@+id/emainin"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="20dp"
+                android:layout_marginTop="@dimen/_10ssp"
                 android:background="@drawable/circularbordersolid"
                 android:gravity="center"
-                android:padding="12dp">
+                android:padding="@dimen/_10ssp">
 
                 <EditText
                     android:id="@+id/phonenumber"
@@ -239,10 +245,10 @@
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:fontFamily="@font/inter_semibold"
                     android:text="Check, If you are at the same Place."
                     android:textColor="@color/unselected"
-                    android:textSize="@dimen/_14ssp"
-                    android:textStyle="bold" />
+                    android:textSize="@dimen/_12ssp" />
 
             </LinearLayout>
 

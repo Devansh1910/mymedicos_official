@@ -210,8 +210,8 @@ public class HomePgFragment extends Fragment {
                 AlertDialog.Builder builder = new AlertDialog.Builder(requireContext());
                 builder.setView(popupView);
 
-                Button agreeButton = popupView.findViewById(R.id.agreepg);
-                Button disagreeButton = popupView.findViewById(R.id.visit);
+                TextView agreeButton = popupView.findViewById(R.id.agreepg);
+                TextView disagreeButton = popupView.findViewById(R.id.visit);
                 ImageView closeOpt = popupView.findViewById(R.id.closebtndialogue);
 
                 AlertDialog dialog = builder.create();

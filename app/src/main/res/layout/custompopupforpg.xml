@@ -29,7 +29,7 @@
         android:orientation="vertical"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:background="#E8E8E8"
+        android:background="@drawable/border_bk_for_message"
         android:padding="5dp"
         android:layout_gravity="center">
 
@@ -42,8 +42,8 @@
             android:layout_marginVertical="10dp"
             android:gravity="center"
             android:textStyle="bold"
-            android:fontFamily="@font/inter_extrabold"
-            android:text="Terms and Conditions" />
+            android:fontFamily="@font/inter_semibold"
+            android:text="Terms &amp; Conditions" />
 
         <TextView
             android:layout_width="wrap_content"
@@ -112,40 +112,40 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:paddingHorizontal="@dimen/_5sdp"
             android:layout_gravity="center"
-            android:paddingBottom="@dimen/_8ssp"
             android:gravity="center"
             android:orientation="horizontal">
 
-            <Button
+            <TextView
                 android:id="@+id/agreepg"
                 android:layout_width="0dp"
+                android:paddingVertical="@dimen/_10ssp"
+                android:fontFamily="@font/inter_semibold"
+                android:paddingHorizontal="@dimen/_10ssp"
+                android:gravity="center"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:text="Accept"
-                android:layout_marginStart="@dimen/_10ssp"
+                android:background="@color/unselected"
                 android:layout_gravity="center"
                 android:textColor="@color/white"/>
 
-            <com.google.android.material.divider.MaterialDivider
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                app:dividerThickness="@dimen/_1ssp"
-                app:dividerColor="#E8E8E8"
-                android:layout_weight="0.05"/>
-
-            <Button
+            <TextView
                 android:id="@+id/visit"
                 android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="0.5"
-                android:text="Visit"
-                android:drawableEnd="@drawable/arrowrightwhite"
-                android:layout_gravity="center"
+                android:paddingVertical="@dimen/_10ssp"
+                android:fontFamily="@font/inter_semibold"
+                android:paddingHorizontal="@dimen/_10ssp"
                 android:gravity="center"
-                android:layout_marginEnd="@dimen/_10ssp"
-                android:backgroundTint="#979797"
-                android:textColor="@color/white"/>
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Visit Site"
+                android:background="#B8B8B8"
+                android:layout_marginStart="@dimen/_10ssp"
+                android:layout_gravity="center"
+                android:textColor="@color/unselected"/>
+
         </LinearLayout>
 
 

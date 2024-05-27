@@ -15,9 +15,9 @@
         android:icon="@drawable/gt_icon"
         android:title="Grand Test" />
 
-    <item
-        android:id="@+id/navigation_userprepprofile"
-        android:icon="@drawable/gt_icon"
-        android:title="Me" />
+<!--    <item-->
+<!--        android:id="@+id/navigation_userprepprofile"-->
+<!--        android:icon="@drawable/me"-->
+<!--        android:title="Me" />-->
 
 </menu>

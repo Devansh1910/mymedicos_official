@@ -58,7 +58,7 @@
                             android:layout_width="45dp"
                             android:layout_height="45dp"
                             android:layout_gravity="center"
-                            android:src="@drawable/avatarplaceholder" />
+                            android:src="@drawable/avatar_for_home" />
 
                         <FrameLayout
                             android:id="@+id/verifieduser"
@@ -87,7 +87,7 @@
                                 android:layout_height="45dp"
                                 android:layout_gravity="center"
                                 android:padding="1dp"
-                                android:src="@drawable/avatarplaceholder"
+                                android:src="@drawable/avatar_for_home"
                                 android:background="@drawable/greenbk" />
 
                         </FrameLayout>

@@ -35,6 +35,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.cardview.widget.CardView;
 import androidx.core.content.ContextCompat;
 
 import com.medical.my_medicos.R;
@@ -210,7 +211,7 @@ public class Contactinfo extends AppCompatActivity {
             }
         });
 
-        Button conSubmitButton = findViewById(R.id.upload_avatar);
+        CardView conSubmitButton = findViewById(R.id.upload_avatar);
         conSubmitButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

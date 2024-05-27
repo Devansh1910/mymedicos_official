@@ -42,7 +42,7 @@
                         android:layout_alignParentTop="true"
                         android:layout_alignParentStart="true"
                         android:layout_alignParentEnd="true"
-                        android:src="@drawable/new_banner" />
+                        android:src="@drawable/banner_new_new" />
 
                     <androidx.cardview.widget.CardView
                         android:id="@+id/cardviewfull"
