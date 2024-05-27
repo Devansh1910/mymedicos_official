@@ -158,7 +158,7 @@ public class NeetExamFragment extends Fragment {
         CollectionReference quizzCollection = db.collection("PGupload").document("Weekley").collection("Quiz");
         Query query = quizzCollection;
         String finalTitle = title;
-        query.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+        query.orderBy("from",Query.Direction.ASCENDING).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
             @Override
             public void onComplete(@NonNull Task<QuerySnapshot> task) {
                 if (task.isSuccessful()) {
