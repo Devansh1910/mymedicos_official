@@ -528,7 +528,7 @@ public class NeetExamPayment extends AppCompatActivity {
                                 pendingDiscount = Objects.requireNonNull(document.getLong("discount")).intValue();
                                 Log.d(TAG, "Coupon ID: " + couponId); // Check coupon ID
                                 Toast.makeText(NeetExamPayment.this, "Coupon validated, discount will be applied at exam start", Toast.LENGTH_SHORT).show();
-                                addCouponToUsedList(currentUser.getPhoneNumber(), couponId);
+                                addCouponToUsedList(currentUser.getPhoneNumber(), code);
                             }
                         } else {
                             Toast.makeText(NeetExamPayment.this, "Not a valid coupon code", Toast.LENGTH_SHORT).show();
