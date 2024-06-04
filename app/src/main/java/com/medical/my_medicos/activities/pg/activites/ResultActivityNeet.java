@@ -2,6 +2,7 @@ package com.medical.my_medicos.activities.pg.activites;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
@@ -18,6 +19,11 @@ import androidx.core.widget.NestedScrollView;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.github.mikephil.charting.animation.Easing;
+import com.github.mikephil.charting.charts.PieChart;
+import com.github.mikephil.charting.data.PieData;
+import com.github.mikephil.charting.data.PieDataSet;
+import com.github.mikephil.charting.data.PieEntry;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.CollectionReference;
@@ -50,9 +56,11 @@ public class ResultActivityNeet extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_result_neet);
 
+        PieChart pieChart = findViewById(R.id.pieChart);
+
         NestedScrollView nestedScrollView = findViewById(R.id.nestedofresult);
         nestedScrollView.smoothScrollTo(0, nestedScrollView.getBottom());
-
+//
         gotopghome = findViewById(R.id.gotopghome);
         gotopghome.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -71,8 +79,9 @@ public class ResultActivityNeet extends AppCompatActivity {
         totalQuestionsTextView = findViewById(R.id.totalanswwercounter);
 //        remainingTimeTextView = findViewById(R.id.remainingTimeTextView); // Add this line
 
-        LinearLayoutManager layoutManager = new LinearLayoutManager(this);
+        LinearLayoutManager layoutManager = new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false);
         resultRecyclerView.setLayoutManager(layoutManager);
+
 
         db = FirebaseFirestore.getInstance();
         auth = FirebaseAuth.getInstance();
@@ -134,6 +143,32 @@ public class ResultActivityNeet extends AppCompatActivity {
         greetingTextView.setText(greetingText);
 
         configureWindow();
+
+        ArrayList<PieEntry> entries = new ArrayList<>();
+        entries.add(new PieEntry(correctAnswers));
+        entries.add(new PieEntry(totalQuestions - correctAnswers));
+
+        PieDataSet dataSet = new PieDataSet(entries, "Quiz Results");
+
+        int[] colors = new int[] {
+                ContextCompat.getColor(this, R.color.teal_700),
+                ContextCompat.getColor(this, R.color.red)
+        };
+        dataSet.setColors(colors);
+
+        dataSet.setValueTextSize(12f);
+        dataSet.setValueTextColor(Color.WHITE);
+
+        PieData pieData = new PieData(dataSet);
+        pieChart.setData(pieData);
+        pieChart.getDescription().setEnabled(false);
+        pieChart.setUsePercentValues(true);
+        pieChart.setEntryLabelTextSize(12f);
+        pieChart.setEntryLabelColor(Color.BLACK);
+        pieChart.setCenterText("Score");
+        pieChart.setCenterTextSize(16f);
+        pieChart.animateY(1400, Easing.EaseInOutQuad);
+
 
     }
 

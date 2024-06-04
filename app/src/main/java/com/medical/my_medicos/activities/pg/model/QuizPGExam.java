@@ -4,15 +4,16 @@ import com.google.firebase.Timestamp;
 
 import java.sql.Time;
 
-public class QuizPG {
+public class QuizPGExam {
     private String title,title1,id;
-    private Timestamp description;
+    private Timestamp from,to;
 
-    public QuizPG(String title, String title1, Timestamp to, String id) {
+    public QuizPGExam(String title, String title1, Timestamp from, String id ,Timestamp to) {
         this.title = title;
         this.id = id;
         this.title1=title1;
-        this.description = to;
+        this.to = to;
+        this.from = from;
     }
 
     public String getTitle() {
@@ -25,14 +26,23 @@ public class QuizPG {
 //        return description;
 //    }
     public Timestamp getTo() {
-        return description;
+        return to;
     }
 
     public void setTo(Timestamp to) {
-        this.description= to;
+        this.to= to;
     }
 
     public String getId() {
         return id;
     }
+
+    public Timestamp getFrom() {
+        return from;
+    }
+
+    public void setFrom(Timestamp from) {
+        this.from= from;
+    }
+
 }

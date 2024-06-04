@@ -68,6 +68,7 @@ import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.medical.my_medicos.activities.job.JobDetailsActivity;
 import com.medical.my_medicos.activities.news.NewsDetailedActivity;
+import com.medical.my_medicos.activities.pg.activites.NeetExamPayment;
 import com.medical.my_medicos.activities.publications.activity.ProductDetailedActivity;
 import com.medical.my_medicos.activities.utils.ConnectvityUtil;
 import com.squareup.picasso.Picasso;
@@ -293,6 +294,8 @@ public class HomeActivity extends AppCompatActivity {
                                 handleDeepLinkIntentNews(deepLink);
                             } else if (link.contains("bookdetails?")) {
                                 handleDeepLinkIntentPublication(deepLink);
+                            } else if (link.contains("examdetails?")) {
+                                handleDeepLinkIntentPGUpload(deepLink);
                             }
                         }
                     }
@@ -308,6 +311,12 @@ public class HomeActivity extends AppCompatActivity {
         String jobId = deepLink.getQueryParameter("jobId");
         Log.d("DeepLink", "Received deep link with jobId: " + jobId);
         openJobDetailsActivity(jobId);
+    }
+
+    private void handleDeepLinkIntentPGUpload(Uri deepLink) {
+        String examId = deepLink.getQueryParameter("examId");
+        Log.d("DeepLink", "Received deep link with examId: " + examId);
+        openExamDetailsActivity(examId);
     }
     private void handleDeepLinkIntentNews(Uri deepLink) {
         String newsId = deepLink.getQueryParameter("newsId");
@@ -370,6 +379,18 @@ public class HomeActivity extends AppCompatActivity {
         finish();
         Log.d("HomeActivity", "PublicationsDetailsActivity started");
     }
+
+    //.... PG Upload Handler .......................
+
+    private void openExamDetailsActivity(String examId) {
+        Log.d("HomeActivity", "Opening ExamDetailsActivity with documentId: " + examId);
+        Intent intent = new Intent(this, NeetExamPayment.class);
+        intent.putExtra("examId", examId);
+        startActivity(intent);
+        finish();
+        Log.d("HomeActivity", "ExamDetailsActivity started");
+    }
+
 
     //... Back Functionality Handler................
 

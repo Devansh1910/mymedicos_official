@@ -352,7 +352,6 @@ public class JobDetailsActivity extends AppCompatActivity {
         }
     }
     //....
-
     private void handleDeepLink() {
         FirebaseDynamicLinks.getInstance().getDynamicLink(getIntent())
                 .addOnSuccessListener(this, pendingDynamicLinkData -> {

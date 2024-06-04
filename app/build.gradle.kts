@@ -15,8 +15,8 @@ android {
         applicationId = "com.medical.my_medicos"
         minSdk = 24
         targetSdk = 34
-        // 70 is for PG NEET BOTTOM SHEET UPDATES
-        versionCode = 70
+        // 71 is Bug Fix
+        versionCode = 71
         versionName = "4.10.0"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
@@ -144,5 +144,7 @@ dependencies {
     implementation ("com.squareup.retrofit2:retrofit:2.11.0")
     //...Shimmer.............
     implementation ("com.facebook.shimmer:shimmer:0.1.0@aar")
+    //...Pie.................
+    implementation ("com.github.PhilJay:MPAndroidChart:v3.1.0")
 
 }

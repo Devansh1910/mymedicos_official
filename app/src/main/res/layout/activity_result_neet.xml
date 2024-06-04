@@ -37,6 +37,7 @@
                 android:text="Result"
                 android:padding="@dimen/_5sdp"
                 android:gravity="start"
+                android:fontFamily="@font/inter_semibold"
                 android:layout_gravity="center_vertical"
                 android:textSize="@dimen/_16sdp"
                 android:textStyle="bold"
@@ -64,6 +65,7 @@
                 android:gravity="center"
                 android:text="Outstanding"
                 android:textSize="@dimen/_14sdp"
+                android:fontFamily="@font/inter_semibold"
                 android:textStyle="bold"
                 android:textColor="@color/unselected"/>
 
@@ -158,6 +160,44 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_10sdp"
+                android:layout_gravity="center_vertical"
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Analytics"
+                    android:paddingEnd="@dimen/_10ssp"
+                    android:layout_gravity="center_vertical"
+                    android:fontFamily="@font/inter_semibold"
+                    android:textSize="@dimen/_12sdp"
+                    android:textStyle="bold"
+                    android:textColor="@color/unselected"/>
+
+                <com.google.android.material.divider.MaterialDivider
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    app:dividerThickness="@dimen/_1ssp"
+                    app:dividerColor="@color/unselected"/>
+
+            </LinearLayout>
+
+            <com.github.mikephil.charting.charts.PieChart
+                android:id="@+id/pieChart"
+                android:layout_width="match_parent"
+                android:layout_height="250dp"
+                android:layout_gravity="start"
+                app:layout_constraintTop_toBottomOf="@id/linear"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"/>
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
                 android:orientation="vertical">
 
                 <TextView
@@ -166,7 +206,7 @@
                     android:text="Notice :"
                     android:layout_marginTop="@dimen/_10sdp"
                     android:layout_gravity="center_vertical"
-                    android:fontFamily="@font/inter_extrabold"
+                    android:fontFamily="@font/inter_semibold"
                     android:textSize="@dimen/_12sdp"
                     android:textStyle="bold"
                     android:textColor="@color/unselected"/>
@@ -208,7 +248,7 @@
                     android:text="Instructions :"
                     android:layout_marginTop="@dimen/_10sdp"
                     android:layout_gravity="center_vertical"
-                    android:fontFamily="@font/inter_extrabold"
+                    android:fontFamily="@font/inter_semibold"
                     android:textSize="@dimen/_12sdp"
                     android:textStyle="bold"
                     android:textColor="@color/unselected"/>
@@ -265,29 +305,29 @@
 <!--                android:textSize="@dimen/_14sdp"-->
 <!--                android:textStyle="bold" />-->
 
-            <TextView
-                android:id="@+id/gotopghome"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:fontFamily="@font/inter_extrabold"
-                android:paddingVertical="@dimen/_5sdp"
-                android:layout_marginTop="@dimen/_10sdp"
-                android:text="Go Home"
-                android:layout_gravity="center"
-                android:background="@drawable/bkofloginnumberwhitewithborder"
-                android:gravity="center"
-                android:textColor="@color/unselected"
-                android:textSize="@dimen/_14sdp"
-                android:textStyle="bold" />
+<!--            <TextView-->
+<!--                android:id="@+id/gotopghome"-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:fontFamily="@font/inter_extrabold"-->
+<!--                android:paddingVertical="@dimen/_5sdp"-->
+<!--                android:layout_marginTop="@dimen/_10sdp"-->
+<!--                android:text="Go Home"-->
+<!--                android:layout_gravity="center"-->
+<!--                android:background="@drawable/bkofloginnumberwhitewithborder"-->
+<!--                android:gravity="center"-->
+<!--                android:textColor="@color/unselected"-->
+<!--                android:textSize="@dimen/_14sdp"-->
+<!--                android:textStyle="bold" />-->
 
             <TextView
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Detailed Explanation :"
                 android:layout_marginBottom="@dimen/_8sdp"
                 android:layout_marginTop="@dimen/_15sdp"
                 android:layout_gravity="center_vertical"
-                android:fontFamily="@font/inter_extrabold"
+                android:fontFamily="@font/inter_semibold"
                 android:textSize="@dimen/_12sdp"
                 android:textStyle="bold"
                 android:textColor="@color/unselected"/>
@@ -297,11 +337,30 @@
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/resultRecyclerView"
             android:layout_width="match_parent"
+            android:paddingBottom="@dimen/_50ssp"
             android:paddingHorizontal="@dimen/_10sdp"
+            android:layout_marginHorizontal="@dimen/_5ssp"
             android:layout_height="match_parent"
             app:layout_constraintTop_toBottomOf="@id/linear"
-            android:paddingBottom="@dimen/_50sdp"
-            android:orientation="vertical"/>
+            android:orientation="horizontal"/>
+
+        <TextView
+            android:id="@+id/gotopghome"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:fontFamily="@font/inter_semibold"
+            android:paddingVertical="@dimen/_10sdp"
+            android:layout_marginTop="@dimen/_10sdp"
+            android:text="Redirect to Home"
+            app:layout_constraintBottom_toBottomOf="parent"
+            android:layout_gravity="center"
+            android:background="@drawable/backgroundoftheunselected"
+            android:gravity="center"
+            android:textColor="@color/unselected"
+            android:textSize="@dimen/_14sdp"
+            android:textStyle="bold" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
     

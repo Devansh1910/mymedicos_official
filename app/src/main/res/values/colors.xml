@@ -21,6 +21,7 @@
     <color name="yellow">#FFFF00</color>
     <color name="grey">#B8B8B8</color>
     <color name="backgroundcolor">@color/white</color>
+    <color name="backgroundcolornew">#F6F6F6</color>
     <color name="getstartedbottom">#F1EEEE</color>
     <color name="navbg">#353535</color>
     <color name="transparentcolor">#00FFFFFF</color>

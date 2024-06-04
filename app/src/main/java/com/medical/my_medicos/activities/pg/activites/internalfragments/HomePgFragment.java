@@ -62,6 +62,7 @@ import com.medical.my_medicos.activities.pg.adapters.QuestionBankPGAdapter;
 import com.medical.my_medicos.activities.pg.model.PerDayPG;
 import com.medical.my_medicos.activities.pg.model.QuestionPG;
 import com.medical.my_medicos.activities.pg.model.QuizPG;
+import com.medical.my_medicos.activities.pg.model.QuizPGExam;
 import com.medical.my_medicos.activities.utils.ConstantsDashboard;
 import com.medical.my_medicos.activities.utils.UpdatingScreen;
 import com.medical.my_medicos.databinding.FragmentHomePgBinding;
@@ -87,17 +88,12 @@ public class HomePgFragment extends Fragment {
     private Handler handlerprepration;
     private ExamQuizAdapter quizAdapter;
     CardView gotoupdatesofpg;
-    private ArrayList<QuizPG> quizpg;
+    private ArrayList<QuizPGExam> quizpg;
     String title1;
-
     TextView practivemcq,material;
-
     private TermsandConditionsDialogueFragmentPg dialog;
-
     private final int AUTO_SCROLL_DELAY = 3000;
-
     int i = 0;
-
 
     public static HomePgFragment newInstance() {
         HomePgFragment fragment = new HomePgFragment();
@@ -125,6 +121,7 @@ public class HomePgFragment extends Fragment {
             recyclerViewVideos.setAdapter(quizAdapter);
 
             getPaidExam(title1);
+
         } else {
             Log.e("ERROR", "Arguments are null in WeeklyQuizFragment");
         }
@@ -159,7 +156,6 @@ public class HomePgFragment extends Fragment {
             }
         });
 
-
         material = view.findViewById(R.id.material);
         material.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -169,34 +165,7 @@ public class HomePgFragment extends Fragment {
             }
         });
 
-//        TextView promoteBtn = view.findViewById(R.id.promotebtn);
-//        promoteBtn.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                // Customize the content to share
-//                String appLink = "https://play.google.com/store/apps/details?id=com.medical.my_medicos";
-//                String message = "Check out our medical app!\nDownload now: " + appLink;
-//
-//                // Create an Intent with ACTION_SEND
-//                Intent shareIntent = new Intent(Intent.ACTION_SEND);
-//                shareIntent.setType("text/plain");
-//                shareIntent.putExtra(Intent.EXTRA_TEXT, message);
-//
-//                // Check if there's an app to handle the Intent
-//                if (shareIntent.resolveActivity(requireContext().getPackageManager()) != null) {
-//                    startActivity(Intent.createChooser(shareIntent, "Share via"));
-//                }
-//            }
-//        });
-
-//        viewFlipperPrepration = view.findViewById(R.id.viewFlipperPrepration);
-//        dotsLayoutprepration = view.findViewById(R.id.dotsLayoutPrepration);
         handlerprepration = new Handler();
-
-//        addDotsPrepration();
-
-//        handlerprepration.postDelayed(autoScrollRunnable, AUTO_SCROLL_DELAY);
-
         return view;
     }
 
@@ -205,41 +174,40 @@ public class HomePgFragment extends Fragment {
         SharedPreferences prefs = getActivity().getSharedPreferences("PgPrepPrefs", MODE_PRIVATE);
         boolean isFirstLaunch = prefs.getBoolean("isFirstLaunch", true);
 
-            if (isFirstLaunch) {
-                View popupView = LayoutInflater.from(requireContext()).inflate(R.layout.custompopupforpg, null);
-                AlertDialog.Builder builder = new AlertDialog.Builder(requireContext());
-                builder.setView(popupView);
+        if (isFirstLaunch) {
+            View popupView = LayoutInflater.from(requireContext()).inflate(R.layout.custompopupforpg, null);
+            AlertDialog.Builder builder = new AlertDialog.Builder(requireContext());
+            builder.setView(popupView);
 
-                TextView agreeButton = popupView.findViewById(R.id.agreepg);
-                TextView disagreeButton = popupView.findViewById(R.id.visit);
-                ImageView closeOpt = popupView.findViewById(R.id.closebtndialogue);
+            TextView agreeButton = popupView.findViewById(R.id.agreepg);
+            TextView disagreeButton = popupView.findViewById(R.id.visit);
+            ImageView closeOpt = popupView.findViewById(R.id.closebtndialogue);
 
-                AlertDialog dialog = builder.create();
+            AlertDialog dialog = builder.create();
 
-                agreeButton.setOnClickListener(v -> {
-                    dialog.dismiss();
-                });
+            agreeButton.setOnClickListener(v -> {
+                dialog.dismiss();
+            });
 
-                disagreeButton.setOnClickListener(v -> {
-                    dialog.dismiss();
-                    Intent intent = new Intent(requireContext(), TermsandConditionsActivity.class);
-                    Toast.makeText(requireContext(), "Redirecting..", Toast.LENGTH_SHORT).show();
-                    startActivity(intent);
-                });
+            disagreeButton.setOnClickListener(v -> {
+                dialog.dismiss();
+                Intent intent = new Intent(requireContext(), TermsandConditionsActivity.class);
+                Toast.makeText(requireContext(), "Redirecting..", Toast.LENGTH_SHORT).show();
+                startActivity(intent);
+            });
 
-                closeOpt.setOnClickListener(v -> {
-                    dialog.dismiss();
-                    Intent intent = new Intent(requireContext(), HomeActivity.class);
-                    Toast.makeText(requireContext(), "Returning back...", Toast.LENGTH_SHORT).show();
-                    startActivity(intent);
-                    dialog.dismiss();
-                });
+            closeOpt.setOnClickListener(v -> {
+                dialog.dismiss();
+                Intent intent = new Intent(requireContext(), HomeActivity.class);
+                Toast.makeText(requireContext(), "Returning back...", Toast.LENGTH_SHORT).show();
+                startActivity(intent);
+                dialog.dismiss();
+            });
 
-                dialog.show();
-                prefs.edit().putBoolean("isFirstLaunch", false).apply();
-            }
+            dialog.show();
+            prefs.edit().putBoolean("isFirstLaunch", false).apply();
+        }
     }
-
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
@@ -320,7 +288,6 @@ public class HomePgFragment extends Fragment {
         queue.add(request);
     }
 
-    // For the Suggested Exam
     void getPaidExam(String title) {
         FirebaseFirestore db = FirebaseFirestore.getInstance();
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
@@ -368,17 +335,18 @@ public class HomePgFragment extends Fragment {
                             String quizTitle = document.getString("title");
                             String speciality = document.getString("speciality");
                             Timestamp To = document.getTimestamp("to");
+                            Timestamp from = document.getTimestamp("from");
 
                             if (finalTitle.isEmpty() || finalTitle.equals("Home")) {
                                 int r = speciality.compareTo(finalTitle);
                                 if (r == 0) {
-                                    QuizPG quizday = new QuizPG(quizTitle, title1, To);
+                                    QuizPGExam quizday = new QuizPGExam(quizTitle, title1, To, id, from);
                                     quizpg.add(quizday);
                                 }
                             } else {
                                 int r = speciality.compareTo(finalTitle);
                                 if (r == 0) {
-                                    QuizPG quizday = new QuizPG(quizTitle, finalTitle, To);
+                                    QuizPGExam quizday = new QuizPGExam(quizTitle, finalTitle, To, id ,from);
                                     quizpg.add(quizday);
                                 }
                             }

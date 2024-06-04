@@ -96,247 +96,357 @@
         app:layout_constraintTop_toBottomOf="@id/appBarLayout"
         android:layout_height="wrap_content">
 
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:orientation="vertical"
-            android:layout_height="wrap_content">
-
-            <TextView
-                android:id="@+id/quizNameTextView"
+            <RelativeLayout
                 android:layout_width="wrap_content"
-                android:layout_gravity="center"
+                android:layout_gravity="end"
+                android:gravity="end"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/toolbar"
-                android:fontFamily="@font/inter_semibold"
-                android:gravity="center"
-                android:padding="@dimen/_5ssp"
-                android:text="Quiz Name"
-                android:textSize="@dimen/_16ssp" />
+                android:orientation="horizontal">
 
-            <TextView
-                android:id="@+id/DueDate"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Due Date:22nd April "
-                android:textSize="@dimen/_10sdp"
-                android:textColor="@color/unselected"
-                android:fontFamily="@font/inter"
-                android:layout_below="@id/quizNameTextView"
-                android:layout_centerHorizontal="true"
-                android:layout_gravity="center" />
-
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_margin="@dimen/_10ssp"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:padding="@dimen/_5ssp"
-                android:background="@drawable/backofpgmaterials"
-                android:orientation="vertical">
-
-                <TextView
-                    android:id="@+id/instructionsTextView"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Instructions"
-                    android:layout_marginBottom="@dimen/_5ssp"
-                    android:textSize="@dimen/_14sdp"
-                    android:fontFamily="@font/inter_semibold"/>
-
-                <TextView
-                    android:id="@+id/scoringTextView"
-                    android:layout_width="wrap_content"
-                    android:layout_marginBottom="@dimen/_8ssp"
-                    android:fontFamily="@font/inter"
-                    android:textSize="@dimen/_10ssp"
-                    android:layout_height="wrap_content"
-                    android:text="This is the Examination based Quiz on the Neet 2023 pattern more predictble question "/>
+                <ImageView
+                    android:id="@+id/sharebtnforneetexam"
+                    android:layout_width="@dimen/_25ssp"
+                    android:layout_height="@dimen/_25ssp"
+                    android:layout_alignParentEnd="true"
+                    android:layout_alignParentTop="true"
+                    android:layout_margin="@dimen/_10ssp"
+                    android:src="@drawable/share_new"/>
 
                 <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:paddingHorizontal="@dimen/_5ssp"
-                    android:orientation="vertical">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:drawableStart="@drawable/pointers"
-                        android:drawablePadding="@dimen/_5ssp"
-                        android:layout_height="wrap_content"
-                        android:layout_marginBottom="@dimen/_8ssp"
-                        android:text="4+ for Correct "/>
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:drawableStart="@drawable/pointer2"
-                        android:drawablePadding="@dimen/_5ssp"
-                        android:layout_height="wrap_content"
-                        android:layout_marginBottom="@dimen/_8ssp"
-                        android:text="-1 for Wrong "/>
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:drawableStart="@drawable/pointer3"
-                        android:drawablePadding="@dimen/_5ssp"
-                        android:layout_height="wrap_content"
-                        android:layout_marginBottom="@dimen/_8ssp"
-                        android:text="0 for Skipped "/>
-
-                </LinearLayout>
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:paddingHorizontal="@dimen/_10ssp"
-                android:layout_height="wrap_content"
-                android:orientation="vertical">
-
-                <TextView
-                    android:id="@+id/noticesTextView"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Format of the Question Paper"
-                    android:textColor="@color/unselected"
-                    android:textSize="@dimen/_14ssp" />
+                    android:orientation="vertical"
+                    android:layout_height="wrap_content">
 
-                <com.google.android.material.divider.MaterialDivider
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginVertical="@dimen/_5ssp"
-                    app:dividerColor="@color/unselected"
-                    app:dividerThickness="@dimen/_1ssp"/>
+                    <TextView
+                        android:id="@+id/quizNameTextView"
+                        android:layout_width="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@id/toolbar"
+                        android:fontFamily="@font/inter_semibold"
+                        android:gravity="center"
+                        android:padding="@dimen/_5ssp"
+                        android:text="Quiz Name"
+                        android:textSize="@dimen/_16ssp" />
 
-                <TextView
-                    android:id="@+id/notice"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Go through the under given instructions for better understanding of the examination."
-                    android:textSize="@dimen/_10ssp"
-                    android:textColor="#6C6C6C"/>
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_marginVertical="@dimen/_5ssp"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal">
-
-                    <ImageView
+                    <TextView
+                        android:id="@+id/DueDate"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:src="@drawable/mins"/>
+                        android:text="Due Date:22nd April "
+                        android:textSize="@dimen/_10sdp"
+                        android:textColor="@color/unselected"
+                        android:fontFamily="@font/inter"
+                        android:layout_below="@id/quizNameTextView"
+                        android:layout_centerHorizontal="true"
+                        android:layout_gravity="center" />
+
+                    <TextView
+                        android:id="@+id/quizid"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Due Date:22nd April "
+                        android:textSize="@dimen/_12sdp"
+                        android:textColor="@color/grey"
+                        android:fontFamily="@font/inter_semibold"
+                        android:layout_below="@id/quizNameTextView"
+                        android:layout_centerHorizontal="true"
+                        android:layout_gravity="center" />
 
                     <LinearLayout
-                        android:layout_width="0dp"
-                        android:layout_gravity="center_vertical"
-                        android:orientation="vertical"
-                        android:paddingHorizontal="@dimen/_5ssp"
+                        android:layout_width="wrap_content"
+                        android:layout_margin="@dimen/_10ssp"
                         android:layout_height="wrap_content"
-                        android:layout_weight="1">
+                        android:layout_gravity="center"
+                        android:padding="@dimen/_5ssp"
+                        android:background="@drawable/backofpgmaterials"
+                        android:orientation="vertical">
 
                         <TextView
+                            android:id="@+id/instructionsTextView"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="200 Mins"
-                            android:fontFamily="@font/inter_semibold"
-                            android:textSize="@dimen/_12ssp"
-                            android:textColor="#6C6C6C"/>
+                            android:text="Instructions"
+                            android:layout_marginBottom="@dimen/_5ssp"
+                            android:textSize="@dimen/_14sdp"
+                            android:fontFamily="@font/inter_semibold"/>
 
                         <TextView
+                            android:id="@+id/scoringTextView"
                             android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="Duration"
-                            android:fontFamily="@font/inter_semibold"
+                            android:layout_marginBottom="@dimen/_8ssp"
+                            android:fontFamily="@font/inter"
                             android:textSize="@dimen/_10ssp"
-                            android:textColor="@color/grey"/>
+                            android:layout_height="wrap_content"
+                            android:text="This is the Examination based Quiz on the Neet 2023 pattern more predictble question "/>
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:paddingHorizontal="@dimen/_5ssp"
+                            android:orientation="vertical">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:drawableStart="@drawable/pointers"
+                                android:drawablePadding="@dimen/_5ssp"
+                                android:layout_height="wrap_content"
+                                android:layout_marginBottom="@dimen/_8ssp"
+                                android:text="4+ for Correct "/>
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:drawableStart="@drawable/pointer2"
+                                android:drawablePadding="@dimen/_5ssp"
+                                android:layout_height="wrap_content"
+                                android:layout_marginBottom="@dimen/_8ssp"
+                                android:text="-1 for Wrong "/>
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:drawableStart="@drawable/pointer3"
+                                android:drawablePadding="@dimen/_5ssp"
+                                android:layout_height="wrap_content"
+                                android:layout_marginBottom="@dimen/_8ssp"
+                                android:text="0 for Skipped "/>
+
+                        </LinearLayout>
 
                     </LinearLayout>
 
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_marginVertical="@dimen/_5ssp"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal">
-
-                    <ImageView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:src="@drawable/questions"/>
-
                     <LinearLayout
-                        android:layout_width="0dp"
-                        android:layout_gravity="center_vertical"
-                        android:orientation="vertical"
-                        android:paddingHorizontal="@dimen/_5ssp"
+                        android:layout_width="match_parent"
+                        android:paddingHorizontal="@dimen/_10ssp"
                         android:layout_height="wrap_content"
-                        android:layout_weight="1">
+                        android:orientation="vertical">
 
                         <TextView
+                            android:id="@+id/noticesTextView"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="200 Questions - 800 Marks"
-                            android:fontFamily="@font/inter_semibold"
-                            android:textSize="@dimen/_12ssp"
+                            android:text="Format of the Question Paper"
+                            android:textColor="@color/unselected"
+                            android:textSize="@dimen/_14ssp" />
+
+                        <com.google.android.material.divider.MaterialDivider
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginVertical="@dimen/_5ssp"
+                            app:dividerColor="@color/unselected"
+                            app:dividerThickness="@dimen/_1ssp"/>
+
+                        <TextView
+                            android:id="@+id/notice"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Go through the under given instructions for better understanding of the examination."
+                            android:textSize="@dimen/_10ssp"
                             android:textColor="#6C6C6C"/>
 
-                        <TextView
-                            android:layout_width="wrap_content"
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_marginVertical="@dimen/_5ssp"
                             android:layout_height="wrap_content"
-                            android:text="Scoring details"
-                            android:fontFamily="@font/inter_semibold"
-                            android:textSize="@dimen/_10ssp"
-                            android:textColor="@color/grey"/>
+                            android:orientation="horizontal">
+
+                            <ImageView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:src="@drawable/mins"/>
+
+                            <LinearLayout
+                                android:layout_width="0dp"
+                                android:layout_gravity="center_vertical"
+                                android:orientation="vertical"
+                                android:paddingHorizontal="@dimen/_5ssp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1">
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="200 Mins"
+                                    android:fontFamily="@font/inter_semibold"
+                                    android:textSize="@dimen/_12ssp"
+                                    android:textColor="#6C6C6C"/>
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="Duration"
+                                    android:fontFamily="@font/inter_semibold"
+                                    android:textSize="@dimen/_10ssp"
+                                    android:textColor="@color/grey"/>
+
+                            </LinearLayout>
+
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_marginVertical="@dimen/_5ssp"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal">
+
+                            <ImageView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:src="@drawable/questions"/>
+
+                            <LinearLayout
+                                android:layout_width="0dp"
+                                android:layout_gravity="center_vertical"
+                                android:orientation="vertical"
+                                android:paddingHorizontal="@dimen/_5ssp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1">
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="200 Questions - 800 Marks"
+                                    android:fontFamily="@font/inter_semibold"
+                                    android:textSize="@dimen/_12ssp"
+                                    android:textColor="#6C6C6C"/>
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="Scoring details"
+                                    android:fontFamily="@font/inter_semibold"
+                                    android:textSize="@dimen/_10ssp"
+                                    android:textColor="@color/grey"/>
+
+                            </LinearLayout>
+
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_marginVertical="@dimen/_5ssp"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal">
+
+                            <ImageView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:src="@drawable/language"/>
+
+                            <LinearLayout
+                                android:layout_width="0dp"
+                                android:layout_gravity="center_vertical"
+                                android:orientation="vertical"
+                                android:paddingHorizontal="@dimen/_5ssp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1">
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="English"
+                                    android:fontFamily="@font/inter_semibold"
+                                    android:textSize="@dimen/_12ssp"
+                                    android:textColor="#6C6C6C"/>
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="Language"
+                                    android:fontFamily="@font/inter_semibold"
+                                    android:textSize="@dimen/_10ssp"
+                                    android:textColor="@color/grey"/>
+
+                            </LinearLayout>
+
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_marginTop="@dimen/_5ssp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginBottom="@dimen/_200sdp"
+                            android:orientation="horizontal">
+
+                            <LinearLayout
+                                android:layout_width="0dp"
+                                android:layout_gravity="center_vertical"
+                                android:orientation="vertical"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1">
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="Apply Coupon"
+                                    android:fontFamily="@font/inter_semibold"
+                                    android:textSize="@dimen/_12ssp"
+                                    android:textColor="#6C6C6C"/>
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="Already have a coupon to apply ?"
+                                    android:fontFamily="@font/inter_semibold"
+                                    android:textSize="@dimen/_10ssp"
+                                    android:textColor="@color/grey"/>
+
+                                <LinearLayout
+                                    android:layout_width="match_parent"
+                                    android:layout_marginTop="@dimen/_3ssp"
+                                    android:layout_height="wrap_content"
+                                    android:orientation="horizontal">
+
+                                    <EditText
+                                        android:id="@+id/coupon_apply"
+                                        android:layout_width="0dp"
+                                        android:layout_weight="1"
+                                        android:layout_height="match_parent"
+                                        android:textSize="@dimen/_12ssp"
+                                        android:layout_marginEnd="@dimen/_4sdp"
+                                        android:paddingVertical="@dimen/_10ssp"
+                                        android:paddingHorizontal="@dimen/_5ssp"
+                                        android:hint="Type coupon code here"
+                                        android:background="@drawable/backgroundoftheunselected"/>
+
+                                    <TextView
+                                        android:id="@+id/coupon_submit"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="match_parent"
+                                        android:text="Apply"
+                                        android:textColor="@color/white"
+                                        android:textSize="@dimen/_12ssp"
+                                        android:textStyle="normal"
+                                        android:fontFamily="@font/inter_semibold"
+                                        android:background="@drawable/back1"
+                                        android:paddingHorizontal="@dimen/_10ssp"
+                                        android:paddingVertical="@dimen/_10ssp"/>
+
+                                </LinearLayout>
+
+                                <TextView
+                                    android:id="@+id/help_support_coupon"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:paddingHorizontal="@dimen/_10ssp"
+                                    android:textSize="@dimen/_10ssp"
+                                    android:layout_gravity="center"
+                                    android:gravity="center"
+                                    android:paddingVertical="@dimen/_8ssp"
+                                    android:textColor="@color/unselected"
+                                    android:textStyle="normal"
+                                    android:fontFamily="@font/inter"
+                                    android:text="Having trouble ? Click here"/>
+
+                            </LinearLayout>
+
+                        </LinearLayout>
 
                     </LinearLayout>
 
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_marginVertical="@dimen/_5ssp"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal">
-
-                    <ImageView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:src="@drawable/language"/>
-
-                    <LinearLayout
-                        android:layout_width="0dp"
-                        android:layout_gravity="center_vertical"
-                        android:orientation="vertical"
-                        android:paddingHorizontal="@dimen/_5ssp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1">
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="English"
-                            android:fontFamily="@font/inter_semibold"
-                            android:textSize="@dimen/_12ssp"
-                            android:textColor="#6C6C6C"/>
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="Language"
-                            android:fontFamily="@font/inter_semibold"
-                            android:textSize="@dimen/_10ssp"
-                            android:textColor="@color/grey"/>
-
-                    </LinearLayout>
 
                 </LinearLayout>
 
-
-            </LinearLayout>
-
-
-        </LinearLayout>
+            </RelativeLayout>
 
     </ScrollView>
 
@@ -345,6 +455,7 @@
         app:layout_constraintBottom_toTopOf="@+id/dividerwillcomehere"
         app:layout_constraintStart_toStartOf="parent"
         android:paddingVertical="@dimen/_5ssp"
+        android:visibility="visible"
         app:layout_constraintEnd_toEndOf="parent"
         android:background="@drawable/bkforthenotice"
         android:paddingHorizontal="@dimen/_10ssp"
@@ -353,9 +464,9 @@
         android:orientation="horizontal">
 
         <de.hdodenhof.circleimageview.CircleImageView
-            android:layout_width="@dimen/_40ssp"
+            android:layout_width="@dimen/_30ssp"
             android:id="@+id/profilepicture"
-            android:layout_height="@dimen/_40ssp"
+            android:layout_height="@dimen/_30ssp"
             android:src="@drawable/placeholder"/>
 
         <LinearLayout
@@ -372,7 +483,7 @@
                 android:paddingHorizontal="@dimen/_10ssp"
                 android:textStyle="normal"
                 android:fontFamily="@font/inter_semibold"
-                android:textSize="@dimen/_12ssp"/>
+                android:textSize="@dimen/_10ssp"/>
 
             <TextView
                 android:id="@+id/currentuseremailid"
@@ -383,7 +494,7 @@
                 android:paddingHorizontal="@dimen/_10ssp"
                 android:textStyle="normal"
                 android:fontFamily="@font/inter"
-                android:textSize="@dimen/_10ssp"/>
+                android:textSize="@dimen/_8ssp"/>
 
         </LinearLayout>
 
@@ -410,6 +521,7 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:visibility="visible"
             android:paddingHorizontal="@dimen/_10ssp"
             android:paddingBottom="@dimen/_10ssp"
             android:orientation="vertical">

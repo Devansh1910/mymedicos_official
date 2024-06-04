@@ -2,7 +2,7 @@
     <!-- Base application theme. -->
     <style name="Base.Theme.My_medicos" parent="Theme.Material3.Light.NoActionBar">
         <!-- Customize your light theme here. -->
-        <item name="colorPrimary">@color/green</item>
+        <item name="colorPrimary">@color/unselected</item>
         <item name="android:navigationBarColor">@color/backgroundcolor</item>
         <item name="android:windowIsTranslucent">true</item>
         <item name="android:windowLightNavigationBar" tools:ignore="NewApi">false</item> <!-- Set to false for dark icons -->
@@ -31,11 +31,11 @@
 
     <style name="CustomTabLayout" parent="Widget.Design.TabLayout">
         <!-- Color for the text of the tabs -->
-        <item name="tabTextColor">@color/unselected</item>
+        <item name="tabTextColor">#7E7E7E</item>
         <!-- Color for the selected tab -->
-        <item name="tabSelectedTextColor">@color/blue</item>
+        <item name="tabSelectedTextColor">@color/unselected</item>
         <!-- Color for the indicator under the selected tab -->
-        <item name="tabIndicatorColor">@color/blue</item>
+        <item name="tabIndicatorColor">@color/unselected</item>
     </style>
 
     <style name="Theme.My_medicos.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />

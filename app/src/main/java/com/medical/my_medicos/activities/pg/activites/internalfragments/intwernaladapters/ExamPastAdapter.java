@@ -1,8 +1,11 @@
 package com.medical.my_medicos.activities.pg.activites.internalfragments.intwernaladapters;
 
 import android.annotation.SuppressLint;
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.provider.CalendarContract;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -10,6 +13,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -24,25 +28,25 @@ import com.medical.my_medicos.activities.pg.model.QuizPGExam;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 
-public class ExamQuizAdapter extends RecyclerView.Adapter<ExamQuizAdapter.ExamViewHolder> {
+public class ExamPastAdapter extends RecyclerView.Adapter<ExamPastAdapter.ExamPastViewHolder> {
     private static final String TAG = "ExamQuizAdapter";  // Added for consistent logging
     private Context context;
     private ArrayList<QuizPGExam> quizList;
 
-    public ExamQuizAdapter(Context context, ArrayList<QuizPGExam> quizList) {
+    public ExamPastAdapter(Context context, ArrayList<QuizPGExam> quizList) {
         this.context = context;
         this.quizList = quizList;
     }
 
     @NonNull
     @Override
-    public ExamViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(context).inflate(R.layout.quiz_list_item, parent, false);
-        return new ExamViewHolder(view);
+    public ExamPastViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        View view = LayoutInflater.from(context).inflate(R.layout.quiz_past_item, parent, false);
+        return new ExamPastViewHolder(view);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull ExamViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull ExamPastViewHolder holder, int position) {
         QuizPGExam quiz = quizList.get(position);
         holder.titleTextView.setText(quiz.getTitle());
         holder.timestart.setText(formatTimestamp(quiz.getFrom()));
@@ -50,16 +54,6 @@ public class ExamQuizAdapter extends RecyclerView.Adapter<ExamQuizAdapter.ExamVi
 
         Log.d(TAG, "Binding view holder for position: " + position);
 
-        holder.pay.setOnClickListener(v -> {
-            Log.d(TAG, "Click event triggered for position: " + position);
-            Intent intent = new Intent(v.getContext(), NeetExamPayment.class);
-            intent.putExtra("Title1", quiz.getTitle1());
-            intent.putExtra("Title", quiz.getTitle());
-            intent.putExtra("From", formatTimestamp(quiz.getFrom()));
-            intent.putExtra("Due", formatTimestamp(quiz.getTo()));
-            intent.putExtra("qid", quiz.getId());
-            v.getContext().startActivity(intent);
-        });
     }
 
     private String formatTimestamp(Timestamp timestamp) {
@@ -72,7 +66,7 @@ public class ExamQuizAdapter extends RecyclerView.Adapter<ExamQuizAdapter.ExamVi
         return quizList.size();
     }
 
-    public class ExamViewHolder extends RecyclerView.ViewHolder {
+    public class ExamPastViewHolder extends RecyclerView.ViewHolder {
         TextView titleTextView, timestart, timeend;
         Button payforsets;
         LinearLayout pay;
@@ -80,13 +74,22 @@ public class ExamQuizAdapter extends RecyclerView.Adapter<ExamQuizAdapter.ExamVi
         String currentUid;
         int coins = 50;
 
-        public ExamViewHolder(@NonNull View itemView) {
+        public ExamPastViewHolder(@NonNull View itemView) {
             super(itemView);
+            // Initialize components
             titleTextView = itemView.findViewById(R.id.titleSets);
             timestart = itemView.findViewById(R.id.availablefromtime);
             timeend = itemView.findViewById(R.id.availabletilltime);
             payforsets = itemView.findViewById(R.id.paymentpart);
-            pay = itemView.findViewById(R.id.payfortheexam);
+            pay = itemView.findViewById(R.id.pastfortheexam);
+
+            // Set click listener
+            pay.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Toast.makeText(context, "Quiz already Terminated, Checkout other quizes.", Toast.LENGTH_SHORT).show();
+                }
+            });
         }
     }
 }

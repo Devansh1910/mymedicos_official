@@ -131,7 +131,7 @@ public class WeeklyQuizFragment extends Fragment {
                                 Timestamp to = document.getTimestamp("to");
                                 int r = speciality.compareTo(title1);
                                 if (r == 0) {
-                                    QuizPG quizday = new QuizPG(title, title1, to);
+                                    QuizPG quizday = new QuizPG(title, title1, to, id);
                                     quizpg.add(quizday);
                                 }
                             }

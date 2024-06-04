@@ -3,16 +3,7 @@ package com.medical.my_medicos.activities.pg.activites.internalfragments;
 import static androidx.fragment.app.FragmentManager.TAG;
 
 import android.annotation.SuppressLint;
-import android.content.ContentValues;
 import android.os.Bundle;
-
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.fragment.app.Fragment;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
-
 import android.os.Handler;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -22,6 +13,15 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ViewFlipper;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
+import androidx.viewpager2.adapter.FragmentStateAdapter;
+import androidx.viewpager2.widget.ViewPager2;
+
+import com.airbnb.lottie.LottieAnimationView;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.Timestamp;
@@ -29,13 +29,17 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
+import com.google.android.material.tabs.TabLayout;
+import com.google.android.material.tabs.TabLayoutMediator;
 import com.medical.my_medicos.R;
+import com.medical.my_medicos.activities.pg.activites.internalfragments.insiderfragments.LiveNeetFragment;
+import com.medical.my_medicos.activities.pg.activites.internalfragments.insiderfragments.PastNeetFragment;
+import com.medical.my_medicos.activities.pg.activites.internalfragments.insiderfragments.UpcomingNeetFragment;
+import com.medical.my_medicos.activities.pg.activites.internalfragments.insiderfragments.extras.CouponBottomSheetFragment;
 import com.medical.my_medicos.activities.pg.activites.internalfragments.intwernaladapters.ExamQuizAdapter;
 import com.medical.my_medicos.activities.pg.model.QuizPG;
-import com.medical.my_medicos.databinding.FragmentNeetExamBinding;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -43,7 +47,6 @@ import java.util.Map;
 
 public class NeetExamFragment extends Fragment {
 
-    private FragmentNeetExamBinding binding;
     private ViewFlipper viewFlipperPg;
     private Handler handlerpg;
     private ArrayList<QuizPG> quizpgneet;
@@ -64,23 +67,7 @@ public class NeetExamFragment extends Fragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        binding = FragmentNeetExamBinding.inflate(inflater, container, false);
-        View rootView = binding.getRoot();
-
-        Bundle args = getArguments();
-        if (args != null) {
-            quizpgneet = new ArrayList<>();
-            quizAdapterneet = new ExamQuizAdapter(requireContext(), quizpgneet);
-
-            RecyclerView recyclerViewVideos = binding.specialexam;
-            LinearLayoutManager layoutManagerVideos = new LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false);
-            recyclerViewVideos.setLayoutManager(layoutManagerVideos);
-            recyclerViewVideos.setAdapter(quizAdapterneet);
-
-            getPaidExamNeet(title2);
-        } else {
-            Log.e("ERROR", "Arguments are null in WeeklyQuizFragment");
-        }
+        View rootView = inflater.inflate(R.layout.fragment_neet_exam, container, false);
 
         viewFlipperPg = rootView.findViewById(R.id.viewFlipperpg);
         dotsLayoutpg = rootView.findViewById(R.id.dotsLayoutpg);
@@ -88,10 +75,61 @@ public class NeetExamFragment extends Fragment {
 
         addDotspg();
 
+        TabLayout tabLayout = rootView.findViewById(R.id.tablayoutpg);
+        tabLayout.addTab(tabLayout.newTab().setText("LIVE"));
+        tabLayout.addTab(tabLayout.newTab().setText("UPCOMING"));
+        tabLayout.addTab(tabLayout.newTab().setText("PAST"));
+
+        ViewPager2 viewPager = rootView.findViewById(R.id.view_pager_pg);
+
+        FragmentStateAdapter adapter = new FragmentStateAdapter(this) {
+            @NonNull
+            @Override
+            public Fragment createFragment(int position) {
+                switch (position) {
+                    case 1:
+                        return new UpcomingNeetFragment();
+                    case 2:
+                        return new PastNeetFragment();
+                    default:
+                        return new LiveNeetFragment();
+                }
+            }
+
+            @Override
+            public int getItemCount() {
+                return 3; // Adjust based on your tabs count
+            }
+        };
+
+        viewPager.setAdapter(adapter);
+
+        new TabLayoutMediator(tabLayout, viewPager, (tab, position) -> {
+            switch (position) {
+                case 0:
+                    tab.setText("LIVE");
+                    break;
+                case 1:
+                    tab.setText("UPCOMING");
+                    break;
+                case 2:
+                    tab.setText("PAST");
+                    break;
+            }
+        }).attach();
+
         handlerpg.postDelayed(autoScrollRunnable, AUTO_SCROLL_DELAY);
+
+        ImageView couponPopup = rootView.findViewById(R.id.CouponPopup);
+        couponPopup.setOnClickListener(v -> {
+            CouponBottomSheetFragment bottomSheetFragment = new CouponBottomSheetFragment();
+            bottomSheetFragment.show(getChildFragmentManager(), bottomSheetFragment.getTag());
+        });
+
         return rootView;
     }
 
+    @SuppressLint("RestrictedApi")
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
@@ -101,10 +139,10 @@ public class NeetExamFragment extends Fragment {
             String userId = currentUser.getPhoneNumber();
         }
 
-        swipeRefreshLayoutPg = binding.getRoot().findViewById(R.id.swipeRefreshLayoutPg);
+        swipeRefreshLayoutPg = view.findViewById(R.id.swipeRefreshLayoutPg);
         swipeRefreshLayoutPg.setOnRefreshListener(this::refreshContent);
 
-        RecyclerView perDayQuestionsRecyclerView = binding.getRoot().findViewById(R.id.perdayquestions);
+        RecyclerView perDayQuestionsRecyclerView = view.findViewById(R.id.perdayquestions);
 
         if (perDayQuestionsRecyclerView == null) {
             Log.e("Fragment", "Empty");
@@ -115,81 +153,16 @@ public class NeetExamFragment extends Fragment {
 
         FirebaseFirestore db = FirebaseFirestore.getInstance();
         String userId = currentUser.getPhoneNumber();
-        db.collection("users")
-                .get()
-                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                    @Override
-                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
-
-                    }
-                });
-    }
-
-    void getPaidExamNeet(String title) {
-        FirebaseFirestore db = FirebaseFirestore.getInstance();
-        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-        List<String> subcollectionIds = new ArrayList<>();
-
-        if (user != null) {
-            String userId = user.getPhoneNumber();
-
-            CollectionReference quizResultsCollection = db.collection("QuizResults").document(userId).collection("Exam");
-
-            quizResultsCollection.get()
-                    .addOnCompleteListener(subcollectionTask -> {
-                        if (subcollectionTask.isSuccessful()) {
-                            for (QueryDocumentSnapshot subdocument : subcollectionTask.getResult()) {
-                                String subcollectionId = subdocument.getId();
-                                subcollectionIds.add(subcollectionId);
-                                Log.d("Subcollection ID", subcollectionId);
-                            }
-                            for (String id : subcollectionIds) {
-                                Log.d("All Subcollection IDs", id);
-                            }
-                        } else {
-                            Log.e("Subcollection ID", "Error fetching subcollections", subcollectionTask.getException());
-                        }
-                    });
-        }
-
-        if (title == null || title.isEmpty()) {
-            title = "Exam";
-        }
-        CollectionReference quizzCollection = db.collection("PGupload").document("Weekley").collection("Quiz");
-        Query query = quizzCollection;
-        String finalTitle = title;
-        query.orderBy("from",Query.Direction.ASCENDING).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-            @Override
-            public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                if (task.isSuccessful()) {
-                    for (QueryDocumentSnapshot document : task.getResult()) {
-                        String id = document.getId();
-
-                        // Check if the document ID is present in the subcollectionIds array
-                        if (!subcollectionIds.contains(id)) {
-                            String quizTitle = document.getString("title");
-                            String speciality = document.getString("speciality");
-                            Timestamp To = document.getTimestamp("to");
-                            Log.d("title sdnvkjsbdv",quizTitle);
-
-                            if (finalTitle.isEmpty() || finalTitle.equals("Exam")) {
-                                if (finalTitle != null && speciality != null) {
-                                    int r = speciality.compareTo(finalTitle);
-                                    if (r == 0) {
-                                        QuizPG quizday = new QuizPG(quizTitle, finalTitle, To);
-                                        quizpgneet.add(quizday);
-                                    }
-                                    quizAdapterneet.notifyDataSetChanged();
-                                }
-                            }
-                        }
-                    }
-                    quizAdapterneet.notifyDataSetChanged();
-                } else {
-                    Log.d(ContentValues.TAG, "Error getting documents: ", task.getException());
+        db.collection("users").get().addOnCompleteListener(task -> {
+            if (task.isSuccessful()) {
+                for (QueryDocumentSnapshot document : task.getResult()) {
+                    Log.d(TAG, document.getId() + " => " + document.getData());
                 }
+            } else {
+                Log.w(TAG, "Error getting documents.", task.getException());
             }
         });
+
     }
 
     private final Runnable autoScrollRunnable = new Runnable() {
@@ -237,12 +210,15 @@ public class NeetExamFragment extends Fragment {
     }
 
     private void showShimmer(boolean show) {
-        if (show) {
-            binding.shimmercomeup.setVisibility(View.VISIBLE);
-            binding.shimmercomeup.playAnimation();
-        } else {
-            binding.shimmercomeup.setVisibility(View.GONE);
-            binding.shimmercomeup.cancelAnimation();
+        View shimmer = getView().findViewById(R.id.shimmercomeup);
+        if (shimmer != null) {
+            shimmer.setVisibility(show ? View.VISIBLE : View.GONE);
+            if (show) {
+                // Assuming shimmercomeup is a LottieAnimationView
+                ((LottieAnimationView) shimmer).playAnimation();
+            } else {
+                ((LottieAnimationView) shimmer).cancelAnimation();
+            }
         }
     }
 
