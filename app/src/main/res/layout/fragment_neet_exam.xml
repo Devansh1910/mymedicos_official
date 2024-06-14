@@ -174,7 +174,7 @@
                         android:paddingVertical="@dimen/_12ssp"
                         android:layout_gravity="center_vertical"
                         android:gravity="center"
-                        android:src="@drawable/menu_icon_come_here"
+                        android:src="@drawable/coupon_svgrepo_com"
                         android:paddingHorizontal="@dimen/_10ssp"/>
 
                 </LinearLayout>

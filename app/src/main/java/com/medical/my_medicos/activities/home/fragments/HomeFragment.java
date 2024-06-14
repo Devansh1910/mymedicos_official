@@ -263,9 +263,9 @@ public class HomeFragment extends Fragment {
             startActivity(i);
         });
 
-        vector_home = rootView.findViewById(R.id.vector_home); // Add this line to initialize the ImageView
+        vector_home = rootView.findViewById(R.id.vector_home);
         vector_home.setOnClickListener(view -> {
-            Intent i = new Intent(getActivity(), FmgeActivity.class);
+            Intent i = new Intent(getActivity(), PgprepActivity.class);
             startActivity(i);
         });
 

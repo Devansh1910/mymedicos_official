@@ -3,7 +3,9 @@ package com.medical.my_medicos.activities.pg.activites;
 import static androidx.fragment.app.FragmentManager.TAG;
 
 import android.annotation.SuppressLint;
+import android.app.ProgressDialog;
 import android.content.ContentValues;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
@@ -12,8 +14,12 @@ import android.os.Bundle;
 import android.text.Editable;
 import android.text.Html;
 import android.util.Log;
+import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.Window;
+import android.view.inputmethod.InputMethodManager;
+import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -24,8 +30,14 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.cardview.widget.CardView;
 import androidx.core.content.ContextCompat;
 
+import com.airbnb.lottie.LottieAnimationView;
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
@@ -39,12 +51,14 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.dynamiclinks.DynamicLink;
 import com.google.firebase.dynamiclinks.FirebaseDynamicLinks;
+import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
+import com.google.firebase.firestore.SetOptions;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.medical.my_medicos.R;
@@ -52,7 +66,12 @@ import com.medical.my_medicos.activities.login.GetstartedActivity;
 import com.medical.my_medicos.activities.login.bottom_controls.PrivacyPolicyActivity;
 import com.medical.my_medicos.activities.login.bottom_controls.TermsandConditionsActivity;
 import com.medical.my_medicos.activities.pg.activites.Neetexaminsider;
+import com.medical.my_medicos.activities.pg.activites.extras.CreditsActivity;
+import com.medical.my_medicos.activities.publications.activity.PaymentPublicationActivity;
+import com.medical.my_medicos.activities.utils.ConstantsDashboard;
 import com.squareup.picasso.Picasso;
+
+import org.json.JSONObject;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
@@ -76,21 +95,28 @@ public class NeetExamPayment extends AppCompatActivity {
     String examtitle,examdescription;
     FirebaseAuth auth = FirebaseAuth.getInstance();
     FirebaseUser user = auth.getCurrentUser();
+    private Context context;
     String current_user=user.getPhoneNumber();
     String receivedData;
     private String currentUid;
     private int examFee = 50;
     private boolean dataLoaded = false;
     private int pendingDiscount = 0; // Default is no discount
+    private String about;
     private String couponId; // To store the ID of the applied coupon
     FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
-
+    private String validatedCouponCode = null;
+    ProgressDialog progressDialog;
 
     @SuppressLint("RestrictedApi")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_neet_exam_payment);
+
+        progressDialog = new ProgressDialog(this);
+        progressDialog.setCancelable(false);
+        progressDialog.setMessage("Processing...");
 
         String examId = getIntent().getStringExtra("qid");
         Intent intent = getIntent();
@@ -237,6 +263,7 @@ public class NeetExamPayment extends AppCompatActivity {
 
         TextView coupon_submit = findViewById(R.id.coupon_submit);
         EditText coupon_apply=findViewById(R.id.coupon_apply);
+
         coupon_submit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -498,7 +525,7 @@ public class NeetExamPayment extends AppCompatActivity {
                     List<String> usedCoupons = (List<String>) documentSnapshot.get("coupon_used");
                     if (usedCoupons != null && usedCoupons.contains(code)) {
                         // Coupon has already been used by this user
-                        Toast.makeText(NeetExamPayment.this, "You have already used this coupon.", Toast.LENGTH_SHORT).show();
+                        showCustomCouponUsedDialog();
                     } else {
                         // Proceed to validate the coupon if not used
                         checkCouponValidity(code, db);
@@ -511,6 +538,25 @@ public class NeetExamPayment extends AppCompatActivity {
         } else {
             Toast.makeText(this, "User not logged in or phone number unavailable", Toast.LENGTH_SHORT).show();
         }
+    }
+
+    private void showCustomCouponUsedDialog() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        LayoutInflater inflater = this.getLayoutInflater();
+        View dialogView = inflater.inflate(R.layout.dialogue_coupon_already_used, null);
+        builder.setView(dialogView);
+
+        AlertDialog dialog = builder.create();
+
+        TextView buttonOk = dialogView.findViewById(R.id.dialog_button);
+        buttonOk.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog.dismiss();
+            }
+        });
+
+        dialog.show();
     }
 
     private void checkCouponValidity(String code, FirebaseFirestore db) {
@@ -526,9 +572,10 @@ public class NeetExamPayment extends AppCompatActivity {
                             for (QueryDocumentSnapshot document : task.getResult()) {
                                 couponId = document.getId(); // Store the coupon ID when it's validated
                                 pendingDiscount = Objects.requireNonNull(document.getLong("discount")).intValue();
-                                Log.d(TAG, "Coupon ID: " + couponId); // Check coupon ID
-                                Toast.makeText(NeetExamPayment.this, "Coupon validated, discount will be applied at exam start", Toast.LENGTH_SHORT).show();
-                                addCouponToUsedList(currentUser.getPhoneNumber(), code);
+                                about = Objects.requireNonNull(document.getString("about"));
+                                // Store the coupon code temporarily instead of adding to used list
+                                validatedCouponCode = code;  // Assume validatedCouponCode is a class member variable
+                                showCustomDialog("Coupon Applied Successfully!", code, document.getString("about"));
                             }
                         } else {
                             Toast.makeText(NeetExamPayment.this, "Not a valid coupon code", Toast.LENGTH_SHORT).show();
@@ -537,14 +584,186 @@ public class NeetExamPayment extends AppCompatActivity {
                 });
     }
 
+
+    private void showCustomDialog(String title, String couponCode, String couponDescription) {
+        LayoutInflater inflater = this.getLayoutInflater();
+        View dialogView = inflater.inflate(R.layout.custom_coupon_applied, null);
+
+        TextView dialogTitle = dialogView.findViewById(R.id.dialog_title);
+        TextView dialogMessage = dialogView.findViewById(R.id.dialog_message);
+        TextView dialogButton = dialogView.findViewById(R.id.dialog_button);
+
+        // Set the title and message with coupon details
+        dialogTitle.setText(title + ": " + couponCode);
+        dialogMessage.setText(couponDescription);
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setView(dialogView);
+        AlertDialog dialog = builder.create();
+
+        dialogButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog.dismiss();
+            }
+        });
+
+        dialog.show();
+    }
+
+    private void showInsufficientCreditsDialog() {
+        BottomSheetDialog bottomSheetDialog = new BottomSheetDialog(NeetExamPayment.this);
+        View bottomSheetView = getLayoutInflater().inflate(R.layout.custom_bottom_sheet_up_insufficient, null);
+
+        TextView text = bottomSheetView.findViewById(R.id.text_insufficient_credits);
+        text.setText("You have Insufficient Credit Point");
+
+        TextView closeButton = bottomSheetView.findViewById(R.id.close);
+        TextView intentCredits = bottomSheetView.findViewById(R.id.intenttocredit);
+        CardView puchase100credits = bottomSheetView.findViewById(R.id.puchase100credits);
+        closeButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                bottomSheetDialog.dismiss();
+            }
+        });
+
+        intentCredits.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                bottomSheetDialog.dismiss(); // Dismiss the bottom sheet dialog
+                Intent intent = new Intent(NeetExamPayment.this, CreditsActivity.class); // Create an intent for the CreditsActivity
+                startActivity(intent); // Start the activity
+            }
+        });
+
+        puchase100credits.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                showBottomSheet129();
+            }
+        });
+
+
+        bottomSheetDialog.setContentView(bottomSheetView);
+        bottomSheetDialog.show();
+    }
+
+    private void showBottomSheet129() {
+        View bottomSheetView = LayoutInflater.from(NeetExamPayment.this).inflate(R.layout.bottom_sheet_up_250, null);
+        BottomSheetDialog bottomSheetDialog = new BottomSheetDialog(NeetExamPayment.this);
+        bottomSheetDialog.setContentView(bottomSheetView);
+
+        @SuppressLint({"MissingInflatedId", "LocalSuppress"})
+        TextView textClickMe = bottomSheetView.findViewById(R.id.paymentpartcredit129);
+
+        textClickMe.setOnClickListener(v -> {
+            processCreditsOrderPackage2();
+        });
+        bottomSheetDialog.show();
+    }
+
+    void processCreditsOrderPackage2() {
+        progressDialog.show();
+        FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
+        if (currentUser != null) {
+            String userId = currentUser.getPhoneNumber();
+            FirebaseFirestore db = FirebaseFirestore.getInstance();
+            CollectionReference usersRef = db.collection("users");
+
+            usersRef.whereEqualTo("Phone Number", userId)
+                    .get()
+                    .addOnCompleteListener(task -> {
+                        if (task.isSuccessful()) {
+                            for (QueryDocumentSnapshot document : task.getResult()) {
+                                RequestQueue queue = Volley.newRequestQueue(this);
+
+                                String url = ConstantsDashboard.GET_ORDER_ID_99_41 + userId + "/" + "package2";
+                                Log.d("API Request URL", url);
+
+                                StringRequest request = new StringRequest(Request.Method.GET, url, response -> {
+                                    try {
+                                        Log.d("API Response", response);
+                                        JSONObject requestBody = new JSONObject(response);
+
+                                        if (requestBody.getString("status").equals("success")) {
+                                            Toast.makeText(NeetExamPayment.this, "Success order.", Toast.LENGTH_SHORT).show();
+                                            String orderNumber = requestBody.getString("order_id");
+                                            Log.e("Order ID check", orderNumber);
+                                            new android.app.AlertDialog.Builder(NeetExamPayment.this)
+                                                    .setTitle("Order Successful")
+                                                    .setCancelable(false)
+                                                    .setMessage("Your order number is: " + orderNumber)
+                                                    .setPositiveButton("Pay Now", (dialogInterface, i) -> {
+                                                        Intent intent = new Intent(NeetExamPayment.this, PaymentPublicationActivity.class);
+                                                        intent.putExtra("orderCode", orderNumber);
+                                                        startActivity(intent);
+                                                    }).show();
+                                        } else {
+                                            Toast.makeText(NeetExamPayment.this, "Failed order.", Toast.LENGTH_SHORT).show();
+                                        }
+                                        progressDialog.dismiss();
+                                        Log.e("res", response);
+                                    } catch (Exception e) {
+                                        e.printStackTrace();
+                                    }
+                                }, error -> {
+                                    error.printStackTrace();
+                                    progressDialog.dismiss();
+                                    Toast.makeText(NeetExamPayment.this, "Volley Error: " + error.getMessage(), Toast.LENGTH_SHORT).show();
+                                });
+
+                                queue.add(request);
+                            }
+                        } else {
+                            // Handle the error when the document is not found
+                            progressDialog.dismiss();
+                            Toast.makeText(NeetExamPayment.this, "Failed to retrieve user information", Toast.LENGTH_SHORT).show();
+                        }
+                    });
+        } else {
+            progressDialog.dismiss();
+            Toast.makeText(NeetExamPayment.this, "User not authenticated", Toast.LENGTH_SHORT).show();
+        }
+    }
+
     @SuppressLint("RestrictedApi")
-    private void addCouponToUsedList(String phoneNumber, String couponId) {
+    private void addCouponToUsedList(String phoneNumber, String couponCode) {
         FirebaseFirestore db = FirebaseFirestore.getInstance();
         DocumentReference userCouponDoc = db.collection("CouponUsed").document(phoneNumber);
-        userCouponDoc.update("coupon_used", FieldValue.arrayUnion(couponId))
-                .addOnSuccessListener(aVoid -> Log.d(TAG, "Coupon added to user's used list"))
-                .addOnFailureListener(e -> Log.e(TAG, "Error adding coupon to used list", e));
+
+        // First, attempt to get the document to check if it exists
+        userCouponDoc.get().addOnCompleteListener(task -> {
+            if (task.isSuccessful()) {
+                DocumentSnapshot document = task.getResult();
+                if (document.exists()) {
+                    // Document exists, proceed with updating
+                    updateCouponUsedList(userCouponDoc, couponCode);
+                } else {
+                    // Document does not exist, create it first
+                    Map<String, Object> newUserCouponData = new HashMap<>();
+                    newUserCouponData.put("coupon_used", Arrays.asList(couponCode)); // Initialize with first coupon
+                    userCouponDoc.set(newUserCouponData)
+                            .addOnSuccessListener(aVoid -> Log.d(TAG, "New coupon list created for user"))
+                            .addOnFailureListener(e -> Log.e(TAG, "Failed to create new coupon list for user", e));
+                }
+            } else {
+                Log.e(TAG, "Failed to check if user coupon document exists", task.getException());
+            }
+        });
     }
+
+    @SuppressLint("RestrictedApi")
+    private void updateCouponUsedList(DocumentReference userCouponDoc, String couponCode) {
+        // Use set with merge option to create the document if it does not exist
+        Map<String, Object> updates = new HashMap<>();
+        updates.put("coupon_used", FieldValue.arrayUnion(couponCode));
+
+        userCouponDoc.set(updates, SetOptions.merge())
+                .addOnSuccessListener(aVoid -> Log.d(TAG, "Coupon code added to user's used list"))
+                .addOnFailureListener(e -> Log.e(TAG, "Error adding coupon code to used list", e));
+    }
+
 
     private void applyCoupon(int discount, String couponId) {
         DatabaseReference ref = FirebaseDatabase.getInstance().getReference().child("profiles").child(currentUid).child("coins");
@@ -568,8 +787,6 @@ public class NeetExamPayment extends AppCompatActivity {
         });
     }
 
-
-
     private void startExamination(String title, String title1) {
         DatabaseReference ref = FirebaseDatabase.getInstance().getReference().child("profiles").child(currentUid).child("coins");
         ref.addListenerForSingleValueEvent(new ValueEventListener() {
@@ -583,15 +800,16 @@ public class NeetExamPayment extends AppCompatActivity {
                     if (newCoinsValue >= 0) {
                         ref.setValue(newCoinsValue);
 
-                        // Check if couponId is not null and discount is applied
-                        if (couponId != null && pendingDiscount > 0) {
-                            addCouponUsedToUser(currentUid);
+                        // Save the coupon to used list only when the exam starts
+                        if (validatedCouponCode != null) {
+                            addCouponToUsedList(currentUser.getPhoneNumber(), validatedCouponCode, couponId);
+                            validatedCouponCode = null;  // Reset the validated coupon code
                         }
 
                         showQuizInsiderActivity(title, title1);
-                        Toast.makeText(NeetExamPayment.this, "Welcome to the exam. Fee applied: " + coinsAfterDiscount + " coins", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(NeetExamPayment.this, "Welcome to the exam. Fee applied: " + newCoinsValue + " coins", Toast.LENGTH_SHORT).show();
                     } else {
-                        Toast.makeText(NeetExamPayment.this, "Insufficient Credits", Toast.LENGTH_SHORT).show();
+                        showInsufficientCreditsDialog();
                     }
                 }
             }
@@ -602,6 +820,33 @@ public class NeetExamPayment extends AppCompatActivity {
             }
         });
     }
+
+    @SuppressLint("RestrictedApi")
+    private void addCouponToUsedList(String phoneNumber, String couponCode, String couponId) {
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+        DocumentReference userCouponDoc = db.collection("CouponUsed").document(phoneNumber);
+
+        // First, attempt to get the document to check if it exists
+        userCouponDoc.get().addOnCompleteListener(task -> {
+            if (task.isSuccessful()) {
+                DocumentSnapshot document = task.getResult();
+                if (document.exists()) {
+                    // Document exists, proceed with updating
+                    updateCouponUsedList(userCouponDoc, couponCode);
+                } else {
+                    // Document does not exist, create it first
+                    Map<String, Object> newUserCouponData = new HashMap<>();
+                    newUserCouponData.put("coupon_used", Arrays.asList(couponCode));
+                    userCouponDoc.set(newUserCouponData)
+                            .addOnSuccessListener(aVoid -> Log.d(TAG, "New coupon list created for user"))
+                            .addOnFailureListener(e -> Log.e(TAG, "Failed to create new coupon list for user", e));
+                }
+            } else {
+                Log.e(TAG, "Failed to check if user coupon document exists", task.getException());
+            }
+        });
+    }
+
 
     private void addCouponUsedToUser(String docID) {
         FirebaseFirestore db = FirebaseFirestore.getInstance();
@@ -632,7 +877,12 @@ public class NeetExamPayment extends AppCompatActivity {
         });
     }
 
-
+    private void hideKeyboard(View view) {
+        InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+        if (imm != null) {
+            imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
+        }
+    }
 
     private void showConfirmationDialog(String title, String title1) {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);

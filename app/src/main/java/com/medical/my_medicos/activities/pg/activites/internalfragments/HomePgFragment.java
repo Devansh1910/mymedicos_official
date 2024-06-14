@@ -169,7 +169,6 @@ public class HomePgFragment extends Fragment {
         return view;
     }
 
-
     private void showFirstTimePopup() {
         SharedPreferences prefs = getActivity().getSharedPreferences("PgPrepPrefs", MODE_PRIVATE);
         boolean isFirstLaunch = prefs.getBoolean("isFirstLaunch", true);
@@ -208,7 +207,6 @@ public class HomePgFragment extends Fragment {
             prefs.edit().putBoolean("isFirstLaunch", false).apply();
         }
     }
-
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
@@ -258,7 +256,6 @@ public class HomePgFragment extends Fragment {
         initSliderPg();
         initQuestionsBanks();
     }
-
 
     private void initSliderPg() {
         getRecentPgSlider();

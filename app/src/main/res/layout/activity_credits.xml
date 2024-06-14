@@ -193,7 +193,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="10dp"
-            app:cardCornerRadius="10dp"
+            app:cardCornerRadius="@dimen/_2ssp"
             android:clickable="true"
             android:background="@color/unselected"
             tools:ignore="MissingConstraints"
@@ -202,7 +202,7 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@color/white"
+                android:background="@drawable/backgroundoftheunselected"
                 android:elevation="@dimen/_20sdp"
                 android:orientation="horizontal"
                 android:padding="10dp">
@@ -220,46 +220,30 @@
                     android:layout_weight="1"
                     android:fontFamily="@font/inter_semibold"
                     android:paddingHorizontal="10dp"
-                    android:paddingVertical="8dp"
+                    android:paddingVertical="@dimen/_5ssp"
                     android:layout_gravity="center_vertical"
                     android:text="Get 10 Credit Points"
                     android:textColor="@color/unselected"
                     android:textSize="13sp"
                     android:textStyle="bold" />
 
-                <Button
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
                     android:layout_gravity="center"
-                    android:layout_weight="1"
                     android:id="@+id/viewad1"
                     android:gravity="center"
-                    android:elevation="@dimen/_5sdp"
-                    android:text="View Ad"
+                    android:elevation="@dimen/_10ssp"
+                    android:text="View Advertisment"
                     android:clickable="true"
+                    android:background="@drawable/backgroundoftheunselected"
                     android:textSize="13sp"
                     android:textStyle="bold"
-                    android:paddingHorizontal="5dp"
+                    android:paddingHorizontal="@dimen/_10ssp"
                     android:textColor="@color/unselected"
                     android:fontFamily="@font/inter_semibold"
                     android:orientation="horizontal"
-                    android:paddingVertical="5dp">
-
-<!--                    <TextView-->
-<!--                        android:layout_width="wrap_content"-->
-<!--                        android:layout_height="match_parent"-->
-<!--                        android:layout_gravity="center"-->
-<!--                        android:fontFamily="@font/inter_extrabold"-->
-<!--                        android:gravity="center"-->
-<!--                        android:paddingHorizontal="5dp"-->
-<!--                        android:text="View Ad"-->
-<!--                        android:clickable="true"-->
-<!--                        android:textAlignment="center"-->
-<!--                        android:textColor="@color/unselected"-->
-<!--                        android:textSize="13sp"-->
-<!--                        android:textStyle="bold" />-->
-
-                </Button>
+                    android:paddingVertical="5dp"/>
 
             </LinearLayout>
 
@@ -272,7 +256,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
             android:layout_marginHorizontal="10dp"
-            app:cardCornerRadius="10dp"
+            app:cardCornerRadius="@dimen/_2ssp"
             android:background="@color/unselected"
             tools:ignore="MissingConstraints"
             tools:layout_editor_absoluteX="10dp">
@@ -280,7 +264,7 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@color/white"
+                android:background="@drawable/backgroundoftheunselected"
                 android:orientation="horizontal"
                 android:padding="10dp">
 
@@ -303,39 +287,23 @@
                     android:textSize="13sp"
                     android:textStyle="bold" />
 
-                <Button
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
                     android:layout_gravity="center"
-                    android:gravity="center"
                     android:id="@+id/viewad2"
-                    android:paddingVertical="5dp"
+                    android:gravity="center"
+                    android:elevation="@dimen/_10ssp"
+                    android:text="View Advertisment"
                     android:clickable="true"
-                    android:text="View Ad"
+                    android:background="@drawable/backgroundoftheunselected"
                     android:textSize="13sp"
-                    android:elevation="@dimen/_5sdp"
                     android:textStyle="bold"
-                    android:paddingHorizontal="5dp"
+                    android:paddingHorizontal="@dimen/_10ssp"
                     android:textColor="@color/unselected"
                     android:fontFamily="@font/inter_semibold"
-                    android:layout_weight="1"
-                    android:orientation="horizontal">
-
-<!--                    <TextView-->
-<!--                        android:layout_width="wrap_content"-->
-<!--                        android:layout_height="match_parent"-->
-<!--                        android:fontFamily="@font/inter_extrabold"-->
-<!--                        android:text="View Ad"-->
-<!--                        android:layout_gravity="center"-->
-<!--                        android:gravity="center"-->
-<!--                        android:textAlignment="center"-->
-<!--                        android:paddingHorizontal="5dp"-->
-<!--                        android:clickable="true"-->
-<!--                        android:textColor="@color/unselected"-->
-<!--                        android:textSize="13sp"-->
-<!--                        android:textStyle="bold" />-->
-
-                </Button>
+                    android:orientation="horizontal"
+                    android:paddingVertical="5dp"/>
 
             </LinearLayout>
 
@@ -371,9 +339,9 @@
             android:id="@+id/puchase100credits"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
+            android:layout_marginTop="@dimen/_2ssp"
             android:layout_marginHorizontal="10dp"
-            app:cardCornerRadius="10dp"
+            app:cardCornerRadius="@dimen/_5ssp"
             android:background="@color/unselected"
             tools:ignore="MissingConstraints"
             tools:layout_editor_absoluteX="10dp">
@@ -464,7 +432,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
             android:layout_marginHorizontal="10dp"
-            app:cardCornerRadius="10dp"
+            app:cardCornerRadius="@dimen/_5ssp"
             android:background="@color/unselected"
             tools:ignore="MissingConstraints"
             tools:layout_editor_absoluteX="10dp">
@@ -570,7 +538,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
             android:layout_marginHorizontal="10dp"
-            app:cardCornerRadius="10dp"
+            app:cardCornerRadius="@dimen/_5ssp"
             android:background="@color/unselected"
             tools:ignore="MissingConstraints"
             tools:layout_editor_absoluteX="10dp">

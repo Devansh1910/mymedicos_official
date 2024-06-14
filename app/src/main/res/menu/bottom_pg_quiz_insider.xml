@@ -11,4 +11,5 @@
         android:icon="@drawable/scoreboard"
         android:id="@+id/lc">
     </item>
+    <!-- Third -->
 </menu>

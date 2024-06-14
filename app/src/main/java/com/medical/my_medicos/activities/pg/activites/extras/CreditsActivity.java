@@ -429,7 +429,7 @@ public class CreditsActivity extends AppCompatActivity {
         bottomSheetDialog.setContentView(bottomSheetView);
 
         @SuppressLint({"MissingInflatedId", "LocalSuppress"})
-        Button textClickMe = bottomSheetView.findViewById(R.id.paymentpartcredit);
+        TextView textClickMe = bottomSheetView.findViewById(R.id.paymentpartcredit);
 
         textClickMe.setOnClickListener(v -> {
             processCreditsOrderPackage1();
@@ -443,7 +443,7 @@ public class CreditsActivity extends AppCompatActivity {
         bottomSheetDialog.setContentView(bottomSheetView);
 
         @SuppressLint({"MissingInflatedId", "LocalSuppress"})
-        Button textClickMe = bottomSheetView.findViewById(R.id.paymentpartcredit129);
+        TextView textClickMe = bottomSheetView.findViewById(R.id.paymentpartcredit129);
 
         textClickMe.setOnClickListener(v -> {
             processCreditsOrderPackage2();
@@ -457,7 +457,7 @@ public class CreditsActivity extends AppCompatActivity {
         bottomSheetDialog.setContentView(bottomSheetView);
 
         @SuppressLint({"MissingInflatedId", "LocalSuppress"})
-        Button textClickMe = bottomSheetView.findViewById(R.id.paymentpartcredit199);
+        TextView textClickMe = bottomSheetView.findViewById(R.id.paymentpartcredit199);
 
         textClickMe.setOnClickListener(v -> {
             processCreditsOrderPackage3();
@@ -702,7 +702,7 @@ public class CreditsActivity extends AppCompatActivity {
         lottieAnimationView.setAnimation(R.raw.asorryforcredits);
         lottieAnimationView.playAnimation();
 
-        Button okButton = dialogView.findViewById(R.id.okbtnreplacer);
+        TextView okButton = dialogView.findViewById(R.id.okbtnreplacer);
         okButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

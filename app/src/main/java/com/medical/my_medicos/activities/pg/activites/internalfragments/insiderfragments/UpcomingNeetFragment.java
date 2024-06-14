@@ -8,10 +8,8 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -27,28 +25,17 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
-import com.medical.my_medicos.R;
-import com.medical.my_medicos.activities.pg.activites.internalfragments.HomePgFragment;
-import com.medical.my_medicos.activities.pg.activites.internalfragments.intwernaladapters.ExamQuizAdapter;
-import com.medical.my_medicos.activities.pg.activites.internalfragments.intwernaladapters.ExamUpcomingAdapter;
-import com.medical.my_medicos.activities.pg.model.QuizPG;
-import com.medical.my_medicos.activities.pg.model.QuizPGExam;
-import com.medical.my_medicos.databinding.FragmentLiveNeetBinding;
-import com.medical.my_medicos.databinding.FragmentPastNeetBinding;
 import com.medical.my_medicos.databinding.FragmentUpcomingNeetBinding;
+import com.medical.my_medicos.activities.pg.activites.internalfragments.intwernaladapters.ExamUpcomingAdapter;
+import com.medical.my_medicos.activities.pg.model.QuizPGExam;
 
 import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
 
 public class UpcomingNeetFragment extends Fragment {
     private FragmentUpcomingNeetBinding binding;
-    private ArrayList<QuizPGExam> Livepg;
-    private ExamUpcomingAdapter LiveAdapter;
-    String quiztiddaya;
-    private SwipeRefreshLayout swipeRefreshLayout;
+    private ArrayList<QuizPGExam> upcomingQuizzes;
+    private ExamUpcomingAdapter upcomingAdapter;
     private FirebaseUser currentUser;
-    private String title1 = "Exam";
 
     public static UpcomingNeetFragment newInstance() {
         UpcomingNeetFragment fragment = new UpcomingNeetFragment();
@@ -61,16 +48,14 @@ public class UpcomingNeetFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         binding = FragmentUpcomingNeetBinding.inflate(inflater, container, false);
 
-        // Initialize quiz list and adapter early
-        Livepg = new ArrayList<>();
-        LiveAdapter = new ExamUpcomingAdapter(requireContext(), Livepg);
+        upcomingQuizzes = new ArrayList<>();
+        upcomingAdapter = new ExamUpcomingAdapter(requireContext(), upcomingQuizzes);
 
-        RecyclerView recyclerViewVideos = binding.recyclerViewUpcomingExams;
-        LinearLayoutManager layoutManagerVideos = new LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false);
-        recyclerViewVideos.setLayoutManager(layoutManagerVideos);
-        recyclerViewVideos.setAdapter(LiveAdapter);
+        RecyclerView recyclerView = binding.recyclerViewUpcomingExams;
+        recyclerView.setLayoutManager(new LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false));
+        recyclerView.setAdapter(upcomingAdapter);
 
-        getPaidExam(title1); // Fetch data regardless of args
+        getPaidExam("Exam");
 
         return binding.getRoot();
     }
@@ -79,86 +64,36 @@ public class UpcomingNeetFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         currentUser = FirebaseAuth.getInstance().getCurrentUser();
-
-        if (currentUser != null) {
-            String userId = currentUser.getPhoneNumber();
-        }
-
-        FirebaseFirestore db = FirebaseFirestore.getInstance();
-        String userId = currentUser.getPhoneNumber();
-        db.collection("users")
-                .get()
-                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                    @SuppressLint("RestrictedApi")
-                    @Override
-                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                        if (task.isSuccessful()) {
-                            for (QueryDocumentSnapshot document : task.getResult()) {
-                                Log.d(FragmentManager.TAG, document.getId() + " => " + document.getData());
-
-                                Map<String, Object> dataMap = document.getData();
-                                String field1 = (String) dataMap.get("Phone Number");
-
-                                if (field1 != null && currentUser.getPhoneNumber() != null) {
-                                    int a = field1.compareTo(userId);
-                                    Log.d("Issue with the userID", String.valueOf(a));
-
-                                    if (a == 0) {
-                                        Log.d("Can't get it", String.valueOf(a));
-                                        quiztiddaya = ((String) dataMap.get("QuizToday"));
-                                        break;
-                                    } else {
-                                        quiztiddaya = null;
-                                    }
-                                }
-                            }
-                        } else {
-                            Log.d(TAG, "Error getting documents: ", task.getException());
-                        }
-                    }
-                });
     }
 
     void getPaidExam(String title) {
         FirebaseFirestore db = FirebaseFirestore.getInstance();
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-        Timestamp now = Timestamp.now(); // Get the current timestamp directly in Firestore's format
-        Log.d(TAG, "Current time: " + now.toString()); // Log current time for debugging
+        Timestamp now = Timestamp.now();
 
         if (user != null) {
             String userId = user.getPhoneNumber();
-            CollectionReference quizzCollection = db.collection("PGupload").document("Weekley").collection("Quiz");
+            CollectionReference quizCollection = db.collection("PGupload").document("Weekley").collection("Quiz");
 
-            // Fetch all quizzes then filter
-            Query query = quizzCollection;
-            query.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                @Override
-                public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                    if (task.isSuccessful()) {
-                        Livepg.clear(); // Clear existing data to avoid duplicates
-                        for (QueryDocumentSnapshot document : task.getResult()) {
-                            String quizTitle = document.getString("title");
-                            String speciality = document.getString("speciality");
-                            Timestamp to = document.getTimestamp("to");
-                            Timestamp from = document.getTimestamp("from");
+            Query query = quizCollection.whereGreaterThanOrEqualTo("from", now);
+            query.get().addOnCompleteListener(task -> {
+                if (task.isSuccessful()) {
+                    upcomingQuizzes.clear();
+                    for (QueryDocumentSnapshot document : task.getResult()) {
+                        String quizTitle = document.getString("title");
+                        String speciality = document.getString("speciality");
+                        Timestamp to = document.getTimestamp("to");
+                        Timestamp from = document.getTimestamp("from");
 
-                            // Log each quiz being checked
-                            Log.d(TAG, "Checking quiz: " + quizTitle + " from: " + from + " to: " + to);
-
-                            // Check if the quiz is in the future and matches the required speciality
-                            if (now.compareTo(from) < 0 && (title.isEmpty() || speciality.equals(title))) {
-                                QuizPGExam quiz = new QuizPGExam(quizTitle, speciality, to, document.getId(), from);
-                                Livepg.add(quiz);
-                                Log.d(TAG, "Added upcoming quiz: " + quizTitle);
-                            }
+                        if (now.compareTo(from) < 0 && (title.isEmpty() || speciality.equals(title))) {
+                            QuizPGExam quiz = new QuizPGExam(quizTitle, speciality, to, document.getId(), from);
+                            upcomingQuizzes.add(quiz);
                         }
-                        LiveAdapter.notifyDataSetChanged();
-                        if (Livepg.isEmpty()) {
-                            Log.d(TAG, "No upcoming quizzes found.");
-                        }
-                    } else {
-                        Log.e(TAG, "Error getting documents: ", task.getException());
                     }
+                    upcomingAdapter.notifyDataSetChanged();
+                    updateUI();
+                } else {
+                    Log.e(TAG, "Error getting documents: ", task.getException());
                 }
             });
         } else {
@@ -166,4 +101,14 @@ public class UpcomingNeetFragment extends Fragment {
         }
     }
 
+    private void updateUI() {
+        if (upcomingQuizzes.isEmpty()) {
+            binding.recyclerViewUpcomingExams.setVisibility(View.GONE);
+            binding.nocardpg.setVisibility(View.VISIBLE);
+            Log.d(TAG, "No upcoming quizzes found. Displaying no card.");
+        } else {
+            binding.recyclerViewUpcomingExams.setVisibility(View.VISIBLE);
+            binding.nocardpg.setVisibility(View.GONE);
+        }
+    }
 }
