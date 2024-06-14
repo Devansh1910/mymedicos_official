@@ -77,6 +77,7 @@ import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
 import java.util.Arrays;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -93,6 +94,7 @@ public class NeetExamPayment extends AppCompatActivity {
     TextView currentcoinspg;
     ImageView sharebtnforneetexam;
     String examtitle,examdescription;
+    String examDue;
     FirebaseAuth auth = FirebaseAuth.getInstance();
     FirebaseUser user = auth.getCurrentUser();
     private Context context;
@@ -107,7 +109,7 @@ public class NeetExamPayment extends AppCompatActivity {
     FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
     private String validatedCouponCode = null;
     ProgressDialog progressDialog;
-
+    String examId;
     @SuppressLint("RestrictedApi")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -118,11 +120,20 @@ public class NeetExamPayment extends AppCompatActivity {
         progressDialog.setCancelable(false);
         progressDialog.setMessage("Processing...");
 
-        String examId = getIntent().getStringExtra("qid");
         Intent intent = getIntent();
+        examId = intent.getStringExtra("qid");
+        examtitle = intent.getStringExtra("title");
+        examDue = intent.getStringExtra("to");
+
+        if (examId == null || examId.isEmpty()){
+            examId = intent.getStringExtra("examId");
+            fetchDataForNull();
+        }
+
         String title = intent.getStringExtra("Title");
         String title1 = intent.getStringExtra("Title1");
         String Due = intent.getStringExtra("Due");
+
 
         if (examId != null && !examId.isEmpty()) {
             // This is when the activity is opened from ExamQuizAdapter
@@ -242,7 +253,7 @@ public class NeetExamPayment extends AppCompatActivity {
         startExamLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                showConfirmationDialog(title, title1);
+                showConfirmationDialog(title);
             }
         });
 
@@ -271,11 +282,37 @@ public class NeetExamPayment extends AppCompatActivity {
                 validateAndApplyCoupon(enteredCouponCode);
             }
         });
-
         handleDeepLink();
         configureWindow();
 
     }
+
+    private void fetchDataForNull() {
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+        CollectionReference quizCollection = db.collection("PGupload").document("Weekley").collection("Quiz");
+
+        // Fetch the specific document using its ID
+        quizCollection.document(examId).get().addOnCompleteListener(task -> {
+            if (task.isSuccessful()) {
+                DocumentSnapshot document = task.getResult();
+                if (document != null && document.exists()) {
+                    examtitle = document.getString("title");
+                    examDue = String.valueOf(document.getDate("to"));
+                    TextView quizNameTextView = findViewById(R.id.quizNameTextView);
+                    TextView dueDateTextView = findViewById(R.id.DueDate);
+                    quizNameTextView.setText(examtitle);
+                    dueDateTextView.setText(examDue);
+                    System.out.println("Author: " + examtitle + "\nDue Date: " + examDue);
+                } else {
+                    System.out.println("No such document!");
+                }
+            } else {
+                System.err.println("Failed with: " + task.getException());
+            }
+        });
+    }
+
+
     public void createlink(String custid, String examId, String examtitle, String examdescription) {
         Log.e("main", "create link");
         Log.d("createlink", "custid: " + custid + ", examId: " + examId);
@@ -295,9 +332,9 @@ public class NeetExamPayment extends AppCompatActivity {
         Uri dynamicLinkUri = dynamicLink.getUri();
         Log.e("main", "Long refer " + dynamicLinkUri);
 
-        createreferlink(custid, examId);
+        createreferlink(examtitle,examdescription, examId);
     }
-    public void createreferlink(String custid, String examId) {
+    public void createreferlink(String examtitle,String examdescription, String examId) {
         if (examId == null || examId.isEmpty()) {
             Log.e(ContentValues.TAG, "Exam ID is null or empty");
             return;
@@ -363,14 +400,9 @@ public class NeetExamPayment extends AppCompatActivity {
                         Uri deepLink = pendingDynamicLinkData.getLink();
                         if (deepLink != null) {
                             String examId = deepLink.getQueryParameter("examId");
-                            String title = deepLink.getQueryParameter("title");
-                            String due = deepLink.getQueryParameter("due");
-
-                            Intent intent = new Intent(NeetExamPayment.this, NeetExamPayment.class);
-                            intent.putExtra("Title", title);
-                            intent.putExtra("Due", due);
-                            intent.putExtra("qid", examId);
-                            startActivity(intent);
+                            Intent intent = getIntent();
+                            intent.putExtra("examId", examId);
+                            setIntent(intent);
                         }
                     }
                 })
@@ -787,7 +819,7 @@ public class NeetExamPayment extends AppCompatActivity {
         });
     }
 
-    private void startExamination(String title, String title1) {
+    private void startExamination(String title) {
         DatabaseReference ref = FirebaseDatabase.getInstance().getReference().child("profiles").child(currentUid).child("coins");
         ref.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
@@ -806,7 +838,7 @@ public class NeetExamPayment extends AppCompatActivity {
                             validatedCouponCode = null;  // Reset the validated coupon code
                         }
 
-                        showQuizInsiderActivity(title, title1);
+                        showQuizInsiderActivity(examtitle);
                         Toast.makeText(NeetExamPayment.this, "Welcome to the exam. Fee applied: " + newCoinsValue + " coins", Toast.LENGTH_SHORT).show();
                     } else {
                         showInsufficientCreditsDialog();
@@ -884,14 +916,14 @@ public class NeetExamPayment extends AppCompatActivity {
         }
     }
 
-    private void showConfirmationDialog(String title, String title1) {
+    private void showConfirmationDialog(String title) {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setTitle("Confirmation");
         builder.setMessage("Starting this quiz will deduct 50 med coins from your account. Do you want to proceed?");
         builder.setPositiveButton("Confirm", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                startExamination(title, title1);
+                startExamination(title);
                 dialog.dismiss();
             }
         });
@@ -904,9 +936,8 @@ public class NeetExamPayment extends AppCompatActivity {
         builder.show();
     }
     // Method to show the quiz instructions activity
-    private void showQuizInsiderActivity(String title, String title1) {
+    private void showQuizInsiderActivity(String title) {
         Intent intent = new Intent(NeetExamPayment.this, Neetexaminsider.class);
-        intent.putExtra("Title1", title1);
         intent.putExtra("Title", title);
 
         startActivity(intent);

@@ -87,10 +87,9 @@ public class Neetexaminsider extends AppCompatActivity implements neetexampadapt
                     String speciality = document.getString("speciality");
                     String titleText = document.getString("title");
                     Intent intent = getIntent();
-                    String str1 = intent.getStringExtra("Title1");
                     String str = intent.getStringExtra("Title");
 
-                    if (titleText.equals(str) && speciality.equals(str1)) {
+                    if (titleText.equals(str)) {
                         title.setText(str);
                         ArrayList<Map<String, Object>> dataList = (ArrayList<Map<String, Object>>) document.get("Data");
                         if (dataList != null) {
