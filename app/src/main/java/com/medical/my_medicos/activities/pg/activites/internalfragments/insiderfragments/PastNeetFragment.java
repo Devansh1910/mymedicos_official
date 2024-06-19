@@ -27,6 +27,8 @@ import com.medical.my_medicos.databinding.FragmentPastNeetBinding;
 import com.medical.my_medicos.activities.pg.activites.internalfragments.intwernaladapters.ExamPastAdapter;
 import com.medical.my_medicos.activities.pg.model.QuizPGExam;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 
 public class PastNeetFragment extends Fragment {
     private FragmentPastNeetBinding binding;
@@ -54,7 +56,7 @@ public class PastNeetFragment extends Fragment {
         recyclerViewVideos.setLayoutManager(layoutManagerVideos);
         recyclerViewVideos.setAdapter(LiveAdapter);
 
-        getPaidExam(title1); // Fetch data regardless of args
+        fetchPastQuizzes(title1); // Fetch data regardless of args
 
         return binding.getRoot();
     }
@@ -65,7 +67,7 @@ public class PastNeetFragment extends Fragment {
         currentUser = FirebaseAuth.getInstance().getCurrentUser();
     }
 
-    void getPaidExam(String title) {
+    void fetchPastQuizzes(String title) {
         FirebaseFirestore db = FirebaseFirestore.getInstance();
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
         Timestamp now = Timestamp.now();
@@ -73,8 +75,8 @@ public class PastNeetFragment extends Fragment {
         if (user != null) {
             String userId = user.getPhoneNumber();
 
-            CollectionReference quizzCollection = db.collection("PGupload").document("Weekley").collection("Quiz");
-            Query query = quizzCollection;
+            CollectionReference quizCollection = db.collection("PGupload").document("Weekley").collection("Quiz");
+            Query query = quizCollection;
             query.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                 @Override
                 public void onComplete(@NonNull Task<QuerySnapshot> task) {
@@ -91,6 +93,8 @@ public class PastNeetFragment extends Fragment {
                                 Livepg.add(quiz);
                             }
                         }
+                        // Sort the Livepg list here by the 'from' date
+                        Collections.sort(Livepg, Comparator.comparing(QuizPGExam::getFrom));
                         LiveAdapter.notifyDataSetChanged();
                         updateUI();
                     } else {
@@ -102,6 +106,7 @@ public class PastNeetFragment extends Fragment {
             Log.e(TAG, "User is not logged in.");
         }
     }
+
 
     private void updateUI() {
         if (Livepg.isEmpty()) {

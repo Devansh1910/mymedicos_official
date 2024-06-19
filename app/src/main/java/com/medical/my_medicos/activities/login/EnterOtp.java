@@ -138,7 +138,7 @@ public class EnterOtp extends AppCompatActivity {
                                             intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
                                             startActivity(intent);
                                         } else {
-                                            Toast.makeText(EnterOtp.this, "Error in Login...", Toast.LENGTH_SHORT).show();
+                                            Toast.makeText(EnterOtp.this, "Something went wrong!", Toast.LENGTH_SHORT).show();
                                         }
                                     }
                                 });

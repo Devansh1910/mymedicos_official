@@ -77,8 +77,8 @@ public class ExamUpcomingAdapter extends RecyclerView.Adapter<ExamUpcomingAdapte
             super(itemView);
             // Initialize components
             titleTextView = itemView.findViewById(R.id.titleSets);
-            timestart = itemView.findViewById(R.id.availablefromtime);
-            timeend = itemView.findViewById(R.id.availabletilltime);
+            timeend = itemView.findViewById(R.id.availablefromtime);
+            timestart = itemView.findViewById(R.id.availabletilltime);
             payforsets = itemView.findViewById(R.id.paymentpart);
             pay = itemView.findViewById(R.id.schedulefortheexam);
 

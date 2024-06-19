@@ -99,54 +99,54 @@ public class WeeklyQuizFragment extends Fragment {
             Log.e("ERROR", "Arguments are null in WeeklyQuizFragment");
         }
 
-        LinearLayout goProSection = view.findViewById(R.id.gopro);
-        goProSection.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                showGoProBottomSheet();
-            }
-        });
+//        LinearLayout goProSection = view.findViewById(R.id.gopro);
+//        goProSection.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                showGoProBottomSheet();
+//            }
+//        });
 
         return view;
     }
 
-    private void showGoProBottomSheet() {
-        BottomSheetDialog bottomSheetDialog = new BottomSheetDialog(requireContext());
-        View bottomSheetView = getLayoutInflater().inflate(R.layout.custom_bottom_sheet_up_insufficient, null);
-
-        TextView text = bottomSheetView.findViewById(R.id.text_insufficient_credits);
-        text.setText("Get the Pro & Be in the Top 1% of the Community");
-
-        TextView closeButton = bottomSheetView.findViewById(R.id.close);
-        TextView intentCredits = bottomSheetView.findViewById(R.id.intenttocredit);
-        CardView puchase100credits = bottomSheetView.findViewById(R.id.puchase100credits);
-        closeButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                bottomSheetDialog.dismiss();
-            }
-        });
-
-        intentCredits.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                bottomSheetDialog.dismiss(); // Dismiss the bottom sheet dialog
-                Intent intent = new Intent(requireContext(), CreditsActivity.class); // Create an intent for the CreditsActivity
-                startActivity(intent); // Start the activity
-            }
-        });
-
-        puchase100credits.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                showBottomSheetPurchaser();
-            }
-        });
-
-
-        bottomSheetDialog.setContentView(bottomSheetView);
-        bottomSheetDialog.show();
-    }
+//    private void showGoProBottomSheet() {
+//        BottomSheetDialog bottomSheetDialog = new BottomSheetDialog(requireContext());
+//        View bottomSheetView = getLayoutInflater().inflate(R.layout.custom_bottom_sheet_up_insufficient, null);
+//
+//        TextView text = bottomSheetView.findViewById(R.id.text_insufficient_credits);
+//        text.setText("Get the Pro & Be in the Top 1% of the Community");
+//
+//        TextView closeButton = bottomSheetView.findViewById(R.id.close);
+//        TextView intentCredits = bottomSheetView.findViewById(R.id.intenttocredit);
+//        CardView puchase100credits = bottomSheetView.findViewById(R.id.puchase100credits);
+//        closeButton.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                bottomSheetDialog.dismiss();
+//            }
+//        });
+//
+//        intentCredits.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                bottomSheetDialog.dismiss(); // Dismiss the bottom sheet dialog
+//                Intent intent = new Intent(requireContext(), CreditsActivity.class); // Create an intent for the CreditsActivity
+//                startActivity(intent); // Start the activity
+//            }
+//        });
+//
+//        puchase100credits.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                showBottomSheetPurchaser();
+//            }
+//        });
+//
+//
+//        bottomSheetDialog.setContentView(bottomSheetView);
+//        bottomSheetDialog.show();
+//    }
 
     private void showBottomSheetPurchaser() {
         View bottomSheetView = LayoutInflater.from(requireContext()).inflate(R.layout.bottom_sheet_up_250, null);

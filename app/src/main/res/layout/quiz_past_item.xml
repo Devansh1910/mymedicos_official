@@ -41,7 +41,7 @@
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/inter"
                 android:paddingHorizontal="@dimen/_2sdp"
-                android:text="Starts On :"
+                android:text="Terminated On :"
                 android:textColor="@color/grey"
                 android:textSize="@dimen/_10sdp"
                 android:textStyle="bold" />

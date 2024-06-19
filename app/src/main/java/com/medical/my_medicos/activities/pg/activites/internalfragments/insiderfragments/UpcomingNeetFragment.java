@@ -30,6 +30,8 @@ import com.medical.my_medicos.activities.pg.activites.internalfragments.intwerna
 import com.medical.my_medicos.activities.pg.model.QuizPGExam;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 
 public class UpcomingNeetFragment extends Fragment {
     private FragmentUpcomingNeetBinding binding;
@@ -55,7 +57,7 @@ public class UpcomingNeetFragment extends Fragment {
         recyclerView.setLayoutManager(new LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false));
         recyclerView.setAdapter(upcomingAdapter);
 
-        getPaidExam("Exam");
+        fetchUpcomingQuizzes("Exam");
 
         return binding.getRoot();
     }
@@ -66,7 +68,7 @@ public class UpcomingNeetFragment extends Fragment {
         currentUser = FirebaseAuth.getInstance().getCurrentUser();
     }
 
-    void getPaidExam(String title) {
+    void fetchUpcomingQuizzes(String title) {
         FirebaseFirestore db = FirebaseFirestore.getInstance();
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
         Timestamp now = Timestamp.now();
@@ -90,6 +92,8 @@ public class UpcomingNeetFragment extends Fragment {
                             upcomingQuizzes.add(quiz);
                         }
                     }
+                    // Sort the upcomingQuizzes list here by the 'from' date
+                    Collections.sort(upcomingQuizzes, Comparator.comparing(QuizPGExam::getTo));
                     upcomingAdapter.notifyDataSetChanged();
                     updateUI();
                 } else {
@@ -100,6 +104,7 @@ public class UpcomingNeetFragment extends Fragment {
             Log.e(TAG, "User is not logged in.");
         }
     }
+
 
     private void updateUI() {
         if (upcomingQuizzes.isEmpty()) {

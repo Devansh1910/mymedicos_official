@@ -51,7 +51,6 @@ public class NeetExamFragment extends Fragment {
     private Handler handlerpg;
     private ArrayList<QuizPG> quizpgneet;
     private ExamQuizAdapter quizAdapterneet;
-    SwipeRefreshLayout swipeRefreshLayoutPg;
     private LinearLayout dotsLayoutpg;
     String title2;
     FirebaseUser currentUser;
@@ -139,9 +138,6 @@ public class NeetExamFragment extends Fragment {
             String userId = currentUser.getPhoneNumber();
         }
 
-        swipeRefreshLayoutPg = view.findViewById(R.id.swipeRefreshLayoutPg);
-        swipeRefreshLayoutPg.setOnRefreshListener(this::refreshContent);
-
         RecyclerView perDayQuestionsRecyclerView = view.findViewById(R.id.perdayquestions);
 
         if (perDayQuestionsRecyclerView == null) {
@@ -220,9 +216,5 @@ public class NeetExamFragment extends Fragment {
                 ((LottieAnimationView) shimmer).cancelAnimation();
             }
         }
-    }
-
-    private void refreshContent() {
-        swipeRefreshLayoutPg.setRefreshing(false);
     }
 }

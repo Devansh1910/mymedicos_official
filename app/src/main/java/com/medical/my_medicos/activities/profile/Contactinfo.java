@@ -73,7 +73,7 @@ public class Contactinfo extends AppCompatActivity {
     private ArrayAdapter<CharSequence> locationAdapter, specialityAdapter;
     private CircleImageView avatarImageView;
     RadioButton rb;
-    private TextView uploadAvatarCardView;
+    private CardView uploadAvatarCardView;
     String documentid;
     private FirebaseAuth mAuth;
     public FirebaseDatabase profiledb = FirebaseDatabase.getInstance();

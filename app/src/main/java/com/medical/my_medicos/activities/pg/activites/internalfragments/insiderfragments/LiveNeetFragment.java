@@ -29,6 +29,8 @@ import com.medical.my_medicos.databinding.FragmentLiveNeetBinding;
 import com.medical.my_medicos.activities.pg.activites.internalfragments.intwernaladapters.ExamQuizAdapter;
 import com.medical.my_medicos.activities.pg.model.QuizPGExam;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.function.Consumer;
@@ -104,6 +106,7 @@ public class LiveNeetFragment extends Fragment {
                         handleEachQuiz(document, title, now);
                     }
                 }
+                Collections.sort(Livepg, Comparator.comparing(QuizPGExam::getFrom));
                 LiveAdapter.notifyDataSetChanged();
                 if (Livepg.isEmpty()) {
                     Log.d(TAG, "No live quizzes found.");
@@ -118,6 +121,7 @@ public class LiveNeetFragment extends Fragment {
             binding.progressBar.setVisibility(View.GONE);
         });
     }
+
 
     private void handleEachQuiz(QueryDocumentSnapshot document, String title, Timestamp now) {
         String quizTitle = document.getString("title");

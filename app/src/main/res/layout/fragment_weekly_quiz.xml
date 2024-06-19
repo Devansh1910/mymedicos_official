@@ -7,49 +7,49 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".activities.pg.activites.insiders.fragment.WeeklyQuizFragment">
 
-    <LinearLayout
-        android:id="@+id/gopro"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="@dimen/_5ssp"
-        android:background="@drawable/backgroundofgopro"
-        android:orientation="horizontal">
+<!--    <LinearLayout-->
+<!--        android:id="@+id/gopro"-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:layout_margin="@dimen/_5ssp"-->
+<!--        android:background="@drawable/backgroundofgopro"-->
+<!--        android:orientation="horizontal">-->
 
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:padding="@dimen/_5ssp"
-            android:src="@drawable/local"/>
+<!--        <ImageView-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:padding="@dimen/_5ssp"-->
+<!--            android:src="@drawable/local"/>-->
 
-        <LinearLayout
-            android:layout_width="0dp"
-            android:layout_weight="1"
-            android:paddingVertical="@dimen/_2ssp"
-            android:layout_height="match_parent"
-            android:gravity="center"
-            android:orientation="vertical">
+<!--        <LinearLayout-->
+<!--            android:layout_width="0dp"-->
+<!--            android:layout_weight="1"-->
+<!--            android:paddingVertical="@dimen/_2ssp"-->
+<!--            android:layout_height="match_parent"-->
+<!--            android:gravity="center"-->
+<!--            android:orientation="vertical">-->
 
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="GO PRO"
-                android:textSize="@dimen/_12ssp"
-                android:textColor="@color/unselected"
-                android:textStyle="normal"
-                android:fontFamily="@font/inter_semibold"/>
+<!--            <TextView-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:text="GO PRO"-->
+<!--                android:textSize="@dimen/_12ssp"-->
+<!--                android:textColor="@color/unselected"-->
+<!--                android:textStyle="normal"-->
+<!--                android:fontFamily="@font/inter_semibold"/>-->
 
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Subscribe &amp; Get all resources for free."
-                android:textSize="@dimen/_10ssp"
-                android:textColor="@color/unselected"
-                android:textStyle="normal"
-                android:fontFamily="@font/inter"/>
+<!--            <TextView-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:text="Subscribe &amp; Get all resources for free."-->
+<!--                android:textSize="@dimen/_10ssp"-->
+<!--                android:textColor="@color/unselected"-->
+<!--                android:textStyle="normal"-->
+<!--                android:fontFamily="@font/inter"/>-->
 
-        </LinearLayout>
+<!--        </LinearLayout>-->
 
-    </LinearLayout>
+<!--    </LinearLayout>-->
 
     <LinearLayout
         android:layout_width="match_parent"

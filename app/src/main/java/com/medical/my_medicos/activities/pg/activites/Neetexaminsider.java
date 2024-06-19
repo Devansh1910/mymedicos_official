@@ -90,7 +90,7 @@ public class Neetexaminsider extends AppCompatActivity implements neetexampadapt
                     String str = intent.getStringExtra("Title");
 
                     if (titleText.equals(str)) {
-                        title.setText(str);
+                        title.setText(str) ;
                         ArrayList<Map<String, Object>> dataList = (ArrayList<Map<String, Object>>) document.get("Data");
                         if (dataList != null) {
                             for (Map<String, Object> entry : dataList) {
@@ -105,7 +105,7 @@ public class Neetexaminsider extends AppCompatActivity implements neetexampadapt
                                 id = document.getId();
                                 Neetpg quizQuestion = new Neetpg(question, optionA, optionB, optionC, optionD, correctAnswer, imageUrl, description);
                                 quizList1.add(quizQuestion);
-                                selectedOptionsList.add(null); // Initialize selectedOptionsList with null values
+                                selectedOptionsList.add(null);
                             }
                         }
                     }
