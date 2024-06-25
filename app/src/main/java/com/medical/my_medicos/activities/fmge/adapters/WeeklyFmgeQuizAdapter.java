@@ -53,6 +53,7 @@ public class WeeklyFmgeQuizAdapter extends RecyclerView.Adapter<WeeklyFmgeQuizAd
         QuizFmge quiz = quizList.get(position);
         holder.titleTextView.setText(quiz.getTitle());
         holder.time.setText(formatTimestamp(quiz.getTo()));
+        holder.slot.setText(quiz.getSlot());
 
         holder.pay.setOnClickListener(v -> {
 //            holder.showBottomSheet(quiz);
@@ -78,7 +79,7 @@ public class WeeklyFmgeQuizAdapter extends RecyclerView.Adapter<WeeklyFmgeQuizAd
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
-        TextView titleTextView,time;
+        TextView titleTextView,time,slot;
         Button payforsets;
         LinearLayout pay;
 
@@ -88,6 +89,7 @@ public class WeeklyFmgeQuizAdapter extends RecyclerView.Adapter<WeeklyFmgeQuizAd
             time=itemView.findViewById(R.id.availabletilltime);
             payforsets = itemView.findViewById(R.id.paymentpart);
             pay = itemView.findViewById(R.id.payfortheexam);
+            slot = itemView.findViewById(R.id.slot);
         }
 
         private void showBottomSheet(QuizPG quiz) {

@@ -23,7 +23,8 @@ import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.medical.my_medicos.R;
-import com.medical.my_medicos.activities.fmge.adapters.ResultReportFmgeAdapter;
+import com.medical.my_medicos.activities.fmge.adapters.ResultReportFAdapter;
+import com.medical.my_medicos.activities.fmge.model.Fmgepg;
 import com.medical.my_medicos.activities.fmge.model.QuizFmgeinsider;
 import com.medical.my_medicos.activities.pg.adapters.ResultReportAdapter;
 import com.medical.my_medicos.activities.pg.model.Neetpg;
@@ -38,7 +39,7 @@ public class ResultFActivity extends AppCompatActivity {
     private RecyclerView resultRecyclerView;
     private FirebaseFirestore db;
     private FirebaseAuth auth;
-    private ResultReportFmgeAdapter resultAdapter;
+    private ResultReportFAdapter resultAdapter;
     private TextView gotopghome;
     private TextView correctAnswersTextView;
     private TextView totalQuestionsTextView;
@@ -80,7 +81,7 @@ public class ResultFActivity extends AppCompatActivity {
         String skipped = intent.getStringExtra("skippedQuestions");
         String remainingTime = intent.getStringExtra("remainingTime");
 
-        resultAdapter = new ResultReportFmgeAdapter(this, questions);
+        resultAdapter = new ResultReportFAdapter(this, questions);
         resultRecyclerView.setAdapter(resultAdapter);
 
         int correctAnswers = calculateCorrectAnswers(questions);

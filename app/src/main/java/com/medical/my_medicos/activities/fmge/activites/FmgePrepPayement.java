@@ -60,7 +60,7 @@ public class FmgePrepPayement extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_pg_prep_payment);
+        setContentView(R.layout.activity_fmge_prep_payment);
 
         database = FirebaseDatabase.getInstance().getReference();
         FirebaseUser current =FirebaseAuth.getInstance().getCurrentUser();

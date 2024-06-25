@@ -115,7 +115,7 @@
                     android:layout_height="wrap_content"
                     android:layout_below="@id/toolbar"
                     android:fontFamily="@font/inter_semibold"
-                    android:gravity="start"
+                    android:gravity="center"
                     android:padding="@dimen/_5ssp"
                     android:text="Quiz Name"
                     android:textSize="@dimen/_16ssp" />
@@ -178,7 +178,7 @@
                     android:fontFamily="@font/inter"
                     android:textSize="@dimen/_10ssp"
                     android:layout_height="wrap_content"
-                    android:text="This is the Examination based Quiz on the Neet 2023 pattern more predictble question "/>
+                    android:text="This is the Examination based Quiz on the FMGE 2024 pattern more predictable question "/>
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -192,7 +192,7 @@
                         android:drawablePadding="@dimen/_5ssp"
                         android:layout_height="wrap_content"
                         android:layout_marginBottom="@dimen/_8ssp"
-                        android:text="4+ for Correct "/>
+                        android:text="1+ for Correct "/>
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -200,7 +200,7 @@
                         android:drawablePadding="@dimen/_5ssp"
                         android:layout_height="wrap_content"
                         android:layout_marginBottom="@dimen/_8ssp"
-                        android:text="-1 for Wrong "/>
+                        android:text="0 for Wrong "/>
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -265,7 +265,7 @@
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="200 Mins"
+                            android:text="150 Mins"
                             android:fontFamily="@font/inter_semibold"
                             android:textSize="@dimen/_12ssp"
                             android:textColor="#6C6C6C"/>
@@ -304,7 +304,7 @@
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="200 Questions - 800 Marks"
+                            android:text="150 Questions - 150 Marks"
                             android:fontFamily="@font/inter_semibold"
                             android:textSize="@dimen/_12ssp"
                             android:textColor="#6C6C6C"/>

@@ -66,7 +66,7 @@
         tools:ignore="BottomAppBar">
 
         <com.google.android.material.bottomnavigation.BottomNavigationView
-            android:id="@+id/bottomNavigationViewpg"
+            android:id="@+id/bottomNavigationViewfmge"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:background="@color/white"

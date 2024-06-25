@@ -121,9 +121,19 @@
         <activity
             android:name=".activities.pg.activites.extras.PreparationCategoryMaterialDisplayActivity"
             android:exported="false" />
+
+        <activity
+            android:name=".activities.fmge.activites.extras.PreparationCategoryMaterialDisplayFmgeActivity"
+            android:exported="false" />
+
         <activity
             android:name=".activities.pg.activites.internalfragments.PreparationSubCategoryForMaterialActivity"
             android:exported="false" />
+
+        <activity
+            android:name=".activities.fmge.activites.internalfragments.PreparationSubCategoryForMaterialFmgeActivity"
+            android:exported="false" />
+
         <activity
             android:name=".activities.pg.activites.insiders.SpecialityPGQuizActivity"
             android:exported="false" />
@@ -197,8 +207,14 @@
             android:name=".activities.pg.activites.ResultActivityNeet"
             android:label="Result Activity Neet" />
 
+        <activity
+            android:name=".activities.pg.activites.Neetexaminsider"
+            android:exported="false" />
 
-        <activity android:name=".activities.pg.activites.Neetexaminsider" />
+        <activity
+            android:name=".activities.fmge.activites.Fmgeexaminsider"
+            android:exported="false" />
+
         <activity
             android:name=".activities.slideshow.insider.SpecialitySlideshowInsiderActivity"
             android:exported="false" />
@@ -255,6 +271,11 @@
         <activity
             android:name=".activities.pg.activites.insiders.SpecialityPGInsiderActivity"
             android:exported="false" />
+
+        <activity
+            android:name=".activities.fmge.activites.insiders.SpecialityFMGEInsiderActivity"
+            android:exported="false" />
+
         <activity
             android:name=".activities.pg.activites.insiders.WeeklyQuizInsiderActivity"
             android:exported="false" />

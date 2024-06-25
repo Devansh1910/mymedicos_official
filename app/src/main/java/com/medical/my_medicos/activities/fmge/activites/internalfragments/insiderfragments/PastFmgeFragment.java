@@ -88,11 +88,12 @@ public class PastFmgeFragment extends Fragment {
                         for (QueryDocumentSnapshot document : task.getResult()) {
                             String quizTitle = document.getString("title");
                             String speciality = document.getString("speciality");
+                            String type = document.getString("type");
                             Timestamp to = document.getTimestamp("to");
                             Timestamp from = document.getTimestamp("from");
 
                             if (now.compareTo(to) > 0 && (title.isEmpty() || speciality.equals(title))) {
-                                QuizFmgeExam quiz = new QuizFmgeExam(quizTitle, speciality, to, document.getId(), from);
+                                QuizFmgeExam quiz = new QuizFmgeExam(quizTitle, speciality, to, document.getId(),type, from);
                                 Livepg.add(quiz);
                             }
                         }

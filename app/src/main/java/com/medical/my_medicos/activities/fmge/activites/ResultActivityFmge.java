@@ -48,7 +48,7 @@ public class ResultActivityFmge extends AppCompatActivity {
     private TextView correctAnswersTextView;
     private TextView totalQuestionsTextView;
     private TextView remainingTimeTextView;
-    private TextView gotopghome;
+    private LinearLayout gotopghome;
     private FirebaseFirestore db;
     private FirebaseAuth auth; // Initialize FirebaseAuth
 
@@ -89,7 +89,7 @@ public class ResultActivityFmge extends AppCompatActivity {
         auth = FirebaseAuth.getInstance();
 
         Intent intent = getIntent();
-        ArrayList<QuizFmgeinsider> questions = (ArrayList<QuizFmgeinsider>) intent.getSerializableExtra("questions");
+        ArrayList<Fmgepg> questions = (ArrayList<Fmgepg>) intent.getSerializableExtra("questions");
         long remainingTimeInMillis = intent.getLongExtra("remainingTime", 0);
         String id = intent.getStringExtra("id");
         int skip = intent.getIntExtra("skippedQuestions",0);
@@ -185,10 +185,10 @@ public class ResultActivityFmge extends AppCompatActivity {
         }
     }
 
-    private int calculateScore(ArrayList<QuizFmgeinsider> questions,int skip) {
+    private int calculateScore(ArrayList<Fmgepg> questions,int skip) {
         int score = 0;
 
-        for (QuizFmgeinsider question : questions) {
+        for (Fmgepg question : questions) {
             if (question.isCorrect()) {
                 score += 4;
             } else {
@@ -205,10 +205,10 @@ public class ResultActivityFmge extends AppCompatActivity {
         Toast.makeText(ResultActivityFmge.this, "", Toast.LENGTH_SHORT).show();
     }
 
-    private int calculateCorrectAnswers(ArrayList<QuizFmgeinsider> questions) {
+    private int calculateCorrectAnswers(ArrayList<Fmgepg> questions) {
         int correctAnswers = 0;
 
-        for (QuizFmgeinsider question : questions) {
+        for (Fmgepg question : questions) {
             if (question.isCorrect()) {
                 correctAnswers++;
             }

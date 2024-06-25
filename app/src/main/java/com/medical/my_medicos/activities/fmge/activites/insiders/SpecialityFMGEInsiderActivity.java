@@ -64,7 +64,7 @@ public class SpecialityFMGEInsiderActivity extends AppCompatActivity {
 
     private void setupBottomAppBar() {
         BottomAppBar bottomAppBar = binding.bottomappabarpg;
-        bottomNavigationCategoryPublication = bottomAppBar.findViewById(R.id.bottomNavigationViewpg);
+        bottomNavigationCategoryPublication = bottomAppBar.findViewById(R.id.bottomNavigationViewfmge);
         bottomNavigationCategoryPublication.setBackground(null);
 
         bottomNavigationCategoryPublication.setOnItemSelectedListener(item -> {
@@ -92,7 +92,7 @@ public class SpecialityFMGEInsiderActivity extends AppCompatActivity {
     private void replaceFragment(Fragment fragment) {
         FragmentManager fragmentManager = getSupportFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-        fragmentTransaction.replace(R.id.frame_layout_slideshow, fragment);
+        fragmentTransaction.replace(R.id.frame_layout_fmge_slideshow, fragment);
         fragmentTransaction.commit();
     }
 

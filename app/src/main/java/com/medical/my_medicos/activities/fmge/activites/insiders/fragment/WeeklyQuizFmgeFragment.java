@@ -281,11 +281,13 @@ public class WeeklyQuizFmgeFragment extends Fragment {
                             // Check if the document ID is present in the subcollectionIds array
                             if (!subcollectionIds.contains(id)) {
                                 String title = document.getString("title");
+                                String slot = document.getString("type");
                                 String speciality = document.getString("speciality");
                                 Timestamp to = document.getTimestamp("to");
+                                String type = document.getString("type");
                                 int r = speciality.compareTo(title1);
                                 if (r == 0) {
-                                    QuizFmge quizday = new QuizFmge(title, title1, to, id);
+                                    QuizFmge quizday = new QuizFmge(title, title1, to,type, id,slot);
                                     quizpg.add(quizday);
                                 }
                             }

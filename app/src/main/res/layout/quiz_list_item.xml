@@ -7,10 +7,16 @@
     android:elevation="@dimen/_50ssp"
     android:layout_marginBottom="@dimen/_8ssp"
     android:layout_height="wrap_content"
-    android:background="@drawable/backgroundoftheunselected"
     android:clickable="true"
     android:focusable="true"
-    android:orientation="vertical">
+    android:orientation="horizontal">
+
+    <LinearLayout
+        android:layout_width="0dp"
+        android:background="@drawable/backgroundoftheunselected"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:orientation="vertical">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -93,5 +99,6 @@
             android:paddingHorizontal="@dimen/_10ssp"
             android:paddingVertical="@dimen/_5ssp"/>
 
+    </LinearLayout>
 
 </LinearLayout>

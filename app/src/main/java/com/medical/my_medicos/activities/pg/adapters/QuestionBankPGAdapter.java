@@ -30,7 +30,7 @@ public class QuestionBankPGAdapter extends RecyclerView.Adapter<QuestionBankPGAd
     @NonNull
     @Override
     public QuestionBankViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        return new QuestionBankViewHolder(LayoutInflater.from(context).inflate(R.layout.item_question, parent, false));
+        return new QuestionBankViewHolder(LayoutInflater.from(context).inflate(R.layout.item_category_qb, parent, false));
     }
 
 

@@ -12,20 +12,22 @@ import android.view.Window;
 import android.widget.ImageView;
 
 import com.medical.my_medicos.R;
+import com.medical.my_medicos.activities.fmge.activites.internalfragments.PreparationSubCategoryForMaterialFmgeActivity;
 import com.medical.my_medicos.activities.pg.activites.internalfragments.HomePgFragment;
 import com.medical.my_medicos.activities.pg.activites.internalfragments.PreparationSubCategoryActivity;
 import com.medical.my_medicos.activities.pg.activites.internalfragments.PreparationSubCategoryForMaterialActivity;
 import com.medical.my_medicos.databinding.ActivityPreparationCategoryDisplayBinding;
 import com.medical.my_medicos.databinding.ActivityPreparationCategoryMaterialDisplayBinding;
+import com.medical.my_medicos.databinding.ActivityPreparationCategoryMaterialDisplayFmgeBinding;
 
 public class PreparationCategoryMaterialDisplayFmgeActivity extends AppCompatActivity {
 
-    ActivityPreparationCategoryMaterialDisplayBinding binding;
+    ActivityPreparationCategoryMaterialDisplayFmgeBinding binding;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        binding = ActivityPreparationCategoryMaterialDisplayBinding.inflate(getLayoutInflater());
+        binding = ActivityPreparationCategoryMaterialDisplayFmgeBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
         ImageView backToHomeImageView = findViewById(R.id.backtothehomefromprepcategory);
@@ -72,7 +74,7 @@ public class PreparationCategoryMaterialDisplayFmgeActivity extends AppCompatAct
 
 
     private void startSubCategoryActivity(String categoryTitle) {
-        Intent intent = new Intent(this, PreparationSubCategoryForMaterialActivity.class);
+        Intent intent = new Intent(this, PreparationSubCategoryForMaterialFmgeActivity.class);
         intent.putExtra("CATEGORY_TITLE", categoryTitle);
         startActivity(intent);
     }

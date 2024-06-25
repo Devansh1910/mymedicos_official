@@ -5,12 +5,13 @@ import com.google.firebase.Timestamp;
 import java.sql.Time;
 
 public class QuizFmgeExam {
-    private String title,title1,id;
+    private String title,title1,id,type;
     private Timestamp from,to;
 
-    public QuizFmgeExam(String title, String title1, Timestamp from, String id ,Timestamp to) {
+    public QuizFmgeExam(String title, String title1, Timestamp from, String id ,String type,Timestamp to) {
         this.title = title;
         this.id = id;
+        this.type=type;
         this.title1=title1;
         this.to = to;
         this.from = from;
@@ -27,6 +28,10 @@ public class QuizFmgeExam {
 //    }
     public Timestamp getTo() {
         return to;
+    }
+
+    public String getType() {
+        return type;
     }
 
     public void setTo(Timestamp to) {

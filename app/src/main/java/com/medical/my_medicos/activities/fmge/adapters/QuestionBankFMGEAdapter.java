@@ -31,7 +31,7 @@ public class QuestionBankFMGEAdapter extends RecyclerView.Adapter<QuestionBankFM
     @NonNull
     @Override
     public QuestionBankFmgeViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        return new QuestionBankFmgeViewHolder(LayoutInflater.from(context).inflate(R.layout.item_question, parent, false));
+        return new QuestionBankFmgeViewHolder(LayoutInflater.from(context).inflate(R.layout.item_category_qb, parent, false));
     }
 
 

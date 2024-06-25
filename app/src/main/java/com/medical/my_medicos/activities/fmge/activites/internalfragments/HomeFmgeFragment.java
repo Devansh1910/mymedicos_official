@@ -338,19 +338,20 @@ public class HomeFmgeFragment extends Fragment {
                         if (!subcollectionIds.contains(id)) {
                             String quizTitle = document.getString("title");
                             String speciality = document.getString("speciality");
+                            String type = document.getString("type");
                             Timestamp To = document.getTimestamp("to");
                             Timestamp from = document.getTimestamp("from");
 
                             if (finalTitle.isEmpty() || finalTitle.equals("Home")) {
                                 int r = speciality.compareTo(finalTitle);
                                 if (r == 0) {
-                                    QuizFmgeExam quizday = new QuizFmgeExam(quizTitle, title1, To, id, from);
+                                    QuizFmgeExam quizday = new QuizFmgeExam(quizTitle, title1, To, id, type, from);
                                     quizpg.add(quizday);
                                 }
                             } else {
                                 int r = speciality.compareTo(finalTitle);
                                 if (r == 0) {
-                                    QuizFmgeExam quizday = new QuizFmgeExam(quizTitle, finalTitle, To, id ,from);
+                                    QuizFmgeExam quizday = new QuizFmgeExam(quizTitle, finalTitle, To, id ,type,from);
                                     quizpg.add(quizday);
                                 }
                             }

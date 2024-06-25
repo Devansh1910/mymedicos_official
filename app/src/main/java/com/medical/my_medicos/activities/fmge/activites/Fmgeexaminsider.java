@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.CountDownTimer;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -26,10 +27,13 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
 import com.medical.my_medicos.R;
 import com.medical.my_medicos.activities.fmge.adapters.fmgeexampadapter;
 import com.medical.my_medicos.activities.fmge.model.Fmgepg;
@@ -43,7 +47,7 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 
-public class Fmgeexaminsider extends AppCompatActivity implements neetexampadapter.OnOptionInteractionListener, fmgeexampadapter.OnOptionInteractionListener {
+public class Fmgeexaminsider extends AppCompatActivity implements fmgeexampadapter.OnOptionInteractionListener {
 
     private RecyclerView recyclerView;
     private fmgeexampadapter adapter;
@@ -63,7 +67,7 @@ public class Fmgeexaminsider extends AppCompatActivity implements neetexampadapt
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.neetexaminsideractivity);
+        setContentView(R.layout.activity_fmge_exam_insider);
 
         currentquestion = findViewById(R.id.currentquestion);
         recyclerView = findViewById(R.id.recycler_view1);
@@ -127,7 +131,7 @@ public class Fmgeexaminsider extends AppCompatActivity implements neetexampadapt
         findViewById(R.id.nextButton1).setOnClickListener(v -> loadNextQuestion());
 
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        adapter = new fmgeexampadapter(this, quizList1,this);
+        adapter = new fmgeexampadapter(this, quizList1, this);
         recyclerView.setAdapter(adapter);
 
         findViewById(R.id.totheback1).setOnClickListener(v -> showConfirmationDialog());
@@ -272,7 +276,7 @@ public class Fmgeexaminsider extends AppCompatActivity implements neetexampadapt
     }
 
     private void navigateToResultActivity(int skippedQuestions) {
-        Intent intent = new Intent(Fmgeexaminsider.this, ResultActivityNeet.class);
+        Intent intent = new Intent(Fmgeexaminsider.this, ResultActivityFmge.class);
         intent.putExtra("questions", quizList1);
         intent.putExtra("remainingTime", remainingTimeInMillis);
         intent.putExtra("id", id);
@@ -327,7 +331,7 @@ public class Fmgeexaminsider extends AppCompatActivity implements neetexampadapt
     // Inside Neetexaminsider activity
     public static class QuestionBottomSheetDialogFragment extends BottomSheetDialogFragment {
         private GridView gridView;
-        private QuestionNavigationAdapter adapter;
+        private QuestionNavigationFmgeAdapter adapter;
         private TextView answeredCount;
         private TextView unansweredCount;
         private TextView notVisitedCount;
@@ -351,9 +355,9 @@ public class Fmgeexaminsider extends AppCompatActivity implements neetexampadapt
             notVisitedCount = view.findViewById(R.id.not_visited_count);
 
             ArrayList<String> selectedOptions = getArguments() != null ? getArguments().getStringArrayList("selectedOptionsList") : new ArrayList<>();
-            ArrayList<Neetpg> quizQuestions = (ArrayList<Neetpg>) getArguments().getSerializable("quizQuestions");
+            ArrayList<Fmgepg> quizQuestions = (ArrayList<Fmgepg>) getArguments().getSerializable("quizQuestions");
 
-            adapter = new QuestionNavigationAdapter(selectedOptions.size(), selectedOptions, quizQuestions, position -> ((Fmgeexaminsider) requireActivity()).navigateToQuestion(position));
+            adapter = new QuestionNavigationFmgeAdapter(selectedOptions.size(), selectedOptions, quizQuestions, position -> ((Fmgeexaminsider) requireActivity()).navigateToQuestion(position));
             gridView.setAdapter(adapter);
 
             updateQuestionCounts(selectedOptions);
@@ -390,14 +394,13 @@ public class Fmgeexaminsider extends AppCompatActivity implements neetexampadapt
         }
     }
 
-
-    public static class QuestionNavigationAdapter extends BaseAdapter {
+    public static class QuestionNavigationFmgeAdapter extends BaseAdapter {
         private final int itemCount;
         private List<String> selectedOptions;
         private final OnItemClickListener listener;
-        private final List<Neetpg> quizQuestions;
+        private final List<Fmgepg> quizQuestions;
 
-        public QuestionNavigationAdapter(int itemCount, List<String> selectedOptions, List<Neetpg> quizQuestions, OnItemClickListener listener) {
+        public QuestionNavigationFmgeAdapter(int itemCount, List<String> selectedOptions, List<Fmgepg> quizQuestions, OnItemClickListener listener) {
             this.itemCount = itemCount;
             this.selectedOptions = selectedOptions;
             this.listener = listener;
@@ -432,7 +435,7 @@ public class Fmgeexaminsider extends AppCompatActivity implements neetexampadapt
                 holder = (ViewHolder) convertView.getTag();
             }
             holder.textView.setText(String.valueOf(position + 1));
-            Neetpg quizQuestion = quizQuestions.get(position);
+            Fmgepg quizQuestion = quizQuestions.get(position);
             if (quizQuestion.isMarkedForReview()) {
                 holder.layout.setBackgroundResource(R.drawable.notvisited_bk); // Replace with your drawable resource
             } else if (selectedOptions.get(position) != null && selectedOptions.get(position).compareTo("Skip") != 0) {

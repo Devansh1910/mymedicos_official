@@ -21,12 +21,14 @@ import java.util.ArrayList;
 public class ResultReportFmgeAdapter extends RecyclerView.Adapter<ResultReportFmgeAdapter.ResultFViewHolder> {
 
     private Context context;
-    private ArrayList<QuizFmgeinsider> quizList;
+    private ArrayList<Fmgepg> quizList;
 
-    public ResultReportFmgeAdapter(Context context, ArrayList<QuizFmgeinsider> quizList) {
+    public ResultReportFmgeAdapter(Context context, ArrayList<Fmgepg> quizList) {
         this.context = context;
         this.quizList = quizList;
     }
+
+    // Create a New ResultReportFmgeAdapter (2)
 
     @NonNull
     @Override
@@ -38,7 +40,7 @@ public class ResultReportFmgeAdapter extends RecyclerView.Adapter<ResultReportFm
     @SuppressLint("SetTextI18n")
     @Override
     public void onBindViewHolder(@NonNull ResultFViewHolder holder, int position) {
-        QuizFmgeinsider quizQuestion = quizList.get(position);
+        Fmgepg quizQuestion = quizList.get(position);
 
         holder.resultQuestion.setText(quizQuestion.getQuestion());
         holder.resultCorrectOption.setText("Correct Option: " + quizQuestion.getCorrectAnswer());

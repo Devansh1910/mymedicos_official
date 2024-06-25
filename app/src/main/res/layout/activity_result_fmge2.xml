@@ -157,6 +157,8 @@
 
             </LinearLayout>
 
+
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -251,21 +253,6 @@
                     android:textStyle="bold"
                     android:textColor="@color/grey"/>
             </LinearLayout>
-
-            <!--            <TextView-->
-            <!--                android:id="@+id/downloadresult"-->
-            <!--                android:layout_width="match_parent"-->
-            <!--                android:layout_height="wrap_content"-->
-            <!--                android:fontFamily="@font/inter_extrabold"-->
-            <!--                android:paddingVertical="@dimen/_5sdp"-->
-            <!--                android:layout_marginTop="@dimen/_10sdp"-->
-            <!--                android:text="Download Report"-->
-            <!--                android:layout_gravity="center"-->
-            <!--                android:background="@drawable/categorydark"-->
-            <!--                android:gravity="center"-->
-            <!--                android:textColor="@color/unselected"-->
-            <!--                android:textSize="@dimen/_14sdp"-->
-            <!--                android:textStyle="bold" />-->
 
             <TextView
                 android:id="@+id/gotopghome"

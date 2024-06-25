@@ -18,6 +18,7 @@ import com.google.firebase.Timestamp;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.FirebaseDatabase;
 import com.medical.my_medicos.R;
+import com.medical.my_medicos.activities.fmge.activites.FmgeExamPayment;
 import com.medical.my_medicos.activities.fmge.model.QuizFmgeExam;
 import com.medical.my_medicos.activities.pg.activites.NeetExamPayment;
 import com.medical.my_medicos.activities.pg.model.QuizPGExam;
@@ -38,7 +39,7 @@ public class FmgeQuizAdapter extends RecyclerView.Adapter<FmgeQuizAdapter.FmgeVi
     @NonNull
     @Override
     public FmgeViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(context).inflate(R.layout.quiz_list_item, parent, false);
+        View view = LayoutInflater.from(context).inflate(R.layout.quiz_list_item_fmge, parent, false);
         return new FmgeViewHolder(view);
     }
 
@@ -46,14 +47,16 @@ public class FmgeQuizAdapter extends RecyclerView.Adapter<FmgeQuizAdapter.FmgeVi
     public void onBindViewHolder(@NonNull FmgeViewHolder holder, int position) {
         QuizFmgeExam quiz = quizList.get(position);
         holder.titleTextView.setText(quiz.getTitle());
+        holder.slot.setText(quiz.getType());
         holder.timestart.setText(formatTimestamp(quiz.getFrom()));
         holder.timeend.setText(formatTimestamp(quiz.getTo()));
+
 
         Log.d(TAG, "Binding view holder for position: " + position);
 
         holder.pay.setOnClickListener(v -> {
             Log.d(TAG, "Click event triggered for position: " + position);
-            Intent intent = new Intent(v.getContext(), NeetExamPayment.class);
+            Intent intent = new Intent(v.getContext(), FmgeExamPayment.class);
             intent.putExtra("Title1", quiz.getTitle1());
             intent.putExtra("Title", quiz.getTitle());
             intent.putExtra("From", formatTimestamp(quiz.getFrom()));
@@ -75,6 +78,7 @@ public class FmgeQuizAdapter extends RecyclerView.Adapter<FmgeQuizAdapter.FmgeVi
 
     public class FmgeViewHolder extends RecyclerView.ViewHolder {
         TextView titleTextView, timestart, timeend;
+        TextView slot;
         Button payforsets;
         LinearLayout pay;
         FirebaseDatabase database;
@@ -84,6 +88,7 @@ public class FmgeQuizAdapter extends RecyclerView.Adapter<FmgeQuizAdapter.FmgeVi
         public FmgeViewHolder(@NonNull View itemView) {
             super(itemView);
             titleTextView = itemView.findViewById(R.id.titleSets);
+            slot = itemView.findViewById(R.id.slot);
             timestart = itemView.findViewById(R.id.availablefromtime);
             timeend = itemView.findViewById(R.id.availabletilltime);
             payforsets = itemView.findViewById(R.id.paymentpart);

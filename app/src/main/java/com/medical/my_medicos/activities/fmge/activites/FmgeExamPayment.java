@@ -111,7 +111,7 @@ public class FmgeExamPayment extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_neet_exam_payment);
+        setContentView(R.layout.activity_fmge_exam_payment);
 
         progressDialog = new ProgressDialog(this);
         progressDialog.setCancelable(false);
@@ -345,7 +345,7 @@ public class FmgeExamPayment extends AppCompatActivity {
                 String encodedExamTitle = encode(examtitle);
                 String encodedExamDescription = encode(examdescription);
 
-                String shareLinkText = "Checkout this Exam" + quizTitle + " \uD83E\uDE7A" + " at " +
+                String shareLinkText = "Checkout this FMGE Test" + quizTitle + " \uD83E\uDE7A" + " at " +
                         timeUntilOpen + " in " +
                         "https://app.mymedicos.in/?" +
                         "link=http://www.mymedicos.in/examdetails?examId=" + examId +

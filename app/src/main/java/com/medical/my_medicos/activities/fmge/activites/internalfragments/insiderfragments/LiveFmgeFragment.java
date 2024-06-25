@@ -129,10 +129,11 @@ public class LiveFmgeFragment extends Fragment {
     private void handleEachQuiz(QueryDocumentSnapshot document, String title, Timestamp now) {
         String quizTitle = document.getString("title");
         String speciality = document.getString("speciality");
+        String type = document.getString("type");
         Timestamp to = document.getTimestamp("to");
         Timestamp from = document.getTimestamp("from");
         if ((title.isEmpty() || speciality.equals(title)) && now.compareTo(from) >= 0 && now.compareTo(to) <= 0) {
-            QuizFmgeExam quiz = new QuizFmgeExam(quizTitle, speciality, to, document.getId(), from);
+            QuizFmgeExam quiz = new QuizFmgeExam(quizTitle, speciality, to, document.getId(),type, from);
             Livepg.add(quiz);
         }
     }
