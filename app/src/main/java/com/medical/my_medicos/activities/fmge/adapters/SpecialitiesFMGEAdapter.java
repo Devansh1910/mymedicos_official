@@ -10,6 +10,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
 import com.medical.my_medicos.R;
+import com.medical.my_medicos.activities.fmge.activites.insiders.SpecialityFMGEQuizActivity;
 import com.medical.my_medicos.activities.fmge.model.SpecialitiesFmge;
 import com.medical.my_medicos.activities.pg.activites.insiders.SpecialityPGInsiderActivity;
 import com.medical.my_medicos.activities.pg.activites.insiders.SpecialityPGQuizActivity;
@@ -20,11 +21,11 @@ import java.util.ArrayList;
 
 public class SpecialitiesFMGEAdapter extends RecyclerView.Adapter<SpecialitiesFMGEAdapter.SpecialitiesFMGEViewHolder> {
     Context context;
-    ArrayList<SpecialitiesFmge> specialitiespost;
+    ArrayList<SpecialitiesFmge> specialitiespostfmge;
 
-    public SpecialitiesFMGEAdapter(Context context, ArrayList<SpecialitiesFmge> specialitiespgs) {
+    public SpecialitiesFMGEAdapter(Context context, ArrayList<SpecialitiesFmge> specialitiesfmges) {
         this.context = context;
-        this.specialitiespost = specialitiespgs;
+        this.specialitiespostfmge = specialitiesfmges;
     }
 
     @NonNull
@@ -38,18 +39,18 @@ public class SpecialitiesFMGEAdapter extends RecyclerView.Adapter<SpecialitiesFM
 
     @Override
     public void onBindViewHolder(@NonNull SpecialitiesFMGEViewHolder holder, int position) {
-        SpecialitiesFmge specialitiespg = specialitiespost.get(position);
-        holder.label.setText(specialitiespg.getName());
+        SpecialitiesFmge specialitiesFmge = specialitiespostfmge.get(position);
+        holder.label.setText(specialitiesFmge.getName());
         Glide.with(context)
-                .load(specialitiespg.getName())
+                .load(specialitiesFmge.getName())
                 .into(holder.image);
 
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(context, SpecialityPGQuizActivity.class);
-                intent.putExtra("pgId", specialitiespg.getPriority());
-                intent.putExtra("specialityPgName", specialitiespg.getName());
+                Intent intent = new Intent(context, SpecialityFMGEQuizActivity.class);
+                intent.putExtra("fmgeId", specialitiesFmge.getPriority());
+                intent.putExtra("specialityFmgeName", specialitiesFmge.getName());
                 context.startActivity(intent);
             }
         });
@@ -57,7 +58,7 @@ public class SpecialitiesFMGEAdapter extends RecyclerView.Adapter<SpecialitiesFM
 
     @Override
     public int getItemCount() {
-        return specialitiespost.size();
+        return specialitiespostfmge.size();
     }
 
     public class SpecialitiesFMGEViewHolder extends RecyclerView.ViewHolder {

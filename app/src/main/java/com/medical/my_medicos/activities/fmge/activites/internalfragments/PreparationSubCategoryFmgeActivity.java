@@ -39,6 +39,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class PreparationSubCategoryFmgeActivity extends AppCompatActivity {
 
@@ -66,24 +67,23 @@ public class PreparationSubCategoryFmgeActivity extends AppCompatActivity {
         String categoryTitle = getIntent().getStringExtra("CATEGORY_TITLE");
         Log.d("CategoryTitle", categoryTitle);
 
-        int priority = getPriorityForCategoryTitle(categoryTitle);
+        List<Integer> priorities = getPriorityForCategoryTitle(categoryTitle);
 
-        if (priority != -1) {
-            Log.d("Priority", "Selected priority: " + priority);
+        if (!priorities.isEmpty()) {
+            Log.d("Priority", "Selected priorities: " + priorities);
             binding.categorytitlepreparation.setText(categoryTitle);
             swipeRefreshLayoutPreparationCategory = binding.getRoot().findViewById(R.id.swipeRefreshLayoutPreparationCategory);
             swipeRefreshLayoutPreparationCategory.setOnRefreshListener(this::refreshContent);
 
-            initSpecialities(priority);
+            initSpecialities(priorities);
         } else {
-            Log.e("PriorityError", "Invalid priority for categoryTitle: " + categoryTitle);
+            Log.e("PriorityError", "Invalid priorities for categoryTitle: " + categoryTitle);
         }
 
         configureWindow();
     }
 
     private void configureWindow() {
-//        getWindow().setFlags(WindowManager.LayoutParams.FLAG_SECURE, WindowManager.LayoutParams.FLAG_SECURE);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             Window window = getWindow();
             window.setStatusBarColor(ContextCompat.getColor(this, R.color.backgroundcolor));
@@ -93,41 +93,42 @@ public class PreparationSubCategoryFmgeActivity extends AppCompatActivity {
         }
     }
 
-    private int getPriorityForCategoryTitle(String categoryTitle) {
+    private List<Integer> getPriorityForCategoryTitle(String categoryTitle) {
+        List<Integer> priorities = new ArrayList<>();
         switch (categoryTitle) {
             case "Pre & Para Clinical Subjects":
-                return 1;
-            case "Para Clinical Subjects":
-                return 2;
+                priorities.add(1);
+                priorities.add(2);
+                break;
             case "Clinical Subjects":
-                return 3;
+                priorities.add(3);
+                break;
             default:
                 Log.e("PriorityError", "Unknown category title: " + categoryTitle);
-                return -1; // Invalid priority
+                // You could handle this by returning an empty list or specific error handling
         }
+        return priorities;
     }
 
-
-    void initSpecialities(int priority) {
+    void initSpecialities(List<Integer> priorities) {
         specialitiespost = new ArrayList<>();
         specialitiesPGAdapter = new SpecialitiesFMGEAdapter(this, specialitiespost);
 
-        getSpecialityPG(priority);
+        getSpecialityPG(priorities);
 
         GridLayoutManager layoutManager = new GridLayoutManager(this, 1);
         binding.categoriesinternalpractice.setLayoutManager(layoutManager);
         binding.categoriesinternalpractice.setAdapter(specialitiesPGAdapter);
     }
 
-    void getSpecialityPG(int priority) {
+    void getSpecialityPG(List<Integer> priorities) {
         RequestQueue queue = Volley.newRequestQueue(this);
-
         StringRequest request = new StringRequest(Request.Method.GET, ConstantsDashboard.GET_SPECIALITY, new Response.Listener<String>() {
             @SuppressLint("NotifyDataSetChanged")
             @Override
             public void onResponse(String response) {
                 try {
-                    Log.e("err", response);
+                    Log.e("Response", response);
                     JSONObject mainObj = new JSONObject(response);
                     showShimmer(false);
                     if (mainObj.getString("status").equals("success")) {
@@ -139,41 +140,14 @@ public class PreparationSubCategoryFmgeActivity extends AppCompatActivity {
                             JSONObject object = specialityArray.getJSONObject(i);
                             int objectPriority = object.getInt("priority");
 
-                            if (objectPriority == priority) {
+                            if (priorities.contains(objectPriority)) {
                                 SpecialitiesFmge speciality = new SpecialitiesFmge(
                                         object.getString("id"),
                                         objectPriority
                                 );
                                 specialitiespost.add(speciality);
-                                Log.e("Something went wrong..", String.valueOf(objectPriority));
                             }
                         }
-
-                        binding.categoriesinternalpractice.addOnItemTouchListener(new RecyclerView.OnItemTouchListener() {
-                            @Override
-                            public boolean onInterceptTouchEvent(@NonNull RecyclerView rv, @NonNull MotionEvent e) {
-                                View child = rv.findChildViewUnder(e.getX(), e.getY());
-                                int position = rv.getChildAdapterPosition(child);
-
-                                if (position != RecyclerView.NO_POSITION) {
-                                    if (position == specialitiespost.size() - 1 && specialitiespost.get(position).getPriority() == -1) {
-                                        Intent intent = new Intent(PreparationSubCategoryFmgeActivity.this, SpecialitySlideshowInsiderActivity.class);
-                                        startActivity(intent);
-                                    } else {
-                                    }
-                                }
-                                return false;
-                            }
-
-                            @Override
-                            public void onTouchEvent(@NonNull RecyclerView rv, @NonNull MotionEvent e) {
-                            }
-
-                            @Override
-                            public void onRequestDisallowInterceptTouchEvent(boolean disallowIntercept) {
-                            }
-                        });
-
                         specialitiesPGAdapter.notifyDataSetChanged();
                     } else {
                         // Handle the case where the server response indicates failure

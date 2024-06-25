@@ -128,6 +128,9 @@
             android:name=".activities.pg.activites.insiders.SpecialityPGQuizActivity"
             android:exported="false" />
         <activity
+            android:name=".activities.fmge.activites.insiders.SpecialityFMGEQuizActivity"
+            android:exported="false" />
+        <activity
             android:name=".activities.pg.activites.internalfragments.PreparationSubCategoryActivity"
             android:exported="false" />
         <activity
@@ -138,6 +141,12 @@
             android:exported="false" />
         <activity
             android:name=".activities.pg.activites.PgPrepPayement"
+            android:exported="false" />
+        <activity
+            android:name=".activities.fmge.activites.FmgePrepPayement"
+            android:exported="false" />
+        <activity
+            android:name=".activities.fmge.activites.FmgeExamPayment"
             android:exported="false" />
         <activity
             android:name=".activities.pg.activites.extras.PreparationCategoryDisplayActivity"
@@ -182,8 +191,13 @@
             android:name=".activities.pg.activites.ResultActivity"
             android:exported="false" />
         <activity
+            android:name=".activities.fmge.activites.ResultFActivity"
+            android:exported="false" />
+        <activity
             android:name=".activities.pg.activites.ResultActivityNeet"
             android:label="Result Activity Neet" />
+
+
         <activity android:name=".activities.pg.activites.Neetexaminsider" />
         <activity
             android:name=".activities.slideshow.insider.SpecialitySlideshowInsiderActivity"
@@ -243,6 +257,9 @@
             android:exported="false" />
         <activity
             android:name=".activities.pg.activites.insiders.WeeklyQuizInsiderActivity"
+            android:exported="false" />
+        <activity
+            android:name=".activities.fmge.activites.insiders.WeeklyQuizFMGEInsiderActivity"
             android:exported="false" />
         <activity
             android:name=".activities.publications.activity.insiders.CategoryPublicationInsiderActivity"

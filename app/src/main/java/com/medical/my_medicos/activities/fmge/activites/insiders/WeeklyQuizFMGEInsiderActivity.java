@@ -32,10 +32,10 @@ import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.medical.my_medicos.R;
+import com.medical.my_medicos.activities.fmge.activites.FmgeprepActivity;
 import com.medical.my_medicos.activities.fmge.activites.ResultFActivity;
 import com.medical.my_medicos.activities.fmge.adapters.WeeklyFmgeQuizAdapterinsider;
 import com.medical.my_medicos.activities.fmge.model.QuizFmgeinsider;
-import com.medical.my_medicos.activities.pg.activites.PgprepActivity;
 import com.medical.my_medicos.activities.pg.activites.ResultActivity;
 import com.medical.my_medicos.activities.pg.adapters.WeeklyQuizAdapterinsider;
 import com.medical.my_medicos.activities.pg.model.QuizPGinsider;
@@ -299,7 +299,7 @@ public class WeeklyQuizFMGEInsiderActivity extends AppCompatActivity implements 
     }
 
     private void navigateToPrepareActivity() {
-        Intent intent = new Intent(WeeklyQuizFMGEInsiderActivity.this, PgprepActivity.class);
+        Intent intent = new Intent(WeeklyQuizFMGEInsiderActivity.this, FmgeprepActivity.class);
         startActivity(intent);
         finish();
     }

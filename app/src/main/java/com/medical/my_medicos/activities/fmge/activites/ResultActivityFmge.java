@@ -33,7 +33,6 @@ import com.medical.my_medicos.R;
 import com.medical.my_medicos.activities.fmge.adapters.ResultReportFmgeAdapter;
 import com.medical.my_medicos.activities.fmge.model.Fmgepg;
 import com.medical.my_medicos.activities.fmge.model.QuizFmgeinsider;
-import com.medical.my_medicos.activities.pg.activites.PgprepActivity;
 import com.medical.my_medicos.activities.pg.activites.extras.RecetUpdatesNoticeActivity;
 import com.medical.my_medicos.activities.pg.adapters.ResultReportNeetAdapter;
 import com.medical.my_medicos.activities.pg.model.Neetpg;

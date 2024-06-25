@@ -45,12 +45,11 @@ public class ResultFActivity extends AppCompatActivity {
     private TextView result;
 
 
-
     @SuppressLint("MissingInflatedId")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_result);
+        setContentView(R.layout.activity_result_fmge2);
 
         gotopghome = findViewById(R.id.gotopghome);
         gotopghome.setOnClickListener(new View.OnClickListener() {

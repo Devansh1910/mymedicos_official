@@ -46,6 +46,7 @@ import com.medical.my_medicos.activities.pg.adapters.WeeklyQuizAdapter;
 import com.medical.my_medicos.activities.pg.model.QuizPG;
 import com.medical.my_medicos.activities.publications.activity.PaymentPublicationActivity;
 import com.medical.my_medicos.activities.utils.ConstantsDashboard;
+import com.medical.my_medicos.databinding.FragmentWeeklyFmgeBinding;
 import com.medical.my_medicos.databinding.FragmentWeeklyQuizBinding;
 
 import org.json.JSONObject;
@@ -54,7 +55,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class WeeklyQuizFmgeFragment extends Fragment {
-    private FragmentWeeklyQuizBinding binding;
+    private FragmentWeeklyFmgeBinding binding;
     private WeeklyFmgeQuizAdapter quizAdapter;
     private ArrayList<QuizFmge> quizpg;
     String title1;
@@ -73,7 +74,7 @@ public class WeeklyQuizFmgeFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        binding = FragmentWeeklyQuizBinding.inflate(inflater, container, false);
+        binding = FragmentWeeklyFmgeBinding.inflate(inflater, container, false);
         View view = binding.getRoot();
 
         progressDialog = new ProgressDialog(requireContext());
@@ -84,7 +85,7 @@ public class WeeklyQuizFmgeFragment extends Fragment {
         if (args != null) {
             title1= args.getString("title", "");
 
-            if (getActivity() instanceof SpecialityPGInsiderActivity) {
+            if (getActivity() instanceof SpecialityFMGEInsiderActivity) {
                 ((SpecialityFMGEInsiderActivity) getActivity()).setToolbarTitle(title1);
             }
 

@@ -17,7 +17,6 @@ import android.widget.TextView;
 import com.airbnb.lottie.LottieAnimationView;
 import com.medical.my_medicos.R;
 import com.medical.my_medicos.activities.fmge.activites.FmgeprepActivity;
-import com.medical.my_medicos.activities.pg.activites.PgprepActivity;
 
 public class WrongFmgeAnswerActivity extends AppCompatActivity {
 

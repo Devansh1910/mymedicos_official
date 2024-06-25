@@ -40,8 +40,8 @@ public class SpecialityFMGEQuizActivity extends AppCompatActivity {
 
         if (savedInstanceState == null) {
             // Initial fragment setup
-            String title = getIntent().getStringExtra("specialityPgName");
-            replaceFragment(WeeklyQuizFragment.newInstance(0, title));
+            String title = getIntent().getStringExtra("specialityFmgeName");
+            replaceFragment(WeeklyQuizFmgeFragment.newInstance(0, title));
         }
 
         configureWindow();
@@ -59,7 +59,7 @@ public class SpecialityFMGEQuizActivity extends AppCompatActivity {
     }
 
     private void setupToolbar() {
-        binding.specialityquiztoolbar.setTitle(getIntent().getStringExtra("specialityPgName"));
+        binding.specialityquiztoolbar.setTitle(getIntent().getStringExtra("specialityFmgeName"));
         setSupportActionBar(binding.specialityquiztoolbar);
     }
 
@@ -86,14 +86,14 @@ public class SpecialityFMGEQuizActivity extends AppCompatActivity {
 
 
     private String getTitleFromIntent() {
-        return getIntent().getStringExtra("specialityPgName");
+        return getIntent().getStringExtra("specialityFmgeName");
     }
 
 
     private void replaceFragment(Fragment fragment) {
         FragmentManager fragmentManager = getSupportFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-        fragmentTransaction.replace(R.id.frame_layout_pg_quiz, fragment);
+        fragmentTransaction.replace(R.id.frame_layout_fmge_quiz, fragment);
         fragmentTransaction.commit();
     }
 

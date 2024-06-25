@@ -58,7 +58,6 @@ import com.medical.my_medicos.activities.home.HomeActivity;
 import com.medical.my_medicos.activities.job.JobsApplyActivity;
 import com.medical.my_medicos.activities.job.fragments.TermsandConditionDialogueFragment;
 import com.medical.my_medicos.activities.login.bottom_controls.TermsandConditionsActivity;
-import com.medical.my_medicos.activities.pg.activites.PgprepActivity;
 import com.medical.my_medicos.activities.pg.activites.extras.PreparationCategoryDisplayActivity;
 import com.medical.my_medicos.activities.pg.activites.extras.PreparationCategoryMaterialDisplayActivity;
 import com.medical.my_medicos.activities.pg.activites.extras.RecetUpdatesNoticeActivity;

@@ -121,7 +121,7 @@ public class FmgeprepActivity extends AppCompatActivity {
     private void configureWindow() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             Window window = getWindow();
-            window.setStatusBarColor(ContextCompat.getColor(this, R.color.colorPrimary));
+            window.setStatusBarColor(ContextCompat.getColor(this, R.color.teal_700));
             window.setNavigationBarColor(ContextCompat.getColor(this, R.color.backgroundcolor));
             View decorView = window.getDecorView();
             decorView.setSystemUiVisibility(decorView.getSystemUiVisibility() | View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR | View.SYSTEM_UI_FLAG_LIGHT_NAVIGATION_BAR);
@@ -143,12 +143,12 @@ public class FmgeprepActivity extends AppCompatActivity {
             currentcoinspg.setTextColor(ContextCompat.getColor(this, R.color.white));
             getWindow().setStatusBarColor(ContextCompat.getColor(this, R.color.backgroundcolor));
         } else {
-            toolbar.setBackgroundColor(ContextCompat.getColor(this, R.color.colorPrimary));
+            toolbar.setBackgroundColor(ContextCompat.getColor(this, R.color.teal_700));
             toolbarheading.setTextColor(ContextCompat.getColor(this, R.color.white));
             backtothehomefrompg.setImageDrawable(ContextCompat.getDrawable(this, R.drawable.arrow_bkwhite));
             creditscreen.setBackground(ContextCompat.getDrawable(this, R.drawable.categorywhite));
             currentcoinspg.setTextColor(ContextCompat.getColor(this, R.color.unselected));
-            getWindow().setStatusBarColor(ContextCompat.getColor(this, R.color.colorPrimary));
+            getWindow().setStatusBarColor(ContextCompat.getColor(this, R.color.teal_700));
         }
     }
 
