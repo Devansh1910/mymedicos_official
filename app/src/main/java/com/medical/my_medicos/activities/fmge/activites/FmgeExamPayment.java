@@ -89,18 +89,18 @@ public class FmgeExamPayment extends AppCompatActivity {
     CircleImageView profilepicture;
     TextView currentcoinspg;
     ImageView sharebtnforneetexam;
-    String examtitle,examdescription,examDue;
+    String fmgetitle,fmgedescription,fmgeDue;
     FirebaseAuth auth = FirebaseAuth.getInstance();
     FirebaseUser user = auth.getCurrentUser();
     String current_user=user.getPhoneNumber();
     String receivedData;
     private String currentUid;
-    private int examFee = 50;
+    private int fmgeFee = 50;
     private boolean dataLoaded = false;
     private int pendingDiscount = 0; // Default is no discount
     private String couponId; // To store the ID of the applied coupon
     FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
-    String examId;
+    String fmgeId;
     String title1;
     ProgressDialog progressDialog;
     private String about;
@@ -118,24 +118,24 @@ public class FmgeExamPayment extends AppCompatActivity {
         progressDialog.setMessage("Processing...");
 
         Intent intent = getIntent();
-        examtitle = intent.getStringExtra("title");
-        examDue = intent.getStringExtra("to");
+        fmgetitle = intent.getStringExtra("title");
+        fmgeDue = intent.getStringExtra("to");
 
-        examId = getIntent().getStringExtra("qid");
-        if (examId == null || examId.isEmpty()){
-            examId = intent.getStringExtra("examId");
+        fmgeId = getIntent().getStringExtra("qid");
+        if (fmgeId == null || fmgeId.isEmpty()){
+            fmgeId = intent.getStringExtra("fmgeId");
             fetchDataForNull();
         }
 
-        examtitle = intent.getStringExtra("Title");
+        fmgetitle = intent.getStringExtra("Title");
         title1 = intent.getStringExtra("Title1");
         String Due = intent.getStringExtra("Due");
 
-        if (examId != null && !examId.isEmpty()) {
+        if (fmgeId != null && !fmgeId.isEmpty()) {
             Log.d(TAG, "Opened from ExamQuizAdapter");
             TextView quizNameTextView = findViewById(R.id.quizNameTextView);
             TextView dueDateTextView = findViewById(R.id.DueDate);
-            quizNameTextView.setText(examtitle);
+            quizNameTextView.setText(fmgetitle);
             dueDateTextView.setText(Due);
 
         } else {
@@ -143,13 +143,13 @@ public class FmgeExamPayment extends AppCompatActivity {
             Log.d(TAG, "Opened from dynamic link");
             TextView quizNameTextView = findViewById(R.id.quizNameTextView);
             TextView dueDateTextView = findViewById(R.id.DueDate);
-            quizNameTextView.setText(examtitle);
+            quizNameTextView.setText(fmgetitle);
             dueDateTextView.setText(Due);
         }
 
         // Set the exam ID
         TextView qidTextView = findViewById(R.id.quizid);
-        qidTextView.setText(examId);
+        qidTextView.setText(fmgeId);
 
         FirebaseUser current =FirebaseAuth.getInstance().getCurrentUser();
         currentUid =current.getPhoneNumber();
@@ -185,7 +185,7 @@ public class FmgeExamPayment extends AppCompatActivity {
         });
 
         TextView qidcomehereText = findViewById(R.id.quizid);
-        qidcomehereText.setText(examId);
+        qidcomehereText.setText(fmgeId);
 
         currentcoinspg = findViewById(R.id.currentcoinspg);
 
@@ -239,7 +239,7 @@ public class FmgeExamPayment extends AppCompatActivity {
         startExamLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                showConfirmationDialog(examtitle, title1);
+                showConfirmationDialog(fmgetitle, title1);
             }
         });
 
@@ -249,11 +249,11 @@ public class FmgeExamPayment extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 // Ensure documentid is initialized
-                if (examId == null || examId.isEmpty()) {
+                if (fmgeId == null || fmgeId.isEmpty()) {
                     Toast.makeText(FmgeExamPayment.this, "Document ID is not available.", Toast.LENGTH_SHORT).show();
                     return;
                 }
-                createlink(current_user, examId, examtitle, examdescription); // Pass examId here
+                createlink(current_user, fmgeId, fmgetitle, fmgedescription); // Pass examId here
             }
         });
 
@@ -279,18 +279,18 @@ public class FmgeExamPayment extends AppCompatActivity {
         CollectionReference quizCollection = db.collection("Fmge").document("Weekley").collection("Quiz");
 
         // Fetch the specific document using its ID
-        quizCollection.document(examId).get().addOnCompleteListener(task -> {
+        quizCollection.document(fmgeId).get().addOnCompleteListener(task -> {
             if (task.isSuccessful()) {
                 DocumentSnapshot document = task.getResult();
                 if (document != null && document.exists()) {
-                    examtitle = document.getString("title");
-                    examDue = String.valueOf(document.getDate("to"));
+                    fmgetitle = document.getString("title");
+                    fmgeDue = String.valueOf(document.getDate("to"));
                     title1 = document.getString("speciality");
                     TextView quizNameTextView = findViewById(R.id.quizNameTextView);
                     TextView dueDateTextView = findViewById(R.id.DueDate);
-                    quizNameTextView.setText(examtitle);
-                    dueDateTextView.setText(examDue);
-                    System.out.println("Author: " + examtitle + "\nDue Date: " + examDue);
+                    quizNameTextView.setText(fmgetitle);
+                    dueDateTextView.setText(fmgeDue);
+                    System.out.println("Author: " + fmgetitle + "\nDue Date: " + fmgeDue);
                 } else {
                     System.out.println("No such document!");
                 }
@@ -299,17 +299,17 @@ public class FmgeExamPayment extends AppCompatActivity {
             }
         });
     }
-    public void createlink(String custid, String examId, String examtitle, String examdescription) {
+    public void createlink(String custid, String fmgeId, String fmgetitle, String fmgedescription) {
         Log.e("main", "create link");
-        Log.d("createlink", "custid: " + custid + ", examId: " + examId);
+        Log.d("createlink", "custid: " + custid + ", fmgeId: " + fmgeId);
 
-        if (examId == null || examId.isEmpty()) {
-            Log.e("createlink", "Exam ID is null or empty");
+        if (fmgeId == null || fmgeId.isEmpty()) {
+            Log.e("createlink", "Fmge ID is null or empty");
             return;
         }
 
         DynamicLink dynamicLink = FirebaseDynamicLinks.getInstance().createDynamicLink()
-                .setLink(Uri.parse("https://www.mymedicos.in/examdetails?custid=" + custid + "&examId=" + examId + "&title=" + examtitle + "&due=" + examdescription))
+                .setLink(Uri.parse("https://www.mymedicos.in/fmgedetails?custid=" + custid + "&fmgeId=" + fmgeId + "&title=" + fmgetitle + "&due=" + fmgedescription))
                 .setDomainUriPrefix("https://app.mymedicos.in")
                 .setAndroidParameters(new DynamicLink.AndroidParameters.Builder().build())
                 .setIosParameters(new DynamicLink.IosParameters.Builder("com.example.ios").build())
@@ -318,11 +318,11 @@ public class FmgeExamPayment extends AppCompatActivity {
         Uri dynamicLinkUri = dynamicLink.getUri();
         Log.e("main", "Long refer " + dynamicLinkUri);
 
-        createreferlink(custid, examId);
+        createreferlink(custid, fmgeId);
     }
-    public void createreferlink(String custid, String examId) {
-        if (examId == null || examId.isEmpty()) {
-            Log.e(ContentValues.TAG, "Exam ID is null or empty");
+    public void createreferlink(String custid, String fmgeId) {
+        if (fmgeId == null || fmgeId.isEmpty()) {
+            Log.e(ContentValues.TAG, "Fmge ID is null or empty");
             return;
         }
 
@@ -330,9 +330,9 @@ public class FmgeExamPayment extends AppCompatActivity {
         DocumentReference docRef = db.collection("Fmge")
                 .document("Weekley")
                 .collection("Quiz")
-                .document(examId);
+                .document(fmgeId);
 
-        Log.d("createreferlink", "Fetching document for examId: " + examId);
+        Log.d("createreferlink", "Fetching document for fmgeId: " + fmgeId);
 
         docRef.get().addOnSuccessListener(documentSnapshot -> {
             if (documentSnapshot.exists()) {
@@ -342,18 +342,18 @@ public class FmgeExamPayment extends AppCompatActivity {
                 Timestamp endTimeStamp = (Timestamp) documentSnapshot.get("to");
                 long timeUntilOpen = startTimeStamp.getSeconds() - System.currentTimeMillis() / 1000;
 
-                String encodedExamTitle = encode(examtitle);
-                String encodedExamDescription = encode(examdescription);
+                String encodedExamTitle = encode(fmgetitle);
+                String encodedExamDescription = encode(fmgedescription);
 
                 String shareLinkText = "Checkout this FMGE Test" + quizTitle + " \uD83E\uDE7A" + " at " +
                         timeUntilOpen + " in " +
                         "https://app.mymedicos.in/?" +
-                        "link=http://www.mymedicos.in/examdetails?examId=" + examId +
+                        "link=http://www.mymedicos.in/fmgedetails?fmgeId=" + fmgeId +
                         "&st=" + encodedExamTitle +
                         "&sd=" + encodedExamDescription +
                         "&apn=" + getPackageName() +
                         "&si=" + "https://res.cloudinary.com/dlgrxj8fp/image/upload/v1709416117/mwkegbnreoldjn4lksnn.png";
-                Log.e("Exam Detailed Activity", "Sharelink - " + shareLinkText);
+                Log.e("Fmge Detailed Activity", "Sharelink - " + shareLinkText);
 
                 Intent intent = new Intent();
                 intent.setAction(Intent.ACTION_SEND);
@@ -361,10 +361,10 @@ public class FmgeExamPayment extends AppCompatActivity {
                 intent.setType("text/plain");
                 startActivity(intent);
             } else {
-                Log.e(ContentValues.TAG, "No such document with documentId: " + examId);
+                Log.e(ContentValues.TAG, "No such document with documentId: " + fmgeId);
             }
         }).addOnFailureListener(e -> {
-            Log.e(ContentValues.TAG, "Error fetching exam details for documentId: " + examId, e);
+            Log.e(ContentValues.TAG, "Error fetching exam details for documentId: " + fmgeId, e);
         });
     }
     private String encode(String s) {
@@ -385,7 +385,7 @@ public class FmgeExamPayment extends AppCompatActivity {
                     if (pendingDynamicLinkData != null) {
                         Uri deepLink = pendingDynamicLinkData.getLink();
                         if (deepLink != null) {
-                            String examId = deepLink.getQueryParameter("examId");
+                            String examId = deepLink.getQueryParameter("fmgeId");
                             String title = deepLink.getQueryParameter("title");
                             String due = deepLink.getQueryParameter("due");
 
@@ -793,7 +793,7 @@ public class FmgeExamPayment extends AppCompatActivity {
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 Integer coinsValue = snapshot.getValue(Integer.class);
                 if (coinsValue != null && coinsValue >= discount) {
-                    int newCoinsValue = coinsValue - Math.max(discount, examFee);
+                    int newCoinsValue = coinsValue - Math.max(discount, fmgeFee);
                     ref.setValue(newCoinsValue);
                     Toast.makeText(FmgeExamPayment.this, "Coupon applied successfully", Toast.LENGTH_SHORT).show();
                 } else {
@@ -815,7 +815,7 @@ public class FmgeExamPayment extends AppCompatActivity {
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 Integer coinsValue = snapshot.getValue(Integer.class);
                 if (coinsValue != null) {
-                    int coinsAfterDiscount = Math.max(0, examFee - pendingDiscount);
+                    int coinsAfterDiscount = Math.max(0, fmgeFee - pendingDiscount);
                     int newCoinsValue = coinsValue - coinsAfterDiscount;
 
                     if (newCoinsValue >= 0) {

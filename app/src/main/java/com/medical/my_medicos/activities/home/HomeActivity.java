@@ -53,6 +53,7 @@ import com.google.firebase.firestore.QuerySnapshot;
 import com.medical.my_medicos.R;
 import com.medical.my_medicos.activities.Extras.NoInternetActivity;
 import com.medical.my_medicos.activities.cme.CmeDetailsActivity;
+import com.medical.my_medicos.activities.fmge.activites.FmgeExamPayment;
 import com.medical.my_medicos.activities.home.fragments.ClubFragment;
 import com.medical.my_medicos.activities.home.fragments.HomeFragment;
 import com.medical.my_medicos.activities.home.fragments.SlideshowFragment;
@@ -296,6 +297,8 @@ public class HomeActivity extends AppCompatActivity {
                                 handleDeepLinkIntentPublication(deepLink);
                             } else if (link.contains("examdetails?")) {
                                 handleDeepLinkIntentPGUpload(deepLink);
+                            } else if (link.contains("fmgedetails?")) {
+                                handleDeepLinkIntentFMGEUpload(deepLink);
                             }
                         }
                     }
@@ -318,6 +321,13 @@ public class HomeActivity extends AppCompatActivity {
         Log.d("DeepLink", "Received deep link with examId: " + examId);
         openExamDetailsActivity(examId);
     }
+
+    private void handleDeepLinkIntentFMGEUpload(Uri deepLink) {
+        String fmgeId = deepLink.getQueryParameter("fmgeId");
+        Log.d("DeepLink", "Received deep link with fmgeId: " + fmgeId);
+        openFmgeDetailsActivity(fmgeId);
+    }
+
     private void handleDeepLinkIntentNews(Uri deepLink) {
         String newsId = deepLink.getQueryParameter("newsId");
         Log.d("DeepLink", "Received deep link with newsId: " + newsId);
@@ -389,6 +399,15 @@ public class HomeActivity extends AppCompatActivity {
         startActivity(intent);
         finish();
         Log.d("HomeActivity", "ExamDetailsActivity started");
+    }
+
+    private void openFmgeDetailsActivity(String fmgeId) {
+        Log.d("HomeActivity", "Opening FmgeDetailsActivity with documentId: " + fmgeId);
+        Intent intent = new Intent(this, FmgeExamPayment.class);
+        intent.putExtra("fmgeId", fmgeId);
+        startActivity(intent);
+        finish();
+        Log.d("HomeActivity", "FmgeDetailsActivity started");
     }
 
 
