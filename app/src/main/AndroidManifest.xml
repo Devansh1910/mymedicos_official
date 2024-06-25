@@ -40,16 +40,13 @@
             android:name=".activities.login.bottom_controls.PrivacyPolicyActivity"
             android:exported="false" />
         <activity
-            android:name=".activities.fmge.activites.FmgeExamActivity"
+            android:name=".activities.fmge.activites.SearchFmgeActivity"
             android:exported="false" />
         <activity
-            android:name=".activities.fmge.activites.SearchFMGEActivity"
+            android:name=".activities.fmge.activites.ResultActivityFmge"
             android:exported="false" />
         <activity
-            android:name=".activities.fmge.activites.ResultFMGEActivity"
-            android:exported="false" />
-        <activity
-            android:name=".activities.fmge.activites.FmgeActivity"
+            android:name=".activities.fmge.activites.FmgeprepActivity"
             android:exported="false" />
 
         <service
@@ -134,6 +131,9 @@
             android:name=".activities.pg.activites.internalfragments.PreparationSubCategoryActivity"
             android:exported="false" />
         <activity
+            android:name=".activities.fmge.activites.internalfragments.PreparationSubCategoryFmgeActivity"
+            android:exported="false" />
+        <activity
             android:name=".activities.pg.activites.NeetExamPayment"
             android:exported="false" />
         <activity
@@ -141,6 +141,9 @@
             android:exported="false" />
         <activity
             android:name=".activities.pg.activites.extras.PreparationCategoryDisplayActivity"
+            android:exported="false" />
+        <activity
+            android:name=".activities.fmge.activites.extras.PreparationCategoryDisplayFmgeActivity"
             android:exported="false" />
         <activity
             android:name=".activities.guide.VerficationGuideActivity"

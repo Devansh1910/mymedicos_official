@@ -37,7 +37,7 @@ import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.medical.my_medicos.R;
 import com.medical.my_medicos.activities.cme.CmeActivity;
-import com.medical.my_medicos.activities.fmge.activites.FmgeActivity;
+import com.medical.my_medicos.activities.fmge.activites.FmgeprepActivity;
 import com.medical.my_medicos.activities.job.JobsActivity;
 import com.medical.my_medicos.activities.memes.MemeActivity;
 import com.medical.my_medicos.activities.news.NewsActivity;
@@ -182,7 +182,7 @@ public class HomeFragment extends Fragment {
 
         update = rootView.findViewById(R.id.university);
         update.setOnClickListener(view -> {
-            Intent i = new Intent(getActivity(), FmgeActivity.class);
+            Intent i = new Intent(getActivity(), FmgeprepActivity.class);
             startActivity(i);
         });
 

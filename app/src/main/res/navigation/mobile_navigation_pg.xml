@@ -4,7 +4,6 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/mobile_navigation_pg"
     app:startDestination="@id/navigation_pghome">
-#pg xml file
     <fragment
         android:id="@+id/navigation_pghome"
         android:name="com.medical.my_medicos.activities.pg.activites.internalfragments.HomePgFragment"

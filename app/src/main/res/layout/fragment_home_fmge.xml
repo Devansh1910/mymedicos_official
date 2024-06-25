@@ -5,162 +5,230 @@
     android:background="@color/backgroundcolor"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    tools:context=".activities.fmge.activites.fragments.HomeFmgeFragment">
+    tools:context=".activities.fmge.activites.internalfragments.HomeFmgeFragment">
 
     <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
         android:id="@+id/swipeRefreshLayoutPg"
         android:layout_width="match_parent"
-        android:background="@color/backgroundcolor"
+        android:background="@color/white"
         android:layout_height="match_parent">
 
-        <androidx.core.widget.NestedScrollView
+        <ScrollView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="@color/backgroundcolor"
+            android:background="@color/colorPrimary"
             android:fillViewport="true"
             app:layout_constraintBottom_toTopOf="@id/bottomappabarpg"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/appBarLayout">
 
-            <LinearLayout
+            <RelativeLayout
                 android:layout_width="match_parent"
-                android:background="@color/backgroundcolor"
-                android:layout_height="wrap_content"
-                android:orientation="vertical">
+                android:layout_height="wrap_content">
 
-                <com.airbnb.lottie.LottieAnimationView
-                    android:id="@+id/shimmercomeup"
+                <ImageView
+                    android:id="@+id/vector_home"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    app:lottie_autoPlay="true"
-                    android:visibility="gone"
-                    app:lottie_loop="true"
-                    app:lottie_rawRes="@raw/shimmer"
-                    app:lottie_speed="1" />
+                    android:layout_alignParentTop="true"
+                    android:layout_alignParentEnd="true"
+                    android:layout_alignParentStart="true"
+                    android:scaleType="centerCrop"
+                    android:src="@drawable/pg_new_banner_top" />
 
                 <androidx.cardview.widget.CardView
+                    android:layout_marginTop="@dimen/_140sdp"
                     android:layout_width="match_parent"
+                    android:elevation="@dimen/_10sdp"
                     android:layout_height="wrap_content"
-                    android:layout_margin="10dp"
-                    app:cardCornerRadius="5dp">
+                    app:cardCornerRadius="@dimen/_10ssp">
 
-                    <FrameLayout
+                    <LinearLayout
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content">
+                        android:background="@color/white"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:padding="10dp">
 
                         <ImageView
-                            android:id="@+id/urlopener"
-                            android:layout_width="match_parent"
+                            android:layout_width="wrap_content"
+                            android:layout_gravity="center"
                             android:layout_height="match_parent"
-                            android:src="@drawable/justforbannerdrawable"/>
+                            android:scaleType="centerCrop"
+                            android:src="@drawable/line_horizontal" />
 
-                        <org.imaginativeworld.whynotimagecarousel.ImageCarousel
-                            android:id="@+id/carouselfmgehome"
+                        <LinearLayout
                             android:layout_width="match_parent"
-                            android:layout_height="150dp"
-                            app:showNavigationButtons="false"
-                            app:showCaption="false"
-                            app:autoPlay="true"/>
+                            android:layout_marginVertical="@dimen/_5ssp"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal">
 
-                    </FrameLayout>
+                            <TextView
+                                android:id="@+id/practivemcq"
+                                android:layout_width="0dp"
+                                android:drawableEnd="@drawable/person_practice"
+                                android:background="@drawable/backofpgmaterials"
+                                android:layout_weight="1"
+                                android:drawablePadding="@dimen/_2ssp"
+                                android:layout_height="wrap_content"
+                                android:elevation="@dimen/_10sdp"
+                                android:text="PRACTICE MCQs"
+                                android:textColor="@color/unselected"
+                                android:layout_gravity="center_vertical"
+                                android:gravity="center"
+                                android:paddingVertical="@dimen/_10sdp"
+                                android:paddingHorizontal="@dimen/_10ssp"
+                                android:textSize="@dimen/_10ssp"
+                                android:textStyle="normal" />
+
+                            <com.google.android.material.divider.MaterialDivider
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="0.05"
+                                app:dividerColor="@color/white"
+                                app:dividerThickness="@dimen/_1ssp"/>
+
+
+                            <TextView
+                                android:id="@+id/material"
+                                android:layout_width="0dp"
+                                android:drawableEnd="@drawable/practice_prep"
+                                android:background="@drawable/backofpgmaterials"
+                                android:layout_weight="1"
+                                android:drawablePadding="@dimen/_2ssp"
+                                android:layout_height="wrap_content"
+                                android:elevation="@dimen/_10sdp"
+                                android:text="MATERIAL"
+                                android:textColor="@color/unselected"
+                                android:layout_gravity="center_vertical"
+                                android:gravity="center"
+                                android:paddingVertical="@dimen/_10sdp"
+                                android:paddingHorizontal="@dimen/_10ssp"
+                                android:textSize="@dimen/_10ssp"
+                                android:textStyle="normal" />
+
+                        </LinearLayout>
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:background="@color/white"
+                            android:layout_height="wrap_content"
+                            android:text="SUGGEST GRAND EXAMS"
+                            android:textColor="@color/unselected"
+                            android:fontFamily="@font/inter_semibold"
+                            android:layout_gravity="center_vertical"
+                            android:gravity="start"
+                            android:paddingVertical="@dimen/_8sdp"
+                            android:textSize="@dimen/_10ssp"
+                            android:textStyle="normal" />
+
+                        <androidx.recyclerview.widget.RecyclerView
+                            android:id="@+id/specialexam"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"/>
+
+                        <androidx.cardview.widget.CardView
+                            android:layout_marginTop="@dimen/_5ssp"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            app:cardCornerRadius="10dp">
+
+                            <FrameLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content">
+
+                                <ImageView
+                                    android:id="@+id/urlopener"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="match_parent"
+                                    android:src="@drawable/justforbannerdrawable"/>
+
+                                <org.imaginativeworld.whynotimagecarousel.ImageCarousel
+                                    android:id="@+id/carouselpghome"
+                                    android:layout_width="match_parent"
+                                    app:showTopShadow="false"
+                                    app:showBottomShadow="false"
+                                    android:layout_height="@dimen/_80ssp"
+                                    app:showNavigationButtons="false"
+                                    app:showCaption="false"
+                                    app:autoPlay="true"/>
+
+                            </FrameLayout>
+
+                        </androidx.cardview.widget.CardView>
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:background="@color/white"
+                            android:fontFamily="@font/inter_semibold"
+                            android:layout_height="wrap_content"
+                            android:text="SUGGESTED QUESTION BANKS"
+                            android:textColor="@color/unselected"
+                            android:layout_gravity="center_vertical"
+                            android:gravity="start"
+                            android:paddingVertical="@dimen/_8sdp"
+                            android:textSize="@dimen/_10ssp"
+                            android:textStyle="normal" />
+
+                        <androidx.recyclerview.widget.RecyclerView
+                            android:id="@+id/QB"
+                            android:layout_width="match_parent"
+                            android:elevation="@dimen/_2sdp"
+                            android:layout_height="wrap_content"/>
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:background="@color/white"
+                            android:layout_height="wrap_content"
+                            android:text="IMPORTANT NOTICES"
+                            android:textColor="@color/unselected"
+                            android:layout_gravity="center_vertical"
+                            android:gravity="start"
+                            android:paddingVertical="@dimen/_8sdp"
+                            android:textSize="@dimen/_10ssp"
+                            android:textStyle="bold" />
+
+                        <androidx.cardview.widget.CardView
+                            android:id="@+id/gotoupdatesofpg"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginHorizontal="@dimen/_2sdp"
+                            android:layout_marginVertical="@dimen/_10sdp"
+                            app:cardCornerRadius="@dimen/_5sdp"
+                            android:background="@color/white"
+                            android:elevation="@dimen/_10sdp">
+
+                            <TextView
+                                android:layout_width="match_parent"
+                                android:layout_weight="1"
+                                android:layout_margin="@dimen/_5sdp"
+                                android:background="@color/white"
+                                android:layout_height="wrap_content"
+                                android:padding="@dimen/_20sdp"
+                                android:text="GET THE RECENT UPDATES"
+                                android:textColor="@color/unselected"
+                                android:layout_gravity="center_vertical"
+                                android:gravity="center"
+                                android:textSize="@dimen/_14ssp"
+                                android:textStyle="bold" />
+
+
+                        </androidx.cardview.widget.CardView>
+
+                        <ImageView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:scaleType="centerCrop"
+                            android:src="@drawable/connectfinal"/>
+
+                    </LinearLayout>
 
                 </androidx.cardview.widget.CardView>
 
-                <TextView
-                    android:layout_width="match_parent"
-                    android:paddingVertical="@dimen/_5ssp"
-                    android:background="@color/backgroundcolor"
-                    android:layout_height="wrap_content"
-                    android:fontFamily="@font/inter"
-                    android:text="About the Exam :"
-                    android:layout_marginHorizontal="10dp"
-                    android:textColor="@color/unselected"
-                    android:layout_gravity="center_vertical"
-                    android:textSize="@dimen/_14ssp"
-                    android:textStyle="normal" />
+            </RelativeLayout>
 
-                <TextView
-                    android:layout_width="match_parent"
-                    android:fontFamily="@font/inter"
-                    android:background="@color/backgroundcolor"
-                    android:layout_height="wrap_content"
-                    android:text="The Foreign Medical Graduates Examination (FMGE) is a mandatory screening test introduced by the National Board of Examinations (NBE) in India for Indian citizens and Overseas Citizens of India (OCI) who have obtained their medical degrees from countries outside India. The examination evaluates the depth of knowledge and understanding of medical principles and practices equivalent to an Indian MBBS degree holder. Passing this examination is required to practice medicine in India, ensuring that foreign-educated doctors meet the same benchmarks as those educated in India."
-                    android:textColor="#9C9C9C"
-                    android:layout_marginHorizontal="10dp"
-                    android:layout_gravity="center_vertical"
-                    android:textSize="@dimen/_10ssp"
-                    android:textStyle="normal" />
-
-                <TextView
-                    android:layout_width="match_parent"
-                    android:paddingVertical="@dimen/_5ssp"
-                    android:background="@color/backgroundcolor"
-                    android:layout_height="wrap_content"
-                    android:text="Suggested Exams"
-                    android:layout_marginHorizontal="10dp"
-                    android:textColor="@color/unselected"
-                    android:fontFamily="@font/inter"
-                    android:layout_gravity="center_vertical"
-                    android:textSize="@dimen/_14ssp"
-                    android:textStyle="normal" />
-
-                <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/specialexamfmge"
-                    android:layout_marginHorizontal="10dp"
-                    android:layout_width="match_parent"
-                    android:elevation="@dimen/_2sdp"
-                    android:layout_height="wrap_content"/>
-
-                <TextView
-                    android:layout_width="match_parent"
-                    android:paddingVertical="@dimen/_5ssp"
-                    android:background="@color/backgroundcolor"
-                    android:layout_height="wrap_content"
-                    android:text="Suggested Materials"
-                    android:fontFamily="@font/inter"
-                    android:layout_marginHorizontal="10dp"
-                    android:textColor="@color/unselected"
-                    android:layout_gravity="center_vertical"
-                    android:textSize="@dimen/_14ssp"
-                    android:textStyle="normal" />
-
-                <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/QBMaterial"
-                    android:layout_width="match_parent"
-                    android:layout_marginHorizontal="10dp"
-                    android:elevation="@dimen/_2sdp"
-                    android:layout_height="wrap_content"/>
-
-                <TextView
-                    android:layout_width="match_parent"
-                    android:paddingVertical="@dimen/_5ssp"
-                    android:fontFamily="@font/inter"
-                    android:layout_marginHorizontal="10dp"
-                    android:background="@color/backgroundcolor"
-                    android:layout_height="wrap_content"
-                    android:text="Suggested Videos"
-                    android:textColor="@color/unselected"
-                    android:layout_gravity="center_vertical"
-                    android:textSize="@dimen/_14ssp"
-                    android:textStyle="normal" />
-
-                <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/VideosFMGE"
-                    android:layout_width="match_parent"
-                    android:elevation="@dimen/_2sdp"
-                    android:layout_marginHorizontal="10dp"
-                    android:layout_height="wrap_content"/>
-
-                <ImageView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:scaleType="centerCrop"
-                    android:src="@drawable/connectfinal"/>
-
-            </LinearLayout>
-
-        </androidx.core.widget.NestedScrollView>
+        </ScrollView>
 
     </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 
