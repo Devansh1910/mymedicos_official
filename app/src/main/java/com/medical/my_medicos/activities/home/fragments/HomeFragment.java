@@ -35,6 +35,9 @@ import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
 import com.medical.my_medicos.R;
 import com.medical.my_medicos.activities.cme.CmeActivity;
 import com.medical.my_medicos.activities.fmge.activites.FmgeprepActivity;
@@ -44,6 +47,7 @@ import com.medical.my_medicos.activities.news.NewsActivity;
 import com.medical.my_medicos.activities.news.NewsToday;
 import com.medical.my_medicos.activities.news.TodayNewsAdapter;
 import com.medical.my_medicos.activities.pg.activites.PgprepActivity;
+import com.medical.my_medicos.activities.profile.Contactinfo;
 import com.medical.my_medicos.activities.publications.activity.PublicationActivity;
 import com.medical.my_medicos.activities.slideshow.PaidSlideshowAdapter;
 import com.medical.my_medicos.activities.slideshow.Slideshow;
@@ -98,13 +102,17 @@ public class HomeFragment extends Fragment {
     MyAdapter adapterjob;
     MyAdapter2 adaptercme;
     String Speciality;
+    private FirebaseStorage storage;
     CardView cardjobs, cardcme;
+    LinearLayout progress ;
     TextView home1, home2, home3;
     RecyclerView recyclerViewjob;
     RecyclerView recyclerViewcme;
     private ExoPlayer player;
     TodayNewsAdapter todayNewsAdapter;
     ArrayList<NewsToday> newstoday;
+    private FirebaseFirestore db;
+    private FirebaseUser currentUser;
     String videoURL = "https://res.cloudinary.com/dmzp6notl/video/upload/v1701512080/videoforhome_gzfpen.mp4";
     TextView navigatetojobs, navigatetocme, navigatecmeinsider, navigatenews;
     public static final String INTENT_KEY_SPECIALITY = "speciality";
@@ -125,11 +133,35 @@ public class HomeFragment extends Fragment {
         binding = FragmentHomeBinding.inflate(inflater, container, false);
         View rootView = binding.getRoot();
 
+
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             Window window = requireActivity().getWindow();
             window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
             window.setStatusBarColor(ContextCompat.getColor(requireContext(), R.color.teal_700));
         }
+        progress=rootView.findViewById(R.id.progress);
+        db = FirebaseFirestore.getInstance();
+        progress.setVisibility(View.GONE);
+        currentUser = FirebaseAuth.getInstance().getCurrentUser();
+        storage = FirebaseStorage.getInstance();
+        progress.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // Navigate to PersonalInfoActivity
+                Intent intent = new Intent(getActivity(), Contactinfo.class);
+                startActivity(intent);
+            }
+        });
+        checkUserProfile();
+//        if (progress != null) {
+//            progress.setVisibility(View.GONE);
+//        }
+
+
+
+
+
+
 
         recyclerViewjob = rootView.findViewById(R.id.recyclerview_job1);
         handler = new Handler();
@@ -144,6 +176,7 @@ public class HomeFragment extends Fragment {
 
         swipeRefreshLayout.setOnRefreshListener(() -> {
             mediaPlayer.start();
+            checkUserProfile();
             refreshData();
         });
 
@@ -484,6 +517,7 @@ public class HomeFragment extends Fragment {
             if (!dataLoaded) {
                 fetchdata();
                 fetchUserData();
+                checkUserProfile();
             }
             initSliderContent();
             initTodaysSlider();
@@ -491,9 +525,59 @@ public class HomeFragment extends Fragment {
         return rootView;
     }
 
+    private void checkUserProfile() {
+        if (currentUser != null) {
+            String phoneNumber = currentUser.getPhoneNumber();
+            if (phoneNumber != null) {
+                db.collection("users")
+                        .whereEqualTo("Phone Number", phoneNumber)
+                        .get()
+                        .addOnCompleteListener(task -> {
+                            if (task.isSuccessful()) {
+                                QuerySnapshot querySnapshot = task.getResult();
+                                if (!querySnapshot.isEmpty()) {
+                                    DocumentSnapshot document = querySnapshot.getDocuments().get(0);
+                                    boolean isDetailsComplete = document.contains("Age")
+                                            && document.contains("permanent")
+                                            && document.contains("present");
+
+                                    checkIfAvatarExists(isDetailsComplete);
+                                } else {
+                                    progress.setVisibility(View.VISIBLE);
+                                }
+                            } else {
+                                progress.setVisibility(View.VISIBLE);
+                            }
+                        });
+            } else {
+                progress.setVisibility(View.VISIBLE);
+            }
+        } else {
+            progress.setVisibility(View.VISIBLE);
+        }
+    }
+
+        private void checkIfAvatarExists(boolean isDetailsComplete) {
+
+            StorageReference avatarRef = storage.getReference().child("users/" + currentUser.getPhoneNumber() + "/profile_image.jpg");
+            avatarRef.getDownloadUrl().addOnSuccessListener(uri -> {
+                if (isDetailsComplete) {
+                    Log.d("isdetailscomplete"+ isDetailsComplete,avatarRef.toString());
+                    progress.setVisibility(View.GONE);
+                } else {
+                    progress.setVisibility(View.VISIBLE);
+                }
+            }).addOnFailureListener(exception -> {
+                progress.setVisibility(View.VISIBLE);
+            });
+        }
+
+
+
     private void refreshData() {
         paidslideshows.clear();
         newstoday.clear();
+        checkUserProfile();
         paidslideshowAdapter.notifyDataSetChanged();
         todayNewsAdapter.notifyDataSetChanged();
 

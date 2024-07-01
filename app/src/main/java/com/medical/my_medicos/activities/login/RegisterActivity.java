@@ -68,7 +68,7 @@ public class RegisterActivity extends AppCompatActivity {
 
         // Optionally set a default country code if needed
         countryCodePicker.setDefaultCountryUsingNameCode("IN");
-        selectedCountryCode = countryCodePicker.getSelectedCountryCode();
+        selectedCountryCode ="+"+ countryCodePicker.getSelectedCountryCode();
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             View decorView = getWindow().getDecorView();

@@ -133,13 +133,13 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void afterTextChanged(Editable s) {
                 // Check if the text length is exactly 10
-                if (s.length() == 10) {
+//                if (s.length() == 10) {
                     login.setEnabled(true);
                     login.setBackgroundColor(ContextCompat.getColor(MainActivity.this, R.color.unselected));
-                } else {
-                    login.setEnabled(false);
-                    login.setBackgroundColor(ContextCompat.getColor(MainActivity.this, R.color.grey));
-                }
+////                } else {
+//                    login.setEnabled(false);
+//                    login.setBackgroundColor(ContextCompat.getColor(MainActivity.this, R.color.grey));
+////                }
             }
         });
     }
@@ -161,12 +161,11 @@ public class MainActivity extends AppCompatActivity {
                     phone.setError("Phone Number Required");
                     return;
                 }
-                if (phoneNumber.length() != 10) {
-                    Toast.makeText(MainActivity.this, "Phone Number should be 10 digits", Toast.LENGTH_SHORT).show();
-                    return;
-                }
 
-                phoneNumber = selectedCountryCode + phoneNumber; // Add static "+91" prefix
+                selectedCountryCode = countryCodePicker.getSelectedCountryCode();
+
+                phoneNumber = "+"+selectedCountryCode + phoneNumber; // Add static "+91" prefix
+                Log.d("PhoneNumberofmobile",phoneNumber);
 
                 checkIfUserExists(phoneNumber);
             }
