@@ -148,20 +148,24 @@
                     android:id="@+id/phonenumberll"
                     android:gravity="center_vertical">
 
-                    <ImageView
-                        android:layout_width="25dp"
-                        android:layout_height="25dp"
-                        android:src="@drawable/indianflag"/>
-
-                    <TextView
+                    <LinearLayout
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:padding="4dp"
-                        android:textStyle="bold"
-                        android:text="+91"
-                        android:layout_marginLeft="10dp"
-                        android:background="@drawable/maincircularborderring"
-                        android:textSize="@dimen/_12ssp" />
+                        android:orientation="horizontal">
+                        <com.hbb20.CountryCodePicker
+                            android:id="@+id/countryCodePicker"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            app:ccp_defaultNameCode="IN"
+                            app:ccp_showFlag="true"
+                            app:ccp_showPhoneCode="true"
+                            app:ccp_textSize="@dimen/_12ssp"
+
+                            android:padding="@dimen/_4ssp"
+                            android:layout_marginLeft="@dimen/_10ssp"
+
+                           />
+                    </LinearLayout>
 
                     <EditText
                         android:id="@+id/phonenumberededit"

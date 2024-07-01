@@ -44,6 +44,7 @@ import com.google.firebase.auth.PhoneAuthCredential;
 import com.google.firebase.auth.PhoneAuthProvider;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QuerySnapshot;
+import com.hbb20.CountryCodePicker;
 import com.medical.my_medicos.R;
 import com.medical.my_medicos.activities.home.HomeActivity;
 import com.medical.my_medicos.activities.login.bottom_controls.PrivacyPolicyActivity;
@@ -55,9 +56,11 @@ public class MainActivity extends AppCompatActivity {
 
     EditText phone;
     TextView login;
+    String selectedCountryCode;
     private Dialog mdialog;
     Toolbar toolbar;
     FirebaseAuth mauth;
+    CountryCodePicker countryCodePicker ;
     FirebaseFirestore db = FirebaseFirestore.getInstance();
 
     @Override
@@ -78,6 +81,8 @@ public class MainActivity extends AppCompatActivity {
                 showBottomSheetDialog();
             }
         });
+        countryCodePicker = findViewById(R.id.countryCodePicker);
+        countryCodePicker.setDefaultCountryUsingNameCode("IN");
 
         TextView textView2 = findViewById(R.id.textidforquote);
         String htmlText2 = "<strong>India’s</strong> first premier <strong>medical community</strong> app, connecting healthcare experts seamlessly.";
@@ -144,6 +149,7 @@ public class MainActivity extends AppCompatActivity {
         mdialog = new Dialog(this);
         mauth = FirebaseAuth.getInstance();
 
+
         login.setBackgroundColor(ContextCompat.getColor(this, R.color.grey));
 
         login.setOnClickListener(new View.OnClickListener() {
@@ -160,7 +166,7 @@ public class MainActivity extends AppCompatActivity {
                     return;
                 }
 
-                phoneNumber = "+91" + phoneNumber; // Add static "+91" prefix
+                phoneNumber = selectedCountryCode + phoneNumber; // Add static "+91" prefix
 
                 checkIfUserExists(phoneNumber);
             }

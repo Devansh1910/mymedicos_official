@@ -28,6 +28,7 @@ import androidx.appcompat.widget.TooltipCompat;
 import androidx.core.content.ContextCompat;
 
 import com.google.firebase.messaging.FirebaseMessaging;
+import com.hbb20.CountryCodePicker;
 import com.medical.my_medicos.R;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
@@ -55,6 +56,7 @@ public class RegisterActivity extends AppCompatActivity {
     private ProgressDialog progressDialog;
     HashMap<String, Object> userMap = new HashMap<>();
     private FirebaseFirestore db = FirebaseFirestore.getInstance();
+    String selectedCountryCode ;
     EditText email, fullName, phoneNumber, password;
     TextView loginreg;
     @SuppressLint({"MissingInflatedId", "WrongViewCast"})
@@ -62,6 +64,11 @@ public class RegisterActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register);
+        CountryCodePicker countryCodePicker = findViewById(R.id.countryCodePicker);
+
+        // Optionally set a default country code if needed
+        countryCodePicker.setDefaultCountryUsingNameCode("IN");
+        selectedCountryCode = countryCodePicker.getSelectedCountryCode();
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             View decorView = getWindow().getDecorView();
@@ -243,9 +250,9 @@ public class RegisterActivity extends AppCompatActivity {
                 }
 
                 if (!enteredPhone.startsWith("+91")) {
-                    phoneNo = "+91" + enteredPhone;
+                    phoneNo = selectedCountryCode + enteredPhone;
                 } else {
-                    phoneNo = enteredPhone;
+                    phoneNo = selectedCountryCode+enteredPhone;
                 }
 
                 if (TextUtils.isEmpty(mail)) {
