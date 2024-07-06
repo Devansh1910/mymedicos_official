@@ -235,7 +235,7 @@ public class WeeklyQuizFragment extends Fragment {
         if (user != null) {
             String userId = user.getPhoneNumber();
 
-            CollectionReference quizResultsCollection = db.collection("QuizResults").document(userId).collection("Weekley");
+            CollectionReference quizResultsCollection = db.collection("QuizResultsPGPrep").document(userId).collection("Weekley");
 
             // Array to store subcollection IDs
 

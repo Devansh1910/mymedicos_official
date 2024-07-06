@@ -38,6 +38,7 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.cardview.widget.CardView;
 import androidx.core.content.ContextCompat;
 
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.medical.my_medicos.R;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
@@ -378,6 +379,185 @@ public class Contactinfo extends AppCompatActivity {
             }
         }
     }
+    private void checkUserProfile() {
+        Log.d("checkuserprofilecalled","2");
+         FirebaseFirestore db;
+         FirebaseUser currentUser;
+        db = FirebaseFirestore.getInstance();
+        FirebaseStorage storage;
+        currentUser = FirebaseAuth.getInstance().getCurrentUser();
+        storage = FirebaseStorage.getInstance();
+        if (currentUser != null) {
+            Log.d("checkuserprofilecalled","3");
+
+            String phoneNumber = currentUser.getPhoneNumber();
+            if (phoneNumber != null) {
+                db.collection("users")
+                        .whereEqualTo("Phone Number", phoneNumber)
+                        .get()
+                        .addOnCompleteListener(task -> {
+                            if (task.isSuccessful()) {
+                                QuerySnapshot querySnapshot = task.getResult();
+                                if (!querySnapshot.isEmpty()) {
+                                    DocumentSnapshot document = querySnapshot.getDocuments().get(0);
+                                    boolean isDetailsComplete = document.contains("Age")
+                                            && document.contains("permanent")
+                                            && document.contains("present");
+
+                                    checkIfAvatarExists(isDetailsComplete);
+                                } else {
+
+                                }
+                            } else {
+
+                            }
+                        });
+            } else {
+
+            }
+        } else {
+
+        }
+    }
+
+    private void checkIfAvatarExists(boolean isDetailsComplete) {
+        FirebaseFirestore db;
+        FirebaseUser currentUser;
+        db = FirebaseFirestore.getInstance();
+        FirebaseStorage storage;
+        currentUser = FirebaseAuth.getInstance().getCurrentUser();
+        storage = FirebaseStorage.getInstance();
+        Log.d("checkuserprofilecalled","4");
+
+        StorageReference avatarRef = storage.getReference().child("users/" + currentUser.getPhoneNumber() + "/profile_image.jpg");
+        avatarRef.getDownloadUrl().addOnSuccessListener(uri -> {
+            if (isDetailsComplete) {
+                Log.d("isdetailscomplete"+ isDetailsComplete,avatarRef.toString());
+                Log.d("checkuserprofilecalled","10");
+
+                if (currentUser != null) {
+                    Log.d("checkuserprofilecalled","11");
+
+                    String phoneNumber = currentUser.getPhoneNumber();
+                    if (phoneNumber != null) {
+                        Log.d("checkuserprofilecalled","12");
+                        Log.d("checkuserprofilecalled",phoneNumber);
+                        db.collection("users")
+                                .whereEqualTo("Phone Number", phoneNumber)
+                                .get()
+                                .addOnCompleteListener(task -> {
+                                    if (task.isSuccessful()) {
+                                        QuerySnapshot querySnapshot = task.getResult();
+                                        if (!querySnapshot.isEmpty()) {
+                                            DocumentSnapshot document = querySnapshot.getDocuments().get(0);
+                                            Boolean updatesProfile = document.contains("Updatesprofile");
+                                            Log.d("checkuserprofilecalled","5");
+                                            Log.d("checkuserprofilecalled",updatesProfile.toString());
+
+                                            if (updatesProfile==true){
+                                                Log.d("checkuserprofilecalled","5");
+                                                Boolean profile=document.getBoolean("Updatesprofile");
+                                                if (profile==false){
+                                                    Log.d("checkuserprofilecalled","77");
+                                                    Log.d("checkuserprofilecalled",profile.toString());
+                                                    db.collection("users")
+                                                            .whereEqualTo("Phone Number", phoneNumber)
+                                                            .get()
+                                                            .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                                                                @Override
+                                                                public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                                                                    if (task.isSuccessful()) {
+                                                                        for (QueryDocumentSnapshot document : task.getResult()) {
+                                                                            String userId = document.getId();
+                                                                            updateProfileField(userId,phoneNumber);
+                                                                            Log.d("checkuserprofilecalled","6");
+                                                                             // Assume only one document matches
+                                                                        }
+                                                                    } else {
+                                                                        // Handle the error
+                                                                        // Log.e("Firestore Error", "Error getting documents: ", task.getException());
+                                                                    }
+                                                                }
+                                                            });
+
+                                                }
+
+
+
+                                            }
+                                            else{
+                                                Log.d("checkuserprofilecalled","24");
+                                                db.collection("users")
+                                                        .whereEqualTo("Phone Number", phoneNumber)
+                                                        .get()
+                                                        .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                                                            @Override
+                                                            public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                                                                if (task.isSuccessful()) {
+                                                                    for (QueryDocumentSnapshot document : task.getResult()) {
+                                                                        String userId = document.getId();
+                                                                        updateProfileField(userId,phoneNumber);
+                                                                        Log.d("checkuserprofilecalled","25");
+                                                                         // Assume only one document matches
+                                                                    }
+                                                                } else {
+                                                                    // Handle the error
+                                                                    // Log.e("Firestore Error", "Error getting documents: ", task.getException());
+                                                                }
+                                                            }
+                                                        });
+
+                                            }
+
+
+
+                                        } else {
+
+                                        }
+                                    } else {
+
+                                    }
+                                });
+                    } else {
+
+                    }
+                } else {
+
+                }
+
+
+
+            } else {
+
+            }
+        }).addOnFailureListener(exception -> {
+
+        });
+    }
+    private void updateProfileField(String userId,String phoneNumber) {
+        FirebaseFirestore db;
+        FirebaseDatabase database;
+        database = FirebaseDatabase.getInstance();
+
+        db = FirebaseFirestore.getInstance();
+        Log.d("checkuserprofilecalled","7");
+        db.collection("users").document(userId)
+
+                .update("Updatesprofile", true)
+                .addOnSuccessListener(aVoid -> {
+                    database.getReference().child("profiles")
+                            .child(phoneNumber)
+                            .child("coins")
+                            .setValue(10);
+                    // Profile updated successfully
+                    Toast.makeText(Contactinfo.this, "10 MedCoins ARE ADDED", Toast.LENGTH_SHORT).show();
+                     Log.d("Firestore Success", "DocumentSnapshot successfully updated!");
+                })
+                .addOnFailureListener(e -> {
+                    // Handle the error
+                    // Log.e("Firestore Error", "Error updating document", e);
+                });
+    }
     private void postinfo() {
         currentaddress = presentaddress.getText().toString().trim();
         fulladdress= permanentaddress.getText().toString().trim();
@@ -389,27 +569,51 @@ public class Contactinfo extends AppCompatActivity {
 
         DocumentReference docRef = db.collection("users").document(documentid);
 
-        docRef.update("present", currentaddress,
-                        "permanent", fulladdress,
-                        "Age", drage,
-                        "Location",selectedMode)
-                .addOnSuccessListener(new OnSuccessListener<Void>() {
-                    @Override
-                    public void onSuccess(Void aVoid) {
-                        Log.d(ContentValues.TAG, "DocumentSnapshot successfully updated!");
-                        Toast.makeText(Contactinfo.this, "Successfully Ended", Toast.LENGTH_SHORT).show();
+        docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                if (task.isSuccessful()) {
+                    DocumentSnapshot document = task.getResult();
+                    if (document.exists()) {
+
+
+                            checkUserProfile();
+
+
+                            // Proceed with updating the document
+                            docRef.update("present", currentaddress,
+                                            "permanent", fulladdress,
+                                            "Age", drage,
+                                            "Location", selectedMode)
+                                    .addOnSuccessListener(new OnSuccessListener<Void>() {
+                                        @Override
+                                        public void onSuccess(Void aVoid) {
+                                            checkUserProfile();
+                                            Log.d(ContentValues.TAG, "DocumentSnapshot successfully updated!");
+                                            Toast.makeText(Contactinfo.this, "Successfully Ended", Toast.LENGTH_SHORT).show();
+                                        }
+                                    })
+                                    .addOnFailureListener(new OnFailureListener() {
+                                        @Override
+                                        public void onFailure(@NonNull Exception e) {
+                                            Log.w(ContentValues.TAG, "Error updating document", e);
+                                        }
+                                    });
+                        } else {
+                            Log.d(ContentValues.TAG, "updatesprofile is false or null");
+                            Toast.makeText(Contactinfo.this, "Profile updates are not allowed", Toast.LENGTH_SHORT).show();
+                        }
+                    } else {
+                        Log.d(ContentValues.TAG, "No such document");
                     }
-                })
-                .addOnFailureListener(new OnFailureListener() {
-                    @Override
-                    public void onFailure(@NonNull Exception e) {
-                        Log.w(ContentValues.TAG, "Error updating document", e);
-                    }
-                });
+
+            }
+        });
     }
     @Override
     public boolean onSupportNavigateUp() {
         finish();
         return super.onSupportNavigateUp();
     }
+
 }

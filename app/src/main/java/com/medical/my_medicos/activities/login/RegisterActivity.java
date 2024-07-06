@@ -358,6 +358,7 @@ public class RegisterActivity extends AppCompatActivity {
         user.put("Prefix", userMap.get("prefix").toString());
         user.put("MCN verified", false);
         user.put("FCM Token",fcmtoken);
+        user.put("Updatedprofile",true);
 
         db.collection("users")
                 .add(user)

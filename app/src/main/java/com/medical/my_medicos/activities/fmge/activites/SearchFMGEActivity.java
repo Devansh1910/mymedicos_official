@@ -26,7 +26,7 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 
-public class SearchFmgeActivity extends AppCompatActivity {
+public class SearchFMGEActivity extends AppCompatActivity {
 
 
     ActivitySearchFmgeBinding binding;

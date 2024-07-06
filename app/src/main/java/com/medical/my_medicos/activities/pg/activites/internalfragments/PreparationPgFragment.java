@@ -2,6 +2,8 @@ package com.medical.my_medicos.activities.pg.activites.internalfragments;
 
 import static androidx.fragment.app.FragmentManager.TAG;
 
+import static org.slf4j.MDC.put;
+
 import android.annotation.SuppressLint;
 import android.content.ContentValues;
 import android.os.Bundle;
@@ -27,6 +29,9 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
@@ -41,6 +46,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Map;
 
 public class PreparationPgFragment extends Fragment {
@@ -179,6 +185,9 @@ public class PreparationPgFragment extends Fragment {
                                 if (a != 0) {
                                     dailyquestionspg.add(perday);
                                     questionFound = true;
+
+                                    // Update Firestore when the question is added
+                                    updateFirestore(questionId);
                                 }
 
                             } else {
@@ -206,6 +215,50 @@ public class PreparationPgFragment extends Fragment {
         });
         queue.add(request);
     }
+
+    private void updateFirestore(String questionId) {
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+        FirebaseDatabase database = FirebaseDatabase.getInstance();
+        FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
+
+        if (currentUser != null) {
+            String phoneNumber = currentUser.getPhoneNumber(); // Assuming this method gets the current user's phone number
+            DocumentReference userDocRef = db.collection("users").document(phoneNumber);
+            DatabaseReference userRealtimeRef = database.getReference("profiles").child(phoneNumber);
+
+            userDocRef.get().addOnSuccessListener(documentSnapshot -> {
+                if (documentSnapshot.exists()) {
+                    Long currentStreak = documentSnapshot.getLong("streakCount");
+                    if (currentStreak == null) {
+                        currentStreak = 0L;
+                    }
+                    userDocRef.update("streakCount", currentStreak + 1)
+                            .addOnSuccessListener(aVoid -> Log.d("Firestore", "Streak count updated successfully"))
+                            .addOnFailureListener(e -> Log.e("Firestore", "Error updating streak count", e));
+
+                    // Update Realtime Database
+                    userRealtimeRef.child("streakCount").setValue(currentStreak + 1)
+                            .addOnSuccessListener(aVoid -> Log.d("RealtimeDB", "Streak count updated successfully"))
+                            .addOnFailureListener(e -> Log.e("RealtimeDB", "Error updating streak count", e));
+                } else {
+                    Map<String, Object> data = new HashMap<>();
+                    data.put("streakCount", 1);
+                    data.put("QuizToday", questionId);
+
+                    userDocRef.set(data)
+                            .addOnSuccessListener(aVoid -> Log.d("Firestore", "User document created successfully"))
+                            .addOnFailureListener(e -> Log.e("Firestore", "Error creating user document", e));
+
+                    // Set initial values in Realtime Database
+                    userRealtimeRef.setValue(data)
+                            .addOnSuccessListener(aVoid -> Log.d("RealtimeDB", "User data created successfully"))
+                            .addOnFailureListener(e -> Log.e("RealtimeDB", "Error creating user data", e));
+                }
+            }).addOnFailureListener(e -> Log.e("Firestore", "Error fetching user document", e));
+        }
+    }
+
+
 
     private boolean containsQuestionId(ArrayList<PerDayPG> list, String questionId) {
         for (PerDayPG question : list) {

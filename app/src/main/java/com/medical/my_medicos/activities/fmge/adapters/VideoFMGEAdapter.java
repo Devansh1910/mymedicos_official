@@ -12,7 +12,8 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.medical.my_medicos.R;
-import com.medical.my_medicos.activities.fmge.model.VideoFmge;
+import com.medical.my_medicos.activities.fmge.model.VideoFMGE;
+
 import com.medical.my_medicos.activities.pg.model.VideoPG;
 import com.medical.my_medicos.databinding.ItemVideosBinding;
 
@@ -21,9 +22,9 @@ import java.util.ArrayList;
 public class VideoFMGEAdapter extends RecyclerView.Adapter<VideoFMGEAdapter.VideoFMGEViewHolder> {
 
     Context context;
-    ArrayList<VideoFmge> videobankspg;
+    ArrayList<VideoFMGE> videobankspg;
 
-    public VideoFMGEAdapter(Context context, ArrayList<VideoFmge> videobanksfmge) {
+    public VideoFMGEAdapter(Context context, ArrayList<VideoFMGE> videobanksfmge) {
 
         this.context = context;
         this.videobankspg = videobankspg;
@@ -37,7 +38,7 @@ public class VideoFMGEAdapter extends RecyclerView.Adapter<VideoFMGEAdapter.Vide
 
     @Override
     public void onBindViewHolder(@NonNull VideoFMGEViewHolder holder, int position) {
-        VideoFmge videobankpg = videobankspg.get(position);
+        VideoFMGE videobankpg = videobankspg.get(position);
         Glide.with(context)
                 .load(videobankpg.getThumbnail())
                 .into(holder.binding.thumbnailvideo);
@@ -73,7 +74,7 @@ public class VideoFMGEAdapter extends RecyclerView.Adapter<VideoFMGEAdapter.Vide
                 public void onClick(View view) {
                     int position = getAdapterPosition();
                     if (position != RecyclerView.NO_POSITION) {
-                        VideoFmge clickedNews = videobankspg.get(position);
+                        VideoFMGE clickedNews = videobankspg.get(position);
                         openUrlInBrowser(clickedNews.getDate());
                     }
                 }

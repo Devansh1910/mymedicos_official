@@ -1,8 +1,8 @@
 package com.medical.my_medicos.activities.fmge.model;
 
-public class VideoFmge {
+public class VideoFMGE {
     private String label, thumbnail, url, date;
-    public VideoFmge(String name, String image,String url,String date) {
+    public VideoFMGE(String name, String image,String url,String date) {
         this.label = name;
         this.thumbnail = image;
         this.url = url;

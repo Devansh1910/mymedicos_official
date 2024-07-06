@@ -162,7 +162,7 @@ public class ResultActivity extends AppCompatActivity {
         FirebaseUser user = auth.getCurrentUser();
         if (user != null) {
             String userId = user.getPhoneNumber();
-            DocumentReference userDocumentRef = db.collection("QuizResults").document(userId);
+            DocumentReference userDocumentRef = db.collection("QuizResultsPGPrep").document(userId);
             CollectionReference idSubcollectionRef = userDocumentRef.collection("Weekley");
             if (id!=null) {
                 Log.d("collection id ", id);

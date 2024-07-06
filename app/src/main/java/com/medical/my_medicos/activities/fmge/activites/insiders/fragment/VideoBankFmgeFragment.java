@@ -16,7 +16,8 @@ import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.medical.my_medicos.activities.fmge.activites.insiders.SpecialityFMGEInsiderActivity;
 import com.medical.my_medicos.activities.fmge.adapters.VideoFMGEAdapter;
-import com.medical.my_medicos.activities.fmge.model.VideoFmge;
+
+import com.medical.my_medicos.activities.fmge.model.VideoFMGE;
 import com.medical.my_medicos.activities.pg.activites.insiders.SpecialityPGInsiderActivity;
 import com.medical.my_medicos.activities.pg.adapters.VideoPGAdapter;
 import com.medical.my_medicos.activities.pg.model.VideoPG;
@@ -35,7 +36,7 @@ public class VideoBankFmgeFragment extends Fragment {
     private FragmentVideoBankFmgeBinding binding;
     private VideoFMGEAdapter videosAdapter;
     LottieAnimationView nodatafound;
-    private ArrayList<VideoFmge> videosforpg;
+    private ArrayList<VideoFMGE> videosforpg;
     private int catId;
 
     public static VideoBankFmgeFragment newInstance(int catId, String title) {
@@ -90,7 +91,7 @@ public class VideoBankFmgeFragment extends Fragment {
                     JSONArray array = object.getJSONArray("data");
                     for (int i = 0; i < array.length(); i++) {
                         JSONObject childObj = array.getJSONObject(i);
-                        VideoFmge questionbankItem = new VideoFmge(
+                        VideoFMGE questionbankItem = new VideoFMGE(
                                 childObj.getString("Title"),
                                 childObj.getString("Description"),
                                 childObj.getString("Time"),
