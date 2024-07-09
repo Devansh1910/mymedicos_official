@@ -27,12 +27,15 @@ import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.Timestamp;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.medical.my_medicos.R;
@@ -222,39 +225,57 @@ public class PreparationPgFragment extends Fragment {
         FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
 
         if (currentUser != null) {
-            String phoneNumber = currentUser.getPhoneNumber(); // Assuming this method gets the current user's phone number
-            DocumentReference userDocRef = db.collection("users").document(phoneNumber);
-            DatabaseReference userRealtimeRef = database.getReference("profiles").child(phoneNumber);
+            String phoneNumber = currentUser.getPhoneNumber();
+            CollectionReference usersCollection = db.collection("users");
 
-            userDocRef.get().addOnSuccessListener(documentSnapshot -> {
-                if (documentSnapshot.exists()) {
-                    Long currentStreak = documentSnapshot.getLong("streakCount");
-                    if (currentStreak == null) {
-                        currentStreak = 0L;
-                    }
-                    userDocRef.update("streakCount", currentStreak + 1)
-                            .addOnSuccessListener(aVoid -> Log.d("Firestore", "Streak count updated successfully"))
-                            .addOnFailureListener(e -> Log.e("Firestore", "Error updating streak count", e));
+            // Query to find the document with matching phone number
+            Query query = usersCollection.whereEqualTo("Phone Number", phoneNumber);
 
-                    // Update Realtime Database
-                    userRealtimeRef.child("streakCount").setValue(currentStreak + 1)
-                            .addOnSuccessListener(aVoid -> Log.d("RealtimeDB", "Streak count updated successfully"))
-                            .addOnFailureListener(e -> Log.e("RealtimeDB", "Error updating streak count", e));
-                } else {
-                    Map<String, Object> data = new HashMap<>();
-                    data.put("streakCount", 1);
-                    data.put("QuizToday", questionId);
+            query.get()
+                    .addOnSuccessListener(queryDocumentSnapshots -> {
+                        for (QueryDocumentSnapshot document : queryDocumentSnapshots) {
+                            DocumentReference userDocRef = document.getReference();
+                            DatabaseReference userRealtimeRef = database.getReference("profiles").child(phoneNumber);
 
-                    userDocRef.set(data)
-                            .addOnSuccessListener(aVoid -> Log.d("Firestore", "User document created successfully"))
-                            .addOnFailureListener(e -> Log.e("Firestore", "Error creating user document", e));
+                            Long currentStreak = document.getLong("streakCount");
+                            if (currentStreak == null) {
+                                currentStreak = 0L;
+                            }
+                            long newStreakCount = currentStreak + 1;
 
-                    // Set initial values in Realtime Database
-                    userRealtimeRef.setValue(data)
-                            .addOnSuccessListener(aVoid -> Log.d("RealtimeDB", "User data created successfully"))
-                            .addOnFailureListener(e -> Log.e("RealtimeDB", "Error creating user data", e));
-                }
-            }).addOnFailureListener(e -> Log.e("Firestore", "Error fetching user document", e));
+                            // Update streak count and timestamp in Firestore
+                            Map<String, Object> updateData = new HashMap<>();
+                            updateData.put("streakCount", newStreakCount);
+                            updateData.put("lastQuizAttemptDate", Timestamp.now()); // Add timestamp field
+
+                            userDocRef.update(updateData)
+                                    .addOnSuccessListener(aVoid -> {
+                                        Log.d("Firestore", "Streak count updated successfully");
+                                    })
+                                    .addOnFailureListener(e -> {
+                                        Log.e("Firestore", "Error updating streak count", e);
+                                    });
+
+                            // Update streak count in Realtime Database
+                            userRealtimeRef.child("streakCount").setValue(newStreakCount)
+                                    .addOnSuccessListener(aVoid -> {
+                                        Log.d("RealtimeDB", "Streak count updated successfully");
+                                    })
+                                    .addOnFailureListener(e -> {
+                                        Log.e("RealtimeDB", "Error updating streak count", e);
+                                    });
+                            userRealtimeRef.child("lastQuizAttemptDate").setValue(Timestamp.now())
+                                    .addOnSuccessListener(aVoid -> {
+                                        Log.d("RealtimeDB", "Streak count updated successfully");
+                                    })
+                                    .addOnFailureListener(e -> {
+                                        Log.e("RealtimeDB", "Error updating streak count", e);
+                                    });
+                        }
+                    })
+                    .addOnFailureListener(e -> {
+                        Log.e("Firestore", "Error fetching user document", e);
+                    });
         }
     }
 
