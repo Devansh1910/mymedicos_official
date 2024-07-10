@@ -245,7 +245,7 @@ public class PreparationPgFragment extends Fragment {
 
                             // Update streak count and timestamp in Firestore
                             Map<String, Object> updateData = new HashMap<>();
-                            updateData.put("Streak", newStreakCount);
+
                             updateData.put("lastQuizAttemptDate", Timestamp.now()); // Add timestamp field
 
                             userDocRef.update(updateData)
