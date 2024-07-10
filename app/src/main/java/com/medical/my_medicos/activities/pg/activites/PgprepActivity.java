@@ -111,7 +111,7 @@ public class PgprepActivity extends AppCompatActivity {
             });
 
             // Fetch streaks
-            userRef.child("streaks").addValueEventListener(new ValueEventListener() {
+            userRef.child("Streak").addValueEventListener(new ValueEventListener() {
                 @Override
                 public void onDataChange(@NonNull DataSnapshot snapshot) {
                     Integer streaksValue = snapshot.getValue(Integer.class);

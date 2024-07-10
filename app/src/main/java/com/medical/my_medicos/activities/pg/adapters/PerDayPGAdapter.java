@@ -20,6 +20,9 @@ import androidx.media3.common.util.UnstableApi;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
+import com.google.firebase.Timestamp;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 import com.medical.my_medicos.R;
 import com.medical.my_medicos.activities.pg.animations.CorrectAnswerActivity;
 import com.medical.my_medicos.activities.pg.animations.WrongAnswerActivity;
@@ -85,6 +88,7 @@ public class PerDayPGAdapter extends RecyclerView.Adapter<PerDayPGAdapter.DailyQ
             public void onClick(View view) {
                 handleOptionClick(holder, "A");
                 compareAndShowResult(holder, dailyquestion);
+                updateFirestore(dailyquestion.getidQuestion());
             }
         });
 
@@ -121,6 +125,66 @@ public class PerDayPGAdapter extends RecyclerView.Adapter<PerDayPGAdapter.DailyQ
             holder.binding.questionsbox.setVisibility(View.GONE);
         }
     }
+    private void updateFirestore(String questionId) {
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+        FirebaseDatabase database = FirebaseDatabase.getInstance();
+        FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
+
+        if (currentUser != null) {
+            String phoneNumber = currentUser.getPhoneNumber();
+            CollectionReference usersCollection = db.collection("users");
+
+            // Query to find the document with matching phone number
+            Query query = usersCollection.whereEqualTo("Phone Number", phoneNumber);
+
+            query.get()
+                    .addOnSuccessListener(queryDocumentSnapshots -> {
+                        for (QueryDocumentSnapshot document : queryDocumentSnapshots) {
+                            DocumentReference userDocRef = document.getReference();
+                            DatabaseReference userRealtimeRef = database.getReference("profiles").child(phoneNumber);
+
+                            Long currentStreak = document.getLong("streakCount");
+                            if (currentStreak == null) {
+                                currentStreak = 0L;
+                            }
+                            long newStreakCount = currentStreak + 1;
+
+                            // Update streak count and timestamp in Firestore
+                            Map<String, Object> updateData = new HashMap<>();
+                            updateData.put("streakCount", newStreakCount);
+                            updateData.put("lastQuizAttemptDate", Timestamp.now()); // Add timestamp field
+
+                            userDocRef.update(updateData)
+                                    .addOnSuccessListener(aVoid -> {
+                                        Log.d("Firestore", "Streak count updated successfully");
+                                    })
+                                    .addOnFailureListener(e -> {
+                                        Log.e("Firestore", "Error updating streak count", e);
+                                    });
+
+                            // Update streak count in Realtime Database
+                            userRealtimeRef.child("streakCount").setValue(newStreakCount)
+                                    .addOnSuccessListener(aVoid -> {
+                                        Log.d("RealtimeDB", "Streak count updated successfully");
+                                    })
+                                    .addOnFailureListener(e -> {
+                                        Log.e("RealtimeDB", "Error updating streak count", e);
+                                    });
+                            userRealtimeRef.child("lastQuizAttemptDate").setValue(Timestamp.now())
+                                    .addOnSuccessListener(aVoid -> {
+                                        Log.d("RealtimeDB", "Streak count updated successfully");
+                                    })
+                                    .addOnFailureListener(e -> {
+                                        Log.e("RealtimeDB", "Error updating streak count", e);
+                                    });
+                        }
+                    })
+                    .addOnFailureListener(e -> {
+                        Log.e("Firestore", "Error fetching user document", e);
+                    });
+        }
+    }
+
 
     private void handleOptionClick(DailyQuestionViewHolder holder, String selectedOption) {
         resetOptionStyle(holder);

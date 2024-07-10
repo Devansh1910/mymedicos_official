@@ -237,7 +237,7 @@ public class PreparationPgFragment extends Fragment {
                             DocumentReference userDocRef = document.getReference();
                             DatabaseReference userRealtimeRef = database.getReference("profiles").child(phoneNumber);
 
-                            Long currentStreak = document.getLong("streakCount");
+                            Long currentStreak = document.getLong("Streak");
                             if (currentStreak == null) {
                                 currentStreak = 0L;
                             }
@@ -245,7 +245,7 @@ public class PreparationPgFragment extends Fragment {
 
                             // Update streak count and timestamp in Firestore
                             Map<String, Object> updateData = new HashMap<>();
-                            updateData.put("streakCount", newStreakCount);
+                            updateData.put("Streak", newStreakCount);
                             updateData.put("lastQuizAttemptDate", Timestamp.now()); // Add timestamp field
 
                             userDocRef.update(updateData)
@@ -257,7 +257,7 @@ public class PreparationPgFragment extends Fragment {
                                     });
 
                             // Update streak count in Realtime Database
-                            userRealtimeRef.child("streakCount").setValue(newStreakCount)
+                            userRealtimeRef.child("Streak").setValue(newStreakCount)
                                     .addOnSuccessListener(aVoid -> {
                                         Log.d("RealtimeDB", "Streak count updated successfully");
                                     })
