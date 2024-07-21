@@ -12,6 +12,7 @@ import com.bumptech.glide.Glide;
 import com.medical.my_medicos.R;
 import com.medical.my_medicos.activities.pg.activites.insiders.SpecialityPGInsiderActivity;
 import com.medical.my_medicos.activities.pg.activites.insiders.SpecialityPGQuizActivity;
+import com.medical.my_medicos.activities.pg.activites.internalfragments.PreprationindexingActivity;
 import com.medical.my_medicos.activities.pg.model.SpecialitiesPG;
 import com.makeramen.roundedimageview.RoundedImageView;
 
@@ -46,7 +47,7 @@ public class SpecialitiesPGAdapter extends RecyclerView.Adapter<SpecialitiesPGAd
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(context, SpecialityPGQuizActivity.class);
+                Intent intent = new Intent(context, PreprationindexingActivity.class);
                 intent.putExtra("pgId", specialitiespg.getPriority());
                 intent.putExtra("specialityPgName", specialitiespg.getName());
                 context.startActivity(intent);

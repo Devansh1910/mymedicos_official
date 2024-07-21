@@ -1,0 +1,15 @@
+<!-- res/menu/prepration_indexing_fragments.xml -->
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/navigation_pgnotes"
+        android:icon="@drawable/home_pg_icon"
+        android:title="Notes" />
+    <item
+        android:id="@+id/navigation_pgtwgt"
+        android:icon="@drawable/day_daily"
+        android:title="TWGT" />
+    <item
+        android:id="@+id/navigation_pgswgt"
+        android:icon="@drawable/gt_icon"
+        android:title="SWGT" />
+</menu>

@@ -11,6 +11,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
 import com.medical.my_medicos.R;
 import com.medical.my_medicos.activities.fmge.activites.insiders.SpecialityFMGEQuizActivity;
+import com.medical.my_medicos.activities.fmge.activites.internalfragments.PreprationindexingActivityFMGE;
 import com.medical.my_medicos.activities.fmge.model.SpecialitiesFmge;
 import com.medical.my_medicos.activities.pg.activites.insiders.SpecialityPGInsiderActivity;
 import com.medical.my_medicos.activities.pg.activites.insiders.SpecialityPGQuizActivity;
@@ -48,7 +49,7 @@ public class SpecialitiesFMGEAdapter extends RecyclerView.Adapter<SpecialitiesFM
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(context, SpecialityFMGEQuizActivity.class);
+                Intent intent = new Intent(context, PreprationindexingActivityFMGE.class);
                 intent.putExtra("fmgeId", specialitiesFmge.getPriority());
                 intent.putExtra("specialityFmgeName", specialitiesFmge.getName());
                 context.startActivity(intent);

@@ -138,12 +138,12 @@ public class NeetExamFragment extends Fragment {
             String userId = currentUser.getPhoneNumber();
         }
 
-        RecyclerView perDayQuestionsRecyclerView = view.findViewById(R.id.perdayquestions);
-
-        if (perDayQuestionsRecyclerView == null) {
-            Log.e("Fragment", "Empty");
-            return;
-        }
+//        RecyclerView perDayQuestionsRecyclerView = view.findViewById(R.id.perdayquestions);
+//
+//        if (perDayQuestionsRecyclerView == null) {
+//            Log.e("Fragment", "Empty");
+//            return;
+//        }
 
         showShimmer(true);
 

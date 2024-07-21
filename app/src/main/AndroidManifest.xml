@@ -18,10 +18,8 @@
     <uses-permission
         android:name="android.permission.READ_EXTERNAL_STORAGE"
         android:maxSdkVersion="32" />
-
-    <uses-permission android:name="android.permission.READ_CALENDAR"/>
-    <uses-permission android:name="android.permission.WRITE_CALENDAR"/>
-
+    <uses-permission android:name="android.permission.READ_CALENDAR" />
+    <uses-permission android:name="android.permission.WRITE_CALENDAR" />
 
     <application
         android:allowBackup="true"
@@ -34,14 +32,21 @@
         android:theme="@style/Theme.My_medicos"
         tools:replace="android:label"
         tools:targetApi="31">
-        <activity android:name=".activities.login.bottom_controls.TermsandConditionsActivity"
-            android:exported="false"/>
+        <activity
+            android:name=".activities.pg.activites.internalfragments.Preprationindexing.adapter.NotesAdapter"
+            android:exported="false" />
+        <activity
+            android:name=".activities.pg.activites.internalfragments.PreprationindexingActivity"
+            android:exported="false"
+            android:theme="@style/Theme.My_medicos" />
+        <activity
+            android:name=".activities.login.bottom_controls.TermsandConditionsActivity"
+            android:exported="false" />
         <activity
             android:name=".activities.login.bottom_controls.PrivacyPolicyActivity"
-            android:exported="false" />
-        <activity
-            android:name=".activities.fmge.activites.SearchFmgeActivity"
-            android:exported="false" />
+            android:exported="false" /> <!-- <activity -->
+        <!-- android:name=".activities.fmge.activites.SearchFmgeActivity" -->
+        <!-- android:exported="false" /> -->
         <activity
             android:name=".activities.fmge.activites.ResultActivityFmge"
             android:exported="false" />
@@ -121,19 +126,15 @@
         <activity
             android:name=".activities.pg.activites.extras.PreparationCategoryMaterialDisplayActivity"
             android:exported="false" />
-
         <activity
             android:name=".activities.fmge.activites.extras.PreparationCategoryMaterialDisplayFmgeActivity"
             android:exported="false" />
-
         <activity
             android:name=".activities.pg.activites.internalfragments.PreparationSubCategoryForMaterialActivity"
             android:exported="false" />
-
         <activity
             android:name=".activities.fmge.activites.internalfragments.PreparationSubCategoryForMaterialFmgeActivity"
             android:exported="false" />
-
         <activity
             android:name=".activities.pg.activites.insiders.SpecialityPGQuizActivity"
             android:exported="false" />
@@ -206,15 +207,12 @@
         <activity
             android:name=".activities.pg.activites.ResultActivityNeet"
             android:label="Result Activity Neet" />
-
         <activity
             android:name=".activities.pg.activites.Neetexaminsider"
             android:exported="false" />
-
         <activity
             android:name=".activities.fmge.activites.Fmgeexaminsider"
             android:exported="false" />
-
         <activity
             android:name=".activities.slideshow.insider.SpecialitySlideshowInsiderActivity"
             android:exported="false" />
@@ -271,11 +269,9 @@
         <activity
             android:name=".activities.pg.activites.insiders.SpecialityPGInsiderActivity"
             android:exported="false" />
-
         <activity
             android:name=".activities.fmge.activites.insiders.SpecialityFMGEInsiderActivity"
             android:exported="false" />
-
         <activity
             android:name=".activities.pg.activites.insiders.WeeklyQuizInsiderActivity"
             android:exported="false" />

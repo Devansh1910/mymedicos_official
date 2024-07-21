@@ -1,0 +1,29 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
+    android:padding="8dp">
+
+    <TextView
+        android:id="@+id/index_header_text_view"
+        android:layout_width="80dp"
+        android:layout_height="@dimen/_50sdp"
+
+        android:text="Sn No"
+        android:textSize="@dimen/_12ssp"
+        android:background="@drawable/cell_background"
+        android:padding="8dp"
+        android:gravity="center"/>
+
+    <TextView
+        android:id="@+id/sn_no_header_text_view"
+
+        android:layout_width="@dimen/_220sdp"
+        android:layout_height="@dimen/_50sdp"
+        android:textSize="@dimen/_12ssp"
+
+        android:text="Title"
+        android:background="@drawable/cell_background"
+        android:padding="8dp"
+        android:gravity="center"/>
+</LinearLayout>

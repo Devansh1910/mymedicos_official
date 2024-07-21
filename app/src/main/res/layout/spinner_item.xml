@@ -1,0 +1,18 @@
+<!-- res/layout/spinner_item.xml -->
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/backgroundcolor"
+    android:orientation="horizontal"
+    android:paddingHorizontal="@dimen/_12ssp"
+    android:paddingVertical="@dimen/_14ssp">
+
+    <TextView
+        android:id="@+id/spinner_text"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:textColor="@android:color/black"
+        android:textSize="16sp" />
+ <!-- Change to your dropdown icon -->
+</LinearLayout>

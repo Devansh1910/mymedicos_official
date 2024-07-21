@@ -30,7 +30,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 
-public class WeeklyQuizAdapter extends RecyclerView.Adapter<WeeklyQuizAdapter.ViewHolder> {
+public class    WeeklyQuizAdapter extends RecyclerView.Adapter<WeeklyQuizAdapter.ViewHolder> {
     private Context context;
     private ArrayList<QuizPG> quizList;
 
@@ -49,8 +49,14 @@ public class WeeklyQuizAdapter extends RecyclerView.Adapter<WeeklyQuizAdapter.Vi
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         QuizPG quiz = quizList.get(position);
-        holder.titleTextView.setText(quiz.getTitle());
+        String title = quiz.getTitle();
+        if (title.length() > 23) {
+            title = title.substring(0, 20) + "...";
+        }
+        holder.titleTextView.setText(title);
+
         holder.time.setText(formatTimestamp(quiz.getTo()));
+        Log.d("speciality coming 2",quiz.getId());
 
         holder.pay.setOnClickListener(v -> {
 //            holder.showBottomSheet(quiz);
@@ -82,8 +88,8 @@ public class WeeklyQuizAdapter extends RecyclerView.Adapter<WeeklyQuizAdapter.Vi
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
-            titleTextView = itemView.findViewById(R.id.titleSets);
-            time=itemView.findViewById(R.id.availabletilltime);
+            titleTextView = itemView.findViewById(R.id.titleTextView);
+            time=itemView.findViewById(R.id.dateTextView);
             payforsets = itemView.findViewById(R.id.paymentpart);
             pay = itemView.findViewById(R.id.payfortheexam);
         }

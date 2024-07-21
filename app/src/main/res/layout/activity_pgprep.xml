@@ -72,6 +72,7 @@
                         android:paddingHorizontal="5dp"
                         android:background="@drawable/categorywhite"
                         android:layout_weight="0.5"
+                        android:visibility="gone"
                         android:orientation="horizontal">
                         <LinearLayout
                             android:layout_width="wrap_content"

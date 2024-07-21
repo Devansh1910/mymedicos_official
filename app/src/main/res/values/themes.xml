@@ -5,7 +5,8 @@
         <item name="colorPrimary">@color/unselected</item>
         <item name="android:navigationBarColor">@color/backgroundcolor</item>
         <item name="android:windowIsTranslucent">true</item>
-        <item name="android:windowLightNavigationBar" tools:ignore="NewApi">false</item> <!-- Set to false for dark icons -->
+        <item name="android:windowLightNavigationBar" tools:ignore="NewApi">false
+        </item> <!-- Set to false for dark icons -->
     </style>
 
     <style name="Theme.My_medicos" parent="Base.Theme.My_medicos" />
@@ -44,6 +45,7 @@
 
     <style name="Theme.My_medicos.BlackStatusBar" parent="Base.Theme.My_medicos">
         <item name="colorPrimaryDark">@color/black</item> <!-- This sets the status bar color -->
-        <item name="android:statusBarColor">@color/black</item> <!-- This also sets the status bar color -->
+        <item name="android:statusBarColor">@color/black
+        </item> <!-- This also sets the status bar color -->
     </style>
 </resources>
