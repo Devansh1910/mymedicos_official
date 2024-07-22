@@ -326,7 +326,7 @@ public class Neetexaminsider extends AppCompatActivity implements neetexampadapt
         timerTextView.setText(timeFormatted);
     }
 
-    // Inside Neetexaminsider activity
+    // Inside Neetssexaminsider activity
     public static class QuestionBottomSheetDialogFragment extends BottomSheetDialogFragment {
         private GridView gridView;
         private QuestionNavigationAdapter adapter;

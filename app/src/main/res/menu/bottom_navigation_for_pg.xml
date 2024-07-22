@@ -8,7 +8,7 @@
     <item
         android:id="@+id/navigation_pgneet"
         android:icon="@drawable/day_daily"
-        android:title="Daily Questions" />
+        android:title="Preparation" />
 
     <item
         android:id="@+id/navigation_pgpreparation"

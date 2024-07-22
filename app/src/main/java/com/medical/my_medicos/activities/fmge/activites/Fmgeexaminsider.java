@@ -328,7 +328,7 @@ public class Fmgeexaminsider extends AppCompatActivity implements fmgeexampadapt
         timerTextView.setText(timeFormatted);
     }
 
-    // Inside Neetexaminsider activity
+    // Inside Neetssexaminsider activity
     public static class QuestionBottomSheetDialogFragment extends BottomSheetDialogFragment {
         private GridView gridView;
         private QuestionNavigationFmgeAdapter adapter;

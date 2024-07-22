@@ -66,7 +66,7 @@ public class WeeklyFmgeQuizAdapter extends RecyclerView.Adapter<WeeklyFmgeQuizAd
     }
 
 
-//    private void showQuizInsiderActivity(QuizPG quiz) {
+//    private void showQuizInsiderActivity(QuizSS quiz) {
 //        Intent intent = new Intent(context, WeeklyQuizInsiderActivity.class);
 //        intent.putExtra("Title1", quiz.getTitle1());
 //        intent.putExtra("Title", quiz.getTitle());

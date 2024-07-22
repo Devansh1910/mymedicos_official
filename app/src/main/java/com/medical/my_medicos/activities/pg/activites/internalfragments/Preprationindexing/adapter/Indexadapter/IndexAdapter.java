@@ -49,9 +49,12 @@ public class IndexAdapter extends RecyclerView.Adapter<IndexAdapter.IndexViewHol
         }
 
         public void bind(IndexData indexData, int position) {
-
             indexTextView.setText(indexData.getData());
-            snNoTextView.setText(String.valueOf(position + 1));
+            // Adding a period after the formatted position number
+            String formattedPosition = String.format("%02d.", position + 1);
+            snNoTextView.setText(formattedPosition);
         }
+
+
     }
 }

@@ -21,16 +21,6 @@
                 android:orientation="vertical"
                 android:padding="10dp">
 
-                <com.airbnb.lottie.LottieAnimationView
-                    android:id="@+id/shimmercomeup"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    app:lottie_autoPlay="true"
-                    android:visibility="gone"
-                    app:lottie_loop="true"
-                    app:lottie_rawRes="@raw/shimmer"
-                    app:lottie_speed="1" />
-
                 <ViewFlipper
                     android:id="@+id/viewFlipperpg"
                     android:autoStart="true"

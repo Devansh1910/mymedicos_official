@@ -4,10 +4,16 @@ import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
+
+import com.medical.my_medicos.activities.home.fragments.ClubFragment;
+import com.medical.my_medicos.activities.home.fragments.SlideshowFragment;
 import com.medical.my_medicos.activities.pg.activites.internalfragments.Preprationindexing.PreprationNotesFragment;
 import com.medical.my_medicos.activities.pg.activites.internalfragments.Preprationindexing.PreprationSWGT;
 import com.medical.my_medicos.activities.pg.activites.internalfragments.Preprationindexing.PreprationTWGT;
@@ -31,21 +37,31 @@ public class PreprationindexingActivity extends AppCompatActivity {
         setSupportActionBar(binding.toolbar);
         binding.toolbar.setTitle(speciality);
 
+        View decorView = getWindow().getDecorView();
+        int uiOptions = View.SYSTEM_UI_FLAG_HIDE_NAVIGATION | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY;
+        decorView.setSystemUiVisibility(uiOptions);
+
+        // Set the back button to finish the current activity and return to the previous one
+        binding.backtothehomefrompg.setOnClickListener(v -> {
+            finish(); // Finish the current activity
+        });
+
         BottomNavigationView bottomNavigationView = findViewById(R.id.bottomNavigationViewpginsiderindexing1);
+        bottomNavigationView.setBackground(null);
+
         bottomNavigationView.setOnItemSelectedListener(item -> {
             Fragment selectedFragment;
-
             String itemId = String.valueOf(item.getItemId());
 
             if (itemId.equals(String.valueOf(R.id.navigation_pgnotes))) {
                 selectedFragment = PreprationNotesFragment.newInstance(speciality);
             } else if (itemId.equals(String.valueOf(R.id.navigation_pgtwgt))) {
                 selectedFragment = PreprationTWGT.newInstance(speciality);
-                Log.d("speciality is fragment",String.valueOf(R.id.navigation_pgtwgt));
-                Log.d("speciality is fragment",itemId);
+                Log.d("speciality is fragment", String.valueOf(R.id.navigation_pgtwgt));
+                Log.d("speciality is fragment", itemId);
             } else if (itemId.equals(String.valueOf(R.id.navigation_pgswgt))) {
-                Log.d("speciality is fragment1",String.valueOf(R.id.navigation_pgswgt));
-                Log.d("speciality is fragment1",itemId);
+                Log.d("speciality is fragment1", String.valueOf(R.id.navigation_pgswgt));
+                Log.d("speciality is fragment1", itemId);
                 selectedFragment = PreprationSWGT.newInstance(speciality);
             } else {
                 selectedFragment = PreprationNotesFragment.newInstance(speciality);
@@ -55,11 +71,6 @@ public class PreprationindexingActivity extends AppCompatActivity {
             return true;
         });
 
-
-
-
-
-        // Load default fragment
         loadFragment(PreprationNotesFragment.newInstance(speciality));
     }
 

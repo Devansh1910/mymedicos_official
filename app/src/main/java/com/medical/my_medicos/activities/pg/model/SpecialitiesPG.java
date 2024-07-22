@@ -24,4 +24,9 @@ public class SpecialitiesPG {
     public void setPriority(int priority) {
         this.priority = priority;
     }
+
+    // Method to get formatted priority as a two-digit string
+    public String getFormattedPriority() {
+        return String.format("%02d", priority);
+    }
 }

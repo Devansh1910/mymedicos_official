@@ -25,5 +25,10 @@
     <color name="getstartedbottom">#F1EEEE</color>
     <color name="navbg">#353535</color>
     <color name="transparentcolor">#00FFFFFF</color>
+    <color name="item_cat_ack">#F6F6F6</color>
+
+    <color name="selectedpart">@color/unselected</color> <!-- Example primary color -->
+    <color name="unselectedpart">@color/grey</color> <!-- Example unselected color -->
+
 
 </resources>

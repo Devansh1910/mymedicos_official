@@ -1,5 +1,6 @@
 <!-- res/layout/activity_preprationindexing.xml -->
-<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -8,7 +9,11 @@
     tools:context=".activities.pg.activites.internalfragments.PreprationindexingActivity">
 
     <com.google.android.material.appbar.AppBarLayout
+        android:id="@+id/toppart"
         android:layout_width="match_parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
         android:layout_height="wrap_content">
 
         <LinearLayout
@@ -19,17 +24,16 @@
 
             <ImageView
                 android:id="@+id/backtothehomefrompg"
-                android:layout_width="60dp"
-                android:layout_height="50dp"
-                android:padding="@dimen/_10sdp"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:paddingHorizontal="@dimen/_14sdp"
                 android:background="@color/backgroundcolor"
                 android:layout_gravity="center"
-                android:src="@drawable/arrow_bk"
-                android:layout_marginEnd="@dimen/_10sdp" />
+                android:src="@drawable/arrow_bk"/>
 
             <androidx.appcompat.widget.Toolbar
                 android:id="@+id/toolbar"
-                app:title="Mymedicos"
+                app:title="Loading.."
                 android:layout_width="match_parent"
                 app:titleTextColor="@color/unselected"
                 android:layout_height="?attr/actionBarSize"
@@ -43,12 +47,13 @@
     <FrameLayout
         android:id="@+id/fragment_container"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="0dp"
         app:layout_behavior="@string/appbar_scrolling_view_behavior"
-        app:layout_constraintTop_toBottomOf="@id/toolbar"
+        app:layout_constraintTop_toBottomOf="@id/toppart"
         app:layout_constraintBottom_toTopOf="@id/bottomappabarpginsider"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
+
     <com.google.android.material.divider.MaterialDivider
         android:layout_width="match_parent"
         android:elevation="@dimen/_10ssp"
@@ -83,4 +88,4 @@
 
     </com.google.android.material.bottomappbar.BottomAppBar>
 
-</androidx.coordinatorlayout.widget.CoordinatorLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

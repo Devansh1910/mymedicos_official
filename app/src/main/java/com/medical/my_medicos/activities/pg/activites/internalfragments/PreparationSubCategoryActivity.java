@@ -28,7 +28,6 @@ import com.medical.my_medicos.activities.pg.adapters.SpecialitiesPGAdapter;
 import com.medical.my_medicos.activities.pg.model.SpecialitiesPG;
 import com.medical.my_medicos.activities.slideshow.insider.SpecialitySlideshowInsiderActivity;
 import com.medical.my_medicos.activities.utils.ConstantsDashboard;
-import com.medical.my_medicos.databinding.ActivityPreparationCategoryDisplayBinding;
 import com.medical.my_medicos.databinding.ActivityPreparationSubCategoryBinding;
 
 import org.json.JSONArray;
@@ -80,7 +79,6 @@ public class PreparationSubCategoryActivity extends AppCompatActivity {
     }
 
     private void configureWindow() {
-//        getWindow().setFlags(WindowManager.LayoutParams.FLAG_SECURE, WindowManager.LayoutParams.FLAG_SECURE);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             Window window = getWindow();
             window.setStatusBarColor(ContextCompat.getColor(this, R.color.backgroundcolor));
@@ -91,15 +89,16 @@ public class PreparationSubCategoryActivity extends AppCompatActivity {
     }
 
     private int getPriorityForCategoryTitle(String categoryTitle) {
-        if ("Pre - Clinical Subjects".equals(categoryTitle)) {
-            return 1;
-        } else if ("Para - Clinical Subjects".equals(categoryTitle)) {
-            return 2;
-        } else if ("Clinical Subjects".equals(categoryTitle)) {
-            return 3;
-        } else {
-            Log.e("PriorityError", "Unknown category title: " + categoryTitle);
-            return -1; // Invalid priority
+        switch (categoryTitle) {
+            case "Pre - Clinical Subjects":
+                return 1;
+            case "Para - Clinical Subjects":
+                return 2;
+            case "Clinical Subjects":
+                return 3;
+            default:
+                Log.e("PriorityError", "Unknown category title: " + categoryTitle);
+                return -1; // Invalid priority
         }
     }
 
@@ -140,7 +139,7 @@ public class PreparationSubCategoryActivity extends AppCompatActivity {
                                         objectPriority
                                 );
                                 specialitiespost.add(speciality);
-                                Log.e("Something went wrong..", String.valueOf(objectPriority));
+                                Log.e("Priority", speciality.getFormattedPriority());
                             }
                         }
 
@@ -155,6 +154,7 @@ public class PreparationSubCategoryActivity extends AppCompatActivity {
                                         Intent intent = new Intent(PreparationSubCategoryActivity.this, SpecialitySlideshowInsiderActivity.class);
                                         startActivity(intent);
                                     } else {
+                                        // Add your action here for other items
                                     }
                                 }
                                 return false;

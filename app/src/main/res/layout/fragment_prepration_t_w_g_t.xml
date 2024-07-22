@@ -29,19 +29,13 @@
                 android:layout_height="wrap_content"
                 android:textAlignment="center"
                 android:layout_gravity="center"
-                android:text="LIVE" />
+                android:text="All" />
 
             <com.google.android.material.tabs.TabItem
                 android:id="@+id/upcomingpg"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="UPCOMING" />
-
-            <com.google.android.material.tabs.TabItem
-                android:id="@+id/pastpg"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="PAST" />
+                android:text="Hy" />
 
         </com.google.android.material.tabs.TabLayout>
 
@@ -60,7 +54,7 @@
             android:layout_gravity="center_vertical"
             android:gravity="center"
             android:clickable="true"
-            android:src="@drawable/coupon_svgrepo_com"
+            android:src="@drawable/filter"
             android:paddingHorizontal="@dimen/_10ssp"/>
 
     </LinearLayout>

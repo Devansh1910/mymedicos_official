@@ -197,8 +197,8 @@
 
     //    public void refreshNavigationGrid() {
     //        Fragment fragment = getSupportFragmentManager().findFragmentByTag("QuestionNavigator");
-    //        if (fragment instanceof Neetexaminsider.QuestionBottomSheetDialogFragment) {
-    //            ((Neetexaminsider.QuestionBottomSheetDialogFragment) fragment).updateGrid();
+    //        if (fragment instanceof Neetssexaminsider.QuestionBottomSheetDialogFragment) {
+    //            ((Neetssexaminsider.QuestionBottomSheetDialogFragment) fragment).updateGrid();
     //        }
     //    }
 
