@@ -121,8 +121,8 @@ public class preprationIndexingTwgtHY extends Fragment {
                         Timestamp to = document.getTimestamp("to");
 
                         if (speciality != null && speciality.equals(title1)) {
-                            QuizPG quizday = new QuizPG(title, title1, to, id);
-                            quizpg.add(quizday);
+//                            QuizPG quizday = new QuizPG(title, title1, to, id);
+//                            quizpg.add(quizday);
                         }
                     }
                 }

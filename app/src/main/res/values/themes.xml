@@ -30,6 +30,10 @@
         <item name="android:backgroundDimEnabled">false</item>
     </style>
 
+
+    <!-- Base application theme -->
+
+
     <style name="CustomTabLayout" parent="Widget.Design.TabLayout">
         <!-- Color for the text of the tabs -->
         <item name="tabTextColor">#7E7E7E</item>
@@ -37,7 +41,14 @@
         <item name="tabSelectedTextColor">@color/unselected</item>
         <!-- Color for the indicator under the selected tab -->
         <item name="tabIndicatorColor">@color/unselected</item>
+        <!-- Set custom text appearance for tabs -->
+        <item name="tabTextAppearance">@style/CustomTabTextAppearance</item>
     </style>
+
+    <style name="CustomTabTextAppearance" parent="TextAppearance.Design.Tab">
+        <item name="textAllCaps">false</item>
+    </style>
+
 
     <style name="Theme.My_medicos.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
 

@@ -5,6 +5,7 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
 import androidx.viewpager2.adapter.FragmentStateAdapter;
 
+import com.medical.my_medicos.activities.pg.activites.internalfragments.Preprationindexing.tablayouts.twgt.PreprationIndexTwgtBookmark;
 import com.medical.my_medicos.activities.pg.activites.internalfragments.Preprationindexing.tablayouts.twgt.PreprationIndexingTwgtAll;
 
 import com.medical.my_medicos.activities.pg.activites.internalfragments.Preprationindexing.tablayouts.twgt.preprationIndexingTwgtHY;
@@ -25,6 +26,8 @@ public class PreprationTwgtPageAdapter extends FragmentStateAdapter {
                 return PreprationIndexingTwgtAll.newInstance(speciality);
             case 1:
                 return preprationIndexingTwgtHY.newInstance(speciality);
+            case 2:
+                return PreprationIndexTwgtBookmark.newInstance(speciality);
             default:
                 return PreprationIndexingTwgtAll.newInstance(speciality);
         }
@@ -32,6 +35,6 @@ public class PreprationTwgtPageAdapter extends FragmentStateAdapter {
 
     @Override
     public int getItemCount() {
-        return 2;
+        return 3;
     }
 }

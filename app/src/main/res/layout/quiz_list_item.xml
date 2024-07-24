@@ -38,9 +38,14 @@
         android:textColor="@color/unselected"
         android:text="Loading..."
         android:textSize="@dimen/_14sdp"/>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingHorizontal="@dimen/_10ssp"
+        android:orientation="horizontal">
 
     <LinearLayout
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:paddingHorizontal="@dimen/_10ssp"
         android:orientation="horizontal">
@@ -78,9 +83,58 @@
             android:layout_height="wrap_content"
             android:textColor="@color/unselected"
             android:text="200 mins" />
+        <LinearLayout
+            android:id="@+id/unlock"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:visibility="gone"
+
+
+            android:layout_marginHorizontal="@dimen/_9sdp"
+            android:layout_marginBottom="@dimen/_2sdp"
+            android:paddingVertical="@dimen/_1sdp"
+            android:paddingHorizontal="@dimen/_10ssp"
+            android:orientation="vertical">
+            <ImageView
+                android:layout_width="23dp"
+                android:layout_height="23dp"
+                android:layout_gravity="end"
+                android:src="@drawable/unlock">
+
+            </ImageView>
+        </LinearLayout>
+
+
+        <LinearLayout
+            android:id="@+id/lock"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:visibility="gone"
+
+
+            android:layout_marginHorizontal="@dimen/_9sdp"
+            android:layout_marginBottom="@dimen/_2sdp"
+            android:paddingVertical="@dimen/_1sdp"
+            android:paddingHorizontal="@dimen/_10ssp"
+            android:orientation="vertical">
+            <ImageView
+                android:layout_width="23dp"
+                android:layout_height="23dp"
+                android:layout_gravity="end"
+                android:src="@drawable/lock_svgrepo_com">
+
+            </ImageView>
+        </LinearLayout>
+
 
     </LinearLayout>
 
+
+
+
+    </LinearLayout>
     <TextView
         android:id="@+id/categoryTextView"
         android:layout_width="wrap_content"

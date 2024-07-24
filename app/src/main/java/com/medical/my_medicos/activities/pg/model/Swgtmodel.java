@@ -2,29 +2,25 @@ package com.medical.my_medicos.activities.pg.model;
 
 import com.google.firebase.Timestamp;
 
-import java.sql.Time;
+public class Swgtmodel {
 
-public class QuizPG {
-    private String title,title1,id,index;
+    private String title,title1,id;
     private boolean type;
     private Timestamp description;
 
 
-    public QuizPG(String title, String title1, Timestamp to, String id,boolean type,String index) {
+    public Swgtmodel(String title, String title1, Timestamp to, String id,boolean type) {
         this.title = title;
-
         this.id = id;
         this.type=type;
         this.title1=title1;
         this.description = to;
-        this.index=index;
     }
 
     public String getTitle() {
         return title;
     }
     public boolean getType(){ return type;}
-    public String getIndex(){ return index;}
     public String getTitle1() {
         return title1;
     }

@@ -25,14 +25,16 @@ import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.medical.my_medicos.R;
 import com.medical.my_medicos.activities.pg.adapters.WeeklyQuizAdapter;
+import com.medical.my_medicos.activities.pg.adapters.WeeklyQuizAdapterSwgt;
 import com.medical.my_medicos.activities.pg.model.QuizPG;
+import com.medical.my_medicos.activities.pg.model.Swgtmodel;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class PreprationIndexingSwgtPast extends Fragment {
-    private WeeklyQuizAdapter quizAdapter;
-    private ArrayList<QuizPG> quizpg = new ArrayList<>();
+    private WeeklyQuizAdapterSwgt quizAdapter;
+    private ArrayList<Swgtmodel> quizpg = new ArrayList<>();
     private String speciality;
 
     private static final String ARG_SPECIALITY = "speciality";
@@ -64,7 +66,7 @@ public class PreprationIndexingSwgtPast extends Fragment {
         RecyclerView recyclerView = view.findViewById(R.id.recyclerView);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
 
-        quizAdapter = new WeeklyQuizAdapter(getContext(), quizpg);
+        quizAdapter = new WeeklyQuizAdapterSwgt(getContext(), quizpg);
         recyclerView.setAdapter(quizAdapter);
 
         getQuestions(speciality);
@@ -78,7 +80,7 @@ public class PreprationIndexingSwgtPast extends Fragment {
 
         if (user != null) {
             String userId = user.getPhoneNumber();
-            CollectionReference quizResultsCollection = db.collection("QuizResultsPGPrep").document(userId).collection("Weekley");
+            CollectionReference quizResultsCollection = db.collection("QuizResults").document(userId).collection("Weekley");
 
             quizResultsCollection.get()
                     .addOnCompleteListener(subcollectionTask -> {
@@ -106,10 +108,25 @@ public class PreprationIndexingSwgtPast extends Fragment {
                         String title = document.getString("title");
                         String speciality = document.getString("speciality");
                         Timestamp to = document.getTimestamp("to");
-                        int r = speciality.compareTo(title1);
-                        if (r == 0) {
-                            QuizPG quizday = new QuizPG(title, title1, to, id);
-                            quizpg.add(quizday);
+                        boolean type=document.contains("type");
+                        if (type==true) {
+                            boolean paid =true;
+
+//                            boolean paid = document.getBoolean("type");
+                            int r = speciality.compareTo(title1);
+                            if (r == 0) {
+                                Swgtmodel quizday = new Swgtmodel(title, title1, to, id,paid);
+                                quizpg.add(quizday);
+                            }
+                        }
+                        else{
+                            boolean paid =false;
+                            int r = speciality.compareTo(title1);
+                            if (r == 0) {
+                                Swgtmodel quizday = new Swgtmodel(title, title1, to, id,paid);
+                                quizpg.add(quizday);
+                            }
+
                         }
                         Log.d("Speciality Check", id);
                     }

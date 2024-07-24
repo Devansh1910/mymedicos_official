@@ -7,9 +7,9 @@
     <item
         android:id="@+id/navigation_pgtwgt"
         android:icon="@drawable/day_daily"
-        android:title="TWGT" />
+        android:title="ChW MCQs" />
     <item
         android:id="@+id/navigation_pgswgt"
         android:icon="@drawable/gt_icon"
-        android:title="SWGT" />
+        android:title="SubW-GT" />
 </menu>

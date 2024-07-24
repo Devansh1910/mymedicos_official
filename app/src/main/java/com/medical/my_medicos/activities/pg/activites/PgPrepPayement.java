@@ -11,6 +11,7 @@ import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.widget.CheckBox;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -52,7 +53,10 @@ public class PgPrepPayement extends AppCompatActivity {
     TextView user_name_dr,user_email_dr;
     CircleImageView profilepicture;
     TextView currentcoinspg;
+    private boolean isClicked = false;
     private String currentUid;
+
+    private String phoneNumber;
 
     private boolean dataLoaded = false;
 
@@ -63,6 +67,35 @@ public class PgPrepPayement extends AppCompatActivity {
 
         database = FirebaseDatabase.getInstance().getReference();
         FirebaseUser current =FirebaseAuth.getInstance().getCurrentUser();
+        @SuppressLint({"MissingInflatedId", "LocalSuppress"}) ImageButton starButton = findViewById(R.id.star_button);
+
+        // Set the initial drawable
+        starButton.setImageResource(R.drawable.star_default);
+        Intent intent = getIntent();
+        String title1 = intent.getStringExtra("Title1");
+        String title = intent.getStringExtra("Title");
+        String Due = intent.getStringExtra("Due");
+        String id=intent.getStringExtra("Id");
+        database = FirebaseDatabase.getInstance().getReference();
+
+
+        phoneNumber = current.getPhoneNumber();
+        // Alternatively, if the phone number is stored differently, retrieve it accordingly
+
+
+
+        String quizId = intent.getStringExtra("Id");
+
+        // Check if the quiz is bookmarked initially
+        checkBookmarkState(starButton, quizId);
+
+        // Set a click listener on the ImageButton
+        starButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                toggleBookmark(starButton, quizId);
+            }
+        });
 
         currentUid =current.getPhoneNumber();
         user_name_dr = findViewById(R.id.currentusernamewillcomehere);
@@ -82,47 +115,44 @@ public class PgPrepPayement extends AppCompatActivity {
             }
         });
 
-        Intent intent = getIntent();
-        String title1 = intent.getStringExtra("Title1");
-        String title = intent.getStringExtra("Title");
-        String Due = intent.getStringExtra("Due");
+
 
         TextView quizNameTextView = findViewById(R.id.quizNameTextView1);
         TextView dueDateTextView = findViewById(R.id.DueDate1);
         dueDateTextView.setText(Due);
         quizNameTextView.setText(title);
 
-        TextView currentcoinspg = findViewById(R.id.currentcoinspg);
+//        TextView currentcoinspg = findViewById(R.id.currentcoinspg);
 
         CheckBox agreeCheckbox = findViewById(R.id.agreeCheckboxpg);
         LinearLayout startExamLayout = findViewById(R.id.startexamination1);
 
-        FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
-        if (currentUser != null) {
-            String currentUid = currentUser.getPhoneNumber();
-            FirebaseDatabase database = FirebaseDatabase.getInstance();
-
-            database.getReference().child("profiles")
-                    .child(currentUid)
-                    .child("coins")
-                    .addValueEventListener(new ValueEventListener() {
-                        @Override
-                        public void onDataChange(@NonNull DataSnapshot snapshot) {
-                            Integer coinsValue = snapshot.getValue(Integer.class);
-                            if (coinsValue != null) {
-                                currentcoinspg.setText(String.valueOf(coinsValue));
-                            } else {
-                                currentcoinspg.setText("0");
-                            }
-                        }
-
-                        @SuppressLint("RestrictedApi")
-                        @Override
-                        public void onCancelled(@NonNull DatabaseError error) {
-                            Log.e(TAG, "Error loading coins from database: " + error.getMessage());
-                        }
-                    });
-        }
+//        FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
+//        if (currentUser != null) {
+//            String currentUid = currentUser.getPhoneNumber();
+//            FirebaseDatabase database = FirebaseDatabase.getInstance();
+//
+//            database.getReference().child("profiles")
+//                    .child(currentUid)
+//                    .child("coins")
+//                    .addValueEventListener(new ValueEventListener() {
+//                        @Override
+//                        public void onDataChange(@NonNull DataSnapshot snapshot) {
+//                            Integer coinsValue = snapshot.getValue(Integer.class);
+//                            if (coinsValue != null) {
+//                                currentcoinspg.setText(String.valueOf(coinsValue));
+//                            } else {
+//                                currentcoinspg.setText("0");
+//                            }
+//                        }
+//
+//                        @SuppressLint("RestrictedApi")
+//                        @Override
+//                        public void onCancelled(@NonNull DatabaseError error) {
+//                            Log.e(TAG, "Error loading coins from database: " + error.getMessage());
+//                        }
+//                    });
+//        }
 
         startExamLayout.setEnabled(false); // Initially disable the layout
 
@@ -148,6 +178,50 @@ public class PgPrepPayement extends AppCompatActivity {
         });
 
         configureWindow();
+    }
+    private void checkBookmarkState(ImageButton starButton, String quizId) {
+        DatabaseReference bookmarkRef = database.child("profiles").child(phoneNumber).child("bookmarks").child(quizId);
+        bookmarkRef.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                if (dataSnapshot.exists() && dataSnapshot.getValue(Boolean.class)) {
+                    // Quiz is already bookmarked
+                    starButton.setImageResource(R.drawable.star_pressed);
+                    isClicked = true;
+                } else {
+                    // Quiz is not bookmarked
+                    starButton.setImageResource(R.drawable.star_default);
+                    isClicked = false;
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+                // Handle possible errors.
+            }
+        });
+    }
+
+    private void toggleBookmark(ImageButton starButton, String quizId) {
+        DatabaseReference bookmarkRef = database.child("profiles").child(phoneNumber).child("bookmarks").child(quizId);
+
+        if (isClicked) {
+            // Remove bookmark
+            bookmarkRef.removeValue().addOnCompleteListener(task -> {
+                if (task.isSuccessful()) {
+                    starButton.setImageResource(R.drawable.star_default);
+                    isClicked = false;
+                }
+            });
+        } else {
+            // Add bookmark
+            bookmarkRef.setValue(true).addOnCompleteListener(task -> {
+                if (task.isSuccessful()) {
+                    starButton.setImageResource(R.drawable.star_pressed);
+                    isClicked = true;
+                }
+            });
+        }
     }
 
     private void fetchdata() {

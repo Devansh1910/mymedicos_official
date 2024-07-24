@@ -1,5 +1,7 @@
 package com.medical.my_medicos.activities.pg.activites.internalfragments.Preprationindexing.tablayouts.swgt;
 
+import static android.content.ContentValues.TAG;
+
 import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
@@ -24,16 +26,17 @@ import com.google.firebase.firestore.QuerySnapshot;
 import com.medical.my_medicos.R;
 import com.medical.my_medicos.activities.pg.activites.internalfragments.Preprationindexing.FilterViewModel;
 import com.medical.my_medicos.activities.pg.adapters.WeeklyQuizAdapter;
+import com.medical.my_medicos.activities.pg.adapters.WeeklyQuizAdapterSwgt;
 import com.medical.my_medicos.activities.pg.model.QuizPG;
+import com.medical.my_medicos.activities.pg.model.Swgtmodel;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class PreprationIndexingSwgtLive extends Fragment {
-    private WeeklyQuizAdapter quizAdapter;
-    private ArrayList<QuizPG> quizpg = new ArrayList<>();
+    private WeeklyQuizAdapterSwgt quizAdapter;
+    private ArrayList<Swgtmodel> quizpg = new ArrayList<>();
     private String speciality;
-    private FilterViewModel filterViewModel;
 
     private static final String ARG_SPECIALITY = "speciality";
 
@@ -55,7 +58,6 @@ public class PreprationIndexingSwgtLive extends Fragment {
         if (getArguments() != null) {
             speciality = getArguments().getString(ARG_SPECIALITY);
         }
-        filterViewModel = new ViewModelProvider(requireActivity()).get(FilterViewModel.class);
     }
 
     @Override
@@ -65,36 +67,21 @@ public class PreprationIndexingSwgtLive extends Fragment {
         RecyclerView recyclerView = view.findViewById(R.id.recyclerView);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
 
-        quizAdapter = new WeeklyQuizAdapter(getContext(), quizpg);
+        quizAdapter = new WeeklyQuizAdapterSwgt(getContext(), quizpg);
         recyclerView.setAdapter(quizAdapter);
 
-        filterViewModel.getSelectedSubspeciality().observe(getViewLifecycleOwner(), speciality -> {
-            getQuestions(filterViewModel.getSelectedSubspeciality().getValue());
-        });
-
-        filterViewModel.getSelectedSubspeciality().observe(getViewLifecycleOwner(), subspeciality -> {
-            getQuestions(subspeciality);
-        });
-
-        // Set initial filters if they are null
-        if (filterViewModel.getSelectedSubspeciality().getValue() == null) {
-            filterViewModel.setSelectedSubspeciality(speciality);
-        }
-        if (filterViewModel.getSelectedSubspeciality().getValue() == null) {
-            filterViewModel.setSelectedSubspeciality("All (Default)");
-        }
-
+        getQuestions(speciality);
         return view;
     }
 
-    void getQuestions(String subspeciality) {
+    void getQuestions(String title1) {
         FirebaseFirestore db = FirebaseFirestore.getInstance();
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
         List<String> subcollectionIds = new ArrayList<>();
 
         if (user != null) {
             String userId = user.getPhoneNumber();
-            CollectionReference quizResultsCollection = db.collection("QuizResultsPGPrep").document(userId).collection("Weekley");
+            CollectionReference quizResultsCollection = db.collection("QuizResults").document(userId).collection("Weekley");
 
             quizResultsCollection.get()
                     .addOnCompleteListener(subcollectionTask -> {
@@ -115,25 +102,39 @@ public class PreprationIndexingSwgtLive extends Fragment {
 
         query.get().addOnCompleteListener(task -> {
             if (task.isSuccessful()) {
-                quizpg.clear();  // Clear the list before adding new items
                 for (QueryDocumentSnapshot document : task.getResult()) {
                     String id = document.getId();
 
                     if (!subcollectionIds.contains(id)) {
                         String title = document.getString("title");
-                        String quizSpeciality = document.getString("speciality");
+                        String speciality = document.getString("speciality");
                         Timestamp to = document.getTimestamp("to");
-                        if (speciality.equals(quizSpeciality)) {
-                            if ("All (Default)".equals(subspeciality) || subspeciality.equals(document.getString("subspeciality"))) {
-                                QuizPG quizday = new QuizPG(title, quizSpeciality, to, id);
+                        boolean type=document.contains("type");
+                        if (type==true) {
+                            boolean paid =true;
+
+//                            boolean paid = document.getBoolean("type");
+                            int r = speciality.compareTo(title1);
+                            if (r == 0) {
+                                Swgtmodel quizday = new Swgtmodel(title, title1, to, id,paid);
                                 quizpg.add(quizday);
                             }
                         }
+                        else{
+                            boolean paid =false;
+                            int r = speciality.compareTo(title1);
+                            if (r == 0) {
+                                Swgtmodel quizday = new Swgtmodel(title, title1, to, id,paid);
+                                quizpg.add(quizday);
+                            }
+
+                        }
+                        Log.d("Speciality Check", id);
                     }
                 }
                 quizAdapter.notifyDataSetChanged();
             } else {
-                Log.d("PreprationIndexingSwgtLive", "Error getting documents: ", task.getException());
+                Log.d(TAG, "Error getting documents: ", task.getException());
             }
         });
     }

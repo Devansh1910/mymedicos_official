@@ -1,10 +1,33 @@
 package com.medical.my_medicos.activities.pg.adapters;
 
-import com.google.firebase.Timestamp;
+import android.content.Context;
+import android.content.Intent;
+import android.util.Log;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.LinearLayout;
+import android.widget.SeekBar;
+import android.widget.TextView;
 
+import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.RecyclerView;
+
+import com.google.android.material.bottomsheet.BottomSheetDialog;
+import com.google.firebase.Timestamp;
+import com.medical.my_medicos.R;
+import com.medical.my_medicos.activities.pg.activites.PgPrepPayement;
+import com.medical.my_medicos.activities.pg.model.QuizPG;
+
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+
+import com.google.firebase.Timestamp;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,22 +38,28 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.esafirm.stubutton.StuButton;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
-import com.itextpdf.kernel.geom.Line;
 import com.medical.my_medicos.R;
 import com.medical.my_medicos.activities.pg.activites.PgPrepPayement;
+import com.medical.my_medicos.activities.pg.activites.insiders.WeeklyQuizInsiderActivity;
 import com.medical.my_medicos.activities.pg.model.QuizPG;
+import com.medical.my_medicos.activities.pg.model.Swgtmodel;
+import com.medical.my_medicos.activities.publications.activity.PaymentPublicationActivity;
 
+//import java.security.Timestamp;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 
-public class WeeklyQuizAdapter extends RecyclerView.Adapter<WeeklyQuizAdapter.ViewHolder> {
+public class    WeeklyQuizAdapterSwgt extends RecyclerView.Adapter<WeeklyQuizAdapterSwgt.ViewHolder> {
     private Context context;
-    private ArrayList<QuizPG> quizList;
+    private ArrayList<Swgtmodel> quizList;
 
-    public WeeklyQuizAdapter(Context context, ArrayList<QuizPG> quizList) {
+    public WeeklyQuizAdapterSwgt(Context context, ArrayList<Swgtmodel> quizList) {
         this.context = context;
         this.quizList = quizList;
     }
@@ -38,13 +67,13 @@ public class WeeklyQuizAdapter extends RecyclerView.Adapter<WeeklyQuizAdapter.Vi
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(context).inflate(R.layout.quiz_list_item, parent, false);
+        View view = LayoutInflater.from(context).inflate(R.layout.quiz_list_item_swgt, parent, false);
         return new ViewHolder(view);
     }
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        QuizPG quiz = quizList.get(position);
+        Swgtmodel quiz = quizList.get(position);
         String title = quiz.getTitle();
         if (title.length() > 23) {
             title = title.substring(0, 20) + "...";
@@ -59,9 +88,10 @@ public class WeeklyQuizAdapter extends RecyclerView.Adapter<WeeklyQuizAdapter.Vi
 
         }
         holder.titleTextView.setText(title);
-        holder.categorytextview.setText(quiz.getIndex());
 
         holder.time.setText(formatTimestamp(quiz.getTo()));
+        Log.d("speciality coming 2",quiz.getId());
+
         holder.pay.setOnClickListener(v -> {
             if (quiz.getType()) {
                 holder.showBottomSheet();
@@ -73,8 +103,18 @@ public class WeeklyQuizAdapter extends RecyclerView.Adapter<WeeklyQuizAdapter.Vi
                 intent.putExtra("Due", formatTimestamp(quiz.getTo()));
                 context.startActivity(intent);
             }
+//            holder.showBottomSheet(quiz);
+
         });
     }
+
+
+//    private void showQuizInsiderActivity(QuizSS quiz) {
+//        Intent intent = new Intent(context, WeeklyQuizInsiderActivity.class);
+//        intent.putExtra("Title1", quiz.getTitle1());
+//        intent.putExtra("Title", quiz.getTitle());
+//        context.startActivity(intent);
+//    }
 
     @Override
     public int getItemCount() {
@@ -82,18 +122,17 @@ public class WeeklyQuizAdapter extends RecyclerView.Adapter<WeeklyQuizAdapter.Vi
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
-        TextView titleTextView, time, categorytextview;
-
-        LinearLayout pay,lock,unlock;
+        TextView titleTextView,time;
+        Button payforsets;
+        LinearLayout pay,lock ,unlock;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
-
+            titleTextView = itemView.findViewById(R.id.titleTextView);
+            time=itemView.findViewById(R.id.dateTextView);
             lock=itemView.findViewById(R.id.lock);
             unlock=itemView.findViewById(R.id.unlock);
-            titleTextView = itemView.findViewById(R.id.titleTextView);
-            categorytextview = itemView.findViewById(R.id.categoryTextView);
-            time = itemView.findViewById(R.id.dateTextView);
+            payforsets = itemView.findViewById(R.id.paymentpart);
             pay = itemView.findViewById(R.id.payfortheexam);
         }
 
@@ -107,18 +146,18 @@ public class WeeklyQuizAdapter extends RecyclerView.Adapter<WeeklyQuizAdapter.Vi
                 @Override
                 public void onClick(View v) {
                     bottomSheetDialog.dismiss();
-                    // Your code to handle the purchase action
-                    // For example, start an activity to purchase a plan or show a message
                     Toast.makeText(context, "Purchase action triggered", Toast.LENGTH_SHORT).show();
                 }
             });
 
             bottomSheetDialog.show();
         }
-    }
 
+
+    }
     private String formatTimestamp(Timestamp timestamp) {
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+        Log.d("date",dateFormat.format(timestamp.toDate()));
         return dateFormat.format(timestamp.toDate());
     }
 }

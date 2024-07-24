@@ -1,5 +1,7 @@
 package com.medical.my_medicos.activities.pg.activites.internalfragments.Preprationindexing.tablayouts.twgt;
 
+import android.widget.ProgressBar;
+
 import static android.content.ContentValues.TAG;
 
 import android.os.Bundle;
@@ -42,6 +44,7 @@ public class PreprationIndexingTwgtAll extends Fragment {
     private ArrayList<QuizPG> quizpg = new ArrayList<>();
     private String speciality;
     private FilterViewModel filterViewModel;
+    private ProgressBar progressBar;
 
     // Parameter key
     private static final String ARG_SPECIALITY = "speciality";
@@ -71,7 +74,6 @@ public class PreprationIndexingTwgtAll extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_prepration_indexing_twgt_all, container, false);
-        
 
         // Initialize RecyclerView and Adapter
         RecyclerView recyclerView = view.findViewById(R.id.recyclerView);
@@ -79,28 +81,29 @@ public class PreprationIndexingTwgtAll extends Fragment {
 
         quizAdapter = new WeeklyQuizAdapter(getContext(), quizpg);
         recyclerView.setAdapter(quizAdapter);
-        filterViewModel.getSelectedSubspeciality().observe(getViewLifecycleOwner(), speciality -> {
-            getQuestions(filterViewModel.getSelectedSubspeciality().getValue());
-        });
 
-        filterViewModel.getSelectedSubspeciality().observe(getViewLifecycleOwner(), subspeciality -> {
-            getQuestions(subspeciality);
-        });
+        // Initialize the progress bar
+        progressBar = view.findViewById(R.id.progressBar);
+        filterViewModel.setSelectedSubspeciality("All (Default)");
 
-        // Set initial filters if they are null
+        // Set initial filter if it's not already set
         if (filterViewModel.getSelectedSubspeciality().getValue() == null) {
-            filterViewModel.setSelectedSubspeciality(speciality);
-        }
-        if (filterViewModel.getSelectedSubspeciality().getValue() == null) {
-            filterViewModel.setSelectedSubspeciality("All (Default)");
+            filterViewModel.setSelectedSubspeciality(speciality != null ? speciality : "All (Default)");
         }
 
-        getQuestions(speciality);
+        // Fetch questions with the initial speciality
+        getQuestions(filterViewModel.getSelectedSubspeciality().getValue());
+
+        // Observe the selected subspeciality and fetch questions accordingly
+        filterViewModel.getSelectedSubspeciality().observe(getViewLifecycleOwner(), this::getQuestions);
 
         return view;
     }
 
     void getQuestions(String subspeciality) {
+        // Show the progress bar before starting the task
+        progressBar.setVisibility(View.VISIBLE);
+
         FirebaseFirestore db = FirebaseFirestore.getInstance();
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
         List<String> subcollectionIds = new ArrayList<>();
@@ -127,6 +130,9 @@ public class PreprationIndexingTwgtAll extends Fragment {
         Query query = quizzCollection.orderBy("from", Query.Direction.ASCENDING);
 
         query.get().addOnCompleteListener(task -> {
+            // Hide the progress bar when the task completes
+            progressBar.setVisibility(View.GONE);
+
             if (task.isSuccessful()) {
                 quizpg.clear();  // Clear the list before adding new items
                 for (QueryDocumentSnapshot document : task.getResult()) {
@@ -136,10 +142,31 @@ public class PreprationIndexingTwgtAll extends Fragment {
                         String title = document.getString("title");
                         String quizSpeciality = document.getString("speciality");
                         Timestamp to = document.getTimestamp("to");
+                        boolean type = document.contains("type");
+                        String index1;
+                        boolean index = document.contains("index");
                         if (speciality.equals(quizSpeciality)) {
-                            if ("All (Default)".equals(subspeciality) || subspeciality.equals(document.getString("subspeciality"))) {
-                                QuizPG quizday = new QuizPG(title, quizSpeciality, to, id);
-                                quizpg.add(quizday);
+                            if (index) {
+                                index1 = document.getString("index");
+                            } else {
+                                index1 = "Loading";
+                            }
+                            if (type) {
+                                boolean paid = true;
+
+                                if ("All (Default)".equals(subspeciality) || subspeciality.equals(document.getString("index"))) {
+                                    QuizPG quizday = new QuizPG(title, quizSpeciality, to, id, paid, index1);
+                                    quizpg.add(quizday);
+                                }
+
+                            } else {
+                                boolean paid = false;
+
+                                if ("All (Default)".equals(subspeciality) || subspeciality.equals(document.getString("index"))) {
+                                    QuizPG quizday = new QuizPG(title, quizSpeciality, to, id, paid, index1);
+                                    quizpg.add(quizday);
+                                }
+
                             }
                         }
                     }

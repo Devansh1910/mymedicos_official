@@ -20,6 +20,8 @@ import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.medical.my_medicos.R;
 import com.medical.my_medicos.activities.fmge.activites.internalfragments.Preprationindexing.FilterViewModel;
+import com.medical.my_medicos.activities.fmge.adapters.WeeklyFmgeQuizAdapter;
+import com.medical.my_medicos.activities.fmge.model.QuizFmge;
 import com.medical.my_medicos.activities.pg.adapters.WeeklyQuizAdapter;
 import com.medical.my_medicos.activities.pg.model.QuizPG;
 
@@ -27,8 +29,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class PreprationIndexingSwgtLive extends Fragment {
-    private WeeklyQuizAdapter quizAdapter;
-    private ArrayList<QuizPG> quizpg = new ArrayList<>();
+    private WeeklyFmgeQuizAdapter quizAdapter;
+    private ArrayList<QuizFmge> quizpg = new ArrayList<>();
     private String speciality;
     private FilterViewModel filterViewModel;
 
@@ -62,7 +64,7 @@ public class PreprationIndexingSwgtLive extends Fragment {
         RecyclerView recyclerView = view.findViewById(R.id.recyclerView);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
 
-        quizAdapter = new WeeklyQuizAdapter(getContext(), quizpg);
+        quizAdapter = new WeeklyFmgeQuizAdapter(getContext(), quizpg);
         recyclerView.setAdapter(quizAdapter);
 
         filterViewModel.getSelectedSubspeciality().observe(getViewLifecycleOwner(), speciality -> {
@@ -122,8 +124,8 @@ public class PreprationIndexingSwgtLive extends Fragment {
                         Timestamp to = document.getTimestamp("to");
                         if (speciality.equals(quizSpeciality)) {
                             if ("All (Default)".equals(subspeciality) || subspeciality.equals(document.getString("subspeciality"))) {
-                                QuizPG quizday = new QuizPG(title, quizSpeciality, to, id);
-                                quizpg.add(quizday);
+//                                QuizFmge quizday = new QuizFmge(title, quizSpeciality, to, id);
+//                                quizpg.add(quizday);
                             }
                         }
                     }

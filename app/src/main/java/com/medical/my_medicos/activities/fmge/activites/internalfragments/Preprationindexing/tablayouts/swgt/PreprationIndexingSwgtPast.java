@@ -20,6 +20,8 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.medical.my_medicos.R;
+import com.medical.my_medicos.activities.fmge.adapters.WeeklyFmgeQuizAdapter;
+import com.medical.my_medicos.activities.fmge.model.QuizFmge;
 import com.medical.my_medicos.activities.pg.adapters.WeeklyQuizAdapter;
 import com.medical.my_medicos.activities.pg.model.QuizPG;
 
@@ -27,8 +29,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class PreprationIndexingSwgtPast extends Fragment {
-    private WeeklyQuizAdapter quizAdapter;
-    private ArrayList<QuizPG> quizpg = new ArrayList<>();
+    private WeeklyFmgeQuizAdapter quizAdapter;
+    private ArrayList<QuizFmge> quizpg = new ArrayList<>();
     private String speciality;
 
     private static final String ARG_SPECIALITY = "speciality";
@@ -60,7 +62,7 @@ public class PreprationIndexingSwgtPast extends Fragment {
         RecyclerView recyclerView = view.findViewById(R.id.recyclerView);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
 
-        quizAdapter = new WeeklyQuizAdapter(getContext(), quizpg);
+        quizAdapter = new WeeklyFmgeQuizAdapter(getContext(), quizpg);
         recyclerView.setAdapter(quizAdapter);
 
         getQuestions(speciality);
@@ -104,8 +106,8 @@ public class PreprationIndexingSwgtPast extends Fragment {
                         Timestamp to = document.getTimestamp("to");
                         int r = speciality.compareTo(title1);
                         if (r == 0) {
-                            QuizPG quizday = new QuizPG(title, title1, to, id);
-                            quizpg.add(quizday);
+//                            QuizFmge quizday = new QuizFmge(title, title1, to, id);
+//                            quizpg.add(quizday);
                         }
                         Log.d("Speciality Check", id);
                     }

@@ -118,44 +118,44 @@ public class HomePgFragment extends Fragment {
             Log.e("ERROR", "Arguments are null in WeeklyQuizFragment");
         }
 
-        gotoupdatesofpg = view.findViewById(R.id.gotoupdatesofpg);
-        gotoupdatesofpg.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent i = new Intent(getActivity(), RecetUpdatesNoticeActivity.class);
-                startActivity(i);
-            }
-        });
+//        gotoupdatesofpg = view.findViewById(R.id.gotoupdatesofpg);
+//        gotoupdatesofpg.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                Intent i = new Intent(getActivity(), RecetUpdatesNoticeActivity.class);
+//                startActivity(i);
+//            }
+//        });
 
-        practivemcq = view.findViewById(R.id.practivemcq);
-        practivemcq.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Calendar today = Calendar.getInstance();
+//        practivemcq = view.findViewById(R.id.practivemcq);
+//        practivemcq.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                Calendar today = Calendar.getInstance();
+//
+//                // Set the target date to April 1st, 2024
+//                Calendar targetDate = Calendar.getInstance();
+//                targetDate.set(2024, Calendar.APRIL, 8); // Note: Months are 0-based in Calendar
+//
+//                Intent i;
+//                if (today.before(targetDate)) {
+//                    i = new Intent(getActivity(), UpdatingScreen.class);
+//                    Toast.makeText(getActivity(), "This feature will be available soon!", Toast.LENGTH_SHORT).show();
+//                } else {
+//                    i = new Intent(getActivity(), PreparationCategoryDisplayActivity.class);
+//                }
+//                startActivity(i);
+//            }
+//        });
 
-                // Set the target date to April 1st, 2024
-                Calendar targetDate = Calendar.getInstance();
-                targetDate.set(2024, Calendar.APRIL, 8); // Note: Months are 0-based in Calendar
-
-                Intent i;
-                if (today.before(targetDate)) {
-                    i = new Intent(getActivity(), UpdatingScreen.class);
-                    Toast.makeText(getActivity(), "This feature will be available soon!", Toast.LENGTH_SHORT).show();
-                } else {
-                    i = new Intent(getActivity(), PreparationCategoryDisplayActivity.class);
-                }
-                startActivity(i);
-            }
-        });
-
-        material = view.findViewById(R.id.material);
-        material.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent i = new Intent(getActivity(), PreparationCategoryMaterialDisplayActivity.class);
-                startActivity(i);
-            }
-        });
+//        material = view.findViewById(R.id.material);
+//        material.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                Intent i = new Intent(getActivity(), PreparationCategoryMaterialDisplayActivity.class);
+//                startActivity(i);
+//            }
+//        });
 
         handlerprepration = new Handler();
         return view;

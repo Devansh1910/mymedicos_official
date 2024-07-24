@@ -26,6 +26,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.cardview.widget.CardView;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -51,6 +52,7 @@ import com.medical.my_medicos.activities.home.HomeActivity;
 import com.medical.my_medicos.activities.job.JobsApplyActivity;
 import com.medical.my_medicos.activities.job.fragments.TermsandConditionDialogueFragment;
 import com.medical.my_medicos.activities.login.bottom_controls.TermsandConditionsActivity;
+import com.medical.my_medicos.activities.news.fragments.JobsUpdatesNewsFragment;
 import com.medical.my_medicos.activities.pg.activites.PgprepActivity;
 import com.medical.my_medicos.activities.pg.activites.extras.PreparationCategoryDisplayActivity;
 import com.medical.my_medicos.activities.pg.activites.extras.PreparationCategoryMaterialDisplayActivity;
@@ -126,44 +128,45 @@ public class HomePgFragment extends Fragment {
             Log.e("ERROR", "Arguments are null in WeeklyQuizFragment");
         }
 
-        gotoupdatesofpg = view.findViewById(R.id.gotoupdatesofpg);
-        gotoupdatesofpg.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent i = new Intent(getActivity(), RecetUpdatesNoticeActivity.class);
-                startActivity(i);
-            }
-        });
+//        gotoupdatesofpg = view.findViewById(R.id.gotoupdatesofpg);
+//        gotoupdatesofpg.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                Intent i = new Intent(getActivity(), RecetUpdatesNoticeActivity.class);
+//                startActivity(i);
+//            }
+//        });
 
-        practivemcq = view.findViewById(R.id.practivemcq);
-        practivemcq.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Calendar today = Calendar.getInstance();
+//        practivemcq = view.findViewById(R.id.practivemcq);
+//        practivemcq.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                Calendar today = Calendar.getInstance();
+//
+//                // Set the target date to April 1st, 2024
+//                Calendar targetDate = Calendar.getInstance();
+//                targetDate.set(2024, Calendar.APRIL, 8); // Note: Months are 0-based in Calendar
+//
+//                Intent i;
+//                if (today.before(targetDate)) {
+//                    i = new Intent(getActivity(), UpdatingScreen.class);
+//                    Toast.makeText(getActivity(), "This feature will be available soon!", Toast.LENGTH_SHORT).show();
+//                } else {
+//                    i = new Intent(getActivity(), PreparationCategoryDisplayActivity.class);
+//                }
+//                startActivity(i);
+//            }
+//        });
 
-                // Set the target date to April 1st, 2024
-                Calendar targetDate = Calendar.getInstance();
-                targetDate.set(2024, Calendar.APRIL, 8); // Note: Months are 0-based in Calendar
-
-                Intent i;
-                if (today.before(targetDate)) {
-                    i = new Intent(getActivity(), UpdatingScreen.class);
-                    Toast.makeText(getActivity(), "This feature will be available soon!", Toast.LENGTH_SHORT).show();
-                } else {
-                    i = new Intent(getActivity(), PreparationCategoryDisplayActivity.class);
-                }
-                startActivity(i);
-            }
-        });
-
-        material = view.findViewById(R.id.material);
-        material.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent i = new Intent(getActivity(), PreparationCategoryMaterialDisplayActivity.class);
-                startActivity(i);
-            }
-        });
+//        material = view.findViewById(R.id.material);
+//        material.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                Intent i = new Intent(getActivity(), PreparationCategoryMaterialDisplayActivity.class);
+//                startActivity(i);
+//            }
+//        });
+        initJobsUpdatesNewsFragment();
 
         handlerprepration = new Handler();
         return view;
@@ -254,6 +257,7 @@ public class HomePgFragment extends Fragment {
                 });
 
         initSliderPg();
+
         initQuestionsBanks();
     }
 
@@ -283,6 +287,12 @@ public class HomePgFragment extends Fragment {
             // Handle error if needed
         });
         queue.add(request);
+    }
+    private void initJobsUpdatesNewsFragment() {
+        FragmentTransaction transaction = getChildFragmentManager().beginTransaction();
+        JobsUpdatesNewsFragment jobsUpdatesNewsFragment = new JobsUpdatesNewsFragment();
+        transaction.replace(R.id.news_fragment_container, jobsUpdatesNewsFragment);
+        transaction.commit();
     }
 
     void getPaidExam(String title) {

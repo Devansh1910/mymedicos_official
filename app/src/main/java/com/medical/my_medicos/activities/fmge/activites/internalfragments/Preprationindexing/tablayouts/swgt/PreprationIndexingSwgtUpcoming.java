@@ -22,6 +22,7 @@ import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.medical.my_medicos.R;
 import com.medical.my_medicos.activities.pg.adapters.WeeklyQuizAdapter;
 import com.medical.my_medicos.activities.pg.model.QuizPG;
+import com.medical.my_medicos.activities.pg.model.Swgtmodel;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -116,8 +117,8 @@ public class PreprationIndexingSwgtUpcoming extends Fragment {
 
                         int r = speciality.compareTo(title1);
                         if (r == 0) {
-                            QuizPG quizday = new QuizPG(title, title1, to, id);
-                            quizpg.add(quizday);
+//                            Swgtmodel quizday = new Swgtmodel(title, title1, to, id);
+//                            quizpg.add(quizday);
                         }
                     }
                 }

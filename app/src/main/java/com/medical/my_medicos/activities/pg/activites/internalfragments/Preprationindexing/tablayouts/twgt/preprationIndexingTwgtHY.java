@@ -101,7 +101,7 @@ public class preprationIndexingTwgtHY extends Fragment {
 
         if (user != null) {
             String userId = user.getPhoneNumber();
-            CollectionReference quizResultsCollection = db.collection("QuizResultsPGPrep").document(userId).collection("Weekley");
+            CollectionReference quizResultsCollection = db.collection("QuizResults").document(userId).collection("Weekley");
 
             quizResultsCollection.get()
                     .addOnCompleteListener(subcollectionTask -> {
@@ -130,12 +130,32 @@ public class preprationIndexingTwgtHY extends Fragment {
                         String title = document.getString("title");
                         String quizSpeciality = document.getString("speciality");
                         Timestamp to = document.getTimestamp("to");
+                        String index1;
                         if (speciality.equals(quizSpeciality)) {
-                            if ("All (Default)".equals(subspeciality) || subspeciality.equals(document.getString("subspeciality"))) {
-                                QuizPG quizday = new QuizPG(title, quizSpeciality, to, id);
-                                quizpg.add(quizday);
+                            boolean index = document.contains("index");
+                            if (index == true) {
+                                index1 = document.getString("index");
+
+                            } else {
+                                index1 = "Loading";
+                            }
+                            boolean type = document.contains("type");
+                            if (type == true) {
+//                            boolean paid=document.getBoolean("type");
+                                boolean paid = true;
+                                if (speciality.equals(quizSpeciality) && (paid == true)) {
+                                    if ("All (Default)".equals(subspeciality) || subspeciality.equals(document.getString("index"))) {
+                                        QuizPG quizday = new QuizPG(title, quizSpeciality, to, id, paid, index1);
+                                        quizpg.add(quizday);
+                                    }
+                                }
+
+                            } else {
+
+
                             }
                         }
+
                     }
                 }
                 quizAdapter.notifyDataSetChanged();

@@ -25,7 +25,9 @@ import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.medical.my_medicos.R;
 import com.medical.my_medicos.activities.pg.adapters.WeeklyQuizAdapter;
+import com.medical.my_medicos.activities.pg.adapters.WeeklyQuizAdapterSwgt;
 import com.medical.my_medicos.activities.pg.model.QuizPG;
+import com.medical.my_medicos.activities.pg.model.Swgtmodel;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -36,8 +38,8 @@ import java.util.List;
  * create an instance of this fragment.
  */
 public class PreprationIndexingSwgtUpcoming extends Fragment {
-    private WeeklyQuizAdapter quizAdapter;
-    private ArrayList<QuizPG> quizpg = new ArrayList<>();
+    private WeeklyQuizAdapterSwgt quizAdapter;
+    private ArrayList<Swgtmodel> quizpg = new ArrayList<>();
     private String speciality;
 
     // Parameter key
@@ -71,7 +73,7 @@ public class PreprationIndexingSwgtUpcoming extends Fragment {
         RecyclerView recyclerView = view.findViewById(R.id.recyclerView);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
 
-        quizAdapter = new WeeklyQuizAdapter(getContext(), quizpg);
+        quizAdapter = new WeeklyQuizAdapterSwgt(getContext(), quizpg);
         recyclerView.setAdapter(quizAdapter);
 
         getQuestions(speciality);
@@ -86,7 +88,7 @@ public class PreprationIndexingSwgtUpcoming extends Fragment {
 
         if (user != null) {
             String userId = user.getPhoneNumber();
-            CollectionReference quizResultsCollection = db.collection("QuizResultsPGPrep").document(userId).collection("Weekley");
+            CollectionReference quizResultsCollection = db.collection("QuizResults").document(userId).collection("Weekley");
 
             quizResultsCollection.get()
                     .addOnCompleteListener(subcollectionTask -> {
@@ -117,11 +119,25 @@ public class PreprationIndexingSwgtUpcoming extends Fragment {
 
                         Log.d("Speciality coming", speciality);
                         Log.d("Title to compare", title1);
+                        boolean type=document.contains("type");
+                        if (type==true) {
 
-                        int r = speciality.compareTo(title1);
-                        if (r == 0) {
-                            QuizPG quizday = new QuizPG(title, title1, to, id);
-                            quizpg.add(quizday);
+//                            boolean paid = document.getBoolean("type");
+                            boolean paid =true;
+                            int r = speciality.compareTo(title1);
+                            if (r == 0) {
+                                Swgtmodel quizday = new Swgtmodel(title, title1, to, id,paid);
+                                quizpg.add(quizday);
+                            }
+                        }
+                        else{
+                            boolean paid =false;
+                            int r = speciality.compareTo(title1);
+                            if (r == 0) {
+                                Swgtmodel quizday = new Swgtmodel(title, title1, to, id,paid);
+                                quizpg.add(quizday);
+                            }
+
                         }
                     }
                 }

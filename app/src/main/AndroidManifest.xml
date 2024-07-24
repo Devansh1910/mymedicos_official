@@ -33,6 +33,10 @@
         tools:replace="android:label"
         tools:targetApi="31">
         <activity
+            android:name=".activities.pg.activites.internalfragments.Preprationindexing.adapter.QuizAdapter"
+            android:exported="false"
+            android:theme="@style/Theme.My_medicos" />
+        <activity
             android:name=".activities.pg.activites.internalfragments.Preprationindexing.adapter.NotesAdapter"
             android:exported="false" />
         <activity

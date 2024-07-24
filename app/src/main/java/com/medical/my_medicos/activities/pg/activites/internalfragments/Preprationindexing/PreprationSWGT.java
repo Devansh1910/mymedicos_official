@@ -5,10 +5,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
 import android.widget.ImageView;
-import android.widget.RelativeLayout;
-import android.widget.Spinner;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
@@ -18,7 +15,6 @@ import androidx.viewpager2.widget.ViewPager2;
 import com.google.android.material.tabs.TabLayout;
 import com.google.android.material.tabs.TabLayoutMediator;
 import com.medical.my_medicos.R;
-import com.medical.my_medicos.activities.pg.activites.internalfragments.Preprationindexing.adapter.CustomSpinnerAdapter;
 import com.medical.my_medicos.activities.pg.activites.internalfragments.Preprationindexing.adapter.Swgt.PreprationSwgtPagerAdapter;
 
 public class PreprationSWGT extends Fragment {
@@ -55,8 +51,6 @@ public class PreprationSWGT extends Fragment {
         @SuppressLint({"MissingInflatedId", "LocalSuppress"}) TabLayout tabLayout = view.findViewById(R.id.tabLayout);
         @SuppressLint({"MissingInflatedId", "LocalSuppress"}) ViewPager2 viewPager = view.findViewById(R.id.viewPager);
         @SuppressLint({"MissingInflatedId", "LocalSuppress"}) ImageView sortButton = view.findViewById(R.id.filter);
-        @SuppressLint({"MissingInflatedId", "LocalSuppress"}) RelativeLayout dropdown = view.findViewById(R.id.dropdown);
-        @SuppressLint({"MissingInflatedId", "LocalSuppress"}) Spinner sortSpinner = view.findViewById(R.id.sort_spinner);
 
         PreprationSwgtPagerAdapter adapter = new PreprationSwgtPagerAdapter(getActivity(), speciality);
         viewPager.setAdapter(adapter);
@@ -75,31 +69,8 @@ public class PreprationSWGT extends Fragment {
             }
         }).attach();
 
-        String[] options = {"All (Default)", "Option 1", "Option 2", "Option 3"};
-        CustomSpinnerAdapter spinnerAdapter = new CustomSpinnerAdapter(requireContext(), R.layout.spinner_item, options);
-        sortSpinner.setAdapter(spinnerAdapter);
-
-//        sortButton.setOnClickListener(v -> {
-//            if (sortSpinner.getVisibility() == View.GONE) {
-//                dropdown.setVisibility(View.VISIBLE);
-//                sortSpinner.setVisibility(View.VISIBLE);
-//            } else {
-//                dropdown.setVisibility(View.GONE);
-//                sortSpinner.setVisibility(View.GONE);
-//            }
-//        });
-
-        sortSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                String selectedOption = (String) parent.getItemAtPosition(position);
-                filterViewModel.setSelectedSubspeciality(selectedOption);
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-                filterViewModel.setSelectedSubspeciality("All (Default)");
-            }
+        sortButton.setOnClickListener(v -> {
+            // If the dropdown or additional action is needed, handle it here.
         });
 
         return view;

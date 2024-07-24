@@ -62,6 +62,7 @@
                             android:layout_width="match_parent"
                             android:layout_marginVertical="@dimen/_5ssp"
                             android:layout_height="wrap_content"
+                            android:visibility="gone"
                             android:orientation="horizontal">
 
                             <TextView
@@ -188,33 +189,13 @@
                             android:paddingVertical="@dimen/_8sdp"
                             android:textSize="@dimen/_10ssp"
                             android:textStyle="bold" />
-
-                        <androidx.cardview.widget.CardView
-                            android:id="@+id/gotoupdatesofpg"
+                        <FrameLayout
+                            android:id="@+id/news_fragment_container"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_marginHorizontal="@dimen/_2sdp"
-                            android:layout_marginVertical="@dimen/_10sdp"
-                            app:cardCornerRadius="@dimen/_5sdp"
-                            android:background="@color/white"
-                            android:elevation="@dimen/_10sdp">
-
-                            <TextView
-                                android:layout_width="match_parent"
-                                android:layout_weight="1"
-                                android:layout_margin="@dimen/_5sdp"
-                                android:background="@color/white"
-                                android:layout_height="wrap_content"
-                                android:padding="@dimen/_20sdp"
-                                android:text="GET THE RECENT UPDATES"
-                                android:textColor="@color/unselected"
-                                android:layout_gravity="center_vertical"
-                                android:gravity="center"
-                                android:textSize="@dimen/_14ssp"
-                                android:textStyle="bold" />
+                            android:layout_marginTop="16dp"/>
 
 
-                        </androidx.cardview.widget.CardView>
 
                         <ImageView
                             android:layout_width="match_parent"

@@ -1,16 +1,14 @@
-package com.medical.my_medicos.activities.pg.adapters;
-
-import com.google.firebase.Timestamp;
+package com.medical.my_medicos.activities.pg.activites.internalfragments.Preprationindexing.adapter;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.LinearLayout;
-import android.widget.SeekBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -18,50 +16,53 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.bottomsheet.BottomSheetDialog;
-import com.itextpdf.kernel.geom.Line;
 import com.medical.my_medicos.R;
 import com.medical.my_medicos.activities.pg.activites.PgPrepPayement;
-import com.medical.my_medicos.activities.pg.model.QuizPG;
+import com.medical.my_medicos.activities.pg.activites.internalfragments.Preprationindexing.Model.twgt.Quiz;
 
+import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
+import java.util.List;
 
-public class WeeklyQuizAdapter extends RecyclerView.Adapter<WeeklyQuizAdapter.ViewHolder> {
+public class QuizAdapter extends RecyclerView.Adapter<QuizAdapter.QuizViewHolder> {
+
+    private List<Quiz> quizList;
     private Context context;
-    private ArrayList<QuizPG> quizList;
 
-    public WeeklyQuizAdapter(Context context, ArrayList<QuizPG> quizList) {
-        this.context = context;
+    public QuizAdapter(Context context, List<Quiz> quizList) {
         this.quizList = quizList;
+        this.context = context;
     }
 
     @NonNull
     @Override
-    public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(context).inflate(R.layout.quiz_list_item, parent, false);
-        return new ViewHolder(view);
+    public QuizViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_quiz, parent, false);
+        return new QuizViewHolder(view);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        QuizPG quiz = quizList.get(position);
+    public void onBindViewHolder(@NonNull QuizViewHolder holder, int position) {
+        Quiz quiz = quizList.get(position);
         String title = quiz.getTitle();
         if (title.length() > 23) {
             title = title.substring(0, 20) + "...";
         }
-        if (quiz.getType()==true){
+        if (quiz.getType() == true) {
             holder.unlock.setVisibility(View.GONE);
             holder.lock.setVisibility(View.VISIBLE);
-        }
-        else{
+        } else {
             holder.lock.setVisibility(View.GONE);
             holder.unlock.setVisibility(View.VISIBLE);
-
         }
         holder.titleTextView.setText(title);
         holder.categorytextview.setText(quiz.getIndex());
+        holder.dueDateTextView.setText(formatTimestamp(quiz.getDueDate()));
+        Log.d("QuizAdapter", "Title1: " + quiz.getTitle1());
+        Log.d("QuizAdapter", "Title: " + quiz.getTitle());
+        Log.d("QuizAdapter", "Id: " + quiz.getId());
+        Log.d("QuizAdapter", "Due: " + formatTimestamp(quiz.getDueDate()));
 
-        holder.time.setText(formatTimestamp(quiz.getTo()));
         holder.pay.setOnClickListener(v -> {
             if (quiz.getType()) {
                 holder.showBottomSheet();
@@ -69,11 +70,12 @@ public class WeeklyQuizAdapter extends RecyclerView.Adapter<WeeklyQuizAdapter.Vi
                 Intent intent = new Intent(context, PgPrepPayement.class);
                 intent.putExtra("Title1", quiz.getTitle1());
                 intent.putExtra("Title", quiz.getTitle());
-                intent.putExtra("Id",quiz.getId());
-                intent.putExtra("Due", formatTimestamp(quiz.getTo()));
+                intent.putExtra("Id", quiz.getId());
+                intent.putExtra("Due", formatTimestamp(quiz.getDueDate()));
                 context.startActivity(intent);
             }
         });
+        // Bind other fields as needed
     }
 
     @Override
@@ -81,20 +83,21 @@ public class WeeklyQuizAdapter extends RecyclerView.Adapter<WeeklyQuizAdapter.Vi
         return quizList.size();
     }
 
-    public class ViewHolder extends RecyclerView.ViewHolder {
-        TextView titleTextView, time, categorytextview;
+    class QuizViewHolder extends RecyclerView.ViewHolder {
+        TextView titleTextView;
+        TextView dueDateTextView;
+        TextView categorytextview;
 
-        LinearLayout pay,lock,unlock;
+        LinearLayout pay, lock, unlock;
 
-        public ViewHolder(@NonNull View itemView) {
+        public QuizViewHolder(@NonNull View itemView) {
             super(itemView);
-
-            lock=itemView.findViewById(R.id.lock);
-            unlock=itemView.findViewById(R.id.unlock);
-            titleTextView = itemView.findViewById(R.id.titleTextView);
-            categorytextview = itemView.findViewById(R.id.categoryTextView);
-            time = itemView.findViewById(R.id.dateTextView);
             pay = itemView.findViewById(R.id.payfortheexam);
+            lock = itemView.findViewById(R.id.lock);
+            unlock = itemView.findViewById(R.id.unlock);
+            categorytextview = itemView.findViewById(R.id.categoryTextView);
+            titleTextView = itemView.findViewById(R.id.titleTextView);
+            dueDateTextView = itemView.findViewById(R.id.dateTextView);
         }
 
         private void showBottomSheet() {
@@ -107,8 +110,6 @@ public class WeeklyQuizAdapter extends RecyclerView.Adapter<WeeklyQuizAdapter.Vi
                 @Override
                 public void onClick(View v) {
                     bottomSheetDialog.dismiss();
-                    // Your code to handle the purchase action
-                    // For example, start an activity to purchase a plan or show a message
                     Toast.makeText(context, "Purchase action triggered", Toast.LENGTH_SHORT).show();
                 }
             });
@@ -117,8 +118,18 @@ public class WeeklyQuizAdapter extends RecyclerView.Adapter<WeeklyQuizAdapter.Vi
         }
     }
 
-    private String formatTimestamp(Timestamp timestamp) {
-        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
-        return dateFormat.format(timestamp.toDate());
+    private String formatTimestamp(String timestamp) {
+        try {
+            // Adjust the format here to match the actual input format
+            SimpleDateFormat inputFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss"); // Example format
+            SimpleDateFormat outputFormat = new SimpleDateFormat("yyyy-MM-dd");
+
+            java.util.Date date = inputFormat.parse(timestamp);
+            return outputFormat.format(date);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ""; // Return an empty string or handle the error as needed
+        }
     }
+
 }
