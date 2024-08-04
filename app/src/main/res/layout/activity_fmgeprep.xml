@@ -62,38 +62,38 @@
 
                 </LinearLayout>
 
-                <LinearLayout
-                    android:id="@+id/creditscreen"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:gravity="center"
-                    android:paddingVertical="5dp"
-                    android:paddingHorizontal="5dp"
-                    android:background="@drawable/categorywhite"
-                    android:layout_weight="0.5"
-                    android:orientation="horizontal">
+<!--                <LinearLayout-->
+<!--                    android:id="@+id/creditscreen"-->
+<!--                    android:layout_width="0dp"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:layout_gravity="center"-->
+<!--                    android:gravity="center"-->
+<!--                    android:paddingVertical="5dp"-->
+<!--                    android:paddingHorizontal="5dp"-->
+<!--                    android:background="@drawable/categorywhite"-->
+<!--                    android:layout_weight="0.5"-->
+<!--                    android:orientation="horizontal">-->
 
-                    <ImageView
-                        android:layout_width="30dp"
-                        android:layout_height="30dp"
-                        android:src="@drawable/brsmall"/>
+<!--                    <ImageView-->
+<!--                        android:layout_width="30dp"-->
+<!--                        android:layout_height="30dp"-->
+<!--                        android:src="@drawable/brsmall"/>-->
 
-                    <TextView
-                        android:id="@+id/currentcoinspg"
-                        android:layout_width="wrap_content"
-                        android:layout_height="match_parent"
-                        android:fontFamily="@font/inter_extrabold"
-                        android:layout_gravity="center"
-                        android:gravity="center"
-                        android:text="1000"
-                        android:textAlignment="center"
-                        android:paddingHorizontal="5dp"
-                        android:textColor="@color/unselected"
-                        android:textSize="18sp"
-                        android:textStyle="bold" />
+<!--                    <TextView-->
+<!--                        android:id="@+id/currentcoinspg"-->
+<!--                        android:layout_width="wrap_content"-->
+<!--                        android:layout_height="match_parent"-->
+<!--                        android:fontFamily="@font/inter_extrabold"-->
+<!--                        android:layout_gravity="center"-->
+<!--                        android:gravity="center"-->
+<!--                        android:text="1000"-->
+<!--                        android:textAlignment="center"-->
+<!--                        android:paddingHorizontal="5dp"-->
+<!--                        android:textColor="@color/unselected"-->
+<!--                        android:textSize="18sp"-->
+<!--                        android:textStyle="bold" />-->
 
-                </LinearLayout>
+<!--                </LinearLayout>-->
 
             </LinearLayout>
 

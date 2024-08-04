@@ -1,0 +1,113 @@
+<!-- res/layout/plan_card.xml -->
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:paddingHorizontal="@dimen/_12sdp"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_margin="4dp"
+    app:cardCornerRadius="12dp"
+   >
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="16dp">
+
+        <ImageView
+            android:id="@+id/planIcon"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+             />
+
+        <TextView
+            android:id="@+id/planTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Basic Plan"
+            android:textSize="20sp"
+            android:fontFamily="@font/inter_semibold"
+            android:layout_marginTop="8dp" />
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginTop="8dp">
+
+            <TextView
+                android:id="@+id/planPrice"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="₹499"
+                android:textSize="18sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/planDiscount"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="-15% Discount"
+                android:textSize="14sp"
+                android:textColor="@color/colorPrimary"
+                android:background="@drawable/discount_background"
+                android:layout_marginStart="8dp"
+                android:padding="4dp" />
+        </LinearLayout>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Per month"
+            android:textSize="14sp"
+            android:fontFamily="@font/inter_semibold"
+            android:layout_marginTop="4dp" />
+
+        <Button
+            android:id="@+id/planButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Upgrade to Plus"
+            android:fontFamily="@font/inter_semibold"
+            android:textColor="@android:color/white"
+            android:textSize="@dimen/_12sdp"
+            android:background="@drawable/custom_button_background"
+            android:layout_marginTop="12dp"
+            android:paddingVertical="10dp"
+            android:paddingHorizontal="16dp" />
+
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Plans Offers"
+            android:fontFamily="@font/inter_semibold"
+            android:layout_marginTop="16dp" />
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_marginTop="8dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/inter"
+                android:text="✔ Access to Prepration Section" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/inter"
+                android:text="✔ Basic eBook access " />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/inter"
+                android:text="✔ Limited AI Mentor access" />
+        </LinearLayout>
+
+    </LinearLayout>
+</androidx.cardview.widget.CardView>

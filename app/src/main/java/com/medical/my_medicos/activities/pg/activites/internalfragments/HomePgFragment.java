@@ -60,8 +60,10 @@ import com.medical.my_medicos.activities.pg.activites.extras.RecetUpdatesNoticeA
 import com.medical.my_medicos.activities.pg.activites.extras.TermsandConditionsDialogueFragmentPg;
 import com.medical.my_medicos.activities.pg.activites.internalfragments.intwernaladapters.ExamQuizAdapter;
 import com.medical.my_medicos.activities.pg.adapters.PerDayPGAdapter;
+import com.medical.my_medicos.activities.pg.adapters.PlanAdapter;
 import com.medical.my_medicos.activities.pg.adapters.QuestionBankPGAdapter;
 import com.medical.my_medicos.activities.pg.model.PerDayPG;
+import com.medical.my_medicos.activities.pg.model.Plan;
 import com.medical.my_medicos.activities.pg.model.QuestionPG;
 import com.medical.my_medicos.activities.pg.model.QuizPG;
 import com.medical.my_medicos.activities.pg.model.QuizPGExam;
@@ -166,6 +168,16 @@ public class HomePgFragment extends Fragment {
 //                startActivity(i);
 //            }
 //        });
+        List<Plan> plans = new ArrayList<>();
+        plans.add(new Plan("Basic Plan", "This is the basic plan.", "10/month"));
+        plans.add(new Plan("Standard Plan", "This is the standard plan.", "20/month"));
+        plans.add(new Plan("Premium Plan", "This is the premium plan.", "30/month"));
+
+        // Setup RecyclerView
+        RecyclerView recyclerViewPlans = view.findViewById(R.id.recyclerViewPlans);
+        recyclerViewPlans.setLayoutManager(new LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false));
+        PlanAdapter planAdapter = new PlanAdapter(plans);
+        recyclerViewPlans.setAdapter(planAdapter);
         initJobsUpdatesNewsFragment();
 
         handlerprepration = new Handler();

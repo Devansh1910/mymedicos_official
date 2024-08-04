@@ -1,5 +1,6 @@
-package com.medical.my_medicos.activities.pg.adapters;
+package com.medical.my_medicos.activities.fmge.adapters;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.util.Log;
@@ -9,6 +10,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -16,21 +18,16 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.google.firebase.Timestamp;
 import com.medical.my_medicos.R;
-import com.medical.my_medicos.activities.fmge.model.QuizFmge;
 import com.medical.my_medicos.activities.pg.activites.PgPrepPayement;
+import com.medical.my_medicos.activities.pg.model.Swgtmodel;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 
-import android.annotation.SuppressLint;
-import android.widget.Toast;
-
-import com.medical.my_medicos.activities.pg.model.Swgtmodel;
-
 //import java.security.Timestamp;
 
 
-public class    WeeklyQuizAdapterSwgt extends RecyclerView.Adapter<WeeklyQuizAdapterSwgt.ViewHolder> {
+public class WeeklyQuizAdapterSwgt extends RecyclerView.Adapter<WeeklyQuizAdapterSwgt.ViewHolder> {
     private Context context;
     private ArrayList<Swgtmodel> quizList;
 

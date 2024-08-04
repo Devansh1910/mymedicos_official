@@ -11,12 +11,14 @@ import androidx.annotation.NonNull;
 
 import com.medical.my_medicos.R;
 
+import java.util.List;
+
 public class CustomSpinnerAdapter extends ArrayAdapter<String> {
 
-    private final String[] options;
     private final LayoutInflater inflater;
+    private List<String> options;
 
-    public CustomSpinnerAdapter(@NonNull Context context, int resource, @NonNull String[] options) {
+    public CustomSpinnerAdapter(@NonNull Context context, int resource, @NonNull List<String> options) {
         super(context, resource, options);
         this.options = options;
         this.inflater = LayoutInflater.from(context);
@@ -30,10 +32,7 @@ public class CustomSpinnerAdapter extends ArrayAdapter<String> {
         }
 
         TextView textView = convertView.findViewById(R.id.spinner_text);
-
-
-        textView.setText(options[position]);
-        // Hide the dropdown icon in the selected view
+        textView.setText(options.get(position));
 
         return convertView;
     }
@@ -45,11 +44,13 @@ public class CustomSpinnerAdapter extends ArrayAdapter<String> {
         }
 
         TextView textView = convertView.findViewById(R.id.spinner_text);
-
-
-        textView.setText(options[position]);
- // Show the dropdown icon in the dropdown view
+        textView.setText(options.get(position));
 
         return convertView;
+    }
+
+    public void updateOptions(List<String> newOptions) {
+        this.options = newOptions;
+        notifyDataSetChanged();
     }
 }

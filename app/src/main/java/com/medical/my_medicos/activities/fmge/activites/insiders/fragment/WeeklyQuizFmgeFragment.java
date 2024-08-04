@@ -284,10 +284,11 @@ public class WeeklyQuizFmgeFragment extends Fragment {
                                 String slot = document.getString("type");
                                 String speciality = document.getString("speciality");
                                 Timestamp to = document.getTimestamp("to");
-                                String type = document.getString("type");
+                                Boolean type = document.getBoolean("type");
+                                String index =document.getString("index");
                                 int r = speciality.compareTo(title1);
                                 if (r == 0) {
-                                    QuizFmge quizday = new QuizFmge(title, title1, to,type, id,slot);
+                                    QuizFmge quizday = new QuizFmge(title, title1, to,id,type,slot,index);
                                     quizpg.add(quizday);
                                 }
                             }

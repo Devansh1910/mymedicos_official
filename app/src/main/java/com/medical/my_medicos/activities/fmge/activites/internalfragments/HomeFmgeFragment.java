@@ -26,6 +26,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.cardview.widget.CardView;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -58,14 +59,17 @@ import com.medical.my_medicos.activities.home.HomeActivity;
 import com.medical.my_medicos.activities.job.JobsApplyActivity;
 import com.medical.my_medicos.activities.job.fragments.TermsandConditionDialogueFragment;
 import com.medical.my_medicos.activities.login.bottom_controls.TermsandConditionsActivity;
+import com.medical.my_medicos.activities.news.fragments.JobsUpdatesNewsFragment;
 import com.medical.my_medicos.activities.pg.activites.extras.PreparationCategoryDisplayActivity;
 import com.medical.my_medicos.activities.pg.activites.extras.PreparationCategoryMaterialDisplayActivity;
 import com.medical.my_medicos.activities.pg.activites.extras.RecetUpdatesNoticeActivity;
 import com.medical.my_medicos.activities.pg.activites.extras.TermsandConditionsDialogueFragmentPg;
 import com.medical.my_medicos.activities.pg.activites.internalfragments.intwernaladapters.ExamQuizAdapter;
 import com.medical.my_medicos.activities.pg.adapters.PerDayPGAdapter;
+import com.medical.my_medicos.activities.pg.adapters.PlanAdapter;
 import com.medical.my_medicos.activities.pg.adapters.QuestionBankPGAdapter;
 import com.medical.my_medicos.activities.pg.model.PerDayPG;
+import com.medical.my_medicos.activities.pg.model.Plan;
 import com.medical.my_medicos.activities.pg.model.QuestionPG;
 import com.medical.my_medicos.activities.pg.model.QuizPG;
 import com.medical.my_medicos.activities.pg.model.QuizPGExam;
@@ -133,47 +137,64 @@ public class HomeFmgeFragment extends Fragment {
             Log.e("ERROR", "Arguments are null in WeeklyQuizFragment");
         }
 
-        gotoupdatesofpg = view.findViewById(R.id.gotoupdatesofpg);
-        gotoupdatesofpg.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent i = new Intent(getActivity(), RecetUpdatesNoticeActivity.class);
-                startActivity(i);
-            }
-        });
+//        gotoupdatesofpg = view.findViewById(R.id.gotoupdatesofpg);
+//        gotoupdatesofpg.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                Intent i = new Intent(getActivity(), RecetUpdatesNoticeActivity.class);
+//                startActivity(i);
+//            }
+//        });
+//
+//        practivemcq = view.findViewById(R.id.practivemcq);
+//        practivemcq.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                Calendar today = Calendar.getInstance();
+//
+//                // Set the target date to April 1st, 2024
+//                Calendar targetDate = Calendar.getInstance();
+//                targetDate.set(2024, Calendar.APRIL, 8); // Note: Months are 0-based in Calendar
+//
+//                Intent i;
+//                if (today.before(targetDate)) {
+//                    i = new Intent(getActivity(), UpdatingScreen.class);
+//                    Toast.makeText(getActivity(), "This feature will be available soon!", Toast.LENGTH_SHORT).show();
+//                } else {
+//                    i = new Intent(getActivity(), PreparationCategoryDisplayFmgeActivity.class);
+//                }
+//                startActivity(i);
+//            }
+//        });
+//
+//        material = view.findViewById(R.id.material);
+//        material.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                Intent i = new Intent(getActivity(), PreparationCategoryMaterialDisplayFmgeActivity.class);
+//                startActivity(i);
+//            }
+//        });
+        List<Plan> plans = new ArrayList<>();
+        plans.add(new Plan("Basic Plan", "This is the basic plan.", "10/month"));
+        plans.add(new Plan("Standard Plan", "This is the standard plan.", "20/month"));
+        plans.add(new Plan("Premium Plan", "This is the premium plan.", "30/month"));
 
-        practivemcq = view.findViewById(R.id.practivemcq);
-        practivemcq.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Calendar today = Calendar.getInstance();
-
-                // Set the target date to April 1st, 2024
-                Calendar targetDate = Calendar.getInstance();
-                targetDate.set(2024, Calendar.APRIL, 8); // Note: Months are 0-based in Calendar
-
-                Intent i;
-                if (today.before(targetDate)) {
-                    i = new Intent(getActivity(), UpdatingScreen.class);
-                    Toast.makeText(getActivity(), "This feature will be available soon!", Toast.LENGTH_SHORT).show();
-                } else {
-                    i = new Intent(getActivity(), PreparationCategoryDisplayFmgeActivity.class);
-                }
-                startActivity(i);
-            }
-        });
-
-        material = view.findViewById(R.id.material);
-        material.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent i = new Intent(getActivity(), PreparationCategoryMaterialDisplayFmgeActivity.class);
-                startActivity(i);
-            }
-        });
+        // Setup RecyclerView
+        RecyclerView recyclerViewPlans = view.findViewById(R.id.recyclerViewPlans);
+        recyclerViewPlans.setLayoutManager(new LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false));
+        PlanAdapter planAdapter = new PlanAdapter(plans);
+        recyclerViewPlans.setAdapter(planAdapter);
+        initJobsUpdatesNewsFragment();
 
         handlerprepration = new Handler();
         return view;
+    }
+    private void initJobsUpdatesNewsFragment() {
+        FragmentTransaction transaction = getChildFragmentManager().beginTransaction();
+        JobsUpdatesNewsFragment jobsUpdatesNewsFragment = new JobsUpdatesNewsFragment();
+        transaction.replace(R.id.news_fragment_container, jobsUpdatesNewsFragment);
+        transaction.commit();
     }
 
     private void showFirstTimePopup() {

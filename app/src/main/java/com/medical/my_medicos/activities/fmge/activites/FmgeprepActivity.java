@@ -81,39 +81,39 @@ public class FmgeprepActivity extends AppCompatActivity {
         int uiOptions = View.SYSTEM_UI_FLAG_HIDE_NAVIGATION | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY;
         decorView.setSystemUiVisibility(uiOptions);
 
-        FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
-        if (currentUser != null) {
-            String currentUid = currentUser.getPhoneNumber();
-            FirebaseDatabase database = FirebaseDatabase.getInstance();
-
-            database.getReference().child("profiles")
-                    .child(currentUid)
-                    .child("coins")
-                    .addValueEventListener(new ValueEventListener() {
-                        @Override
-                        public void onDataChange(@NonNull DataSnapshot snapshot) {
-                            Integer coinsValue = snapshot.getValue(Integer.class);
-                            if (coinsValue != null) {
-                                binding.currentcoinspg.setText(String.valueOf(coinsValue));
-                            } else {
-                                binding.currentcoinspg.setText("0");
-                            }
-                        }
-
-                        @SuppressLint("RestrictedApi")
-                        @Override
-                        public void onCancelled(@NonNull DatabaseError error) {
-                            Log.e(TAG, "Error loading coins from database: " + error.getMessage());
-                        }
-                    });
-        }
+//        FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
+//        if (currentUser != null) {
+//            String currentUid = currentUser.getPhoneNumber();
+//            FirebaseDatabase database = FirebaseDatabase.getInstance();
+//
+//            database.getReference().child("profiles")
+//                    .child(currentUid)
+//                    .child("coins")
+//                    .addValueEventListener(new ValueEventListener() {
+//                        @Override
+//                        public void onDataChange(@NonNull DataSnapshot snapshot) {
+//                            Integer coinsValue = snapshot.getValue(Integer.class);
+//                            if (coinsValue != null) {
+//                                binding.currentcoinspg.setText(String.valueOf(coinsValue));
+//                            } else {
+//                                binding.currentcoinspg.setText("0");
+//                            }
+//                        }
+//
+//                        @SuppressLint("RestrictedApi")
+//                        @Override
+//                        public void onCancelled(@NonNull DatabaseError error) {
+//                            Log.e(TAG, "Error loading coins from database: " + error.getMessage());
+//                        }
+//                    });
+//        }
 
         setupBottomAppBar();
 
         HomeFmgeFragment homeFragment = HomeFmgeFragment.newInstance();
         replaceFragment(homeFragment);
-        LinearLayout openpgdrawerIcon = findViewById(R.id.creditscreen);
-        openpgdrawerIcon.setOnClickListener(v -> openHomeSidePgActivity());
+//        LinearLayout openpgdrawerIcon = findViewById(R.id.creditscreen);
+//        openpgdrawerIcon.setOnClickListener(v -> openHomeSidePgActivity());
 
         configureWindow();
     }
@@ -132,22 +132,22 @@ public class FmgeprepActivity extends AppCompatActivity {
         Toolbar toolbar = findViewById(R.id.toolbar);
         TextView toolbarheading = findViewById(R.id.toolbarheading);
         ImageView backtothehomefrompg = findViewById(R.id.backtothehomefrompg);
-        LinearLayout creditscreen = findViewById(R.id.creditscreen);
-        TextView currentcoinspg = findViewById(R.id.currentcoinspg);
+//        LinearLayout creditscreen = findViewById(R.id.creditscreen);
+//        TextView currentcoinspg = findViewById(R.id.currentcoinspg);
 
         if (fragment instanceof FmgeExamFragment || fragment instanceof PreparationFmgeFragment) {
             toolbar.setBackgroundColor(ContextCompat.getColor(this, R.color.backgroundcolor));
             toolbarheading.setTextColor(ContextCompat.getColor(this, R.color.unselected));
             backtothehomefrompg.setImageDrawable(ContextCompat.getDrawable(this, R.drawable.arrow_bk));
-            creditscreen.setBackground(ContextCompat.getDrawable(this, R.drawable.categoryblack));
-            currentcoinspg.setTextColor(ContextCompat.getColor(this, R.color.white));
+//            creditscreen.setBackground(ContextCompat.getDrawable(this, R.drawable.categoryblack));
+//            currentcoinspg.setTextColor(ContextCompat.getColor(this, R.color.white));
             getWindow().setStatusBarColor(ContextCompat.getColor(this, R.color.backgroundcolor));
         } else {
             toolbar.setBackgroundColor(ContextCompat.getColor(this, R.color.teal_700));
             toolbarheading.setTextColor(ContextCompat.getColor(this, R.color.white));
             backtothehomefrompg.setImageDrawable(ContextCompat.getDrawable(this, R.drawable.arrow_bkwhite));
-            creditscreen.setBackground(ContextCompat.getDrawable(this, R.drawable.categorywhite));
-            currentcoinspg.setTextColor(ContextCompat.getColor(this, R.color.unselected));
+//            creditscreen.setBackground(ContextCompat.getDrawable(this, R.drawable.categorywhite));
+//            currentcoinspg.setTextColor(ContextCompat.getColor(this, R.color.unselected));
             getWindow().setStatusBarColor(ContextCompat.getColor(this, R.color.teal_700));
         }
     }

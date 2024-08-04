@@ -23,14 +23,16 @@ import com.medical.my_medicos.R;
 import com.medical.my_medicos.activities.fmge.adapters.WeeklyFmgeQuizAdapter;
 import com.medical.my_medicos.activities.fmge.model.QuizFmge;
 import com.medical.my_medicos.activities.pg.adapters.WeeklyQuizAdapter;
+import com.medical.my_medicos.activities.pg.adapters.WeeklyQuizAdapterSwgt;
 import com.medical.my_medicos.activities.pg.model.QuizPG;
+import com.medical.my_medicos.activities.pg.model.Swgtmodel;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class PreprationIndexingSwgtPast extends Fragment {
-    private WeeklyFmgeQuizAdapter quizAdapter;
-    private ArrayList<QuizFmge> quizpg = new ArrayList<>();
+    private WeeklyQuizAdapterSwgt quizAdapter;
+    private ArrayList<Swgtmodel> quizpg = new ArrayList<>();
     private String speciality;
 
     private static final String ARG_SPECIALITY = "speciality";
@@ -62,7 +64,7 @@ public class PreprationIndexingSwgtPast extends Fragment {
         RecyclerView recyclerView = view.findViewById(R.id.recyclerView);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
 
-        quizAdapter = new WeeklyFmgeQuizAdapter(getContext(), quizpg);
+        quizAdapter = new WeeklyQuizAdapterSwgt(getContext(), quizpg);
         recyclerView.setAdapter(quizAdapter);
 
         getQuestions(speciality);

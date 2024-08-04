@@ -59,57 +59,7 @@
                             android:scaleType="centerCrop"
                             android:src="@drawable/line_horizontal" />
 
-                        <LinearLayout
-                            android:layout_width="match_parent"
-                            android:layout_marginVertical="@dimen/_5ssp"
-                            android:layout_height="wrap_content"
-                            android:orientation="horizontal">
 
-                            <TextView
-                                android:id="@+id/practivemcq"
-                                android:layout_width="0dp"
-                                android:drawableEnd="@drawable/person_practice"
-                                android:background="@drawable/backofpgmaterials"
-                                android:layout_weight="1"
-                                android:drawablePadding="@dimen/_2ssp"
-                                android:layout_height="wrap_content"
-                                android:elevation="@dimen/_10sdp"
-                                android:text="PRACTICE MCQs"
-                                android:textColor="@color/unselected"
-                                android:layout_gravity="center_vertical"
-                                android:gravity="center"
-                                android:paddingVertical="@dimen/_10sdp"
-                                android:paddingHorizontal="@dimen/_10ssp"
-                                android:textSize="@dimen/_10ssp"
-                                android:textStyle="normal" />
-
-                            <com.google.android.material.divider.MaterialDivider
-                                android:layout_width="0dp"
-                                android:layout_height="wrap_content"
-                                android:layout_weight="0.05"
-                                app:dividerColor="@color/white"
-                                app:dividerThickness="@dimen/_1ssp"/>
-
-
-                            <TextView
-                                android:id="@+id/material"
-                                android:layout_width="0dp"
-                                android:drawableEnd="@drawable/practice_prep"
-                                android:background="@drawable/backofpgmaterials"
-                                android:layout_weight="1"
-                                android:drawablePadding="@dimen/_2ssp"
-                                android:layout_height="wrap_content"
-                                android:elevation="@dimen/_10sdp"
-                                android:text="MATERIAL"
-                                android:textColor="@color/unselected"
-                                android:layout_gravity="center_vertical"
-                                android:gravity="center"
-                                android:paddingVertical="@dimen/_10sdp"
-                                android:paddingHorizontal="@dimen/_10ssp"
-                                android:textSize="@dimen/_10ssp"
-                                android:textStyle="normal" />
-
-                        </LinearLayout>
 
                         <TextView
                             android:layout_width="match_parent"
@@ -190,32 +140,18 @@
                             android:textSize="@dimen/_10ssp"
                             android:textStyle="bold" />
 
-                        <androidx.cardview.widget.CardView
-                            android:id="@+id/gotoupdatesofpg"
+                        <FrameLayout
+                            android:id="@+id/news_fragment_container"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_marginHorizontal="@dimen/_2sdp"
-                            android:layout_marginVertical="@dimen/_10sdp"
-                            app:cardCornerRadius="@dimen/_5sdp"
-                            android:background="@color/white"
-                            android:elevation="@dimen/_10sdp">
+                            android:layout_marginTop="16dp"/>
+                        <androidx.recyclerview.widget.RecyclerView
+                            android:id="@+id/recyclerViewPlans"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="16dp"
+                            android:layout_marginBottom="16dp" />
 
-                            <TextView
-                                android:layout_width="match_parent"
-                                android:layout_weight="1"
-                                android:layout_margin="@dimen/_5sdp"
-                                android:background="@color/white"
-                                android:layout_height="wrap_content"
-                                android:padding="@dimen/_20sdp"
-                                android:text="GET THE RECENT UPDATES"
-                                android:textColor="@color/unselected"
-                                android:layout_gravity="center_vertical"
-                                android:gravity="center"
-                                android:textSize="@dimen/_14ssp"
-                                android:textStyle="bold" />
-
-
-                        </androidx.cardview.widget.CardView>
 
                         <ImageView
                             android:layout_width="match_parent"

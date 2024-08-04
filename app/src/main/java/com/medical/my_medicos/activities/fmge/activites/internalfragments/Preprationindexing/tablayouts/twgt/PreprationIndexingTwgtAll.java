@@ -20,6 +20,8 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.medical.my_medicos.R;
+import com.medical.my_medicos.activities.fmge.adapters.WeeklyFmgeQuizAdapter;
+import com.medical.my_medicos.activities.fmge.model.QuizFmge;
 import com.medical.my_medicos.activities.pg.adapters.WeeklyQuizAdapter;
 import com.medical.my_medicos.activities.pg.model.QuizPG;
 
@@ -32,8 +34,8 @@ import java.util.List;
  * create an instance of this fragment.
  */
 public class PreprationIndexingTwgtAll extends Fragment {
-    private WeeklyQuizAdapter quizAdapter;
-    private ArrayList<QuizPG> quizpg = new ArrayList<>();
+    private WeeklyFmgeQuizAdapter quizAdapter;
+    private ArrayList<QuizFmge> quizpg = new ArrayList<>();
     private String speciality;
 
     // Parameter key
@@ -69,7 +71,7 @@ public class PreprationIndexingTwgtAll extends Fragment {
         RecyclerView recyclerView = view.findViewById(R.id.recyclerView);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
 
-        quizAdapter = new WeeklyQuizAdapter(getContext(), quizpg);
+        quizAdapter = new WeeklyFmgeQuizAdapter(getContext(), quizpg);
         recyclerView.setAdapter(quizAdapter);
 
         getQuestions(speciality);

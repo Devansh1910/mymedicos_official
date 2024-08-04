@@ -51,6 +51,35 @@ public class WeeklyFmgeQuizAdapter extends RecyclerView.Adapter<WeeklyFmgeQuizAd
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         QuizFmge quiz = quizList.get(position);
+        String title=quiz.getTitle();
+        if (title.length() > 23) {
+            title = title.substring(0, 20) + "...";
+        }
+        if (quiz.getType()==true){
+            holder.unlock.setVisibility(View.GONE);
+            holder.lock.setVisibility(View.VISIBLE);
+        }
+        else{
+            holder.lock.setVisibility(View.GONE);
+            holder.unlock.setVisibility(View.VISIBLE);
+
+        }
+        holder.titleTextView.setText(title);
+        holder.categorytextview.setText(quiz.getIndex());
+
+        holder.time.setText(formatTimestamp(quiz.getTo()));
+        holder.pay.setOnClickListener(v -> {
+            if (quiz.getType()) {
+                holder.showBottomSheet();
+            } else {
+                Intent intent = new Intent(context, FmgePrepPayement.class);
+                intent.putExtra("Title1", quiz.getTitle1());
+                intent.putExtra("Title", quiz.getTitle());
+                intent.putExtra("Id",quiz.getId());
+                intent.putExtra("Due", formatTimestamp(quiz.getTo()));
+                context.startActivity(intent);
+            }
+        });
         holder.titleTextView.setText(quiz.getTitle());
         holder.time.setText(formatTimestamp(quiz.getTo()));
         holder.slot.setText(quiz.getSlot());
@@ -79,45 +108,38 @@ public class WeeklyFmgeQuizAdapter extends RecyclerView.Adapter<WeeklyFmgeQuizAd
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
-        TextView titleTextView,time,slot;
+        TextView titleTextView, time, categorytextview,slot;
+
+        LinearLayout pay,lock,unlock;
         Button payforsets;
-        LinearLayout pay;
+
+
+
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
             titleTextView = itemView.findViewById(R.id.titleSets);
             time=itemView.findViewById(R.id.availabletilltime);
+            lock=itemView.findViewById(R.id.lock);
+            unlock=itemView.findViewById(R.id.unlock);
             payforsets = itemView.findViewById(R.id.paymentpart);
             pay = itemView.findViewById(R.id.payfortheexam);
             slot = itemView.findViewById(R.id.slot);
         }
 
-        private void showBottomSheet(QuizPG quiz) {
-            View bottomSheetView = LayoutInflater.from(context).inflate(R.layout.bottom_sheet_for_prep, null);
+        private void showBottomSheet() {
             BottomSheetDialog bottomSheetDialog = new BottomSheetDialog(context);
+            View bottomSheetView = LayoutInflater.from(context).inflate(R.layout.bottom_sheet_up_paid, null);
             bottomSheetDialog.setContentView(bottomSheetView);
 
-            SeekBar swipeSeekBar = bottomSheetView.findViewById(R.id.swipeSeekBar);
-            swipeSeekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+            @SuppressLint({"MissingInflatedId", "LocalSuppress"}) Button btnBuyPlan = bottomSheetView.findViewById(R.id.btnBuyPlan);
+            btnBuyPlan.setOnClickListener(new View.OnClickListener() {
                 @Override
-                public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-                }
-
-                @Override
-                public void onStartTrackingTouch(SeekBar seekBar) {
-                }
-
-                @Override
-                public void onStopTrackingTouch(SeekBar seekBar) {
-                    int progress = seekBar.getProgress();
-                    int max = seekBar.getMax();
-
-                    if (progress <= max * 0.75) {
-                        seekBar.setProgress(0);
-                    } else {
-//                        showQuizInsiderActivity(quiz);
-//                        bottomSheetDialog.dismiss();
-                    }
+                public void onClick(View v) {
+                    bottomSheetDialog.dismiss();
+                    // Your code to handle the purchase action
+                    // For example, start an activity to purchase a plan or show a message
+                    Toast.makeText(context, "Purchase action triggered", Toast.LENGTH_SHORT).show();
                 }
             });
 
@@ -127,7 +149,7 @@ public class WeeklyFmgeQuizAdapter extends RecyclerView.Adapter<WeeklyFmgeQuizAd
 
     }
     private String formatTimestamp(Timestamp timestamp) {
-        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd ");
         Log.d("date",dateFormat.format(timestamp.toDate()));
         return dateFormat.format(timestamp.toDate());
     }

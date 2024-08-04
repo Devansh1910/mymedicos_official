@@ -134,6 +134,10 @@
             android:name=".activities.fmge.activites.extras.PreparationCategoryMaterialDisplayFmgeActivity"
             android:exported="false" />
         <activity
+            android:name=".activities.fmge.activites.internalfragments.PreprationindexingActivityFMGE"
+            android:exported="false" />
+
+        <activity
             android:name=".activities.pg.activites.internalfragments.PreparationSubCategoryForMaterialActivity"
             android:exported="false" />
         <activity

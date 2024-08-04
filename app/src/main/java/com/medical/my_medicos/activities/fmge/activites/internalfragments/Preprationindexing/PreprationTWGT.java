@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 
 import androidx.fragment.app.Fragment;
 import androidx.viewpager2.widget.ViewPager2;
@@ -12,7 +13,8 @@ import androidx.viewpager2.widget.ViewPager2;
 import com.google.android.material.tabs.TabLayout;
 import com.google.android.material.tabs.TabLayoutMediator;
 import com.medical.my_medicos.R;
-import com.medical.my_medicos.activities.fmge.activites.internalfragments.Preprationindexing.adapter.Twgt.PreprationTwgtPageAdapter;
+import com.medical.my_medicos.activities.pg.activites.internalfragments.Preprationindexing.BottomSheetSpinnerFragment;
+import com.medical.my_medicos.activities.pg.activites.internalfragments.Preprationindexing.adapter.Twgt.PreprationTwgtPageAdapter;
 import com.medical.my_medicos.activities.pg.adapters.WeeklyQuizAdapter;
 import com.medical.my_medicos.activities.pg.model.QuizPG;
 
@@ -59,14 +61,18 @@ public class PreprationTWGT extends Fragment {
         }
     }
     @Override
-
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_prepration_t_w_g_t, container, false);
+        View view = inflater.inflate(R.layout.fragment_prepration_t_w_g_t_fmge, container, false);
 
-       @SuppressLint({"MissingInflatedId", "LocalSuppress"}) TabLayout tabLayout = view.findViewById(R.id.tabLayout);
-      ViewPager2 viewPager = view.findViewById(R.id.viewPager3);
+        @SuppressLint({"MissingInflatedId", "LocalSuppress"}) TabLayout tabLayout = view.findViewById(R.id.tabLayout);
+        @SuppressLint({"MissingInflatedId", "LocalSuppress"}) ViewPager2 viewPager = view.findViewById(R.id.viewPager3);
+        tabLayout.addTab(tabLayout.newTab().setText("ALL"));
+        tabLayout.addTab(tabLayout.newTab().setText("High Yield"));
+        tabLayout.addTab(tabLayout.newTab().setText("Bookmark"));
 
-        PreprationTwgtPageAdapter adapter = new PreprationTwgtPageAdapter(getActivity(),speciality);
+        @SuppressLint({"MissingInflatedId", "LocalSuppress"}) ImageView sortButton = view.findViewById(R.id.filter);
+
+        com.medical.my_medicos.activities.pg.activites.internalfragments.Preprationindexing.adapter.Twgt.PreprationTwgtPageAdapter adapter = new PreprationTwgtPageAdapter(getActivity(), speciality);
         viewPager.setAdapter(adapter);
 
         new TabLayoutMediator(tabLayout, viewPager, (tab, position) -> {
@@ -75,13 +81,20 @@ public class PreprationTWGT extends Fragment {
                     tab.setText("All");
                     break;
                 case 1:
-                    tab.setText("Hy");
+                    tab.setText("High Yield");
                     break;
 
+                case 2:
+                    tab.setText("Bookmark");
+                    break;
             }
         }).attach();
 
-        return view;
+        sortButton.setOnClickListener(v -> {
+            BottomSheetSpinnerFragment bottomSheet = new BottomSheetSpinnerFragment(speciality);
+            bottomSheet.show(getParentFragmentManager(), bottomSheet.getTag());
+        });
 
+        return view;
     }
 }
