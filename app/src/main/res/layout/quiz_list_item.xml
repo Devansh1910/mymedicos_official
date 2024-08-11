@@ -6,6 +6,7 @@
     android:id="@+id/payfortheexam"
     android:layout_marginBottom="@dimen/_4ssp"
     android:orientation="vertical"
+    android:paddingBottom="@dimen/_7ssp"
     android:background="@drawable/backgroundoftheunselected">
 
     <LinearLayout
@@ -139,6 +140,7 @@
         android:id="@+id/categoryTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:visibility="gone"
         android:text="Basics of Anatomy"
         android:fontFamily="@font/inter"
         android:textSize="@dimen/_10ssp"

@@ -175,7 +175,7 @@ public class HomePgFragment extends Fragment {
 
         // Setup RecyclerView
         RecyclerView recyclerViewPlans = view.findViewById(R.id.recyclerViewPlans);
-        recyclerViewPlans.setLayoutManager(new LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false));
+        recyclerViewPlans.setLayoutManager(new LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false));
         PlanAdapter planAdapter = new PlanAdapter(plans);
         recyclerViewPlans.setAdapter(planAdapter);
         initJobsUpdatesNewsFragment();
@@ -359,13 +359,13 @@ public class HomePgFragment extends Fragment {
                             if (finalTitle.isEmpty() || finalTitle.equals("Home")) {
                                 int r = speciality.compareTo(finalTitle);
                                 if (r == 0) {
-                                    QuizPGExam quizday = new QuizPGExam(quizTitle, title1, To, id, from);
+                                    QuizPGExam quizday = new QuizPGExam(quizTitle, title1, To, id, true,"dsf");
                                     quizpg.add(quizday);
                                 }
                             } else {
                                 int r = speciality.compareTo(finalTitle);
                                 if (r == 0) {
-                                    QuizPGExam quizday = new QuizPGExam(quizTitle, finalTitle, To, id ,from);
+                                    QuizPGExam quizday = new QuizPGExam(quizTitle, finalTitle, To, id ,true,"dsf");
                                     quizpg.add(quizday);
                                 }
                             }

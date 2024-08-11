@@ -28,9 +28,12 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.medical.my_medicos.R;
-import com.medical.my_medicos.activities.neetss.activites.internalfragments.insiderfragments.LiveNeetFragment;
-import com.medical.my_medicos.activities.neetss.activites.internalfragments.insiderfragments.PastNeetFragment;
-import com.medical.my_medicos.activities.neetss.activites.internalfragments.insiderfragments.UpcomingNeetFragment;
+
+import com.medical.my_medicos.activities.neetss.activites.internalfragments.insiderfragments.LiveSSFragment;
+
+import com.medical.my_medicos.activities.neetss.activites.internalfragments.insiderfragments.PastSSFragment;
+
+import com.medical.my_medicos.activities.neetss.activites.internalfragments.insiderfragments.UpcomingSSFragment;
 import com.medical.my_medicos.activities.neetss.activites.internalfragments.insiderfragments.extras.CouponBottomSheetFragment;
 import com.medical.my_medicos.activities.neetss.activites.internalfragments.intwernaladapters.ExamQuizAdapter;
 import com.medical.my_medicos.activities.neetss.model.QuizSS;
@@ -80,11 +83,11 @@ public class NeetExamSSFragment extends Fragment {
             public Fragment createFragment(int position) {
                 switch (position) {
                     case 1:
-                        return new UpcomingNeetFragment();
+                        return new UpcomingSSFragment();
                     case 2:
-                        return new PastNeetFragment();
+                        return new PastSSFragment();
                     default:
-                        return new LiveNeetFragment();
+                        return new LiveSSFragment();
                 }
             }
 

@@ -1,0 +1,81 @@
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:padding="16dp">
+
+
+    <TextView
+        android:id="@+id/neet_ss_heading"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/inter_semibold"
+        android:text="NEET SS Specialization"
+        android:textSize="20sp"
+
+        android:layout_marginBottom="8dp" />
+
+
+    <TextView
+        android:id="@+id/neet_ss_description"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/inter"
+        android:text="The NEET SS (Super Specialty) exam is a national-level entrance test for doctors who seek to specialize in specific areas of medical science. You are required to choose one specialization from the options provided below."
+        android:textSize="16sp"
+        android:layout_marginBottom="16dp" />
+
+    <TextView
+        android:id="@+id/form_title"
+        android:layout_width="wrap_content"
+        android:fontFamily="@font/inter_semibold"
+        android:layout_height="wrap_content"
+        android:text="Select your specialization"
+        android:textSize="18sp"
+
+        android:layout_marginBottom="8dp" />
+
+    <Spinner
+        android:id="@+id/specialization_spinner"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:entries="@array/specialization_options"
+        android:layout_marginBottom="16dp" />
+
+    <TextView
+        android:id="@+id/specialization_description"
+        android:layout_width="wrap_content"
+        android:fontFamily="@font/inter"
+        android:layout_height="wrap_content"
+        android:textSize="16sp"
+        android:layout_marginBottom="16dp" />
+
+    <TextView
+        android:id="@+id/caution_message"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/inter"
+        android:text="Please note: Once you have selected a specialization, it cannot be changed. Make sure you choose carefully."
+        android:textColor="@android:color/holo_red_dark"
+        android:textSize="14sp"
+        android:layout_marginBottom="16dp" />
+
+    <CheckBox
+        android:id="@+id/confirmation_checkbox"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/inter"
+        android:text="I have carefully reviewed my choice and wish to proceed"
+        android:layout_marginBottom="16dp" />
+
+    <Button
+        android:id="@+id/submit_button"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Submit"
+        android:fontFamily="@font/inter"
+        android:layout_gravity="end"
+        android:layout_marginTop="16dp"
+        android:enabled="false" />
+</LinearLayout>

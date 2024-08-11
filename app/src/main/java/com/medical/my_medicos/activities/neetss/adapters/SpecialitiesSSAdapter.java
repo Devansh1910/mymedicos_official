@@ -14,8 +14,9 @@ import com.bumptech.glide.Glide;
 import com.makeramen.roundedimageview.RoundedImageView;
 import com.medical.my_medicos.R;
 import com.medical.my_medicos.activities.neetss.activites.insiders.SpecialityPGQuizActivity;
+import com.medical.my_medicos.activities.neetss.activites.internalfragments.PreprationindexingActivitySS;
 import com.medical.my_medicos.activities.neetss.model.SpecialitiesSS;
-import com.medical.my_medicos.activities.pg.model.SpecialitiesPG;
+
 
 import java.util.ArrayList;
 
@@ -48,7 +49,7 @@ public class SpecialitiesSSAdapter extends RecyclerView.Adapter<SpecialitiesSSAd
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(context, SpecialityPGQuizActivity.class);
+                Intent intent = new Intent(context, PreprationindexingActivitySS.class);
                 intent.putExtra("pgId", specialitiespg.getPriority());
                 intent.putExtra("specialityPgName", specialitiespg.getName());
                 context.startActivity(intent);

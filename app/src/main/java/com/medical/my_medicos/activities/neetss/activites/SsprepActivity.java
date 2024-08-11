@@ -10,8 +10,12 @@ import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.Window;
+import android.widget.AdapterView;
+import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.Spinner;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -25,6 +29,7 @@ import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.google.android.material.bottomappbar.BottomAppBar;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -41,10 +46,14 @@ import com.medical.my_medicos.activities.neetss.activites.extras.CreditsActivity
 import com.medical.my_medicos.activities.neetss.activites.internalfragments.HomePgFragment;
 import com.medical.my_medicos.activities.neetss.activites.internalfragments.NeetExamSSFragment;
 import com.medical.my_medicos.activities.neetss.activites.internalfragments.PreparationSSFragment;
-import com.medical.my_medicos.databinding.ActivityPgprepBinding;
+import com.medical.my_medicos.databinding.ActivitySsPrepActivtyBinding;
+
+import java.util.HashMap;
+import java.util.Map;
+
 
 public class SsprepActivity extends AppCompatActivity {
-    ActivityPgprepBinding binding;
+    ActivitySsPrepActivtyBinding binding;
     BottomNavigationView bottomNavigationPg;
     BottomAppBar bottomAppBarPg;
     private TextView currentStreaksTextView;
@@ -56,8 +65,9 @@ public class SsprepActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        binding = ActivityPgprepBinding.inflate(getLayoutInflater());
+        binding = ActivitySsPrepActivtyBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
+        checkIfSpecializationSelected();
         currentStreaksTextView = findViewById(R.id.currentstraks);
 
         backtothehomefrompg = findViewById(R.id.backtothehomefrompg);
@@ -127,6 +137,116 @@ public class SsprepActivity extends AppCompatActivity {
 
         configureWindow();
     }
+    private void loadContent() {
+        // Load the main content of the activity, e.g., fragments
+        HomePgFragment homeFragment = HomePgFragment.newInstance();
+        replaceFragment(homeFragment);
+    }
+
+    @SuppressLint("RestrictedApi")
+    private void saveSpecializationToDatabase(String specialization) {
+        if ("Medicine".equals(specialization)) {
+           specialization="medical";
+        }
+
+        FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
+        if (currentUser != null) {
+            String currentUid = currentUser.getPhoneNumber();
+            FirebaseDatabase database = FirebaseDatabase.getInstance();
+            DatabaseReference userRef = database.getReference().child("profiles").child(currentUid).child("Neetss");
+
+            userRef.setValue(specialization)
+                    .addOnCompleteListener(task -> {
+                        if (task.isSuccessful()) {
+                            Log.d(TAG, "Specialization saved successfully");
+                            loadContent(); // Load the main content after saving
+                        } else {
+                            Log.e(TAG, "Error saving specialization: ", task.getException());
+                        }
+                    });
+        }
+    }
+    private void checkIfSpecializationSelected() {
+        FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
+        if (currentUser != null) {
+            String currentUid = currentUser.getPhoneNumber();
+            FirebaseDatabase database = FirebaseDatabase.getInstance();
+            DatabaseReference userRef = database.getReference().child("profiles").child(currentUid).child("Neetss");
+
+            userRef.addListenerForSingleValueEvent(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot snapshot) {
+                    if (snapshot.exists()) {
+                        // Load the main content directly if specialization is already selected
+                        loadContent();
+                    } else {
+                        // Show the bottom sheet form if not selected
+                        showBottomSheetForm();
+                    }
+                }
+
+                @SuppressLint("RestrictedApi")
+                @Override
+                public void onCancelled(@NonNull DatabaseError error) {
+                    Log.e(TAG, "Error checking specialization: ", error.toException());
+                }
+            });
+        }
+    }
+    private void showBottomSheetForm() {
+        View view = getLayoutInflater().inflate(R.layout.bottom_sheet_form_ss, null);
+        BottomSheetDialog bottomSheetDialog = new BottomSheetDialog(this);
+        bottomSheetDialog.setContentView(view);
+
+        // Find views by ID
+        Spinner specializationSpinner = view.findViewById(R.id.specialization_spinner);
+        TextView specializationDescription = view.findViewById(R.id.specialization_description);
+        CheckBox confirmationCheckbox = view.findViewById(R.id.confirmation_checkbox);
+        Button submitButton = view.findViewById(R.id.submit_button);
+
+        // Descriptions map
+        Map<String, String> descriptions = new HashMap<>();
+        descriptions.put("Medicine", "Medicine specialization focuses on the comprehensive care and management of adult patients. It includes a broad range of sub-specialties like Cardiology, Nephrology, and Endocrinology, among others.");
+        descriptions.put("Surgery", "Surgery specialization trains doctors in various surgical procedures and techniques. Sub-specialties include General Surgery, Neurosurgery, Cardiothoracic Surgery, and more.");
+        descriptions.put("Pediatric", "Pediatrics deals with the medical care of infants, children, and adolescents. This specialization includes areas like Neonatology, Pediatric Cardiology, and Pediatric Neurology.");
+
+        // Set initial description
+        String initialSpecialization = specializationSpinner.getSelectedItem().toString();
+        specializationDescription.setText(descriptions.get(initialSpecialization));
+
+        // Update description based on selection
+        specializationSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                String selectedSpecialization = parent.getItemAtPosition(position).toString();
+                specializationDescription.setText(descriptions.get(selectedSpecialization));
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+                specializationDescription.setText("");
+            }
+        });
+
+        // Enable Submit button only if checkbox is checked
+        confirmationCheckbox.setOnCheckedChangeListener((buttonView, isChecked) -> {
+            submitButton.setEnabled(isChecked);
+        });
+
+        // Handle submit button click
+        submitButton.setOnClickListener(v -> {
+            String selectedSpecialization = specializationSpinner.getSelectedItem().toString();
+            saveSpecializationToDatabase(selectedSpecialization);
+            bottomSheetDialog.dismiss();
+        });
+
+        bottomSheetDialog.setCancelable(false);
+        bottomSheetDialog.show();
+    }
+
+
+
+
     private void fetchStreakCount() {
         FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
 

@@ -86,15 +86,27 @@ public class PastNeetFragment extends Fragment {
                             String quizTitle = document.getString("title");
                             String speciality = document.getString("speciality");
                             Timestamp to = document.getTimestamp("to");
-                            Timestamp from = document.getTimestamp("from");
+                            String id = document.getString("qid");
+                            boolean index=document.contains("index");
+                            if (index==true) {
+                                String index1 = document.getString("index");
+                                boolean paid1=document.contains("type");
+                                if (paid1==true) {
 
-                            if (now.compareTo(to) > 0 && (title.isEmpty() || speciality.equals(title))) {
-                                QuizPGExam quiz = new QuizPGExam(quizTitle, speciality, to, document.getId(), from);
-                                Livepg.add(quiz);
+
+//                                    boolean paid = document.getBoolean("type");
+                                    boolean paid=false;
+                                    Timestamp from = document.getTimestamp("from");
+
+                                    if (now.compareTo(to) > 0 && (title.isEmpty() || speciality.equals(title))) {
+                                        QuizPGExam quiz = new QuizPGExam(quizTitle, speciality, to, id, paid, index1);
+                                        Livepg.add(quiz);
+                                    }
+                                }
                             }
                         }
                         // Sort the Livepg list here by the 'from' date
-                        Collections.sort(Livepg, Comparator.comparing(QuizPGExam::getFrom));
+                        Collections.sort(Livepg, Comparator.comparing(QuizPGExam::getTo));
                         LiveAdapter.notifyDataSetChanged();
                         updateUI();
                     } else {

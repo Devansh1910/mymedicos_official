@@ -43,6 +43,7 @@ import com.medical.my_medicos.activities.cme.CmeActivity;
 import com.medical.my_medicos.activities.fmge.activites.FmgeprepActivity;
 import com.medical.my_medicos.activities.job.JobsActivity;
 import com.medical.my_medicos.activities.memes.MemeActivity;
+import com.medical.my_medicos.activities.neetss.activites.SsprepActivity;
 import com.medical.my_medicos.activities.news.NewsActivity;
 import com.medical.my_medicos.activities.news.NewsToday;
 import com.medical.my_medicos.activities.news.TodayNewsAdapter;
@@ -292,7 +293,7 @@ public class HomeFragment extends Fragment {
 
         meme = rootView.findViewById(R.id.meme);
         meme.setOnClickListener(view -> {
-            Intent i = new Intent(getActivity(), MemeActivity.class);
+            Intent i = new Intent(getActivity(), SsprepActivity.class);
             startActivity(i);
         });
 

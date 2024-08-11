@@ -25,6 +25,7 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
+import com.medical.my_medicos.activities.neetss.model.QuizSSExam;
 import com.medical.my_medicos.databinding.FragmentLiveNeetBinding;
 import com.medical.my_medicos.activities.pg.activites.internalfragments.intwernaladapters.ExamQuizAdapter;
 import com.medical.my_medicos.activities.pg.model.QuizPGExam;
@@ -106,7 +107,7 @@ public class LiveNeetFragment extends Fragment {
                         handleEachQuiz(document, title, now);
                     }
                 }
-                Collections.sort(Livepg, Comparator.comparing(QuizPGExam::getFrom));
+                Collections.sort(Livepg, Comparator.comparing(QuizPGExam::getTo));
                 LiveAdapter.notifyDataSetChanged();
                 if (Livepg.isEmpty()) {
                     Log.d(TAG, "No live quizzes found.");
@@ -128,9 +129,24 @@ public class LiveNeetFragment extends Fragment {
         String speciality = document.getString("speciality");
         Timestamp to = document.getTimestamp("to");
         Timestamp from = document.getTimestamp("from");
-        if ((title.isEmpty() || speciality.equals(title)) && now.compareTo(from) >= 0 && now.compareTo(to) <= 0) {
-            QuizPGExam quiz = new QuizPGExam(quizTitle, speciality, to, document.getId(), from);
-            Livepg.add(quiz);
+
+
+        String id = document.getString("qid");
+        boolean index=document.contains("index");
+        if (index==true) {
+            String index1 = document.getString("index");
+            boolean paid1=document.contains("type");
+            if (paid1==true) {
+
+
+                boolean paid = true;
+
+                if ((title.isEmpty() || speciality.equals(title)) && now.compareTo(from) >= 0 && now.compareTo(to) <= 0) {
+                    QuizPGExam quiz = new QuizPGExam(quizTitle, speciality, to, id, paid, index1);
+                    Livepg.add(quiz);
+                }
+            }
         }
+
     }
 }

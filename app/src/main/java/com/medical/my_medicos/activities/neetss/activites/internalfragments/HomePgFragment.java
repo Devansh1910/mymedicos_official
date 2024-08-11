@@ -51,6 +51,7 @@ import com.medical.my_medicos.activities.neetss.activites.extras.TermsandConditi
 import com.medical.my_medicos.activities.neetss.activites.internalfragments.intwernaladapters.ExamQuizAdapter;
 import com.medical.my_medicos.activities.neetss.adapters.QuestionBankSSAdapter;
 import com.medical.my_medicos.activities.neetss.model.QuestionSS;
+import com.medical.my_medicos.activities.neetss.model.QuizSSExam;
 import com.medical.my_medicos.activities.pg.model.PerDayPG;
 import com.medical.my_medicos.activities.pg.model.QuestionPG;
 import com.medical.my_medicos.activities.pg.model.QuizPGExam;
@@ -80,7 +81,7 @@ public class HomePgFragment extends Fragment {
     private Handler handlerprepration;
     private ExamQuizAdapter quizAdapter;
     CardView gotoupdatesofpg;
-    private ArrayList<QuizPGExam> quizpg;
+    private ArrayList<QuizSSExam> quizpg;
     String title1;
     TextView practivemcq,material;
     private TermsandConditionsDialogueFragmentPg dialog;
@@ -329,13 +330,13 @@ public class HomePgFragment extends Fragment {
                             if (finalTitle.isEmpty() || finalTitle.equals("Home")) {
                                 int r = speciality.compareTo(finalTitle);
                                 if (r == 0) {
-                                    QuizPGExam quizday = new QuizPGExam(quizTitle, title1, To, id, from);
+                                    QuizSSExam quizday = new QuizSSExam(quizTitle, title1, To, id, true,"dsds");
                                     quizpg.add(quizday);
                                 }
                             } else {
                                 int r = speciality.compareTo(finalTitle);
                                 if (r == 0) {
-                                    QuizPGExam quizday = new QuizPGExam(quizTitle, finalTitle, To, id ,from);
+                                    QuizSSExam quizday = new QuizSSExam(quizTitle, finalTitle, To, id ,true,"ds");
                                     quizpg.add(quizday);
                                 }
                             }

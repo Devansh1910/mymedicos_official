@@ -43,15 +43,15 @@ import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.medical.my_medicos.R;
-import com.medical.my_medicos.activities.pg.activites.internalfragments.insiderfragments.LiveNeetFragment;
-import com.medical.my_medicos.activities.pg.activites.internalfragments.insiderfragments.PastNeetFragment;
-import com.medical.my_medicos.activities.pg.activites.internalfragments.insiderfragments.UpcomingNeetFragment;
-import com.medical.my_medicos.activities.pg.activites.internalfragments.preprationinternalfragments.AllPgPrep;
-import com.medical.my_medicos.activities.pg.activites.internalfragments.preprationinternalfragments.ClinicalPgPrep;
-import com.medical.my_medicos.activities.pg.activites.internalfragments.preprationinternalfragments.ParaPgPrep;
-import com.medical.my_medicos.activities.pg.activites.internalfragments.preprationinternalfragments.PrePgPrep;
-import com.medical.my_medicos.activities.pg.adapters.PerDayPGAdapter;
-import com.medical.my_medicos.activities.pg.model.PerDayPG;
+import com.medical.my_medicos.activities.neetss.activites.internalfragments.insiderfragments.LiveSSFragment;
+import com.medical.my_medicos.activities.neetss.activites.internalfragments.insiderfragments.PastSSFragment;
+import com.medical.my_medicos.activities.neetss.activites.internalfragments.insiderfragments.UpcomingSSFragment;
+import com.medical.my_medicos.activities.neetss.activites.internalfragments.preprationinternalfragments.AllPgPrep;
+import com.medical.my_medicos.activities.neetss.activites.internalfragments.preprationinternalfragments.ClinicalPgPrep;
+import com.medical.my_medicos.activities.neetss.activites.internalfragments.preprationinternalfragments.ParaPgPrep;
+import com.medical.my_medicos.activities.neetss.activites.internalfragments.preprationinternalfragments.PrePgPrep;
+import com.medical.my_medicos.activities.neetss.adapters.PerDaySSAdapter;
+import com.medical.my_medicos.activities.neetss.model.PerDaySS;
 import com.medical.my_medicos.activities.utils.ConstantsDashboard;
 import com.medical.my_medicos.databinding.FragmentPreparationPgBinding;
 
@@ -70,8 +70,8 @@ public class PreparationSSFragment extends Fragment {
     SwipeRefreshLayout swipeRefreshLayoutPreparation;
     LottieAnimationView timer;
     String quiztiddaya;
-    PerDayPGAdapter perDayPGAdapter;
-    ArrayList<PerDayPG> dailyquestionspg;
+    PerDaySSAdapter perDayPGAdapter;
+    ArrayList<PerDaySS> dailyquestionspg;
     FirebaseUser currentUser;
     LinearLayout nocardp;
 
@@ -96,9 +96,9 @@ public class PreparationSSFragment extends Fragment {
         }
         TabLayout tabLayout = rootView.findViewById(R.id.tablayoutprep);
         tabLayout.addTab(tabLayout.newTab().setText("ALL"));
-        tabLayout.addTab(tabLayout.newTab().setText("Pre"));
-        tabLayout.addTab(tabLayout.newTab().setText("PARA"));
-        tabLayout.addTab(tabLayout.newTab().setText("Clinical"));
+        tabLayout.addTab(tabLayout.newTab().setText("Surgery"));
+        tabLayout.addTab(tabLayout.newTab().setText("Pediatrics"));
+        tabLayout.addTab(tabLayout.newTab().setText("Medicine"));
 
         ViewPager2 viewPager = rootView.findViewById(R.id.view_page_prep);
 
@@ -134,13 +134,13 @@ public class PreparationSSFragment extends Fragment {
                     tab.setText("ALL");
                     break;
                 case 1:
-                    tab.setText("PRE");
+                    tab.setText("SURGERY");
                     break;
                 case 2:
-                    tab.setText("PARA");
+                    tab.setText("PEDIATRICS");
                     break;
                 case 3:
-                    tab.setText("CLINICAL");
+                    tab.setText("MEDICINE");
                     break;
             }
         }).attach();

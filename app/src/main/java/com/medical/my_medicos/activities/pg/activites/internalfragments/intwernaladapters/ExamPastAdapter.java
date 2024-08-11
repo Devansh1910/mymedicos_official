@@ -1,11 +1,8 @@
 package com.medical.my_medicos.activities.pg.activites.internalfragments.intwernaladapters;
 
 import android.annotation.SuppressLint;
-import android.app.AlertDialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
-import android.provider.CalendarContract;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -18,11 +15,14 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.google.firebase.Timestamp;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.FirebaseFirestore;
 import com.medical.my_medicos.R;
-import com.medical.my_medicos.activities.pg.activites.NeetExamPayment;
+import com.medical.my_medicos.activities.pg.activites.PGPastGTResult;
 import com.medical.my_medicos.activities.pg.model.QuizPGExam;
 
 import java.text.SimpleDateFormat;
@@ -32,10 +32,14 @@ public class ExamPastAdapter extends RecyclerView.Adapter<ExamPastAdapter.ExamPa
     private static final String TAG = "ExamQuizAdapter";  // Added for consistent logging
     private Context context;
     private ArrayList<QuizPGExam> quizList;
+    private FirebaseFirestore db;
+    private FirebaseAuth auth;
 
     public ExamPastAdapter(Context context, ArrayList<QuizPGExam> quizList) {
         this.context = context;
         this.quizList = quizList;
+        db = FirebaseFirestore.getInstance(); // Initialize Firestore
+        auth = FirebaseAuth.getInstance(); // Initialize FirebaseAuth
     }
 
     @NonNull
@@ -48,12 +52,28 @@ public class ExamPastAdapter extends RecyclerView.Adapter<ExamPastAdapter.ExamPa
     @Override
     public void onBindViewHolder(@NonNull ExamPastViewHolder holder, int position) {
         QuizPGExam quiz = quizList.get(position);
-        holder.titleTextView.setText(quiz.getTitle());
-        holder.timestart.setText(formatTimestamp(quiz.getFrom()));
+        String title=quiz.getTitle();
+        if (title.length() > 23) {
+            title = title.substring(0, 20) + "...";
+        }
+        if (quiz.getType() == true) {
+            holder.unlock.setVisibility(View.GONE);
+            holder.lock.setVisibility(View.VISIBLE);
+        } else {
+            holder.lock.setVisibility(View.GONE);
+            holder.unlock.setVisibility(View.VISIBLE);
+        }
+        holder.titleTextView.setText(title);
+
+        holder.timestart.setText(formatTimestamp(quiz.getTo()));
         holder.timeend.setText(formatTimestamp(quiz.getTo()));
 
-        Log.d(TAG, "Binding view holder for position: " + position);
+        holder.pay.setOnClickListener(v -> {
+            // Fetch subscription status before proceeding
+            fetchSubscriptionStatusAndProceed(holder, quiz);
+        });
 
+        Log.d(TAG, "Binding view holder for position: " + position);
     }
 
     private String formatTimestamp(Timestamp timestamp) {
@@ -66,9 +86,86 @@ public class ExamPastAdapter extends RecyclerView.Adapter<ExamPastAdapter.ExamPa
         return quizList.size();
     }
 
+    private void fetchSubscriptionStatusAndProceed(ExamPastViewHolder holder, QuizPGExam quiz) {
+        String userId = auth.getCurrentUser().getPhoneNumber();
+        DocumentReference docRef = db.collection("Subscription").document(userId);
+
+        docRef.get().addOnSuccessListener(documentSnapshot -> {
+            if (documentSnapshot.exists()) {
+                Boolean isActive = documentSnapshot.getBoolean("Active");
+                String planName = documentSnapshot.getString("Plan");
+
+                // Check if the plan is active
+                if (isActive != null && isActive) {
+                    // Plan is active, check if the quiz has been attempted
+                    Log.d(TAG, "User has an active subscription with plan: " + planName);
+
+                    // Reference to the QuizResults collection for the current user
+
+                    DocumentReference quizResultRef = db.collection("QuizResults")
+                            .document(userId)
+                            .collection("Exam")
+                            .document(quiz.getId());
+
+                    // Check if the document exists in the QuizResults collection
+                    quizResultRef.get().addOnSuccessListener(documentSnapshot1 -> {
+                        if (documentSnapshot1.exists()) {
+                            // Quiz has been attempted, proceed to the intended activity
+                            Intent intent = new Intent(holder.itemView.getContext(), PGPastGTResult.class);
+                            intent.putExtra("Title1", quiz.getTitle1());
+                            intent.putExtra("Title", quiz.getTitle());
+                            intent.putExtra("From", formatTimestamp(quiz.getTo()));
+                            intent.putExtra("Due", formatTimestamp(quiz.getTo()));
+                            intent.putExtra("qid", quiz.getId());
+                            holder.itemView.getContext().startActivity(intent);
+                        } else {
+                            // Quiz has not been attempted, show a message or handle accordingly
+                            Log.d(TAG, "Quiz has not been attempted.");
+                            Toast.makeText(holder.itemView.getContext(), "This quiz has not been attempted.", Toast.LENGTH_SHORT).show();
+                        }
+                    }).addOnFailureListener(e -> {
+                        Log.e(TAG, "Error checking quiz attempt status", e);
+                        Toast.makeText(holder.itemView.getContext(), "Error checking quiz attempt status.", Toast.LENGTH_SHORT).show();
+                    });
+                } else {
+                    // Plan is not active, show bottom sheet to buy a plan
+                    Log.d(TAG, "User does not have an active subscription.");
+                    showBottomSheet(holder);
+                }
+
+            } else {
+                // No subscription document found, show bottom sheet to buy a plan
+                Log.d(TAG, "No subscription document found.");
+                showBottomSheet(holder);
+            }
+        }).addOnFailureListener(e -> {
+            Log.e(TAG, "Error fetching subscription data", e);
+            showBottomSheet(holder); // Handle failure by showing the bottom sheet as well
+        });
+    }
+
+    private void showBottomSheet(ExamPastViewHolder holder) {
+        BottomSheetDialog bottomSheetDialog = new BottomSheetDialog(context);
+        View bottomSheetView = LayoutInflater.from(context).inflate(R.layout.bottom_sheet_up_paid, null);
+        bottomSheetDialog.setContentView(bottomSheetView);
+
+        @SuppressLint({"MissingInflatedId", "LocalSuppress"}) Button btnBuyPlan = bottomSheetView.findViewById(R.id.btnBuyPlan);
+        btnBuyPlan.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                bottomSheetDialog.dismiss();
+                Toast.makeText(context, "Purchase action triggered", Toast.LENGTH_SHORT).show();
+                // You can add more logic here to handle the purchase process
+            }
+        });
+
+        bottomSheetDialog.show();
+    }
+
     public class ExamPastViewHolder extends RecyclerView.ViewHolder {
         TextView titleTextView, timestart, timeend;
         Button payforsets;
+        LinearLayout  lock, unlock;
         LinearLayout pay;
         FirebaseDatabase database;
         String currentUid;
@@ -79,17 +176,11 @@ public class ExamPastAdapter extends RecyclerView.Adapter<ExamPastAdapter.ExamPa
             // Initialize components
             titleTextView = itemView.findViewById(R.id.titleSets);
             timestart = itemView.findViewById(R.id.availablefromtime);
+            lock = itemView.findViewById(R.id.lock);
+            unlock = itemView.findViewById(R.id.unlock);
             timeend = itemView.findViewById(R.id.availabletilltime);
             payforsets = itemView.findViewById(R.id.paymentpart);
             pay = itemView.findViewById(R.id.pastfortheexam);
-
-            // Set click listener
-            pay.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    Toast.makeText(context, "Quiz already Terminated, Checkout other quizes.", Toast.LENGTH_SHORT).show();
-                }
-            });
         }
     }
 }

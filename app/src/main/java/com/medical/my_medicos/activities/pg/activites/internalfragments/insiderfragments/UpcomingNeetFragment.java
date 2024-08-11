@@ -85,11 +85,22 @@ public class UpcomingNeetFragment extends Fragment {
                         String quizTitle = document.getString("title");
                         String speciality = document.getString("speciality");
                         Timestamp to = document.getTimestamp("to");
-                        Timestamp from = document.getTimestamp("from");
+                        String id = document.getString("qid");
+                        boolean index=document.contains("index");
+                        if (index==true) {
+                            String index1 = document.getString("index");
+                            boolean paid1=document.contains("type");
+                            if (paid1==true) {
 
-                        if (now.compareTo(from) < 0 && (title.isEmpty() || speciality.equals(title))) {
-                            QuizPGExam quiz = new QuizPGExam(quizTitle, speciality, to, document.getId(), from);
-                            upcomingQuizzes.add(quiz);
+
+                                boolean paid = document.getBoolean("type");
+                                Timestamp from = document.getTimestamp("from");
+
+                                if (now.compareTo(from) < 0 && (title.isEmpty() || speciality.equals(title))) {
+                                    QuizPGExam quiz = new QuizPGExam(quizTitle, speciality, to, id, paid, index1);
+                                    upcomingQuizzes.add(quiz);
+                                }
+                            }
                         }
                     }
                     // Sort the upcomingQuizzes list here by the 'from' date

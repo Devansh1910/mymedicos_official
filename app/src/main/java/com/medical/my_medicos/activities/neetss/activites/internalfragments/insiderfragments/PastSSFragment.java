@@ -25,22 +25,23 @@ import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.medical.my_medicos.activities.neetss.activites.internalfragments.intwernaladapters.ExamPastAdapter;
-import com.medical.my_medicos.activities.pg.model.QuizPGExam;
+import com.medical.my_medicos.activities.neetss.model.QuizSSExam;
+
 import com.medical.my_medicos.databinding.FragmentPastNeetBinding;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 
-public class PastNeetFragment extends Fragment {
+public class PastSSFragment extends Fragment {
     private FragmentPastNeetBinding binding;
-    private ArrayList<QuizPGExam> Livepg;
+    private ArrayList<QuizSSExam> Livepg;
     private ExamPastAdapter LiveAdapter;
     private FirebaseUser currentUser;
     private String title1 = "Exam";
 
-    public static PastNeetFragment newInstance() {
-        PastNeetFragment fragment = new PastNeetFragment();
+    public static PastSSFragment newInstance() {
+        PastSSFragment fragment = new PastSSFragment();
         Bundle args = new Bundle();
         fragment.setArguments(args);
         return fragment;
@@ -76,9 +77,44 @@ public class PastNeetFragment extends Fragment {
 
         if (user != null) {
             String userId = user.getPhoneNumber();
+            FirebaseFirestore dc = FirebaseFirestore.getInstance();
+            String phoneNumber = "null";
+            FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
+            if (currentUser != null) {
+                phoneNumber = currentUser.getPhoneNumber();
 
-            CollectionReference quizCollection = db.collection("PGupload").document("Weekley").collection("Quiz");
-            Query query = quizCollection;
+            }
+            final String[] neetsValue = new String[1];
+
+            // Reference to the 'user' collection
+            dc.collection("user")
+                    .whereEqualTo("phoneNumber", phoneNumber)
+                    .get()
+                    .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                        @Override
+                        public void onComplete(Task<QuerySnapshot> task) {
+                            if (task.isSuccessful()) {
+                                if (!task.getResult().isEmpty()) {
+                                    for (QueryDocumentSnapshot document : task.getResult()) {
+                                        // Assuming 'neets' is the field you want to retrieve
+                                        neetsValue[0] = document.getString("neets");
+
+                                    }
+                                } else {
+                                    // No matching document found
+
+                                }
+                            } else {
+                                // Handle the error
+                                Log.w("Firestore", "Error getting documents: ", task.getException());
+
+                            }
+                        }
+                    });
+
+
+            CollectionReference quizzCollection = db.collection("neetss").document(neetsValue[0]).collection("Weekley");
+            Query query = quizzCollection;
             query.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                 @Override
                 public void onComplete(@NonNull Task<QuerySnapshot> task) {
@@ -88,15 +124,26 @@ public class PastNeetFragment extends Fragment {
                             String quizTitle = document.getString("title");
                             String speciality = document.getString("speciality");
                             Timestamp to = document.getTimestamp("to");
-                            Timestamp from = document.getTimestamp("from");
+                            String id = document.getString("qid");
+                            boolean index=document.contains("index");
+                            if (index==true) {
+                                String index1 = document.getString("index");
+                                boolean paid1=document.contains("type");
+                                if (paid1==true) {
 
-                            if (now.compareTo(to) > 0 && (title.isEmpty() || speciality.equals(title))) {
-                                QuizPGExam quiz = new QuizPGExam(quizTitle, speciality, to, document.getId(), from);
-                                Livepg.add(quiz);
+
+                                    boolean paid = document.getBoolean("type");
+                                    Timestamp from = document.getTimestamp("from");
+
+                                    if (now.compareTo(to) > 0 && (title.isEmpty() || speciality.equals(title))) {
+                                        QuizSSExam quiz = new QuizSSExam(quizTitle, speciality, to, id, paid, index1);
+                                        Livepg.add(quiz);
+                                    }
+                                }
                             }
                         }
                         // Sort the Livepg list here by the 'from' date
-                        Collections.sort(Livepg, Comparator.comparing(QuizPGExam::getFrom));
+                        Collections.sort(Livepg, Comparator.comparing(QuizSSExam::getTo));
                         LiveAdapter.notifyDataSetChanged();
                         updateUI();
                     } else {

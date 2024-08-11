@@ -17,8 +17,9 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.medical.my_medicos.R;
+import com.medical.my_medicos.activities.fmge.activites.FmgePrepPayement;
+import com.medical.my_medicos.activities.fmge.activites.internalfragments.Preprationindexing.Model.twgt.Quiz;
 import com.medical.my_medicos.activities.pg.activites.PgPrepPayement;
-import com.medical.my_medicos.activities.pg.activites.internalfragments.Preprationindexing.Model.twgt.Quiz;
 
 import java.text.SimpleDateFormat;
 import java.util.List;

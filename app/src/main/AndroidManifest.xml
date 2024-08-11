@@ -33,6 +33,11 @@
         tools:replace="android:label"
         tools:targetApi="31">
         <activity
+            android:name=".activities.pg.activites.PGPastGTResult"
+            android:exported="false"
+            android:theme="@style/Theme.My_medicos" />
+
+        <activity
             android:name=".activities.pg.activites.internalfragments.Preprationindexing.adapter.QuizAdapter"
             android:exported="false"
             android:theme="@style/Theme.My_medicos" />
@@ -51,6 +56,12 @@
             android:exported="false" /> <!-- <activity -->
         <!-- android:name=".activities.fmge.activites.SearchFmgeActivity" -->
         <!-- android:exported="false" /> -->
+        <activity
+            android:name=".activities.neetss.activites.SsprepActivity"
+            android:exported="false" />
+        <activity
+            android:name=".activities.neetss.activites.internalfragments.PreprationindexingActivitySS"
+            android:exported="false" />
         <activity
             android:name=".activities.fmge.activites.ResultActivityFmge"
             android:exported="false" />
@@ -136,7 +147,6 @@
         <activity
             android:name=".activities.fmge.activites.internalfragments.PreprationindexingActivityFMGE"
             android:exported="false" />
-
         <activity
             android:name=".activities.pg.activites.internalfragments.PreparationSubCategoryForMaterialActivity"
             android:exported="false" />

@@ -182,7 +182,7 @@ public class HomeFmgeFragment extends Fragment {
 
         // Setup RecyclerView
         RecyclerView recyclerViewPlans = view.findViewById(R.id.recyclerViewPlans);
-        recyclerViewPlans.setLayoutManager(new LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false));
+        recyclerViewPlans.setLayoutManager(new LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false));
         PlanAdapter planAdapter = new PlanAdapter(plans);
         recyclerViewPlans.setAdapter(planAdapter);
         initJobsUpdatesNewsFragment();

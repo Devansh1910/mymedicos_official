@@ -149,7 +149,8 @@ public class PreprationIndexTwgtBookmark extends Fragment {
                                             if (quizDocument != null && quizDocument.exists()) {
                                                 // Fetching required fields with presence check
                                                 String title = quizDocument.contains("title") ? quizDocument.getString("title") : "Unknown Title";
-                                                Timestamp dueDate = quizDocument.contains("dueDate") ? quizDocument.getTimestamp("dueDate") : null;
+                                                Timestamp dueDate = quizDocument.contains("to") ? quizDocument.getTimestamp("to") : null;
+
                                                 boolean type = quizDocument.contains("type") && quizDocument.getBoolean("type");
                                                 String index = quizDocument.contains("index") ? quizDocument.getString("index") : "Unknown Index";
                                                 String title1 = quizDocument.contains("speciality") ? quizDocument.getString("speciality") : "Unknown Index";
@@ -161,7 +162,8 @@ public class PreprationIndexTwgtBookmark extends Fragment {
                                                 quiz.setTitle(title);
                                                 quiz.setId(Id);
                                                 quiz.setTitle1(title1);
-                                                quiz.setDueDate(String.valueOf(dueDate));
+                                                Log.d("QuizAdapterdue",String.valueOf(dueDate));
+                                                quiz.setDueDate(dueDate);
                                                 quiz.setType(type);
                                                 quiz.setIndex(index);
                                                 if(speciality.equals(quizspeciality)) {

@@ -20,8 +20,10 @@ import com.medical.my_medicos.R;
 import com.medical.my_medicos.activities.pg.activites.PgPrepPayement;
 import com.medical.my_medicos.activities.pg.activites.internalfragments.Preprationindexing.Model.twgt.Quiz;
 
+import java.sql.Time;
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 public class QuizAdapter extends RecyclerView.Adapter<QuizAdapter.QuizViewHolder> {
@@ -57,11 +59,16 @@ public class QuizAdapter extends RecyclerView.Adapter<QuizAdapter.QuizViewHolder
         }
         holder.titleTextView.setText(title);
         holder.categorytextview.setText(quiz.getIndex());
-        holder.dueDateTextView.setText(formatTimestamp(quiz.getDueDate()));
+        com.google.firebase.Timestamp t = quiz.getDueDate();
+        java.util.Date date = t.toDate();
+
+        // Format the Date
+        String formattedDate = formatTimestamp(date);
+        holder.dueDateTextView.setText(formattedDate);
         Log.d("QuizAdapter", "Title1: " + quiz.getTitle1());
         Log.d("QuizAdapter", "Title: " + quiz.getTitle());
         Log.d("QuizAdapter", "Id: " + quiz.getId());
-        Log.d("QuizAdapter", "Due: " + formatTimestamp(quiz.getDueDate()));
+
 
         holder.pay.setOnClickListener(v -> {
             if (quiz.getType()) {
@@ -71,7 +78,7 @@ public class QuizAdapter extends RecyclerView.Adapter<QuizAdapter.QuizViewHolder
                 intent.putExtra("Title1", quiz.getTitle1());
                 intent.putExtra("Title", quiz.getTitle());
                 intent.putExtra("Id", quiz.getId());
-                intent.putExtra("Due", formatTimestamp(quiz.getDueDate()));
+                intent.putExtra("Due", formattedDate);
                 context.startActivity(intent);
             }
         });
@@ -118,13 +125,9 @@ public class QuizAdapter extends RecyclerView.Adapter<QuizAdapter.QuizViewHolder
         }
     }
 
-    private String formatTimestamp(String timestamp) {
+    private String formatTimestamp(Date date) {
         try {
-            // Adjust the format here to match the actual input format
-            SimpleDateFormat inputFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss"); // Example format
             SimpleDateFormat outputFormat = new SimpleDateFormat("yyyy-MM-dd");
-
-            java.util.Date date = inputFormat.parse(timestamp);
             return outputFormat.format(date);
         } catch (Exception e) {
             e.printStackTrace();

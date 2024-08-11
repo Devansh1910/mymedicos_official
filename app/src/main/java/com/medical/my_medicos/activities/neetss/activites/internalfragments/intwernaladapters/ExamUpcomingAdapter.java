@@ -19,6 +19,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.google.firebase.Timestamp;
 import com.google.firebase.database.FirebaseDatabase;
 import com.medical.my_medicos.R;
+import com.medical.my_medicos.activities.neetss.model.QuizSSExam;
 import com.medical.my_medicos.activities.pg.model.QuizPGExam;
 
 import java.text.SimpleDateFormat;
@@ -27,9 +28,9 @@ import java.util.ArrayList;
 public class ExamUpcomingAdapter extends RecyclerView.Adapter<ExamUpcomingAdapter.ExamUpcomingViewHolder> {
     private static final String TAG = "ExamQuizAdapter";  // Added for consistent logging
     private Context context;
-    private ArrayList<QuizPGExam> quizList;
+    private ArrayList<QuizSSExam> quizList;
 
-    public ExamUpcomingAdapter(Context context, ArrayList<QuizPGExam> quizList) {
+    public ExamUpcomingAdapter(Context context, ArrayList<QuizSSExam> quizList) {
         this.context = context;
         this.quizList = quizList;
     }
@@ -43,9 +44,9 @@ public class ExamUpcomingAdapter extends RecyclerView.Adapter<ExamUpcomingAdapte
 
     @Override
     public void onBindViewHolder(@NonNull ExamUpcomingViewHolder holder, int position) {
-        QuizPGExam quiz = quizList.get(position);
+        QuizSSExam quiz = quizList.get(position);
         holder.titleTextView.setText(quiz.getTitle());
-        holder.timestart.setText(formatTimestamp(quiz.getFrom()));
+        holder.timestart.setText(formatTimestamp(quiz.getTo()));
         holder.timeend.setText(formatTimestamp(quiz.getTo()));
 
         Log.d(TAG, "Binding view holder for position: " + position);
@@ -91,7 +92,7 @@ public class ExamUpcomingAdapter extends RecyclerView.Adapter<ExamUpcomingAdapte
         private void openCalendarToAddEvent() {
             int position = getAdapterPosition();
             if (position != RecyclerView.NO_POSITION) {
-                QuizPGExam quiz = quizList.get(position);
+                QuizSSExam quiz = quizList.get(position);
                 Timestamp startTimestamp = quiz.getTo();
                 String title = quiz.getTitle();
 

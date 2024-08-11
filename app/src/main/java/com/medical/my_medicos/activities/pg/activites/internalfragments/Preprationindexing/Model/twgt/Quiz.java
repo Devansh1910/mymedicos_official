@@ -1,8 +1,11 @@
 package com.medical.my_medicos.activities.pg.activites.internalfragments.Preprationindexing.Model.twgt;
 
+import com.google.firebase.Timestamp;
+
 public class Quiz {
     private String title;
-    private String dueDate,index,Id,title1;
+    private String index,Id,title1;
+    Timestamp dueDate;
     boolean type;
     // Add other fields as needed
 
@@ -44,11 +47,11 @@ public class Quiz {
         this.Id = Id;
     }
 
-    public String getDueDate() {
-        return dueDate;
+    public Timestamp getDueDate() {
+        return  dueDate;
     }
 
-    public void setDueDate(String dueDate) {
+    public void setDueDate(Timestamp dueDate) {
         this.dueDate = dueDate;
     }
     public String getTitle1() {

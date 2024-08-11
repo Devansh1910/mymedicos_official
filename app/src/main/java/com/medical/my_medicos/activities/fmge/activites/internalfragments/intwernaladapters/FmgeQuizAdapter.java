@@ -91,7 +91,7 @@ public class FmgeQuizAdapter extends RecyclerView.Adapter<FmgeQuizAdapter.FmgeVi
             slot = itemView.findViewById(R.id.slot);
             timestart = itemView.findViewById(R.id.availablefromtime);
             timeend = itemView.findViewById(R.id.availabletilltime);
-            payforsets = itemView.findViewById(R.id.paymentpart);
+
             pay = itemView.findViewById(R.id.payfortheexam);
         }
     }

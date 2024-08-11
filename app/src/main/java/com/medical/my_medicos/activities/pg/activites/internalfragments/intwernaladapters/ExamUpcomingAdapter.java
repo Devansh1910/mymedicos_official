@@ -47,8 +47,19 @@ public class ExamUpcomingAdapter extends RecyclerView.Adapter<ExamUpcomingAdapte
     @Override
     public void onBindViewHolder(@NonNull ExamUpcomingViewHolder holder, int position) {
         QuizPGExam quiz = quizList.get(position);
-        holder.titleTextView.setText(quiz.getTitle());
-        holder.timestart.setText(formatTimestamp(quiz.getFrom()));
+        String title = quiz.getTitle();
+        if (title.length() > 23) {
+            title = title.substring(0, 20) + "...";
+        }
+        if (quiz.getType() == true) {
+            holder.unlock.setVisibility(View.GONE);
+            holder.lock.setVisibility(View.VISIBLE);
+        } else {
+            holder.lock.setVisibility(View.GONE);
+            holder.unlock.setVisibility(View.VISIBLE);
+        }
+        holder.titleTextView.setText(title);
+        holder.timestart.setText(formatTimestamp(quiz.getTo()));
         holder.timeend.setText(formatTimestamp(quiz.getTo()));
 
         Log.d(TAG, "Binding view holder for position: " + position);
@@ -69,6 +80,7 @@ public class ExamUpcomingAdapter extends RecyclerView.Adapter<ExamUpcomingAdapte
         TextView titleTextView, timestart, timeend;
         Button payforsets;
         LinearLayout pay;
+        LinearLayout  lock, unlock;
         FirebaseDatabase database;
         String currentUid;
         int coins = 50;
@@ -77,6 +89,8 @@ public class ExamUpcomingAdapter extends RecyclerView.Adapter<ExamUpcomingAdapte
             super(itemView);
             // Initialize components
             titleTextView = itemView.findViewById(R.id.titleSets);
+            lock = itemView.findViewById(R.id.lock);
+            unlock = itemView.findViewById(R.id.unlock);
             timeend = itemView.findViewById(R.id.availablefromtime);
             timestart = itemView.findViewById(R.id.availabletilltime);
             payforsets = itemView.findViewById(R.id.paymentpart);

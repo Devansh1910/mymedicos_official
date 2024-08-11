@@ -160,7 +160,7 @@ public class PreprationIndexTwgtBookmark extends Fragment {
                                                 quiz.setTitle(title);
                                                 quiz.setId(Id);
                                                 quiz.setTitle1(title1);
-                                                quiz.setDueDate(String.valueOf(dueDate));
+                                                quiz.setDueDate(dueDate);
                                                 quiz.setType(type);
                                                 quiz.setIndex(index);
                                                 if(speciality.equals(quizspeciality)) {

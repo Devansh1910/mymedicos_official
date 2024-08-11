@@ -24,10 +24,12 @@ import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.medical.my_medicos.R;
+import com.medical.my_medicos.activities.pg.activites.internalfragments.Preprationindexing.adapter.Swgt.ExamUpcomingadapter;
 import com.medical.my_medicos.activities.pg.adapters.WeeklyQuizAdapter;
 import com.medical.my_medicos.activities.pg.adapters.WeeklyQuizAdapterSwgt;
 import com.medical.my_medicos.activities.pg.model.QuizPG;
-import com.medical.my_medicos.activities.pg.model.Swgtmodel;
+import com.medical.my_medicos.activities.pg.model.QuizPGExam;
+
 
 import java.util.ArrayList;
 import java.util.List;
@@ -38,8 +40,8 @@ import java.util.List;
  * create an instance of this fragment.
  */
 public class PreprationIndexingSwgtUpcoming extends Fragment {
-    private WeeklyQuizAdapterSwgt quizAdapter;
-    private ArrayList<Swgtmodel> quizpg = new ArrayList<>();
+    private ExamUpcomingadapter quizAdapter;
+    private ArrayList<QuizPGExam> quizpg = new ArrayList<>();
     private String speciality;
 
     // Parameter key
@@ -73,7 +75,7 @@ public class PreprationIndexingSwgtUpcoming extends Fragment {
         RecyclerView recyclerView = view.findViewById(R.id.recyclerView);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
 
-        quizAdapter = new WeeklyQuizAdapterSwgt(getContext(), quizpg);
+        quizAdapter = new ExamUpcomingadapter(getContext(), quizpg);
         recyclerView.setAdapter(quizAdapter);
 
         getQuestions(speciality);
@@ -111,6 +113,7 @@ public class PreprationIndexingSwgtUpcoming extends Fragment {
             if (task.isSuccessful()) {
                 for (QueryDocumentSnapshot document : task.getResult()) {
                     String id = document.getId();
+                    Timestamp now = Timestamp.now();
 
                     if (!subcollectionIds.contains(id)) {
                         String title = document.getString("title");
@@ -120,24 +123,38 @@ public class PreprationIndexingSwgtUpcoming extends Fragment {
                         Log.d("Speciality coming", speciality);
                         Log.d("Title to compare", title1);
                         boolean type=document.contains("type");
-                        if (type==true) {
+                        boolean index=document.contains("index");
+                        if (index==true) {
+                            String index1 = document.getString("index");
+                            boolean paid1=document.contains("type");
+                            Timestamp from = document.getTimestamp("from");
+                            if (paid1==true) {
+                                if (type == true) {
 
 //                            boolean paid = document.getBoolean("type");
-                            boolean paid =true;
-                            int r = speciality.compareTo(title1);
-                            if (r == 0) {
-                                Swgtmodel quizday = new Swgtmodel(title, title1, to, id,paid);
-                                quizpg.add(quizday);
-                            }
-                        }
-                        else{
-                            boolean paid =false;
-                            int r = speciality.compareTo(title1);
-                            if (r == 0) {
-                                Swgtmodel quizday = new Swgtmodel(title, title1, to, id,paid);
-                                quizpg.add(quizday);
-                            }
+                                    boolean paid = true;
+                                    int r = speciality.compareTo(title1);
 
+                                    if (r == 0) {
+                                        if (now.compareTo(from) < 0 && (title.isEmpty() || speciality.equals(title))) {
+                                            QuizPGExam quiz = new QuizPGExam(title, speciality, to, id, paid, index1);
+                                            quizpg.add(quiz);
+                                        }
+
+
+                                    }
+                                } else {
+                                    boolean paid = false;
+                                    int r = speciality.compareTo(title1);
+                                    if (r == 0) {
+                                        if (now.compareTo(from) < 0 && (title.isEmpty() || speciality.equals(title))) {
+                                            QuizPGExam quiz = new QuizPGExam(title, speciality, to, id, paid, index1);
+                                            quizpg.add(quiz);
+                                        }
+                                    }
+
+                                }
+                            }
                         }
                     }
                 }

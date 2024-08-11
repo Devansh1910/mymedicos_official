@@ -16,7 +16,8 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.google.firebase.Timestamp;
 import com.google.firebase.database.FirebaseDatabase;
 import com.medical.my_medicos.R;
-import com.medical.my_medicos.activities.pg.model.QuizPGExam;
+import com.medical.my_medicos.activities.neetss.model.QuizSSExam;
+
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -24,9 +25,9 @@ import java.util.ArrayList;
 public class ExamPastAdapter extends RecyclerView.Adapter<ExamPastAdapter.ExamPastViewHolder> {
     private static final String TAG = "ExamQuizAdapter";  // Added for consistent logging
     private Context context;
-    private ArrayList<QuizPGExam> quizList;
+    private ArrayList<QuizSSExam> quizList;
 
-    public ExamPastAdapter(Context context, ArrayList<QuizPGExam> quizList) {
+    public ExamPastAdapter(Context context, ArrayList<QuizSSExam> quizList) {
         this.context = context;
         this.quizList = quizList;
     }
@@ -40,9 +41,9 @@ public class ExamPastAdapter extends RecyclerView.Adapter<ExamPastAdapter.ExamPa
 
     @Override
     public void onBindViewHolder(@NonNull ExamPastViewHolder holder, int position) {
-        QuizPGExam quiz = quizList.get(position);
+        QuizSSExam quiz = quizList.get(position);
         holder.titleTextView.setText(quiz.getTitle());
-        holder.timestart.setText(formatTimestamp(quiz.getFrom()));
+        holder.timestart.setText(formatTimestamp(quiz.getTo()));
         holder.timeend.setText(formatTimestamp(quiz.getTo()));
 
         Log.d(TAG, "Binding view holder for position: " + position);

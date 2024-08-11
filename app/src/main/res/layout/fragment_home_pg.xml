@@ -129,6 +129,9 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"/>
 
+
+
+
                         <androidx.cardview.widget.CardView
                             android:layout_marginTop="@dimen/_5ssp"
                             android:layout_width="match_parent"
@@ -158,6 +161,22 @@
                             </FrameLayout>
 
                         </androidx.cardview.widget.CardView>
+                        <androidx.recyclerview.widget.RecyclerView
+                            android:id="@+id/suggestednotes"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"/>
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:background="@color/white"
+                            android:fontFamily="@font/inter_semibold"
+                            android:layout_height="wrap_content"
+                            android:text="SUGGESTED NOTES"
+                            android:textColor="@color/unselected"
+                            android:layout_gravity="center_vertical"
+                            android:gravity="start"
+                            android:paddingVertical="@dimen/_8sdp"
+                            android:textSize="@dimen/_10ssp"
+                            android:textStyle="normal" />
 
                         <TextView
                             android:layout_width="match_parent"
@@ -189,15 +208,40 @@
                             android:paddingVertical="@dimen/_8sdp"
                             android:textSize="@dimen/_10ssp"
                             android:textStyle="bold" />
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:background="@color/white"
+                            android:fontFamily="@font/inter_semibold"
+                            android:layout_height="wrap_content"
+                            android:text="RECENT NEWS"
+                            android:textColor="@color/unselected"
+                            android:layout_gravity="center_vertical"
+                            android:gravity="start"
+                            android:paddingVertical="@dimen/_8sdp"
+                            android:textSize="@dimen/_10ssp"
+                            android:textStyle="normal" />
                         <FrameLayout
                             android:id="@+id/news_fragment_container"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="16dp"/>
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:background="@color/white"
+                            android:fontFamily="@font/inter_semibold"
+                            android:layout_height="wrap_content"
+                            android:text="PLANS"
+                            android:textColor="@color/unselected"
+                            android:layout_gravity="center_vertical"
+                            android:gravity="start"
+                            android:paddingVertical="@dimen/_8sdp"
+                            android:textSize="@dimen/_10ssp"
+                            android:textStyle="normal" />
                         <androidx.recyclerview.widget.RecyclerView
                             android:id="@+id/recyclerViewPlans"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
+                            android:scrollbars="horizontal"
                             android:layout_marginTop="16dp"
                             android:layout_marginBottom="16dp" />
 
