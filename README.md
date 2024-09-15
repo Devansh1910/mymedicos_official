@@ -1,4 +1,4 @@
-# MyMedicos
+# mymedicos
 
 Elevate your medical career with **MyMedicos**, the revolutionary app designed exclusively for the dynamic healthcare community. Integrating cutting-edge technology with essential medical resources, MyMedicos serves as your all-in-one platform for continuous professional development and networking.
 
